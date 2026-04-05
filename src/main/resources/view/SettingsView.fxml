@@ -1,0 +1,466 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<AnchorPane fx:id="settingsPanel" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
+
+    <!-- Header del Panel -->
+    <HBox alignment="CENTER_LEFT" styleClass="header-bar" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+          AnchorPane.topAnchor="0.0">
+        <padding>
+            <Insets bottom="20.0" left="30.0" right="30.0" top="20.0"/>
+        </padding>
+        <VBox alignment="CENTER_LEFT">
+            <Label fx:id="pageTitle" styleClass="page-title" text="Configuración">
+                <font>
+                    <Font name="Roboto Bold" size="28.0"/>
+                </font>
+            </Label>
+            <Label fx:id="pageSubtitle" text="Administra las opciones de la aplicación">
+                <font>
+                    <Font name="Roboto Regular" size="14.0"/>
+                </font>
+            </Label>
+        </VBox>
+        <Region HBox.hgrow="ALWAYS"/>
+    </HBox>
+
+    <!-- Contenido Principal -->
+    <ScrollPane fitToHeight="true" fitToWidth="true" layoutY="80.0" styleClass="content-scroll"
+                AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                AnchorPane.topAnchor="80.0">
+        <padding>
+            <Insets bottom="20.0" left="30.0" right="30.0" top="10.0"/>
+        </padding>
+        <VBox spacing="25.0">
+
+            <!-- Selector de Tema -->
+            <VBox spacing="15.0">
+                <Label styleClass="section-title" text="Apariencia">
+                    <font>
+                        <Font name="Roboto Medium" size="18.0"/>
+                    </font>
+                </Label>
+
+                <VBox styleClass="settings-card">
+                    <VBox alignment="CENTER_LEFT" spacing="12.0">
+                        <Label styleClass="settings-label" text="Tema de Color">
+                            <font>
+                                <Font name="Roboto Medium" size="14.0"/>
+                            </font>
+                        </Label>
+                        <Label styleClass="settings-description" text="Selecciona el tema visual de la aplicación">
+                            <font>
+                                <Font name="Roboto Regular" size="12.0"/>
+                            </font>
+                        </Label>
+                    </VBox>
+
+                    <HBox alignment="CENTER_LEFT" spacing="15.0" HBox.hgrow="ALWAYS">
+                        <!-- Tema Barbería -->
+                        <VBox styleClass="theme-option" spacing="8.0">
+                            <VBox styleClass="theme-preview-barberia" prefHeight="60.0" prefWidth="100.0">
+                                <HBox spacing="2.0">
+                                    <Region styleClass="theme-bar" prefWidth="33"/>
+                                    <Region styleClass="theme-bar" prefWidth="33"/>
+                                    <Region styleClass="theme-bar" prefWidth="34"/>
+                                </HBox>
+                            </VBox>
+                            <Label styleClass="theme-name" text="Barbería">
+                                <font>
+                                    <Font name="Roboto Regular" size="12.0"/>
+                                </font>
+                            </Label>
+                            <CheckBox mnemonicParsing="false" text="Seleccionar"/>
+                        </VBox>
+
+                        <!-- Tema Vintage -->
+                        <VBox styleClass="theme-option" spacing="8.0">
+                            <VBox styleClass="theme-preview-vintage" prefHeight="60.0" prefWidth="100.0">
+                                <HBox spacing="2.0">
+                                    <Region styleClass="theme-bar" prefWidth="33"/>
+                                    <Region styleClass="theme-bar" prefWidth="33"/>
+                                    <Region styleClass="theme-bar" prefWidth="34"/>
+                                </HBox>
+                            </VBox>
+                            <Label styleClass="theme-name" text="Vintage">
+                                <font>
+                                    <Font name="Roboto Regular" size="12.0"/>
+                                </font>
+                            </Label>
+                            <CheckBox mnemonicParsing="false" text="Seleccionar"/>
+                        </VBox>
+
+                        <!-- Tema Urban -->
+                        <VBox styleClass="theme-option" spacing="8.0">
+                            <VBox styleClass="theme-preview-urban" prefHeight="60.0" prefWidth="100.0">
+                                <HBox spacing="2.0">
+                                    <Region styleClass="theme-bar" prefWidth="33"/>
+                                    <Region styleClass="theme-bar" prefWidth="33"/>
+                                    <Region styleClass="theme-bar" prefWidth="34"/>
+                                </HBox>
+                            </VBox>
+                            <Label styleClass="theme-name" text="Urban">
+                                <font>
+                                    <Font name="Roboto Regular" size="12.0"/>
+                                </font>
+                            </Label>
+                            <CheckBox mnemonicParsing="false" text="Seleccionar"/>
+                        </VBox>
+
+                        <!-- Tema Noir -->
+                        <VBox styleClass="theme-option" spacing="8.0">
+                            <VBox styleClass="theme-preview-noir" prefHeight="60.0" prefWidth="100.0">
+                                <HBox spacing="2.0">
+                                    <Region styleClass="theme-bar" prefWidth="33"/>
+                                    <Region styleClass="theme-bar" prefWidth="33"/>
+                                    <Region styleClass="theme-bar" prefWidth="34"/>
+                                </HBox>
+                            </VBox>
+                            <Label styleClass="theme-name" text="Noir">
+                                <font>
+                                    <Font name="Roboto Regular" size="12.0"/>
+                                </font>
+                            </Label>
+                            <CheckBox mnemonicParsing="false" text="Seleccionar"/>
+                        </VBox>
+                    </HBox>
+                </VBox>
+            </VBox>
+
+            <!-- Configuración del Negocio -->
+            <VBox spacing="15.0">
+                <Label styleClass="section-title" text="Datos del Negocio">
+                    <font>
+                        <Font name="Roboto Medium" size="18.0"/>
+                    </font>
+                </Label>
+
+                <VBox styleClass="settings-card">
+                    <GridPane hgap="20.0" vgap="15.0">
+                        <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="250.0"/>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="250.0"/>
+                        </columnConstraints>
+                        <rowConstraints>
+                            <RowConstraints vgrow="SOMETIMES"/>
+                            <RowConstraints vgrow="SOMETIMES"/>
+                            <RowConstraints vgrow="SOMETIMES"/>
+                        </rowConstraints>
+
+                        <!-- Nombre del Negocio -->
+                        <VBox alignment="CENTER_LEFT" spacing="8.0" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                            <Label styleClass="settings-label" text="Nombre de la Barbería">
+                                <font>
+                                    <Font name="Roboto Medium" size="14.0"/>
+                                </font>
+                            </Label>
+                            <TextField promptText="Ej: La Tercera Barbershop" styleClass="settings-text-field"/>
+                        </VBox>
+
+                        <!-- Teléfono -->
+                        <VBox alignment="CENTER_LEFT" spacing="8.0" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                            <Label styleClass="settings-label" text="Teléfono">
+                                <font>
+                                    <Font name="Roboto Medium" size="14.0"/>
+                                </font>
+                            </Label>
+                            <TextField promptText="+54 11 1234-5678" styleClass="settings-text-field"/>
+                        </VBox>
+
+                        <!-- Email -->
+                        <VBox alignment="CENTER_LEFT" spacing="8.0" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                            <Label styleClass="settings-label" text="Email">
+                                <font>
+                                    <Font name="Roboto Medium" size="14.0"/>
+                                </font>
+                            </Label>
+                            <TextField promptText="contacto@barbershop.com" styleClass="settings-text-field"/>
+                        </VBox>
+
+                        <!-- Dirección -->
+                        <VBox alignment="CENTER_LEFT" spacing="8.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                            <Label styleClass="settings-label" text="Dirección">
+                                <font>
+                                    <Font name="Roboto Medium" size="14.0"/>
+                                </font>
+                            </Label>
+                            <TextField promptText="Calle 123, Ciudad" styleClass="settings-text-field"/>
+                        </VBox>
+
+                        <!-- Horario de Apertura -->
+                        <VBox alignment="CENTER_LEFT" spacing="8.0" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                            <Label styleClass="settings-label" text="Horario de Apertura">
+                                <font>
+                                    <Font name="Roboto Medium" size="14.0"/>
+                                </font>
+                            </Label>
+                            <TextField promptText="09:00" styleClass="settings-text-field"/>
+                        </VBox>
+
+                        <!-- Horario de Cierre -->
+                        <VBox alignment="CENTER_LEFT" spacing="8.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                            <Label styleClass="settings-label" text="Horario de Cierre">
+                                <font>
+                                    <Font name="Roboto Medium" size="14.0"/>
+                                </font>
+                            </Label>
+                            <TextField promptText="21:00" styleClass="settings-text-field"/>
+                        </VBox>
+                    </GridPane>
+                </VBox>
+            </VBox>
+
+            <!-- Configuración de Notificaciones -->
+            <VBox spacing="15.0">
+                <Label styleClass="section-title" text="Notificaciones">
+                    <font>
+                        <Font name="Roboto Medium" size="18.0"/>
+                    </font>
+                </Label>
+
+                <VBox styleClass="settings-card" spacing="12.0">
+                    <HBox alignment="CENTER_LEFT" spacing="15.0">
+                        <VBox alignment="CENTER_LEFT" spacing="4.0" HBox.hgrow="ALWAYS">
+                            <Label styleClass="settings-label" text="Notificaciones de Turnos">
+                                <font>
+                                    <Font name="Roboto Medium" size="14.0"/>
+                                </font>
+                            </Label>
+                            <Label styleClass="settings-description"
+                                   text="Recibir alertas cuando se agende un nuevo turno">
+                                <font>
+                                    <Font name="Roboto Regular" size="12.0"/>
+                                </font>
+                            </Label>
+                        </VBox>
+                        <CheckBox mnemonicParsing="false" selected="true"/>
+                    </HBox>
+
+                    <Separator styleClass="settings-separator"/>
+
+                    <HBox alignment="CENTER_LEFT" spacing="15.0">
+                        <VBox alignment="CENTER_LEFT" spacing="4.0" HBox.hgrow="ALWAYS">
+                            <Label styleClass="settings-label" text="Recordatorios de Turnos">
+                                <font>
+                                    <Font name="Roboto Medium" size="14.0"/>
+                                </font>
+                            </Label>
+                            <Label styleClass="settings-description"
+                                   text="Enviar recordatorios a los clientes antes de su turno">
+                                <font>
+                                    <Font name="Roboto Regular" size="12.0"/>
+                                </font>
+                            </Label>
+                        </VBox>
+                        <CheckBox mnemonicParsing="false" selected="true"/>
+                    </HBox>
+
+                    <Separator styleClass="settings-separator"/>
+
+                    <HBox alignment="CENTER_LEFT" spacing="15.0">
+                        <VBox alignment="CENTER_LEFT" spacing="4.0" HBox.hgrow="ALWAYS">
+                            <Label styleClass="settings-label" text="Alertas de Stock">
+                                <font>
+                                    <Font name="Roboto Medium" size="14.0"/>
+                                </font>
+                            </Label>
+                            <Label styleClass="settings-description"
+                                   text="Notificar cuando el stock esté bajo o crítico">
+                                <font>
+                                    <Font name="Roboto Regular" size="12.0"/>
+                                </font>
+                            </Label>
+                        </VBox>
+                        <CheckBox mnemonicParsing="false" selected="true"/>
+                    </HBox>
+
+                    <Separator styleClass="settings-separator"/>
+
+                    <HBox alignment="CENTER_LEFT" spacing="15.0">
+                        <VBox alignment="CENTER_LEFT" spacing="4.0" HBox.hgrow="ALWAYS">
+                            <Label styleClass="settings-label" text="Notificaciones de Empleados">
+                                <font>
+                                    <Font name="Roboto Medium" size="14.0"/>
+                                </font>
+                            </Label>
+                            <Label styleClass="settings-description"
+                                   text="Alertas sobre cambios en el equipo de trabajo">
+                                <font>
+                                    <Font name="Roboto Regular" size="12.0"/>
+                                </font>
+                            </Label>
+                        </VBox>
+                        <CheckBox mnemonicParsing="false"/>
+                    </HBox>
+                </VBox>
+            </VBox>
+
+            <!-- Configuración de Seguridad -->
+            <VBox spacing="15.0">
+                <Label styleClass="section-title" text="Seguridad">
+                    <font>
+                        <Font name="Roboto Medium" size="18.0"/>
+                    </font>
+                </Label>
+
+                <VBox styleClass="settings-card">
+                    <GridPane hgap="20.0" vgap="15.0">
+                        <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="250.0"/>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="250.0"/>
+                        </columnConstraints>
+                        <rowConstraints>
+                            <RowConstraints vgrow="SOMETIMES"/>
+                            <RowConstraints vgrow="SOMETIMES"/>
+                        </rowConstraints>
+
+                        <!-- Usuario Admin -->
+                        <VBox alignment="CENTER_LEFT" spacing="8.0" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                            <Label styleClass="settings-label" text="Usuario Administrador">
+                                <font>
+                                    <Font name="Roboto Medium" size="14.0"/>
+                                </font>
+                            </Label>
+                            <TextField promptText="admin" styleClass="settings-text-field"/>
+                        </VBox>
+
+                        <!-- Cambiar Contraseña -->
+                        <VBox alignment="CENTER_LEFT" spacing="8.0" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                            <Label styleClass="settings-label" text="Nueva Contraseña">
+                                <font>
+                                    <Font name="Roboto Medium" size="14.0"/>
+                                </font>
+                            </Label>
+                            <PasswordField promptText="••••••••" styleClass="settings-password-field"/>
+                        </VBox>
+
+                        <!-- Confirmar Contraseña -->
+                        <VBox alignment="CENTER_LEFT" spacing="8.0" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                            <Label styleClass="settings-label" text="Confirmar Contraseña">
+                                <font>
+                                    <Font name="Roboto Medium" size="14.0"/>
+                                </font>
+                            </Label>
+                            <PasswordField promptText="••••••••" styleClass="settings-password-field"/>
+                        </VBox>
+
+                        <!-- Botón Actualizar -->
+                        <VBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                            <Button mnemonicParsing="false" styleClass="action-button-primary"
+                                    text="Actualizar Contraseña">
+                                <font>
+                                    <Font name="Roboto Medium" size="13.0"/>
+                                </font>
+                            </Button>
+                        </VBox>
+                    </GridPane>
+                </VBox>
+            </VBox>
+
+            <!-- Información de la Aplicación -->
+            <VBox spacing="15.0">
+                <Label styleClass="section-title" text="Acerca de la Aplicación">
+                    <font>
+                        <Font name="Roboto Medium" size="18.0"/>
+                    </font>
+                </Label>
+
+                <VBox styleClass="settings-card">
+                    <HBox alignment="CENTER_LEFT" spacing="25.0">
+                        <!-- Logo -->
+                        <VBox alignment="CENTER" minWidth="100.0" spacing="10.0">
+                            <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true"
+                                       styleClass="app-logo">
+                                <Image url="@../images/Logo.jpg"/>
+                            </ImageView>
+                        </VBox>
+
+                        <!-- Información -->
+                        <VBox alignment="CENTER_LEFT" spacing="8.0" HBox.hgrow="ALWAYS">
+                            <Label styleClass="app-name" text="La Tercera Barbershop">
+                                <font>
+                                    <Font name="Roboto Bold" size="20.0"/>
+                                </font>
+                            </Label>
+                            <Label styleClass="app-version" text="Versión 1.0.0">
+                                <font>
+                                    <Font name="Roboto Regular" size="14.0"/>
+                                </font>
+                            </Label>
+                            <Label styleClass="app-description" text="Sistema de gestión integral para barberías">
+                                <font>
+                                    <Font name="Roboto Regular" size="12.0"/>
+                                </font>
+                            </Label>
+                            <Label styleClass="app-copyright"
+                                   text="© 2024 La Tercera Barbershop. Todos los derechos reservados.">
+                                <font>
+                                    <Font name="Roboto Regular" size="11.0"/>
+                                </font>
+                            </Label>
+                        </VBox>
+
+                        <!-- Información Técnica -->
+                        <VBox alignment="CENTER_RIGHT" spacing="5.0" minWidth="180.0">
+                            <HBox alignment="CENTER_LEFT" spacing="8.0">
+                                <Label styleClass="tech-label" text="Framework:">
+                                    <font>
+                                        <Font name="Roboto Regular" size="12.0"/>
+                                    </font>
+                                </Label>
+                                <Label styleClass="tech-value" text="JavaFX + Spring">
+                                    <font>
+                                        <Font name="Roboto Medium" size="12.0"/>
+                                    </font>
+                                </Label>
+                            </HBox>
+                            <HBox alignment="CENTER_LEFT" spacing="8.0">
+                                <Label styleClass="tech-label" text="Base de datos:">
+                                    <font>
+                                        <Font name="Roboto Regular" size="12.0"/>
+                                    </font>
+                                </Label>
+                                <Label styleClass="tech-value" text="PostgreSQL">
+                                    <font>
+                                        <Font name="Roboto Medium" size="12.0"/>
+                                    </font>
+                                </Label>
+                            </HBox>
+                            <HBox alignment="CENTER_LEFT" spacing="8.0">
+                                <Label styleClass="tech-label" text="Desarrollado por:">
+                                    <font>
+                                        <Font name="Roboto Regular" size="12.0"/>
+                                    </font>
+                                </Label>
+                                <Label styleClass="tech-value" text="Tu Nombre">
+                                    <font>
+                                        <Font name="Roboto Medium" size="12.0"/>
+                                    </font>
+                                </Label>
+                            </HBox>
+                        </VBox>
+                    </HBox>
+                </VBox>
+            </VBox>
+
+            <!-- Botones de Acción -->
+            <HBox alignment="CENTER_RIGHT" spacing="15.0">
+                <Button mnemonicParsing="false" styleClass="filter-button" text="Cancelar">
+                    <font>
+                        <Font name="Roboto Medium" size="14.0"/>
+                    </font>
+                </Button>
+                <Button mnemonicParsing="false" styleClass="action-button-primary" text="Guardar Cambios">
+                    <font>
+                        <Font name="Roboto Medium" size="14.0"/>
+                    </font>
+                </Button>
+            </HBox>
+        </VBox>
+    </ScrollPane>
+</AnchorPane>

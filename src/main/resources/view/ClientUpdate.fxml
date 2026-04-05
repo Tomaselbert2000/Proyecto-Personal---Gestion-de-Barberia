@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane fx:id="anchor_pane" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.barbershop.launcher.controller.client.ClientUpdateController">
+
+    <!-- Header del Panel -->
+    <HBox alignment="CENTER_LEFT" styleClass="header-bar" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+          AnchorPane.topAnchor="0.0">
+        <padding>
+            <Insets bottom="20.0" left="30.0" right="30.0" top="20.0"/>
+        </padding>
+        <HBox alignment="CENTER_LEFT" spacing="15.0">
+            <Button fx:id="back_button" mnemonicParsing="false" styleClass="back-button" text="← Volver">
+                <font>
+                    <Font name="Roboto Medium" size="14.0"/>
+                </font>
+            </Button>
+            <VBox alignment="CENTER_LEFT">
+                <Label styleClass="page-title" text="Editar Cliente">
+                    <font>
+                        <Font name="Roboto Bold" size="28.0"/>
+                    </font>
+                </Label>
+                <Label fx:id="client_subtitle" text="Modifica los datos del cliente">
+                    <font>
+                        <Font name="Roboto Regular" size="14.0"/>
+                    </font>
+                </Label>
+            </VBox>
+        </HBox>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Button fx:id="delete_client_button" mnemonicParsing="false" styleClass="danger-button"
+                text="Eliminar Cliente">
+            <font>
+                <Font name="Roboto Medium" size="13.0"/>
+            </font>
+        </Button>
+    </HBox>
+
+    <!-- Contenido Principal -->
+    <ScrollPane fitToHeight="true" fitToWidth="true" layoutY="100.0" styleClass="content-scroll"
+                AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                AnchorPane.topAnchor="100.0">
+        <padding>
+            <Insets bottom="20.0" left="30.0" right="30.0" top="10.0"/>
+        </padding>
+        <VBox spacing="25.0">
+
+            <!-- Formulario de Cliente -->
+            <VBox styleClass="form-card">
+                <VBox alignment="CENTER_LEFT" spacing="4.0">
+                    <Label styleClass="form-section-title" text="Datos Personales">
+                        <font>
+                            <Font name="Roboto Medium" size="16.0"/>
+                        </font>
+                    </Label>
+                    <Label styleClass="form-section-subtitle" text="Modifica los datos obligatorios del cliente">
+                        <font>
+                            <Font name="Roboto Regular" size="12.0"/>
+                        </font>
+                    </Label>
+                </VBox>
+
+                <VBox spacing="20.0">
+                    <padding>
+                        <Insets top="15.0"/>
+                    </padding>
+
+                    <GridPane hgap="25.0" vgap="20.0">
+                        <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="300.0"/>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="300.0"/>
+                        </columnConstraints>
+                        <rowConstraints>
+                            <RowConstraints vgrow="SOMETIMES"/>
+                            <RowConstraints vgrow="SOMETIMES"/>
+                            <RowConstraints vgrow="SOMETIMES"/>
+                            <RowConstraints vgrow="SOMETIMES"/>
+                        </rowConstraints>
+
+                        <!-- DNI -->
+                        <VBox alignment="CENTER_LEFT" spacing="8.0" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                            <HBox spacing="5.0">
+                                <Label styleClass="form-label" text="DNI">
+                                    <font>
+                                        <Font name="Roboto Medium" size="14.0"/>
+                                    </font>
+                                </Label>
+                                <Label styleClass="form-required" text="*">
+                                    <font>
+                                        <Font name="Roboto Medium" size="14.0"/>
+                                    </font>
+                                </Label>
+                            </HBox>
+                            <TextField fx:id="dni_field" styleClass="form-text-field"/>
+                        </VBox>
+
+                        <!-- Nombre -->
+                        <VBox alignment="CENTER_LEFT" spacing="8.0" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                            <HBox spacing="5.0">
+                                <Label styleClass="form-label" text="Nombre">
+                                    <font>
+                                        <Font name="Roboto Medium" size="14.0"/>
+                                    </font>
+                                </Label>
+                                <Label styleClass="form-required" text="*">
+                                    <font>
+                                        <Font name="Roboto Medium" size="14.0"/>
+                                    </font>
+                                </Label>
+                            </HBox>
+                            <TextField fx:id="first_name_field" styleClass="form-text-field"/>
+                        </VBox>
+
+                        <!-- Apellido -->
+                        <VBox alignment="CENTER_LEFT" spacing="8.0" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                            <HBox spacing="5.0">
+                                <Label styleClass="form-label" text="Apellido">
+                                    <font>
+                                        <Font name="Roboto Medium" size="14.0"/>
+                                    </font>
+                                </Label>
+                                <Label styleClass="form-required" text="*">
+                                    <font>
+                                        <Font name="Roboto Medium" size="14.0"/>
+                                    </font>
+                                </Label>
+                            </HBox>
+                            <TextField fx:id="last_name_field" styleClass="form-text-field"/>
+                        </VBox>
+
+                        <!-- Email -->
+                        <VBox alignment="CENTER_LEFT" spacing="8.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                            <HBox spacing="5.0">
+                                <Label styleClass="form-label" text="Email">
+                                    <font>
+                                        <Font name="Roboto Medium" size="14.0"/>
+                                    </font>
+                                </Label>
+                                <Label styleClass="form-required" text="*">
+                                    <font>
+                                        <Font name="Roboto Medium" size="14.0"/>
+                                    </font>
+                                </Label>
+                            </HBox>
+                            <TextField fx:id="email_field"
+                                       styleClass="form-text-field"/>
+                        </VBox>
+
+                        <!-- Teléfonos -->
+                        <VBox alignment="CENTER_LEFT" spacing="8.0" GridPane.columnIndex="0" GridPane.columnSpan="2"
+                              GridPane.rowIndex="2">
+                            <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                <Label styleClass="form-label" text="Teléfonos">
+                                    <font>
+                                        <Font name="Roboto Medium" size="14.0"/>
+                                    </font>
+                                </Label>
+                                <Button fx:id="add_phone_button" mnemonicParsing="false" styleClass="add-phone-button"
+                                        text="+ Agregar teléfono">
+                                    <font>
+                                        <Font name="Roboto Regular" size="12.0"/>
+                                    </font>
+                                </Button>
+                            </HBox>
+                            <!-- Contenedor de teléfonos -->
+                            <VBox fx:id="phones_container" spacing="10.0">
+                            </VBox>
+                        </VBox>
+
+                        <!-- Estado del Cliente -->
+                        <VBox alignment="CENTER_LEFT" spacing="8.0" GridPane.columnIndex="0" GridPane.columnSpan="2"
+                              GridPane.rowIndex="3">
+                            <CheckBox fx:id="client_active_checkbox" selected="true" styleClass="form-checkbox"
+                                      text="Cliente activo">
+                                <font>
+                                    <Font name="Roboto Regular" size="14.0"/>
+                                </font>
+                            </CheckBox>
+                        </VBox>
+                    </GridPane>
+                </VBox>
+            </VBox>
+
+            <!-- Información Adicional -->
+            <VBox styleClass="form-card">
+                <VBox alignment="CENTER_LEFT" spacing="4.0">
+                    <Label styleClass="form-section-title" text="Información Adicional">
+                        <font>
+                            <Font name="Roboto Medium" size="16.0"/>
+                        </font>
+                    </Label>
+                    <Label styleClass="form-section-subtitle" text="Datos opcionales del cliente">
+                        <font>
+                            <Font name="Roboto Regular" size="12.0"/>
+                        </font>
+                    </Label>
+                </VBox>
+
+                <VBox spacing="20.0">
+                    <padding>
+                        <Insets top="15.0"/>
+                    </padding>
+
+                    <GridPane hgap="25.0" vgap="20.0">
+                        <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="300.0"/>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="300.0"/>
+                        </columnConstraints>
+                        <rowConstraints>
+                            <RowConstraints vgrow="SOMETIMES"/>
+                        </rowConstraints>
+
+                        <!-- Notas -->
+                        <VBox alignment="CENTER_LEFT" spacing="8.0" GridPane.columnIndex="0" GridPane.columnSpan="2">
+                            <Label styleClass="form-label" text="Notas">
+                                <font>
+                                    <Font name="Roboto Medium" size="14.0"/>
+                                </font>
+                            </Label>
+                            <TextField fx:id="optional_notes_field"
+                                       styleClass="form-text-field-notes"/>
+                        </VBox>
+                    </GridPane>
+                </VBox>
+            </VBox>
+
+            <!-- Historial del Cliente -->
+            <VBox styleClass="form-card">
+                <VBox alignment="CENTER_LEFT" spacing="4.0">
+                    <Label styleClass="form-section-title" text="Historial">
+                        <font>
+                            <Font name="Roboto Medium" size="16.0"/>
+                        </font>
+                    </Label>
+                    <Label styleClass="form-section-subtitle" text="Información del historial del cliente">
+                        <font>
+                            <Font name="Roboto Regular" size="12.0"/>
+                        </font>
+                    </Label>
+                </VBox>
+
+                <VBox spacing="15.0">
+                    <padding>
+                        <Insets top="15.0"/>
+                    </padding>
+
+                    <GridPane hgap="25.0" vgap="15.0">
+                        <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="200.0"/>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="200.0"/>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="200.0"/>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="200.0"/>
+                        </columnConstraints>
+                        <rowConstraints>
+                            <RowConstraints vgrow="SOMETIMES"/>
+                        </rowConstraints>
+
+                        <!-- Total de Visitas -->
+                        <VBox alignment="CENTER" spacing="5.0" GridPane.columnIndex="0">
+                            <Label styleClass="client-history-stat-value" text="12">
+                                <font>
+                                    <Font name="Roboto Bold" size="24.0"/>
+                                </font>
+                            </Label>
+                            <Label styleClass="client-history-stat-label" text="Total Visitas">
+                                <font>
+                                    <Font name="Roboto Regular" size="12.0"/>
+                                </font>
+                            </Label>
+                        </VBox>
+
+                        <!-- Total Gastado -->
+                        <VBox alignment="CENTER" spacing="5.0" GridPane.columnIndex="1">
+                            <Label styleClass="client-history-stat-value" text="$45.600">
+                                <font>
+                                    <Font name="Roboto Bold" size="24.0"/>
+                                </font>
+                            </Label>
+                            <Label styleClass="client-history-stat-label" text="Total Gastado">
+                                <font>
+                                    <Font name="Roboto Regular" size="12.0"/>
+                                </font>
+                            </Label>
+                        </VBox>
+
+                        <!-- Última Visita -->
+                        <VBox alignment="CENTER" spacing="5.0" GridPane.columnIndex="2">
+                            <Label styleClass="client-history-stat-value" text="5 días">
+                                <font>
+                                    <Font name="Roboto Bold" size="24.0"/>
+                                </font>
+                            </Label>
+                            <Label styleClass="client-history-stat-label" text="Última Visita">
+                                <font>
+                                    <Font name="Roboto Regular" size="12.0"/>
+                                </font>
+                            </Label>
+                        </VBox>
+
+                        <!-- Cliente Desde -->
+                        <VBox alignment="CENTER" spacing="5.0" GridPane.columnIndex="3">
+                            <Label styleClass="client-history-stat-value" text="Mar 2023">
+                                <font>
+                                    <Font name="Roboto Bold" size="24.0"/>
+                                </font>
+                            </Label>
+                            <Label styleClass="client-history-stat-label" text="Cliente Desde">
+                                <font>
+                                    <Font name="Roboto Regular" size="12.0"/>
+                                </font>
+                            </Label>
+                        </VBox>
+                    </GridPane>
+                </VBox>
+            </VBox>
+
+            <!-- Mensaje de Error General -->
+            <VBox fx:id="error_message_container" styleClass="general-error-container" visible="false">
+                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                    <Label styleClass="dashboard-view-recent-activity-warning-icon">
+                        <font>
+                            <Font name="Roboto Bold" size="18.0"/>
+                        </font>
+                    </Label>
+                    <VBox alignment="CENTER_LEFT" spacing="2.0">
+                        <Label styleClass="general-error-title" text="Error al actualizar el cliente">
+                            <font>
+                                <Font name="Roboto Medium" size="14.0"/>
+                            </font>
+                        </Label>
+                        <Label fx:id="error_message_label" styleClass="general-error-message">
+                            <font>
+                                <Font name="Roboto Regular" size="12.0"/>
+                            </font>
+                        </Label>
+                    </VBox>
+                </HBox>
+            </VBox>
+
+            <!-- Botones de Acción -->
+            <HBox alignment="CENTER_RIGHT" spacing="15.0">
+                <Button fx:id="cancel_button" mnemonicParsing="false" styleClass="form-cancel-button"
+                        text="Cancelar">
+                    <font>
+                        <Font name="Roboto Medium" size="14.0"/>
+                    </font>
+                </Button>
+                <Button fx:id="save_button" mnemonicParsing="false" styleClass="action-button-primary"
+                        text="Guardar Cambios">
+                    <font>
+                        <Font name="Roboto Medium" size="14.0"/>
+                    </font>
+                </Button>
+            </HBox>
+        </VBox>
+    </ScrollPane>
+</AnchorPane>

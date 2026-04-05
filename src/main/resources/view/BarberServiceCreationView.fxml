@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:id="anchor_pane"
+            fx:controller="com.barbershop.launcher.controller.barberservice.BarberServiceCreationController">
+
+    <!-- Header Panel -->
+    <HBox alignment="CENTER_LEFT" styleClass="header-bar" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+          AnchorPane.topAnchor="0.0">
+        <padding>
+            <Insets bottom="20.0" left="30.0" right="30.0" top="20.0"/>
+        </padding>
+        <HBox alignment="CENTER_LEFT" spacing="15.0">
+            <Button fx:id="back_button" mnemonicParsing="false" styleClass="back-button" text="← Volver">
+                <font>
+                    <Font name="Roboto Medium" size="14.0"/>
+                </font>
+            </Button>
+            <VBox alignment="CENTER_LEFT">
+                <Label styleClass="page-title" text="Nuevo Servicio">
+                    <font>
+                        <Font name="Roboto Bold" size="28.0"/>
+                    </font>
+                </Label>
+                <Label text="Registra un nuevo servicio en el catálogo">
+                    <font>
+                        <Font name="Roboto Regular" size="14.0"/>
+                    </font>
+                </Label>
+            </VBox>
+        </HBox>
+        <Region HBox.hgrow="ALWAYS"/>
+    </HBox>
+
+    <!-- Main Content -->
+    <ScrollPane fitToHeight="true" fitToWidth="true" layoutY="100.0" styleClass="content-scroll"
+                AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                AnchorPane.topAnchor="100.0">
+        <padding>
+            <Insets bottom="20.0" left="30.0" right="30.0" top="10.0"/>
+        </padding>
+        <VBox spacing="25.0">
+
+            <!-- Service Form -->
+            <VBox styleClass="form-card">
+                <VBox alignment="CENTER_LEFT" spacing="4.0">
+                    <Label styleClass="form-section-title" text="Datos del Servicio">
+                        <font>
+                            <Font name="Roboto Medium" size="16.0"/>
+                        </font>
+                    </Label>
+                    <Label styleClass="form-section-subtitle" text="Ingresa los datos del nuevo servicio">
+                        <font>
+                            <Font name="Roboto Regular" size="12.0"/>
+                        </font>
+                    </Label>
+                </VBox>
+
+                <VBox spacing="20.0">
+                    <padding>
+                        <Insets top="15.0"/>
+                    </padding>
+
+                    <GridPane hgap="25.0" vgap="20.0">
+                        <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="300.0"/>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="300.0"/>
+                        </columnConstraints>
+                        <rowConstraints>
+                            <RowConstraints vgrow="SOMETIMES"/>
+                            <RowConstraints vgrow="SOMETIMES"/>
+                            <RowConstraints vgrow="SOMETIMES"/>
+                        </rowConstraints>
+
+                        <!-- Service Name -->
+                        <VBox alignment="CENTER_LEFT" spacing="8.0" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                            <HBox spacing="5.0">
+                                <Label styleClass="form-label" text="Nombre del Servicio">
+                                    <font>
+                                        <Font name="Roboto Medium" size="14.0"/>
+                                    </font>
+                                </Label>
+                                <Label styleClass="form-required" text="*">
+                                    <font>
+                                        <Font name="Roboto Medium" size="14.0"/>
+                                    </font>
+                                </Label>
+                            </HBox>
+                            <TextField fx:id="service_name_field" promptText="Ej: Corte Clásico"
+                                       styleClass="form-text-field"/>
+                        </VBox>
+
+                        <!-- Price -->
+                        <VBox alignment="CENTER_LEFT" spacing="8.0" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                            <HBox spacing="5.0">
+                                <Label styleClass="form-label" text="Precio">
+                                    <font>
+                                        <Font name="Roboto Medium" size="14.0"/>
+                                    </font>
+                                </Label>
+                                <Label styleClass="form-required" text="*">
+                                    <font>
+                                        <Font name="Roboto Medium" size="14.0"/>
+                                    </font>
+                                </Label>
+                            </HBox>
+                            <TextField fx:id="price_field" styleClass="form-text-field"/>
+                        </VBox>
+
+                        <!-- Category -->
+                        <VBox alignment="CENTER_LEFT" spacing="8.0" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                            <HBox spacing="5.0">
+                                <Label styleClass="form-label" text="Categoría">
+                                    <font>
+                                        <Font name="Roboto Medium" size="14.0"/>
+                                    </font>
+                                </Label>
+                                <Label styleClass="form-required" text="*">
+                                    <font>
+                                        <Font name="Roboto Medium" size="14.0"/>
+                                    </font>
+                                </Label>
+                            </HBox>
+                            <ComboBox fx:id="category_combo_box" promptText="Seleccionar categoría"
+                                      styleClass="form-combo-box"/>
+                        </VBox>
+
+                        <!-- Description -->
+                        <VBox alignment="CENTER_LEFT" spacing="8.0" GridPane.columnIndex="0" GridPane.columnSpan="2"
+                              GridPane.rowIndex="2">
+                            <Label styleClass="form-label" text="Descripción">
+                                <font>
+                                    <Font name="Roboto Medium" size="14.0"/>
+                                </font>
+                            </Label>
+                        </VBox>
+                    </GridPane>
+                </VBox>
+            </VBox>
+
+            <!-- Additional Information -->
+            <VBox styleClass="form-card">
+                <VBox alignment="CENTER_LEFT" spacing="4.0">
+                    <Label styleClass="form-section-title" text="Información Adicional">
+                        <font>
+                            <Font name="Roboto Medium" size="16.0"/>
+                        </font>
+                    </Label>
+                    <Label styleClass="form-section-subtitle" text="Datos opcionales del servicio">
+                        <font>
+                            <Font name="Roboto Regular" size="12.0"/>
+                        </font>
+                    </Label>
+                </VBox>
+
+                <VBox spacing="20.0">
+                    <padding>
+                        <Insets top="15.0"/>
+                    </padding>
+
+                    <GridPane hgap="25.0" vgap="20.0">
+                        <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="300.0"/>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="300.0"/>
+                        </columnConstraints>
+                        <rowConstraints>
+                            <RowConstraints vgrow="SOMETIMES"/>
+                        </rowConstraints>
+
+                        <!-- Notes -->
+                        <VBox alignment="CENTER_LEFT" spacing="8.0" GridPane.columnIndex="0" GridPane.columnSpan="2">
+                            <Label styleClass="form-label" text="Notas Internas">
+                                <font>
+                                    <Font name="Roboto Medium" size="14.0"/>
+                                </font>
+                            </Label>
+                            <TextField fx:id="internal_notes_field"
+                                       styleClass="form-text-field-notes"/>
+                        </VBox>
+                    </GridPane>
+                </VBox>
+            </VBox>
+
+            <!-- General Error Message -->
+            <VBox fx:id="error_message_container" styleClass="general-error-container" visible="false">
+                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                    <Label styleClass="general-error-icon" text="⚠">
+                        <font>
+                            <Font name="Roboto Bold" size="18.0"/>
+                        </font>
+                    </Label>
+                    <VBox alignment="CENTER_LEFT" spacing="2.0">
+                        <Label styleClass="general-error-title" text="Error al crear el servicio">
+                            <font>
+                                <Font name="Roboto Medium" size="14.0"/>
+                            </font>
+                        </Label>
+                        <Label fx:id="error_message_label" styleClass="general-error-message">
+                            <font>
+                                <Font name="Roboto Regular" size="12.0"/>
+                            </font>
+                        </Label>
+                    </VBox>
+                </HBox>
+            </VBox>
+
+            <!-- Action Buttons -->
+            <HBox alignment="CENTER_RIGHT" spacing="15.0">
+                <Button fx:id="clean_fields_button" mnemonicParsing="false" styleClass="filter-button"
+                        text="Limpiar campos">
+                    <font>
+                        <Font name="Roboto Medium" size="14.0"/>
+                    </font>
+                </Button>
+                <Button fx:id="save_button" mnemonicParsing="false" styleClass="action-button-primary"
+                        text="Crear Servicio">
+                    <font>
+                        <Font name="Roboto Medium" size="14.0"/>
+                    </font>
+                </Button>
+            </HBox>
+        </VBox>
+    </ScrollPane>
+</AnchorPane>

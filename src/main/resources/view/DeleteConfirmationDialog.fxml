@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+
+<StackPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="com.barbershop.launcher.controller.dialog.DeleteConfirmationDialogController">
+
+    <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="400.0" styleClass="confirmation-dialog-container">
+        <VBox styleClass="confirmation-dialog-content">
+            <!-- Icon Container -->
+            <HBox alignment="CENTER" styleClass="confirmation-icon-container">
+                <StackPane>
+                    <!-- Icon placeholder -->
+                    <Region fx:id="dialog_icon" prefHeight="32.0" prefWidth="32.0"
+                            styleClass="confirmation-delete-icon"/>
+                </StackPane>
+            </HBox>
+            <!-- Title -->
+            <VBox alignment="CENTER" spacing="8.0" styleClass="confirmation-title-container">
+                <Label fx:id="confirmation_title" styleClass="confirmation-title" text="Confirmar eliminación">
+                    <font>
+                        <Font name="Roboto Medium" size="20.0"/>
+                    </font>
+                </Label>
+            </VBox>
+            <!-- Message -->
+            <VBox alignment="CENTER" spacing="8.0" styleClass="confirmation-message-container">
+                <Label fx:id="confirmation_message" alignment="CENTER" contentDisplay="CENTER"
+                       styleClass="confirmation-message"
+                       text="¿Estás seguro de que deseas eliminar este elemento? Esta acción no se puede deshacer."
+                       textAlignment="CENTER" wrapText="true">
+                    <font>
+                        <Font name="Roboto Regular" size="14.0"/>
+                    </font>
+                </Label>
+            </VBox>
+            <!-- Buttons -->
+            <HBox alignment="CENTER" spacing="12.0" styleClass="confirmation-buttons-container">
+                <Button fx:id="cancel_button" mnemonicParsing="false" styleClass="confirmation-cancel-button"
+                        text="Cancelar">
+                    <font>
+                        <Font name="Roboto Medium" size="14.0"/>
+                    </font>
+                </Button>
+                <Button fx:id="confirm_button" mnemonicParsing="false" styleClass="confirmation-delete-button"
+                        text="Eliminar">
+                    <font>
+                        <Font name="Roboto Medium" size="14.0"/>
+                    </font>
+                </Button>
+            </HBox>
+        </VBox>
+
+    </VBox>
+    <padding>
+        <Insets bottom="10.0" top="10.0"/>
+    </padding>
+
+</StackPane>

@@ -1,0 +1,421 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="anchor_pane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.barbershop.launcher.controller.product.ProductEditionController">
+
+    <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <!-- Header del Panel -->
+        <HBox alignment="CENTER_LEFT" styleClass="header-bar">
+            <padding>
+                <Insets bottom="20.0" left="30.0" right="30.0" top="20.0" />
+            </padding>
+            <Button fx:id="back_button" mnemonicParsing="false" styleClass="back-button" text="← Volver" />
+            <VBox alignment="CENTER_LEFT">
+                <Label styleClass="page-title" text="Editar Producto">
+                    <font>
+                        <Font name="Roboto Bold" size="28.0" />
+                    </font>
+                </Label>
+                <Label text="Modifica los datos del producto">
+                    <font>
+                        <Font name="Roboto Regular" size="14.0" />
+                    </font>
+                    <styleClass>
+                        <String fx:value="page-subtitle" />
+                    </styleClass>
+                </Label>
+                <HBox.margin>
+                    <Insets left="15.0" />
+                </HBox.margin>
+            </VBox>
+        </HBox>
+
+        <!-- Contenido Principal -->
+        <ScrollPane fitToHeight="true" fitToWidth="true" VBox.vgrow="ALWAYS">
+            <padding>
+                <Insets bottom="30.0" left="30.0" right="30.0" top="20.0" />
+            </padding>
+            <VBox spacing="25.0">
+                <!-- Tarjeta de Información General -->
+                <VBox styleClass="form-card">
+                    <padding>
+                        <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+                    </padding>
+                    <VBox spacing="15.0">
+                        <Label styleClass="form-section-title" text="Información General">
+                            <font>
+                                <Font name="Roboto Medium" size="16.0" />
+                            </font>
+                        </Label>
+
+                        <GridPane hgap="40.0" vgap="40.0">
+                            <columnConstraints>
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="250.0" />
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="250.0" />
+                            </columnConstraints>
+                            <rowConstraints>
+                                <RowConstraints minHeight="60.0" vgrow="SOMETIMES" />
+                                <RowConstraints minHeight="60.0" vgrow="SOMETIMES" />
+                                <RowConstraints minHeight="60.0" vgrow="SOMETIMES" />
+                            </rowConstraints>
+
+                            <!-- Name -->
+                            <VBox alignment="CENTER_LEFT" spacing="5.0" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                                <HBox spacing="4.0">
+                                    <Label styleClass="form-label" text="Nombre del Producto">
+                                        <font>
+                                            <Font name="Roboto Regular" size="13.0" />
+                                        </font>
+                                    </Label>
+                                    <Label styleClass="form-required" text="*">
+                                        <font>
+                                            <Font name="Roboto Bold" size="13.0" />
+                                        </font>
+                                    </Label>
+                                </HBox>
+                                <TextField fx:id="name" styleClass="form-text-field">
+                                    <font>
+                                        <Font name="Roboto Regular" size="14.0" />
+                                    </font>
+                                </TextField>
+                            </VBox>
+
+                            <!-- Category -->
+                            <VBox alignment="CENTER_LEFT" spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                                <HBox spacing="4.0">
+                                    <Label styleClass="form-label" text="Categoría">
+                                        <font>
+                                            <Font name="Roboto Regular" size="13.0" />
+                                        </font>
+                                    </Label>
+                                    <Label styleClass="form-required" text="*">
+                                        <font>
+                                            <Font name="Roboto Bold" size="13.0" />
+                                        </font>
+                                    </Label>
+                                </HBox>
+                                <ComboBox fx:id="category" styleClass="form-combo-box">
+                                </ComboBox>
+                            </VBox>
+
+                            <!-- Optional Description -->
+                            <VBox alignment="CENTER_LEFT" spacing="5.0" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="1">
+                                <HBox spacing="4.0">
+                                    <Label styleClass="form-label" text="Descripción">
+                                        <font>
+                                            <Font name="Roboto Regular" size="13.0" />
+                                        </font>
+                                    </Label>
+                                </HBox>
+                                <TextField fx:id="optional_description" styleClass="form-text-field-notes">
+                                    <font>
+                                        <Font name="Roboto Regular" size="14.0" />
+                                    </font>
+                                </TextField>
+                            </VBox>
+
+                            <!-- Brand Name -->
+                            <VBox alignment="CENTER_LEFT" spacing="5.0" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                                <HBox spacing="4.0">
+                                    <Label styleClass="form-label" text="Marca">
+                                        <font>
+                                            <Font name="Roboto Regular" size="13.0" />
+                                        </font>
+                                    </Label>
+                                </HBox>
+                                <TextField fx:id="brand_name" styleClass="form-text-field">
+                                    <font>
+                                        <Font name="Roboto Regular" size="14.0" />
+                                    </font>
+                                </TextField>
+                            </VBox>
+
+                            <!-- Presentation -->
+                            <VBox alignment="CENTER_LEFT" spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                <HBox spacing="4.0">
+                                    <Label styleClass="form-label" text="Presentación">
+                                        <font>
+                                            <Font name="Roboto Regular" size="13.0" />
+                                        </font>
+                                    </Label>
+                                </HBox>
+                                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                    <TextField fx:id="presentation_size" styleClass="form-text-field" HBox.hgrow="NEVER">
+                                        <font>
+                                            <Font name="Roboto Regular" size="14.0" />
+                                        </font>
+                                    </TextField>
+                                    <ComboBox fx:id="presentation_unit" prefHeight="28.0" styleClass="form-combo-box" />
+                                </HBox>
+                            </VBox>
+                        </GridPane>
+                    </VBox>
+                </VBox>
+
+                <!-- Tarjeta de Precios y Costos -->
+                <VBox styleClass="form-card">
+                    <padding>
+                        <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+                    </padding>
+                    <VBox spacing="15.0">
+                        <Label styleClass="form-section-title" text="Precios y Costos">
+                            <font>
+                                <Font name="Roboto Medium" size="16.0" />
+                            </font>
+                        </Label>
+
+                        <GridPane hgap="20.0" vgap="15.0">
+                            <columnConstraints>
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="200.0" />
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="200.0" />
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="200.0" />
+                            </columnConstraints>
+                            <rowConstraints>
+                                <RowConstraints minHeight="60.0" vgrow="SOMETIMES" />
+                                <RowConstraints minHeight="60.0" vgrow="SOMETIMES" />
+                            </rowConstraints>
+
+                            <!-- Product Cost -->
+                            <VBox alignment="CENTER_LEFT" spacing="5.0" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                                <HBox spacing="4.0">
+                                    <Label styleClass="form-label" text="Costo de Compra">
+                                        <font>
+                                            <Font name="Roboto Regular" size="13.0" />
+                                        </font>
+                                    </Label>
+                                    <Label styleClass="form-required" text="*">
+                                        <font>
+                                            <Font name="Roboto Bold" size="13.0" />
+                                        </font>
+                                    </Label>
+                                </HBox>
+                                <TextField fx:id="product_cost" styleClass="form-text-field">
+                                    <font>
+                                        <Font name="Roboto Regular" size="14.0" />
+                                    </font>
+                                </TextField>
+                            </VBox>
+
+                            <!-- Current Price -->
+                            <VBox alignment="CENTER_LEFT" spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                                <HBox spacing="4.0">
+                                    <Label styleClass="form-label" text="Precio de Venta">
+                                        <font>
+                                            <Font name="Roboto Regular" size="13.0" />
+                                        </font>
+                                    </Label>
+                                    <Label styleClass="form-required" text="*">
+                                        <font>
+                                            <Font name="Roboto Bold" size="13.0" />
+                                        </font>
+                                    </Label>
+                                </HBox>
+                                <TextField fx:id="current_price" styleClass="form-text-field">
+                                    <font>
+                                        <Font name="Roboto Regular" size="14.0" />
+                                    </font>
+                                </TextField>
+                            </VBox>
+
+                            <!-- Profit Margin -->
+                            <VBox alignment="CENTER_LEFT" spacing="5.0" GridPane.columnIndex="2" GridPane.rowIndex="0">
+                                <HBox spacing="4.0">
+                                    <Label styleClass="form-label" text="Margen de Ganancia">
+                                        <font>
+                                            <Font name="Roboto Regular" size="13.0" />
+                                        </font>
+                                    </Label>
+                                </HBox>
+                                <HBox alignment="CENTER_LEFT" spacing="5.0">
+                                    <Label fx:id="profit_margin_value" styleClass="form-text-field" text="0%" HBox.hgrow="ALWAYS">
+                                        <font>
+                                            <Font name="Roboto Medium" size="14.0" />
+                                        </font>
+                                    </Label>
+                                </HBox>
+                            </VBox>
+
+                            <!-- Product Wholesale Price -->
+                            <VBox alignment="CENTER_LEFT" spacing="5.0" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                                <HBox spacing="4.0">
+                                    <Label styleClass="form-label" text="Precio de venta por mayor">
+                                        <font>
+                                            <Font name="Roboto Regular" size="13.0" />
+                                        </font>
+                                    </Label>
+                                </HBox>
+                                <TextField fx:id="product_wholesale_price" styleClass="form-text-field">
+                                    <font>
+                                        <Font name="Roboto Regular" size="14.0" />
+                                    </font>
+                                </TextField>
+                            </VBox>
+
+                            <!-- Min Price -->
+                            <VBox alignment="CENTER_LEFT" spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                <HBox spacing="4.0">
+                                    <Label styleClass="form-label" text="Precio de venta mínimo">
+                                        <font>
+                                            <Font name="Roboto Regular" size="13.0" />
+                                        </font>
+                                    </Label>
+                                </HBox>
+                                <TextField fx:id="min_price" styleClass="form-text-field">
+                                    <font>
+                                        <Font name="Roboto Regular" size="14.0" />
+                                    </font>
+                                </TextField>
+                            </VBox>
+
+                            <!-- Max Discount Percentage -->
+                            <VBox alignment="CENTER_LEFT" spacing="5.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                                <HBox spacing="4.0">
+                                    <Label styleClass="form-label" text="Descuento Máximo">
+                                        <font>
+                                            <Font name="Roboto Regular" size="13.0" />
+                                        </font>
+                                    </Label>
+                                </HBox>
+                                <TextField fx:id="max_discount_percentage" styleClass="form-text-field">
+                                    <font>
+                                        <Font name="Roboto Regular" size="14.0" />
+                                    </font>
+                                </TextField>
+                            </VBox>
+                        </GridPane>
+                    </VBox>
+                </VBox>
+
+                <!-- Tarjeta de Stock e Inventario -->
+                <VBox styleClass="form-card">
+                    <padding>
+                        <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+                    </padding>
+                    <VBox spacing="15.0">
+                        <Label styleClass="form-section-title" text="Stock e Inventario">
+                            <font>
+                                <Font name="Roboto Medium" size="16.0" />
+                            </font>
+                        </Label>
+
+                        <GridPane hgap="20.0" vgap="15.0">
+                            <columnConstraints>
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="200.0" />
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="200.0" />
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="200.0" />
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="200.0" />
+                            </columnConstraints>
+                            <rowConstraints>
+                                <RowConstraints minHeight="60.0" vgrow="SOMETIMES" />
+                            </rowConstraints>
+
+                            <!-- Current Stock Level -->
+                            <VBox alignment="CENTER_LEFT" spacing="5.0" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                                <HBox spacing="4.0">
+                                    <Label styleClass="form-label" text="Stock Actual">
+                                        <font>
+                                            <Font name="Roboto Regular" size="13.0" />
+                                        </font>
+                                    </Label>
+                                </HBox>
+                                <TextField fx:id="current_stock_level" editable="false" styleClass="form-text-field-disabled">
+                                    <font>
+                                        <Font name="Roboto Regular" size="14.0" />
+                                    </font>
+                                </TextField>
+                            </VBox>
+
+                            <!-- Safety Stock Level -->
+                            <VBox alignment="CENTER_LEFT" spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                                <HBox spacing="4.0">
+                                    <Label styleClass="form-label" text="Stock Mínimo">
+                                        <font>
+                                            <Font name="Roboto Regular" size="13.0" />
+                                        </font>
+                                    </Label>
+                                    <Label styleClass="form-required" text="*">
+                                        <font>
+                                            <Font name="Roboto Bold" size="13.0" />
+                                        </font>
+                                    </Label>
+                                </HBox>
+                                <TextField fx:id="safety_stock_level" styleClass="form-text-field">
+                                    <font>
+                                        <Font name="Roboto Regular" size="14.0" />
+                                    </font>
+                                </TextField>
+                            </VBox>
+                        </GridPane>
+                    </VBox>
+                </VBox>
+
+                <!-- Tarjeta de Imagen del Producto -->
+                <VBox styleClass="form-card">
+                    <padding>
+                        <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+                    </padding>
+                    <VBox spacing="15.0">
+                        <Label styleClass="form-section-title" text="Imagen del Producto">
+                            <font>
+                                <Font name="Roboto Medium" size="16.0" />
+                            </font>
+                        </Label>
+
+                        <HBox alignment="CENTER_LEFT" spacing="20.0">
+                            <!-- Preview de Imagen -->
+                            <VBox alignment="CENTER" styleClass="product-image-preview-container">
+                                <VBox alignment="CENTER" styleClass="product-image-placeholder">
+                                    <ImageView fx:id="product_image_preview" fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
+                                    </ImageView>
+                                </VBox>
+                            </VBox>
+
+                            <!-- Controles de Imagen -->
+                            <VBox alignment="CENTER_LEFT" spacing="10.0">
+                                <Button fx:id="select_image_button" mnemonicParsing="false" styleClass="filter-button" text="Seleccionar Imagen">
+                                    <font>
+                                        <Font name="Roboto Medium" size="13.0" />
+                                    </font>
+                                </Button>
+                                <Button fx:id="remove_image_button" mnemonicParsing="false" styleClass="filter-button" text="Eliminar Imagen">
+                                    <font>
+                                        <Font name="Roboto Medium" size="13.0" />
+                                    </font>
+                                </Button>
+                                <Label styleClass="form-help-text" text="Formatos: JPG, PNG (máx. 2MB)">
+                                    <font>
+                                        <Font name="Roboto Regular" size="11.0" />
+                                    </font>
+                                </Label>
+                            </VBox>
+                        </HBox>
+                    </VBox>
+                </VBox>
+
+                <!-- Botones de Acción -->
+                <HBox alignment="CENTER_RIGHT" spacing="15.0">
+                    <Button fx:id="save_button" mnemonicParsing="false" styleClass="action-button-primary" text="Actualizar datos">
+                        <font>
+                            <Font name="Roboto Medium" size="14.0" />
+                        </font>
+                    </Button>
+                </HBox>
+            </VBox>
+        </ScrollPane>
+    </VBox>
+</AnchorPane>

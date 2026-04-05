@@ -1,0 +1,2028 @@
+/* --- CONFIGURACIÓN DE FUENTE --- */
+@font-face {
+    font-family: 'Roboto';
+    src: url('../fonts/Roboto-Regular.ttf');
+}
+
+.root {
+    -fx-font-family: "Roboto", sans-serif;
+    -fx-primary: #6750A4;
+    -fx-primary-dark: #21005D;
+    -fx-on-primary: #FFFFFF;
+    -fx-surface: #FEF7FF;
+    -fx-on-surface: #1C1B1F;
+    -fx-surface-variant: #E7E0EC;
+    -fx-outline: #79747E;
+}
+
+/* --- ESTILOS DE CONTENEDORES --- */
+
+.main-background {
+    -fx-background-color: linear-gradient(to bottom right, -fx-primary, -fx-primary-dark);
+}
+
+.login-card {
+    -fx-background-color: -fx-surface;
+    -fx-background-radius: 28;
+    -fx-padding: 40;
+    -fx-spacing: 20;
+    -fx-alignment: center;
+    /* Sombra MD3 */
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.15), 20, 0, 0, 10);
+}
+
+.title-label {
+    -fx-text-fill: -fx-on-surface;
+    -fx-font-size: 32px;
+    -fx-font-weight: bold;
+}
+
+/* --- COMPONENTES DE ENTRADA --- */
+
+.text-field, .password-field {
+    -fx-background-color: -fx-surface-variant;
+    -fx-text-fill: -fx-on-surface;
+    -fx-prompt-text-fill: derive(-fx-on-surface, 40%);
+    -fx-background-radius: 8 8 0 0;
+    -fx-border-color: -fx-outline;
+    -fx-border-width: 0 0 1 0;
+    -fx-padding: 12;
+}
+
+.text-field:focused, .password-field:focused {
+    -fx-background-color: derive(-fx-primary, 80%);
+    -fx-border-color: -fx-primary;
+    -fx-border-width: 0 0 2 0;
+}
+
+/* --- BOTONES --- */
+
+.button-primary {
+    -fx-background-color: -fx-primary;
+    -fx-text-fill: -fx-on-primary;
+    -fx-background-radius: 25;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-padding: 12 30;
+    -fx-cursor: hand;
+}
+
+.button-primary:hover {
+    -fx-background-color: derive(-fx-primary, 20%);
+}
+
+.button-text {
+    -fx-background-color: transparent;
+    -fx-text-fill: -fx-primary;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+    -fx-background-radius: 20;
+}
+
+.button-text:hover {
+    -fx-background-color: derive(-fx-primary, 90%);
+}
+
+/* --- CHECKBOX --- */
+
+.check-box {
+    -fx-text-fill: -fx-on-surface;
+}
+
+.check-box .box {
+    -fx-background-radius: 4;
+    -fx-background-color: -fx-surface-variant;
+    -fx-border-color: -fx-outline;
+    -fx-border-radius: 4;
+}
+
+.check-box:selected .box {
+    -fx-background-color: -fx-primary;
+    -fx-border-color: -fx-primary;
+}
+
+.check-box:selected .mark {
+    -fx-background-color: -fx-on-primary;
+}
+
+.sidebar {
+    -fx-background-color: -fx-surface;
+    -fx-border-color: -fx-outline;
+    -fx-border-width: 0 1 0 0;
+}
+
+.top-bar {
+    -fx-background-color: -fx-surface;
+    -fx-border-color: -fx-outline;
+    -fx-border-width: 0 0 1 0;
+}
+
+.menu-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: -fx-on-surface;
+    -fx-alignment: center-left;
+    -fx-background-radius: 25;
+    -fx-cursor: hand;
+}
+
+.menu-button:hover {
+    -fx-background-color: derive(-fx-primary, 85%);
+    -fx-text-fill: -fx-primary-dark;
+}
+
+.turno-card {
+    -fx-background-color: -fx-surface;
+
+    -fx-background-radius: 16;
+
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.1), 10, 0, 0, 4);
+}
+
+/* --- TEMA BARBERÍA (Negro, Dorado, Crema, Marrón) --- */
+.theme-barberia {
+    -fx-primary: #D4AF37;
+    -fx-primary-dark: #1A1A1A;
+    -fx-primary-darker: #0D0D0D;
+    -fx-on-primary: #1A1A1A;
+    -fx-surface: #FAF7F2;
+    -fx-surface-elevated: #FFFFFF;
+    -fx-on-surface: #2D2D2D;
+    -fx-surface-variant: #F0E8DC;
+    -fx-outline: #A69076;
+    -fx-accent: #8B4513;
+    -fx-accent-light: #5D4037;
+}
+
+/* --- SIDEBAR --- */
+.sidebar {
+    -fx-background-color: linear-gradient(to bottom, #1A1A1A, #0D0D0D);
+    -fx-border-color: #D4AF37;
+    -fx-border-width: 0 1 0 0;
+}
+
+.logo-section {
+    -fx-background-color: transparent;
+}
+
+.brand-name {
+    -fx-text-fill: #D4AF37;
+    -fx-letter-spacing: 3px;
+}
+
+.brand-subtitle {
+    -fx-text-fill: #A69076;
+    -fx-letter-spacing: 4px;
+}
+
+.menu-separator {
+    -fx-background-color: #3D3D3D;
+    -fx-padding: 0 20 0 20;
+}
+
+/* --- BOTONES DE MENÚ --- */
+.menu-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #E8E0D5;
+    -fx-alignment: center-left;
+    -fx-background-radius: 12;
+    -fx-cursor: hand;
+    -fx-padding: 12 20 12 20;
+    -fx-graphic-text-gap: 12;
+}
+
+.menu-button:hover {
+    -fx-background-color: rgba(212, 175, 55, 0.15);
+    -fx-text-fill: #D4AF37;
+}
+
+.menu-button:pressed {
+    -fx-background-color: rgba(212, 175, 55, 0.25);
+}
+
+.menu-button-exit {
+    -fx-background-color: transparent;
+    -fx-text-fill: #A69076;
+    -fx-alignment: center-left;
+    -fx-background-radius: 12;
+    -fx-cursor: hand;
+    -fx-padding: 12 20 12 20;
+}
+
+.menu-button-exit:hover {
+    -fx-background-color: rgba(183, 62, 62, 0.2);
+    -fx-text-fill: #E85A5A;
+}
+
+/* --- HEADER --- */
+.header-bar {
+    -fx-background-color: -fx-surface;
+    -fx-border-color: derive(-fx-outline, 50%);
+    -fx-border-width: 0 0 1 0;
+}
+
+.page-title {
+    -fx-text-fill: -fx-on-surface;
+}
+
+.page-subtitle {
+    -fx-text-fill: -fx-outline;
+}
+
+.icon-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: -fx-outline;
+    -fx-background-radius: 20;
+    -fx-cursor: hand;
+    -fx-padding: 8;
+}
+
+.icon-button:hover {
+    -fx-background-color: -fx-surface-variant;
+}
+
+/* --- TARJETAS DE ESTADÍSTICAS --- */
+.stat-card {
+    -fx-background-color: -fx-surface-elevated;
+    -fx-background-radius: 16;
+    -fx-padding: 20;
+    -fx-spacing: 8;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.08), 12, 0, 0, 4);
+}
+
+.icon-container {
+    -fx-background-color: rgba(212, 175, 55, 0.12);
+    -fx-background-radius: 12;
+    -fx-padding: 10;
+    -fx-alignment: center;
+}
+
+.icon-container .image-view {
+    -fx-effect: dropShadow(0, 0, 0, #D4AF37);
+}
+
+.stat-value {
+    -fx-text-fill: -fx-primary-darker;
+}
+
+.stat-label {
+    -fx-text-fill: -fx-outline;
+}
+
+.stat-trend-positive {
+    -fx-text-fill: #4CAF50;
+}
+
+.stat-trend-negative {
+    -fx-text-fill: #E85A5A;
+}
+
+.stat-trend-neutral {
+    -fx-text-fill: -fx-outline;
+}
+
+.stat-trend-label {
+    -fx-text-fill: derive(-fx-outline, 20%);
+}
+
+/* --- TARJETAS DE ACCIÓN --- */
+.action-card {
+    -fx-background-color: -fx-surface-elevated;
+    -fx-background-radius: 16;
+    -fx-padding: 24;
+    -fx-spacing: 15;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.08), 12, 0, 0, 4);
+}
+
+.action-icon-container {
+    -fx-background-color: -fx-primary;
+    -fx-background-radius: 14;
+    -fx-padding: 14;
+    -fx-min-width: 60;
+    -fx-min-height: 60;
+    -fx-alignment: center;
+}
+
+.action-title {
+    -fx-text-fill: #212121;
+}
+
+.action-subtitle {
+    -fx-text-fill: -fx-outline;
+}
+
+.action-button-primary {
+    -fx-background-color: -fx-primary;
+    -fx-text-fill: -fx-primary-dark;
+    -fx-background-radius: 20;
+    -fx-font-weight: bold;
+    -fx-padding: 10 20;
+    -fx-cursor: hand;
+}
+
+.action-button-primary:hover {
+    -fx-background-color: derive(-fx-primary, 10%);
+}
+
+.action-button-secondary {
+    -fx-background-color: -fx-surface-variant;
+    -fx-text-fill: -fx-on-surface;
+    -fx-background-radius: 20;
+    -fx-font-weight: medium;
+    -fx-padding: 10 20;
+    -fx-cursor: hand;
+}
+
+.action-button-secondary:hover {
+    -fx-background-color: derive(-fx-surface-variant, -10%);
+}
+
+/* --- SECCIÓN DE TÍTULO --- */
+.section-title {
+    -fx-text-fill: -fx-on-surface;
+}
+
+/* --- ACTIVIDAD RECIENTE --- */
+.recent-activity-card {
+    -fx-background-color: -fx-surface-elevated;
+    -fx-background-radius: 16;
+    -fx-padding: 5;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.06), 10, 0, 0, 3);
+}
+
+.activity-item {
+    -fx-padding: 15 20;
+    -fx-border-width: 0 0 1 0;
+    -fx-border-color: #E0E0E0;
+}
+
+.activity-avatar {
+    -fx-stroke: -fx-surface-elevated;
+    -fx-stroke-width: 3;
+}
+
+.activity-text {
+    -fx-text-fill: -fx-on-surface;
+}
+
+.activity-time {
+    -fx-text-fill: -fx-outline;
+}
+
+.activity-separator {
+    -fx-background-color: -fx-surface-variant;
+    -fx-padding: 0 20;
+}
+
+/* --- SCROLLPANE --- */
+.content-scroll {
+    -fx-background-color: -fx-surface;
+}
+
+.content-scroll .scroll-bar:vertical {
+    -fx-background-color: transparent;
+}
+
+.content-scroll .scroll-bar:vertical .thumb {
+    -fx-background-color: -fx-outline;
+    -fx-background-radius: 4;
+}
+
+/* --- MAIN CONTENT --- */
+.main-content {
+    -fx-background-color: -fx-surface;
+}
+
+/* --- DEFINICIÓN DE TEMAS ANTERIORES --- */
+
+.theme-vintage {
+    -fx-primary: #8B4513;
+    -fx-primary-dark: #3E2723;
+    -fx-on-primary: #FFFFFF;
+    -fx-surface: #FFFBF7;
+    -fx-on-surface: #3E2723;
+    -fx-surface-variant: #F5E9DC;
+    -fx-outline: #A1887F;
+}
+
+.theme-urban {
+    -fx-primary: #006494;
+    -fx-primary-dark: #001D3D;
+    -fx-on-primary: #FFFFFF;
+    -fx-surface: #F8FAFC;
+    -fx-on-surface: #1A1C1E;
+    -fx-surface-variant: #E2E8F0;
+    -fx-outline: #94A3B8;
+}
+
+.theme-noir {
+    -fx-primary: #D4AF37;
+    -fx-primary-dark: #000000;
+    -fx-on-primary: #000000;
+    -fx-surface: #1C1B1F;
+    -fx-on-surface: #E6E1E5;
+    -fx-surface-variant: #49454F;
+    -fx-outline: #938F99;
+}
+
+/* --- BOTÓN DE MENÚ ACTIVO --- */
+.menu-button-active {
+    -fx-background-color: rgba(212, 175, 55, 0.2);
+    -fx-text-fill: #D4AF37;
+    -fx-alignment: center-left;
+    -fx-background-radius: 12;
+    -fx-cursor: hand;
+    -fx-padding: 12 20 12 20;
+    -fx-border-color: #D4AF37;
+    -fx-border-width: 0 0 0 3;
+}
+
+/* --- TARJETAS DE FILTRO --- */
+.filter-card {
+    -fx-background-color: -fx-surface-elevated;
+    -fx-background-radius: 16;
+    -fx-padding: 20;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.06), 10, 0, 0, 3);
+}
+
+.filter-label {
+    -fx-text-fill: -fx-outline;
+}
+
+.search-field {
+    -fx-background-color: -fx-surface-variant;
+    -fx-background-radius: 8;
+    -fx-prompt-text-fill: -fx-outline;
+    -fx-text-fill: -fx-on-surface;
+    -fx-padding: 10 15;
+    -fx-min-width: 200;
+}
+
+.search-field:focused {
+    -fx-border-color: -fx-primary;
+    -fx-border-width: 0 0 2 0;
+    -fx-background-color: -fx-surface-elevated;
+}
+
+.date-picker {
+    -fx-background-color: -fx-surface-variant;
+    -fx-background-radius: 8;
+    -fx-text-fill: -fx-on-surface;
+    -fx-padding: 8 15;
+    -fx-min-width: 150;
+}
+
+.date-picker .text-field {
+    -fx-text-fill: -fx-on-surface;
+}
+
+.combo-box {
+    -fx-background-color: -fx-surface-variant;
+    -fx-background-radius: 8;
+    -fx-text-fill: -fx-on-surface;
+    -fx-padding: 8 15;
+    -fx-min-width: 150;
+}
+
+.filter-button {
+    -fx-background-color: -fx-surface-variant;
+    -fx-text-fill: -fx-on-surface;
+    -fx-background-radius: 20;
+    -fx-padding: 10 20;
+    -fx-cursor: hand;
+}
+
+.filter-button:hover {
+    -fx-background-color: derive(-fx-surface-variant, -10%);
+}
+
+/* --- RESULTADOS --- */
+.results-count {
+    -fx-text-fill: -fx-outline;
+}
+
+/* --- TARJETAS DE TURNOS --- */
+
+.empty-list-label {
+
+    -fx-alignment: center;
+    -fx-text-alignment: center;
+    -fx-font-family: "Roboto", sans-serif;
+    -fx-font-size: 16px;
+    -fx-text-fill: #888888;
+}
+
+.appointment-card {
+    -fx-background-color: -fx-surface-elevated;
+    -fx-background-radius: 14;
+    -fx-padding: 18 20;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.06), 8, 0, 0, 3);
+}
+
+.appointment-card:hover {
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.1), 12, 0, 0, 5);
+}
+
+.time-box {
+    -fx-alignment: center;
+}
+
+.time-start {
+    -fx-text-fill: -fx-primary-darker;
+}
+
+.time-end {
+    -fx-text-fill: -fx-outline;
+}
+
+.appointment-separator {
+    -fx-background-color: -fx-surface-variant;
+    -fx-padding: 0 1;
+}
+
+.appointment-client-name {
+    -fx-text-fill: -fx-on-surface;
+}
+
+.appointment-service {
+    -fx-text-fill: -fx-outline;
+}
+
+.appointment-employee {
+    -fx-text-fill: -fx-outline;
+}
+
+.appointment-employee-name {
+    -fx-text-fill: -fx-on-surface;
+}
+
+/* --- BADGES DE ESTADO --- */
+.status-badge-programado {
+    -fx-background-color: #E3F2FD;
+    -fx-background-radius: 12;
+    -fx-padding: 4 10;
+}
+
+.status-badge-programado .status-badge-text {
+    -fx-text-fill: #1565C0;
+}
+
+.status-badge-finalizado {
+    -fx-background-color: #E8F5E9;
+    -fx-background-radius: 12;
+    -fx-padding: 4 10;
+}
+
+.status-badge-finalizado .status-badge-text {
+    -fx-text-fill: #2E7D32;
+}
+
+.status-badge-cancelado {
+    -fx-background-color: #FFEBEE;
+    -fx-background-radius: 12;
+    -fx-padding: 4 10;
+}
+
+.status-badge-cancelado .status-badge-text {
+    -fx-text-fill: #C62828;
+}
+
+.status-badge-reprogramado {
+    -fx-background-color: #FFF3E0;
+    -fx-background-radius: 12;
+    -fx-padding: 4 10;
+}
+
+.status-badge-reprogramado .status-badge-text {
+    -fx-text-fill: #E65100;
+}
+
+.status-badge-text {
+    -fx-text-fill: #FFFFFF;
+}
+
+/* --- BOTONES DE ACCIÓN DE TURNOS --- */
+.appointment-action-button {
+    -fx-background-color: -fx-surface-variant;
+    -fx-text-fill: -fx-on-surface;
+    -fx-background-radius: 8;
+    -fx-padding: 8 16;
+    -fx-cursor: hand;
+    -fx-font-size: 12px;
+}
+
+.appointment-action-button:hover {
+    -fx-background-color: derive(-fx-surface-variant, -10%);
+}
+
+.appointment-action-button-complete {
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: #FFFFFF;
+    -fx-background-radius: 8;
+    -fx-padding: 8 16;
+    -fx-cursor: hand;
+    -fx-font-size: 12px;
+}
+
+.appointment-action-button-complete:hover {
+    -fx-background-color: #43A047;
+}
+
+.appointment-action-button-cancel {
+    -fx-background-color: #E85A5A;
+    -fx-text-fill: #FFFFFF;
+    -fx-background-radius: 8;
+    -fx-padding: 8 16;
+    -fx-cursor: hand;
+    -fx-font-size: 12px;
+}
+
+.appointment-action-button-cancel:hover {
+    -fx-background-color: #D32F2F;
+}
+
+.logo-image {
+
+}
+
+.user-avatar {
+}
+
+/* --- TARJETAS DE EMPLEADOS --- */
+.employee-card {
+    -fx-background-color: -fx-surface-elevated;
+    -fx-background-radius: 14;
+    -fx-padding: 16 20;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.06), 8, 0, 0, 3);
+}
+
+.employee-card:hover {
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.1), 12, 0, 0, 5);
+}
+
+.employee-avatar {
+    -fx-fill: -fx-primary;
+}
+
+.employee-name {
+    -fx-text-fill: -fx-on-surface;
+}
+
+.employee-info-label {
+    -fx-text-fill: -fx-outline;
+}
+
+.employee-info-value {
+    -fx-text-fill: -fx-on-surface;
+}
+
+/* --- BADGES DE ESTADO EMPLEADO --- */
+.status-badge-activo {
+    -fx-background-color: #E8F5E9;
+    -fx-background-radius: 12;
+    -fx-padding: 4 10;
+}
+
+.status-badge-activo .status-badge-text {
+    -fx-text-fill: #2E7D32;
+}
+
+.status-badge-inactivo {
+    -fx-background-color: #FFEBEE;
+    -fx-background-radius: 12;
+    -fx-padding: 4 10;
+}
+
+.status-badge-inactivo .status-badge-text {
+    -fx-text-fill: #C62828;
+}
+
+/* --- TARJETAS DE PRODUCTOS --- */
+.product-card {
+    -fx-background-color: -fx-surface-elevated;
+    -fx-background-radius: 14;
+    -fx-padding: 14 20;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.06), 8, 0, 0, 3);
+}
+
+.product-card:hover {
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.1), 12, 0, 0, 5);
+}
+
+.product-icon-container {
+    -fx-background-color: -fx-surface-variant;
+    -fx-background-radius: 12;
+    -fx-padding: 12;
+    -fx-min-width: 56;
+    -fx-min-height: 56;
+    -fx-alignment: center;
+}
+
+.product-name {
+    -fx-text-fill: -fx-on-surface;
+}
+
+.product-info-label {
+    -fx-text-fill: -fx-outline;
+}
+
+.product-info-value {
+    -fx-text-fill: -fx-on-surface;
+}
+
+/* --- CONTENEDOR DE STOCK --- */
+.stock-container {
+    -fx-alignment: center;
+    -fx-padding: 10 15;
+    -fx-background-color: -fx-surface-variant;
+    -fx-background-radius: 10;
+}
+
+.stock-current {
+    -fx-text-fill: -fx-primary-darker;
+}
+
+.stock-current-warning {
+    -fx-text-fill: #F57C00;
+}
+
+.stock-current-ok {
+    -fx-text-fill: #2E7D32;
+}
+
+.stock-current-excess {
+    -fx-text-fill: #1565C0;
+}
+
+.stock-label {
+    -fx-text-fill: -fx-outline;
+}
+
+.stock-safety {
+    -fx-text-fill: derive(-fx-outline, 20%);
+}
+
+/* --- BADGES DE ESTADO DE STOCK --- */
+.status-badge-critico {
+    -fx-background-color: #FFEBEE;
+    -fx-background-radius: 12;
+    -fx-padding: 4 10;
+}
+
+.status-badge-critico .status-badge-text {
+    -fx-text-fill: #C62828;
+}
+
+.status-badge-bajo {
+    -fx-background-color: #FFF3E0;
+    -fx-background-radius: 12;
+    -fx-padding: 4 10;
+}
+
+.status-badge-bajo .status-badge-text {
+    -fx-text-fill: #E65100;
+}
+
+.status-badge-atencion {
+    -fx-background-color: #FFF8E1;
+    -fx-background-radius: 12;
+    -fx-padding: 4 10;
+}
+
+.status-badge-atencion .status-badge-text {
+    -fx-text-fill: #F9A825;
+}
+
+.status-badge-suficiente {
+    -fx-background-color: #E8F5E9;
+    -fx-background-radius: 12;
+    -fx-padding: 4 10;
+}
+
+.status-badge-suficiente .status-badge-text {
+    -fx-text-fill: #2E7D32;
+}
+
+.status-badge-excedido {
+    -fx-background-color: #E3F2FD;
+    -fx-background-radius: 12;
+    -fx-padding: 4 10;
+}
+
+.status-badge-excedido .status-badge-text {
+    -fx-text-fill: #1565C0;
+}
+
+/* --- ICONOS DE CONTENEDORES --- */
+.icon-container-critical {
+    -fx-background-color: rgba(198, 40, 40, 0.12);
+    -fx-background-radius: 12;
+    -fx-padding: 10;
+    -fx-alignment: center;
+}
+
+.icon-container-warning {
+    -fx-background-color: rgba(245, 124, 0, 0.12);
+    -fx-background-radius: 12;
+    -fx-padding: 10;
+    -fx-alignment: center;
+}
+
+/* --- PANEL DE CONFIGURACIÓN --- */
+.settings-card {
+    -fx-background-color: -fx-surface-elevated;
+    -fx-background-radius: 16;
+    -fx-padding: 24;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.06), 10, 0, 0, 3);
+}
+
+.settings-label {
+    -fx-text-fill: -fx-on-surface;
+}
+
+.settings-description {
+    -fx-text-fill: -fx-outline;
+}
+
+.settings-text-field {
+    -fx-background-color: -fx-surface-variant;
+    -fx-background-radius: 8;
+    -fx-prompt-text-fill: -fx-outline;
+    -fx-text-fill: -fx-on-surface;
+    -fx-padding: 12 15;
+}
+
+.settings-text-field:focused {
+    -fx-border-color: -fx-primary;
+    -fx-border-width: 0 0 2 0;
+    -fx-background-color: -fx-surface-elevated;
+}
+
+.settings-password-field {
+    -fx-background-color: -fx-surface-variant;
+    -fx-background-radius: 8;
+    -fx-prompt-text-fill: -fx-outline;
+    -fx-text-fill: -fx-on-surface;
+    -fx-padding: 12 15;
+}
+
+.settings-password-field:focused {
+    -fx-border-color: -fx-primary;
+    -fx-border-width: 0 0 2 0;
+    -fx-background-color: -fx-surface-elevated;
+}
+
+.settings-separator {
+    -fx-background-color: -fx-surface-variant;
+}
+
+/* --- SELECTOR DE TEMAS --- */
+.theme-option {
+    -fx-alignment: center;
+    -fx-cursor: hand;
+}
+
+.theme-preview-barberia {
+    -fx-background-radius: 12;
+    -fx-background-color: linear-gradient(to bottom, #D4AF37, #1A1A1A);
+    -fx-padding: 8;
+    -fx-spacing: 2;
+}
+
+.theme-preview-vintage {
+    -fx-background-radius: 12;
+    -fx-background-color: linear-gradient(to bottom, #8B4513, #3E2723);
+    -fx-padding: 8;
+    -fx-spacing: 2;
+}
+
+.theme-preview-urban {
+    -fx-background-radius: 12;
+    -fx-background-color: linear-gradient(to bottom, #006494, #001D3D);
+    -fx-padding: 8;
+    -fx-spacing: 2;
+}
+
+.theme-preview-noir {
+    -fx-background-radius: 12;
+    -fx-background-color: linear-gradient(to bottom, #D4AF37, #000000);
+    -fx-padding: 8;
+    -fx-spacing: 2;
+}
+
+.theme-bar {
+    -fx-background-color: rgba(255, 255, 255, 0.3);
+    -fx-background-radius: 2;
+}
+
+.theme-name {
+    -fx-text-fill: -fx-on-surface;
+    -fx-alignment: center;
+}
+
+/* --- INFORMACIÓN DE LA APP --- */
+.app-logo {
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.1), 8, 0, 0, 3);
+}
+
+.app-name {
+    -fx-text-fill: -fx-primary;
+}
+
+.app-version {
+    -fx-text-fill: -fx-outline;
+}
+
+.app-description {
+    -fx-text-fill: -fx-on-surface;
+}
+
+.app-copyright {
+    -fx-text-fill: derive(-fx-outline, 20%);
+}
+
+.tech-label {
+    -fx-text-fill: -fx-outline;
+}
+
+.tech-value {
+    -fx-text-fill: -fx-on-surface;
+}
+
+/* Estilo general para todos los íconos SVG */
+.icon-svg {
+    -fx-fill: #D4AF37;
+    -fx-scale-x: 1.5;
+    -fx-scale-y: 1.5;
+}
+
+/* --- ITEMS DE ACTIVIDAD RECIENTE --- */
+.activity-item {
+    -fx-padding: 14 16;
+    -fx-background-color: transparent;
+    -fx-background-radius: 12;
+    -fx-cursor: hand;
+}
+
+.activity-item:hover {
+    -fx-background-color: -fx-surface-variant;
+}
+
+.activity-icon-bg {
+    -fx-fill: rgba(212, 175, 55, 0.15);
+}
+
+.activity-icon {
+    -fx-opacity: 1;
+}
+
+.activity-badge {
+    -fx-text-fill: #FFFFFF;
+    -fx-padding: 2 8;
+    -fx-background-radius: 10;
+}
+
+/* Badge: Nuevo Cliente - Verde */
+.activity-badge-new {
+    -fx-background-color: #4CAF50;
+}
+
+/* Badge: Turno - Azul */
+.activity-badge-appointment {
+    -fx-background-color: #2196F3;
+}
+
+/* Badge: Turno Completado - Verde Oscuro */
+.activity-badge-appointment-complete {
+    -fx-background-color: #2E7D32;
+}
+
+/* Badge: Turno Cancelado - Rojo */
+.activity-badge-appointment-canceled {
+    -fx-background-color: #E85A5A;
+}
+
+/* Badge: Empleado - Marrón */
+.activity-badge-employee {
+    -fx-background-color: #8B4513;
+}
+
+/* Badge: Producto - Naranja */
+.activity-badge-product {
+    -fx-background-color: #F57C00;
+}
+
+/* Badge: Venta - Dorado */
+.activity-badge-sale {
+    -fx-background-color: #D4AF37;
+}
+
+.activity-title {
+    -fx-text-fill: -fx-on-surface;
+}
+
+.activity-details {
+    -fx-text-fill: -fx-outline;
+}
+
+.activity-time {
+    -fx-text-fill: derive(-fx-outline, 20%);
+}
+
+.activity-extra-info {
+    -fx-text-fill: -fx-outline;
+}
+
+/* Iconos de fondo según tipo */
+.activity-icon-bg-client {
+    -fx-fill: rgba(76, 175, 80, 0.15);
+}
+
+.activity-icon-bg-appointment {
+    -fx-fill: rgba(33, 150, 243, 0.15);
+}
+
+.activity-icon-bg-employee {
+    -fx-fill: rgba(139, 69, 19, 0.15);
+}
+
+.activity-icon-bg-product {
+    -fx-fill: rgba(245, 124, 0, 0.15);
+}
+
+.activity-icon-bg-sale {
+    -fx-fill: rgba(212, 175, 55, 0.15);
+}
+
+.activity-icon-bg-alert {
+    -fx-fill: rgba(232, 90, 90, 0.15);
+}
+
+.icon-appointments-canceled .icon-svg {
+    -fx-fill: #FF4444;
+}
+
+.dark-theme .icon-svg {
+    -fx-fill: #FFFFFF;
+}
+
+/* Navbar */
+
+.navbar-icon-dashboard {
+
+    -fx-shape: "M513.33-580v-260H840v260H513.33ZM120-446.67V-840h326.67v393.33H120ZM513.33-120v-393.33H840V-120H513.33ZM120-120v-260h326.67v260H120Zm66.67-393.33H380v-260H186.67v260ZM580-186.67h193.33v-260H580v260Zm0-460h193.33v-126.66H580v126.66Zm-393.33 460H380v-126.66H186.67v126.66ZM380-513.33Zm200-133.34Zm0 200ZM380-313.33Z";
+    -fx-background-color: #D4AF37;
+}
+
+.navbar-icon-clients {
+
+    -fx-shape: "M370.33-524.33Q326.67-568 326.67-634t43.66-109.67Q414-787.33 480-787.33t109.67 43.66Q633.33-700 633.33-634t-43.66 109.67Q546-480.67 480-480.67t-109.67-43.66ZM160-160v-100q0-36.67 18.5-64.17T226.67-366q65.33-30.33 127.66-45.5 62.34-15.17 125.67-15.17t125.33 15.5q62 15.5 127.34 45.17 30.33 14.33 48.83 41.83T800-260v100H160Zm66.67-66.67h506.66V-260q0-14.33-8.16-27-8.17-12.67-20.5-19-60.67-29.67-114.34-41.83Q536.67-360 480-360t-111 12.17Q314.67-335.67 254.67-306q-12.34 6.33-20.17 19-7.83 12.67-7.83 27v33.33Zm315.16-345.5Q566.67-597 566.67-634t-24.84-61.83Q517-720.67 480-720.67t-61.83 24.84Q393.33-671 393.33-634t24.84 61.83Q443-547.33 480-547.33t61.83-24.84ZM480-634Zm0 407.33Z";
+    -fx-background-color: #D4AF37;
+}
+
+.navbar-icon-employees {
+
+    -fx-shape: "M146.67-80q-27 0-46.84-19.83Q80-119.67 80-146.67v-466.66q0-27 19.83-46.84Q119.67-680 146.67-680H380v-133.33q0-27 19.83-46.84Q419.67-880 446.67-880h66.66q27 0 46.84 19.83Q580-840.33 580-813.33V-680h233.33q27 0 46.84 19.83Q880-640.33 880-613.33v466.66q0 27-19.83 46.84Q840.33-80 813.33-80H146.67Zm0-66.67h666.66v-466.66H580v20q0 29.66-19.83 48.16-19.84 18.5-46.84 18.5h-66.66q-27 0-46.84-18.5Q380-563.67 380-593.33v-20H146.67v466.66Zm88-98H474V-260q0-17.67-9.17-31.83Q455.67-306 440.67-312q-28-10.33-46.84-14.17Q375-330 356-330q-20.33 0-41.5 4.5T268.67-312q-15.67 6-24.84 20.17-9.16 14.16-9.16 31.83v15.33Zm330.66-64.66H732v-53.34H565.33v53.34Zm-169.5-69.5Q412-395 412-418.67q0-23.66-16.17-39.83-16.16-16.17-39.83-16.17-23.67 0-39.83 16.17Q300-442.33 300-418.67q0 23.67 16.17 39.84 16.16 16.16 39.83 16.16 23.67 0 39.83-16.16Zm169.5-45.84H732V-478H565.33v53.33ZM446.67-593.33h66.66v-220h-66.66v220ZM480-380Z";
+    -fx-background-color: #D4AF37;
+}
+
+.navbar-icon-appointments {
+    -fx-shape: "M186.67-80q-27 0-46.84-19.83Q120-119.67 120-146.67v-600q0-27 19.83-46.83 19.84-19.83 46.84-19.83h56.66V-880h70v66.67h333.34V-880h70v66.67h56.66q27 0 46.84 19.83Q840-773.67 840-746.67v600q0 27-19.83 46.84Q800.33-80 773.33-80H186.67Zm0-66.67h586.66v-420H186.67v420Zm0-486.66h586.66v-113.34H186.67v113.34Zm0 0v-113.34 113.34Z";
+    -fx-background-color: #D4AF37;
+}
+
+.navbar-icon-services {
+    -fx-shape: "M295.33-726v-47.33q0-27 19.84-46.84Q335-840 362-840h234.67q27 0 46.83 19.83 19.83 19.84 19.83 46.84V-726h52q20 0 36.84 10.83Q769-704.33 776-687.33l96.67 226.66q3.66 8 5.5 18.23Q880-432.22 880-422v195.33q0 27-19.83 46.84Q840.33-160 813.33-160H146.67q-27 0-46.84-19.83Q80-199.67 80-226.67V-422q0-10.22 1.83-20.44 1.84-10.23 5.5-18.23l95.34-226.66q7-17 23.83-27.84Q223.33-726 243.33-726h52Zm66.67 0h234.67v-47.33H362V-726Zm-79.33 253.33v-44h66.66v44h261.34v-44h66.66v44H794l-78-186.66H244l-78 186.66h116.67Zm0 66.67h-136v179.33h666.66V-406h-136v44h-66.66v-44H349.33v44h-66.66v-44ZM480-439.33Zm0-33.34Zm0 66.67Z";
+    -fx-background-color: #D4AF37;
+}
+
+.navbar-icon-products {
+
+    -fx-shape: "M620-160.33 456.67-323.67 504-371l116 116 234.67-234.67L902-442.33l-282 282Zm220-408.34h-66.67v-204.66h-66.66v100H253.33v-100h-66.66v586.66H434V-120H186.67q-28.34 0-47.5-19.17Q120-158.33 120-186.67v-586.66q0-28.34 19.17-47.5Q158.33-840 186.67-840H377q8.33-35 37.33-57.5T480-920q37.33 0 66.17 22.5Q575-875 583.33-840h190q28.34 0 47.5 19.17Q840-801.67 840-773.33v204.66ZM508.5-784.83q11.5-11.5 11.5-28.5t-11.5-28.5q-11.5-11.5-28.5-11.5t-28.5 11.5q-11.5 11.5-11.5 28.5t11.5 28.5q11.5 11.5 28.5 11.5t28.5-11.5Z";
+    -fx-background-color: #D4AF37;
+}
+
+.navbar-icon-settings {
+
+    -fx-shape: "m382-80-18.67-126.67q-17-6.33-34.83-16.66-17.83-10.34-32.17-21.67L178-192.33 79.33-365l106.34-78.67q-1.67-8.33-2-18.16-.34-9.84-.34-18.17 0-8.33.34-18.17.33-9.83 2-18.16L79.33-595 178-767.67 296.33-715q14.34-11.33 32.34-21.67 18-10.33 34.66-16L382-880h196l18.67 126.67q17 6.33 35.16 16.33 18.17 10 31.84 22L782-767.67 880.67-595l-106.34 77.33q1.67 9 2 18.84.34 9.83.34 18.83 0 9-.34 18.5Q776-452 774-443l106.33 78-98.66 172.67-118-52.67q-14.34 11.33-32 22-17.67 10.67-35 16.33L578-80H382Zm55.33-66.67h85l14-110q32.34-8 60.84-24.5T649-321l103.67 44.33 39.66-70.66L701-415q4.33-16 6.67-32.17Q710-463.33 710-480q0-16.67-2-32.83-2-16.17-7-32.17l91.33-67.67-39.66-70.66L649-638.67q-22.67-25-50.83-41.83-28.17-16.83-61.84-22.83l-13.66-110h-85l-14 110q-33 7.33-61.5 23.83T311-639l-103.67-44.33-39.66 70.66L259-545.33Q254.67-529 252.33-513 250-497 250-480q0 16.67 2.33 32.67 2.34 16 6.67 32.33l-91.33 67.67 39.66 70.66L311-321.33q23.33 23.66 51.83 40.16 28.5 16.5 60.84 24.5l13.66 110Zm43.34-200q55.33 0 94.33-39T614-480q0-55.33-39-94.33t-94.33-39q-55.67 0-94.5 39-38.84 39-38.84 94.33t38.84 94.33q38.83 39 94.5 39ZM480-480Z";
+    -fx-background-color: #D4AF37;
+}
+
+.navbar-icon-logout {
+
+    -fx-shape: "M186.67-120q-27 0-46.84-19.83Q120-159.67 120-186.67v-586.66q0-27 19.83-46.84Q159.67-840 186.67-840h292.66v66.67H186.67v586.66h292.66V-120H186.67Zm470.66-176.67-47-48 102-102H360v-66.66h351l-102-102 47-48 184 184-182.67 182.66Z";
+    -fx-background-color: #D4AF37;
+}
+
+/* Dashboard */
+
+.confirmation-delete-icon {
+
+    -fx-shape: "m40-120 440-760 440 760H40Zm115.33-66.67h649.34L480-746.67l-324.67 560Zm351.17-60.95q9.5-9.61 9.5-23.83 0-14.22-9.62-23.72-9.61-9.5-23.83-9.5-14.22 0-23.72 9.62-9.5 9.62-9.5 23.83 0 14.22 9.62 23.72 9.62 9.5 23.83 9.5 14.22 0 23.72-9.62ZM449.33-352H516v-216h-66.67v216ZM480-466.67Z";
+    -fx-background-color: #000000;
+    -fx-min-height: 24px;
+    -fx-min-width: 24px;
+}
+
+.dashboard-view-client-card-icon {
+
+    -fx-shape: "M180.5-180.5Q160-201 160-230.67q0-29.66 20.5-50.16 20.5-20.5 50.17-20.5 29.66 0 50.16 20.5 20.5 20.5 20.5 50.16 0 29.67-20.5 50.17T230.67-160q-29.67 0-50.17-20.5Zm0-249.33Q160-450.33 160-480t20.5-50.17q20.5-20.5 50.17-20.5 29.66 0 50.16 20.5 20.5 20.5 20.5 50.17t-20.5 50.17q-20.5 20.5-50.16 20.5-29.67 0-50.17-20.5Zm0-249.34q-20.5-20.5-20.5-50.16 0-29.67 20.5-50.17t50.17-20.5q29.66 0 50.16 20.5 20.5 20.5 20.5 50.17 0 29.66-20.5 50.16-20.5 20.5-50.16 20.5-29.67 0-50.17-20.5Zm249.33 0q-20.5-20.5-20.5-50.16 0-29.67 20.5-50.17T480-800q29.67 0 50.17 20.5t20.5 50.17q0 29.66-20.5 50.16-20.5 20.5-50.17 20.5t-50.17-20.5Zm249.34 0q-20.5-20.5-20.5-50.16 0-29.67 20.5-50.17t50.16-20.5q29.67 0 50.17 20.5t20.5 50.17q0 29.66-20.5 50.16-20.5 20.5-50.17 20.5-29.66 0-50.16-20.5Zm-249 249Q409.33-451 409.33-480t20.84-49.83Q451-550.67 480-550.67t49.83 20.84Q550.67-509 550.67-480t-20.84 49.83Q509-409.33 480-409.33t-49.83-20.84ZM520-160v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q8.67 9 12.83 20 4.17 11 4.17 22t-4.33 22.5q-4.34 11.5-13.34 20.5L643-160H520Zm300-263-37-37 37 37ZM580-220h38l121-122-18-19-19-18-122 121v38Zm141-141-19-18 37 37-18-19Z";
+    -fx-background-color: #000000;
+    -fx-min-height: 24px;
+    -fx-min-width: 24px;
+}
+
+.dashboard-view-employee-card-icon {
+
+    -fx-shape: "M78.67-320v-100q0-34.67 17.83-63.17T145.33-526q60.67-27.67 124-44.17 63.34-16.5 129.34-16.5 49 0 97.33 9.34Q544.33-568 591-551q-13 12-24.33 25.17-11.34 13.16-20.34 28.83-36-12-72.66-17.5-36.67-5.5-75-5.5-58.67 0-115 14.5Q227.33-491 173.33-466q-13 6.33-20.5 18.67-7.5 12.33-7.5 27.33v33.33h363q-1.33 16.67-.66 33.34.66 16.66 2.66 33.33H78.67Zm320-66.67ZM290-685.33Q245.33-730 245.33-794T290-902.67q44.67-44.66 108.67-44.66t108.66 44.66Q552-858 552-794t-44.67 108.67q-44.66 44.66-108.66 44.66T290-685.33Zm170.17-47.17q25.16-25.17 25.16-61.5t-25.16-61.5q-25.17-25.17-61.5-25.17-36.34 0-61.5 25.17Q312-830.33 312-794t25.17 61.5q25.16 25.17 61.5 25.17 36.33 0 61.5-25.17Zm-61.5-61.5Zm328.66 108.67q-44.66 44.66-108.66 44.66-12.34 0-26-1.5-13.67-1.5-25.34-5.83 27-30 39.17-68 12.17-38 12.17-78t-12.84-77.67Q593-909.33 567.33-940q12.67-4.33 25.34-5.83 12.66-1.5 26-1.5 64 0 108.66 44.66Q772-858 772-794t-44.67 108.67Zm39.34 518.66q-80.34 0-136.84-56.5T573.33-360q0-80.67 56.5-137t136.84-56.33q80.66 0 137 56.33Q960-440.67 960-360q0 80.33-56.33 136.83-56.34 56.5-137 56.5ZM732-275.33 868.33-412 845-435.33l-113 113-56.33-57-23.34 23.66L732-275.33Z";
+    -fx-background-color: #000000;
+    -fx-min-height: 24px;
+    -fx-min-width: 24px;
+}
+
+.dashboard-view-appointments_today-card-icon {
+
+    -fx-shape: "M285.67-335.12q-28.34-28.46-28.34-69.67t28.46-69.54q28.45-28.34 69.67-28.34 41.21 0 69.54 28.46 28.33 28.45 28.33 69.67 0 41.21-28.45 69.54-28.46 28.33-69.67 28.33t-69.54-28.45ZM186.67-80q-27 0-46.84-19.83Q120-119.67 120-146.67v-600q0-27 19.83-46.83 19.84-19.83 46.84-19.83h56.66V-880h70v66.67h333.34V-880h70v66.67h56.66q27 0 46.84 19.83Q840-773.67 840-746.67v600q0 27-19.83 46.84Q800.33-80 773.33-80H186.67Zm0-66.67h586.66v-420H186.67v420Zm0-486.66h586.66v-113.34H186.67v113.34Zm0 0v-113.34 113.34Z";
+    -fx-background-color: #000000;
+    -fx-min-height: 24px;
+    -fx-min-width: 24px;
+}
+
+.dashboard-view-inventory-icon {
+
+    -fx-shape: "M186.67-80q-27.5 0-47.09-19.58Q120-119.17 120-146.67V-619q-17.33-7.67-28.67-23.76Q80-658.85 80-680v-133.33q0-27.5 19.58-47.09Q119.17-880 146.67-880h666.66q27.5 0 47.09 19.58Q880-840.83 880-813.33V-680q0 21.15-11.33 37.24Q857.33-626.67 840-619v472.33q0 27.5-19.58 47.09Q800.83-80 773.33-80H186.67Zm0-533.33v466.66h586.66v-466.66H186.67Zm-40-66.67h666.66v-133.33H146.67V-680ZM360-413.33h240V-480H360v66.67ZM480-380Z";
+    -fx-background-color: #000000;
+    -fx-min-height: 24px;
+    -fx-min-width: 24px;
+}
+
+.dashboard-view-client-action-icon {
+
+    -fx-shape: "M493.33-226.67ZM160-160v-100q0-36.67 18.5-64.17T226.67-366q65.33-30.33 127.66-45.5 62.34-15.17 125.67-15.17 37.68 0 74.34 5.5 36.66 5.5 73.99 16.17L574-351q-24-4.33-46.93-6.67Q504.14-360 480-360q-56.67 0-111 12.17-54.33 12.16-114.33 41.83-12.34 6.33-20.17 19-7.83 12.67-7.83 27v33.33h266.66V-160H160Zm400 40v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q8.67 9 12.83 20 4.17 11 4.17 22t-4.33 22.5q-4.34 11.5-13.28 20.5L683-120H560Zm300-263-37-37 37 37ZM620-180h38l121-122-18-19-19-18-122 121v38Zm141-141-19-18 37 37-18-19ZM371.33-525.33Q326.67-570 326.67-634t44.66-108.67Q416-787.33 480-787.33t108.67 44.66Q633.33-698 633.33-634t-44.66 108.67Q544-480.67 480-480.67t-108.67-44.66ZM541.5-572.5q25.17-25.17 25.17-61.5t-25.17-61.5q-25.17-25.17-61.5-25.17t-61.5 25.17q-25.17 25.17-25.17 61.5t25.17 61.5q25.17 25.17 61.5 25.17t61.5-25.17ZM480-634Z";
+    -fx-background-color: #000000;
+    -fx-min-height: 24px;
+    -fx-min-width: 24px;
+}
+
+.dashboard-view-employee-action-icon {
+
+    -fx-shape: "M38.67-160v-100q0-34.67 17.83-63.17T105.33-366q69.34-31.67 129.67-46.17 60.33-14.5 123.67-14.5 63.33 0 123.33 14.5T611.33-366q31 14.33 49.17 42.83T678.67-260v100h-640Zm706.66 0v-102.67q0-56.66-29.5-97.16t-79.16-66.84q63 7.34 118.66 22.5 55.67 15.17 94 35.5 34 19.34 53 46.17 19 26.83 19 59.83V-160h-176ZM249-524.33Q205.33-568 205.33-634T249-743.67q43.67-43.66 109.67-43.66t109.66 43.66Q512-700 512-634t-43.67 109.67q-43.66 43.66-109.66 43.66T249-524.33Zm439.33 0q-43.66 43.66-109.66 43.66-11 0-25.67-1.83-14.67-1.83-25.67-5.5 25-27.33 38.17-64.67Q578.67-590 578.67-634t-13.17-80q-13.17-36-38.17-66 12-3.67 25.67-5.5 13.67-1.83 25.67-1.83 66 0 109.66 43.66Q732-700 732-634t-43.67 109.67Zm-583 297.66H612V-260q0-14.33-8.17-27.33-8.16-13-20.5-18.67-66-30.33-117-42.17-51-11.83-107.66-11.83-56.67 0-108 11.83-51.34 11.84-117.34 42.17-12.33 5.67-20.16 18.67-7.84 13-7.84 27.33v33.33Zm315.17-345.5Q445.33-597 445.33-634t-24.83-61.83q-24.83-24.84-61.83-24.84t-61.84 24.84Q272-671 272-634t24.83 61.83q24.84 24.84 61.84 24.84t61.83-24.84Zm-61.83 345.5Zm0-407.33Z";
+    -fx-background-color: #000000;
+    -fx-min-height: 24px;
+    -fx-min-width: 24px;
+}
+
+.dashboard-view-appointment-action-icon {
+
+    -fx-shape: "M186.67-80q-27 0-46.84-19.83Q120-119.67 120-146.67v-600q0-27 19.83-46.83 19.84-19.83 46.84-19.83h56.66V-880h70v66.67h333.34V-880h70v66.67h56.66q27 0 46.84 19.83Q840-773.67 840-746.67v240h-66.67v-60H186.67v420h306.66V-80H186.67Zm0-553.33h586.66v-113.34H186.67v113.34Zm0 0v-113.34 113.34ZM560-80v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q8.67 9 12.83 20 4.17 11 4.17 22t-4.33 22.5q-4.34 11.5-13.28 20.5L683-80H560Zm300-263-37-37 37 37ZM620-140h38l121-122-18-19-19-18-122 121v38Zm141-141-19-18 37 37-18-19Z";
+    -fx-background-color: #000000;
+    -fx-min-height: 24px;
+    -fx-min-width: 24px;
+}
+
+.dashboard-view-product-action-icon {
+
+    -fx-shape: "M146.67-186.67h106.66v-320h453.34v320h106.66v-448.66L480-768.67 146.67-635.33v448.66ZM80-120v-560l400-160 400 160v560H640v-320H320v320H80Zm286.67 0v-66.67h66.66V-120h-66.66Zm80-120v-66.67h66.66V-240h-66.66Zm80 120v-66.67h66.66V-120h-66.66ZM253.33-506.67h453.34-453.34Z";
+    -fx-background-color: #000000;
+    -fx-min-height: 24px;
+    -fx-min-width: 24px;
+}
+
+.dashboard-view-recent-activity-new-icon {
+
+    -fx-shape: "M446.67-365.33h66.66V-448H596v-66.67h-82.67v-82.66h-66.66v82.66H364V-448h82.67v82.67ZM160-200v-66.67h80v-296q0-83.66 49.67-149.5Q339.33-778 420-796v-24q0-25 17.5-42.5T480-880q25 0 42.5 17.5T540-820v24q80.67 18 130.33 83.83Q720-646.33 720-562.67v296h80V-200H160Zm320-301.33ZM480-80q-33 0-56.5-23.5T400-160h160q0 33-23.5 56.5T480-80ZM306.67-266.67h346.66v-296q0-72-50.66-122.66Q552-736 480-736t-122.67 50.67q-50.66 50.66-50.66 122.66v296Z";
+    -fx-background-color: #000000;
+    -fx-min-height: 24px;
+    -fx-min-width: 24px;
+}
+
+.dashboard-view-recent-activity-warning-icon {
+
+    -fx-shape: "m40-120 440-760 440 760H40Zm115.33-66.67h649.34L480-746.67l-324.67 560Zm351.17-60.95q9.5-9.61 9.5-23.83 0-14.22-9.62-23.72-9.61-9.5-23.83-9.5-14.22 0-23.72 9.62-9.5 9.62-9.5 23.83 0 14.22 9.62 23.72 9.62 9.5 23.83 9.5 14.22 0 23.72-9.62ZM449.33-352H516v-216h-66.67v216ZM480-466.67Z";
+    -fx-background-color: #000000;
+    -fx-min-height: 24px;
+    -fx-min-width: 24px;
+}
+
+.dashboard-view-recent-activity-canceled-appointment-icon {
+
+    -fx-shape: "m332-285.33 148-148 148 148L674.67-332l-148-148 148-148L628-674.67l-148 148-148-148L285.33-628l148 148-148 148L332-285.33ZM480-80q-82.33 0-155.33-31.5-73-31.5-127.34-85.83Q143-251.67 111.5-324.67T80-480q0-83 31.5-156t85.83-127q54.34-54 127.34-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 82.33-31.5 155.33-31.5 73-85.5 127.34Q709-143 636-111.5T480-80Zm0-66.67q139.33 0 236.33-97.33t97-236q0-139.33-97-236.33t-236.33-97q-138.67 0-236 97-97.33 97-97.33 236.33 0 138.67 97.33 236 97.33 97.33 236 97.33ZM480-480Z";
+    -fx-background-color: #000000;
+    -fx-min-height: 24px;
+    -fx-min-width: 24px;
+}
+
+.dashboard-view-recent-activity-finished-appointment-icon {
+
+    -fx-shape: "M422-297.33 704.67-580l-49.34-48.67L422-395.33l-118-118-48.67 48.66L422-297.33ZM480-80q-82.33 0-155.33-31.5-73-31.5-127.34-85.83Q143-251.67 111.5-324.67T80-480q0-83 31.5-156t85.83-127q54.34-54 127.34-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 82.33-31.5 155.33-31.5 73-85.5 127.34Q709-143 636-111.5T480-80Zm0-66.67q139.33 0 236.33-97.33t97-236q0-139.33-97-236.33t-236.33-97q-138.67 0-236 97-97.33 97-97.33 236.33 0 138.67 97.33 236 97.33 97.33 236 97.33ZM480-480Z";
+    -fx-background-color: #000000;
+    -fx-min-height: 24px;
+    -fx-min-width: 24px;
+}
+
+.dashboard-view-recent-activity-inactive-employee-icon {
+
+    -fx-shape: "m836.67-24-96.18-96H146.67q-27 0-46.84-19.83Q80-159.67 80-186.67v-466.66q0-27 19.83-46.84Q119.67-720 146.67-720h88.66L302-653.33H146.67v466.66h527.66L48.67-812 96-859.33 884-70.67 836.67-24ZM880-186.67l-66.67-66.66v-400H412.67L320-746.67v-66.66q0-26.34 20.17-46.5Q360.33-880 386.67-880h186.66q27 0 46.84 20.17Q640-839.67 640-813.33V-720h173.33q26.34 0 46.5 19.83Q880-680.33 880-653.33v466.66ZM386.67-720h186.66v-93.33H386.67V-720ZM613-453.67ZM441.33-420Z";
+    -fx-background-color: #000000;
+    -fx-min-height: 24px;
+    -fx-min-width: 24px;
+}
+
+.dashboard-view-recent-activity-employee-out-icon {
+
+    -fx-shape: "m805.67-59-101-101H160v-100q0-36.67 18.5-64.17T226.67-366q55-25.67 107.5-40.33Q386.67-421 440-424.67l-381-381 47.67-47.66 746.66 746.66L805.67-59Zm-579-167.67H638L505.33-359.33q-6-.67-12.33-.67h-13q-56.67 0-111 12.17-54.33 12.16-114.33 41.83-12.34 6.33-20.17 19-7.83 12.67-7.83 27v33.33Zm506-139.33q30.33 14 48.66 41.5Q799.67-297 800-260.67v5.34l-140-140q18 6.33 36.17 13.66 18.16 7.34 36.5 15.67ZM556-499.33 504.33-551q27.67-7.67 45-30.5 17.34-22.83 17.34-52.5 0-36.33-25.17-61.5T480-720.67q-29.67 0-52.5 17.34-22.83 17.33-30.5 45L345.33-710q20.34-36.67 56.34-57T480-787.33q64 0 108.67 44.66Q633.33-698 633.33-634q0 42.33-20.33 78.33t-57 56.34Zm82 272.66H226.67 638ZM451-605Z";
+    -fx-background-color: #000000;
+    -fx-min-height: 24px;
+    -fx-min-width: 24px;
+}
+
+/* Appointments View */
+
+.appointments-view-appointments-today-count-card-icon {
+
+    -fx-shape: "M285.67-335.12q-28.34-28.46-28.34-69.67t28.46-69.54q28.45-28.34 69.67-28.34 41.21 0 69.54 28.46 28.33 28.45 28.33 69.67 0 41.21-28.45 69.54-28.46 28.33-69.67 28.33t-69.54-28.45ZM186.67-80q-27 0-46.84-19.83Q120-119.67 120-146.67v-600q0-27 19.83-46.83 19.84-19.83 46.84-19.83h56.66V-880h70v66.67h333.34V-880h70v66.67h56.66q27 0 46.84 19.83Q840-773.67 840-746.67v600q0 27-19.83 46.84Q800.33-80 773.33-80H186.67Zm0-66.67h586.66v-420H186.67v420Zm0-486.66h586.66v-113.34H186.67v113.34Zm0 0v-113.34 113.34Z";
+    -fx-background-color: #000000;
+    -fx-min-height: 24px;
+    -fx-min-width: 24px;
+}
+
+.appointments-view-scheduled-card-icon {
+
+    -fx-shape: "m622-288.67 48.67-48.66-155.34-156v-195.34h-66.66v222l173.33 178ZM480-80q-82.33 0-155.33-31.5-73-31.5-127.34-85.83Q143-251.67 111.5-324.67T80-480q0-82.33 31.5-155.33 31.5-73 85.83-127.34Q251.67-817 324.67-848.5T480-880q82.33 0 155.33 31.5 73 31.5 127.34 85.83Q817-708.33 848.5-635.33T880-480q0 82.33-31.5 155.33-31.5 73-85.83 127.34Q708.33-143 635.33-111.5T480-80Zm0-400Zm0 333.33q137.67 0 235.5-97.83 97.83-97.83 97.83-235.5 0-137.67-97.83-235.5-97.83-97.83-235.5-97.83-137.67 0-235.5 97.83-97.83 97.83-97.83 235.5 0 137.67 97.83 235.5 97.83 97.83 235.5 97.83Z";
+    -fx-background-color: #000000;
+    -fx-min-height: 24px;
+    -fx-min-width: 24px;
+}
+
+.appointments-view-this-month-card-icon {
+
+    -fx-shape: "M186.67-80q-27 0-46.84-19.83Q120-119.67 120-146.67v-600q0-27 19.83-46.83 19.84-19.83 46.84-19.83h56.66V-880h70v66.67h333.34V-880h70v66.67h56.66q27 0 46.84 19.83Q840-773.67 840-746.67v600q0 27-19.83 46.84Q800.33-80 773.33-80H186.67Zm0-66.67h586.66v-420H186.67v420Zm0-486.66h586.66v-113.34H186.67v113.34Zm0 0v-113.34 113.34ZM480-400q-17 0-28.5-11.5T440-440q0-17 11.5-28.5T480-480q17 0 28.5 11.5T520-440q0 17-11.5 28.5T480-400Zm-188.5-11.5Q280-423 280-440t11.5-28.5Q303-480 320-480t28.5 11.5Q360-457 360-440t-11.5 28.5Q337-400 320-400t-28.5-11.5ZM640-400q-17 0-28.5-11.5T600-440q0-17 11.5-28.5T640-480q17 0 28.5 11.5T680-440q0 17-11.5 28.5T640-400ZM480-240q-17 0-28.5-11.5T440-280q0-17 11.5-28.5T480-320q17 0 28.5 11.5T520-280q0 17-11.5 28.5T480-240Zm-188.5-11.5Q280-263 280-280t11.5-28.5Q303-320 320-320t28.5 11.5Q360-297 360-280t-11.5 28.5Q337-240 320-240t-28.5-11.5ZM640-240q-17 0-28.5-11.5T600-280q0-17 11.5-28.5T640-320q17 0 28.5 11.5T680-280q0 17-11.5 28.5T640-240Z";
+    -fx-background-color: #000000;
+    -fx-min-height: 24px;
+    -fx-min-width: 24px;
+}
+
+.appointments-view-canceled-card-icon {
+
+    -fx-shape: "m332-285.33 148-148 148 148L674.67-332l-148-148 148-148L628-674.67l-148 148-148-148L285.33-628l148 148-148 148L332-285.33ZM480-80q-82.33 0-155.33-31.5-73-31.5-127.34-85.83Q143-251.67 111.5-324.67T80-480q0-83 31.5-156t85.83-127q54.34-54 127.34-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 82.33-31.5 155.33-31.5 73-85.5 127.34Q709-143 636-111.5T480-80Zm0-66.67q139.33 0 236.33-97.33t97-236q0-139.33-97-236.33t-236.33-97q-138.67 0-236 97-97.33 97-97.33 236.33 0 138.67 97.33 236 97.33 97.33 236 97.33ZM480-480Z";
+    -fx-background-color: #000000;
+    -fx-min-height: 24px;
+    -fx-min-width: 24px;
+}
+
+/* Client Creation View */
+
+.client-creation-view-remove-phone-button-icon {
+
+    -fx-shape: "M267.33-120q-27.5 0-47.08-19.58-19.58-19.59-19.58-47.09V-740H160v-66.67h192V-840h256v33.33h192V-740h-40.67v553.33q0 27-19.83 46.84Q719.67-120 692.67-120H267.33Zm425.34-620H267.33v553.33h425.34V-740Zm-328 469.33h66.66v-386h-66.66v386Zm164 0h66.66v-386h-66.66v386ZM267.33-740v553.33V-740Z";
+    -fx-background-color: #000000;
+    -fx-min-width: 14px;
+    -fx-min-height: 14px;
+    -fx-pref-height: 14px;
+    -fx-pref-width: 14px;
+    -fx-max-height: 14px;
+    -fx-max-width: 14px;
+}
+
+/* BarberService View */
+
+.barber-service-view-service-count-icon {
+
+    -fx-shape: "M295.33-726v-47.33q0-27 19.84-46.84Q335-840 362-840h234.67q27 0 46.83 19.83 19.83 19.84 19.83 46.84V-726h52q20 0 36.84 10.83Q769-704.33 776-687.33l96.67 226.66q3.66 8 5.5 18.23Q880-432.22 880-422v195.33q0 27-19.83 46.84Q840.33-160 813.33-160H146.67q-27 0-46.84-19.83Q80-199.67 80-226.67V-422q0-10.22 1.83-20.44 1.84-10.23 5.5-18.23l95.34-226.66q7-17 23.83-27.84Q223.33-726 243.33-726h52Zm66.67 0h234.67v-47.33H362V-726Zm-79.33 253.33v-44h66.66v44h261.34v-44h66.66v44H794l-78-186.66H244l-78 186.66h116.67Zm0 66.67h-136v179.33h666.66V-406h-136v44h-66.66v-44H349.33v44h-66.66v-44ZM480-439.33Zm0-33.34Zm0 66.67Z";
+    -fx-background-color: #000000;
+    -fx-min-height: 24px;
+    -fx-min-width: 24px;
+}
+
+.barber-service-view-category-icon {
+
+    -fx-shape: "m260.67-524 220-356 220 356h-440ZM704-80q-74.33 0-125.17-50.83Q528-181.67 528-256t50.83-125.17Q629.67-432 704-432t125.17 50.83Q880-330.33 880-256t-50.83 125.17Q778.33-80 704-80Zm-584-23.33v-309.34h309.33v309.34H120Zm584.06-43.34q45.94 0 77.61-31.72 31.66-31.72 31.66-77.67 0-45.94-31.72-77.61-31.72-31.66-77.67-31.66-45.94 0-77.61 31.72-31.66 31.72-31.66 77.67 0 45.94 31.72 77.61 31.72 31.66 77.67 31.66ZM186.67-170h176v-176h-176v176ZM380-590.67h201.33L480.67-753.33 380-590.67Zm100.67 0ZM362.67-346ZM704-256Z";
+    -fx-background-color: #000000;
+    -fx-min-height: 24px;
+    -fx-min-width: 24px;
+}
+
+.barber-service-view-highest-price-icon {
+
+    -fx-shape: "M446.67-328h66.66v-177.33L584-434.67l46.67-46.66L480-632 329.33-481.33 376-434.67l70.67-70.66V-328ZM480-80q-82.33 0-155.33-31.5-73-31.5-127.34-85.83Q143-251.67 111.5-324.67T80-480q0-83 31.5-156t85.83-127q54.34-54 127.34-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 82.33-31.5 155.33-31.5 73-85.5 127.34Q709-143 636-111.5T480-80Zm0-66.67q139.33 0 236.33-97.33t97-236q0-139.33-97-236.33t-236.33-97q-138.67 0-236 97-97.33 97-97.33 236.33 0 138.67 97.33 236 97.33 97.33 236 97.33ZM480-480Z";
+    -fx-background-color: #000000;
+    -fx-min-height: 24px;
+    -fx-min-width: 24px;
+}
+
+.barber-service-view-average-price-icon {
+
+    -fx-shape: "M127.33-240 80-287.33l293.33-293.34L538-416l230-229.33H648.67V-712H880v231.33h-66v-116.66L537.33-320.67 372.67-485.33 127.33-240Z";
+    -fx-background-color: #000000;
+    -fx-min-height: 24px;
+    -fx-min-width: 24px;
+}
+
+/* --- FORMULARIO DE CREACIÓN DE CLIENTE --- */
+
+/* Botón Volver */
+.back-button {
+    -fx-background-color: -fx-surface-variant;
+    -fx-text-fill: -fx-on-surface;
+    -fx-background-radius: 20;
+    -fx-padding: 10 20;
+    -fx-cursor: hand;
+}
+
+.back-button:hover {
+    -fx-background-color: derive(-fx-surface-variant, -10%);
+}
+
+/* Tarjeta de formulario */
+.form-card {
+    -fx-background-color: -fx-surface-elevated;
+    -fx-background-radius: 16;
+    -fx-padding: 24;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.06), 10, 0, 0, 3);
+}
+
+/* Títulos de sección */
+.form-section-title {
+    -fx-text-fill: -fx-on-surface;
+}
+
+.form-section-subtitle {
+    -fx-text-fill: -fx-outline;
+}
+
+/* Etiquetas de formulario */
+.form-label {
+    -fx-text-fill: -fx-on-surface;
+}
+
+.form-required {
+    -fx-text-fill: #E85A5A;
+}
+
+/* Campos de texto */
+.form-text-field {
+    -fx-background-color: -fx-surface-variant;
+    -fx-background-radius: 8;
+    -fx-prompt-text-fill: -fx-outline;
+    -fx-text-fill: -fx-on-surface;
+    -fx-padding: 12 15;
+    -fx-font-size: 14px;
+}
+
+.form-text-field:focused {
+    -fx-border-color: -fx-primary;
+    -fx-border-width: 0 0 2 0;
+    -fx-background-color: -fx-surface-elevated;
+}
+
+.form-text-field-disabled {
+    -fx-background-color: derive(-fx-surface-variant, -10%);
+    -fx-background-radius: 8;
+    -fx-prompt-text-fill: -fx-outline;
+    -fx-text-fill: -fx-outline;
+    -fx-padding: 12 15;
+    -fx-font-size: 14px;
+    -fx-opacity: 0.7;
+}
+
+.form-text-field-error {
+    -fx-background-color: #FFEBEE;
+    -fx-border-color: #E85A5A;
+    -fx-border-width: 0 0 2 0;
+    -fx-background-radius: 8;
+    -fx-prompt-text-fill: -fx-outline;
+    -fx-text-fill: -fx-on-surface;
+    -fx-padding: 12 15;
+    -fx-font-size: 14px;
+}
+
+.form-text-field-notes {
+    -fx-background-color: -fx-surface-variant;
+    -fx-background-radius: 8;
+    -fx-prompt-text-fill: -fx-outline;
+    -fx-text-fill: -fx-on-surface;
+    -fx-padding: 12 15;
+    -fx-font-size: 14px;
+    -fx-min-height: 80px;
+    -fx-alignment: top-left;
+}
+
+.form-text-field-notes:focused {
+    -fx-border-color: -fx-primary;
+    -fx-border-width: 0 0 2 0;
+    -fx-background-color: -fx-surface-elevated;
+}
+
+/* Form ComboBox */
+.form-combo-box {
+    -fx-background-color: -fx-surface-variant;
+    -fx-background-radius: 8;
+    -fx-text-fill: -fx-on-surface;
+    -fx-padding: 12 15;
+    -fx-font-size: 14px;
+}
+
+.form-combo-box:focused {
+    -fx-border-color: -fx-primary;
+    -fx-border-width: 0 0 2 0;
+    -fx-background-color: -fx-surface-elevated;
+}
+
+/* Mensajes de error */
+.form-error {
+    -fx-text-fill: #E85A5A;
+    -fx-font-size: 11px;
+}
+
+.form-error-visible {
+    -fx-visible: true;
+}
+
+/* Botón agregar teléfono */
+.add-phone-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: -fx-primary;
+    -fx-font-size: 12px;
+    -fx-cursor: hand;
+    -fx-padding: 5 10;
+}
+
+.add-phone-button:hover {
+    -fx-background-color: rgba(212, 175, 55, 0.1);
+}
+
+/* Botón eliminar teléfono */
+.remove-phone-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #E85A5A;
+    -fx-font-size: 14px;
+    -fx-cursor: hand;
+    -fx-padding: 8 12;
+    -fx-background-radius: 8;
+}
+
+.remove-phone-button:hover {
+    -fx-background-color: rgba(232, 90, 90, 0.1);
+}
+
+/* Contenedor de error general */
+.general-error-container {
+    -fx-background-color: #FFEBEE;
+    -fx-background-radius: 12;
+    -fx-padding: 16 20;
+    -fx-border-color: #E85A5A;
+    -fx-border-width: 1;
+    -fx-border-radius: 12;
+}
+
+.general-error-icon {
+    -fx-text-fill: #E85A5A;
+}
+
+.general-error-title {
+    -fx-text-fill: #C62828;
+}
+
+.general-error-message {
+    -fx-text-fill: #D32F2F;
+}
+
+/* --- BARBER SERVICES VIEW --- */
+
+/* Service Card */
+.service-card {
+    -fx-background-color: -fx-surface-elevated;
+    -fx-background-radius: 14;
+    -fx-padding: 14 20;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.06), 8, 0, 0, 3);
+}
+
+.service-card:hover {
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.1), 12, 0, 0, 5);
+}
+
+.service-icon-container {
+    -fx-background-color: -fx-surface-variant;
+    -fx-background-radius: 12;
+    -fx-padding: 12;
+    -fx-min-width: 56;
+    -fx-min-height: 56;
+    -fx-alignment: center;
+}
+
+.service-name {
+    -fx-text-fill: -fx-on-surface;
+}
+
+.service-description {
+    -fx-text-fill: -fx-outline;
+}
+
+.service-price {
+    -fx-text-fill: -fx-primary;
+}
+
+.price-container {
+    -fx-alignment: center;
+    -fx-padding: 10 15;
+    -fx-background-color: rgba(212, 175, 55, 0.1);
+    -fx-background-radius: 10;
+}
+
+/* Category Badges */
+.category-badge-corte {
+    -fx-background-color: #E3F2FD;
+    -fx-background-radius: 12;
+    -fx-padding: 4 10;
+}
+
+.category-badge-corte .category-badge-text {
+    -fx-text-fill: #1565C0;
+}
+
+.category-badge-corte-y-barba {
+    -fx-background-color: #F3E5F5;
+    -fx-background-radius: 12;
+    -fx-padding: 4 10;
+}
+
+.category-badge-corte-y-barba .category-badge-text {
+    -fx-text-fill: #7B1FA2;
+}
+
+.category-badge-color {
+    -fx-background-color: #FFF3E0;
+    -fx-background-radius: 12;
+    -fx-padding: 4 10;
+}
+
+.category-badge-color .category-badge-text {
+    -fx-text-fill: #E65100;
+}
+
+.category-badge-text {
+    -fx-text-fill: #FFFFFF;
+}
+
+/* --- TOAST NOTIFICATION --- */
+
+/* Toast Container */
+.toast-container {
+    -fx-background-color: -fx-surface-elevated;
+    -fx-background-radius: 12;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.15), 16, 0, 0, 8);
+    -fx-padding: 0;
+    -fx-min-width: 350;
+    -fx-max-width: 400;
+}
+
+.toast-notification-region-success-icon {
+
+    -fx-shape: "M285.33-241.33 60.67-466l47.66-47.33L285.67-336 333-288.67l-47.67 47.34Zm188.67 0L249.33-466l47.34-47.67L474-336.33 852.67-715 900-667.33l-426 426ZM474-430l-47.67-47.33 237.34-237.34 47.66 47.34L474-430Z";
+    -fx-background-color: #000000;
+    -fx-min-height: 24px;
+    -fx-min-width: 24px;
+}
+
+.toast-notification-region-failed-icon {
+
+    -fx-shape: "M446.67-386.67V-760h66.66v373.33h-66.66Zm0 186.67v-66.67h66.66V-200h-66.66Z";
+    -fx-background-color: #000000;
+    -fx-min-height: 24px;
+    -fx-min-width: 24px;
+}
+
+.toast-content {
+    -fx-padding: 16 20;
+    -fx-spacing: 16;
+}
+
+/* Toast Title */
+.toast-title {
+    -fx-text-fill: -fx-on-surface;
+}
+
+/* Toast Message */
+.toast-message {
+    -fx-text-fill: -fx-outline;
+    -fx-wrap-text: true;
+}
+
+/* Toast Close Button */
+.toast-close-button {
+    -fx-shape: "M312-265.33 265.33-312l168-168-168-167L312-693.67l168 168 167-168L693.67-647l-168 167 168 168L647-265.33l-167-168-168 168Z";
+    -fx-background-color: transparent;
+    -fx-pref-width: 24px;
+    -fx-pref-height: 24px;
+    -fx-max-width: 24px;
+    -fx-max-height: 24px;
+    -fx-text-fill: -fx-outline;
+    -fx-stroke: #000000;
+    -fx-cursor: hand;
+    -fx-padding: 4 8;
+    -fx-background-radius: 8;
+}
+
+/* 1. EL CONTENEDOR DEL BOTÓN */
+/* Se encarga del espaciado, el puntero del mouse y el efecto al pasar por encima */
+
+.toast-close-button-container {
+    -fx-background-color: transparent; /* Fondo transparente por defecto */
+    -fx-cursor: hand;
+    -fx-padding: 6 6;
+    -fx-background-radius: 8;
+}
+
+.toast-close-button-container:hover {
+    -fx-background-color: -fx-surface-variant; /* Se ilumina al pasar el mouse */
+}
+
+/* 2. EL DIBUJO DE LA 'X' */
+/* Se encarga exclusivamente de la forma vectorial y de su color */
+
+.toast-close-icon-shape {
+    -fx-shape: "M312-265.33 265.33-312l168-168-168-167L312-693.67l168 168 167-168L693.67-647l-168 167 168 168L647-265.33l-167-168-168 168Z";
+    -fx-background-color: -fx-outline; /* Este es el color con el que se "pinta" la X */
+    -fx-min-width: 14px;
+    -fx-min-height: 14px;
+    -fx-max-width: 14px;
+    -fx-max-height: 14px;
+    -fx-scale-shape: true; /* Ayuda a que no se deforme */
+}
+
+.toast-close-button:hover {
+    -fx-background-color: -fx-surface-variant;
+}
+
+/* Toast Progress Container */
+.toast-progress-container {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
+.toast-progress-bar-success {
+    -fx-background-color: #4CAF50;
+    -fx-background-radius: 0 0 12 12;
+    -fx-padding: 0;
+    -fx-min-height: 4;
+    -fx-pref-height: 4;
+    -fx-max-height: 4;
+}
+
+.toast-progress-bar-failed {
+    -fx-background-color: #E85A5A;
+    -fx-background-radius: 0 0 12 12;
+    -fx-padding: 0;
+    -fx-min-height: 4;
+    -fx-pref-height: 4;
+    -fx-max-height: 4;
+}
+
+.toast-notification-icon-successful-background-circle {
+
+    -fx-fill: #4CAF50;
+    -fx-stroke: #000000;
+}
+
+.toast-notification-icon-failed-background-circle {
+
+    -fx-fill: #E85A5A;
+    -fx-stroke: #000000;
+}
+
+/* --- CATALOG SERVICE ITEM --- */
+
+/* Catalog Service Card */
+.catalog-service-card {
+    -fx-background-color: -fx-surface-elevated;
+    -fx-background-radius: 16;
+    -fx-padding: 20 24;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.08), 10, 0, 0, 4);
+}
+
+.catalog-service-card:hover {
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.12), 14, 0, 0, 6);
+}
+
+/* Catalog Service Icon Container */
+.catalog-service-icon-container {
+    -fx-background-color: -fx-surface-variant;
+    -fx-background-radius: 16;
+    -fx-padding: 12;
+    -fx-min-width: 72;
+    -fx-min-height: 72;
+    -fx-alignment: center;
+}
+
+.catalog-service-icon-placeholder {
+    -fx-background-color: -fx-primary;
+    -fx-background-radius: 12;
+    -fx-opacity: 0.6;
+}
+
+/* Catalog Service Name */
+.catalog-service-name {
+    -fx-text-fill: -fx-on-surface;
+}
+
+/* Catalog Category Badge Text */
+.catalog-category-badge-text {
+    -fx-text-fill: #FFFFFF;
+}
+
+/* Catalog Service Description */
+.catalog-service-description {
+    -fx-text-fill: -fx-outline;
+    -fx-wrap-text: true;
+}
+
+/* Catalog Info Labels */
+.catalog-info-label {
+    -fx-text-fill: -fx-outline;
+}
+
+.catalog-info-value {
+    -fx-text-fill: -fx-on-surface;
+}
+
+/* Catalog Price Container */
+.catalog-price-container {
+    -fx-alignment: center;
+    -fx-padding: 16;
+    -fx-background-color: rgba(212, 175, 55, 0.08);
+    -fx-background-radius: 12;
+}
+
+/* Catalog Service Price */
+.catalog-service-price {
+    -fx-text-fill: -fx-primary;
+}
+
+/* Catalog Book Button */
+.catalog-book-button {
+    -fx-background-color: -fx-primary;
+    -fx-text-fill: -fx-primary-dark;
+    -fx-background-radius: 20;
+    -fx-font-weight: bold;
+    -fx-padding: 12 28;
+    -fx-cursor: hand;
+    -fx-font-size: 14px;
+}
+
+.catalog-book-button:hover {
+    -fx-background-color: derive(-fx-primary, 10%);
+}
+
+/* --- CONFIRMATION DELETE DIALOG --- */
+
+/* Dialog Container */
+.confirmation-dialog-container {
+    -fx-background-color: -fx-surface-elevated;
+    -fx-background-radius: 16;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 20, 0, 0, 10);
+    -fx-padding: 0;
+    -fx-min-width: 350;
+    -fx-max-width: 400;
+}
+
+.confirmation-dialog-content {
+    -fx-padding: 32 24 24 24;
+    -fx-spacing: 16;
+}
+
+/* Icon Container */
+.confirmation-icon-container {
+    -fx-padding: 0 0 8 0;
+}
+
+.confirmation-icon-background {
+    -fx-fill: rgba(232, 90, 90, 0.15);
+}
+
+.confirmation-icon-placeholder {
+    -fx-background-color: #E85A5A;
+    -fx-background-radius: 8;
+    -fx-opacity: 0.8;
+}
+
+/* Title */
+.confirmation-title-container {
+    -fx-padding: 8 0 4 0;
+}
+
+.confirmation-title {
+    -fx-text-fill: -fx-on-surface;
+}
+
+/* Message */
+.confirmation-message-container {
+    -fx-padding: 4 16 8 16;
+}
+
+.confirmation-message {
+    -fx-text-fill: -fx-outline;
+    -fx-wrap-text: true;
+}
+
+/* Entity Info */
+.confirmation-entity-info-container {
+    -fx-padding: 8 16;
+    -fx-background-color: -fx-surface-variant;
+    -fx-background-radius: 8;
+}
+
+.confirmation-entity-type {
+    -fx-text-fill: -fx-outline;
+}
+
+.confirmation-entity-name {
+    -fx-text-fill: -fx-on-surface;
+}
+
+/* Buttons Container */
+.confirmation-buttons-container {
+    -fx-padding: 16 0 0 0;
+}
+
+/* Cancel Button */
+.confirmation-cancel-button {
+    -fx-background-color: -fx-surface-variant;
+    -fx-text-fill: -fx-on-surface;
+    -fx-background-radius: 20;
+    -fx-padding: 12 28;
+    -fx-cursor: hand;
+    -fx-font-size: 14px;
+}
+
+.confirmation-cancel-button:hover {
+    -fx-background-color: derive(-fx-surface-variant, -10%);
+}
+
+/* Delete Button */
+.confirmation-delete-button {
+    -fx-background-color: #E85A5A;
+    -fx-text-fill: #FFFFFF;
+    -fx-background-radius: 20;
+    -fx-padding: 12 28;
+    -fx-cursor: hand;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+.confirmation-delete-button:hover {
+    -fx-background-color: #D32F2F;
+}
+
+/* --- TARJETAS DE CLIENTES --- */
+.client-card {
+    -fx-background-color: -fx-surface-elevated;
+    -fx-background-radius: 14;
+    -fx-padding: 14 20;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.06), 8, 0, 0, 3);
+}
+
+.client-card:hover {
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.1), 12, 0, 0, 5);
+}
+
+.client-avatar-container {
+    -fx-background-color: -fx-primary;
+    -fx-background-radius: 30;
+    -fx-min-width: 50;
+    -fx-min-height: 50;
+    -fx-max-width: 50;
+    -fx-max-height: 50;
+    -fx-alignment: center;
+}
+
+.client-avatar-text {
+    -fx-text-fill: -fx-primary-dark;
+}
+
+.client-name {
+    -fx-text-fill: -fx-on-surface;
+}
+
+.client-info-label {
+    -fx-text-fill: -fx-outline;
+}
+
+.client-info-value {
+    -fx-text-fill: -fx-on-surface;
+}
+
+.client-status-badge-activo {
+    -fx-background-color: #E8F5E9;
+    -fx-background-radius: 12;
+    -fx-padding: 4 10;
+}
+
+.client-status-badge-activo .client-status-badge-text {
+    -fx-text-fill: #2E7D32;
+}
+
+.client-status-badge-inactivo {
+    -fx-background-color: #FFEBEE;
+    -fx-background-radius: 12;
+    -fx-padding: 4 10;
+}
+
+.client-status-badge-inactivo .client-status-badge-text {
+    -fx-text-fill: #C62828;
+}
+
+.client-stat-value {
+    -fx-text-fill: -fx-primary;
+}
+
+.client-stat-label {
+    -fx-text-fill: -fx-outline;
+}
+
+.client-last-visit {
+    -fx-text-fill: -fx-outline;
+}
+
+/* --- HISTORIAL DE CLIENTE --- */
+.client-history-stat-value {
+    -fx-text-fill: -fx-primary;
+}
+
+.client-history-stat-label {
+    -fx-text-fill: -fx-outline;
+}
+
+/* --- PRODUCTOS FORMULARIO --- */
+.product-image-preview-container {
+    -fx-alignment: center;
+}
+
+.product-image-placeholder {
+    -fx-background-color: -fx-surface-variant;
+    -fx-background-radius: 12;
+    -fx-min-width: 160;
+    -fx-min-height: 160;
+    -fx-max-width: 160;
+    -fx-max-height: 160;
+    -fx-alignment: center;
+}
+
+.product-image-placeholder .image-view {
+    -fx-preserve-ratio: true;
+    -fx-smooth: true;
+}
+
+.form-help-text {
+    -fx-text-fill: -fx-outline;
+    -fx-font-size: 11px;
+}
+
+/* --- BOTONES DE FORMULARIO --- */
+.danger-button {
+    -fx-background-color: #E85A5A;
+    -fx-text-fill: #FFFFFF;
+    -fx-background-radius: 20;
+    -fx-padding: 10 20;
+    -fx-cursor: hand;
+}
+
+.danger-button:hover {
+    -fx-background-color: #D32F2F;
+}
+
+.form-cancel-button {
+    -fx-background-color: -fx-surface-variant;
+    -fx-text-fill: -fx-on-surface;
+    -fx-background-radius: 20;
+    -fx-padding: 12 28;
+    -fx-cursor: hand;
+}
+
+.form-cancel-button:hover {
+    -fx-background-color: derive(-fx-surface-variant, -10%);
+}
+
+.form-checkbox {
+    -fx-text-fill: -fx-on-surface;
+}
+
+.form-checkbox .box {
+    -fx-background-radius: 4;
+    -fx-background-color: -fx-surface-variant;
+    -fx-border-color: -fx-outline;
+    -fx-border-radius: 4;
+}
+
+.form-checkbox:selected .box {
+    -fx-background-color: -fx-primary;
+    -fx-border-color: -fx-primary;
+}
+
+.form-checkbox:selected .mark {
+    -fx-background-color: -fx-primary-dark;
+}
+
+/* --- PRODUCTO ITEM --- */
+.product-icon-placeholder {
+    -fx-background-color: -fx-surface-variant;
+    -fx-background-radius: 12;
+}

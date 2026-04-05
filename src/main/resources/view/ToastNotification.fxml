@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+
+<StackPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="com.barbershop.launcher.controller.toast_notification.ToastNotificationController">
+
+    <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="400.0" styleClass="toast-container">
+
+        <HBox alignment="CENTER_LEFT" spacing="16.0" styleClass="toast-content">
+
+            <!-- Icon Container -->
+            <StackPane>
+                <Circle fx:id="toast_notification_icon_background_circle" radius="24.0"/>
+                <Region fx:id="toast_notification_region_icon" prefWidth="24.0" prefHeight="24.0" maxHeight="24.0"
+                        maxWidth="24.0"/>
+            </StackPane>
+
+            <!-- Message Content -->
+            <VBox alignment="CENTER_LEFT" spacing="4.0" VBox.vgrow="ALWAYS">
+                <Label fx:id="toast_title" styleClass="toast-title">
+                    <font>
+                        <Font name="Roboto Medium" size="16.0"/>
+                    </font>
+                </Label>
+                <Label fx:id="toast_message" styleClass="toast-message">
+                    <font>
+                        <Font name="Roboto Regular" size="13.0"/>
+                    </font>
+                </Label>
+            </VBox>
+
+            <!-- Close Button -->
+            <Button fx:id="toast_close_button" styleClass="toast-close-button-container" mnemonicParsing="false">
+                <graphic>
+                    <Region styleClass="toast-close-icon-shape"/>
+                </graphic>
+            </Button>
+        </HBox>
+
+        <!-- Progress Bar (optional for auto-dismiss) -->
+        <VBox fx:id="toast_progress_container" styleClass="toast-progress-container" visible="false" fillWidth="false"
+              alignment="CENTER_LEFT">
+            <Region fx:id="toast_progress_bar"/>
+        </VBox>
+
+    </VBox>
+    <padding>
+        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+    </padding>
+
+</StackPane>

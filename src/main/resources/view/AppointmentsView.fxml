@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane styleClass="main-content" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.barbershop.launcher.controller.appointment.AppointmentController">
+    <!-- Header Superior -->
+    <HBox alignment="CENTER_LEFT" styleClass="header-bar" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <padding>
+            <Insets bottom="20.0" left="30.0" right="30.0" top="20.0" />
+        </padding>
+        <VBox alignment="CENTER_LEFT">
+            <Label styleClass="page-title" text="Gestión de Turnos">
+                <font>
+                    <Font name="Roboto Bold" size="28.0" />
+                </font>
+            </Label>
+            <Label styleClass="page-subtitle" text="Administra los turnos de tu barbería">
+                <font>
+                    <Font name="Roboto Regular" size="14.0" />
+                </font>
+            </Label>
+        </VBox>
+        <Region HBox.hgrow="ALWAYS" />
+        <HBox alignment="CENTER" spacing="15.0">
+            <Button mnemonicParsing="false" styleClass="icon-button" text="_">
+                <font>
+                    <Font name="Roboto Regular" size="18.0" />
+                </font>
+            </Button>
+            <Circle fill="#D4AF37" radius="20.0" stroke="#1A1A1A" strokeWidth="2.0" styleClass="user-avatar" />
+        </HBox>
+    </HBox>
+
+    <!-- Contenido Principal -->
+    <ScrollPane fitToHeight="true" fitToWidth="true" layoutY="80.0" styleClass="content-scroll" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="80.0">
+        <padding>
+            <Insets bottom="20.0" left="30.0" right="30.0" top="10.0" />
+        </padding>
+        <VBox spacing="25.0">
+            <!-- Tarjetas de Estadísticas de Turnos -->
+            <GridPane hgap="20.0" vgap="20.0">
+                <columnConstraints>
+                    <ColumnConstraints hgrow="SOMETIMES" minWidth="250.0" />
+                    <ColumnConstraints hgrow="SOMETIMES" minWidth="250.0" />
+                    <ColumnConstraints hgrow="SOMETIMES" minWidth="250.0" />
+                    <ColumnConstraints hgrow="SOMETIMES" minWidth="250.0" />
+                </columnConstraints>
+                <rowConstraints>
+                    <RowConstraints minHeight="140.0" vgrow="SOMETIMES" />
+                </rowConstraints>
+
+                <!-- Tarjeta: Turnos Hoy -->
+                <VBox styleClass="stat-card" GridPane.columnIndex="0">
+                    <HBox alignment="CENTER_LEFT" spacing="15.0">
+                        <VBox styleClass="icon-container">
+                            <Region prefHeight="24.0" prefWidth="24.0" styleClass="appointments-view-appointments-today-count-card-icon" />
+                        </VBox>
+                        <Region HBox.hgrow="ALWAYS" />
+                    </HBox>
+                    <VBox alignment="CENTER_LEFT" spacing="5.0">
+                        <Label fx:id="appointments_today" styleClass="stat-value" text="24">
+                            <font>
+                                <Font name="Roboto Bold" size="32.0" />
+                            </font>
+                        </Label>
+                        <Label styleClass="stat-label" text="Turnos Hoy">
+                            <font>
+                                <Font name="Roboto Regular" size="13.0" />
+                            </font>
+                        </Label>
+                    </VBox>
+                    <HBox alignment="CENTER_LEFT" spacing="5.0">
+                        <Label fx:id="completed_appointments_today" styleClass="stat-trend-neutral" text="8">
+                            <font>
+                                <Font name="Roboto Medium" size="12.0" />
+                            </font>
+                        </Label>
+                        <Label styleClass="stat-trend-label" text="completados">
+                            <font>
+                                <Font name="Roboto Regular" size="11.0" />
+                            </font>
+                        </Label>
+                    </HBox>
+                </VBox>
+
+                <!-- Tarjeta: Programados -->
+                <VBox styleClass="stat-card" GridPane.columnIndex="1">
+                    <HBox alignment="CENTER_LEFT" spacing="15.0">
+                        <VBox styleClass="icon-container">
+                            <Region prefHeight="24.0" prefWidth="24.0" styleClass="appointments-view-scheduled-card-icon" />
+                        </VBox>
+                        <Region HBox.hgrow="ALWAYS" />
+                    </HBox>
+                    <VBox alignment="CENTER_LEFT" spacing="5.0">
+                        <Label fx:id="scheduled_appointments" styleClass="stat-value" text="12">
+                            <font>
+                                <Font name="Roboto Bold" size="32.0" />
+                            </font>
+                        </Label>
+                        <Label styleClass="stat-label" text="Programados">
+                            <font>
+                                <Font name="Roboto Regular" size="13.0" />
+                            </font>
+                        </Label>
+                    </VBox>
+                    <HBox alignment="CENTER_LEFT" spacing="5.0">
+                        <Label fx:id="new_appointments_scheduled_today" styleClass="stat-trend-positive" text="+3">
+                            <font>
+                                <Font name="Roboto Medium" size="12.0" />
+                            </font>
+                        </Label>
+                        <Label styleClass="stat-trend-label" text="nuevos hoy">
+                            <font>
+                                <Font name="Roboto Regular" size="11.0" />
+                            </font>
+                        </Label>
+                    </HBox>
+                </VBox>
+
+                <!-- Tarjeta: Completados -->
+                <VBox styleClass="stat-card" GridPane.columnIndex="2">
+                    <HBox alignment="CENTER_LEFT" spacing="15.0">
+                        <VBox styleClass="icon-container">
+                            <Region prefHeight="24.0" prefWidth="24.0" styleClass="appointments-view-this-month-card-icon" />
+                        </VBox>
+                        <Region HBox.hgrow="ALWAYS" />
+                    </HBox>
+                    <VBox alignment="CENTER_LEFT" spacing="5.0">
+                        <Label fx:id="appointments_this_month" styleClass="stat-value" text="156">
+                            <font>
+                                <Font name="Roboto Bold" size="32.0" />
+                            </font>
+                        </Label>
+                        <Label styleClass="stat-label" text="Este Mes">
+                            <font>
+                                <Font name="Roboto Regular" size="13.0" />
+                            </font>
+                        </Label>
+                    </VBox>
+                    <HBox alignment="CENTER_LEFT" spacing="5.0">
+                        <Label fx:id="percentage_of_appointments_registered_vs_previous_month" styleClass="stat-trend-positive" text="+18%">
+                            <font>
+                                <Font name="Roboto Medium" size="12.0" />
+                            </font>
+                        </Label>
+                        <Label styleClass="stat-trend-label" text="vs mes anterior">
+                            <font>
+                                <Font name="Roboto Regular" size="11.0" />
+                            </font>
+                        </Label>
+                    </HBox>
+                </VBox>
+
+                <!-- Tarjeta: Cancelados -->
+                <VBox styleClass="stat-card" GridPane.columnIndex="3">
+                    <HBox alignment="CENTER_LEFT" spacing="15.0">
+                        <VBox styleClass="icon-container">
+                            <Region prefHeight="24.0" prefWidth="24.0" styleClass="appointments-view-canceled-card-icon" />
+                        </VBox>
+                        <Region HBox.hgrow="ALWAYS" />
+                    </HBox>
+                    <VBox alignment="CENTER_LEFT" spacing="5.0">
+                        <Label fx:id="canceled_appointments" styleClass="stat-value" text="3">
+                            <font>
+                                <Font name="Roboto Bold" size="32.0" />
+                            </font>
+                        </Label>
+                        <Label styleClass="stat-label" text="Cancelados">
+                            <font>
+                                <Font name="Roboto Regular" size="13.0" />
+                            </font>
+                        </Label>
+                    </VBox>
+                    <HBox alignment="CENTER_LEFT" spacing="5.0">
+                        <Label fx:id="canceled_appointments_vs_past_week" styleClass="stat-trend-negative" text="-1">
+                            <font>
+                                <Font name="Roboto Medium" size="12.0" />
+                            </font>
+                        </Label>
+                        <Label styleClass="stat-trend-label" text="vs semana anterior">
+                            <font>
+                                <Font name="Roboto Regular" size="11.0" />
+                            </font>
+                        </Label>
+                    </HBox>
+                </VBox>
+            </GridPane>
+
+            <!-- Sección de Filtros y Acciones -->
+            <VBox spacing="15.0">
+                <Label styleClass="section-title" text="Filtros y Acciones">
+                    <font>
+                        <Font name="Roboto Medium" size="18.0" />
+                    </font>
+                </Label>
+
+                <VBox styleClass="filter-card">
+                    <HBox alignment="CENTER_LEFT" spacing="20.0">
+                        <!-- Buscador -->
+                        <VBox alignment="CENTER_LEFT" spacing="8.0">
+                            <Label styleClass="filter-label" text="Buscar por cliente">
+                                <font>
+                                    <Font name="Roboto Regular" size="12.0" />
+                                </font>
+                            </Label>
+                            <TextField promptText="Nombre o apellido del cliente" styleClass="search-field" />
+                        </VBox>
+
+                        <!-- Filtro por Fecha -->
+                        <VBox alignment="CENTER_LEFT" spacing="8.0">
+                            <Label styleClass="filter-label" text="Fecha">
+                                <font>
+                                    <Font name="Roboto Regular" size="12.0" />
+                                </font>
+                            </Label>
+                            <DatePicker promptText="Seleccionar fecha" styleClass="date-picker" />
+                        </VBox>
+
+                        <!-- Filtro por Estado -->
+                        <VBox alignment="CENTER_LEFT" spacing="8.0">
+                            <Label styleClass="filter-label" text="Estado">
+                                <font>
+                                    <Font name="Roboto Regular" size="12.0" />
+                                </font>
+                            </Label>
+                            <ComboBox promptText="Todos los estados" styleClass="combo-box" />
+                        </VBox>
+
+                        <!-- Filtro por Empleado -->
+                        <VBox alignment="CENTER_LEFT" spacing="8.0">
+                            <Label styleClass="filter-label" text="Empleado">
+                                <font>
+                                    <Font name="Roboto Regular" size="12.0" />
+                                </font>
+                            </Label>
+                            <ComboBox promptText="Todos los empleados" styleClass="combo-box" />
+                        </VBox>
+
+                        <Region HBox.hgrow="ALWAYS" />
+
+                        <!-- Botones de Acción -->
+                        <VBox alignment="CENTER_RIGHT" spacing="8.0">
+                            <Label styleClass="filter-label" text="Acciones">
+                                <font>
+                                    <Font name="Roboto Regular" size="12.0" />
+                                </font>
+                            </Label>
+                            <HBox spacing="10.0">
+                                <Button fx:id="clear_filters_button" mnemonicParsing="false" styleClass="filter-button" text="Limpiar">
+                                    <font>
+                                        <Font name="Roboto Medium" size="13.0" />
+                                    </font>
+                                </Button>
+                                <Button fx:id="register_new_appointment_button" mnemonicParsing="false" styleClass="action-button-primary" text="+ Nuevo Turno">
+                                    <font>
+                                        <Font name="Roboto Medium" size="13.0" />
+                                    </font>
+                                </Button>
+                            </HBox>
+                        </VBox>
+                    </HBox>
+                </VBox>
+            </VBox>
+
+            <!-- Lista de Turnos -->
+            <VBox spacing="15.0">
+                <HBox alignment="CENTER_LEFT" spacing="15.0">
+                    <Label styleClass="section-title" text="Lista de Turnos">
+                        <font>
+                            <Font name="Roboto Medium" size="18.0" />
+                        </font>
+                    </Label>
+                    <Region HBox.hgrow="ALWAYS" />
+                    <Label fx:id="total_appointments_count" styleClass="results-count" text="24 turnos encontrados">
+                        <font>
+                            <Font name="Roboto Regular" size="13.0" />
+                        </font>
+                    </Label>
+                </HBox>
+
+                <!-- Contenedor de la Lista de Turnos -->
+                <VBox fx:id="appointment_list_VBox" spacing="12.0" />
+            </VBox>
+        </VBox>
+    </ScrollPane>
+</AnchorPane>
