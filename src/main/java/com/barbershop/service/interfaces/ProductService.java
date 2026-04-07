@@ -35,4 +35,6 @@ public interface ProductService {
     Double calculateTotalStockValuePercentageVariationVsLastMonth();
 
     List<ProductInfoDTO> liveSearch(String productName, ProductCategory selectedCategory, StockStatus selectedStatus);
+
+    ProductUpdateDTO getProductForUpdate(Long productID);
 }

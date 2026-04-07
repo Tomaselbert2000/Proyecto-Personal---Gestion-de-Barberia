@@ -1,6 +1,7 @@
 package com.barbershop.launcher.controller.product;
 
 import com.barbershop.dto.product.ProductInfoDTO;
+import com.barbershop.dto.product.ProductUpdateDTO;
 import com.barbershop.enums.ProductCategory;
 import com.barbershop.enums.ProductPresentationUnit;
 import com.barbershop.service.interfaces.ProductService;
@@ -16,6 +17,9 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Map;
+
+import static com.barbershop.launcher.controller.UI_RenderingFunctions.*;
 
 @Component
 @RequiredArgsConstructor

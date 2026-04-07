@@ -468,6 +468,16 @@ public class UI_RenderingFunctions {
         }
     }
 
+    public static String parseNumberValueToText(Integer value) {
+
+        return String.valueOf(value);
+    }
+
+    public static String parseNumberValueToText(Double value) {
+
+        return String.valueOf(value);
+    }
+
     public static String getConstraintViolationsList(ConstraintViolationException exception) {
 
         return exception.getConstraintViolations().stream().map(ConstraintViolation::getMessage).collect(Collectors.joining(ERROR_MESSAGE_NEW_LINE));

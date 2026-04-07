@@ -176,6 +176,12 @@ public class ProductServiceImpl implements ProductService {
         return mappedProducts.stream().filter(productInfoDTO -> productInfoDTO.getCurrentStockStatus().equals(selectedStatus)).toList();
     }
 
+    @Override
+    public ProductUpdateDTO getProductForUpdate(Long productID) {
+
+        return mapper.mapProductToUpdateDTO(loadProduct(productID));
+    }
+
     private void checkNameAvailability(String name) {
 
         if (productRepository.existsByName(name)) throw new DuplicatedProductNameException();

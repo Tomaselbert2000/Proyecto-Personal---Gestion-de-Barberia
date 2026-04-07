@@ -68,6 +68,7 @@ public class ProductMapperImpl implements ProductMapper {
         StockStatus currentStatus = retrieveCurrentStatus(product);
 
         return ProductInfoDTO.builder()
+                .id(product.getProductID())
                 .name(product.getName())
                 .productCost(product.getProductCost())
                 .currentPrice(product.getCurrentPrice())
@@ -85,6 +86,29 @@ public class ProductMapperImpl implements ProductMapper {
         if (productList == null) throw new NullMapperInputException();
 
         return productList.stream().map(this::mapProductToInfoDTO).collect(Collectors.toList());
+    }
+
+    @Override
+    public ProductUpdateDTO mapProductToUpdateDTO(Product product) {
+
+        if (product == null) throw new NullMapperInputException();
+
+        return ProductUpdateDTO.builder()
+                .name(product.getName())
+                .optionalDescription(product.getOptionalDescription())
+                .brandName(product.getBrandName())
+                .presentationUnit(product.getPresentationUnit())
+                .presentationSize(product.getPresentationSize())
+                .productCost(product.getProductCost())
+                .minPrice(product.getMinPrice())
+                .currentPrice(product.getCurrentPrice())
+                .productWholeSalePrice(product.getProductWholeSalePrice())
+                .maxDiscountPercentage(product.getMaxDiscountPercentage())
+                .category(product.getCategory())
+                .currentStockLevel(product.getCurrentStockLevel())
+                .safetyStockLevel(product.getSafetyStockLevel())
+                .imageFilePath(product.getImageFilePath())
+                .build();
     }
 
     private void setUpdatedDataOnEntity(Product product, ProductUpdateDTO updateDTO) {

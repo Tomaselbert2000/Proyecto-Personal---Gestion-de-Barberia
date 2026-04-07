@@ -16,4 +16,6 @@ public interface ProductMapper {
     ProductInfoDTO mapProductToInfoDTO(Product product);
 
     List<ProductInfoDTO> mapProductToInfoDTO(List<Product> productList);
+
+    ProductUpdateDTO mapProductToUpdateDTO(Product product);
 }

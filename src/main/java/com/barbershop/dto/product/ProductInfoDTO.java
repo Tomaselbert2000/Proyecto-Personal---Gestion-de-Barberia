@@ -10,6 +10,7 @@ import lombok.*;
 @Builder
 public class ProductInfoDTO {
 
+    private Long id;
     private String name;
     private Double productCost;
     private Double currentPrice;
