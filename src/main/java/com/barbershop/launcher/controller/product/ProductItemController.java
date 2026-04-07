@@ -95,6 +95,8 @@ public class ProductItemController {
 
     public void setDataOnItem(ProductInfoDTO infoDTO) {
 
+        infoDTOReference = infoDTO;
+
         List<Label> labels = List.of(product_name, stock_status_text, product_cost, product_price, product_profit, current_stock, safety_stock);
 
         String name = infoDTO.getName();

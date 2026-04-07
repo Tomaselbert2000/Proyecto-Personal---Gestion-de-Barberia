@@ -19,7 +19,8 @@ public class UIMessages {
     public static final String PRODUCT_ITEM_VIEW_LOADING_FAILED = "Hubo un error al cargar la lista de pruductos registrados.";
     public static final String PRODUCT_CREATION_VIEW_LOADING_FAILED = "Hubo un error al cargar la vista de creación de productos.";
     public static final String PRODUCT_EDITION_VIEW_LOADING_FAILED = "Hubo un error al cargar la vista de actualización de productos.";
-    public static final String PRODUCT_CREATION_VALIDATION_FAILED = "No se pudo registrar el producto. Por favor, revisa los siguiente: ";
+    public static final String PRODUCT_CREATION_VALIDATION_FAILED = "No se pudo registrar el producto. Por favor, revisa lo siguiente: ";
+    public static final String PRODUCT_EDITION_VALIDATION_FAILED = "No se pudo actualizar el producto. Por favor, revisa lo siguiente: ";
 
     public static final String SETTINGS_VIEW_LOADING_FAILED = "Hubo un error al cargar la vista de ajustes de la aplicación";
 
@@ -48,6 +49,7 @@ public class UIMessages {
     public static final String BARBER_SERVICE_UPDATE_TOAST_NOTIFICATION_MESSAGE = "El servicio se ha actualizado exitosamente.";
 
     public static final String PRODUCT_CREATION_TOAST_NOTIFICATION_MESSAGE = "Se ha registrado un nuevo producto en el sistema.";
+    public static final String PRODUCT_UPDATE_TOAST_NOTIFICATION_MESSAGE = "El producto se ha actualizado exitosamente.";
 
     public static final String BARBER_SERVICE_DELETE_CONFIRMATION_DIALOG_TITLE = "Eliminar servicio del catálogo";
     public static final String BARBER_SERVICE_DELETE_CONFIRMATION_DIALOG_MESSAGE = "¿Está seguro que desea eliminar este servicio del catálogo? Esta acción es irreversible";

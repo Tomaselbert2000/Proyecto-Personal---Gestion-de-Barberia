@@ -56,6 +56,13 @@ public class DatabaseSeeder implements CommandLineRunner {
     private static final Double PRODUCT_COST = 6500.0;
     private static final ProductCategory PRODUCT_CATEGORY = ProductCategory.SHAMPOO;
     private static final Double PRODUCT_PRICE = 7650.0;
+    private static final ProductPresentationUnit PRESENTATION_UNIT = ProductPresentationUnit.GRAMOS;
+    private static final Integer PRESENTATION_SIZE = 120;
+    private static final Double MIN_PRICE = 7000.0;
+    private static final Double WHOLE_SALE_PRICE = 7300.0;
+    private static final Double MAX_DISCOUNT_PERCENTAGE = 0.3;
+    private static final String BRAND_NAME = "American Crew";
+    private static final String OPTIONAL_DESCRIPTION = "Sin datos adicionales";
     private static final Integer CURRENT_STOCK_LEVEL = 150;
     private static final Integer SAFETY_STOCK_LEVEL = 90;
     private static final LocalDateTime PRODUCT_CREATION_DATE = LocalDateTime.of(2026, 1, 2, 15, 30);
@@ -133,6 +140,10 @@ public class DatabaseSeeder implements CommandLineRunner {
 
         product = Product.builder()
                 .name(PRODUCT_NAME)
+                .optionalDescription(OPTIONAL_DESCRIPTION)
+                .brandName(BRAND_NAME)
+                .presentationUnit(PRESENTATION_UNIT)
+                .presentationSize(PRESENTATION_SIZE)
                 .productCost(PRODUCT_COST)
                 .currentPrice(PRODUCT_PRICE)
                 .category(PRODUCT_CATEGORY)

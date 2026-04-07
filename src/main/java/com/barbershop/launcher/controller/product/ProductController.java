@@ -200,7 +200,17 @@ public class ProductController {
 
     private void goToEditProductView(ProductInfoDTO productInfoDTO) {
 
-        loadViewOnPane(PRODUCT_EDITION_VIEW_PATH, applicationContext, PRODUCT_EDITION_VIEW_LOADING_FAILED, anchor_pane);
+        FXMLLoader loader = generateLoaderWithPath(PRODUCT_EDITION_VIEW_PATH);
+
+        setControllerOnLoader(loader, applicationContext);
+
+        Parent productEditionView = returnParentFromLoader(loader, PRODUCT_EDITION_VIEW_LOADING_FAILED);
+
+        ProductEditionController productEditionController = loader.getController();
+
+        productEditionController.initialize(productInfoDTO);
+
+        setViewOnAnchorPaneCenter(anchor_pane, productEditionView);
     }
 
     private void goToAddStockView(ProductInfoDTO productInfoDTO) {
