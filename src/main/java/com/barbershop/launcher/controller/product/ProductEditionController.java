@@ -98,6 +98,8 @@ public class ProductEditionController {
 
     private void loadProductDataForEdition(ProductInfoDTO infoDTO) {
 
+        ProductUpdateDTO updateDTOFromDB = productService.getProductForUpdate(infoDTO.getId());
+
         List<TextField> textfields = List.of(
                 name,
                 optional_description,
