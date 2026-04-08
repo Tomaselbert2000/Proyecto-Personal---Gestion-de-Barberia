@@ -169,4 +169,91 @@ public class ProductEditionController {
             loadFileOnImageView(newFile, product_image_preview);
         }
     }
+
+    private void updateProduct(ProductInfoDTO infoDTOReference) {
+
+        try {
+
+            String newName = name.getText();
+            ProductCategory newCategory = category.getValue();
+            String newBrandName = brand_name.getText();
+            String newOptionalDescription = optional_description.getText();
+            ProductPresentationUnit newPresentationUnit = presentation_unit.getValue();
+            String newSizeValue = presentation_size.getText();
+            String newCost = product_cost.getText();
+            String newMinPrice = min_price.getText();
+            String newCurrentPrice = current_price.getText();
+            String newWholeSalePrice = product_wholesale_price.getText();
+            String newMaxDiscountPrice = max_discount_percentage.getText();
+            String newSafetyStockLevel = safety_stock_level.getText();
+
+            ProductUpdateDTO updateDTO = buildDTOFromAttributesAndDTOReference(
+                    infoDTOReference,
+                    newName,
+                    newCategory,
+                    newBrandName,
+                    newOptionalDescription,
+                    newPresentationUnit,
+                    newSizeValue,
+                    newCost,
+                    newMinPrice,
+                    newCurrentPrice,
+                    newWholeSalePrice,
+                    newMaxDiscountPrice,
+                    newSafetyStockLevel
+            );
+
+            productService.updateProduct(infoDTOReference.getId(), updateDTO);
+
+            showToastNotification(anchor_pane, applicationContext, PRODUCT_UPDATE_TOAST_NOTIFICATION_MESSAGE, ToastNotificationType.SUCCESSFUL);
+
+        } catch (ConstraintViolationException exception) {
+
+            String errorMessages = getConstraintViolationsList(exception);
+
+            showErrorAlert(VALIDATION_ERROR_TITLE, PRODUCT_EDITION_VALIDATION_FAILED, errorMessages);
+        }
+
+    }
+
+    private ProductUpdateDTO buildDTOFromAttributesAndDTOReference(
+            ProductInfoDTO infoDTOReference,
+            String newName,
+            ProductCategory newCategory,
+            String newBrandName,
+            String newOptionalDescription,
+            ProductPresentationUnit newPresentationUnit,
+            String newSizeValue,
+            String newCost,
+            String newMinPrice,
+            String newCurrentPrice,
+            String newWholeSalePrice,
+            String newMaxDiscountPrice,
+            String newSafetyStockLevel) {
+
+        Integer parsedSize = parseTextToInteger(newSizeValue);
+        Integer parsedSafetyStockLevel = parseTextToInteger(newSafetyStockLevel);
+        Double parsedCost = parseTextToDouble(newCost);
+        Double parsedMinPrice = parseTextToDouble(newMinPrice);
+        Double parsedCurrentPrice = parseTextToDouble(newCurrentPrice);
+        Double parseWholeSalePrice = parseTextToDouble(newWholeSalePrice);
+        Double parsedMaxDiscountPercentage = parseTextToDouble(newMaxDiscountPrice);
+
+        return ProductUpdateDTO.builder()
+                .name(newName)
+                .optionalDescription(newOptionalDescription)
+                .brandName(newBrandName)
+                .presentationUnit(newPresentationUnit)
+                .presentationSize(parsedSize)
+                .productCost(parsedCost)
+                .minPrice(parsedMinPrice)
+                .currentPrice(parsedCurrentPrice)
+                .productWholeSalePrice(parseWholeSalePrice)
+                .maxDiscountPercentage(parsedMaxDiscountPercentage)
+                .category(newCategory)
+                .currentStockLevel(infoDTOReference.getCurrentStockLevel())
+                .safetyStockLevel(parsedSafetyStockLevel)
+                .imageFilePath(filePath)
+                .build();
+    }
 }
