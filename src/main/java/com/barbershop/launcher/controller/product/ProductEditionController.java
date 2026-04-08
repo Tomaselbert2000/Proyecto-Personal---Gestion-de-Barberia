@@ -28,6 +28,8 @@ public class ProductEditionController {
     private final ApplicationContext applicationContext;
     private final ProductService productService;
 
+    private String filePath = "";
+
     @FXML
     private AnchorPane anchor_pane;
 
