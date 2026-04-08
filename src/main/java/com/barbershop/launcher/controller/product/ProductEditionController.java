@@ -110,6 +110,63 @@ public class ProductEditionController {
                 max_discount_percentage,
                 current_stock_level,
                 safety_stock_level
-                );
+        );
+        List<String> texts = List.of(
+                updateDTOFromDB.getName(),
+                updateDTOFromDB.getOptionalDescription(),
+                updateDTOFromDB.getBrandName(),
+                parseNumberValueToText(updateDTOFromDB.getPresentationSize()),
+                parseNumberValueToText(updateDTOFromDB.getProductCost()),
+                parseNumberValueToText(updateDTOFromDB.getCurrentPrice()),
+                parseNumberValueToText(updateDTOFromDB.getProductWholeSalePrice()),
+                parseNumberValueToText(updateDTOFromDB.getMinPrice()),
+                parseNumberValueToText(updateDTOFromDB.getMaxDiscountPercentage()),
+                parseNumberValueToText(updateDTOFromDB.getCurrentStockLevel()),
+                parseNumberValueToText(updateDTOFromDB.getSafetyStockLevel())
+        );
+
+        Map<TextField, String> map = generateMap(textfields, texts);
+
+        setTextsOnTextfieldMap(map);
+
+        loadEnumsOnComboBox(category, ProductCategory.values());
+        loadEnumsOnComboBox(presentation_unit, ProductPresentationUnit.values());
+
+        setStringConverter(category, updateDTOFromDB.getCategory());
+        setStringConverter(presentation_unit, updateDTOFromDB.getPresentationUnit());
+
+        loadCurrentProductImageIfExists(updateDTOFromDB);
+
+        configureButtonActions(infoDTO);
+    }
+
+    private void loadCurrentProductImageIfExists(ProductUpdateDTO dto) {
+
+        if (dto.getImageFilePath() != null) {
+
+            File file = new File(dto.getImageFilePath());
+
+            loadFileOnImageView(file, product_image_preview);
+        }
+    }
+
+    private void configureButtonActions(ProductInfoDTO infoDTOReference) {
+
+        back_button.setOnAction(_ -> redirectToView(applicationContext, ViewRedirection.PRODUCTS));
+        remove_image_button.setOnAction(_ -> cleanImageView(product_image_preview));
+        select_image_button.setOnAction(_ -> handleImageUpdate());
+        save_button.setOnAction(_ -> updateProduct(infoDTOReference));
+    }
+
+    private void handleImageUpdate() {
+
+        File newFile = getFileFromFileChooser(anchor_pane);
+
+        if (newFile != null) {
+
+            filePath = newFile.getAbsolutePath();
+
+            loadFileOnImageView(newFile, product_image_preview);
+        }
     }
 }
