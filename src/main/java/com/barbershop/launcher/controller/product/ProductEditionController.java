@@ -4,7 +4,10 @@ import com.barbershop.dto.product.ProductInfoDTO;
 import com.barbershop.dto.product.ProductUpdateDTO;
 import com.barbershop.enums.ProductCategory;
 import com.barbershop.enums.ProductPresentationUnit;
+import com.barbershop.enums.ToastNotificationType;
+import com.barbershop.enums.ViewRedirection;
 import com.barbershop.service.interfaces.ProductService;
+import jakarta.validation.ConstraintViolationException;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -16,9 +19,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
+import java.io.File;
 import java.util.List;
 import java.util.Map;
 
+import static com.barbershop.launcher.constants.ui.messages.UIMessages.*;
 import static com.barbershop.launcher.controller.UI_RenderingFunctions.*;
 
 @Component
@@ -91,7 +96,7 @@ public class ProductEditionController {
     private Button save_button;
 
     @FXML
-    public void initialize(ProductInfoDTO infoDTO){
+    public void initialize(ProductInfoDTO infoDTO) {
 
         loadProductDataForEdition(infoDTO);
     }
