@@ -29,6 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -43,6 +44,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     private final AppointmentMapper mapper;
 
     private static final LocalTime LAST_SECOND_OF_DAY = LocalTime.MAX;
+    private static final String EMPLOYEE_SELECTOR_FIRST_ITEM = "Todos los empleados";
 
     @Override
     @Transactional
@@ -165,6 +167,39 @@ public class AppointmentServiceImpl implements AppointmentService {
     public Long getTotalAppointmentsCount() {
 
         return appointmentRepository.count();
+    }
+
+    @Override
+    public List<AppointmentInfoDTO> liveSearch(String clientName, LocalDate date, AppointmentStatus selectedAppointmentStatus, String employeeName) {
+
+        LocalDateTime startDateTime = null;
+        LocalDateTime endDateTime = null;
+
+        if (date != null) {
+
+            startDateTime = date.atStartOfDay();
+            endDateTime = date.atTime(LAST_SECOND_OF_DAY);
+        }
+
+        if (employeeName.equals(EMPLOYEE_SELECTOR_FIRST_ITEM)) employeeName = null;
+
+        return mapper.mapAppointmentToInfoDto(appointmentRepository.liveSearchWithFilters(clientName, selectedAppointmentStatus, employeeName, startDateTime, endDateTime));
+    }
+
+    @Override
+    public List<String> getEmployeeNames() {
+
+        List<Employee> employees = employeeRepository.findAll();
+        List<String> employeeNameList = new ArrayList<>();
+
+        employeeNameList.addFirst(EMPLOYEE_SELECTOR_FIRST_ITEM);
+
+        for (Employee employee : employees) {
+
+            employeeNameList.add(employee.getFirstName() + " " + employee.getLastName());
+        }
+
+        return employeeNameList;
     }
 
     @Override

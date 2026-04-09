@@ -56,4 +56,13 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
     List<Appointment> findTop5ByOrderByRegistrationTimestampDesc();
 
     List<Appointment> findTop5ByCurrentStatusOrderByRegistrationTimestampDesc(AppointmentStatus currentStatus);
+
+    @Query("SELECT a FROM Appointment  a WHERE (:clientName IS NULL OR CONCAT(a.client.firstName, ' ', a.client.lastName) LIKE CONCAT('%', :clientName, '%')) AND (:employeeName IS NULL OR LOWER(CONCAT(a.employee.firstName, ' ', a.employee.lastName)) LIKE CONCAT('%', :employeeName, '%')) AND (:status IS NULL OR :status = a.currentStatus) AND (:startDateTime IS NULL OR a.startDateTime BETWEEN :startDateTime AND :endDateTime)")
+    List<Appointment> liveSearchWithFilters(
+            @Param("clientName") String clientName,
+            @Param("status") AppointmentStatus selectedAppointmentStatus,
+            @Param("employeeName") String employeeName,
+            @Param("startDateTime") LocalDateTime startDateTime,
+            @Param("endDateTime") LocalDateTime endDateTime
+    );
 }

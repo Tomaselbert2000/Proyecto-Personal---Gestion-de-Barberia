@@ -271,6 +271,14 @@ public class UI_RenderingFunctions {
         categoryComboBox.getItems().addAll(values);
     }
 
+    public static void loadStringsOnComboBox(ComboBox<String> comboBox, List<String> stringList) {
+
+        for (String string : stringList) {
+
+            comboBox.getItems().add(string);
+        }
+    }
+
     public static <T> void cleanComboBox(ComboBox<T> comboBox) {
 
         comboBox.getSelectionModel().clearAndSelect(0);
@@ -519,5 +527,10 @@ public class UI_RenderingFunctions {
     public static void cleanImageView(ImageView imageView) {
 
         imageView.setImage(null);
+    }
+
+    public static void cleanDatePicker(DatePicker dateSelector) {
+
+        dateSelector.valueProperty().setValue(null);
     }
 }
