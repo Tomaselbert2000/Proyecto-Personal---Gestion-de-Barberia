@@ -157,8 +157,6 @@ public class ProductCreationController {
             String optionalProductDescription = optional_description.getText();
             ProductCategory productCategory = product_category_selector.getValue();
             String brandName = brand_name.getText();
-            String optionalProductDescription = optional_description.getText();
-            ProductPresentationUnit presentationUnit = presentation_unit_combobox.getValue();
             String presentationSize = product_presentation_field.getText();
             String productCost = cost.getText();
             String minPrice = min_price.getText();

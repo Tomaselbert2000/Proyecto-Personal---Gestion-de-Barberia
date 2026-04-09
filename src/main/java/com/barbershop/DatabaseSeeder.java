@@ -3,6 +3,7 @@ package com.barbershop;
 import com.barbershop.enums.AppointmentStatus;
 import com.barbershop.enums.BarberServiceCategory;
 import com.barbershop.enums.ProductCategory;
+import com.barbershop.enums.ProductPresentationUnit;
 import com.barbershop.model.*;
 import com.barbershop.repository.*;
 import lombok.RequiredArgsConstructor;
@@ -144,8 +145,10 @@ public class DatabaseSeeder implements CommandLineRunner {
                 .brandName(BRAND_NAME)
                 .presentationUnit(PRESENTATION_UNIT)
                 .presentationSize(PRESENTATION_SIZE)
-                .productCost(PRODUCT_COST)
+                .productCost(PRODUCT_COST).minPrice(MIN_PRICE)
                 .currentPrice(PRODUCT_PRICE)
+                .productWholeSalePrice(WHOLE_SALE_PRICE)
+                .maxDiscountPercentage(MAX_DISCOUNT_PERCENTAGE)
                 .category(PRODUCT_CATEGORY)
                 .currentStockLevel(CURRENT_STOCK_LEVEL)
                 .safetyStockLevel(SAFETY_STOCK_LEVEL)
