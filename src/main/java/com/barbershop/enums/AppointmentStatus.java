@@ -5,6 +5,7 @@ import lombok.Getter;
 @Getter
 public enum AppointmentStatus implements DescribableEnum {
 
+    TODOS("Todos los estados de turno"),
     PROGRAMADO("Programado"),
     REPROGRAMADO("Reprogramado"),
     CANCELADO("Cancelado"),

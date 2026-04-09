@@ -5,6 +5,7 @@ import com.barbershop.dto.appointment.AppointmentInfoDTO;
 import com.barbershop.dto.appointment.AppointmentUpdateDTO;
 import com.barbershop.enums.AppointmentStatus;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface AppointmentService {
@@ -36,4 +37,8 @@ public interface AppointmentService {
     Long canceledAppointmentsVsPastWeek();
 
     Long getTotalAppointmentsCount();
+
+    List<AppointmentInfoDTO> liveSearch(String clientName, LocalDate date, AppointmentStatus selectedAppointmentStatus, String employeeName);
+
+    List<String> getEmployeeNames();
 }

@@ -6,11 +6,12 @@ import com.barbershop.service.interfaces.AppointmentService;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static com.barbershop.launcher.controller.UI_RenderingFunctions.*;
@@ -55,6 +56,24 @@ public class AppointmentController {
     private Label total_appointments_count;
 
     @FXML
+    private Button clear_filters_button;
+
+    @FXML
+    private Button register_new_appointment_button;
+
+    @FXML
+    private ComboBox<AppointmentStatus> appointment_status_selector;
+
+    @FXML
+    private ComboBox<String> employee_selector;
+
+    @FXML
+    private TextField client_search_field;
+
+    @FXML
+    private DatePicker date_selector;
+
+    @FXML
     public void initialize() {
 
         loadAppointmentsStats();
@@ -62,6 +81,60 @@ public class AppointmentController {
         List<AppointmentInfoDTO> appointmentInfoDTOList = appointmentService.getAppointmentsList();
 
         loadAppointmentsListOnView(appointmentInfoDTOList);
+
+        loadEnumsOnComboBox(appointment_status_selector, AppointmentStatus.values());
+        setStringConverter(appointment_status_selector, AppointmentStatus.TODOS);
+
+        loadStringsOnComboBox(employee_selector, appointmentService.getEmployeeNames());
+
+        configureAppointmentsLiveSearch();
+        configureButtonActions();
+    }
+
+    private void configureAppointmentsLiveSearch() {
+
+        client_search_field.textProperty().addListener((_, _, _) -> executeAppointmentLiveSearch());
+        appointment_status_selector.valueProperty().addListener((_, _, _) -> executeAppointmentLiveSearch());
+        date_selector.valueProperty().addListener((_, _, _) -> executeAppointmentLiveSearch());
+        employee_selector.valueProperty().addListener((_, _, _) -> executeAppointmentLiveSearch());
+    }
+
+    private void executeAppointmentLiveSearch() {
+
+        String clientName = client_search_field.getText();
+
+        AppointmentStatus selectedAppointmentStatus = appointment_status_selector.getValue();
+
+        String employeeName = employee_selector.getValue();
+
+        if(selectedAppointmentStatus == AppointmentStatus.TODOS){
+
+            selectedAppointmentStatus = null;
+        }
+
+        LocalDate date = date_selector.getValue();
+
+        List<AppointmentInfoDTO> appointments = appointmentService.liveSearch(clientName, date, selectedAppointmentStatus, employeeName);
+
+        cleanVBox(appointment_list_VBox);
+
+        loadAppointmentsListOnView(appointments);
+    }
+
+    private void configureButtonActions() {
+
+        clear_filters_button.setOnAction(_ -> cleanFiltersAndSearchField());
+        register_new_appointment_button.setOnAction(_ -> goToAppointmentCreationView());
+    }
+
+    private void cleanFiltersAndSearchField() {
+
+        cleanDatePicker(date_selector);
+        setBlankTextfield(client_search_field);
+        cleanComboBoxes(appointment_status_selector, employee_selector);
+    }
+
+    private void goToAppointmentCreationView() {
     }
 
     private void loadAppointmentsListOnView(List<AppointmentInfoDTO> appointmentInfoDTOList) {
