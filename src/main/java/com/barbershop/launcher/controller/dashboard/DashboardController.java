@@ -18,7 +18,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-import static com.barbershop.launcher.constants.ui.messages.UIMessages.*;
+import static com.barbershop.launcher.constants.ui.messages.EmptyListMessage.EMPTY_ACTIVITY_LOG_MESSAGE;
+import static com.barbershop.launcher.constants.ui.messages.ViewLoadingErrorMessage.*;
 import static com.barbershop.launcher.constants.view.ViewPath.*;
 import static com.barbershop.launcher.controller.UI_RenderingFunctions.*;
 

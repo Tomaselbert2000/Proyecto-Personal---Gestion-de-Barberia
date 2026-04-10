@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.UnaryOperator;
 
-import static com.barbershop.launcher.constants.ui.messages.UIMessages.*;
+import static com.barbershop.launcher.constants.ui.messages.ToastNotificationMessage.BARBER_SERVICE_UPDATE_TOAST_NOTIFICATION_MESSAGE;
 import static com.barbershop.launcher.controller.UI_RenderingFunctions.*;
 import static com.barbershop.utils.strings.RegexPatterns.PRICE_REGEX;
 

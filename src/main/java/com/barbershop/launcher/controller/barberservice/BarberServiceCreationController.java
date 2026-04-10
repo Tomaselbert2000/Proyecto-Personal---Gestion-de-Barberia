@@ -20,7 +20,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.Map;
 
-import static com.barbershop.launcher.constants.ui.messages.UIMessages.*;
+import static com.barbershop.launcher.constants.ui.messages.ToastNotificationMessage.BARBER_SERVICE_CREATION_TOAST_NOTIFICATION_MESSAGE;
 import static com.barbershop.launcher.constants.ui.prompt_text.PromptTexts.*;
 import static com.barbershop.launcher.controller.UI_RenderingFunctions.*;
 

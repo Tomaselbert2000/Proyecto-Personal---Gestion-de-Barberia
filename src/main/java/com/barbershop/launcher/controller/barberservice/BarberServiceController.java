@@ -23,7 +23,10 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-import static com.barbershop.launcher.constants.ui.messages.UIMessages.*;
+import static com.barbershop.launcher.constants.ui.messages.ConfirmationDialogMessage.*;
+import static com.barbershop.launcher.constants.ui.messages.EmptyListMessage.EMPTY_BARBER_SERVICE_CATALOG_LIST_MESSAGE;
+import static com.barbershop.launcher.constants.ui.messages.GenericStrings.*;
+import static com.barbershop.launcher.constants.ui.messages.ViewLoadingErrorMessage.*;
 import static com.barbershop.launcher.constants.view.ViewPath.*;
 import static com.barbershop.launcher.controller.UI_RenderingFunctions.*;
 

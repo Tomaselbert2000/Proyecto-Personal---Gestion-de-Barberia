@@ -4,7 +4,7 @@ import javafx.stage.Stage;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
-import static com.barbershop.launcher.constants.ui.messages.UIMessages.APP_TITLE;
+import static com.barbershop.launcher.constants.ui.messages.GenericStrings.APP_TITLE;
 import static com.barbershop.launcher.constants.view.ViewPath.DASHBOARD_VIEW_PATH;
 
 @Component

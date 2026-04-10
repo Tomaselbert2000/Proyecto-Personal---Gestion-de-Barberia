@@ -31,7 +31,8 @@ import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
 
 import static com.barbershop.launcher.constants.ui.css_class.CssStylesStrings.EMPTY_LIST_STYLE_CLASS;
-import static com.barbershop.launcher.constants.ui.messages.UIMessages.*;
+import static com.barbershop.launcher.constants.ui.messages.ViewLoadingErrorMessage.DELETE_CONFIRMATION_DIALOG_VIEW_LOADING_FAILED;
+import static com.barbershop.launcher.constants.ui.messages.ViewLoadingErrorMessage.TOAST_NOTIFICATION_VIEW_LOADING_FAILED;
 import static com.barbershop.launcher.constants.view.ViewPath.*;
 
 public class UI_RenderingFunctions {

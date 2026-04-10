@@ -20,7 +20,9 @@ import java.io.File;
 import java.util.List;
 import java.util.Map;
 
-import static com.barbershop.launcher.constants.ui.messages.UIMessages.*;
+import static com.barbershop.launcher.constants.ui.messages.ToastNotificationMessage.PRODUCT_CREATION_TOAST_NOTIFICATION_MESSAGE;
+import static com.barbershop.launcher.constants.ui.messages.ValidationErrorMessage.PRODUCT_CREATION_VALIDATION_FAILED;
+import static com.barbershop.launcher.constants.ui.messages.ValidationErrorMessage.VALIDATION_ERROR_TITLE;
 import static com.barbershop.launcher.constants.ui.prompt_text.PromptTexts.*;
 import static com.barbershop.launcher.controller.UI_RenderingFunctions.*;
 

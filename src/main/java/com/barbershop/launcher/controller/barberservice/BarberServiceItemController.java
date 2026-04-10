@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.function.Consumer;
 
-import static com.barbershop.launcher.constants.ui.messages.UIMessages.CURRENCY_STRING_ARG;
+import static com.barbershop.launcher.constants.ui.messages.GenericStrings.CURRENCY_STRING_ARG;
 import static com.barbershop.launcher.controller.UI_RenderingFunctions.setTextOnLabel;
 
 @Component

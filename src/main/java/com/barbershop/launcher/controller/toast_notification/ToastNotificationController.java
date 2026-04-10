@@ -17,8 +17,8 @@ import java.util.List;
 import java.util.Map;
 
 import static com.barbershop.launcher.constants.ui.css_class.CssStylesStrings.*;
-import static com.barbershop.launcher.constants.ui.messages.UIMessages.TOAST_NOTIFICATION_TITLE_FAILED;
-import static com.barbershop.launcher.constants.ui.messages.UIMessages.TOAST_NOTIFICATION_TITLE_SUCCESSFUL;
+import static com.barbershop.launcher.constants.ui.messages.ToastNotificationMessage.TOAST_NOTIFICATION_TITLE_FAILED;
+import static com.barbershop.launcher.constants.ui.messages.ToastNotificationMessage.TOAST_NOTIFICATION_TITLE_SUCCESSFUL;
 import static com.barbershop.launcher.controller.UI_RenderingFunctions.*;
 
 @Component
