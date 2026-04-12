@@ -534,4 +534,12 @@ public class UI_RenderingFunctions {
 
         dateSelector.valueProperty().setValue(null);
     }
+
+    public static void disableButtons(Button ... buttons) {
+
+        for (Button button : buttons){
+
+            button.setDisable(true);
+        }
+    }
 }

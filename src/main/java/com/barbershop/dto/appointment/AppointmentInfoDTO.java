@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 @Builder
 public class AppointmentInfoDTO {
 
+    private Long id;
     private String clientFirstName;
     private String clientLastName;
     private String serviceName;

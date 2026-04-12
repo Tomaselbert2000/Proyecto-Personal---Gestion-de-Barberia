@@ -66,6 +66,7 @@ public class AppointmentMapperImpl implements AppointmentMapper {
         if (appointment == null) throw new NullMapperInputException();
 
         return AppointmentInfoDTO.builder()
+                .id(appointment.getAppointmentID())
                 .clientFirstName(appointment.getClient().getFirstName())
                 .clientLastName(appointment.getClient().getLastName())
                 .employeeFirstName(appointment.getEmployee().getFirstName())

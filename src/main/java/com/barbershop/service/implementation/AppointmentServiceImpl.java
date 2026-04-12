@@ -204,6 +204,28 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     @Transactional
+    public void markAppointmentAsComplete(AppointmentInfoDTO dto) {
+
+        Appointment appointmentOnDB = loadAppointment(dto.getId());
+
+        applyStatusChangeIfPresent(appointmentOnDB, AppointmentStatus.FINALIZADO);
+
+        appointmentRepository.save(appointmentOnDB);
+    }
+
+    @Override
+    @Transactional
+    public void markAppointmentAsCanceled(AppointmentInfoDTO dto) {
+
+        Appointment appointmentOnDB = loadAppointment(dto.getId());
+
+        applyStatusChangeIfPresent(appointmentOnDB, AppointmentStatus.CANCELADO);
+
+        appointmentRepository.save(appointmentOnDB);
+    }
+
+    @Override
+    @Transactional
     public void updateAppointment(Long appointmentID, AppointmentUpdateDTO updateDTO) {
 
         validator.validateForUpdate(updateDTO);

@@ -41,4 +41,8 @@ public interface AppointmentService {
     List<AppointmentInfoDTO> liveSearch(String clientName, LocalDate date, AppointmentStatus selectedAppointmentStatus, String employeeName);
 
     List<String> getEmployeeNames();
+
+    void markAppointmentAsComplete(AppointmentInfoDTO dto);
+
+    void markAppointmentAsCanceled(AppointmentInfoDTO dto);
 }

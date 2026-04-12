@@ -2,21 +2,26 @@ package com.barbershop.launcher.controller.appointment;
 
 import com.barbershop.dto.appointment.AppointmentInfoDTO;
 import com.barbershop.enums.AppointmentStatus;
+import com.barbershop.enums.ToastNotificationType;
+import com.barbershop.exceptions.appointment.InvalidAppointmentUpdateException;
 import com.barbershop.service.interfaces.AppointmentService;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.util.List;
 
+import static com.barbershop.launcher.constants.ui.messages.EmptyListMessage.EMPTY_APPOINTMENTS_LIST_MESSAGE;
+import static com.barbershop.launcher.constants.ui.messages.ToastNotificationMessage.APPOINTMENT_STATUS_UPDATED_TOAST_NOTIFICATION_MESSAGE;
+import static com.barbershop.launcher.constants.ui.messages.ViewLoadingErrorMessage.APPOINTMENS_VIEW_LIST_LOADING_FAILED;
 import static com.barbershop.launcher.controller.UI_RenderingFunctions.*;
-import static com.barbershop.launcher.constants.ui.messages.UIMessages.APPOINTMENS_VIEW_LIST_LOADING_FAILED;
-import static com.barbershop.launcher.constants.ui.messages.UIMessages.EMPTY_APPOINTMENTS_LIST_MESSAGE;
 import static com.barbershop.launcher.constants.view.ViewPath.APPOINTMENT_ITEM_VIEW_PATH;
 
 @Component
@@ -24,6 +29,10 @@ import static com.barbershop.launcher.constants.view.ViewPath.APPOINTMENT_ITEM_V
 public class AppointmentController {
 
     private final AppointmentService appointmentService;
+    private final ApplicationContext applicationContext;
+
+    @FXML
+    private AnchorPane anchor_pane;
 
     @FXML
     private VBox appointment_list_VBox;
@@ -107,7 +116,7 @@ public class AppointmentController {
 
         String employeeName = employee_selector.getValue();
 
-        if(selectedAppointmentStatus == AppointmentStatus.TODOS){
+        if (selectedAppointmentStatus == AppointmentStatus.TODOS) {
 
             selectedAppointmentStatus = null;
         }
@@ -134,9 +143,6 @@ public class AppointmentController {
         cleanComboBoxes(appointment_status_selector, employee_selector);
     }
 
-    private void goToAppointmentCreationView() {
-    }
-
     private void loadAppointmentsListOnView(List<AppointmentInfoDTO> appointmentInfoDTOList) {
 
         if (appointmentInfoDTOList.isEmpty()) {
@@ -155,9 +161,47 @@ public class AppointmentController {
 
                 appointmentCardItemController.setDataOnItem(infoDTO);
 
+                appointmentCardItemController.setOnCompleteCallback(this::markAppointmentAsComplete);
+                appointmentCardItemController.setOnCancelCallback(this::markAppointmentAsCanceled);
+                appointmentCardItemController.setOnEditCallback(this::goToAppointmentEditionView);
+
                 loadItemOnVBox(appointment_list_VBox, appointmentView);
             }
         }
+    }
+
+    private void markAppointmentAsComplete(AppointmentInfoDTO dto) {
+
+        try {
+
+            appointmentService.markAppointmentAsComplete(dto);
+
+            showToastNotification(anchor_pane, applicationContext, APPOINTMENT_STATUS_UPDATED_TOAST_NOTIFICATION_MESSAGE, ToastNotificationType.SUCCESSFUL);
+
+        } catch (InvalidAppointmentUpdateException exception) {
+
+            showToastNotification(anchor_pane, applicationContext, exception.getMessage(), ToastNotificationType.FAILED);
+        }
+    }
+
+    private void markAppointmentAsCanceled(AppointmentInfoDTO dto) {
+
+        try {
+
+            appointmentService.markAppointmentAsCanceled(dto);
+
+            showToastNotification(anchor_pane, applicationContext, APPOINTMENT_STATUS_UPDATED_TOAST_NOTIFICATION_MESSAGE, ToastNotificationType.SUCCESSFUL);
+
+        } catch (InvalidAppointmentUpdateException exception) {
+
+            showToastNotification(anchor_pane, applicationContext, exception.getMessage(), ToastNotificationType.FAILED);
+        }
+    }
+
+    private void goToAppointmentCreationView() {
+    }
+
+    private void goToAppointmentEditionView(AppointmentInfoDTO appointmentInfoDTO) {
     }
 
     private void loadAppointmentsStats() {

@@ -2,33 +2,43 @@ package com.barbershop.launcher.controller.appointment;
 
 import com.barbershop.dto.appointment.AppointmentInfoDTO;
 import com.barbershop.enums.AppointmentStatus;
-import com.barbershop.launcher.controller.UI_RenderingFunctions;
 import javafx.fxml.FXML;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.stereotype.Component;
 
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 
 import static com.barbershop.launcher.constants.ui.css_class.CssStylesStrings.*;
-import static com.barbershop.launcher.controller.UI_RenderingFunctions.configureLabelStyle;
+import static com.barbershop.launcher.controller.UI_RenderingFunctions.*;
 
+@Component
+@Getter
+@Setter
 public class AppointmentCardItemController {
 
     private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("HH:mm");
 
-    @FXML
-    private Button editButton;
+    private Consumer<AppointmentInfoDTO> onCompleteCallback;
+    private Consumer<AppointmentInfoDTO> onCancelCallback;
+    private Consumer<AppointmentInfoDTO> onEditCallback;
+
+    private AppointmentInfoDTO infoDTOReference;
 
     @FXML
-    private Button completeButton;
+    private Button edit_button;
 
     @FXML
-    private Button cancelButton;
+    private Button complete_button;
 
-    //TODO: completar esto más tarde
+    @FXML
+    private Button cancel_button;
 
     @FXML
     private Label start_time;
@@ -49,16 +59,62 @@ public class AppointmentCardItemController {
     private Label status_badge;
 
     @FXML
+    public void initialize() {
+
+        configureButtonActions();
+    }
+
+    private void configureButtonActions() {
+
+        edit_button.setOnAction(_ -> goToEditAppointment());
+        complete_button.setOnAction(_ -> setAppointmentAsComplete());
+        cancel_button.setOnAction(_ -> setAppointmentAsCanceled());
+    }
+
+    private void goToEditAppointment() {
+
+        if (onEditCallback != null) onEditCallback.accept(infoDTOReference);
+    }
+
+    private void setAppointmentAsComplete() {
+
+        if (onCompleteCallback != null) onCompleteCallback.accept(infoDTOReference);
+
+        disableButtons(cancel_button, complete_button, edit_button);
+    }
+
+    private void setAppointmentAsCanceled() {
+
+        if (onCancelCallback != null) onCancelCallback.accept(infoDTOReference);
+
+        disableButtons(cancel_button, complete_button, edit_button);
+    }
+
+    @FXML
     public void setDataOnItem(AppointmentInfoDTO infoDTO) {
+
+        infoDTOReference = infoDTO;
+
+        if (infoDTO.getCurrentStatus() == AppointmentStatus.FINALIZADO || infoDTO.getCurrentStatus() == AppointmentStatus.CANCELADO)
+
+            disableButtons(cancel_button, complete_button, edit_button);
 
         String clientFullName = concatNames(infoDTO.getClientFirstName(), infoDTO.getClientLastName());
         String employeeFullName = concatNames(infoDTO.getEmployeeFirstName(), infoDTO.getEmployeeLastName());
 
         List<Label> labels = List.of(client_name, employee_name, service_name, start_time, end_time);
-        List<String> texts = List.of(clientFullName, employeeFullName, infoDTO.getServiceName(), infoDTO.getStartDateTime().format(TIME_FORMATTER), infoDTO.getEndDateTime().format(TIME_FORMATTER));
-        Map<Label, String> labelTextsMap = UI_RenderingFunctions.generateMap(labels, texts);
 
-        UI_RenderingFunctions.setTextsOnLabelMap(labelTextsMap);
+        List<String> texts = List.of(
+                clientFullName,
+                employeeFullName,
+                infoDTO.getServiceName(),
+                infoDTO.getStartDateTime().format(TIME_FORMATTER),
+                infoDTO.getEndDateTime().format(TIME_FORMATTER)
+        );
+
+        Map<Label, String> labelTextsMap = generateMap(labels, texts);
+
+        setTextsOnLabelMap(labelTextsMap);
 
         AppointmentStatus status = infoDTO.getCurrentStatus();
 

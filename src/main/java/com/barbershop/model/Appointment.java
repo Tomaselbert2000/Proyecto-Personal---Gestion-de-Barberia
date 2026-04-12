@@ -4,7 +4,6 @@ import com.barbershop.enums.AppointmentStatus;
 import com.barbershop.exceptions.appointment.InvalidAppointmentUpdateException;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.cglib.core.Local;
 
 import java.time.LocalDateTime;
 
@@ -40,13 +39,15 @@ public class Appointment {
     private AppointmentStatus currentStatus;
 
     public void changeStatus(AppointmentStatus newStatus) {
+
         if (this.currentStatus == CANCELADO || this.currentStatus == FINALIZADO)
+
             throw new InvalidAppointmentUpdateException();
 
         if (this.currentStatus == REPROGRAMADO && newStatus == PROGRAMADO)
+
             throw new InvalidAppointmentUpdateException();
 
         this.currentStatus = newStatus;
     }
-
 }
