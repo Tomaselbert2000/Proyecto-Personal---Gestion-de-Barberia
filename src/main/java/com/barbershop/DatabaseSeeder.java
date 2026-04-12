@@ -29,6 +29,7 @@ public class DatabaseSeeder implements CommandLineRunner {
     private Employee employee;
     private BarberService barberService;
     private Appointment appointment;
+    private Appointment canceledAppointment;
     private Product product;
 
     private static final String NATIONAL_ID_CARD_NUMBER = "1234567";
@@ -52,6 +53,7 @@ public class DatabaseSeeder implements CommandLineRunner {
     private static final LocalDateTime START_DATETIME = LocalDateTime.of(2026, 1, 1, 12, 30);
     private static final LocalDateTime END_DATETIME = LocalDateTime.of(2026, 1, 1, 13, 0);
     private static final AppointmentStatus STATUS = AppointmentStatus.PROGRAMADO;
+    private static final AppointmentStatus CANCELED_STATUS = AppointmentStatus.CANCELADO;
 
     private static final String PRODUCT_NAME = "Shampoo matizador";
     private static final Double PRODUCT_COST = 6500.0;
@@ -86,6 +88,9 @@ public class DatabaseSeeder implements CommandLineRunner {
 
         setupAppointment();
         saveAppointment();
+
+        setupCanceledAppointment();
+        saveCanceledAppointment();
 
         setupProduct();
         saveProduct();
@@ -137,6 +142,20 @@ public class DatabaseSeeder implements CommandLineRunner {
                 .build();
     }
 
+    private void setupCanceledAppointment() {
+
+        canceledAppointment = Appointment.builder()
+                .client(client)
+                .barberservice(barberService)
+                .employee(employee)
+                .registrationTimestamp(REGISTRATION_TIMESTAMP)
+                .startDateTime(START_DATETIME)
+                .endDateTime(END_DATETIME)
+                .modifiedDate(NOW)
+                .currentStatus(CANCELED_STATUS)
+                .build();
+    }
+
     private void setupProduct() {
 
         product = Product.builder()
@@ -175,6 +194,11 @@ public class DatabaseSeeder implements CommandLineRunner {
     private void saveAppointment() {
 
         appointmentRepository.save(appointment);
+    }
+
+    private void saveCanceledAppointment() {
+
+        appointmentRepository.save(canceledAppointment);
     }
 
     private void saveProduct() {
