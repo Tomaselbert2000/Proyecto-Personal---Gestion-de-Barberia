@@ -5,7 +5,7 @@ import com.barbershop.enums.ProductCategory;
 import com.barbershop.enums.ProductPresentationUnit;
 import com.barbershop.enums.ToastNotificationType;
 import com.barbershop.enums.ViewRedirection;
-import com.barbershop.launcher.controller.UI_RenderingFunctions;
+import com.barbershop.launcher.controller.helper.ValidationFormatter;
 import com.barbershop.service.interfaces.ProductService;
 import jakarta.validation.ConstraintViolationException;
 import javafx.fxml.FXML;
@@ -24,7 +24,13 @@ import static com.barbershop.launcher.constants.ui.messages.ToastNotificationMes
 import static com.barbershop.launcher.constants.ui.messages.ValidationErrorMessage.PRODUCT_CREATION_VALIDATION_FAILED;
 import static com.barbershop.launcher.constants.ui.messages.ValidationErrorMessage.VALIDATION_ERROR_TITLE;
 import static com.barbershop.launcher.constants.ui.prompt_text.PromptTexts.*;
-import static com.barbershop.launcher.controller.UI_RenderingFunctions.*;
+import static com.barbershop.launcher.controller.helper.ValidationFormatter.*;
+import static com.barbershop.launcher.controller.helper.ComboBoxHelper.loadEnumsOnComboBox;
+import static com.barbershop.launcher.controller.helper.ComboBoxHelper.removeFirstItemFromComboBox;
+import static com.barbershop.launcher.controller.helper.FXMLViewLoader.redirectToView;
+import static com.barbershop.launcher.controller.helper.FileImageHelper.*;
+import static com.barbershop.launcher.controller.helper.ToastNotificationHelper.showToastNotification;
+import static com.barbershop.launcher.controller.helper.UIBasicComponents.*;
 
 @Component
 @RequiredArgsConstructor
@@ -104,10 +110,10 @@ public class ProductCreationController {
         loadEnumsOnComboBox(presentation_unit_combobox, ProductPresentationUnit.values());
 
         setStringConverter(product_category_selector, ProductCategory.TODOS);
-        removeFirstEnumFromComboBox(product_category_selector);
+        removeFirstItemFromComboBox(product_category_selector);
 
         setStringConverter(presentation_unit_combobox, ProductPresentationUnit.TODOS);
-        removeFirstEnumFromComboBox(presentation_unit_combobox);
+        removeFirstItemFromComboBox(presentation_unit_combobox);
 
         configureButtonActions();
     }
@@ -220,7 +226,7 @@ public class ProductCreationController {
         Integer parsedCurrentStock = parseTextToInteger(currentStockLevel);
         Integer parsedSafetyStockLevel = parseTextToInteger(safetyStockLevel);
 
-        Double parsedCost = UI_RenderingFunctions.parseTextToDouble(productCost);
+        Double parsedCost = ValidationFormatter.parseTextToDouble(productCost);
         Double parsedMinPrice = parseTextToDouble(minPrice);
         Double parsedCurrentPrice = parseTextToDouble(currentPrice);
         Double parsedWholeSalePrice = parseTextToDouble(wholeSalePrice);

@@ -18,7 +18,10 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.function.Consumer;
 
-import static com.barbershop.launcher.controller.UI_RenderingFunctions.*;
+import static com.barbershop.launcher.controller.helper.ValidationFormatter.*;
+import static com.barbershop.launcher.controller.helper.FileImageHelper.loadFileOnImageView;
+import static com.barbershop.launcher.controller.helper.UIBasicComponents.generateMap;
+import static com.barbershop.launcher.controller.helper.UIBasicComponents.setTextsOnLabelMap;
 
 @Component
 @Getter

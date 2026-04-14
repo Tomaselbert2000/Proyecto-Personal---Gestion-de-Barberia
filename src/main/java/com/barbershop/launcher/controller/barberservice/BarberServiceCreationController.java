@@ -22,7 +22,12 @@ import java.util.Map;
 
 import static com.barbershop.launcher.constants.ui.messages.ToastNotificationMessage.BARBER_SERVICE_CREATION_TOAST_NOTIFICATION_MESSAGE;
 import static com.barbershop.launcher.constants.ui.prompt_text.PromptTexts.*;
-import static com.barbershop.launcher.controller.UI_RenderingFunctions.*;
+import static com.barbershop.launcher.controller.helper.ComboBoxHelper.loadEnumsOnComboBox;
+import static com.barbershop.launcher.controller.helper.ComboBoxHelper.removeFirstItemFromComboBox;
+import static com.barbershop.launcher.controller.helper.FXMLViewLoader.redirectToView;
+import static com.barbershop.launcher.controller.helper.ToastNotificationHelper.showExceptionErrorMessage;
+import static com.barbershop.launcher.controller.helper.ToastNotificationHelper.showToastNotification;
+import static com.barbershop.launcher.controller.helper.UIBasicComponents.*;
 
 @Component
 @RequiredArgsConstructor
@@ -75,7 +80,7 @@ public class BarberServiceCreationController {
         configureButtonActions();
 
         loadEnumsOnComboBox(category_combo_box, BarberServiceCategory.values());
-        removeFirstEnumFromComboBox(category_combo_box);
+        removeFirstItemFromComboBox(category_combo_box);
     }
 
     private void configureButtonActions() {

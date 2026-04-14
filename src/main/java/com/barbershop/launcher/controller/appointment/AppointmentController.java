@@ -21,8 +21,16 @@ import java.util.List;
 import static com.barbershop.launcher.constants.ui.messages.EmptyListMessage.EMPTY_APPOINTMENTS_LIST_MESSAGE;
 import static com.barbershop.launcher.constants.ui.messages.ToastNotificationMessage.APPOINTMENT_STATUS_UPDATED_TOAST_NOTIFICATION_MESSAGE;
 import static com.barbershop.launcher.constants.ui.messages.ViewLoadingErrorMessage.APPOINTMENS_VIEW_LIST_LOADING_FAILED;
-import static com.barbershop.launcher.controller.UI_RenderingFunctions.*;
+import static com.barbershop.launcher.constants.ui.messages.ViewLoadingErrorMessage.APPOINTMENT_CREATION_VIEW_LOADING_FAILED;
+import static com.barbershop.launcher.constants.view.ViewPath.APPOINTMENT_CREATION_VIEW_PATH;
+import static com.barbershop.launcher.controller.helper.ValidationFormatter.*;
 import static com.barbershop.launcher.constants.view.ViewPath.APPOINTMENT_ITEM_VIEW_PATH;
+import static com.barbershop.launcher.controller.helper.ComboBoxHelper.*;
+import static com.barbershop.launcher.controller.helper.ContainerManager.cleanVBox;
+import static com.barbershop.launcher.controller.helper.ContainerManager.loadItemOnVBox;
+import static com.barbershop.launcher.controller.helper.FXMLViewLoader.*;
+import static com.barbershop.launcher.controller.helper.ToastNotificationHelper.showToastNotification;
+import static com.barbershop.launcher.controller.helper.UIBasicComponents.*;
 
 @Component
 @RequiredArgsConstructor
@@ -199,6 +207,8 @@ public class AppointmentController {
     }
 
     private void goToAppointmentCreationView() {
+
+        loadViewOnPane(APPOINTMENT_CREATION_VIEW_PATH, applicationContext, APPOINTMENT_CREATION_VIEW_LOADING_FAILED, anchor_pane);
     }
 
     private void goToAppointmentEditionView(AppointmentInfoDTO appointmentInfoDTO) {

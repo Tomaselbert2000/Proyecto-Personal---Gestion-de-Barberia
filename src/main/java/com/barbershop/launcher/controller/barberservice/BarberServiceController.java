@@ -28,7 +28,14 @@ import static com.barbershop.launcher.constants.ui.messages.EmptyListMessage.EMP
 import static com.barbershop.launcher.constants.ui.messages.GenericStrings.*;
 import static com.barbershop.launcher.constants.ui.messages.ViewLoadingErrorMessage.*;
 import static com.barbershop.launcher.constants.view.ViewPath.*;
-import static com.barbershop.launcher.controller.UI_RenderingFunctions.*;
+import static com.barbershop.launcher.controller.helper.ValidationFormatter.*;
+import static com.barbershop.launcher.controller.helper.ComboBoxHelper.cleanComboBoxes;
+import static com.barbershop.launcher.controller.helper.ComboBoxHelper.loadEnumsOnComboBox;
+import static com.barbershop.launcher.controller.helper.ContainerManager.*;
+import static com.barbershop.launcher.controller.helper.DialogHelper.showConfirmationDialog;
+import static com.barbershop.launcher.controller.helper.FXMLViewLoader.*;
+import static com.barbershop.launcher.controller.helper.ToastNotificationHelper.showToastNotification;
+import static com.barbershop.launcher.controller.helper.UIBasicComponents.*;
 
 @Component
 @Getter

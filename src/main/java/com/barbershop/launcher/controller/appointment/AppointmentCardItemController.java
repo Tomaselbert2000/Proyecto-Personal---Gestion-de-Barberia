@@ -16,7 +16,7 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 import static com.barbershop.launcher.constants.ui.css_class.CssStylesStrings.*;
-import static com.barbershop.launcher.controller.UI_RenderingFunctions.*;
+import static com.barbershop.launcher.controller.helper.UIBasicComponents.*;
 
 @Component
 @Getter

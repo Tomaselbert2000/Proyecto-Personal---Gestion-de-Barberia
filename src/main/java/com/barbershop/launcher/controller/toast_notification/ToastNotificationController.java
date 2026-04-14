@@ -19,7 +19,8 @@ import java.util.Map;
 import static com.barbershop.launcher.constants.ui.css_class.CssStylesStrings.*;
 import static com.barbershop.launcher.constants.ui.messages.ToastNotificationMessage.TOAST_NOTIFICATION_TITLE_FAILED;
 import static com.barbershop.launcher.constants.ui.messages.ToastNotificationMessage.TOAST_NOTIFICATION_TITLE_SUCCESSFUL;
-import static com.barbershop.launcher.controller.UI_RenderingFunctions.*;
+import static com.barbershop.launcher.controller.helper.ToastNotificationHelper.generateTimelineInstance;
+import static com.barbershop.launcher.controller.helper.UIBasicComponents.*;
 
 @Component
 @RequiredArgsConstructor

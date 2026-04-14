@@ -26,7 +26,13 @@ import java.util.Map;
 import static com.barbershop.launcher.constants.ui.messages.ToastNotificationMessage.PRODUCT_UPDATE_TOAST_NOTIFICATION_MESSAGE;
 import static com.barbershop.launcher.constants.ui.messages.ValidationErrorMessage.PRODUCT_EDITION_VALIDATION_FAILED;
 import static com.barbershop.launcher.constants.ui.messages.ValidationErrorMessage.VALIDATION_ERROR_TITLE;
-import static com.barbershop.launcher.controller.UI_RenderingFunctions.*;
+import static com.barbershop.launcher.controller.helper.UIBasicComponents.generateMap;
+import static com.barbershop.launcher.controller.helper.ValidationFormatter.*;
+import static com.barbershop.launcher.controller.helper.ComboBoxHelper.loadEnumsOnComboBox;
+import static com.barbershop.launcher.controller.helper.FXMLViewLoader.redirectToView;
+import static com.barbershop.launcher.controller.helper.FileImageHelper.*;
+import static com.barbershop.launcher.controller.helper.ToastNotificationHelper.showToastNotification;
+import static com.barbershop.launcher.controller.helper.UIBasicComponents.setTextsOnTextfieldMap;
 
 @Component
 @RequiredArgsConstructor

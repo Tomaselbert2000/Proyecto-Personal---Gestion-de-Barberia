@@ -22,7 +22,12 @@ import java.util.Map;
 import static com.barbershop.launcher.constants.ui.css_class.CssStylesStrings.*;
 import static com.barbershop.launcher.constants.ui.messages.ToastNotificationMessage.CLIENT_CREATION_TOAST_NOTIFICATION_MESSAGE;
 import static com.barbershop.launcher.constants.ui.prompt_text.PromptTexts.*;
-import static com.barbershop.launcher.controller.UI_RenderingFunctions.*;
+import static com.barbershop.launcher.controller.helper.ContainerManager.cleanVBox;
+import static com.barbershop.launcher.controller.helper.ContainerManager.loadItemOnVBox;
+import static com.barbershop.launcher.controller.helper.FXMLViewLoader.redirectToView;
+import static com.barbershop.launcher.controller.helper.ToastNotificationHelper.showExceptionErrorMessage;
+import static com.barbershop.launcher.controller.helper.ToastNotificationHelper.showToastNotification;
+import static com.barbershop.launcher.controller.helper.UIBasicComponents.*;
 
 @Component
 @RequiredArgsConstructor

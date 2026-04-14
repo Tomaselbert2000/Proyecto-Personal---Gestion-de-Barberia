@@ -21,7 +21,11 @@ import java.util.List;
 import static com.barbershop.launcher.constants.ui.messages.EmptyListMessage.EMPTY_ACTIVITY_LOG_MESSAGE;
 import static com.barbershop.launcher.constants.ui.messages.ViewLoadingErrorMessage.*;
 import static com.barbershop.launcher.constants.view.ViewPath.*;
-import static com.barbershop.launcher.controller.UI_RenderingFunctions.*;
+import static com.barbershop.launcher.controller.helper.ContainerManager.cleanVBox;
+import static com.barbershop.launcher.controller.helper.ContainerManager.loadItemOnVBox;
+import static com.barbershop.launcher.controller.helper.FXMLViewLoader.*;
+import static com.barbershop.launcher.controller.helper.UIBasicComponents.setTextOnLabel;
+import static com.barbershop.launcher.controller.helper.UIBasicComponents.showEmptyListLabel;
 
 @Component
 @Getter
@@ -155,7 +159,7 @@ public class DashboardController {
     @FXML
     public void showRegisterNewClientView() {
 
-        loadViewOnPane(CREATE_NEW_CLIENT_VIEW_PATH, applicationContext, CLIENT_CREATION_VIEW_LOADING_FAILED, borderPane);
+        loadViewOnPane(CLIENT_CREATION_VIEW_PATH, applicationContext, CLIENT_CREATION_VIEW_LOADING_FAILED, borderPane);
     }
 
     @FXML

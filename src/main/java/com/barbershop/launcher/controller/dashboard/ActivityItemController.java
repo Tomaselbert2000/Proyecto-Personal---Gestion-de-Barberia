@@ -2,7 +2,6 @@ package com.barbershop.launcher.controller.dashboard;
 
 import com.barbershop.dto.dashboard.RecentActivityDTO;
 import com.barbershop.enums.EventType;
-import com.barbershop.launcher.controller.UI_RenderingFunctions;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Region;
@@ -16,7 +15,8 @@ import java.util.List;
 import java.util.Map;
 
 import static com.barbershop.launcher.constants.ui.css_class.CssStylesStrings.*;
-import static com.barbershop.launcher.controller.UI_RenderingFunctions.generateMap;
+import static com.barbershop.launcher.controller.helper.UIBasicComponents.generateMap;
+import static com.barbershop.launcher.controller.helper.UIBasicComponents.setTextsOnLabelMap;
 
 @Component
 @Getter
@@ -45,7 +45,7 @@ public class ActivityItemController {
         List<String> texts = List.of(activityDTO.getEventType().getDisplayName(), activityDTO.getText(), timestampAsString);
         Map<Label, String> map = generateMap(labels, texts);
 
-        UI_RenderingFunctions.setTextsOnLabelMap(map);
+        setTextsOnLabelMap(map);
 
         String styleClass = selectIconBasedOnEventType(activityDTO.getEventType());
 

@@ -7,8 +7,8 @@ import javafx.scene.control.Label;
 import org.springframework.stereotype.Component;
 
 import static com.barbershop.launcher.constants.ui.css_class.CssStylesStrings.CONFIRM_DELETE_DIALOG_WARNING_ICON;
-import static com.barbershop.launcher.controller.UI_RenderingFunctions.setNodeStyleClass;
-import static com.barbershop.launcher.controller.UI_RenderingFunctions.setTextOnLabel;
+import static com.barbershop.launcher.controller.helper.UIBasicComponents.setNodeStyleClass;
+import static com.barbershop.launcher.controller.helper.UIBasicComponents.setTextOnLabel;
 
 @Component
 public class DeleteConfirmationDialogController {

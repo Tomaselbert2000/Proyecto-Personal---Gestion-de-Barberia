@@ -20,7 +20,13 @@ import java.util.Map;
 import java.util.function.UnaryOperator;
 
 import static com.barbershop.launcher.constants.ui.messages.ToastNotificationMessage.BARBER_SERVICE_UPDATE_TOAST_NOTIFICATION_MESSAGE;
-import static com.barbershop.launcher.controller.UI_RenderingFunctions.*;
+import static com.barbershop.launcher.controller.helper.UIBasicComponents.*;
+import static com.barbershop.launcher.controller.helper.ValidationFormatter.*;
+import static com.barbershop.launcher.controller.helper.ComboBoxHelper.loadEnumsOnComboBox;
+import static com.barbershop.launcher.controller.helper.ComboBoxHelper.removeFirstItemFromComboBox;
+import static com.barbershop.launcher.controller.helper.FXMLViewLoader.redirectToView;
+import static com.barbershop.launcher.controller.helper.ToastNotificationHelper.showExceptionErrorMessage;
+import static com.barbershop.launcher.controller.helper.ToastNotificationHelper.showToastNotification;
 import static com.barbershop.utils.strings.RegexPatterns.PRICE_REGEX;
 
 @Component
@@ -69,7 +75,7 @@ public class BarberServiceEditionController {
         loadServiceDataForEdition(infoDTO);
 
         loadEnumsOnComboBox(category_combo_box, BarberServiceCategory.values());
-        removeFirstEnumFromComboBox(category_combo_box);
+        removeFirstItemFromComboBox(category_combo_box);
 
         configureButtonActions(infoDTO);
 
@@ -111,7 +117,7 @@ public class BarberServiceEditionController {
         loadServiceDataForEdition(infoDTO);
 
         loadEnumsOnComboBox(category_combo_box, BarberServiceCategory.values());
-        removeFirstEnumFromComboBox(category_combo_box);
+        removeFirstItemFromComboBox(category_combo_box);
     }
 
     private void updateBarberService() {
