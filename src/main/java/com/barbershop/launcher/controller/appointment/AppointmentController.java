@@ -1,6 +1,7 @@
 package com.barbershop.launcher.controller.appointment;
 
 import com.barbershop.dto.appointment.AppointmentInfoDTO;
+import com.barbershop.dto.employee.EmployeeInfoDTO;
 import com.barbershop.enums.AppointmentStatus;
 import com.barbershop.enums.ToastNotificationType;
 import com.barbershop.exceptions.appointment.InvalidAppointmentUpdateException;
@@ -82,7 +83,7 @@ public class AppointmentController {
     private ComboBox<AppointmentStatus> appointment_status_selector;
 
     @FXML
-    private ComboBox<String> employee_selector;
+    private ComboBox<EmployeeInfoDTO> employee_selector;
 
     @FXML
     private TextField client_search_field;
@@ -96,13 +97,14 @@ public class AppointmentController {
         loadAppointmentsStats();
 
         List<AppointmentInfoDTO> appointmentInfoDTOList = appointmentService.getAppointmentsList();
+        List<EmployeeInfoDTO> employees = appointmentService.getEmployeesFromServiceInstance();
 
         loadAppointmentsListOnView(appointmentInfoDTOList);
 
         loadEnumsOnComboBox(appointment_status_selector, AppointmentStatus.values());
         setStringConverter(appointment_status_selector, AppointmentStatus.TODOS);
 
-        loadStringsOnComboBox(employee_selector, appointmentService.getEmployeeNames());
+        loadDTOsOnComboBox(employee_selector, employees);
 
         configureAppointmentsLiveSearch();
         configureButtonActions();
@@ -122,7 +124,19 @@ public class AppointmentController {
 
         AppointmentStatus selectedAppointmentStatus = appointment_status_selector.getValue();
 
-        String employeeName = employee_selector.getValue();
+        EmployeeInfoDTO employeeSelected = employee_selector.getValue();
+
+        String employeeName;
+
+        if (employeeSelected == null) {
+
+            employeeName = null;
+
+        } else {
+
+            employeeName = employeeSelected.getFirstName() + " " + employeeSelected.getLastName();
+
+        }
 
         if (selectedAppointmentStatus == AppointmentStatus.TODOS) {
 

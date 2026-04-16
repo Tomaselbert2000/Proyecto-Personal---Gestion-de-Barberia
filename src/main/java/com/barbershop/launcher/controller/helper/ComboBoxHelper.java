@@ -6,10 +6,10 @@ import java.util.List;
 
 public class ComboBoxHelper {
 
-    public static <T> void loadEnumsOnComboBox(ComboBox<T> categoryComboBox, T[] values) {
+    public static <T> void loadEnumsOnComboBox(ComboBox<T> comboBox, T[] values) {
 
-        categoryComboBox.getItems().clear();
-        categoryComboBox.getItems().addAll(values);
+        comboBox.getItems().clear();
+        comboBox.getItems().addAll(values);
     }
 
     public static void loadStringsOnComboBox(ComboBox<String> comboBox, List<String> stringList) {
@@ -36,5 +36,12 @@ public class ComboBoxHelper {
 
             cleanComboBox(comboBox);
         }
+    }
+
+    public static <T> void loadDTOsOnComboBox(ComboBox<T> comboBox, List<T> list) {
+
+        comboBox.getItems().addAll(list);
+
+        comboBox.getItems().addFirst(null);
     }
 }
