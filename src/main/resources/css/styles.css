@@ -2026,3 +2026,83 @@
     -fx-background-color: -fx-surface-variant;
     -fx-background-radius: 12;
 }
+
+/* --- APPOINTMENT CREATION VIEW --- */
+
+/* Date Picker */
+.form-date-picker {
+    -fx-background-color: -fx-surface-variant;
+    -fx-background-radius: 8;
+    -fx-text-fill: -fx-on-surface;
+    -fx-prompt-text-fill: -fx-outline;
+    -fx-padding: 10 15;
+}
+
+.form-date-picker:focused {
+    -fx-border-color: -fx-primary;
+    -fx-border-width: 0 0 2 0;
+    -fx-background-color: -fx-surface-elevated;
+}
+
+.form-date-picker .text-field {
+    -fx-text-fill: -fx-on-surface;
+}
+
+/* Selected Client Card */
+.selected-client-card {
+    -fx-background-color: rgba(212, 175, 55, 0.08);
+    -fx-background-radius: 12;
+    -fx-padding: 16 20;
+    -fx-border-color: -fx-primary;
+    -fx-border-width: 1;
+    -fx-border-radius: 12;
+}
+
+/* Service Info Card */
+.service-info-card {
+    -fx-background-color: -fx-surface-variant;
+    -fx-background-radius: 10;
+    -fx-padding: 14 18;
+}
+
+.service-info-label {
+    -fx-text-fill: -fx-outline;
+}
+
+.service-info-value {
+    -fx-text-fill: -fx-primary;
+    -fx-font-weight: bold;
+}
+
+/* Time Display */
+.time-display {
+    -fx-background-color: -fx-surface-variant;
+    -fx-background-radius: 8;
+    -fx-text-fill: -fx-on-surface;
+    -fx-padding: 12 15;
+    -fx-alignment: center;
+}
+
+/* Appointment Summary Card */
+.appointment-summary-card {
+    -fx-background-color: -fx-surface-elevated;
+    -fx-background-radius: 16;
+    -fx-padding: 24;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.06), 10, 0, 0, 3);
+    -fx-border-color: -fx-primary;
+    -fx-border-width: 1;
+    -fx-border-radius: 16;
+}
+
+.summary-label {
+    -fx-text-fill: -fx-outline;
+    -fx-min-width: 100;
+}
+
+.summary-value {
+    -fx-text-fill: -fx-on-surface;
+}
+
+.summary-price {
+    -fx-text-fill: -fx-primary;
+}
