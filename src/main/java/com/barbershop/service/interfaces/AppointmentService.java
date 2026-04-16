@@ -3,6 +3,9 @@ package com.barbershop.service.interfaces;
 import com.barbershop.dto.appointment.AppointmentCreationDTO;
 import com.barbershop.dto.appointment.AppointmentInfoDTO;
 import com.barbershop.dto.appointment.AppointmentUpdateDTO;
+import com.barbershop.dto.barbershopservice.BarberServiceInfoDTO;
+import com.barbershop.dto.client.ClientInfoDTO;
+import com.barbershop.dto.employee.EmployeeInfoDTO;
 import com.barbershop.enums.AppointmentStatus;
 
 import java.time.LocalDate;
@@ -40,9 +43,13 @@ public interface AppointmentService {
 
     List<AppointmentInfoDTO> liveSearch(String clientName, LocalDate date, AppointmentStatus selectedAppointmentStatus, String employeeName);
 
-    List<String> getEmployeeNames();
+    List<EmployeeInfoDTO> getEmployeesFromServiceInstance();
 
     void markAppointmentAsComplete(AppointmentInfoDTO dto);
 
     void markAppointmentAsCanceled(AppointmentInfoDTO dto);
+
+    List<BarberServiceInfoDTO> getBarberServicesFromServiceInstance();
+
+    List<ClientInfoDTO> clientLiveSearchByName(String searchName);
 }
