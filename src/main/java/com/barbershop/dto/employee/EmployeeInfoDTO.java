@@ -13,4 +13,10 @@ public class EmployeeInfoDTO {
     private String lastName;
     private String hireDateAsString;
     private String terminationDateAsString;
+
+    @Override
+    public String toString() {
+
+        return firstName + " " + lastName;
+    }
 }

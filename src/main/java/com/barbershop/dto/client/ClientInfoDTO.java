@@ -17,4 +17,9 @@ public class ClientInfoDTO {
     String lastName;
     LocalDate registrationDate;
     String optionalNotes;
+
+    @Override
+    public String toString() {
+        return this.firstName + " " + this.lastName + " DNI: " + this.nationalIdentityCardNumber;
+    }
 }
