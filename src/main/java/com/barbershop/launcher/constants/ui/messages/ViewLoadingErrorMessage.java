@@ -21,6 +21,7 @@ public class ViewLoadingErrorMessage {
     public static final String CLIENT_CREATION_VIEW_LOADING_FAILED = "Hubo un error al cargar la vista de registro de nuevo cliente.";
 
     public static final String APPOINTMENS_VIEW_LIST_LOADING_FAILED = "Hubo un error al cargar la lista de turnos recientes.";
+    public static final String APPOINTMENT_CREATION_VIEW_LOADING_FAILED = "Hubo un error al cargar la vista de creación de turnos.";
 
     public static final String TOAST_NOTIFICATION_VIEW_LOADING_FAILED = "Hubo un error al cargar la vista de notificación emergente.";
 

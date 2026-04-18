@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import static com.barbershop.launcher.constants.ui.messages.ToastNotificationMessage.BARBER_SERVICE_CREATION_TOAST_NOTIFICATION_MESSAGE;
-import static com.barbershop.launcher.constants.ui.prompt_text.PromptTexts.*;
+import static com.barbershop.launcher.constants.ui.prompt_text.BarberServicePromptText.*;
 import static com.barbershop.launcher.controller.helper.ComboBoxHelper.loadEnumsOnComboBox;
 import static com.barbershop.launcher.controller.helper.ComboBoxHelper.removeFirstItemFromComboBox;
 import static com.barbershop.launcher.controller.helper.FXMLViewLoader.redirectToView;

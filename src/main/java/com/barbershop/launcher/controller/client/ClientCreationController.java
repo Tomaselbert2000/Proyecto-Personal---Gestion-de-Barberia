@@ -21,7 +21,7 @@ import java.util.Map;
 
 import static com.barbershop.launcher.constants.ui.css_class.CssStylesStrings.*;
 import static com.barbershop.launcher.constants.ui.messages.ToastNotificationMessage.CLIENT_CREATION_TOAST_NOTIFICATION_MESSAGE;
-import static com.barbershop.launcher.constants.ui.prompt_text.PromptTexts.*;
+import static com.barbershop.launcher.constants.ui.prompt_text.ClientPromptText.*;
 import static com.barbershop.launcher.controller.helper.ContainerManager.cleanVBox;
 import static com.barbershop.launcher.controller.helper.ContainerManager.loadItemOnVBox;
 import static com.barbershop.launcher.controller.helper.FXMLViewLoader.redirectToView;
