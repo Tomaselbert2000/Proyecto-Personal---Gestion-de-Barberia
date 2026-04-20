@@ -9,6 +9,7 @@ import lombok.*;
 @Builder
 public class EmployeeInfoDTO {
 
+    private Long id;
     private String firstName;
     private String lastName;
     private String hireDateAsString;

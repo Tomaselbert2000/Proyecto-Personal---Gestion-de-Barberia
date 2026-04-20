@@ -118,6 +118,12 @@ public class ClientServiceImpl implements ClientService {
         return ((clientsRegisteredThisMonth - clientsTheLastMonth) * 100) / clientsTheLastMonth;
     }
 
+    @Override
+    public List<ClientInfoDTO> clientLiveSearchByName(String searchName) {
+
+        return mapper.mapClientToInfoDTO(clientRepository.clientLiveSearchByName(searchName));
+    }
+
     private Client loadClient(String nationalIdentityCardNumber) {
 
         return clientRepository.findByNationalIdentityCardNumber(nationalIdentityCardNumber).orElseThrow(ClientNotFoundException::new);

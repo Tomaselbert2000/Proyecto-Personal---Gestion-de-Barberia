@@ -130,7 +130,7 @@ public class AppointmentController {
 
         if (employeeSelected == null) {
 
-            employeeName = null;
+            employeeName = "";
 
         } else {
 

@@ -63,6 +63,7 @@ public class ClientMapperImpl implements ClientMapper {
         } else {
 
             return ClientInfoDTO.builder()
+                    .id(client.getClientID())
                     .nationalIdentityCardNumber(client.getNationalIdentityCardNumber())
                     .firstName(client.getFirstName())
                     .lastName(client.getLastName())

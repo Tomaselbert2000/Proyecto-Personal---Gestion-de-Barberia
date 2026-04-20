@@ -42,26 +42,27 @@ public class EmployeeMapperImpl implements EmployeeMapper {
     }
 
     @Override
-    public EmployeeInfoDTO mapEmployeeToInfoDTO(Employee entity) {
+    public EmployeeInfoDTO mapEmployeeToInfoDTO(Employee employee) {
 
-        if (entity == null) throw new NullMapperInputException();
+        if (employee == null) throw new NullMapperInputException();
 
         String terminationDateAsString;
 
-        if (entity.getTerminationDate() == null) {
+        if (employee.getTerminationDate() == null) {
 
             terminationDateAsString = DEFAULT_TERMINATION_DATE_STRING;
 
         } else {
 
-            terminationDateAsString = entity.getTerminationDate().toString();
+            terminationDateAsString = employee.getTerminationDate().toString();
 
         }
 
         return EmployeeInfoDTO.builder()
-                .firstName(entity.getFirstName())
-                .lastName(entity.getLastName())
-                .hireDateAsString(String.valueOf(entity.getHireDate()))
+                .id(employee.getEmployeeID())
+                .firstName(employee.getFirstName())
+                .lastName(employee.getLastName())
+                .hireDateAsString(String.valueOf(employee.getHireDate()))
                 .terminationDateAsString(terminationDateAsString)
                 .build();
     }

@@ -21,4 +21,6 @@ public interface ClientService {
     Long getClientsRegisteredQuantity();
 
     Long calculatePercentageOfClientsVsLastMonth();
+
+    List<ClientInfoDTO> clientLiveSearchByName(String searchName);
 }

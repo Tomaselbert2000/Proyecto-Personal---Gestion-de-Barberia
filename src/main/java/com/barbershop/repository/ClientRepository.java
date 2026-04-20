@@ -30,4 +30,7 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
     Long countByRegistrationDateBetween(LocalDate registrationDateAfter, LocalDate registrationDateBefore);
 
     List<Client> findTop5ByOrderByRegistrationDateDesc();
+
+    @Query("SELECT c FROM Client  c WHERE (:searchName IS NULL OR LOWER(CONCAT(c.firstName, ' ', c.lastName)) LIKE LOWER(CONCAT('%', :searchName, '%')))")
+    List<Client> clientLiveSearchByName(@Param("searchName") String searchName);
 }

@@ -34,6 +34,7 @@ public class Appointment {
     private LocalDateTime startDateTime;
     private LocalDateTime endDateTime;
     private LocalDateTime modifiedDate;
+    private String optionalNotes;
 
     @Enumerated(EnumType.STRING)
     private AppointmentStatus currentStatus;

@@ -6,11 +6,12 @@ public class ViewPath {
 
     public static final String APPOINTMENT_VIEW_PATH = "/view/AppointmentsView.fxml";
     public static final String APPOINTMENT_ITEM_VIEW_PATH = "/view/AppointmentCardItem.fxml";
+    public static final String APPOINTMENT_CREATION_VIEW_PATH = "/view/AppointmentCreation.fxml";
 
     public static final String EMPLOYEES_VIEW_PATH = "/view/EmployeesView";
 
     public static final String CLIENTS_VIEW_PATH = "/view/ClientsView.fxml";
-    public static final String CREATE_NEW_CLIENT_VIEW_PATH = "/view/ClientCreation.fxml";
+    public static final String CLIENT_CREATION_VIEW_PATH = "/view/ClientCreation.fxml";
 
     public static final String PRODUCT_STOCK_VIEW_PATH = "/view/ProductsView.fxml";
     public static final String PRODUCT_ITEM_VIEW_PATH = "/view/ProductItem.fxml";

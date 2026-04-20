@@ -3,6 +3,9 @@ package com.barbershop.service.implementation;
 import com.barbershop.dto.appointment.AppointmentCreationDTO;
 import com.barbershop.dto.appointment.AppointmentInfoDTO;
 import com.barbershop.dto.appointment.AppointmentUpdateDTO;
+import com.barbershop.dto.barbershopservice.BarberServiceInfoDTO;
+import com.barbershop.dto.client.ClientInfoDTO;
+import com.barbershop.dto.employee.EmployeeInfoDTO;
 import com.barbershop.enums.AppointmentStatus;
 import com.barbershop.exceptions.appointment.AppointmentNotFoundException;
 import com.barbershop.exceptions.common.EmployeeNotAvailableException;
@@ -20,6 +23,9 @@ import com.barbershop.repository.BarberServiceRepository;
 import com.barbershop.repository.ClientRepository;
 import com.barbershop.repository.EmployeeRepository;
 import com.barbershop.service.interfaces.AppointmentService;
+import com.barbershop.service.interfaces.BarberserviceService;
+import com.barbershop.service.interfaces.ClientService;
+import com.barbershop.service.interfaces.EmployeeService;
 import com.barbershop.utils.time.TimeCalculation;
 import com.barbershop.validation.appointment.AppointmentValidator;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +35,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -41,7 +46,11 @@ public class AppointmentServiceImpl implements AppointmentService {
     private final EmployeeRepository employeeRepository;
     private final AppointmentRepository appointmentRepository;
     private final AppointmentValidator validator;
-    private final AppointmentMapper mapper;
+    private final AppointmentMapper appointmentMapper;
+
+    private final ClientService clientService;
+    private final BarberserviceService barberserviceService;
+    private final EmployeeService employeeService;
 
     private static final LocalTime LAST_SECOND_OF_DAY = LocalTime.MAX;
     private static final String EMPLOYEE_SELECTOR_FIRST_ITEM = "Todos los empleados";
@@ -60,7 +69,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 
         checkEmployeeAvailabilityForCreation(employee, creationDTO.getStartDateTime(), creationDTO.getEndDateTime());
 
-        Appointment newAppointment = mapper.mapAppointmentCreationDtoToAppointmentEntity(creationDTO, client, employee, service);
+        Appointment newAppointment = appointmentMapper.mapAppointmentCreationDtoToAppointmentEntity(creationDTO, client, employee, service);
 
         appointmentRepository.save(newAppointment);
     }
@@ -79,13 +88,13 @@ public class AppointmentServiceImpl implements AppointmentService {
 
         Appointment appointmentOnDB = loadAppointment(appointmentID);
 
-        return mapper.mapAppointmentToInfoDto(appointmentOnDB);
+        return appointmentMapper.mapAppointmentToInfoDto(appointmentOnDB);
     }
 
     @Override
     public List<AppointmentInfoDTO> getAppointmentsList() {
 
-        return mapper.mapAppointmentToInfoDto(appointmentRepository.findAll());
+        return appointmentMapper.mapAppointmentToInfoDto(appointmentRepository.findAll());
     }
 
     @Override
@@ -183,23 +192,13 @@ public class AppointmentServiceImpl implements AppointmentService {
 
         if (employeeName.equals(EMPLOYEE_SELECTOR_FIRST_ITEM)) employeeName = null;
 
-        return mapper.mapAppointmentToInfoDto(appointmentRepository.liveSearchWithFilters(clientName, selectedAppointmentStatus, employeeName, startDateTime, endDateTime));
+        return appointmentMapper.mapAppointmentToInfoDto(appointmentRepository.liveSearchWithFilters(clientName, selectedAppointmentStatus, employeeName, startDateTime, endDateTime));
     }
 
     @Override
-    public List<String> getEmployeeNames() {
+    public List<EmployeeInfoDTO> getEmployeesFromServiceInstance() {
 
-        List<Employee> employees = employeeRepository.findAll();
-        List<String> employeeNameList = new ArrayList<>();
-
-        employeeNameList.addFirst(EMPLOYEE_SELECTOR_FIRST_ITEM);
-
-        for (Employee employee : employees) {
-
-            employeeNameList.add(employee.getFirstName() + " " + employee.getLastName());
-        }
-
-        return employeeNameList;
+        return employeeService.getEmployeeList();
     }
 
     @Override
@@ -225,6 +224,18 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
+    public List<BarberServiceInfoDTO> getBarberServicesFromServiceInstance() {
+
+        return barberserviceService.getServicesList();
+    }
+
+    @Override
+    public List<ClientInfoDTO> clientLiveSearchByName(String searchName) {
+
+        return clientService.clientLiveSearchByName(searchName);
+    }
+
+    @Override
     @Transactional
     public void updateAppointment(Long appointmentID, AppointmentUpdateDTO updateDTO) {
 
@@ -239,7 +250,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 
         applyStatusChangeIfPresent(appointmentToUpdate, updateDTO.getNewStatus());
 
-        appointmentRepository.save(mapper.mapAppointmentUpdateDtoToAppointmentEntity(updateDTO, employee, service, appointmentToUpdate));
+        appointmentRepository.save(appointmentMapper.mapAppointmentUpdateDtoToAppointmentEntity(updateDTO, employee, service, appointmentToUpdate));
     }
 
     private Client loadClient(Long clientID) {
