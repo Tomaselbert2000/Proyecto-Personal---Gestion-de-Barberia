@@ -21,14 +21,11 @@ import java.util.List;
 
 import static com.barbershop.launcher.constants.ui.messages.EmptyListMessage.EMPTY_APPOINTMENTS_LIST_MESSAGE;
 import static com.barbershop.launcher.constants.ui.messages.ToastNotificationMessage.APPOINTMENT_STATUS_UPDATED_TOAST_NOTIFICATION_MESSAGE;
-import static com.barbershop.launcher.constants.ui.messages.ViewLoadingErrorMessage.APPOINTMENS_VIEW_LIST_LOADING_FAILED;
-import static com.barbershop.launcher.constants.ui.messages.ViewLoadingErrorMessage.APPOINTMENT_CREATION_VIEW_LOADING_FAILED;
-import static com.barbershop.launcher.constants.view.ViewPath.APPOINTMENT_CREATION_VIEW_PATH;
+import static com.barbershop.launcher.constants.ui.messages.ViewLoadingErrorMessage.*;
+import static com.barbershop.launcher.constants.view.ViewPath.*;
+import static com.barbershop.launcher.controller.helper.ContainerManager.*;
 import static com.barbershop.launcher.controller.helper.ValidationFormatter.*;
-import static com.barbershop.launcher.constants.view.ViewPath.APPOINTMENT_ITEM_VIEW_PATH;
 import static com.barbershop.launcher.controller.helper.ComboBoxHelper.*;
-import static com.barbershop.launcher.controller.helper.ContainerManager.cleanVBox;
-import static com.barbershop.launcher.controller.helper.ContainerManager.loadItemOnVBox;
 import static com.barbershop.launcher.controller.helper.FXMLViewLoader.*;
 import static com.barbershop.launcher.controller.helper.ToastNotificationHelper.showToastNotification;
 import static com.barbershop.launcher.controller.helper.UIBasicComponents.*;
@@ -225,7 +222,19 @@ public class AppointmentController {
         loadViewOnPane(APPOINTMENT_CREATION_VIEW_PATH, applicationContext, APPOINTMENT_CREATION_VIEW_LOADING_FAILED, anchor_pane);
     }
 
-    private void goToAppointmentEditionView(AppointmentInfoDTO appointmentInfoDTO) {
+    private void goToAppointmentEditionView(AppointmentInfoDTO infoDTO) {
+
+        FXMLLoader loader = generateLoaderWithPath(APPOINTMENT_EDITION_VIEW_PATH);
+
+        setControllerOnLoader(loader, applicationContext);
+
+        Parent appointmentEditionView = returnParentFromLoader(loader, APPOINTMENT_EDITION_VIEW_LOADING_FAILED);
+
+        AppointmentEditionController appointmentEditionController = loader.getController();
+
+        appointmentEditionController.initialize(infoDTO);
+
+        setViewOnAnchorPaneCenter(anchor_pane, appointmentEditionView);
     }
 
     private void loadAppointmentsStats() {

@@ -13,13 +13,17 @@ import java.time.LocalDateTime;
 public class AppointmentInfoDTO {
 
     private Long id;
+    private Long employeeID;
+    private Long barberServiceID;
     private String clientFirstName;
     private String clientLastName;
     private String serviceName;
+    private Double servicePrice;
     private String employeeFirstName;
     private String employeeLastName;
     private LocalDateTime registrationTimestamp;
     private LocalDateTime startDateTime;
     private LocalDateTime endDateTime;
     private AppointmentStatus currentStatus;
+    private String optionalNotes;
 }

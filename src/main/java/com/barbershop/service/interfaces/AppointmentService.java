@@ -52,4 +52,6 @@ public interface AppointmentService {
     List<BarberServiceInfoDTO> getBarberServicesFromServiceInstance();
 
     List<ClientInfoDTO> clientLiveSearchByName(String searchName);
+
+    AppointmentUpdateDTO getAppointmentForUpdate(Long id);
 }

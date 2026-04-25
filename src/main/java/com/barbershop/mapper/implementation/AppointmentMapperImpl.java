@@ -67,15 +67,19 @@ public class AppointmentMapperImpl implements AppointmentMapper {
 
         return AppointmentInfoDTO.builder()
                 .id(appointment.getAppointmentID())
+                .employeeID(appointment.getEmployee().getEmployeeID())
+                .barberServiceID(appointment.getBarberservice().getBarbershopServiceID())
                 .clientFirstName(appointment.getClient().getFirstName())
                 .clientLastName(appointment.getClient().getLastName())
+                .serviceName(appointment.getBarberservice().getName())
+                .servicePrice(appointment.getBarberservice().getPrice())
                 .employeeFirstName(appointment.getEmployee().getFirstName())
                 .employeeLastName(appointment.getEmployee().getLastName())
-                .serviceName(appointment.getBarberservice().getName())
                 .registrationTimestamp(appointment.getRegistrationTimestamp())
                 .startDateTime(appointment.getStartDateTime())
                 .endDateTime(appointment.getEndDateTime())
                 .currentStatus(appointment.getCurrentStatus())
+                .optionalNotes(appointment.getOptionalNotes())
                 .build();
     }
 
@@ -85,6 +89,21 @@ public class AppointmentMapperImpl implements AppointmentMapper {
         if (appointmentList == null) throw new NullMapperInputException();
 
         return appointmentList.stream().map(this::mapAppointmentToInfoDto).collect(Collectors.toList());
+    }
+
+    @Override
+    public AppointmentUpdateDTO mapAppointmentToUpdateDTO(Appointment appointment) {
+
+        if (appointment == null) throw new NullMapperInputException();
+
+        return AppointmentUpdateDTO.builder()
+                .newEmployeeID(appointment.getEmployee().getEmployeeID())
+                .newBarberserviceID(appointment.getBarberservice().getBarbershopServiceID())
+                .newStartDateTime(appointment.getStartDateTime())
+                .newEndDateTime(appointment.getEndDateTime())
+                .newStatus(appointment.getCurrentStatus())
+                .optionalNotes(appointment.getOptionalNotes())
+                .build();
     }
 
     private void setUpdatedDataOnEntity(AppointmentUpdateDTO updateDTO, Employee employee, BarberService service, Appointment appointmentOnDB) {

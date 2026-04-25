@@ -80,14 +80,14 @@ public class AppointmentCardItemController {
 
         if (onCompleteCallback != null) onCompleteCallback.accept(infoDTOReference);
 
-        disableButtons(cancel_button, complete_button, edit_button);
+        disableButtons(cancel_button, complete_button);
     }
 
     private void setAppointmentAsCanceled() {
 
         if (onCancelCallback != null) onCancelCallback.accept(infoDTOReference);
 
-        disableButtons(cancel_button, complete_button, edit_button);
+        disableButtons(cancel_button, complete_button);
     }
 
     @FXML
@@ -97,7 +97,7 @@ public class AppointmentCardItemController {
 
         if (infoDTO.getCurrentStatus() == AppointmentStatus.FINALIZADO || infoDTO.getCurrentStatus() == AppointmentStatus.CANCELADO)
 
-            disableButtons(cancel_button, complete_button, edit_button);
+            disableButtons(cancel_button, complete_button);
 
         String clientFullName = concatNames(infoDTO.getClientFirstName(), infoDTO.getClientLastName());
         String employeeFullName = concatNames(infoDTO.getEmployeeFirstName(), infoDTO.getEmployeeLastName());

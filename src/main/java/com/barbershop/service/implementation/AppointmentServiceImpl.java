@@ -236,6 +236,12 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
+    public AppointmentUpdateDTO getAppointmentForUpdate(Long id) {
+
+        return appointmentMapper.mapAppointmentToUpdateDTO(loadAppointment(id));
+    }
+
+    @Override
     @Transactional
     public void updateAppointment(Long appointmentID, AppointmentUpdateDTO updateDTO) {
 

@@ -1,17 +1,18 @@
 package com.barbershop.launcher.controller.helper;
 
+import com.barbershop.enums.AppointmentStatus;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 
+import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import static com.barbershop.launcher.constants.ui.css_class.CssStylesStrings.EMPTY_LIST_STYLE_CLASS;
+import static com.barbershop.launcher.controller.helper.ComboBoxHelper.*;
 
 public class UIBasicComponents {
 
@@ -58,13 +59,18 @@ public class UIBasicComponents {
         textField.setText("");
     }
 
+    public static void setTextOnTextfield(TextField textfield, String text) {
+
+        textfield.setText(text);
+    }
+
     public static void setTextsOnTextfieldMap(Map<TextField, String> map) {
 
         for (TextField textField : map.keySet()) {
 
             String text = map.get(textField);
 
-            textField.setText(text);
+            setTextOnTextfield(textField, text);
         }
     }
 
@@ -132,5 +138,32 @@ public class UIBasicComponents {
 
             button.setDisable(true);
         }
+    }
+
+    public static void disableComboBox(ComboBox<AppointmentStatus> comboBox) {
+
+        comboBox.disableProperty();
+    }
+
+    public static void setTimeSelectors(ComboBox<LocalTime> hourSelector, ComboBox<LocalTime> minuteSelector) {
+
+        List<LocalTime> hours = new ArrayList<>();
+        List<LocalTime> minutes = new ArrayList<>();
+
+        for (int i = 8; i <= 20; i++) {
+
+            hours.add(LocalTime.of(i, 0));
+        }
+
+        for (int i = 0; i < 60; i += 15) {
+
+            minutes.add(LocalTime.of(0, i));
+        }
+
+        loadDTOsOnComboBox(hourSelector, hours); // I use this method because takes a generic type argument
+        loadDTOsOnComboBox(minuteSelector, minutes);
+
+        setLocalTimeHourConverter(hourSelector);
+        setLocalTimeMinuteConverter(minuteSelector);
     }
 }
