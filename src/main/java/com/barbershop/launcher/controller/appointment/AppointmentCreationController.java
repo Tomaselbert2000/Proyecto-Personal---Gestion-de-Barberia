@@ -21,7 +21,6 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -138,9 +137,12 @@ public class AppointmentCreationController {
         setPromptTextOnMap(map);
 
         configureButtonActions();
+
         configureClientLiveSearch();
+
         configureBarberServiceSelection();
         configureEmployeeSelection();
+
         configureTimeSelectors();
 
         List<BarberServiceInfoDTO> catalog = appointmentService.getBarberServicesFromServiceInstance();
@@ -178,24 +180,7 @@ public class AppointmentCreationController {
 
     private void configureTimeSelectors() {
 
-        List<LocalTime> hours = new ArrayList<>();
-        List<LocalTime> minutes = new ArrayList<>();
-
-        for (int i = 8; i <= 20; i++) {
-
-            hours.add(LocalTime.of(i, 0));
-        }
-
-        for (int i = 0; i < 60; i += 15) {
-
-            minutes.add(LocalTime.of(0, i));
-        }
-
-        loadDTOsOnComboBox(hour_selector, hours); // I use this method because takes a generic type argument
-        loadDTOsOnComboBox(minute_selector, minutes);
-
-        setLocalTimeHourConverter(hour_selector);
-        setLocalTimeMinuteConverter(minute_selector);
+        setTimeSelectors(hour_selector, minute_selector);
 
         date_selector.valueProperty().addListener((_, _, _) -> updateDateTimeSummary());
         hour_selector.valueProperty().addListener((_, _, _) -> updateDateTimeSummary());
