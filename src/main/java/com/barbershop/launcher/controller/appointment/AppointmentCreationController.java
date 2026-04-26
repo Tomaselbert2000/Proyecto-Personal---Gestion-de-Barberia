@@ -8,6 +8,7 @@ import com.barbershop.enums.ToastNotificationType;
 import com.barbershop.enums.ViewRedirection;
 import com.barbershop.exceptions.appointment.DateTimeOutsideServiceHoursException;
 import com.barbershop.exceptions.appointment.InvalidAppointmentStartDateException;
+import com.barbershop.exceptions.common.EmployeeNotAvailableException;
 import com.barbershop.service.interfaces.AppointmentService;
 import jakarta.validation.ConstraintViolationException;
 import javafx.fxml.FXML;
@@ -343,6 +344,9 @@ public class AppointmentCreationController {
 
             showToastNotification(anchor_pane, applicationContext, dateTimeOutsideServiceHoursException.getMessage(), ToastNotificationType.FAILED);
 
+        } catch (EmployeeNotAvailableException employeeNotAvailableException) {
+
+            showToastNotification(anchor_pane, applicationContext, employeeNotAvailableException.getMessage(), ToastNotificationType.FAILED);
         }
     }
 
