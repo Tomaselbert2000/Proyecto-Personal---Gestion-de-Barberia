@@ -110,6 +110,11 @@ public class ValidationFormatter {
         return String.valueOf(value);
     }
 
+    public static String parseNumberValueToText(Long value) {
+
+        return String.valueOf(value);
+    }
+
     public static String getConstraintViolationsList(ConstraintViolationException exception) {
 
         return exception.getConstraintViolations().stream().map(ConstraintViolation::getMessage).collect(Collectors.joining(ERROR_MESSAGE_NEW_LINE));

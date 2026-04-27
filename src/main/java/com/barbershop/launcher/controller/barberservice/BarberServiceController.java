@@ -4,6 +4,7 @@ import com.barbershop.dto.barbershopservice.BarberServiceInfoDTO;
 import com.barbershop.enums.BarberServiceCategory;
 import com.barbershop.enums.PriceRanges;
 import com.barbershop.enums.ToastNotificationType;
+import com.barbershop.launcher.controller.interfaces.GenericControllerViewFunctions;
 import com.barbershop.service.interfaces.BarberserviceService;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -41,7 +42,7 @@ import static com.barbershop.launcher.controller.helper.UIBasicComponents.*;
 @Getter
 @Setter
 @RequiredArgsConstructor
-public class BarberServiceController {
+public class BarberServiceController implements GenericControllerViewFunctions {
 
     private final BarberserviceService barberService;
     private final ApplicationContext applicationContext;
@@ -113,12 +114,6 @@ public class BarberServiceController {
         configureButtonActions();
     }
 
-    private void configureButtonActions() {
-
-        create_barber_service_button.setOnAction(_ -> goToBarberServiceCreationView());
-        clean_filters_button.setOnAction(_ -> cleanFiltersAndSearchfield());
-    }
-
     private void configureBarberServiceLiveSearch() {
 
         service_search_field.textProperty().addListener((_, _, _) -> executeBarberServiceLiveSearch());
@@ -153,12 +148,6 @@ public class BarberServiceController {
         cleanVBox(services_list_vbox);
 
         loadBarberServiceCatalogOnView(barberServices);
-    }
-
-    private void cleanFiltersAndSearchfield() {
-
-        setBlankTextfield(service_search_field);
-        cleanComboBoxes(service_category_selector, service_price_range_selector);
     }
 
     private void loadServicesStats() {
@@ -304,5 +293,19 @@ public class BarberServiceController {
                 loadItemOnVBox(services_list_vbox, catalogItem);
             }
         }
+    }
+
+    @Override
+    public void configureButtonActions() {
+
+        create_barber_service_button.setOnAction(_ -> goToBarberServiceCreationView());
+        clean_filters_button.setOnAction(_ -> cleanFiltersAndLiveSearch());
+    }
+
+    @Override
+    public void cleanFiltersAndLiveSearch() {
+
+        setBlankTextfield(service_search_field);
+        cleanComboBoxes(service_category_selector, service_price_range_selector);
     }
 }

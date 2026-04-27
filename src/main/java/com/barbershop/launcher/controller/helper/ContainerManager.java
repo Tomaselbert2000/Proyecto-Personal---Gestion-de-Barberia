@@ -1,8 +1,10 @@
 package com.barbershop.launcher.controller.helper;
 
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import static com.barbershop.launcher.controller.helper.HelperConstants.*;
@@ -38,5 +40,10 @@ public class ContainerManager {
     public static void cleanVBox(VBox vBox) {
 
         vBox.getChildren().clear();
+    }
+
+    public static void addNodesToHBox(HBox hbox, Node... nodes) {
+
+        hbox.getChildren().addAll(nodes);
     }
 }

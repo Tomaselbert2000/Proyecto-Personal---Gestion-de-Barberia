@@ -10,7 +10,7 @@ import com.barbershop.enums.ViewRedirection;
 import com.barbershop.exceptions.appointment.DateTimeOutsideServiceHoursException;
 import com.barbershop.exceptions.appointment.InvalidAppointmentStartDateException;
 import com.barbershop.exceptions.common.EmployeeNotAvailableException;
-import com.barbershop.launcher.controller.helper.ToastNotificationHelper;
+import com.barbershop.launcher.controller.interfaces.AppointmentControllerViewFunctions;
 import com.barbershop.service.interfaces.AppointmentService;
 import jakarta.validation.ConstraintViolationException;
 import javafx.fxml.FXML;
@@ -45,7 +45,7 @@ import static com.barbershop.launcher.controller.helper.VisibilityHelper.setNode
 @Component
 @RequiredArgsConstructor
 @Getter
-public class AppointmentEditionController {
+public class AppointmentEditionController implements AppointmentControllerViewFunctions {
 
     private final ApplicationContext applicationContext;
     private final AppointmentService appointmentService;
@@ -176,61 +176,6 @@ public class AppointmentEditionController {
         setTextOnTextfield(appointment_notes, infoDTO.getOptionalNotes());
     }
 
-    private void configureButtonActions() {
-
-        back_button.setOnAction(_ -> redirectToView(applicationContext, ViewRedirection.APPOINTMENTS));
-        restore_values_button.setOnAction(_ -> resetForm());
-        save_button.setOnAction(_ -> updateAppointment());
-    }
-
-    private void configureBarberServiceSelection() {
-
-        barber_service_selector.valueProperty().addListener((_, _, barberServiceSelected) -> onBarberServiceSelected(barberServiceSelected));
-    }
-
-    private void configureEmployeeSelection() {
-
-        employee_selector.valueProperty().addListener((_, _, employeeSelected) -> onEmployeeSelected(employeeSelected));
-    }
-
-    private void onBarberServiceSelected(BarberServiceInfoDTO barberServiceSelected) {
-
-        if (barberServiceSelected == null) return;
-
-        barberServiceReference = barberServiceSelected;
-
-        String price = barberServiceSelected.getPrice().toString();
-
-        setTextOnLabel(summary_service, barberServiceSelected.getName());
-        setTextOnLabel(summary_price, CURRENCY_STRING_ARG + price);
-
-        setNodeAsVisible(service_selection_container);
-
-        setNodeAsVisible(appointment_summary_card);
-    }
-
-    private void onEmployeeSelected(EmployeeInfoDTO employeeSelected) {
-
-        if (employeeSelected == null) return;
-
-        employeeReference = employeeSelected;
-
-        String employeeFullName = employeeSelected.getFirstName() + " " + employeeSelected.getLastName();
-
-        setTextOnLabel(summary_employee, employeeFullName);
-
-        setNodeAsVisible(appointment_summary_card);
-    }
-
-    private void configureTimeSelectors() {
-
-        setTimeSelectors(hour_selector, minute_selector);
-
-        date_selector.valueProperty().addListener((_, _, _) -> updateDateTimeSummary());
-        hour_selector.valueProperty().addListener((_, _, _) -> updateDateTimeSummary());
-        minute_selector.valueProperty().addListener((_, _, _) -> updateDateTimeSummary());
-    }
-
     private void loadAvailableStatuses(AppointmentStatus currentStatus) {
 
         List<AppointmentStatus> allowedStatuses = new ArrayList<>();
@@ -256,42 +201,6 @@ public class AppointmentEditionController {
         status_selector.getItems().addAll(allowedStatuses);
 
         setStringConverter(status_selector, status_selector.getItems().getFirst());
-    }
-
-    private void updateDateTimeSummary() {
-
-        LocalDate date = date_selector.getValue();
-        LocalTime hour = hour_selector.getValue();
-        LocalTime minute = minute_selector.getValue();
-
-        if (date != null && hour != null && minute != null) {
-
-            String dateTimeSummary = String.format(DATETIME_SUMMARY_FORMAT, date, hour.getHour(), minute.getMinute());
-
-            setTextOnLabel(summary_datetime, dateTimeSummary);
-        }
-
-        setNodeAsVisible(appointment_summary_card);
-    }
-
-    private void resetForm() {
-
-        cleanComboBoxes(employee_selector, barber_service_selector, status_selector, hour_selector, minute_selector);
-        cleanDatePicker(date_selector);
-
-        setTextOnTextfield(appointment_notes, infoDTOReference.getOptionalNotes());
-
-        setNodeAsNotVisible(service_selection_container);
-
-        setReferenceObjectsAsNull();
-
-        setNodeAsNotVisible(appointment_summary_card);
-    }
-
-    private void setReferenceObjectsAsNull() {
-
-        this.employeeReference = null;
-        this.barberServiceReference = null;
     }
 
     private void updateAppointment() {
@@ -324,7 +233,7 @@ public class AppointmentEditionController {
 
             appointmentService.updateAppointment(infoDTOReference.getId(), updateDTO);
 
-            ToastNotificationHelper.showToastNotification(anchor_pane, applicationContext, APPOINTMENT_STATUS_UPDATED_TOAST_NOTIFICATION_MESSAGE, ToastNotificationType.SUCCESSFUL);
+            showToastNotification(anchor_pane, applicationContext, APPOINTMENT_STATUS_UPDATED_TOAST_NOTIFICATION_MESSAGE, ToastNotificationType.SUCCESSFUL);
 
             resetForm();
 
@@ -365,5 +274,104 @@ public class AppointmentEditionController {
                 .newStatus(updatedStatus)
                 .optionalNotes(appointmentNotes)
                 .build();
+    }
+
+    @Override
+    public void configureButtonActions() {
+
+        back_button.setOnAction(_ -> redirectToView(applicationContext, ViewRedirection.APPOINTMENTS));
+        restore_values_button.setOnAction(_ -> resetForm());
+        save_button.setOnAction(_ -> updateAppointment());
+    }
+
+    @Override
+    public void configureBarberServiceSelection() {
+
+        barber_service_selector.valueProperty().addListener((_, _, barberServiceSelected) -> onBarberServiceSelected(barberServiceSelected));
+    }
+
+    @Override
+    public void configureEmployeeSelection() {
+
+        employee_selector.valueProperty().addListener((_, _, employeeSelected) -> onEmployeeSelected(employeeSelected));
+    }
+
+    @Override
+    public void configureTimeSelectors() {
+
+        setTimeSelectors(hour_selector, minute_selector);
+
+        date_selector.valueProperty().addListener((_, _, _) -> updateDateTimeSummary());
+        hour_selector.valueProperty().addListener((_, _, _) -> updateDateTimeSummary());
+        minute_selector.valueProperty().addListener((_, _, _) -> updateDateTimeSummary());
+    }
+
+    @Override
+    public void onBarberServiceSelected(BarberServiceInfoDTO barberServiceSelected) {
+
+        if (barberServiceSelected == null) return;
+
+        barberServiceReference = barberServiceSelected;
+
+        String price = barberServiceSelected.getPrice().toString();
+
+        setTextOnLabel(summary_service, barberServiceSelected.getName());
+        setTextOnLabel(summary_price, CURRENCY_STRING_ARG + price);
+
+        setNodeAsVisible(service_selection_container);
+        setNodeAsVisible(appointment_summary_card);
+    }
+
+    @Override
+    public void onEmployeeSelected(EmployeeInfoDTO employeeSelected) {
+
+        if (employeeSelected == null) return;
+
+        employeeReference = employeeSelected;
+
+        String employeeFullName = employeeSelected.getFirstName() + " " + employeeSelected.getLastName();
+
+        setTextOnLabel(summary_employee, employeeFullName);
+
+        setNodeAsVisible(appointment_summary_card);
+    }
+
+    @Override
+    public void updateDateTimeSummary() {
+
+        LocalDate date = date_selector.getValue();
+        LocalTime hour = hour_selector.getValue();
+        LocalTime minute = minute_selector.getValue();
+
+        if (date != null && hour != null && minute != null) {
+
+            String dateTimeSummary = String.format(DATETIME_SUMMARY_FORMAT, date, hour.getHour(), minute.getMinute());
+
+            setTextOnLabel(summary_datetime, dateTimeSummary);
+        }
+
+        setNodeAsVisible(appointment_summary_card);
+    }
+
+    @Override
+    public void setReferenceObjectsAsNull() {
+
+        this.employeeReference = null;
+        this.barberServiceReference = null;
+    }
+
+    @Override
+    public void resetForm() {
+
+        cleanComboBoxes(employee_selector, barber_service_selector, status_selector, hour_selector, minute_selector);
+        cleanDatePicker(date_selector);
+
+        setTextOnTextfield(appointment_notes, infoDTOReference.getOptionalNotes());
+
+        setNodeAsNotVisible(service_selection_container);
+
+        setReferenceObjectsAsNull();
+
+        setNodeAsNotVisible(appointment_summary_card);
     }
 }

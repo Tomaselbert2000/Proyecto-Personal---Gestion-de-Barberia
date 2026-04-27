@@ -1,10 +1,12 @@
 package com.barbershop.launcher.controller.barberservice;
 
 import com.barbershop.dto.barbershopservice.BarberServiceCreationDTO;
+import com.barbershop.dto.barbershopservice.BarberServiceInfoDTO;
 import com.barbershop.enums.BarberServiceCategory;
 import com.barbershop.enums.ToastNotificationType;
 import com.barbershop.enums.ViewRedirection;
 import com.barbershop.exceptions.barberservice.BlankBarberServicePriceException;
+import com.barbershop.launcher.controller.interfaces.BarberServiceControllerViewFunctions;
 import com.barbershop.service.interfaces.BarberserviceService;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -31,7 +33,7 @@ import static com.barbershop.launcher.controller.helper.UIBasicComponents.*;
 
 @Component
 @RequiredArgsConstructor
-public class BarberServiceCreationController {
+public class BarberServiceCreationController implements BarberServiceControllerViewFunctions {
 
     private final BarberserviceService barberserviceService;
     private final ApplicationContext applicationContext;
@@ -65,7 +67,7 @@ public class BarberServiceCreationController {
 
     @FXML
     private Button save_button;
-    
+
     List<TextField> textfields;
 
     @FXML
@@ -79,22 +81,10 @@ public class BarberServiceCreationController {
 
         configureButtonActions();
 
+        configurePriceTextfieldRestrictions(price_field);
+
         loadEnumsOnComboBox(category_combo_box, BarberServiceCategory.values());
         removeFirstItemFromComboBox(category_combo_box);
-    }
-
-    private void configureButtonActions() {
-
-        back_button.setOnAction(_ -> redirectToView(applicationContext, ViewRedirection.BARBER_SERVICES));
-        clean_fields_button.setOnAction(_ -> cleanAllFields());
-        save_button.setOnAction(_ -> registerNewBarberService());
-    }
-
-    private void cleanAllFields() {
-
-        textfields = List.of(service_name_field, price_field, internal_notes_field);
-
-        cleanTextfields(textfields);
     }
 
     private void registerNewBarberService() {
@@ -103,7 +93,7 @@ public class BarberServiceCreationController {
 
             String serviceName = service_name_field.getText();
 
-            if(price_field.getText().isBlank()) throw new BlankBarberServicePriceException();
+            if (price_field.getText().isBlank()) throw new BlankBarberServicePriceException();
 
             Double price = Double.valueOf(price_field.getText());
             BarberServiceCategory category = category_combo_box.getValue();
@@ -134,5 +124,21 @@ public class BarberServiceCreationController {
                 .serviceCategory(category)
                 .internalNotes(internalNotes)
                 .build();
+    }
+
+    @Override
+    public void configureButtonActions(BarberServiceInfoDTO... infoDTO) {
+
+        back_button.setOnAction(_ -> redirectToView(applicationContext, ViewRedirection.BARBER_SERVICES));
+        clean_fields_button.setOnAction(_ -> resetForm());
+        save_button.setOnAction(_ -> registerNewBarberService());
+    }
+
+    @Override
+    public void resetForm(BarberServiceInfoDTO... infoDTO) {
+
+        textfields = List.of(service_name_field, price_field, internal_notes_field);
+
+        cleanTextfields(textfields);
     }
 }

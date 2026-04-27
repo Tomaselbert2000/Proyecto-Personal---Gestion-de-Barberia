@@ -9,6 +9,7 @@ import com.barbershop.enums.ViewRedirection;
 import com.barbershop.exceptions.appointment.DateTimeOutsideServiceHoursException;
 import com.barbershop.exceptions.appointment.InvalidAppointmentStartDateException;
 import com.barbershop.exceptions.common.EmployeeNotAvailableException;
+import com.barbershop.launcher.controller.interfaces.AppointmentControllerViewFunctions;
 import com.barbershop.service.interfaces.AppointmentService;
 import jakarta.validation.ConstraintViolationException;
 import javafx.fxml.FXML;
@@ -45,7 +46,7 @@ import static com.barbershop.launcher.controller.helper.VisibilityHelper.setNode
 
 @Component
 @RequiredArgsConstructor
-public class AppointmentCreationController {
+public class AppointmentCreationController implements AppointmentControllerViewFunctions {
 
     private final AppointmentService appointmentService;
     private final ApplicationContext applicationContext;
@@ -155,37 +156,10 @@ public class AppointmentCreationController {
         setNodeAsNotVisible(client_result_list, selected_client_card_vbox);
     }
 
-    private void configureButtonActions() {
-
-        back_button.setOnAction(_ -> redirectToView(applicationContext, ViewRedirection.APPOINTMENTS));
-        create_client_button.setOnAction(_ -> redirectToView(applicationContext, ViewRedirection.CLIENT_CREATION));
-        change_client_button.setOnAction(_ -> resetForm());
-        save_button.setOnAction(_ -> registerNewAppointment());
-    }
-
     private void configureClientLiveSearch() {
 
         client_search_field.textProperty().addListener((_, _, _) -> executeClientLiveSearchByName());
         client_result_list.getSelectionModel().selectedItemProperty().addListener((_, _, selectedClient) -> onClientSelected(selectedClient));
-    }
-
-    private void configureBarberServiceSelection() {
-
-        barberservice_selector.valueProperty().addListener((_, _, barserServiceSelected) -> onBarberServiceSelected(barserServiceSelected));
-    }
-
-    private void configureEmployeeSelection() {
-
-        employee_selector.valueProperty().addListener((_, _, employeeSelected) -> onEmployeeSelected(employeeSelected));
-    }
-
-    private void configureTimeSelectors() {
-
-        setTimeSelectors(hour_selector, minute_selector);
-
-        date_selector.valueProperty().addListener((_, _, _) -> updateDateTimeSummary());
-        hour_selector.valueProperty().addListener((_, _, _) -> updateDateTimeSummary());
-        minute_selector.valueProperty().addListener((_, _, _) -> updateDateTimeSummary());
     }
 
     private void executeClientLiveSearchByName() {
@@ -223,72 +197,6 @@ public class AppointmentCreationController {
 
         setNodeAsVisible(client_name, national_id_card_number, selected_client_card_vbox);
         setNodeAsNotVisible(client_search_field, client_result_list);
-    }
-
-    private void onBarberServiceSelected(BarberServiceInfoDTO barserServiceSelected) {
-
-        if (barserServiceSelected == null) return;
-
-        barberServiceReference = barserServiceSelected;
-
-        String price = barserServiceSelected.getPrice().toString();
-
-        setTextOnLabel(service_price, CURRENCY_STRING_ARG + price);
-        setTextOnLabel(summary_service, barserServiceSelected.getName());
-        setTextOnLabel(summary_price, price);
-
-        setNodeAsVisible(service_selection_container);
-    }
-
-    private void onEmployeeSelected(EmployeeInfoDTO employeeSelected) {
-
-        if (employeeSelected == null) return;
-
-        employeeReference = employeeSelected;
-
-        String employeeFullName = employeeSelected.getFirstName() + " " + employeeSelected.getLastName();
-
-        setTextOnLabel(summary_employee, employeeFullName);
-    }
-
-    private void updateDateTimeSummary() {
-
-        LocalDate date = date_selector.getValue();
-        LocalTime hour = hour_selector.getValue();
-        LocalTime minute = minute_selector.getValue();
-
-        if (date != null && hour != null && minute != null) {
-
-            String dateTimeSummary = String.format(DATETIME_SUMMARY_FORMAT, date, hour.getHour(), minute.getMinute());
-
-            setTextOnLabel(summary_datetime, dateTimeSummary);
-        }
-    }
-
-    private void resetForm() {
-
-        setBlankTextfield(client_search_field);
-
-        cleanListView(client_result_list);
-
-        setNodeAsNotVisible(selected_client_card_vbox);
-        setNodeAsNotVisible(service_selection_container);
-        setNodeAsVisible(client_search_field);
-
-        setReferenceObjectsAsNull();
-
-        cleanComboBoxes(barberservice_selector, employee_selector, hour_selector, minute_selector);
-
-        cleanDatePicker(date_selector);
-
-        setBlankTextfield(appointment_notes);
-    }
-
-    private void setReferenceObjectsAsNull() {
-
-        this.clientReference = null;
-        this.barberServiceReference = null;
-        this.employeeReference = null;
     }
 
     private void registerNewAppointment() {
@@ -366,5 +274,107 @@ public class AppointmentCreationController {
                 .endDateTime(endDatetime)
                 .optionalNotes(optionalNotes)
                 .build();
+    }
+
+    @Override
+    public void configureButtonActions() {
+
+        back_button.setOnAction(_ -> redirectToView(applicationContext, ViewRedirection.APPOINTMENTS));
+        create_client_button.setOnAction(_ -> redirectToView(applicationContext, ViewRedirection.CLIENT_CREATION));
+        change_client_button.setOnAction(_ -> resetForm());
+        save_button.setOnAction(_ -> registerNewAppointment());
+    }
+
+    @Override
+    public void configureBarberServiceSelection() {
+
+        barberservice_selector.valueProperty().addListener((_, _, barserServiceSelected) -> onBarberServiceSelected(barserServiceSelected));
+    }
+
+    @Override
+    public void configureEmployeeSelection() {
+
+        employee_selector.valueProperty().addListener((_, _, employeeSelected) -> onEmployeeSelected(employeeSelected));
+    }
+
+    @Override
+    public void configureTimeSelectors() {
+
+        setTimeSelectors(hour_selector, minute_selector);
+
+        date_selector.valueProperty().addListener((_, _, _) -> updateDateTimeSummary());
+        hour_selector.valueProperty().addListener((_, _, _) -> updateDateTimeSummary());
+        minute_selector.valueProperty().addListener((_, _, _) -> updateDateTimeSummary());
+    }
+
+    @Override
+    public void onBarberServiceSelected(BarberServiceInfoDTO barberServiceSelected) {
+
+        if (barberServiceSelected == null) return;
+
+        barberServiceReference = barberServiceSelected;
+
+        String price = barberServiceSelected.getPrice().toString();
+
+        setTextOnLabel(service_price, CURRENCY_STRING_ARG + price);
+        setTextOnLabel(summary_service, barberServiceSelected.getName());
+        setTextOnLabel(summary_price, price);
+
+        setNodeAsVisible(service_selection_container);
+    }
+
+    @Override
+    public void onEmployeeSelected(EmployeeInfoDTO employeeSelected) {
+
+        if (employeeSelected == null) return;
+
+        employeeReference = employeeSelected;
+
+        String employeeFullName = employeeSelected.getFirstName() + " " + employeeSelected.getLastName();
+
+        setTextOnLabel(summary_employee, employeeFullName);
+    }
+
+    @Override
+    public void updateDateTimeSummary() {
+
+        LocalDate date = date_selector.getValue();
+        LocalTime hour = hour_selector.getValue();
+        LocalTime minute = minute_selector.getValue();
+
+        if (date != null && hour != null && minute != null) {
+
+            String dateTimeSummary = String.format(DATETIME_SUMMARY_FORMAT, date, hour.getHour(), minute.getMinute());
+
+            setTextOnLabel(summary_datetime, dateTimeSummary);
+        }
+    }
+
+    @Override
+    public void setReferenceObjectsAsNull() {
+
+        this.clientReference = null;
+        this.barberServiceReference = null;
+        this.employeeReference = null;
+    }
+
+    @Override
+    public void resetForm() {
+
+        setBlankTextfield(client_search_field);
+
+        cleanListView(client_result_list);
+
+        setNodeAsNotVisible(selected_client_card_vbox);
+        setNodeAsNotVisible(service_selection_container);
+        setNodeAsVisible(client_search_field);
+
+        setReferenceObjectsAsNull();
+
+        cleanComboBoxes(barberservice_selector, employee_selector, hour_selector, minute_selector);
+
+        cleanDatePicker(date_selector);
+
+        setBlankTextfield(appointment_notes);
     }
 }

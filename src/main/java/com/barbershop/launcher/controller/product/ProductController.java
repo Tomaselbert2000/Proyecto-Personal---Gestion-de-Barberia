@@ -3,6 +3,7 @@ package com.barbershop.launcher.controller.product;
 import com.barbershop.dto.product.ProductInfoDTO;
 import com.barbershop.enums.ProductCategory;
 import com.barbershop.enums.StockStatus;
+import com.barbershop.launcher.controller.interfaces.GenericControllerViewFunctions;
 import com.barbershop.service.interfaces.ProductService;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -32,7 +33,7 @@ import static com.barbershop.launcher.controller.helper.UIBasicComponents.*;
 
 @Component
 @RequiredArgsConstructor
-public class ProductController {
+public class ProductController implements GenericControllerViewFunctions {
 
     private final ProductService productService;
     private final ApplicationContext applicationContext;
@@ -162,12 +163,6 @@ public class ProductController {
         loadProductListOnView(products);
     }
 
-    private void configureButtonActions() {
-
-        create_product_button.setOnAction(_ -> goToRegisterNewProductView());
-        clean_filters_button.setOnAction(_ -> cleanFiltersAndLiveSearch());
-    }
-
     private void loadProductListOnView(List<ProductInfoDTO> products) {
 
         if (products.isEmpty()) {
@@ -199,12 +194,6 @@ public class ProductController {
         loadViewOnPane(PRODUCT_CREATION_VIEW_PATH, applicationContext, PRODUCT_CREATION_VIEW_LOADING_FAILED, anchor_pane);
     }
 
-    private void cleanFiltersAndLiveSearch() {
-
-        setBlankTextfield(product_search_field);
-        cleanComboBoxes(product_category_selector, product_stock_status_selector);
-    }
-
     private void goToEditProductView(ProductInfoDTO productInfoDTO) {
 
         FXMLLoader loader = generateLoaderWithPath(PRODUCT_EDITION_VIEW_PATH);
@@ -222,5 +211,20 @@ public class ProductController {
 
     private void goToAddStockView(ProductInfoDTO productInfoDTO) {
 
+
+    }
+
+    @Override
+    public void configureButtonActions() {
+
+        create_product_button.setOnAction(_ -> goToRegisterNewProductView());
+        clean_filters_button.setOnAction(_ -> cleanFiltersAndLiveSearch());
+    }
+
+    @Override
+    public void cleanFiltersAndLiveSearch() {
+
+        setBlankTextfield(product_search_field);
+        cleanComboBoxes(product_category_selector, product_stock_status_selector);
     }
 }

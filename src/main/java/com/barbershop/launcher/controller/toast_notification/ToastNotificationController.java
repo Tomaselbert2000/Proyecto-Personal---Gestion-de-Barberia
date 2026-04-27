@@ -21,6 +21,7 @@ import static com.barbershop.launcher.constants.ui.messages.ToastNotificationMes
 import static com.barbershop.launcher.constants.ui.messages.ToastNotificationMessage.TOAST_NOTIFICATION_TITLE_SUCCESSFUL;
 import static com.barbershop.launcher.controller.helper.ToastNotificationHelper.generateTimelineInstance;
 import static com.barbershop.launcher.controller.helper.UIBasicComponents.*;
+import static com.barbershop.launcher.controller.helper.VisibilityHelper.setNodeAsVisible;
 
 @Component
 @RequiredArgsConstructor
@@ -88,7 +89,7 @@ public class ToastNotificationController {
         setTextOnLabel(toast_message, message);
 
         configureToastCloseButton(anchorPane, node, timeline);
-        toast_progress_container.setVisible(true);
+        setNodeAsVisible(toast_progress_container);
         timeline.setOnFinished(_ -> anchorPane.getChildren().remove(node));
         timeline.play();
     }

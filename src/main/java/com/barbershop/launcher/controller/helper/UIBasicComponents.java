@@ -1,8 +1,10 @@
 package com.barbershop.launcher.controller.helper;
 
 import com.barbershop.enums.AppointmentStatus;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.time.LocalTime;
@@ -10,11 +12,24 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.UnaryOperator;
 
 import static com.barbershop.launcher.constants.ui.css_class.CssStylesStrings.EMPTY_LIST_STYLE_CLASS;
 import static com.barbershop.launcher.controller.helper.ComboBoxHelper.*;
+import static com.barbershop.launcher.controller.helper.ValidationFormatter.generateTextFormatterWithFilter;
+import static com.barbershop.launcher.controller.helper.ValidationFormatter.generateUnaryOperatorFilterForTextFormatterWith;
+import static com.barbershop.utils.strings.RegexPatterns.PRICE_REGEX;
 
 public class UIBasicComponents {
+
+    public static HBox createHBox() {
+
+        HBox hbox = new HBox();
+        hbox.setAlignment(Pos.CENTER_LEFT);
+        hbox.setSpacing(10);
+
+        return hbox;
+    }
 
     public static void setTextOnLabel(Label label, String stringValue) {
 
@@ -165,5 +180,14 @@ public class UIBasicComponents {
 
         setLocalTimeHourConverter(hourSelector);
         setLocalTimeMinuteConverter(minuteSelector);
+    }
+
+    public static void configurePriceTextfieldRestrictions(TextField priceField) {
+
+        UnaryOperator<TextFormatter.Change> unaryOperatorFilter = generateUnaryOperatorFilterForTextFormatterWith(PRICE_REGEX);
+
+        TextFormatter<String> stringTextFormatter = generateTextFormatterWithFilter(unaryOperatorFilter);
+
+        priceField.setTextFormatter(stringTextFormatter);
     }
 }

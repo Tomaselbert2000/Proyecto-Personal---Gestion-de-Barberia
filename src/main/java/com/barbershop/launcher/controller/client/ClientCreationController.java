@@ -5,7 +5,6 @@ import com.barbershop.enums.ToastNotificationType;
 import com.barbershop.enums.ViewRedirection;
 import com.barbershop.service.interfaces.ClientService;
 import javafx.fxml.FXML;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -22,8 +21,7 @@ import java.util.Map;
 import static com.barbershop.launcher.constants.ui.css_class.CssStylesStrings.*;
 import static com.barbershop.launcher.constants.ui.messages.ToastNotificationMessage.CLIENT_CREATION_TOAST_NOTIFICATION_MESSAGE;
 import static com.barbershop.launcher.constants.ui.prompt_text.ClientPromptText.*;
-import static com.barbershop.launcher.controller.helper.ContainerManager.cleanVBox;
-import static com.barbershop.launcher.controller.helper.ContainerManager.loadItemOnVBox;
+import static com.barbershop.launcher.controller.helper.ContainerManager.*;
 import static com.barbershop.launcher.controller.helper.FXMLViewLoader.redirectToView;
 import static com.barbershop.launcher.controller.helper.ToastNotificationHelper.showExceptionErrorMessage;
 import static com.barbershop.launcher.controller.helper.ToastNotificationHelper.showToastNotification;
@@ -151,18 +149,9 @@ public class ClientCreationController {
 
         Button removePhoneButton = createRemoveButton(hbox);
 
-        addNodesToHBox(textField, removePhoneButton, hbox);
+        addNodesToHBox(hbox, textField, removePhoneButton);
 
         loadItemOnVBox(phones_container, hbox);
-    }
-
-    private HBox createHBox() {
-
-        HBox hbox = new HBox();
-        hbox.setAlignment(Pos.CENTER_LEFT);
-        hbox.setSpacing(10);
-
-        return hbox;
     }
 
     private TextField createPhoneNumberTextfield() {
@@ -188,12 +177,6 @@ public class ClientCreationController {
         removePhoneButton.setGraphic(regionComponentForIcon);
 
         return removePhoneButton;
-    }
-
-    private void addNodesToHBox(TextField textField, Button removePhoneButton, HBox hbox) {
-
-        hbox.getChildren().add(textField);
-        hbox.getChildren().add(removePhoneButton);
     }
 
     private ClientCreationDTO buildDTOFromAttributes(

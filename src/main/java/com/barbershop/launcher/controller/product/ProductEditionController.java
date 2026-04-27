@@ -6,6 +6,7 @@ import com.barbershop.enums.ProductCategory;
 import com.barbershop.enums.ProductPresentationUnit;
 import com.barbershop.enums.ToastNotificationType;
 import com.barbershop.enums.ViewRedirection;
+import com.barbershop.launcher.controller.interfaces.ProductControllerViewFunctions;
 import com.barbershop.service.interfaces.ProductService;
 import jakarta.validation.ConstraintViolationException;
 import javafx.fxml.FXML;
@@ -20,6 +21,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -36,7 +38,7 @@ import static com.barbershop.launcher.controller.helper.UIBasicComponents.setTex
 
 @Component
 @RequiredArgsConstructor
-public class ProductEditionController {
+public class ProductEditionController implements ProductControllerViewFunctions {
 
     private final ApplicationContext applicationContext;
     private final ProductService productService;
@@ -165,26 +167,6 @@ public class ProductEditionController {
         }
     }
 
-    private void configureButtonActions(ProductInfoDTO infoDTOReference) {
-
-        back_button.setOnAction(_ -> redirectToView(applicationContext, ViewRedirection.PRODUCTS));
-        remove_image_button.setOnAction(_ -> cleanImageView(product_image_preview));
-        select_image_button.setOnAction(_ -> handleImageUpdate());
-        save_button.setOnAction(_ -> updateProduct(infoDTOReference));
-    }
-
-    private void handleImageUpdate() {
-
-        File newFile = getFileFromFileChooser(anchor_pane);
-
-        if (newFile != null) {
-
-            filePath = newFile.getAbsolutePath();
-
-            loadFileOnImageView(newFile, product_image_preview);
-        }
-    }
-
     private void updateProduct(ProductInfoDTO infoDTOReference) {
 
         try {
@@ -270,5 +252,29 @@ public class ProductEditionController {
                 .safetyStockLevel(parsedSafetyStockLevel)
                 .imageFilePath(filePath)
                 .build();
+    }
+
+    @Override
+    public void configureButtonActions(ProductInfoDTO... infoDTO) {
+
+        ProductInfoDTO dto = Arrays.stream(infoDTO).toList().getFirst();
+
+        back_button.setOnAction(_ -> redirectToView(applicationContext, ViewRedirection.PRODUCTS));
+        remove_image_button.setOnAction(_ -> cleanImageView(product_image_preview));
+        select_image_button.setOnAction(_ -> handleImageSelection());
+        save_button.setOnAction(_ -> updateProduct(dto));
+    }
+
+    @Override
+    public void handleImageSelection() {
+
+        File newFile = getFileFromFileChooser(anchor_pane);
+
+        if (newFile != null) {
+
+            filePath = newFile.getAbsolutePath();
+
+            loadFileOnImageView(newFile, product_image_preview);
+        }
     }
 }

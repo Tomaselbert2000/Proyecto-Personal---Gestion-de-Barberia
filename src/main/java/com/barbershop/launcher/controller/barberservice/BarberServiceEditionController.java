@@ -6,6 +6,8 @@ import com.barbershop.enums.BarberServiceCategory;
 import com.barbershop.enums.ToastNotificationType;
 import com.barbershop.enums.ViewRedirection;
 import com.barbershop.exceptions.barberservice.BlankBarberServicePriceException;
+import com.barbershop.launcher.controller.helper.UIBasicComponents;
+import com.barbershop.launcher.controller.interfaces.BarberServiceControllerViewFunctions;
 import com.barbershop.service.interfaces.BarberserviceService;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -15,23 +17,21 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.function.UnaryOperator;
 
 import static com.barbershop.launcher.constants.ui.messages.ToastNotificationMessage.BARBER_SERVICE_UPDATE_TOAST_NOTIFICATION_MESSAGE;
 import static com.barbershop.launcher.controller.helper.UIBasicComponents.*;
-import static com.barbershop.launcher.controller.helper.ValidationFormatter.*;
 import static com.barbershop.launcher.controller.helper.ComboBoxHelper.loadEnumsOnComboBox;
 import static com.barbershop.launcher.controller.helper.ComboBoxHelper.removeFirstItemFromComboBox;
 import static com.barbershop.launcher.controller.helper.FXMLViewLoader.redirectToView;
 import static com.barbershop.launcher.controller.helper.ToastNotificationHelper.showExceptionErrorMessage;
 import static com.barbershop.launcher.controller.helper.ToastNotificationHelper.showToastNotification;
-import static com.barbershop.utils.strings.RegexPatterns.PRICE_REGEX;
 
 @Component
 @RequiredArgsConstructor
-public class BarberServiceEditionController {
+public class BarberServiceEditionController implements BarberServiceControllerViewFunctions {
 
     private final BarberserviceService barberserviceService;
     private final ApplicationContext applicationContext;
@@ -79,7 +79,7 @@ public class BarberServiceEditionController {
 
         configureButtonActions(infoDTO);
 
-        configurePriceTextfieldRestrictions();
+        UIBasicComponents.configurePriceTextfieldRestrictions(price_field);
     }
 
     public void loadServiceDataForEdition(BarberServiceInfoDTO infoDTO) {
@@ -90,34 +90,6 @@ public class BarberServiceEditionController {
         Map<TextField, String> map = generateMap(textfields, texts);
 
         setTextsOnTextfieldMap(map);
-    }
-
-    private void configureButtonActions(BarberServiceInfoDTO infoDTO) {
-
-        back_button.setOnAction(_ -> redirectToView(applicationContext, ViewRedirection.BARBER_SERVICES));
-        restore_values_button.setOnAction(_ -> resetForm(infoDTO));
-        update_button.setOnAction(_ -> updateBarberService());
-    }
-
-    private void configurePriceTextfieldRestrictions() {
-
-        UnaryOperator<TextFormatter.Change> unaryOperatorFilter = generateUnaryOperatorFilterForTextFormatterWith(PRICE_REGEX);
-
-        TextFormatter<String> stringTextFormatter = generateTextFormatterWithFilter(unaryOperatorFilter);
-
-        price_field.setTextFormatter(stringTextFormatter);
-    }
-
-    private void resetForm(BarberServiceInfoDTO infoDTO) {
-
-        List<TextField> textfieldsToClean = List.of(service_name_field, price_field, internal_notes_field);
-
-        cleanTextfields(textfieldsToClean);
-
-        loadServiceDataForEdition(infoDTO);
-
-        loadEnumsOnComboBox(category_combo_box, BarberServiceCategory.values());
-        removeFirstItemFromComboBox(category_combo_box);
     }
 
     private void updateBarberService() {
@@ -158,5 +130,26 @@ public class BarberServiceEditionController {
                 .serviceCategory(newCategory)
                 .internalNotes(newInternalNotes)
                 .build();
+    }
+
+    @Override
+    public void configureButtonActions(BarberServiceInfoDTO... infoDTO) {
+
+        back_button.setOnAction(_ -> redirectToView(applicationContext, ViewRedirection.BARBER_SERVICES));
+        restore_values_button.setOnAction(_ -> resetForm(Arrays.stream(infoDTO).toList().getFirst()));
+        update_button.setOnAction(_ -> updateBarberService());
+    }
+
+    @Override
+    public void resetForm(BarberServiceInfoDTO... infoDTO) {
+
+        List<TextField> textfieldsToClean = List.of(service_name_field, price_field, internal_notes_field);
+
+        cleanTextfields(textfieldsToClean);
+
+        loadServiceDataForEdition(Arrays.stream(infoDTO).toList().getFirst());
+
+        loadEnumsOnComboBox(category_combo_box, BarberServiceCategory.values());
+        removeFirstItemFromComboBox(category_combo_box);
     }
 }
