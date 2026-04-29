@@ -79,6 +79,11 @@ public class UIBasicComponents {
         textfield.setText(text);
     }
 
+    public static void setTextOnButton(Button button, String text) {
+
+        button.setText(text);
+    }
+
     public static void setTextsOnTextfieldMap(Map<TextField, String> map) {
 
         for (TextField textField : map.keySet()) {
@@ -91,6 +96,7 @@ public class UIBasicComponents {
 
     public static void setNodeStyleClass(Node node, String styleClass) {
 
+        node.getStyleClass().removeAll();
         node.getStyleClass().add(styleClass);
     }
 
@@ -112,13 +118,13 @@ public class UIBasicComponents {
         }
     }
 
-    public static <T> Map<T, String> generateMap(List<T> keys, List<String> promptTexts) {
+    public static <T> Map<T, String> generateMap(List<T> keys, List<String> values) {
 
         Map<T, String> map = new HashMap<>();
 
         for (int i = 0; i < keys.size(); i++) {
 
-            map.put(keys.get(i), promptTexts.get(i));
+            map.put(keys.get(i), values.get(i));
         }
 
         return map;

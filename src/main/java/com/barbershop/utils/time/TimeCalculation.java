@@ -43,6 +43,15 @@ public class TimeCalculation {
         return today.withDayOfMonth(today.lengthOfMonth());
     }
 
+    public static LocalDateTime getStartOfLastMonth() {
+
+        LocalDate today = getCurrentDate();
+
+        LocalDate theLastMonth = today.minusMonths(1);
+
+        return theLastMonth.with(TemporalAdjusters.firstDayOfMonth()).atTime(FIRST_SECOND_OF_DAY);
+    }
+
     public static LocalDateTime getEndOfLastMonth() {
 
         LocalDate today = getCurrentDate();

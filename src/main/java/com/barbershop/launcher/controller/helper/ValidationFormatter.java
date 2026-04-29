@@ -41,6 +41,11 @@ public class ValidationFormatter {
         return String.format(PRICE_FORMAT, value);
     }
 
+    public static String formatAsDecimalValue(Double percentage) {
+
+        return String.format(ONE_DECIMAL_FORMAT, percentage);
+    }
+
     public static String formatAsPercentage(Double percentage) {
 
         return String.format(PERCENTAGE_FORMAT, percentage);
