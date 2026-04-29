@@ -14,6 +14,8 @@ public class EmployeeInfoDTO {
     private String lastName;
     private String hireDateAsString;
     private String terminationDateAsString;
+    private Double commissionPercentage;
+    private Boolean isActive;
 
     @Override
     public String toString() {

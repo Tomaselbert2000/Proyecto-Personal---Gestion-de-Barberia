@@ -64,6 +64,8 @@ public class EmployeeMapperImpl implements EmployeeMapper {
                 .lastName(employee.getLastName())
                 .hireDateAsString(String.valueOf(employee.getHireDate()))
                 .terminationDateAsString(terminationDateAsString)
+                .commissionPercentage(employee.getCommissionPercentage())
+                .isActive(employee.isActive())
                 .build();
     }
 

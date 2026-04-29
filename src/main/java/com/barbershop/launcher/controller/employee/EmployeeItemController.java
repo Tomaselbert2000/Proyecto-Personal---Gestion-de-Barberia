@@ -5,65 +5,143 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Circle;
+import lombok.Getter;
+import lombok.Setter;
+import org.jspecify.annotations.NonNull;
+import org.springframework.stereotype.Component;
 
+import java.util.List;
+import java.util.Map;
+import java.util.function.Consumer;
+
+import static com.barbershop.launcher.constants.ui.css_class.CssStylesStrings.EMPLOYEE_ITEM_STATUS_ACTIVO;
+import static com.barbershop.launcher.constants.ui.css_class.CssStylesStrings.EMPLOYEE_ITEM_STATUS_INACTIVO;
+import static com.barbershop.launcher.controller.helper.UIBasicComponents.*;
+
+@Component
+@Getter
+@Setter
 public class EmployeeItemController {
 
-    private static final String[] AVATAR_COLORS = {
-        "#D4AF37", "#8B4513", "#5D4037", "#A69076", 
-        "#6D4C41", "#795548", "#4E342E", "#3E2723"
-    };
+    private EmployeeInfoDTO infoDTOReference;
+
+    private Consumer<EmployeeInfoDTO> onEditCallBack;
+    private Consumer<EmployeeInfoDTO> onStatusChangeCallBack;
 
     @FXML
-    private Label employeeName;
+    private Circle employee_avatar;
 
     @FXML
-    private Label employeeStatus;
+    private Label employee_initials;
 
     @FXML
-    private Label hireDate;
+    private Label employee_name;
 
     @FXML
-    private Label commission;
+    private VBox employee_status_badge;
 
     @FXML
-    private VBox statusBadge;
+    private Label status_label;
 
     @FXML
-    private Button actionButton;
+    private Label hire_date;
 
-    public void setDataOnItem(EmployeeInfoDTO infoDTO, boolean isActive) {
-        String fullName = infoDTO.getFirstName() + " " + infoDTO.getLastName();
-        employeeName.setText(fullName);
-        
-        hireDate.setText(infoDTO.getHireDateAsString());
-        
+    @FXML
+    private Label commission_percentage;
+
+    @FXML
+    private Label monthly_appointments;
+
+    @FXML
+    private Button edit_button;
+
+    @FXML
+    private Button toggle_status_button;
+
+    @FXML
+    public void initialize() {
+
+        configureButtonActions();
+    }
+
+    private void toggleStatusComponents(Boolean isActive) {
+
         if (isActive) {
-            employeeStatus.setText("ACTIVO");
-            statusBadge.getStyleClass().clear();
-            statusBadge.getStyleClass().add("status-badge-activo");
-            actionButton.setText("Desactivar");
-            actionButton.getStyleClass().clear();
-            actionButton.getStyleClass().add("appointment-action-button-cancel");
+
+            setTextOnLabel(status_label, "Activo");
+            setNodeStyleClass(employee_status_badge, EMPLOYEE_ITEM_STATUS_ACTIVO);
+
+            setTextOnButton(toggle_status_button, "Desactivar");
+
         } else {
-            employeeStatus.setText("INACTIVO");
-            statusBadge.getStyleClass().clear();
-            statusBadge.getStyleClass().add("status-badge-inactivo");
-            actionButton.setText("Reactivar");
-            actionButton.getStyleClass().clear();
-            actionButton.getStyleClass().add("appointment-action-button-complete");
+
+            setTextOnLabel(status_label, "Inactivo");
+            setNodeStyleClass(employee_status_badge, EMPLOYEE_ITEM_STATUS_INACTIVO);
+
+            setTextOnButton(toggle_status_button, "Activar");
+
         }
     }
 
-    public void setCommissionPercentage(Double commissionPercentage) {
-        if (commissionPercentage != null) {
-            commission.setText(String.format("%.0f%%", commissionPercentage));
-        } else {
-            commission.setText("0%");
-        }
+    private void configureButtonActions() {
+
+        edit_button.setOnAction(_ -> goToEditEmployeeView());
+        toggle_status_button.setOnAction(_ -> changeEmployeeActivityStatus());
     }
 
-    public void setAvatarColor(String name) {
-        int colorIndex = Math.abs(name.hashCode()) % AVATAR_COLORS.length;
-        String color = AVATAR_COLORS[colorIndex];
+    private void goToEditEmployeeView() {
+
+        if (onEditCallBack != null) onEditCallBack.accept(infoDTOReference);
+    }
+
+    private void changeEmployeeActivityStatus() {
+
+        boolean currentActivityValue = infoDTOReference.getIsActive();
+
+        infoDTOReference.setIsActive(!currentActivityValue);
+
+        toggleStatusComponents(infoDTOReference.getIsActive());
+
+        if (onStatusChangeCallBack != null) onStatusChangeCallBack.accept(infoDTOReference);
+    }
+
+    public void setDataOnItem(EmployeeInfoDTO infoDTO) {
+
+        infoDTOReference = infoDTO;
+
+        toggleStatusComponents(infoDTO.getIsActive());
+
+        List<Label> labels = List.of(employee_initials, employee_name, status_label, hire_date, commission_percentage, monthly_appointments);
+
+        String employeeFirstNameInitial = String.valueOf(infoDTO.getFirstName().charAt(0));
+        String employeeLastNameInitial = String.valueOf(infoDTO.getLastName().charAt(0));
+        List<String> texts = getStrings(infoDTO, employeeFirstNameInitial, employeeLastNameInitial);
+
+        Map<Label, String> map = generateMap(labels, texts);
+
+        setTextsOnLabelMap(map);
+    }
+
+    private static @NonNull List<String> getStrings(EmployeeInfoDTO infoDTO, String employeeFirstNameInitial, String employeeLastNameInitial) {
+        String employeeInitials = employeeFirstNameInitial + employeeLastNameInitial;
+
+        String currentStatus;
+
+        if (infoDTO.getIsActive()) {
+
+            currentStatus = "Activo";
+
+        } else {
+
+            currentStatus = "Inactivo";
+        }
+
+        String employeeFullName = infoDTO.getFirstName() + " " + infoDTO.getLastName();
+        String hireDate = infoDTO.getHireDateAsString();
+        String commissionPercentage = (infoDTO.getCommissionPercentage() * 100) + "%";
+        String monthlyAppointments = String.valueOf(10);
+
+        return List.of(employeeInitials, employeeFullName, currentStatus, hireDate, commissionPercentage, monthlyAppointments);
     }
 }

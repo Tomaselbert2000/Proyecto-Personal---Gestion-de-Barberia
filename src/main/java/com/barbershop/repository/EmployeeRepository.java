@@ -16,4 +16,18 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     List<Employee> findTop5ByOrderByHireDateDesc();
 
     List<Employee> findTop5ByTerminationDateIsNotNullOrderByTerminationDateDesc();
+
+    @Query("SELECT COUNT(E.employeeID) FROM Employee AS E WHERE E.isActive = TRUE")
+    Long getActiveEmployees();
+
+    @Query("SELECT COUNT(E.employeeID) FROM Employee AS E WHERE E.isActive = FALSE")
+    Long getInactiveEmployees();
+
+    @Query("SELECT e FROM Employee e WHERE (:employeeName IS NULL OR LOWER(CONCAT(e.firstName, ' ', e.lastName)) LIKE LOWER(CONCAT('%', :employeeName, '%'))) AND (:selectedStatus IS NULL OR e.isActive =:selectedStatus) AND (:startDate IS NULL OR :startDate <= e.hireDate) AND (:endDate IS NULL OR :endDate >= e.hireDate)")
+    List<Employee> liveSearchWithFilters(
+            @Param("employeeName") String employeeName,
+            @Param("selectedStatus") Boolean selectedStatus,
+            @Param("startDate") LocalDate startDate,
+            @Param("endDate") LocalDate endDate
+    );
 }

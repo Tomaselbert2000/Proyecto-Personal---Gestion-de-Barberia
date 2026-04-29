@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
+
+<?import javafx.scene.layout.StackPane?>
+<VBox styleClass="employee-card" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.barbershop.launcher.controller.employee.EmployeeItemController">
+    <HBox alignment="CENTER_LEFT" spacing="20.0">
+        <!-- Employee Avatar -->
+        <VBox alignment="CENTER">
+            <StackPane>
+                <Circle fx:id="employee_avatar" radius="28.0"/>
+                <Label fx:id="employee_initials" text="JD">
+                    <font>
+                        <Font name="Roboto Bold" size="20.0"/>
+                    </font>
+                </Label>
+            </StackPane>
+        </VBox>
+
+        <!-- Employee Information -->
+        <VBox alignment="CENTER_LEFT" spacing="4.0" HBox.hgrow="ALWAYS">
+            <HBox alignment="CENTER_LEFT" spacing="8.0">
+                <Label fx:id="employee_name" styleClass="employee-name" text="Employee Name">
+                    <font>
+                        <Font name="Roboto Medium" size="16.0"/>
+                    </font>
+                </Label>
+                <VBox fx:id="employee_status_badge">
+                    <Label fx:id="status_label">
+                        <font>
+                            <Font name="Roboto Bold" size="10.0"/>
+                        </font>
+                    </Label>
+                </VBox>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" spacing="20.0">
+                <HBox alignment="CENTER_LEFT" spacing="5.0">
+                    <Label styleClass="employee-info-label" text="Contratación:">
+                        <font>
+                            <Font name="Roboto Regular" size="12.0"/>
+                        </font>
+                    </Label>
+                    <Label fx:id="hire_date" styleClass="employee-info-value" text="01/01/2024">
+                        <font>
+                            <Font name="Roboto Medium" size="12.0"/>
+                        </font>
+                    </Label>
+                </HBox>
+                <HBox alignment="CENTER_LEFT" spacing="5.0">
+                    <Label styleClass="employee-info-label" text="Comisión:">
+                        <font>
+                            <Font name="Roboto Regular" size="12.0"/>
+                        </font>
+                    </Label>
+                    <Label fx:id="commission_percentage" styleClass="employee-info-value" text="15%">
+                        <font>
+                            <Font name="Roboto Medium" size="12.0"/>
+                        </font>
+                    </Label>
+                </HBox>
+                <HBox alignment="CENTER_LEFT" spacing="5.0">
+                    <Label styleClass="employee-info-label" text="Turnos este mes:">
+                        <font>
+                            <Font name="Roboto Regular" size="12.0"/>
+                        </font>
+                    </Label>
+                    <Label fx:id="monthly_appointments" styleClass="employee-info-value" text="0">
+                        <font>
+                            <Font name="Roboto Medium" size="12.0"/>
+                        </font>
+                    </Label>
+                </HBox>
+            </HBox>
+        </VBox>
+
+        <!-- Actions -->
+        <HBox alignment="CENTER" spacing="8.0">
+            <Button fx:id="edit_button" mnemonicParsing="false" styleClass="appointment-action-button" text="Editar">
+                <font>
+                    <Font name="Roboto Medium" size="12.0"/>
+                </font>
+            </Button>
+            <Button fx:id="toggle_status_button" mnemonicParsing="false" styleClass="appointment-action-button"
+                    text="Desactivar">
+                <font>
+                    <Font name="Roboto Medium" size="12.0"/>
+                </font>
+            </Button>
+        </HBox>
+    </HBox>
+    <padding>
+        <Insets/>
+    </padding>
+</VBox>

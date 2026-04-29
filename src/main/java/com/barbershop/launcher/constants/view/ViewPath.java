@@ -9,7 +9,9 @@ public class ViewPath {
     public static final String APPOINTMENT_CREATION_VIEW_PATH = "/view/AppointmentCreation.fxml";
     public static final String APPOINTMENT_EDITION_VIEW_PATH = "/view/AppointmentUpdate.fxml";
 
-    public static final String EMPLOYEES_VIEW_PATH = "/view/EmployeesView";
+    public static final String EMPLOYEES_VIEW_PATH = "/view/EmployeesView.fxml";
+    public static final String EMPLOYEE_CREATION_VIEW_PATH = "/view/EmployeeCreation.fxml";
+    public static final String EMPLOYEE_ITEM_VIEW_PATH = "/view/EmployeeItem.fxml";
 
     public static final String CLIENTS_VIEW_PATH = "/view/ClientsView.fxml";
     public static final String CLIENT_CREATION_VIEW_PATH = "/view/ClientCreation.fxml";

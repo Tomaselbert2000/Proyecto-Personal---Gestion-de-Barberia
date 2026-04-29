@@ -13,6 +13,9 @@ public class CssStylesStrings {
     public static final String APPOINTMENT_STATUS_CANCELADO_STYLE_CLASS = "status-badge-cancelado";
     public static final String APPOINTMENT_STATUS_REPROGRAMADO_STYLE_CLASS = "status-badge-reprogramado";
 
+    public static final String EMPLOYEE_ITEM_STATUS_ACTIVO = "status-badge-activo";
+    public static final String EMPLOYEE_ITEM_STATUS_INACTIVO = "status-badge-inactivo";
+
     public static final String CANCELED_APPOINTMENT_ICON = "dashboard-view-recent-activity-canceled-appointment-icon";
     public static final String COMPLETED_APPOINTMENT_ICON = "dashboard-view-recent-activity-finished-appointment-icon";
     public static final String INACTIVE_EMPLOYEE_ICON = "dashboard-view-recent-activity-inactive-employee-icon";
