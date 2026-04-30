@@ -1,6 +1,8 @@
 package com.barbershop.launcher.controller.dashboard;
 
 import com.barbershop.dto.dashboard.RecentActivityDTO;
+import com.barbershop.enums.ViewRedirection;
+import com.barbershop.launcher.controller.helper.ViewRedirectionHelper;
 import com.barbershop.service.interfaces.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,6 +19,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Map;
 
 import static com.barbershop.launcher.constants.ui.messages.EmptyListMessage.EMPTY_ACTIVITY_LOG_MESSAGE;
 import static com.barbershop.launcher.constants.ui.messages.ViewLoadingErrorMessage.*;
@@ -24,8 +27,7 @@ import static com.barbershop.launcher.constants.view.ViewPath.*;
 import static com.barbershop.launcher.controller.helper.ContainerManager.cleanVBox;
 import static com.barbershop.launcher.controller.helper.ContainerManager.loadItemOnVBox;
 import static com.barbershop.launcher.controller.helper.FXMLViewLoader.*;
-import static com.barbershop.launcher.controller.helper.UIBasicComponents.setTextOnLabel;
-import static com.barbershop.launcher.controller.helper.UIBasicComponents.showEmptyListLabel;
+import static com.barbershop.launcher.controller.helper.UIBasicComponents.*;
 
 @Component
 @Getter
@@ -64,10 +66,37 @@ public class DashboardController {
     private Button navbar_product_button;
 
     @FXML
+    private Button navbar_barber_service_button;
+
+    @FXML
     private Button navbar_settings_button;
 
     @FXML
     private Button navbar_logout_button;
+
+    @FXML
+    private Button clients_view_button;
+
+    @FXML
+    private Button create_client_button;
+
+    @FXML
+    private Button employee_view_button;
+
+    @FXML
+    private Button create_employee_button;
+
+    @FXML
+    private Button appointments_view_button;
+
+    @FXML
+    private Button create_appointment_button;
+
+    @FXML
+    private Button products_view_button;
+
+    @FXML
+    private Button create_product_button;
 
     @FXML
     private Label clients_registered_count;
@@ -93,9 +122,6 @@ public class DashboardController {
     @FXML
     private Label low_stock_products_count;
 
-    @FXML
-    public Button dashboard_view_register_client_button;
-
     private final ApplicationContext applicationContext;
 
     @FXML
@@ -104,65 +130,40 @@ public class DashboardController {
         dashboardReference = borderPane.getCenter();
 
         loadStatistics();
+
+        configureButtonActions();
     }
 
-    @FXML
-    public void showDashboardView() {
+    private void configureButtonActions() {
 
-        borderPane.setCenter(dashboardReference);
+        Map<Button, Runnable> navBarButtonsMap = Map.of(
+                navbar_dashboard_button, () -> ViewRedirectionHelper.redirectToView(ViewRedirection.DASHBOARD, borderPane, applicationContext),
+                navbar_client_button, () -> ViewRedirectionHelper.redirectToView(ViewRedirection.CLIENTS, borderPane, applicationContext),
+                navbar_employee_button, () -> ViewRedirectionHelper.redirectToView(ViewRedirection.EMPLOYEES, borderPane, applicationContext),
+                navbar_appointment_button, () -> ViewRedirectionHelper.redirectToView(ViewRedirection.APPOINTMENTS, borderPane, applicationContext),
+                navbar_barber_service_button, () -> ViewRedirectionHelper.redirectToView(ViewRedirection.BARBER_SERVICES, borderPane, applicationContext),
+                navbar_product_button, () -> ViewRedirectionHelper.redirectToView(ViewRedirection.PRODUCTS, borderPane, applicationContext),
+                navbar_settings_button, () -> ViewRedirectionHelper.redirectToView(ViewRedirection.SETTINGS, borderPane, applicationContext),
+                navbar_logout_button, () -> ViewRedirectionHelper.redirectToView(ViewRedirection.LOGOUT, borderPane, applicationContext)
+        );
 
-        loadStatistics();
+        Map<Button, Runnable> quickAccessButtonsMap = Map.of(
+                clients_view_button, () -> ViewRedirectionHelper.redirectToView(ViewRedirection.CLIENTS, borderPane, applicationContext),
+                employee_view_button, () -> ViewRedirectionHelper.redirectToView(ViewRedirection.EMPLOYEES, borderPane, applicationContext),
+                appointments_view_button, () -> ViewRedirectionHelper.redirectToView(ViewRedirection.APPOINTMENTS, borderPane, applicationContext),
+                products_view_button, () -> ViewRedirectionHelper.redirectToView(ViewRedirection.PRODUCTS, borderPane, applicationContext)
+        );
+
+        Map<Button, Runnable> quickCreationButtonsMap = Map.of(
+                create_client_button, () -> ViewRedirectionHelper.redirectToView(ViewRedirection.CLIENT_CREATION, borderPane, applicationContext),
+                create_employee_button, () -> ViewRedirectionHelper.redirectToView(ViewRedirection.EMPLOYEE_CREATION, borderPane, applicationContext),
+                create_appointment_button, () -> ViewRedirectionHelper.redirectToView(ViewRedirection.APPOINTMENT_CREATION, borderPane, applicationContext),
+                create_product_button, () -> ViewRedirectionHelper.redirectToView(ViewRedirection.PRODUCT_CREATION, borderPane, applicationContext)
+        );
+
+        configureRunnableMaps(navBarButtonsMap, quickAccessButtonsMap, quickCreationButtonsMap);
     }
 
-    @FXML
-    public void showEmployeeView() {
-
-        loadViewOnPane(EMPLOYEES_VIEW_PATH, applicationContext, EMPLOYEE_VIEW_LOADING_FAILED, borderPane);
-    }
-
-    @FXML
-    public void showAppointmentView() {
-
-        loadViewOnPane(APPOINTMENT_VIEW_PATH, applicationContext, APPOINTMENS_VIEW_LIST_LOADING_FAILED, borderPane);
-    }
-
-    @FXML
-    public void showClientView() {
-
-        loadViewOnPane(CLIENTS_VIEW_PATH, applicationContext, CLIENT_CREATION_VIEW_LOADING_FAILED, borderPane);
-    }
-
-    @FXML
-    public void showBarberServiceView() {
-
-        loadViewOnPane(BARBER_SERVICE_VIEW_PATH, applicationContext, BARBER_SERVICE_VIEW_LOADING_FAILED, borderPane);
-    }
-
-    @FXML
-    public void showProductView() {
-
-        loadViewOnPane(PRODUCT_STOCK_VIEW_PATH, applicationContext, PRODUCTS_VIEW_LOADING_FAILED, borderPane);
-    }
-
-    @FXML
-    public void showSettingsView() {
-
-        loadViewOnPane(SETTINGS_VIEW_PATH, applicationContext, SETTINGS_VIEW_LOADING_FAILED, borderPane);
-    }
-
-    @FXML
-    public void showLogoutView() {
-
-        //TODO: completar esto más adelante
-    }
-
-    @FXML
-    public void showRegisterNewClientView() {
-
-        loadViewOnPane(CLIENT_CREATION_VIEW_PATH, applicationContext, CLIENT_CREATION_VIEW_LOADING_FAILED, borderPane);
-    }
-
-    @FXML
     private void loadEventLog() {
 
         List<RecentActivityDTO> recentActivity = dashboardService.getRecentActivityLog();

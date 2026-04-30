@@ -23,6 +23,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Map;
 
 import static com.barbershop.launcher.constants.ui.messages.ConfirmationDialogMessage.*;
 import static com.barbershop.launcher.constants.ui.messages.EmptyListMessage.EMPTY_BARBER_SERVICE_CATALOG_LIST_MESSAGE;
@@ -298,8 +299,12 @@ public class BarberServiceController implements GenericControllerViewFunctions {
     @Override
     public void configureButtonActions() {
 
-        create_barber_service_button.setOnAction(_ -> goToBarberServiceCreationView());
-        clean_filters_button.setOnAction(_ -> cleanFiltersAndLiveSearch());
+        Map<Button, Runnable> map = Map.of(
+                create_barber_service_button, this::goToBarberServiceCreationView,
+                clean_filters_button, this::cleanFiltersAndLiveSearch
+        );
+
+        configureRunnableMaps(map);
     }
 
     @Override

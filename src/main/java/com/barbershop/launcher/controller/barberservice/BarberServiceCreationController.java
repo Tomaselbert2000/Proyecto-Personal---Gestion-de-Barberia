@@ -26,10 +26,10 @@ import static com.barbershop.launcher.constants.ui.messages.ToastNotificationMes
 import static com.barbershop.launcher.constants.ui.prompt_text.BarberServicePromptText.*;
 import static com.barbershop.launcher.controller.helper.ComboBoxHelper.loadEnumsOnComboBox;
 import static com.barbershop.launcher.controller.helper.ComboBoxHelper.removeFirstItemFromComboBox;
-import static com.barbershop.launcher.controller.helper.FXMLViewLoader.redirectToView;
 import static com.barbershop.launcher.controller.helper.ToastNotificationHelper.showExceptionErrorMessage;
 import static com.barbershop.launcher.controller.helper.ToastNotificationHelper.showToastNotification;
 import static com.barbershop.launcher.controller.helper.UIBasicComponents.*;
+import static com.barbershop.launcher.controller.helper.ViewRedirectionHelper.redirectToView;
 
 @Component
 @RequiredArgsConstructor
@@ -129,9 +129,13 @@ public class BarberServiceCreationController implements BarberServiceControllerV
     @Override
     public void configureButtonActions(BarberServiceInfoDTO... infoDTO) {
 
-        back_button.setOnAction(_ -> redirectToView(applicationContext, ViewRedirection.BARBER_SERVICES));
-        clean_fields_button.setOnAction(_ -> resetForm());
-        save_button.setOnAction(_ -> registerNewBarberService());
+        Map<Button, Runnable> map = Map.of(
+                back_button, () -> redirectToView(ViewRedirection.BARBER_SERVICES, anchor_pane, applicationContext),
+                clean_fields_button, this::resetForm,
+                save_button, this::registerNewBarberService
+        );
+
+        configureRunnableMaps(map);
     }
 
     @Override

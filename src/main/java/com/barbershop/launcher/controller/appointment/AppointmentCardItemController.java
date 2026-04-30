@@ -66,9 +66,13 @@ public class AppointmentCardItemController {
 
     private void configureButtonActions() {
 
-        edit_button.setOnAction(_ -> goToEditAppointment());
-        complete_button.setOnAction(_ -> setAppointmentAsComplete());
-        cancel_button.setOnAction(_ -> setAppointmentAsCanceled());
+        Map<Button, Runnable> map = Map.of(
+                edit_button, this::goToEditAppointment,
+                complete_button, this::setAppointmentAsComplete,
+                cancel_button, this::setAppointmentAsCanceled
+        );
+
+        configureRunnableMaps(map);
     }
 
     private void goToEditAppointment() {

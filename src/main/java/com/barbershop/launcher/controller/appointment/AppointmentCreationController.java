@@ -34,13 +34,13 @@ import static com.barbershop.launcher.constants.ui.messages.ValidationErrorMessa
 import static com.barbershop.launcher.constants.ui.prompt_text.AppointmentPromptText.APPOINTMENT_CLIENT_NAME;
 import static com.barbershop.launcher.constants.ui.prompt_text.AppointmentPromptText.APPOINTMENT_NOTES;
 import static com.barbershop.launcher.controller.helper.ComboBoxHelper.*;
-import static com.barbershop.launcher.controller.helper.FXMLViewLoader.redirectToView;
 import static com.barbershop.launcher.controller.helper.ListViewHelper.cleanListView;
 import static com.barbershop.launcher.controller.helper.ListViewHelper.loadItemsOnListView;
 import static com.barbershop.launcher.controller.helper.ToastNotificationHelper.showToastNotification;
 import static com.barbershop.launcher.controller.helper.UIBasicComponents.*;
 import static com.barbershop.launcher.controller.helper.ValidationFormatter.getConstraintViolationsList;
 import static com.barbershop.launcher.controller.helper.ValidationFormatter.showErrorAlert;
+import static com.barbershop.launcher.controller.helper.ViewRedirectionHelper.redirectToView;
 import static com.barbershop.launcher.controller.helper.VisibilityHelper.setNodeAsNotVisible;
 import static com.barbershop.launcher.controller.helper.VisibilityHelper.setNodeAsVisible;
 
@@ -279,10 +279,14 @@ public class AppointmentCreationController implements AppointmentControllerViewF
     @Override
     public void configureButtonActions() {
 
-        back_button.setOnAction(_ -> redirectToView(applicationContext, ViewRedirection.APPOINTMENTS));
-        create_client_button.setOnAction(_ -> redirectToView(applicationContext, ViewRedirection.CLIENT_CREATION));
-        change_client_button.setOnAction(_ -> resetForm());
-        save_button.setOnAction(_ -> registerNewAppointment());
+        Map<Button, Runnable> map = Map.of(
+                back_button, () -> redirectToView(ViewRedirection.APPOINTMENTS, anchor_pane, applicationContext),
+                create_client_button, () -> redirectToView(ViewRedirection.CLIENT_CREATION, anchor_pane, applicationContext),
+                change_client_button, this::resetForm,
+                save_button, this::registerNewAppointment
+        );
+
+        configureRunnableMaps(map);
     }
 
     @Override

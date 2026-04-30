@@ -35,10 +35,10 @@ import static com.barbershop.launcher.constants.ui.messages.ToastNotificationMes
 import static com.barbershop.launcher.constants.ui.messages.ValidationErrorMessage.APPOINTMENT_EDITION_VALIDATION_FAILED;
 import static com.barbershop.launcher.constants.ui.messages.ValidationErrorMessage.VALIDATION_ERROR_TITLE;
 import static com.barbershop.launcher.controller.helper.ComboBoxHelper.*;
-import static com.barbershop.launcher.controller.helper.FXMLViewLoader.redirectToView;
 import static com.barbershop.launcher.controller.helper.ToastNotificationHelper.showToastNotification;
 import static com.barbershop.launcher.controller.helper.UIBasicComponents.*;
 import static com.barbershop.launcher.controller.helper.ValidationFormatter.*;
+import static com.barbershop.launcher.controller.helper.ViewRedirectionHelper.redirectToView;
 import static com.barbershop.launcher.controller.helper.VisibilityHelper.setNodeAsNotVisible;
 import static com.barbershop.launcher.controller.helper.VisibilityHelper.setNodeAsVisible;
 
@@ -279,9 +279,13 @@ public class AppointmentEditionController implements AppointmentControllerViewFu
     @Override
     public void configureButtonActions() {
 
-        back_button.setOnAction(_ -> redirectToView(applicationContext, ViewRedirection.APPOINTMENTS));
-        restore_values_button.setOnAction(_ -> resetForm());
-        save_button.setOnAction(_ -> updateAppointment());
+        Map<Button, Runnable> map = Map.of(
+                back_button, () -> redirectToView(ViewRedirection.APPOINTMENTS, anchor_pane, applicationContext),
+                restore_values_button, this::resetForm,
+                save_button, this::updateAppointment
+        );
+
+        configureRunnableMaps(map);
     }
 
     @Override

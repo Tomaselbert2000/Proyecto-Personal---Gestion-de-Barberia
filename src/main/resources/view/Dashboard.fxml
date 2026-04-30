@@ -15,147 +15,160 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="borderPane" prefHeight="720.0" prefWidth="1200.0" styleClass="theme-barberia" stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.barbershop.launcher.controller.dashboard.DashboardController">
+<BorderPane fx:id="borderPane" prefHeight="720.0" prefWidth="1200.0" styleClass="theme-barberia"
+            stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.barbershop.launcher.controller.dashboard.DashboardController">
 
     <left>
         <VBox alignment="TOP_CENTER" maxWidth="280.0" minWidth="280.0" styleClass="sidebar">
             <padding>
-                <Insets />
+                <Insets/>
             </padding>
 
             <!-- Logo y Nombre -->
             <VBox alignment="CENTER" spacing="5.0" styleClass="logo-section">
                 <padding>
-                    <Insets bottom="30.0" top="30.0" />
+                    <Insets bottom="30.0" top="30.0"/>
                 </padding>
-                <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true" styleClass="logo-image">
-                    <Image url="@../images/Logo.jpg" />
+                <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true"
+                           styleClass="logo-image">
+                    <Image url="@../images/Logo.jpg"/>
                 </ImageView>
                 <Label styleClass="brand-name" text="LA TERCERA">
                     <font>
-                        <Font name="Roboto Bold" size="22.0" />
+                        <Font name="Roboto Bold" size="22.0"/>
                     </font>
                 </Label>
                 <Label styleClass="brand-subtitle" text="BARBERSHOP">
                     <font>
-                        <Font name="Roboto Light" size="12.0" />
+                        <Font name="Roboto Light" size="12.0"/>
                     </font>
                 </Label>
             </VBox>
 
-            <Separator styleClass="menu-separator" />
+            <Separator styleClass="menu-separator"/>
 
             <!-- Menú de Navegación -->
             <VBox alignment="TOP_CENTER" spacing="4.0" VBox.vgrow="ALWAYS">
                 <padding>
-                    <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                    <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
                 </padding>
 
-                <Button fx:id="navbar_dashboard_button" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#showDashboardView" styleClass="menu-button" text="Dashboard" textAlignment="CENTER">
+                <Button fx:id="navbar_dashboard_button" maxWidth="1.7976931348623157E308" mnemonicParsing="false"
+                        styleClass="menu-button" text="Dashboard" textAlignment="CENTER">
                     <font>
-                        <Font name="Roboto Medium" size="15.0" />
+                        <Font name="Roboto Medium" size="15.0"/>
                     </font>
                     <padding>
-                        <Insets bottom="14.0" left="25.0" right="25.0" top="14.0" />
+                        <Insets bottom="14.0" left="25.0" right="25.0" top="14.0"/>
                     </padding>
                     <graphic>
-                        <Region prefHeight="24.0" prefWidth="24.0" styleClass="navbar-icon-dashboard" />
+                        <Region prefHeight="24.0" prefWidth="24.0" styleClass="navbar-icon-dashboard"/>
                     </graphic>
                 </Button>
 
-                <Button fx:id="navbar_client_button" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#showClientView" styleClass="menu-button" text="Clientes" textAlignment="CENTER">
+                <Button fx:id="navbar_client_button" maxWidth="1.7976931348623157E308" mnemonicParsing="false"
+                        styleClass="menu-button" text="Clientes" textAlignment="CENTER">
                     <font>
-                        <Font name="Roboto Medium" size="15.0" />
+                        <Font name="Roboto Medium" size="15.0"/>
                     </font>
                     <padding>
-                        <Insets bottom="14.0" left="25.0" right="25.0" top="14.0" />
+                        <Insets bottom="14.0" left="25.0" right="25.0" top="14.0"/>
                     </padding>
                     <graphic>
-                        <Region prefHeight="24.0" prefWidth="24.0" styleClass="navbar-icon-clients" />
+                        <Region prefHeight="24.0" prefWidth="24.0" styleClass="navbar-icon-clients"/>
                     </graphic>
                 </Button>
 
-                <Button fx:id="navbar_employee_button" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#showEmployeeView" styleClass="menu-button" text="Empleados" textAlignment="CENTER">
+                <Button fx:id="navbar_employee_button" maxWidth="1.7976931348623157E308" mnemonicParsing="false"
+                        styleClass="menu-button" text="Empleados" textAlignment="CENTER">
                     <font>
-                        <Font name="Roboto Medium" size="15.0" />
+                        <Font name="Roboto Medium" size="15.0"/>
                     </font>
                     <padding>
-                        <Insets bottom="14.0" left="25.0" right="25.0" top="14.0" />
+                        <Insets bottom="14.0" left="25.0" right="25.0" top="14.0"/>
                     </padding>
                     <graphic>
-                        <Region prefHeight="24.0" prefWidth="24.0" styleClass="navbar-icon-employees" />
+                        <Region prefHeight="24.0" prefWidth="24.0" styleClass="navbar-icon-employees"/>
                     </graphic>
                 </Button>
 
-                <Button fx:id="navbar_appointment_button" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#showAppointmentView" styleClass="menu-button" text="Turnos" textAlignment="CENTER">
+                <Button fx:id="navbar_appointment_button" maxWidth="1.7976931348623157E308" mnemonicParsing="false"
+                        styleClass="menu-button" text="Turnos" textAlignment="CENTER">
                     <font>
-                        <Font name="Roboto Medium" size="15.0" />
+                        <Font name="Roboto Medium" size="15.0"/>
                     </font>
                     <padding>
-                        <Insets bottom="14.0" left="25.0" right="25.0" top="14.0" />
+                        <Insets bottom="14.0" left="25.0" right="25.0" top="14.0"/>
                     </padding>
                     <graphic>
-                        <Region prefHeight="24.0" prefWidth="24.0" styleClass="navbar-icon-appointments" />
+                        <Region prefHeight="24.0" prefWidth="24.0" styleClass="navbar-icon-appointments"/>
                     </graphic>
                 </Button>
 
-                <Button fx:id="navbar_barber_service_button" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#showBarberServiceView" styleClass="menu-button" text="Servicios" textAlignment="CENTER">
+                <Button fx:id="navbar_barber_service_button" maxWidth="1.7976931348623157E308" mnemonicParsing="false"
+                        styleClass="menu-button" text="Servicios"
+                        textAlignment="CENTER">
                     <font>
-                        <Font name="Roboto Medium" size="15.0" />
+                        <Font name="Roboto Medium" size="15.0"/>
                     </font>
                     <padding>
-                        <Insets bottom="14.0" left="25.0" right="25.0" top="14.0" />
+                        <Insets bottom="14.0" left="25.0" right="25.0" top="14.0"/>
                     </padding>
                     <graphic>
-                        <Region prefHeight="24.0" prefWidth="24.0" styleClass="navbar-icon-services" />
+                        <Region prefHeight="24.0" prefWidth="24.0" styleClass="navbar-icon-services"/>
                     </graphic>
                 </Button>
 
-                <Button fx:id="navbar_product_button" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#showProductView" styleClass="menu-button" text="Stock de productos" textAlignment="CENTER">
+                <Button fx:id="navbar_product_button" maxWidth="1.7976931348623157E308" mnemonicParsing="false"
+                        styleClass="menu-button" text="Stock de productos"
+                        textAlignment="CENTER">
                     <font>
-                        <Font name="Roboto Medium" size="15.0" />
+                        <Font name="Roboto Medium" size="15.0"/>
                     </font>
                     <padding>
-                        <Insets bottom="14.0" left="25.0" right="25.0" top="14.0" />
+                        <Insets bottom="14.0" left="25.0" right="25.0" top="14.0"/>
                     </padding>
                     <graphic>
-                        <Region prefHeight="24.0" prefWidth="24.0" styleClass="navbar-icon-products" />
+                        <Region prefHeight="24.0" prefWidth="24.0" styleClass="navbar-icon-products"/>
                     </graphic>
                 </Button>
             </VBox>
 
             <!-- Sección Inferior del Menú -->
             <VBox spacing="4.0">
-                <Separator styleClass="menu-separator" />
+                <Separator styleClass="menu-separator"/>
 
-                <Button fx:id="navbar_settings_button" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#showSettingsView" styleClass="menu-button" text="Configuración" textAlignment="CENTER">
+                <Button fx:id="navbar_settings_button" maxWidth="1.7976931348623157E308" mnemonicParsing="false"
+                        styleClass="menu-button" text="Configuración"
+                        textAlignment="CENTER">
                     <font>
-                        <Font name="Roboto Medium" size="15.0" />
+                        <Font name="Roboto Medium" size="15.0"/>
                     </font>
                     <padding>
-                        <Insets bottom="12.0" left="25.0" right="25.0" top="12.0" />
+                        <Insets bottom="12.0" left="25.0" right="25.0" top="12.0"/>
                     </padding>
                     <graphic>
-                        <Region prefHeight="24.0" prefWidth="24.0" styleClass="navbar-icon-settings" />
+                        <Region prefHeight="24.0" prefWidth="24.0" styleClass="navbar-icon-settings"/>
                     </graphic>
                 </Button>
 
-                <Button fx:id="navbar_logout_button" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="menu-button-exit" text="Cerrar Sesión" textAlignment="CENTER">
+                <Button fx:id="navbar_logout_button" maxWidth="1.7976931348623157E308" mnemonicParsing="false"
+                        styleClass="menu-button-exit" text="Cerrar Sesión" textAlignment="CENTER">
                     <font>
-                        <Font name="Roboto Medium" size="15.0" />
+                        <Font name="Roboto Medium" size="15.0"/>
                     </font>
                     <padding>
-                        <Insets bottom="12.0" left="25.0" right="25.0" top="12.0" />
+                        <Insets bottom="12.0" left="25.0" right="25.0" top="12.0"/>
                     </padding>
                     <graphic>
-                        <Region prefHeight="24.0" prefWidth="24.0" styleClass="navbar-icon-logout" />
+                        <Region prefHeight="24.0" prefWidth="24.0" styleClass="navbar-icon-logout"/>
                     </graphic>
                 </Button>
                 <padding>
-                    <Insets bottom="15.0" left="20.0" right="20.0" top="15.0" />
+                    <Insets bottom="15.0" left="20.0" right="20.0" top="15.0"/>
                 </padding>
             </VBox>
         </VBox>
@@ -164,80 +177,78 @@
     <center>
         <AnchorPane styleClass="main-content">
             <!-- Header Superior -->
-            <HBox alignment="CENTER_LEFT" styleClass="header-bar" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <HBox alignment="CENTER_LEFT" styleClass="header-bar" AnchorPane.leftAnchor="0.0"
+                  AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                 <padding>
-                    <Insets bottom="20.0" left="30.0" right="30.0" top="20.0" />
+                    <Insets bottom="20.0" left="30.0" right="30.0" top="20.0"/>
                 </padding>
                 <VBox alignment="CENTER_LEFT">
                     <Label styleClass="page-title" text="Dashboard">
                         <font>
-                            <Font name="Roboto Bold" size="28.0" />
+                            <Font name="Roboto Bold" size="28.0"/>
                         </font>
                     </Label>
                     <Label styleClass="page-subtitle" text="Bienvenido de nuevo">
                         <font>
-                            <Font name="Roboto Regular" size="14.0" />
+                            <Font name="Roboto Regular" size="14.0"/>
                         </font>
                     </Label>
                 </VBox>
-                <Region HBox.hgrow="ALWAYS" />
-                <HBox alignment="CENTER" spacing="15.0">
-                    <Button mnemonicParsing="false" styleClass="icon-button" text="_">
-                        <font>
-                            <Font name="Roboto Regular" size="18.0" />
-                        </font>
-                    </Button>
-                    <Circle fill="#D4AF37" radius="20.0" stroke="#1A1A1A" strokeWidth="2.0" styleClass="user-avatar" />
-                </HBox>
+                <Region HBox.hgrow="ALWAYS"/>
+                <HBox alignment="CENTER" spacing="15.0"/>
             </HBox>
 
             <!-- Contenido Principal -->
-            <ScrollPane fitToHeight="true" fitToWidth="true" layoutY="80.0" styleClass="content-scroll" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="80.0">
+            <ScrollPane fitToHeight="true" fitToWidth="true" layoutY="80.0" styleClass="content-scroll"
+                        AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                        AnchorPane.topAnchor="80.0">
                 <padding>
-                    <Insets bottom="20.0" left="30.0" right="30.0" top="10.0" />
+                    <Insets bottom="20.0" left="30.0" right="30.0" top="10.0"/>
                 </padding>
                 <VBox spacing="25.0">
                     <!-- Tarjetas de Estadísticas Rápidas -->
                     <GridPane hgap="20.0" vgap="20.0">
                         <columnConstraints>
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="250.0" />
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="250.0" />
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="250.0" />
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="250.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="250.0"/>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="250.0"/>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="250.0"/>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="250.0"/>
                         </columnConstraints>
                         <rowConstraints>
-                            <RowConstraints minHeight="140.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="140.0" vgrow="SOMETIMES"/>
                         </rowConstraints>
 
                         <!-- Tarjeta: Clientes Totales -->
                         <VBox styleClass="stat-card" GridPane.columnIndex="0">
                             <HBox alignment="CENTER_LEFT" spacing="15.0">
                                 <VBox styleClass="icon-container">
-                                    <Region prefHeight="24.0" prefWidth="24.0" styleClass="dashboard-view-client-card-icon" />
+                                    <Region prefHeight="24.0" prefWidth="24.0"
+                                            styleClass="dashboard-view-client-card-icon"/>
                                 </VBox>
-                                <Region HBox.hgrow="ALWAYS" />
+                                <Region HBox.hgrow="ALWAYS"/>
                             </HBox>
                             <VBox alignment="CENTER_LEFT" spacing="5.0">
                                 <Label fx:id="clients_registered_count" styleClass="stat-value" text="1,248">
                                     <font>
-                                        <Font name="Roboto Bold" size="32.0" />
+                                        <Font name="Roboto Bold" size="32.0"/>
                                     </font>
                                 </Label>
                                 <Label styleClass="stat-label" text="Clientes Registrados">
                                     <font>
-                                        <Font name="Roboto Regular" size="13.0" />
+                                        <Font name="Roboto Regular" size="13.0"/>
                                     </font>
                                 </Label>
                             </VBox>
                             <HBox alignment="CENTER_LEFT" spacing="5.0">
-                                <Label fx:id="clients_registered_percentage_vs_last_month" styleClass="stat-trend-positive" text="+12%">
+                                <Label fx:id="clients_registered_percentage_vs_last_month"
+                                       styleClass="stat-trend-positive" text="+12%">
                                     <font>
-                                        <Font name="Roboto Medium" size="12.0" />
+                                        <Font name="Roboto Medium" size="12.0"/>
                                     </font>
                                 </Label>
                                 <Label styleClass="stat-trend-label" text="vs mes anterior">
                                     <font>
-                                        <Font name="Roboto Regular" size="11.0" />
+                                        <Font name="Roboto Regular" size="11.0"/>
                                     </font>
                                 </Label>
                             </HBox>
@@ -247,31 +258,33 @@
                         <VBox styleClass="stat-card" GridPane.columnIndex="1">
                             <HBox alignment="CENTER_LEFT" spacing="15.0">
                                 <VBox styleClass="icon-container">
-                                    <Region prefHeight="24.0" prefWidth="24.0" styleClass="dashboard-view-employee-card-icon" />
+                                    <Region prefHeight="24.0" prefWidth="24.0"
+                                            styleClass="dashboard-view-employee-card-icon"/>
                                 </VBox>
-                                <Region HBox.hgrow="ALWAYS" />
+                                <Region HBox.hgrow="ALWAYS"/>
                             </HBox>
                             <VBox alignment="CENTER_LEFT" spacing="5.0">
                                 <Label fx:id="active_employees_count" styleClass="stat-value" text="8">
                                     <font>
-                                        <Font name="Roboto Bold" size="32.0" />
+                                        <Font name="Roboto Bold" size="32.0"/>
                                     </font>
                                 </Label>
                                 <Label styleClass="stat-label" text="Empleados Activos">
                                     <font>
-                                        <Font name="Roboto Regular" size="13.0" />
+                                        <Font name="Roboto Regular" size="13.0"/>
                                     </font>
                                 </Label>
                             </VBox>
                             <HBox alignment="CENTER_LEFT" spacing="5.0">
-                                <Label fx:id="active_employees_this_month_count" styleClass="stat-trend-positive" text="+2">
+                                <Label fx:id="active_employees_this_month_count" styleClass="stat-trend-positive"
+                                       text="+2">
                                     <font>
-                                        <Font name="Roboto Medium" size="12.0" />
+                                        <Font name="Roboto Medium" size="12.0"/>
                                     </font>
                                 </Label>
                                 <Label styleClass="stat-trend-label" text="este mes">
                                     <font>
-                                        <Font name="Roboto Regular" size="11.0" />
+                                        <Font name="Roboto Regular" size="11.0"/>
                                     </font>
                                 </Label>
                             </HBox>
@@ -281,31 +294,33 @@
                         <VBox styleClass="stat-card" GridPane.columnIndex="2">
                             <HBox alignment="CENTER_LEFT" spacing="15.0">
                                 <VBox styleClass="icon-container">
-                                    <Region prefHeight="24.0" prefWidth="24.0" styleClass="dashboard-view-appointments_today-card-icon" />
+                                    <Region prefHeight="24.0" prefWidth="24.0"
+                                            styleClass="dashboard-view-appointments_today-card-icon"/>
                                 </VBox>
-                                <Region HBox.hgrow="ALWAYS" />
+                                <Region HBox.hgrow="ALWAYS"/>
                             </HBox>
                             <VBox alignment="CENTER_LEFT" spacing="5.0">
                                 <Label fx:id="appointments_today_count" styleClass="stat-value" text="24">
                                     <font>
-                                        <Font name="Roboto Bold" size="32.0" />
+                                        <Font name="Roboto Bold" size="32.0"/>
                                     </font>
                                 </Label>
                                 <Label styleClass="stat-label" text="Turnos Hoy">
                                     <font>
-                                        <Font name="Roboto Regular" size="13.0" />
+                                        <Font name="Roboto Regular" size="13.0"/>
                                     </font>
                                 </Label>
                             </VBox>
                             <HBox alignment="CENTER_LEFT" spacing="5.0">
-                                <Label fx:id="finished_appointments_today_count" styleClass="stat-trend-neutral" text="8">
+                                <Label fx:id="finished_appointments_today_count" styleClass="stat-trend-neutral"
+                                       text="8">
                                     <font>
-                                        <Font name="Roboto Medium" size="12.0" />
+                                        <Font name="Roboto Medium" size="12.0"/>
                                     </font>
                                 </Label>
                                 <Label styleClass="stat-trend-label" text="completados">
                                     <font>
-                                        <Font name="Roboto Regular" size="11.0" />
+                                        <Font name="Roboto Regular" size="11.0"/>
                                     </font>
                                 </Label>
                             </HBox>
@@ -315,37 +330,38 @@
                         <VBox styleClass="stat-card" GridPane.columnIndex="3">
                             <HBox alignment="CENTER_LEFT" spacing="15.0">
                                 <VBox styleClass="icon-container">
-                                    <Region prefHeight="24.0" prefWidth="24.0" styleClass="dashboard-view-inventory-icon" />
+                                    <Region prefHeight="24.0" prefWidth="24.0"
+                                            styleClass="dashboard-view-inventory-icon"/>
                                 </VBox>
-                                <Region HBox.hgrow="ALWAYS" />
+                                <Region HBox.hgrow="ALWAYS"/>
                             </HBox>
                             <VBox alignment="CENTER_LEFT" spacing="5.0">
                                 <Label fx:id="products_on_stock_count" styleClass="stat-value" text="156">
                                     <font>
-                                        <Font name="Roboto Bold" size="32.0" />
+                                        <Font name="Roboto Bold" size="32.0"/>
                                     </font>
                                 </Label>
                                 <Label styleClass="stat-label" text="Productos en Stock">
                                     <font>
-                                        <Font name="Roboto Regular" size="13.0" />
+                                        <Font name="Roboto Regular" size="13.0"/>
                                     </font>
                                 </Label>
                             </VBox>
                             <HBox alignment="CENTER_LEFT" spacing="5.0">
                                 <Label fx:id="low_stock_products_count" styleClass="stat-trend-negative" text="3">
                                     <font>
-                                        <Font name="Roboto Medium" size="12.0" />
+                                        <Font name="Roboto Medium" size="12.0"/>
                                     </font>
                                 </Label>
                                 <Label styleClass="stat-trend-label" text="bajo stock">
                                     <font>
-                                        <Font name="Roboto Regular" size="11.0" />
+                                        <Font name="Roboto Regular" size="11.0"/>
                                     </font>
                                 </Label>
                             </HBox>
                         </VBox>
                         <VBox.margin>
-                            <Insets top="20.0" />
+                            <Insets top="20.0"/>
                         </VBox.margin>
                     </GridPane>
 
@@ -353,49 +369,54 @@
                     <VBox spacing="15.0">
                         <Label styleClass="section-title" text="Accesos Rápidos">
                             <font>
-                                <Font name="Roboto Medium" size="18.0" />
+                                <Font name="Roboto Medium" size="18.0"/>
                             </font>
                         </Label>
 
                         <GridPane hgap="20.0" vgap="20.0">
                             <columnConstraints>
-                                <ColumnConstraints hgrow="SOMETIMES" minWidth="350.0" />
-                                <ColumnConstraints hgrow="SOMETIMES" minWidth="350.0" />
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="350.0"/>
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="350.0"/>
                             </columnConstraints>
                             <rowConstraints>
-                                <RowConstraints minHeight="180.0" vgrow="SOMETIMES" />
-                                <RowConstraints minHeight="180.0" vgrow="SOMETIMES" />
+                                <RowConstraints minHeight="180.0" vgrow="SOMETIMES"/>
+                                <RowConstraints minHeight="180.0" vgrow="SOMETIMES"/>
                             </rowConstraints>
 
                             <!-- Card: Gestión de Clientes -->
                             <VBox styleClass="action-card" GridPane.columnIndex="0" GridPane.rowIndex="0">
                                 <HBox alignment="CENTER_LEFT" spacing="20.0">
                                     <VBox styleClass="action-icon-container">
-                                        <Region styleClass="dashboard-view-client-action-icon" />
+                                        <Region styleClass="dashboard-view-client-action-icon"/>
                                     </VBox>
                                     <VBox alignment="CENTER_LEFT" spacing="3.0">
                                         <Label styleClass="action-title" text="Gestión de Clientes">
                                             <font>
-                                                <Font name="Roboto Medium" size="18.0" />
+                                                <Font name="Roboto Medium" size="18.0"/>
                                             </font>
                                         </Label>
-                                        <Label styleClass="action-subtitle" text="Administra el registro y datos de clientes">
+                                        <Label styleClass="action-subtitle"
+                                               text="Administra el registro y datos de clientes">
                                             <font>
-                                                <Font name="Roboto Regular" size="12.0" />
+                                                <Font name="Roboto Regular" size="12.0"/>
                                             </font>
                                         </Label>
                                     </VBox>
-                                    <Region HBox.hgrow="ALWAYS" />
+                                    <Region HBox.hgrow="ALWAYS"/>
                                 </HBox>
                                 <HBox alignment="CENTER_LEFT" spacing="10.0" VBox.vgrow="ALWAYS">
-                                    <Button mnemonicParsing="false" onAction="#showClientView" styleClass="action-button-primary" text="Ver Clientes">
+                                    <Button fx:id="clients_view_button" mnemonicParsing="false"
+                                            styleClass="action-button-primary"
+                                            text="Ver Clientes">
                                         <font>
-                                            <Font name="Roboto Medium" size="13.0" />
+                                            <Font name="Roboto Medium" size="13.0"/>
                                         </font>
                                     </Button>
-                                    <Button fx:id="dashboard_view_register_client_button" mnemonicParsing="false" onAction="#showRegisterNewClientView" styleClass="action-button-secondary" text="+ Nuevo Cliente">
+                                    <Button fx:id="create_client_button" mnemonicParsing="false"
+                                            styleClass="action-button-secondary"
+                                            text="+ Nuevo Cliente">
                                         <font>
-                                            <Font name="Roboto Medium" size="13.0" />
+                                            <Font name="Roboto Medium" size="13.0"/>
                                         </font>
                                     </Button>
                                 </HBox>
@@ -405,31 +426,35 @@
                             <VBox styleClass="action-card" GridPane.columnIndex="1" GridPane.rowIndex="0">
                                 <HBox alignment="CENTER_LEFT" spacing="20.0">
                                     <VBox styleClass="action-icon-container">
-                                        <Region styleClass="dashboard-view-employee-action-icon" />
+                                        <Region styleClass="dashboard-view-employee-action-icon"/>
                                     </VBox>
                                     <VBox alignment="CENTER_LEFT" spacing="3.0">
                                         <Label styleClass="action-title" text="Gestión de Empleados">
                                             <font>
-                                                <Font name="Roboto Medium" size="18.0" />
+                                                <Font name="Roboto Medium" size="18.0"/>
                                             </font>
                                         </Label>
-                                        <Label styleClass="action-subtitle" text="Controla horarios, servicios y rendimiento">
+                                        <Label styleClass="action-subtitle"
+                                               text="Controla horarios, servicios y rendimiento">
                                             <font>
-                                                <Font name="Roboto Regular" size="12.0" />
+                                                <Font name="Roboto Regular" size="12.0"/>
                                             </font>
                                         </Label>
                                     </VBox>
-                                    <Region HBox.hgrow="ALWAYS" />
+                                    <Region HBox.hgrow="ALWAYS"/>
                                 </HBox>
                                 <HBox alignment="CENTER_LEFT" spacing="10.0" VBox.vgrow="ALWAYS">
-                                    <Button mnemonicParsing="false" onAction="#showEmployeeView" styleClass="action-button-primary" text="Ver Empleados">
+                                    <Button fx:id="employee_view_button" mnemonicParsing="false"
+                                            styleClass="action-button-primary"
+                                            text="Ver Empleados">
                                         <font>
-                                            <Font name="Roboto Medium" size="13.0" />
+                                            <Font name="Roboto Medium" size="13.0"/>
                                         </font>
                                     </Button>
-                                    <Button fx:id="dashboard_view_register_employee_button" mnemonicParsing="false" styleClass="action-button-secondary" text="+ Nuevo Empleado">
+                                    <Button fx:id="create_employee_button" mnemonicParsing="false"
+                                            styleClass="action-button-secondary" text="+ Nuevo Empleado">
                                         <font>
-                                            <Font name="Roboto Medium" size="13.0" />
+                                            <Font name="Roboto Medium" size="13.0"/>
                                         </font>
                                     </Button>
                                 </HBox>
@@ -439,31 +464,35 @@
                             <VBox styleClass="action-card" GridPane.columnIndex="0" GridPane.rowIndex="1">
                                 <HBox alignment="CENTER_LEFT" spacing="20.0">
                                     <VBox styleClass="action-icon-container">
-                                        <Region styleClass="dashboard-view-appointment-action-icon" />
+                                        <Region styleClass="dashboard-view-appointment-action-icon"/>
                                     </VBox>
                                     <VBox alignment="CENTER_LEFT" spacing="3.0">
                                         <Label styleClass="action-title" text="Gestión de Turnos">
                                             <font>
-                                                <Font name="Roboto Medium" size="18.0" />
+                                                <Font name="Roboto Medium" size="18.0"/>
                                             </font>
                                         </Label>
-                                        <Label styleClass="action-subtitle" text="Organiza y administra los turnos del día">
+                                        <Label styleClass="action-subtitle"
+                                               text="Organiza y administra los turnos del día">
                                             <font>
-                                                <Font name="Roboto Regular" size="12.0" />
+                                                <Font name="Roboto Regular" size="12.0"/>
                                             </font>
                                         </Label>
                                     </VBox>
-                                    <Region HBox.hgrow="ALWAYS" />
+                                    <Region HBox.hgrow="ALWAYS"/>
                                 </HBox>
                                 <HBox alignment="CENTER_LEFT" spacing="10.0" VBox.vgrow="ALWAYS">
-                                    <Button mnemonicParsing="false" onAction="#showAppointmentView" styleClass="action-button-primary" text="Ver Turnos">
+                                    <Button fx:id="appointments_view_button" mnemonicParsing="false"
+                                            styleClass="action-button-primary"
+                                            text="Ver Turnos">
                                         <font>
-                                            <Font name="Roboto Medium" size="13.0" />
+                                            <Font name="Roboto Medium" size="13.0"/>
                                         </font>
                                     </Button>
-                                    <Button fx:id="dashboard_view_register_appointment_view" mnemonicParsing="false" styleClass="action-button-secondary" text="+ Nuevo Turno">
+                                    <Button fx:id="create_appointment_button" mnemonicParsing="false"
+                                            styleClass="action-button-secondary" text="+ Nuevo Turno">
                                         <font>
-                                            <Font name="Roboto Medium" size="13.0" />
+                                            <Font name="Roboto Medium" size="13.0"/>
                                         </font>
                                     </Button>
                                 </HBox>
@@ -473,31 +502,35 @@
                             <VBox styleClass="action-card" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                 <HBox alignment="CENTER_LEFT" spacing="20.0">
                                     <VBox styleClass="action-icon-container">
-                                        <Region styleClass="dashboard-view-product-action-icon" />
+                                        <Region styleClass="dashboard-view-product-action-icon"/>
                                     </VBox>
                                     <VBox alignment="CENTER_LEFT" spacing="3.0">
                                         <Label styleClass="action-title" text="Stock de Productos">
                                             <font>
-                                                <Font name="Roboto Medium" size="18.0" />
+                                                <Font name="Roboto Medium" size="18.0"/>
                                             </font>
                                         </Label>
-                                        <Label styleClass="action-subtitle" text="Controla inventario y ventas de productos">
+                                        <Label styleClass="action-subtitle"
+                                               text="Controla inventario y ventas de productos">
                                             <font>
-                                                <Font name="Roboto Regular" size="12.0" />
+                                                <Font name="Roboto Regular" size="12.0"/>
                                             </font>
                                         </Label>
                                     </VBox>
-                                    <Region HBox.hgrow="ALWAYS" />
+                                    <Region HBox.hgrow="ALWAYS"/>
                                 </HBox>
                                 <HBox alignment="CENTER_LEFT" spacing="10.0" VBox.vgrow="ALWAYS">
-                                    <Button mnemonicParsing="false" onAction="#showProductView" styleClass="action-button-primary" text="Ver Inventario">
+                                    <Button fx:id="products_view_button" mnemonicParsing="false"
+                                            styleClass="action-button-primary"
+                                            text="Ver Inventario">
                                         <font>
-                                            <Font name="Roboto Medium" size="13.0" />
+                                            <Font name="Roboto Medium" size="13.0"/>
                                         </font>
                                     </Button>
-                                    <Button fx:id="dashboard_view_register_product_button" mnemonicParsing="false" styleClass="action-button-secondary" text="+ Nuevo Producto">
+                                    <Button fx:id="create_product_button" mnemonicParsing="false"
+                                            styleClass="action-button-secondary" text="+ Nuevo Producto">
                                         <font>
-                                            <Font name="Roboto Medium" size="13.0" />
+                                            <Font name="Roboto Medium" size="13.0"/>
                                         </font>
                                     </Button>
                                 </HBox>
@@ -509,7 +542,7 @@
                     <VBox spacing="15.0">
                         <Label styleClass="section-title" text="Actividad Reciente">
                             <font>
-                                <Font name="Roboto Medium" size="18.0" />
+                                <Font name="Roboto Medium" size="18.0"/>
                             </font>
                         </Label>
                         <VBox fx:id="activity_log_vbox" styleClass="recent-activity-card">

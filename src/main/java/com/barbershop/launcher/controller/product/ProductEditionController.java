@@ -28,13 +28,12 @@ import java.util.Map;
 import static com.barbershop.launcher.constants.ui.messages.ToastNotificationMessage.PRODUCT_UPDATE_TOAST_NOTIFICATION_MESSAGE;
 import static com.barbershop.launcher.constants.ui.messages.ValidationErrorMessage.PRODUCT_EDITION_VALIDATION_FAILED;
 import static com.barbershop.launcher.constants.ui.messages.ValidationErrorMessage.VALIDATION_ERROR_TITLE;
-import static com.barbershop.launcher.controller.helper.UIBasicComponents.generateMap;
+import static com.barbershop.launcher.controller.helper.UIBasicComponents.*;
 import static com.barbershop.launcher.controller.helper.ValidationFormatter.*;
 import static com.barbershop.launcher.controller.helper.ComboBoxHelper.loadEnumsOnComboBox;
-import static com.barbershop.launcher.controller.helper.FXMLViewLoader.redirectToView;
 import static com.barbershop.launcher.controller.helper.FileImageHelper.*;
 import static com.barbershop.launcher.controller.helper.ToastNotificationHelper.showToastNotification;
-import static com.barbershop.launcher.controller.helper.UIBasicComponents.setTextsOnTextfieldMap;
+import static com.barbershop.launcher.controller.helper.ViewRedirectionHelper.redirectToView;
 
 @Component
 @RequiredArgsConstructor
@@ -259,10 +258,14 @@ public class ProductEditionController implements ProductControllerViewFunctions 
 
         ProductInfoDTO dto = Arrays.stream(infoDTO).toList().getFirst();
 
-        back_button.setOnAction(_ -> redirectToView(applicationContext, ViewRedirection.PRODUCTS));
-        remove_image_button.setOnAction(_ -> cleanImageView(product_image_preview));
-        select_image_button.setOnAction(_ -> handleImageSelection());
-        save_button.setOnAction(_ -> updateProduct(dto));
+        Map<Button, Runnable> map = Map.of(
+                back_button, () -> redirectToView(ViewRedirection.PRODUCTS, anchor_pane, applicationContext),
+                remove_image_button, () -> cleanImageView(product_image_preview),
+                select_image_button, this::handleImageSelection,
+                save_button, () -> updateProduct(dto)
+        );
+
+        configureRunnableMaps(map);
     }
 
     @Override

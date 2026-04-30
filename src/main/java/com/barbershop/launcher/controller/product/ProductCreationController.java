@@ -29,10 +29,10 @@ import static com.barbershop.launcher.constants.ui.prompt_text.ProductPromptText
 import static com.barbershop.launcher.controller.helper.ValidationFormatter.*;
 import static com.barbershop.launcher.controller.helper.ComboBoxHelper.loadEnumsOnComboBox;
 import static com.barbershop.launcher.controller.helper.ComboBoxHelper.removeFirstItemFromComboBox;
-import static com.barbershop.launcher.controller.helper.FXMLViewLoader.redirectToView;
 import static com.barbershop.launcher.controller.helper.FileImageHelper.*;
 import static com.barbershop.launcher.controller.helper.ToastNotificationHelper.showToastNotification;
 import static com.barbershop.launcher.controller.helper.UIBasicComponents.*;
+import static com.barbershop.launcher.controller.helper.ViewRedirectionHelper.redirectToView;
 
 @Component
 @RequiredArgsConstructor
@@ -235,10 +235,14 @@ public class ProductCreationController implements ProductControllerViewFunctions
     @Override
     public void configureButtonActions(ProductInfoDTO... infoDTO) {
 
-        select_image_button.setOnAction(_ -> handleImageSelection());
-        remove_image_button.setOnAction(_ -> cleanImageView(product_image_preview));
-        back_button.setOnAction(_ -> redirectToView(applicationContext, ViewRedirection.PRODUCTS));
-        save_button.setOnAction(_ -> registerNewProduct());
+        Map<Button, Runnable> map = Map.of(
+                select_image_button, this::handleImageSelection,
+                remove_image_button, () -> cleanImageView(product_image_preview),
+                back_button, () -> redirectToView(ViewRedirection.PRODUCTS, anchor_pane, applicationContext),
+                save_button, this::registerNewProduct
+        );
+
+        configureRunnableMaps(map);
     }
 
     @Override

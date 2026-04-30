@@ -8,9 +8,11 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.stereotype.Component;
 
+import java.util.Map;
 import java.util.function.Consumer;
 
 import static com.barbershop.launcher.constants.ui.messages.GenericStrings.CURRENCY_STRING_ARG;
+import static com.barbershop.launcher.controller.helper.UIBasicComponents.configureRunnableMaps;
 import static com.barbershop.launcher.controller.helper.UIBasicComponents.setTextOnLabel;
 
 @Component
@@ -46,8 +48,12 @@ public class BarberServiceItemController {
 
     private void configureButtonActions() {
 
-        edit_button.setOnAction(_ -> goToEditBarberServiceView());
-        delete_button.setOnAction(_ -> goToDeleteBarberServiceView());
+        Map<Button, Runnable> map = Map.of(
+                edit_button, this::goToEditBarberServiceView,
+                delete_button, this::goToDeleteBarberServiceView
+        );
+
+        configureRunnableMaps(map);
     }
 
     private void goToEditBarberServiceView() {

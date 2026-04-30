@@ -1,7 +1,5 @@
 package com.barbershop.launcher.controller.helper;
 
-import com.barbershop.enums.ViewRedirection;
-import com.barbershop.launcher.controller.dashboard.DashboardController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.layout.AnchorPane;
@@ -57,24 +55,6 @@ public class FXMLViewLoader {
         } else {
 
             setViewOnAnchorPaneCenter((AnchorPane) pane, parent);
-        }
-    }
-
-    public static void redirectToView(ApplicationContext applicationContext, ViewRedirection viewRedirection) {
-
-        DashboardController dashboardController = applicationContext.getBean(DashboardController.class);
-
-        switch (viewRedirection) {
-
-            case DASHBOARD -> dashboardController.showDashboardView();
-            case CLIENTS -> dashboardController.showClientView();
-            case CLIENT_CREATION -> dashboardController.showRegisterNewClientView();
-            case EMPLOYEES -> dashboardController.showEmployeeView();
-            case APPOINTMENTS -> dashboardController.showAppointmentView();
-            case BARBER_SERVICES -> dashboardController.showBarberServiceView();
-            case PRODUCTS -> dashboardController.showProductView();
-            case SETTINGS -> dashboardController.showSettingsView();
-            case LOGOUT -> dashboardController.showLogoutView();
         }
     }
 }

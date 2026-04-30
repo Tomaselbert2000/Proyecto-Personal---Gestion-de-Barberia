@@ -22,10 +22,10 @@ import static com.barbershop.launcher.constants.ui.css_class.CssStylesStrings.*;
 import static com.barbershop.launcher.constants.ui.messages.ToastNotificationMessage.CLIENT_CREATION_TOAST_NOTIFICATION_MESSAGE;
 import static com.barbershop.launcher.constants.ui.prompt_text.ClientPromptText.*;
 import static com.barbershop.launcher.controller.helper.ContainerManager.*;
-import static com.barbershop.launcher.controller.helper.FXMLViewLoader.redirectToView;
 import static com.barbershop.launcher.controller.helper.ToastNotificationHelper.showExceptionErrorMessage;
 import static com.barbershop.launcher.controller.helper.ToastNotificationHelper.showToastNotification;
 import static com.barbershop.launcher.controller.helper.UIBasicComponents.*;
+import static com.barbershop.launcher.controller.helper.ViewRedirectionHelper.redirectToView;
 
 @Component
 @RequiredArgsConstructor
@@ -120,13 +120,14 @@ public class ClientCreationController {
 
     private void configureButtonActions() {
 
-        back_button.setOnAction((_) -> redirectToView(applicationContext, ViewRedirection.CLIENTS));
+        Map<Button, Runnable> map = Map.of(
+                back_button, () -> redirectToView(ViewRedirection.CLIENTS, anchor_pane, applicationContext),
+                clean_all_fields_button, this::resetForm,
+                add_phone_button, this::addPhoneToList,
+                save_button, this::registerNewClient
+        );
 
-        clean_all_fields_button.setOnAction(_ -> resetForm());
-
-        add_phone_button.setOnAction(_ -> addPhoneToList());
-
-        save_button.setOnAction(_ -> registerNewClient());
+        configureRunnableMaps(map);
     }
 
     private void resetForm() {
@@ -145,11 +146,11 @@ public class ClientCreationController {
 
         HBox hbox = createHBox();
 
-        TextField textField = createPhoneNumberTextfield();
+        TextField phoneTextfield = createPhoneNumberTextfield();
 
         Button removePhoneButton = createRemoveButton(hbox);
 
-        addNodesToHBox(hbox, textField, removePhoneButton);
+        addNodesToHBox(hbox, phoneTextfield, removePhoneButton);
 
         loadItemOnVBox(phones_container, hbox);
     }

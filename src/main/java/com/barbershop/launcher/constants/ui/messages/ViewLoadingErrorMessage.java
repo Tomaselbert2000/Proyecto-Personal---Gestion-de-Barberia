@@ -2,6 +2,8 @@ package com.barbershop.launcher.constants.ui.messages;
 
 public class ViewLoadingErrorMessage {
 
+    public static final String DASHBOARD_VIEW_LOADING_FAILED = "Hubo un error al cargar la vista principal.";
+
     public static final String EMPLOYEE_VIEW_LOADING_FAILED = "Hubo un error al cargar la vista de empleados.";
     public static final String EMPLOYEE_ITEM_VIEW_LOADING_FAILED = "Hubo un error al cargar la lista de empleados registrados.";
     public static final String EMPLOYEE_CREATION_VIEW_LOADING_FAILED = "Hubo un error al cargar la vista de registro de nuevo empleado.";
@@ -22,7 +24,7 @@ public class ViewLoadingErrorMessage {
 
     public static final String CLIENT_CREATION_VIEW_LOADING_FAILED = "Hubo un error al cargar la vista de registro de nuevo cliente.";
 
-    public static final String APPOINTMENS_VIEW_LIST_LOADING_FAILED = "Hubo un error al cargar la lista de turnos recientes.";
+    public static final String APPOINTMENTS_VIEW_LOADING_FAILED = "Hubo un error al cargar la lista de turnos recientes.";
     public static final String APPOINTMENT_CREATION_VIEW_LOADING_FAILED = "Hubo un error al cargar la vista de creación de turnos.";
     public static final String APPOINTMENT_EDITION_VIEW_LOADING_FAILED = "Hubo un error al cargar la vista de actualización de turnos.";
 

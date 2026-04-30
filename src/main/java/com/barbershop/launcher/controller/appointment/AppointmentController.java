@@ -18,6 +18,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 import static com.barbershop.launcher.constants.ui.messages.EmptyListMessage.EMPTY_APPOINTMENTS_LIST_MESSAGE;
 import static com.barbershop.launcher.constants.ui.messages.ToastNotificationMessage.APPOINTMENT_STATUS_UPDATED_TOAST_NOTIFICATION_MESSAGE;
@@ -151,8 +152,12 @@ public class AppointmentController {
 
     private void configureButtonActions() {
 
-        clear_filters_button.setOnAction(_ -> cleanFiltersAndSearchField());
-        register_new_appointment_button.setOnAction(_ -> goToAppointmentCreationView());
+        Map<Button, Runnable> map = Map.of(
+                clear_filters_button, this::cleanFiltersAndSearchField,
+                register_new_appointment_button, this::goToAppointmentCreationView
+        );
+
+        configureRunnableMaps(map);
     }
 
     private void cleanFiltersAndSearchField() {
@@ -174,7 +179,7 @@ public class AppointmentController {
 
                 FXMLLoader loader = generateLoaderWithPath(APPOINTMENT_ITEM_VIEW_PATH);
 
-                Parent appointmentView = returnParentFromLoader(loader, APPOINTMENS_VIEW_LIST_LOADING_FAILED);
+                Parent appointmentView = returnParentFromLoader(loader, APPOINTMENTS_VIEW_LOADING_FAILED);
 
                 AppointmentCardItemController appointmentCardItemController = loader.getController();
 

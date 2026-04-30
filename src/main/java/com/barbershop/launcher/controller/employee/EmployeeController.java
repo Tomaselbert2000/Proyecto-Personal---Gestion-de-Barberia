@@ -241,8 +241,12 @@ public class EmployeeController implements GenericControllerViewFunctions {
     @Override
     public void configureButtonActions() {
 
-        clear_filters_button.setOnAction(_ -> cleanFiltersAndLiveSearch());
-        new_employee_button.setOnAction(_ -> goToRegisterNewEmployeeView());
+        Map<Button, Runnable> map = Map.of(
+                clear_filters_button, this::cleanFiltersAndLiveSearch,
+                new_employee_button, this::goToRegisterNewEmployeeView
+        );
+
+        configureRunnableMaps(map);
     }
 
     @Override

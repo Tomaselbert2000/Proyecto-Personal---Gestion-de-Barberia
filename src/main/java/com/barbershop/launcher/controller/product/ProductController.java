@@ -19,6 +19,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Map;
 
 import static com.barbershop.launcher.constants.ui.messages.EmptyListMessage.EMPTY_PRODUCT_LIST_MESSAGE;
 import static com.barbershop.launcher.constants.ui.messages.GenericStrings.*;
@@ -217,8 +218,12 @@ public class ProductController implements GenericControllerViewFunctions {
     @Override
     public void configureButtonActions() {
 
-        create_product_button.setOnAction(_ -> goToRegisterNewProductView());
-        clean_filters_button.setOnAction(_ -> cleanFiltersAndLiveSearch());
+        Map<Button, Runnable> map = Map.of(
+                create_product_button, this::goToRegisterNewProductView,
+                clean_filters_button, this::cleanFiltersAndLiveSearch
+        );
+
+        configureRunnableMaps(map);
     }
 
     @Override

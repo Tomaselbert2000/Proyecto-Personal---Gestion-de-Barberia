@@ -6,7 +6,6 @@ import com.barbershop.enums.BarberServiceCategory;
 import com.barbershop.enums.ToastNotificationType;
 import com.barbershop.enums.ViewRedirection;
 import com.barbershop.exceptions.barberservice.BlankBarberServicePriceException;
-import com.barbershop.launcher.controller.helper.UIBasicComponents;
 import com.barbershop.launcher.controller.interfaces.BarberServiceControllerViewFunctions;
 import com.barbershop.service.interfaces.BarberserviceService;
 import javafx.fxml.FXML;
@@ -25,9 +24,9 @@ import static com.barbershop.launcher.constants.ui.messages.ToastNotificationMes
 import static com.barbershop.launcher.controller.helper.UIBasicComponents.*;
 import static com.barbershop.launcher.controller.helper.ComboBoxHelper.loadEnumsOnComboBox;
 import static com.barbershop.launcher.controller.helper.ComboBoxHelper.removeFirstItemFromComboBox;
-import static com.barbershop.launcher.controller.helper.FXMLViewLoader.redirectToView;
 import static com.barbershop.launcher.controller.helper.ToastNotificationHelper.showExceptionErrorMessage;
 import static com.barbershop.launcher.controller.helper.ToastNotificationHelper.showToastNotification;
+import static com.barbershop.launcher.controller.helper.ViewRedirectionHelper.redirectToView;
 
 @Component
 @RequiredArgsConstructor
@@ -79,7 +78,7 @@ public class BarberServiceEditionController implements BarberServiceControllerVi
 
         configureButtonActions(infoDTO);
 
-        UIBasicComponents.configurePriceTextfieldRestrictions(price_field);
+        configurePriceTextfieldRestrictions(price_field);
     }
 
     public void loadServiceDataForEdition(BarberServiceInfoDTO infoDTO) {
@@ -135,9 +134,13 @@ public class BarberServiceEditionController implements BarberServiceControllerVi
     @Override
     public void configureButtonActions(BarberServiceInfoDTO... infoDTO) {
 
-        back_button.setOnAction(_ -> redirectToView(applicationContext, ViewRedirection.BARBER_SERVICES));
-        restore_values_button.setOnAction(_ -> resetForm(Arrays.stream(infoDTO).toList().getFirst()));
-        update_button.setOnAction(_ -> updateBarberService());
+        Map<Button, Runnable> map = Map.of(
+                back_button, () -> redirectToView(ViewRedirection.BARBER_SERVICES, anchor_pane, applicationContext),
+                restore_values_button, () -> resetForm(Arrays.stream(infoDTO).toList().getFirst()),
+                update_button, this::updateBarberService
+        );
+
+        configureRunnableMaps(map);
     }
 
     @Override

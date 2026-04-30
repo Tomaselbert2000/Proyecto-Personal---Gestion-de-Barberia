@@ -18,10 +18,9 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.function.Consumer;
 
+import static com.barbershop.launcher.controller.helper.UIBasicComponents.*;
 import static com.barbershop.launcher.controller.helper.ValidationFormatter.*;
 import static com.barbershop.launcher.controller.helper.FileImageHelper.loadFileOnImageView;
-import static com.barbershop.launcher.controller.helper.UIBasicComponents.generateMap;
-import static com.barbershop.launcher.controller.helper.UIBasicComponents.setTextsOnLabelMap;
 
 @Component
 @Getter
@@ -82,8 +81,12 @@ public class ProductItemController {
 
     private void configureButtonActions() {
 
-        edit_button.setOnAction(_ -> goToEditProductView());
-        add_stock_button.setOnAction(_ -> goToAddStockView());
+        Map<Button, Runnable> map = Map.of(
+                edit_button, this::goToEditProductView,
+                add_stock_button, this::goToAddStockView
+        );
+
+        configureRunnableMaps(map);
     }
 
     private void goToEditProductView() {

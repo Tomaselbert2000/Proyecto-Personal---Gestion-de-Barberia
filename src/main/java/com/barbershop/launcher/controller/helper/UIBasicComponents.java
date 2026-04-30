@@ -196,4 +196,18 @@ public class UIBasicComponents {
 
         priceField.setTextFormatter(stringTextFormatter);
     }
+
+    @SafeVarargs
+    public static void configureRunnableMaps(Map<Button, Runnable>... maps) {
+
+        for (Map<Button, Runnable> runnableMap : maps) {
+
+            for (Button button : runnableMap.keySet()) {
+
+                Runnable action = runnableMap.get(button);
+
+                button.setOnAction(_ -> action.run());
+            }
+        }
+    }
 }

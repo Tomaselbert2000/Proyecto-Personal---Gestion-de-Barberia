@@ -86,8 +86,12 @@ public class EmployeeItemController {
 
     private void configureButtonActions() {
 
-        edit_button.setOnAction(_ -> goToEditEmployeeView());
-        toggle_status_button.setOnAction(_ -> changeEmployeeActivityStatus());
+        Map<Button, Runnable> map = Map.of(
+                edit_button, this::goToEditEmployeeView,
+                toggle_status_button, this::changeEmployeeActivityStatus
+        );
+
+        configureRunnableMaps(map);
     }
 
     private void goToEditEmployeeView() {
