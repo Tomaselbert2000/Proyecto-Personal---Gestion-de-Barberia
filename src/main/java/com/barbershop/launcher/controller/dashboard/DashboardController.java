@@ -137,7 +137,7 @@ public class DashboardController {
     private void configureButtonActions() {
 
         Map<Button, Runnable> navBarButtonsMap = Map.of(
-                navbar_dashboard_button, () -> ViewRedirectionHelper.redirectToView(ViewRedirection.DASHBOARD, borderPane, applicationContext),
+                navbar_dashboard_button, () -> ViewRedirectionHelper.redirectToView(ViewRedirection.DASHBOARD, borderPane, applicationContext, this::reloadDashboard),
                 navbar_client_button, () -> ViewRedirectionHelper.redirectToView(ViewRedirection.CLIENTS, borderPane, applicationContext),
                 navbar_employee_button, () -> ViewRedirectionHelper.redirectToView(ViewRedirection.EMPLOYEES, borderPane, applicationContext),
                 navbar_appointment_button, () -> ViewRedirectionHelper.redirectToView(ViewRedirection.APPOINTMENTS, borderPane, applicationContext),
@@ -162,6 +162,13 @@ public class DashboardController {
         );
 
         configureRunnableMaps(navBarButtonsMap, quickAccessButtonsMap, quickCreationButtonsMap);
+    }
+
+    public void reloadDashboard() {
+
+        borderPane.setCenter(dashboardReference);
+
+        loadStatistics();
     }
 
     private void loadEventLog() {

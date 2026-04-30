@@ -22,7 +22,9 @@ public class ViewLoadingErrorMessage {
 
     public static final String RECENT_ACTIVITY_VIEW_LOADING_FAILED = "Hubo un error al cargar la vista de actividad reciente.";
 
+    public static final String CLIENTS_VIEW_LOADING_FAILED = "Hubo un error al cargar la vista de clientes.";
     public static final String CLIENT_CREATION_VIEW_LOADING_FAILED = "Hubo un error al cargar la vista de registro de nuevo cliente.";
+    public static final String CLIENT_EDITION_VIEW_LOADING_FAILED = "Hubo un error al cargar la vista de edición de cliente.";
 
     public static final String APPOINTMENTS_VIEW_LOADING_FAILED = "Hubo un error al cargar la lista de turnos recientes.";
     public static final String APPOINTMENT_CREATION_VIEW_LOADING_FAILED = "Hubo un error al cargar la vista de creación de turnos.";
