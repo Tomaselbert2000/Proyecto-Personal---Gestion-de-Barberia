@@ -1,6 +1,6 @@
 package com.barbershop.launcher.controller.helper;
 
-import com.barbershop.launcher.controller.dialog.DeleteConfirmationDialogController;
+import com.barbershop.launcher.controller.implementation.dialog.DeleteConfirmationDialogController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;

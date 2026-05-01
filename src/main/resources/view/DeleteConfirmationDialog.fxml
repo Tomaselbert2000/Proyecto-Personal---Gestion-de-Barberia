@@ -7,7 +7,7 @@
 <?import javafx.scene.text.*?>
 
 <StackPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1"
-           fx:controller="com.barbershop.launcher.controller.dialog.DeleteConfirmationDialogController">
+           fx:controller="com.barbershop.launcher.controller.implementation.dialog.DeleteConfirmationDialogController">
 
     <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="400.0" styleClass="confirmation-dialog-container">
         <VBox styleClass="confirmation-dialog-content">

@@ -6,7 +6,7 @@
 <?import javafx.scene.text.*?>
 
 <AnchorPane fx:id="anchor_pane" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.barbershop.launcher.controller.client.ClientCreationController">
+            fx:controller="com.barbershop.launcher.controller.implementation.client.ClientCreationController">
 
     <!-- Header del Panel -->
     <HBox alignment="CENTER_LEFT" styleClass="header-bar" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"

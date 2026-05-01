@@ -7,7 +7,7 @@
 <?import javafx.scene.text.*?>
 
 <StackPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1"
-           fx:controller="com.barbershop.launcher.controller.toast_notification.ToastNotificationController">
+           fx:controller="com.barbershop.launcher.controller.implementation.toast_notification.ToastNotificationController">
 
     <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="400.0" styleClass="toast-container">
 

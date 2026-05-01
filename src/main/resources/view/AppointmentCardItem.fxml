@@ -8,7 +8,7 @@
 <?import javafx.scene.text.Font?>
 
 <VBox styleClass="appointment-card" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.barbershop.launcher.controller.appointment.AppointmentCardItemController">
+      fx:controller="com.barbershop.launcher.controller.implementation.appointment.AppointmentItemController">
     <HBox alignment="CENTER_LEFT" spacing="20.0">
 
         <VBox alignment="CENTER" minWidth="80.0" styleClass="time-box">

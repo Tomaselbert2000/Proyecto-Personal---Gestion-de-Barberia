@@ -10,7 +10,7 @@
 
 <?import javafx.scene.layout.StackPane?>
 <VBox styleClass="employee-card" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.barbershop.launcher.controller.employee.EmployeeItemController">
+      fx:controller="com.barbershop.launcher.controller.implementation.employee.EmployeeItemController">
     <HBox alignment="CENTER_LEFT" spacing="20.0">
         <!-- Employee Avatar -->
         <VBox alignment="CENTER">

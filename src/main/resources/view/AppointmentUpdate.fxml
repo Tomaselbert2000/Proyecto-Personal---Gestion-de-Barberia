@@ -9,7 +9,7 @@
 <AnchorPane fx:id="anchor_pane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
             styleClass="theme-barberia" stylesheets="@../css/styles.css"
             xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.barbershop.launcher.controller.appointment.AppointmentEditionController">
+            fx:controller="com.barbershop.launcher.controller.implementation.appointment.AppointmentEditionController">
 
     <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
           AnchorPane.topAnchor="0.0">
@@ -367,7 +367,8 @@
                 </VBox>
 
                 <!-- Tarjeta de Resumen -->
-                <VBox fx:id="appointment_summary_card" spacing="-Infinity" styleClass="appointment-summary-card" visible="false">
+                <VBox fx:id="appointment_summary_card" spacing="-Infinity" styleClass="appointment-summary-card"
+                      visible="false">
                     <padding>
                         <Insets bottom="25.0" left="25.0" right="25.0" top="25.0"/>
                     </padding>

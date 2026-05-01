@@ -1,7 +1,7 @@
 package com.barbershop.launcher.controller.helper;
 
 import com.barbershop.enums.ToastNotificationType;
-import com.barbershop.launcher.controller.toast_notification.ToastNotificationController;
+import com.barbershop.launcher.controller.implementation.toast_notification.ToastNotificationController;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.PauseTransition;

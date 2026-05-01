@@ -1,7 +1,7 @@
 package com.barbershop.launcher.controller.helper;
 
 import com.barbershop.enums.ViewRedirection;
-import com.barbershop.launcher.controller.dashboard.DashboardController;
+import com.barbershop.launcher.controller.implementation.dashboard.DashboardController;
 import javafx.scene.layout.Pane;
 import org.springframework.context.ApplicationContext;
 

@@ -12,61 +12,66 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchor_pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="theme-urban" stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
-   <padding>
-      <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
-   </padding>
-   <VBox fx:id="main_vbox" alignment="CENTER" layoutX="250.0" layoutY="100.0" prefHeight="200.0" prefWidth="100.0" spacing="20.0" styleClass="login-card" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-      <Label fx:id="title_label" alignment="CENTER" maxWidth="1.7976931348623157E308" styleClass="title-label" text="Inicio de Sesion" textAlignment="CENTER">
-         <VBox.margin>
-            <Insets bottom="20.0" />
-         </VBox.margin>
-         <font>
-            <Font name="Roboto Regular" size="36.0" />
-         </font>
-      </Label>
-      <TextField fx:id="user_field" maxWidth="350.0" promptText="Usuario" styleClass="text-field">
-         <font>
-            <Font name="Roboto Regular" size="14.0" />
-         </font>
-         <VBox.margin>
-            <Insets />
-         </VBox.margin>
-      </TextField>
-      <PasswordField fx:id="password_field" maxWidth="350.0" promptText="Contraseña" styleClass="password-field">
-         <font>
-            <Font name="Roboto Regular" size="14.0" />
-         </font>
-         <VBox.margin>
-            <Insets />
-         </VBox.margin>
-      </PasswordField>
-      <HBox fx:id="login_section_hbox" alignment="CENTER" maxWidth="350.0" prefWidth="200.0" spacing="20.0">
-         <CheckBox fx:id="remember_cr_checkbox" mnemonicParsing="false" text="Recordar credenciales">
-            <HBox.margin>
-               <Insets />
-            </HBox.margin>
-         </CheckBox>
-         <Region HBox.hgrow="ALWAYS" />
-         <Button fx:id="login_button" mnemonicParsing="false" styleClass="button-primary" text="Ingresar">
-            <HBox.margin>
-               <Insets />
-            </HBox.margin>
+<AnchorPane fx:id="anchor_pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="400.0" prefWidth="600.0" styleClass="theme-urban" stylesheets="@../css/styles.css"
+            xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
+    <padding>
+        <Insets bottom="8.0" left="8.0" right="8.0" top="8.0"/>
+    </padding>
+    <VBox fx:id="main_vbox" alignment="CENTER" layoutX="250.0" layoutY="100.0" prefHeight="200.0" prefWidth="100.0"
+          spacing="20.0" styleClass="login-card" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+          AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <Label fx:id="title_label" alignment="CENTER" maxWidth="1.7976931348623157E308" styleClass="title-label"
+               text="Inicio de Sesion" textAlignment="CENTER">
+            <VBox.margin>
+                <Insets bottom="20.0"/>
+            </VBox.margin>
             <font>
-               <Font name="Roboto Bold" size="18.0" />
+                <Font name="Roboto Regular" size="36.0"/>
             </font>
-         </Button>
-      </HBox>
-      <HBox fx:id="create_user_hbox" alignment="CENTER" spacing="20.0">
-         <VBox.margin>
-            <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
-         </VBox.margin>
-         <Label fx:id="create_user_label" text="¿No tenes cuenta?" />
-         <Button fx:id="create_user_button" mnemonicParsing="false" styleClass="button-text" text="Crear usuario">
+        </Label>
+        <TextField fx:id="user_field" maxWidth="350.0" promptText="Usuario" styleClass="text-field">
             <font>
-               <Font name="Roboto Bold" size="14.0" />
+                <Font name="Roboto Regular" size="14.0"/>
             </font>
-         </Button>
-      </HBox>
-   </VBox>
+            <VBox.margin>
+                <Insets/>
+            </VBox.margin>
+        </TextField>
+        <PasswordField fx:id="password_field" maxWidth="350.0" promptText="Contraseña" styleClass="password-field">
+            <font>
+                <Font name="Roboto Regular" size="14.0"/>
+            </font>
+            <VBox.margin>
+                <Insets/>
+            </VBox.margin>
+        </PasswordField>
+        <HBox fx:id="login_section_hbox" alignment="CENTER" maxWidth="350.0" prefWidth="200.0" spacing="20.0">
+            <CheckBox fx:id="remember_cr_checkbox" mnemonicParsing="false" text="Recordar credenciales">
+                <HBox.margin>
+                    <Insets/>
+                </HBox.margin>
+            </CheckBox>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button fx:id="login_button" mnemonicParsing="false" styleClass="button-primary" text="Ingresar">
+                <HBox.margin>
+                    <Insets/>
+                </HBox.margin>
+                <font>
+                    <Font name="Roboto Bold" size="18.0"/>
+                </font>
+            </Button>
+        </HBox>
+        <HBox fx:id="create_user_hbox" alignment="CENTER" spacing="20.0">
+            <VBox.margin>
+                <Insets bottom="8.0" left="8.0" right="8.0" top="8.0"/>
+            </VBox.margin>
+            <Label fx:id="create_user_label" text="¿No tenes cuenta?"/>
+            <Button fx:id="create_user_button" mnemonicParsing="false" styleClass="button-text" text="Crear usuario">
+                <font>
+                    <Font name="Roboto Bold" size="14.0"/>
+                </font>
+            </Button>
+        </HBox>
+    </VBox>
 </AnchorPane>

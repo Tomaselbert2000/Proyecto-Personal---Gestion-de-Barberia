@@ -7,7 +7,7 @@
 
 <AnchorPane fx:id="anchor_pane" styleClass="theme-barberia" stylesheets="@../css/styles.css"
             xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.barbershop.launcher.controller.employee.EmployeeController">
+            fx:controller="com.barbershop.launcher.controller.implementation.employee.EmployeeViewController">
 
     <!-- Header del Panel -->
     <HBox alignment="CENTER_LEFT" styleClass="header-bar" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
