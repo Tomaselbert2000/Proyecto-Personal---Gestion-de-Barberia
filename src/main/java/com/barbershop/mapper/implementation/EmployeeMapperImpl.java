@@ -28,6 +28,7 @@ public class EmployeeMapperImpl implements EmployeeMapper {
                 .lastName(StringCleaner.formatAsProperName(creationDTO.getLastName()))
                 .hireDate(creationDTO.getHireDate())
                 .isActive(DEFAULT_IS_ACTIVE_VALUE)
+                .commissionPercentage(creationDTO.getCommissionPercentage())
                 .build();
     }
 
@@ -88,5 +89,8 @@ public class EmployeeMapperImpl implements EmployeeMapper {
         if (updateDTO.getIsActive() != null) entity.setActive(updateDTO.getIsActive());
 
         if (updateDTO.getTerminationDate() != null) entity.setTerminationDate(updateDTO.getTerminationDate());
+
+        if (updateDTO.getCommissionPercentage() != null)
+            entity.setCommissionPercentage(updateDTO.getCommissionPercentage());
     }
 }
