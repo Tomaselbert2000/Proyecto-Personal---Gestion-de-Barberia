@@ -72,7 +72,7 @@ public class BarberServiceCreationController implements CreationController {
 
         configureButtonActions();
 
-        configurePriceTextfieldRestrictions(price_field);
+        configureDecimalTextfieldRestrictions(price_field);
 
         loadEnumsOnComboBox(category_combo_box, BarberServiceCategory.values());
         removeFirstItemFromComboBox(category_combo_box);

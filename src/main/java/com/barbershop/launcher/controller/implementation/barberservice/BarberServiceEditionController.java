@@ -77,7 +77,7 @@ public class BarberServiceEditionController implements EditionController<BarberS
 
         configureButtonActions(infoDTO);
 
-        configurePriceTextfieldRestrictions(price_field);
+        configureDecimalTextfieldRestrictions(price_field);
     }
 
     public void loadServiceDataForEdition(BarberServiceInfoDTO infoDTO) {

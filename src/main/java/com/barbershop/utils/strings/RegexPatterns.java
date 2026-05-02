@@ -24,5 +24,5 @@ public class RegexPatterns {
     public static final String NATIONAL_ID_CARD_NUMBER_REGEX = "^\\d+$";
     public static final String EMAIL_REGEX = "^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,}$";
     public static final String PHONE_REGEX = "^\\+?[0-9+]+$";
-    public static final String PRICE_REGEX = "^\\d*\\.?\\d*$";
+    public static final String DECIMAL_REGEX = "^\\d*\\.?\\d*$";
 }

@@ -18,7 +18,7 @@ import static com.barbershop.launcher.constants.ui.css_class.CssStylesStrings.EM
 import static com.barbershop.launcher.controller.helper.ComboBoxHelper.*;
 import static com.barbershop.launcher.controller.helper.ValidationFormatter.generateTextFormatterWithFilter;
 import static com.barbershop.launcher.controller.helper.ValidationFormatter.generateUnaryOperatorFilterForTextFormatterWith;
-import static com.barbershop.utils.strings.RegexPatterns.PRICE_REGEX;
+import static com.barbershop.utils.strings.RegexPatterns.DECIMAL_REGEX;
 
 public class UIBasicComponents {
 
@@ -69,9 +69,12 @@ public class UIBasicComponents {
         label.getStyleClass().add(style);
     }
 
-    public static void setBlankTextfield(TextField textField) {
+    public static void setBlankTextfield(TextField... textfields) {
 
-        textField.setText("");
+        for (TextField textfield : textfields) {
+
+            textfield.setText("");
+        }
     }
 
     public static void setTextOnTextfield(TextField textfield, String text) {
@@ -188,13 +191,13 @@ public class UIBasicComponents {
         setLocalTimeMinuteConverter(minuteSelector);
     }
 
-    public static void configurePriceTextfieldRestrictions(TextField priceField) {
+    public static void configureDecimalTextfieldRestrictions(TextField textfield) {
 
-        UnaryOperator<TextFormatter.Change> unaryOperatorFilter = generateUnaryOperatorFilterForTextFormatterWith(PRICE_REGEX);
+        UnaryOperator<TextFormatter.Change> unaryOperatorFilter = generateUnaryOperatorFilterForTextFormatterWith(DECIMAL_REGEX);
 
         TextFormatter<String> stringTextFormatter = generateTextFormatterWithFilter(unaryOperatorFilter);
 
-        priceField.setTextFormatter(stringTextFormatter);
+        textfield.setTextFormatter(stringTextFormatter);
     }
 
     @SafeVarargs
