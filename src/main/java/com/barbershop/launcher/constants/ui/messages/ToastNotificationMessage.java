@@ -8,6 +8,7 @@ public class ToastNotificationMessage {
     public static final String CLIENT_CREATION_TOAST_NOTIFICATION_MESSAGE = "Se ha registrado un nuevo cliente en el sistema.";
 
     public static final String EMPLOYEE_CREATION_TOAST_NOTIFICATION_MESSAGE = "Se ha registrado un nuevo empleado en el sistema.";
+    public static final String EMPLOYEE_UPDATE_TOAST_NOTIFICATION_MESSAGE = "El empleado se ha actualizado exitosamente.";
 
     public static final String BARBER_SERVICE_CREATION_TOAST_NOTIFICATION_MESSAGE = "Se ha registrado un nuevo servicio en el catálogo.";
     public static final String BARBER_SERVICE_UPDATE_TOAST_NOTIFICATION_MESSAGE = "El servicio se ha actualizado exitosamente.";

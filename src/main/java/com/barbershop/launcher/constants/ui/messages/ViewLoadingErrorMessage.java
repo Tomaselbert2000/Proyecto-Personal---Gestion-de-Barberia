@@ -7,6 +7,7 @@ public class ViewLoadingErrorMessage {
     public static final String EMPLOYEE_VIEW_LOADING_FAILED = "Hubo un error al cargar la vista de empleados.";
     public static final String EMPLOYEE_ITEM_VIEW_LOADING_FAILED = "Hubo un error al cargar la lista de empleados registrados.";
     public static final String EMPLOYEE_CREATION_VIEW_LOADING_FAILED = "Hubo un error al cargar la vista de registro de nuevo empleado.";
+    public static final String EMPLOYEE_EDITION_VIEW_LOADING_FAILED = "Hubo un error al cargar la vista de actualización de empleado.";
 
     public static final String BARBER_SERVICE_VIEW_LOADING_FAILED = "Hubo un error al cargar la vista de servicios de barbería.";
     public static final String BARBER_SERVICE_CREATION_VIEW_LOADING_FAILED = "Hubo un error al cargar la vista de creación de servicio de barbería.";

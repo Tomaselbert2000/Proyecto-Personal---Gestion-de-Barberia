@@ -8,6 +8,7 @@ public class ValidationErrorMessage {
     public static final String PRODUCT_EDITION_VALIDATION_FAILED = "No se pudo actualizar el producto. Por favor, revisa lo siguiente: ";
 
     public static final String EMPLOYEE_CREATION_VALIDATION_FAILED ="No se pudo registrar el empleado. Por favor, revisa lo siguiente: ";
+    public static final String EMPLOYEE_EDITION_VALIDATION_FAILED = "No se pudo actualizar el empleado. Por favor, revisa lo siguiente: ";
 
     public static final String APPOINTMENT_CREATION_VALIDATION_FAILED = "No se pudo registrar el turno. Por favor, revisa lo siguiente: ";
     public static final String APPOINTMENT_EDITION_VALIDATION_FAILED = "No se pudo actualizar el turno. Por favor, revisa lo siguiente: ";

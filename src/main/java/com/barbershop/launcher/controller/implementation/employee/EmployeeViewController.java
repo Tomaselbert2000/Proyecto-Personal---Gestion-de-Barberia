@@ -19,14 +19,11 @@ import java.util.List;
 import java.util.Map;
 
 import static com.barbershop.launcher.constants.ui.messages.EmptyListMessage.EMPTY_EMPLOYEE_LIST_MESSAGE;
-import static com.barbershop.launcher.constants.ui.messages.ViewLoadingErrorMessage.EMPLOYEE_CREATION_VIEW_LOADING_FAILED;
-import static com.barbershop.launcher.constants.ui.messages.ViewLoadingErrorMessage.EMPLOYEE_ITEM_VIEW_LOADING_FAILED;
-import static com.barbershop.launcher.constants.view.ViewPath.EMPLOYEE_CREATION_VIEW_PATH;
-import static com.barbershop.launcher.constants.view.ViewPath.EMPLOYEE_ITEM_VIEW_PATH;
+import static com.barbershop.launcher.constants.ui.messages.ViewLoadingErrorMessage.*;
+import static com.barbershop.launcher.constants.view.ViewPath.*;
 import static com.barbershop.launcher.controller.helper.ComboBoxHelper.cleanComboBoxes;
 import static com.barbershop.launcher.controller.helper.ComboBoxHelper.loadEnumsOnComboBox;
-import static com.barbershop.launcher.controller.helper.ContainerManager.cleanVBox;
-import static com.barbershop.launcher.controller.helper.ContainerManager.loadItemOnVBox;
+import static com.barbershop.launcher.controller.helper.ContainerManager.*;
 import static com.barbershop.launcher.controller.helper.FXMLViewLoader.*;
 import static com.barbershop.launcher.controller.helper.UIBasicComponents.*;
 import static com.barbershop.launcher.controller.helper.ValidationFormatter.*;
@@ -195,6 +192,17 @@ public class EmployeeViewController implements ViewController {
 
     private void goToEditEmployeeView(EmployeeInfoDTO infoDTO) {
 
+        FXMLLoader loader = generateLoaderWithPath(EMPLOYEE_EDITION_VIEW_PATH);
+
+        setControllerOnLoader(loader, applicationContext);
+
+        Parent employeeUpdateView = returnParentFromLoader(loader, EMPLOYEE_EDITION_VIEW_LOADING_FAILED);
+
+        EmployeeEditionController employeeEditionController = loader.getController();
+
+        employeeEditionController.initialize(infoDTO);
+
+        setViewOnAnchorPaneCenter(anchor_pane, employeeUpdateView);
     }
 
     private void goToRegisterNewEmployeeView() {

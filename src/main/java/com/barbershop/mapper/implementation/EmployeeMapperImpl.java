@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 public class EmployeeMapperImpl implements EmployeeMapper {
 
     private static final Boolean DEFAULT_IS_ACTIVE_VALUE = true;
-    private static final String DEFAULT_TERMINATION_DATE_STRING = "Empleado activo actualmente.";
+    private static final String DEFAULT_TERMINATION_DATE_STRING = "-- : --";
 
     @Override
     public Employee mapEmployeeCreationDtoToEntity(EmployeeCreationDTO creationDTO) {

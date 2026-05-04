@@ -11,6 +11,7 @@ public class ViewPath {
 
     public static final String EMPLOYEES_VIEW_PATH = "/view/EmployeesView.fxml";
     public static final String EMPLOYEE_CREATION_VIEW_PATH = "/view/EmployeeCreation.fxml";
+    public static final String EMPLOYEE_EDITION_VIEW_PATH = "/view/EmployeeUpdate.fxml";
     public static final String EMPLOYEE_ITEM_VIEW_PATH = "/view/EmployeeItem.fxml";
 
     public static final String CLIENTS_VIEW_PATH = "/view/ClientsView.fxml";
