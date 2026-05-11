@@ -1,82 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Region?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.shape.Circle?>
-<?import javafx.scene.text.Font?>
-
-<HBox alignment="CENTER_LEFT" spacing="15.0" styleClass="activity-item" xmlns="http://javafx.com/javafx/25"
+<?import javafx.scene.layout.*?>
+<?import java.lang.String?>
+<HBox alignment="CENTER_LEFT"
+      styleClass="md-list-item"
+      xmlns="http://javafx.com/javafx/25"
       xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.barbershop.launcher.controller.implementation.dashboard.ActivityItemController">
-    <padding>
-        <Insets bottom="15.0" left="20.0" right="20.0" top="15.0"/>
-    </padding>
+
     <!-- Icono según tipo de actividad -->
     <StackPane>
-        <Circle radius="32.0" styleClass="activity-icon-bg"/>
-        <Region fx:id="activity_icon" maxHeight="32.0" maxWidth="32.0" minHeight="32.0" minWidth="32.0"
-                prefHeight="32.0" prefWidth="32.0"/>
+        <Region fx:id="activity_icon">
+            <styleClass>
+                <String fx:value="md-action-card-icon"/>
+                <String fx:value=""/>
+            </styleClass>
+        </Region>
     </StackPane>
 
     <!-- Información de la actividad -->
-    <VBox alignment="CENTER_LEFT" spacing="3.0" HBox.hgrow="ALWAYS">
-        <HBox alignment="CENTER_LEFT" spacing="8.0"/>
+    <VBox styleClass="md-list-item-content" HBox.hgrow="ALWAYS">
 
         <!-- Título de la actividad -->
-        <Label fx:id="event_type" styleClass="activity-title" text="Nuevo cliente registrado">
-            <font>
-                <Font name="Roboto Medium" size="14.0"/>
-            </font>
-        </Label>
+        <Label fx:id="event_type" styleClass="md-list-item-title" text="Nuevo cliente registrado"/>
 
         <!-- Detalles adicionales -->
-        <Label fx:id="text_to_attach" styleClass="activity-details" text="Juan Pérez se ha registrado en el sistema">
-            <font>
-                <Font name="Roboto Regular" size="12.0"/>
-            </font>
-        </Label>
-
-        <!-- Información extra (opcional) -->
-        <HBox alignment="CENTER_LEFT" spacing="15.0">
-            <HBox alignment="CENTER_LEFT" spacing="5.0" visible="false">
-                <ImageView fitHeight="12.0" fitWidth="12.0" pickOnBounds="true" preserveRatio="true">
-                </ImageView>
-                <Label styleClass="activity-extra-info" text="Carlos Martínez">
-                    <font>
-                        <Font name="Roboto Regular" size="11.0"/>
-                    </font>
-                </Label>
-            </HBox>
-            <HBox alignment="CENTER_LEFT" spacing="5.0" visible="false">
-                <ImageView fitHeight="12.0" fitWidth="12.0" pickOnBounds="true" preserveRatio="true">
-                </ImageView>
-                <Label styleClass="activity-extra-info" text="Corte + Barba">
-                    <font>
-                        <Font name="Roboto Regular" size="11.0"/>
-                    </font>
-                </Label>
-            </HBox>
-            <HBox alignment="CENTER_LEFT" spacing="5.0" visible="false">
-                <Label styleClass="activity-extra-info" text="\$1.500">
-                    <font>
-                        <Font name="Roboto Medium" size="11.0"/>
-                    </font>
-                </Label>
-            </HBox>
-        </HBox>
+        <Label fx:id="text_to_attach" styleClass="md-list-item-subtitle"
+               text="Juan Pérez se ha registrado en el sistema"/>
     </VBox>
 
     <!-- Tiempo transcurrido -->
     <VBox alignment="CENTER_RIGHT" minWidth="80.0">
-        <Label fx:id="timestamp" styleClass="activity-time" text="Hace 5 min">
-            <font>
-                <Font name="Roboto Regular" size="16.0"/>
-            </font>
-        </Label>
+        <Label fx:id="timestamp" styleClass="md-list-item-leading-text" text="Hace 5 min"/>
     </VBox>
 </HBox>

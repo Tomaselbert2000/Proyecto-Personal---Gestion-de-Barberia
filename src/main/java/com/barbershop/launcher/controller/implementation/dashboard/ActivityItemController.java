@@ -15,7 +15,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Map;
 
-import static com.barbershop.launcher.constants.ui.css_class.CssStylesStrings.*;
+import static com.barbershop.launcher.constants.ui.css_class.MaterialDesignIcon.*;
 import static com.barbershop.launcher.controller.helper.UIBasicComponents.generateMap;
 import static com.barbershop.launcher.controller.helper.UIBasicComponents.setTextsOnLabelMap;
 
@@ -62,29 +62,34 @@ public class ActivityItemController implements ItemController<RecentActivityDTO>
 
         switch (eventType) {
 
+            case NUEVO_TURNO, NUEVO_CLIENTE, NUEVO_EMPLEADO, NUEVO_PRODUCTO -> {
+
+                return ADD_ALERT_ICON;
+            }
+
             case TURNO_CANCELADO -> {
 
-                return CANCELED_APPOINTMENT_ICON;
+                return CANCEL_PERSON_ICON;
             }
             case TURNO_FINALIZADO -> {
 
-                return COMPLETED_APPOINTMENT_ICON;
+                return DONE_ALL_ICON;
             }
             case EMPLEADO_INACTIVO -> {
 
-                return INACTIVE_EMPLOYEE_ICON;
+                return ENTERPRISE_OFF_ICON;
             }
             case EMPLEADO_DESVINCULADO -> {
 
-                return EMPLOYEE_OUT_ICON;
+                return PERSON_REMOVE;
             }
             case ALERTA_STOCK_BAJO -> {
 
-                return LOW_STOCK_ALERT_ICON;
+                return WARNING_ICON;
             }
             default -> {
 
-                return DEFAULT_EVENT_ICON;
+                return INFO_ICON;
             }
         }
     }

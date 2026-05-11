@@ -4,6 +4,7 @@ import com.barbershop.dto.dashboard.RecentActivityDTO;
 import com.barbershop.enums.ViewRedirection;
 import com.barbershop.launcher.controller.interfaces.Controller;
 import com.barbershop.service.interfaces.*;
+import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -52,52 +53,52 @@ public class DashboardController implements Controller {
     private VBox activity_log_vbox;
 
     @FXML
-    private Button navbar_dashboard_button;
+    private MFXButton navbar_dashboard_button;
 
     @FXML
-    private Button navbar_client_button;
+    private MFXButton navbar_client_button;
 
     @FXML
-    private Button navbar_employee_button;
+    private MFXButton navbar_employee_button;
 
     @FXML
-    private Button navbar_appointment_button;
+    private MFXButton navbar_appointment_button;
 
     @FXML
-    private Button navbar_product_button;
+    private MFXButton navbar_product_button;
 
     @FXML
-    private Button navbar_barber_service_button;
+    private MFXButton navbar_barber_service_button;
 
     @FXML
-    private Button navbar_settings_button;
+    private MFXButton navbar_settings_button;
 
     @FXML
-    private Button navbar_logout_button;
+    private MFXButton navbar_logout_button;
 
     @FXML
-    private Button clients_view_button;
+    private MFXButton clients_view_button;
 
     @FXML
-    private Button create_client_button;
+    private MFXButton create_client_button;
 
     @FXML
-    private Button employee_view_button;
+    private MFXButton employee_view_button;
 
     @FXML
-    private Button create_employee_button;
+    private MFXButton create_employee_button;
 
     @FXML
-    private Button appointments_view_button;
+    private MFXButton appointments_view_button;
 
     @FXML
-    private Button create_appointment_button;
+    private MFXButton create_appointment_button;
 
     @FXML
-    private Button products_view_button;
+    private MFXButton products_view_button;
 
     @FXML
-    private Button create_product_button;
+    private MFXButton create_product_button;
 
     @FXML
     private Label clients_registered_count;

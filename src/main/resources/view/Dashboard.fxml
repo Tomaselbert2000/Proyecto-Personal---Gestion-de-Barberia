@@ -1,213 +1,94 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.Separator?>
+<?import io.github.palexdev.materialfx.controls.*?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Region?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
-
-<BorderPane fx:id="borderPane" prefHeight="720.0" prefWidth="1200.0" styleClass="theme-barberia"
-            stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1"
+<?import javafx.scene.layout.*?>
+<?import java.lang.*?>
+<BorderPane fx:id="borderPane" prefHeight="720" prefWidth="1200" styleClass="md-main-content"
+            stylesheets="@../css/design-system.css" xmlns="http://javafx.com/javafx/17.0.12"
+            xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.barbershop.launcher.controller.implementation.dashboard.DashboardController">
 
     <left>
-        <VBox alignment="TOP_CENTER" maxWidth="280.0" minWidth="280.0" styleClass="sidebar">
-            <padding>
-                <Insets/>
-            </padding>
+        <VBox styleClass="md-sidebar">
 
             <!-- Logo y Nombre -->
-            <VBox alignment="CENTER" spacing="5.0" styleClass="logo-section">
-                <padding>
-                    <Insets bottom="30.0" top="30.0"/>
-                </padding>
+            <VBox alignment="CENTER" styleClass="md-logo-section">
                 <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true"
                            styleClass="logo-image">
                     <Image url="@../images/Logo.jpg"/>
                 </ImageView>
-                <Label styleClass="brand-name" text="LA TERCERA">
-                    <font>
-                        <Font name="Roboto Bold" size="22.0"/>
-                    </font>
-                </Label>
-                <Label styleClass="brand-subtitle" text="BARBERSHOP">
-                    <font>
-                        <Font name="Roboto Light" size="12.0"/>
-                    </font>
-                </Label>
+                <Label styleClass="md-brand-title" text="LA TERCERA"/>
+                <Label styleClass="md-brand-subtitle" text="BARBERSHOP"/>
             </VBox>
 
-            <Separator styleClass="menu-separator"/>
+            <Separator styleClass="md-menu-separator"/>
 
             <!-- Menú de Navegación -->
-            <VBox alignment="TOP_CENTER" spacing="4.0" VBox.vgrow="ALWAYS">
-                <padding>
-                    <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
-                </padding>
+            <VBox VBox.vgrow="ALWAYS" styleClass="md-navbar-button-container">
 
-                <Button fx:id="navbar_dashboard_button" maxWidth="1.7976931348623157E308" mnemonicParsing="false"
-                        styleClass="menu-button" text="Dashboard" textAlignment="CENTER">
-                    <font>
-                        <Font name="Roboto Medium" size="15.0"/>
-                    </font>
-                    <padding>
-                        <Insets bottom="14.0" left="25.0" right="25.0" top="14.0"/>
-                    </padding>
-                    <graphic>
-                        <Region prefHeight="24.0" prefWidth="24.0" styleClass="navbar-icon-dashboard"/>
-                    </graphic>
-                </Button>
+                <MFXButton fx:id="navbar_dashboard_button" maxWidth="Infinity" styleClass="md-nav-button"
+                           text="Dashboard">
+                </MFXButton>
 
-                <Button fx:id="navbar_client_button" maxWidth="1.7976931348623157E308" mnemonicParsing="false"
-                        styleClass="menu-button" text="Clientes" textAlignment="CENTER">
-                    <font>
-                        <Font name="Roboto Medium" size="15.0"/>
-                    </font>
-                    <padding>
-                        <Insets bottom="14.0" left="25.0" right="25.0" top="14.0"/>
-                    </padding>
-                    <graphic>
-                        <Region prefHeight="24.0" prefWidth="24.0" styleClass="navbar-icon-clients"/>
-                    </graphic>
-                </Button>
+                <MFXButton fx:id="navbar_client_button" maxWidth="Infinity" styleClass="md-nav-button" text="Clientes">
+                </MFXButton>
 
-                <Button fx:id="navbar_employee_button" maxWidth="1.7976931348623157E308" mnemonicParsing="false"
-                        styleClass="menu-button" text="Empleados" textAlignment="CENTER">
-                    <font>
-                        <Font name="Roboto Medium" size="15.0"/>
-                    </font>
-                    <padding>
-                        <Insets bottom="14.0" left="25.0" right="25.0" top="14.0"/>
-                    </padding>
-                    <graphic>
-                        <Region prefHeight="24.0" prefWidth="24.0" styleClass="navbar-icon-employees"/>
-                    </graphic>
-                </Button>
+                <MFXButton fx:id="navbar_employee_button" maxWidth="Infinity" styleClass="md-nav-button"
+                           text="Empleados">
+                </MFXButton>
 
-                <Button fx:id="navbar_appointment_button" maxWidth="1.7976931348623157E308" mnemonicParsing="false"
-                        styleClass="menu-button" text="Turnos" textAlignment="CENTER">
-                    <font>
-                        <Font name="Roboto Medium" size="15.0"/>
-                    </font>
-                    <padding>
-                        <Insets bottom="14.0" left="25.0" right="25.0" top="14.0"/>
-                    </padding>
-                    <graphic>
-                        <Region prefHeight="24.0" prefWidth="24.0" styleClass="navbar-icon-appointments"/>
-                    </graphic>
-                </Button>
+                <MFXButton fx:id="navbar_appointment_button" maxWidth="Infinity" styleClass="md-nav-button"
+                           text="Turnos">
+                </MFXButton>
 
-                <Button fx:id="navbar_barber_service_button" maxWidth="1.7976931348623157E308" mnemonicParsing="false"
-                        styleClass="menu-button" text="Servicios"
-                        textAlignment="CENTER">
-                    <font>
-                        <Font name="Roboto Medium" size="15.0"/>
-                    </font>
-                    <padding>
-                        <Insets bottom="14.0" left="25.0" right="25.0" top="14.0"/>
-                    </padding>
-                    <graphic>
-                        <Region prefHeight="24.0" prefWidth="24.0" styleClass="navbar-icon-services"/>
-                    </graphic>
-                </Button>
+                <MFXButton fx:id="navbar_barber_service_button" maxWidth="Infinity" styleClass="md-nav-button"
+                           text="Servicios">
+                </MFXButton>
 
-                <Button fx:id="navbar_product_button" maxWidth="1.7976931348623157E308" mnemonicParsing="false"
-                        styleClass="menu-button" text="Stock de productos"
-                        textAlignment="CENTER">
-                    <font>
-                        <Font name="Roboto Medium" size="15.0"/>
-                    </font>
-                    <padding>
-                        <Insets bottom="14.0" left="25.0" right="25.0" top="14.0"/>
-                    </padding>
-                    <graphic>
-                        <Region prefHeight="24.0" prefWidth="24.0" styleClass="navbar-icon-products"/>
-                    </graphic>
-                </Button>
+                <MFXButton fx:id="navbar_product_button" maxWidth="Infinity" styleClass="md-nav-button"
+                           text="Stock de productos">
+                </MFXButton>
             </VBox>
 
+            <Separator styleClass="md-menu-separator"/>
+
             <!-- Sección Inferior del Menú -->
-            <VBox spacing="4.0">
-                <Separator styleClass="menu-separator"/>
+            <VBox styleClass="md-navbar-button-container">
 
-                <Button fx:id="navbar_settings_button" maxWidth="1.7976931348623157E308" mnemonicParsing="false"
-                        styleClass="menu-button" text="Configuración"
-                        textAlignment="CENTER">
-                    <font>
-                        <Font name="Roboto Medium" size="15.0"/>
-                    </font>
-                    <padding>
-                        <Insets bottom="12.0" left="25.0" right="25.0" top="12.0"/>
-                    </padding>
-                    <graphic>
-                        <Region prefHeight="24.0" prefWidth="24.0" styleClass="navbar-icon-settings"/>
-                    </graphic>
-                </Button>
+                <MFXButton fx:id="navbar_settings_button" maxWidth="Infinity" styleClass="md-nav-button"
+                           text="Configuración">
+                </MFXButton>
 
-                <Button fx:id="navbar_logout_button" maxWidth="1.7976931348623157E308" mnemonicParsing="false"
-                        styleClass="menu-button-exit" text="Cerrar Sesión" textAlignment="CENTER">
-                    <font>
-                        <Font name="Roboto Medium" size="15.0"/>
-                    </font>
-                    <padding>
-                        <Insets bottom="12.0" left="25.0" right="25.0" top="12.0"/>
-                    </padding>
-                    <graphic>
-                        <Region prefHeight="24.0" prefWidth="24.0" styleClass="navbar-icon-logout"/>
-                    </graphic>
-                </Button>
-                <padding>
-                    <Insets bottom="15.0" left="20.0" right="20.0" top="15.0"/>
-                </padding>
+                <MFXButton fx:id="navbar_logout_button" maxWidth="Infinity" styleClass="md-nav-button"
+                           text="Cerrar Sesión">
+                </MFXButton>
             </VBox>
         </VBox>
     </left>
 
     <center>
-        <AnchorPane styleClass="main-content">
+        <VBox>
             <!-- Header Superior -->
-            <HBox alignment="CENTER_LEFT" styleClass="header-bar" AnchorPane.leftAnchor="0.0"
-                  AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                <padding>
-                    <Insets bottom="20.0" left="30.0" right="30.0" top="20.0"/>
-                </padding>
-                <VBox alignment="CENTER_LEFT">
-                    <Label styleClass="page-title" text="Dashboard">
-                        <font>
-                            <Font name="Roboto Bold" size="28.0"/>
-                        </font>
-                    </Label>
-                    <Label styleClass="page-subtitle" text="Bienvenido de nuevo">
-                        <font>
-                            <Font name="Roboto Regular" size="14.0"/>
-                        </font>
-                    </Label>
+            <HBox styleClass="md-header-bar">
+                <VBox styleClass="md-heading-group">
+                    <Label styleClass="md-page-title" text="Dashboard"/>
+                    <Label styleClass="md-page-subtitle" text="Bienvenido de nuevo"/>
                 </VBox>
                 <Region HBox.hgrow="ALWAYS"/>
-                <HBox alignment="CENTER" spacing="15.0"/>
             </HBox>
 
             <!-- Contenido Principal -->
-            <ScrollPane fitToHeight="true" fitToWidth="true" layoutY="80.0" styleClass="content-scroll"
-                        AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
-                        AnchorPane.topAnchor="80.0">
-                <padding>
-                    <Insets bottom="20.0" left="30.0" right="30.0" top="10.0"/>
-                </padding>
-                <VBox spacing="25.0">
+            <ScrollPane fitToHeight="true"
+                        fitToWidth="true"
+                        VBox.vgrow="ALWAYS"
+                        styleClass="md-content-scroll">
+                <VBox styleClass="md-content-section">
                     <!-- Tarjetas de Estadísticas Rápidas -->
-                    <GridPane hgap="20.0" vgap="20.0">
+
+                    <GridPane styleClass="md-grid-pane">
                         <columnConstraints>
                             <ColumnConstraints hgrow="SOMETIMES" minWidth="250.0"/>
                             <ColumnConstraints hgrow="SOMETIMES" minWidth="250.0"/>
@@ -219,161 +100,106 @@
                         </rowConstraints>
 
                         <!-- Tarjeta: Clientes Totales -->
-                        <VBox styleClass="stat-card" GridPane.columnIndex="0">
-                            <HBox alignment="CENTER_LEFT" spacing="15.0">
-                                <VBox styleClass="icon-container">
-                                    <Region prefHeight="24.0" prefWidth="24.0"
-                                            styleClass="dashboard-view-client-card-icon"/>
-                                </VBox>
+                        <VBox styleClass="md-card" GridPane.columnIndex="0">
+                            <HBox styleClass="md-stat-card-container">
                                 <Region HBox.hgrow="ALWAYS"/>
+                                <VBox>
+                                    <Region>
+                                        <styleClass>
+                                            <String fx:value="md-action-card-icon"/>
+                                            <String fx:value="groups-2-icon"/>
+                                        </styleClass>
+                                    </Region>
+                                </VBox>
                             </HBox>
-                            <VBox alignment="CENTER_LEFT" spacing="5.0">
-                                <Label fx:id="clients_registered_count" styleClass="stat-value" text="1,248">
-                                    <font>
-                                        <Font name="Roboto Bold" size="32.0"/>
-                                    </font>
-                                </Label>
-                                <Label styleClass="stat-label" text="Clientes Registrados">
-                                    <font>
-                                        <Font name="Roboto Regular" size="13.0"/>
-                                    </font>
-                                </Label>
+                            <VBox styleClass="md-action-label-container">
+                                <Label fx:id="clients_registered_count" styleClass="md-stat-value" text="1,248"/>
+                                <Label styleClass="md-stat-label" text="Clientes Registrados"/>
                             </VBox>
-                            <HBox alignment="CENTER_LEFT" spacing="5.0">
-                                <Label fx:id="clients_registered_percentage_vs_last_month"
-                                       styleClass="stat-trend-positive" text="+12%">
-                                    <font>
-                                        <Font name="Roboto Medium" size="12.0"/>
-                                    </font>
-                                </Label>
-                                <Label styleClass="stat-trend-label" text="vs mes anterior">
-                                    <font>
-                                        <Font name="Roboto Regular" size="11.0"/>
-                                    </font>
-                                </Label>
+                            <HBox styleClass="md-action-label-container">
+                                <Label fx:id="clients_registered_percentage_vs_last_month"/>
+                                <Label styleClass="md-stat-trend-label" text="vs mes anterior"/>
                             </HBox>
                         </VBox>
 
                         <!-- Tarjeta: Empleados -->
-                        <VBox styleClass="stat-card" GridPane.columnIndex="1">
-                            <HBox alignment="CENTER_LEFT" spacing="15.0">
-                                <VBox styleClass="icon-container">
-                                    <Region prefHeight="24.0" prefWidth="24.0"
-                                            styleClass="dashboard-view-employee-card-icon"/>
-                                </VBox>
+                        <VBox styleClass="md-card" GridPane.columnIndex="1">
+                            <HBox styleClass="md-stat-card-container">
                                 <Region HBox.hgrow="ALWAYS"/>
+                                <VBox>
+                                    <Region>
+                                        <styleClass>
+                                            <String fx:value="md-action-card-icon"/>
+                                            <String fx:value="person-apron-icon"/>
+                                        </styleClass>
+                                    </Region>
+                                </VBox>
                             </HBox>
-                            <VBox alignment="CENTER_LEFT" spacing="5.0">
-                                <Label fx:id="active_employees_count" styleClass="stat-value" text="8">
-                                    <font>
-                                        <Font name="Roboto Bold" size="32.0"/>
-                                    </font>
-                                </Label>
-                                <Label styleClass="stat-label" text="Empleados Activos">
-                                    <font>
-                                        <Font name="Roboto Regular" size="13.0"/>
-                                    </font>
-                                </Label>
+                            <VBox styleClass="md-action-label-container">
+                                <Label fx:id="active_employees_count" styleClass="md-stat-value" text="8"/>
+                                <Label styleClass="md-stat-label" text="Empleados Activos"/>
                             </VBox>
-                            <HBox alignment="CENTER_LEFT" spacing="5.0">
-                                <Label fx:id="active_employees_this_month_count" styleClass="stat-trend-positive"
-                                       text="+2">
-                                    <font>
-                                        <Font name="Roboto Medium" size="12.0"/>
-                                    </font>
-                                </Label>
-                                <Label styleClass="stat-trend-label" text="este mes">
-                                    <font>
-                                        <Font name="Roboto Regular" size="11.0"/>
-                                    </font>
-                                </Label>
+                            <HBox styleClass="md-action-label-container">
+                                <Label fx:id="active_employees_this_month_count"
+                                       text="+2"/>
+                                <Label styleClass="md-stat-trend-label" text="este mes"/>
                             </HBox>
                         </VBox>
 
                         <!-- Tarjeta: Turnos Hoy -->
-                        <VBox styleClass="stat-card" GridPane.columnIndex="2">
-                            <HBox alignment="CENTER_LEFT" spacing="15.0">
-                                <VBox styleClass="icon-container">
-                                    <Region prefHeight="24.0" prefWidth="24.0"
-                                            styleClass="dashboard-view-appointments_today-card-icon"/>
-                                </VBox>
+                        <VBox styleClass="md-card" GridPane.columnIndex="2">
+                            <HBox styleClass="md-stat-card-container">
                                 <Region HBox.hgrow="ALWAYS"/>
+                                <VBox>
+                                    <Region>
+                                        <styleClass>
+                                            <String fx:value="md-action-card-icon"/>
+                                            <String fx:value="calendar-today-icon"/>
+                                        </styleClass>
+                                    </Region>
+                                </VBox>
                             </HBox>
-                            <VBox alignment="CENTER_LEFT" spacing="5.0">
-                                <Label fx:id="appointments_today_count" styleClass="stat-value" text="24">
-                                    <font>
-                                        <Font name="Roboto Bold" size="32.0"/>
-                                    </font>
-                                </Label>
-                                <Label styleClass="stat-label" text="Turnos Hoy">
-                                    <font>
-                                        <Font name="Roboto Regular" size="13.0"/>
-                                    </font>
-                                </Label>
+                            <VBox styleClass="md-action-label-container">
+                                <Label fx:id="appointments_today_count" styleClass="md-stat-value" text="24"/>
+                                <Label styleClass="md-stat-label" text="Turnos Hoy"/>
                             </VBox>
-                            <HBox alignment="CENTER_LEFT" spacing="5.0">
-                                <Label fx:id="finished_appointments_today_count" styleClass="stat-trend-neutral"
-                                       text="8">
-                                    <font>
-                                        <Font name="Roboto Medium" size="12.0"/>
-                                    </font>
-                                </Label>
-                                <Label styleClass="stat-trend-label" text="completados">
-                                    <font>
-                                        <Font name="Roboto Regular" size="11.0"/>
-                                    </font>
-                                </Label>
+                            <HBox styleClass="md-action-label-container">
+                                <Label fx:id="finished_appointments_today_count" styleClass="md-stat-trend-neutral"
+                                       text="8"/>
+                                <Label styleClass="md-stat-trend-label" text="completados"/>
                             </HBox>
                         </VBox>
 
                         <!-- Tarjeta: Productos en Stock -->
-                        <VBox styleClass="stat-card" GridPane.columnIndex="3">
-                            <HBox alignment="CENTER_LEFT" spacing="15.0">
-                                <VBox styleClass="icon-container">
-                                    <Region prefHeight="24.0" prefWidth="24.0"
-                                            styleClass="dashboard-view-inventory-icon"/>
-                                </VBox>
+                        <VBox styleClass="md-card" GridPane.columnIndex="3">
+                            <HBox styleClass="md-stat-card-container">
                                 <Region HBox.hgrow="ALWAYS"/>
+                                <VBox>
+                                    <Region>
+                                        <styleClass>
+                                            <String fx:value="md-action-card-icon"/>
+                                            <String fx:value="box-icon"/>
+                                        </styleClass>
+                                    </Region>
+                                </VBox>
                             </HBox>
-                            <VBox alignment="CENTER_LEFT" spacing="5.0">
-                                <Label fx:id="products_on_stock_count" styleClass="stat-value" text="156">
-                                    <font>
-                                        <Font name="Roboto Bold" size="32.0"/>
-                                    </font>
-                                </Label>
-                                <Label styleClass="stat-label" text="Productos en Stock">
-                                    <font>
-                                        <Font name="Roboto Regular" size="13.0"/>
-                                    </font>
-                                </Label>
+                            <VBox styleClass="md-action-label-container">
+                                <Label fx:id="products_on_stock_count" styleClass="md-stat-value" text="156"/>
+                                <Label styleClass="md-stat-label" text="Productos en Stock"/>
                             </VBox>
-                            <HBox alignment="CENTER_LEFT" spacing="5.0">
-                                <Label fx:id="low_stock_products_count" styleClass="stat-trend-negative" text="3">
-                                    <font>
-                                        <Font name="Roboto Medium" size="12.0"/>
-                                    </font>
-                                </Label>
-                                <Label styleClass="stat-trend-label" text="bajo stock">
-                                    <font>
-                                        <Font name="Roboto Regular" size="11.0"/>
-                                    </font>
-                                </Label>
+                            <HBox styleClass="md-action-label-container">
+                                <Label fx:id="low_stock_products_count" styleClass="md-stat-trend-negative" text="3"/>
+                                <Label styleClass="md-stat-trend-label" text="bajo stock"/>
                             </HBox>
                         </VBox>
-                        <VBox.margin>
-                            <Insets top="20.0"/>
-                        </VBox.margin>
                     </GridPane>
 
                     <!-- Sección Principal: Accesos Rápidos -->
-                    <VBox spacing="15.0">
-                        <Label styleClass="section-title" text="Accesos Rápidos">
-                            <font>
-                                <Font name="Roboto Medium" size="18.0"/>
-                            </font>
-                        </Label>
+                    <VBox styleClass="md-section-group">
 
-                        <GridPane hgap="20.0" vgap="20.0">
+                        <Label styleClass="md-section-title" text="Accesos Rápidos"/>
+
+                        <GridPane styleClass="md-grid-pane">
                             <columnConstraints>
                                 <ColumnConstraints hgrow="SOMETIMES" minWidth="350.0"/>
                                 <ColumnConstraints hgrow="SOMETIMES" minWidth="350.0"/>
@@ -384,172 +210,136 @@
                             </rowConstraints>
 
                             <!-- Card: Gestión de Clientes -->
-                            <VBox styleClass="action-card" GridPane.columnIndex="0" GridPane.rowIndex="0">
-                                <HBox alignment="CENTER_LEFT" spacing="20.0">
-                                    <VBox styleClass="action-icon-container">
-                                        <Region styleClass="dashboard-view-client-action-icon"/>
-                                    </VBox>
-                                    <VBox alignment="CENTER_LEFT" spacing="3.0">
-                                        <Label styleClass="action-title" text="Gestión de Clientes">
-                                            <font>
-                                                <Font name="Roboto Medium" size="18.0"/>
-                                            </font>
-                                        </Label>
-                                        <Label styleClass="action-subtitle"
-                                               text="Administra el registro y datos de clientes">
-                                            <font>
-                                                <Font name="Roboto Regular" size="12.0"/>
-                                            </font>
-                                        </Label>
+                            <VBox styleClass="md-action-card" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                                <HBox alignment="CENTER_LEFT">
+                                    <VBox styleClass="md-action-label-container">
+                                        <Label styleClass="md-action-title" text="Gestión de Clientes"/>
+                                        <Label styleClass="md-action-subtitle"
+                                               text="Administra el registro y datos de clientes"/>
                                     </VBox>
                                     <Region HBox.hgrow="ALWAYS"/>
+                                    <Region>
+                                        <styleClass>
+                                            <String fx:value="md-action-card-icon"/>
+                                            <String fx:value="person-1-icon"/>
+                                        </styleClass>
+                                    </Region>
                                 </HBox>
-                                <HBox alignment="CENTER_LEFT" spacing="10.0" VBox.vgrow="ALWAYS">
-                                    <Button fx:id="clients_view_button" mnemonicParsing="false"
-                                            styleClass="action-button-primary"
-                                            text="Ver Clientes">
-                                        <font>
-                                            <Font name="Roboto Medium" size="13.0"/>
-                                        </font>
-                                    </Button>
-                                    <Button fx:id="create_client_button" mnemonicParsing="false"
-                                            styleClass="action-button-secondary"
-                                            text="+ Nuevo Cliente">
-                                        <font>
-                                            <Font name="Roboto Medium" size="13.0"/>
-                                        </font>
-                                    </Button>
+                                <HBox styleClass="md-action-button-container"
+                                      VBox.vgrow="ALWAYS">
+
+                                    <MFXButton fx:id="clients_view_button" styleClass="md-button-outlined"
+                                               text="Ver Clientes">
+                                    </MFXButton>
+
+                                    <MFXButton fx:id="create_client_button" styleClass="md-button-filled"
+                                               text="+ Nuevo Cliente">
+                                    </MFXButton>
+
                                 </HBox>
                             </VBox>
 
                             <!-- Card: Gestión de Empleados -->
-                            <VBox styleClass="action-card" GridPane.columnIndex="1" GridPane.rowIndex="0">
-                                <HBox alignment="CENTER_LEFT" spacing="20.0">
-                                    <VBox styleClass="action-icon-container">
-                                        <Region styleClass="dashboard-view-employee-action-icon"/>
-                                    </VBox>
-                                    <VBox alignment="CENTER_LEFT" spacing="3.0">
-                                        <Label styleClass="action-title" text="Gestión de Empleados">
-                                            <font>
-                                                <Font name="Roboto Medium" size="18.0"/>
-                                            </font>
-                                        </Label>
-                                        <Label styleClass="action-subtitle"
-                                               text="Controla horarios, servicios y rendimiento">
-                                            <font>
-                                                <Font name="Roboto Regular" size="12.0"/>
-                                            </font>
-                                        </Label>
+                            <VBox styleClass="md-action-card" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                                <HBox alignment="CENTER_LEFT">
+                                    <VBox styleClass="md-action-label-container">
+                                        <Label styleClass="md-action-title" text="Gestión de Empleados"/>
+                                        <Label styleClass="md-action-subtitle"
+                                               text="Controla horarios, servicios y rendimiento"/>
                                     </VBox>
                                     <Region HBox.hgrow="ALWAYS"/>
+                                    <Region>
+                                        <styleClass>
+                                            <String fx:value="md-action-card-icon"/>
+                                            <String fx:value="groups-icon"/>
+                                        </styleClass>
+                                    </Region>
                                 </HBox>
-                                <HBox alignment="CENTER_LEFT" spacing="10.0" VBox.vgrow="ALWAYS">
-                                    <Button fx:id="employee_view_button" mnemonicParsing="false"
-                                            styleClass="action-button-primary"
-                                            text="Ver Empleados">
-                                        <font>
-                                            <Font name="Roboto Medium" size="13.0"/>
-                                        </font>
-                                    </Button>
-                                    <Button fx:id="create_employee_button" mnemonicParsing="false"
-                                            styleClass="action-button-secondary" text="+ Nuevo Empleado">
-                                        <font>
-                                            <Font name="Roboto Medium" size="13.0"/>
-                                        </font>
-                                    </Button>
+                                <HBox styleClass="md-action-button-container"
+                                      VBox.vgrow="ALWAYS">
+
+                                    <MFXButton fx:id="employee_view_button" styleClass="md-button-outlined"
+                                               text="Ver Empleados">
+                                    </MFXButton>
+
+                                    <MFXButton fx:id="create_employee_button" styleClass="md-button-filled"
+                                               text="+ Nuevo Empleado">
+                                    </MFXButton>
+
                                 </HBox>
                             </VBox>
 
                             <!-- Card: Gestión de Turnos -->
-                            <VBox styleClass="action-card" GridPane.columnIndex="0" GridPane.rowIndex="1">
-                                <HBox alignment="CENTER_LEFT" spacing="20.0">
-                                    <VBox styleClass="action-icon-container">
-                                        <Region styleClass="dashboard-view-appointment-action-icon"/>
-                                    </VBox>
-                                    <VBox alignment="CENTER_LEFT" spacing="3.0">
-                                        <Label styleClass="action-title" text="Gestión de Turnos">
-                                            <font>
-                                                <Font name="Roboto Medium" size="18.0"/>
-                                            </font>
-                                        </Label>
-                                        <Label styleClass="action-subtitle"
-                                               text="Organiza y administra los turnos del día">
-                                            <font>
-                                                <Font name="Roboto Regular" size="12.0"/>
-                                            </font>
-                                        </Label>
+                            <VBox styleClass="md-action-card" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                                <HBox alignment="CENTER_LEFT">
+                                    <VBox styleClass="md-action-label-container">
+                                        <Label styleClass="md-action-title" text="Gestión de Turnos"/>
+                                        <Label styleClass="md-action-subtitle"
+                                               text="Organiza y administra los turnos del día"/>
                                     </VBox>
                                     <Region HBox.hgrow="ALWAYS"/>
+                                    <Region>
+                                        <styleClass>
+                                            <String fx:value="md-action-card-icon"/>
+                                            <String fx:value="calendar-icon"/>
+                                        </styleClass>
+                                    </Region>
                                 </HBox>
-                                <HBox alignment="CENTER_LEFT" spacing="10.0" VBox.vgrow="ALWAYS">
-                                    <Button fx:id="appointments_view_button" mnemonicParsing="false"
-                                            styleClass="action-button-primary"
-                                            text="Ver Turnos">
-                                        <font>
-                                            <Font name="Roboto Medium" size="13.0"/>
-                                        </font>
-                                    </Button>
-                                    <Button fx:id="create_appointment_button" mnemonicParsing="false"
-                                            styleClass="action-button-secondary" text="+ Nuevo Turno">
-                                        <font>
-                                            <Font name="Roboto Medium" size="13.0"/>
-                                        </font>
-                                    </Button>
+                                <HBox styleClass="md-action-button-container"
+                                      VBox.vgrow="ALWAYS">
+
+                                    <MFXButton fx:id="appointments_view_button" styleClass="md-button-outlined"
+                                               text="Ver Turnos">
+                                    </MFXButton>
+
+                                    <MFXButton fx:id="create_appointment_button" styleClass="md-button-filled"
+                                               text="+ Nuevo Turno">
+                                    </MFXButton>
+
                                 </HBox>
                             </VBox>
 
                             <!-- Card: Stock de Productos -->
-                            <VBox styleClass="action-card" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                                <HBox alignment="CENTER_LEFT" spacing="20.0">
-                                    <VBox styleClass="action-icon-container">
-                                        <Region styleClass="dashboard-view-product-action-icon"/>
-                                    </VBox>
-                                    <VBox alignment="CENTER_LEFT" spacing="3.0">
-                                        <Label styleClass="action-title" text="Stock de Productos">
-                                            <font>
-                                                <Font name="Roboto Medium" size="18.0"/>
-                                            </font>
-                                        </Label>
-                                        <Label styleClass="action-subtitle"
-                                               text="Controla inventario y ventas de productos">
-                                            <font>
-                                                <Font name="Roboto Regular" size="12.0"/>
-                                            </font>
-                                        </Label>
+                            <VBox styleClass="md-action-card" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                <HBox alignment="CENTER_LEFT">
+                                    <VBox styleClass="md-action-label-container">
+                                        <Label styleClass="md-action-title" text="Stock de Productos"/>
+                                        <Label styleClass="md-action-subtitle"
+                                               text="Controla inventario y ventas de productos"/>
                                     </VBox>
                                     <Region HBox.hgrow="ALWAYS"/>
+                                    <Region>
+                                        <styleClass>
+                                            <String fx:value="md-action-card-icon"/>
+                                            <String fx:value="inventory-1-icon"/>
+                                        </styleClass>
+                                    </Region>
                                 </HBox>
-                                <HBox alignment="CENTER_LEFT" spacing="10.0" VBox.vgrow="ALWAYS">
-                                    <Button fx:id="products_view_button" mnemonicParsing="false"
-                                            styleClass="action-button-primary"
-                                            text="Ver Inventario">
-                                        <font>
-                                            <Font name="Roboto Medium" size="13.0"/>
-                                        </font>
-                                    </Button>
-                                    <Button fx:id="create_product_button" mnemonicParsing="false"
-                                            styleClass="action-button-secondary" text="+ Nuevo Producto">
-                                        <font>
-                                            <Font name="Roboto Medium" size="13.0"/>
-                                        </font>
-                                    </Button>
+                                <HBox styleClass="md-action-button-container" VBox.vgrow="ALWAYS">
+
+                                    <MFXButton fx:id="products_view_button" styleClass="md-button-outlined"
+                                               text="Ver Inventario">
+                                    </MFXButton>
+
+                                    <MFXButton fx:id="create_product_button" styleClass="md-button-filled"
+                                               text="+ Nuevo Producto">
+
+                                    </MFXButton>
+
                                 </HBox>
                             </VBox>
                         </GridPane>
                     </VBox>
 
                     <!-- Sección Inferior: Actividad Reciente -->
-                    <VBox spacing="15.0">
-                        <Label styleClass="section-title" text="Actividad Reciente">
-                            <font>
-                                <Font name="Roboto Medium" size="18.0"/>
-                            </font>
-                        </Label>
-                        <VBox fx:id="activity_log_vbox" styleClass="recent-activity-card">
-                        </VBox>
+                    <VBox styleClass="md-section-group">
+
+                        <Label styleClass="md-section-title" text="Actividad Reciente"/>
+
+                        <VBox fx:id="activity_log_vbox" styleClass="md-recent-activity-card"/>
                     </VBox>
                 </VBox>
             </ScrollPane>
-        </AnchorPane>
+        </VBox>
     </center>
 </BorderPane>
