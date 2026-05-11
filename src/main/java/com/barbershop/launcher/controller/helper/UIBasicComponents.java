@@ -1,6 +1,8 @@
 package com.barbershop.launcher.controller.helper;
 
 import com.barbershop.enums.AppointmentStatus;
+import io.github.palexdev.materialfx.controls.MFXComboBox;
+import io.github.palexdev.materialfx.controls.MFXDatePicker;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -52,7 +54,7 @@ public class UIBasicComponents {
 
         setTextOnLabel(emptyListLabel, message);
 
-        configureLabelStyle(emptyListLabel, EMPTY_LIST_STYLE_CLASS);
+        addLabelStyle(emptyListLabel, EMPTY_LIST_STYLE_CLASS);
 
         setMaxLabelWidth(emptyListLabel);
 
@@ -64,7 +66,7 @@ public class UIBasicComponents {
         label.setMaxWidth(Double.MAX_VALUE);
     }
 
-    public static void configureLabelStyle(Label label, String style) {
+    public static void addLabelStyle(Label label, String style) {
 
         label.getStyleClass().add(style);
     }
@@ -151,7 +153,7 @@ public class UIBasicComponents {
         }
     }
 
-    public static void cleanDatePicker(DatePicker dateSelector) {
+    public static void cleanDatePicker(MFXDatePicker dateSelector) {
 
         dateSelector.valueProperty().setValue(null);
     }
@@ -164,12 +166,12 @@ public class UIBasicComponents {
         }
     }
 
-    public static void disableComboBox(ComboBox<AppointmentStatus> comboBox) {
+    public static void disableComboBox(MFXComboBox<AppointmentStatus> comboBox) {
 
         comboBox.disableProperty();
     }
 
-    public static void setTimeSelectors(ComboBox<LocalTime> hourSelector, ComboBox<LocalTime> minuteSelector) {
+    public static void setTimeSelectors(MFXComboBox<LocalTime> hourSelector, MFXComboBox<LocalTime> minuteSelector) {
 
         List<LocalTime> hours = new ArrayList<>();
         List<LocalTime> minutes = new ArrayList<>();

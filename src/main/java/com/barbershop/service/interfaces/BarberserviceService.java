@@ -4,7 +4,6 @@ import com.barbershop.dto.barbershopservice.BarberServiceCreationDTO;
 import com.barbershop.dto.barbershopservice.BarberServiceInfoDTO;
 import com.barbershop.dto.barbershopservice.BarberServiceUpdateDTO;
 import com.barbershop.enums.BarberServiceCategory;
-import com.barbershop.model.BarberService;
 
 import java.util.List;
 

@@ -5,7 +5,7 @@ public class ViewPath {
     public static final String DASHBOARD_VIEW_PATH = "/view/Dashboard.fxml";
 
     public static final String APPOINTMENT_VIEW_PATH = "/view/AppointmentsView.fxml";
-    public static final String APPOINTMENT_ITEM_VIEW_PATH = "/view/AppointmentCardItem.fxml";
+    public static final String APPOINTMENT_ITEM_VIEW_PATH = "/view/AppointmentItem.fxml";
     public static final String APPOINTMENT_CREATION_VIEW_PATH = "/view/AppointmentCreation.fxml";
     public static final String APPOINTMENT_EDITION_VIEW_PATH = "/view/AppointmentUpdate.fxml";
 

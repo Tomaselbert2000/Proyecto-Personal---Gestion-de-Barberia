@@ -8,7 +8,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import static com.barbershop.launcher.controller.helper.HelperConstants.*;
-import static com.barbershop.launcher.controller.helper.HelperConstants.ANCHOR_PANE_RIGHT_ANCHOR_MARGIN_VALUE;
 
 public class ContainerManager {
 

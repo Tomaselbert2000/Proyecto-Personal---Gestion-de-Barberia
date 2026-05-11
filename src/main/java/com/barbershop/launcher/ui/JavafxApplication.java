@@ -12,7 +12,7 @@ public class JavafxApplication extends Application {
     private ConfigurableApplicationContext context;
 
     @Override
-    public void init() throws Exception {
+    public void init() {
 
         this.context = loadSpringApplicationContext();
     }

@@ -1,7 +1,8 @@
 package com.barbershop.launcher.controller.helper;
 
-import javafx.scene.control.ComboBox;
+import io.github.palexdev.materialfx.controls.MFXComboBox;
 import javafx.util.StringConverter;
+import org.jetbrains.annotations.UnknownNullability;
 
 import java.time.LocalTime;
 import java.util.List;
@@ -10,38 +11,38 @@ public class ComboBoxHelper {
 
     private static final String LOCAL_TIME_FORMAT = "%02d";
 
-    public static <T> void loadEnumsOnComboBox(ComboBox<T> comboBox, T[] values) {
+    public static <T> void loadEnumsOnComboBox(MFXComboBox<T> comboBox, T[] values) {
 
         comboBox.getItems().clear();
         comboBox.getItems().addAll(values);
     }
 
-    public static <T> void removeFirstItemFromComboBox(ComboBox<T> comboBox) {
+    public static <T> void removeFirstItemFromComboBox(MFXComboBox<T> comboBox) {
 
         comboBox.getItems().removeFirst();
     }
 
-    public static <T> void cleanComboBox(ComboBox<T> comboBox) {
+    public static void cleanComboBox(@UnknownNullability MFXComboBox<?> comboBox) {
 
-        comboBox.getSelectionModel().clearAndSelect(0);
+        comboBox.getSelectionModel().clearSelection();
     }
 
-    public static void cleanComboBoxes(ComboBox<?>... comboBoxes) {
+    public static void cleanComboBoxes(MFXComboBox<?>... comboBoxes) {
 
-        for (ComboBox<?> comboBox : comboBoxes) {
+        for (MFXComboBox<?> comboBox : comboBoxes) {
 
             cleanComboBox(comboBox);
         }
     }
 
-    public static <T> void loadDTOsOnComboBox(ComboBox<T> comboBox, List<T> list) {
+    public static <T> void loadDTOsOnComboBox(MFXComboBox<T> comboBox, List<T> list) {
 
         comboBox.getItems().addAll(list);
 
         comboBox.getItems().addFirst(null);
     }
 
-    public static void setLocalTimeHourConverter(ComboBox<LocalTime> comboBox) {
+    public static void setLocalTimeHourConverter(MFXComboBox<LocalTime> comboBox) {
 
         comboBox.setConverter(new StringConverter<>() {
             @Override
@@ -59,7 +60,7 @@ public class ComboBoxHelper {
         });
     }
 
-    public static void setLocalTimeMinuteConverter(ComboBox<LocalTime> comboBox) {
+    public static void setLocalTimeMinuteConverter(MFXComboBox<LocalTime> comboBox) {
 
         comboBox.setConverter(new StringConverter<>() {
                                   @Override
