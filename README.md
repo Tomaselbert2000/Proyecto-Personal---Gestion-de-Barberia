@@ -11,6 +11,10 @@ Este sistema se presenta como una herramienta para centralizar y organizar el fl
 - Cálculo dinámico de estadísticas basado en la información registrada.
 - Base de datos relacional integrada para la persistencia de datos.
 
+## Diseño visual
+
+El proyecto adopta como filosfía de diseño a **Material Design 3**, con el fin de servir al usuario con una interfaz gráfica moderna, intuitiva y amigable; similar a lo que puede encontrar al usar una aplicación móvil. Por otra parte, permite implementar de manera coherente los distintos componentes de las vistas, haciendo uso de tokens de diseño modulares y reutilizables, y en última instancia, reduciendo el peso total del proyecto.
+
 ## Tecnologías
 Lenguajes y Framework:
 - ![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white)
@@ -33,6 +37,9 @@ Entorno de desarrollo utilizado:
 
 Control de versiones:
 - ![Git](https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white)
+
+Testing
+- ![JUnit 5](https://img.shields.io/badge/JUnit5-25A162?style=for-the-badge&logo=junit5&logoColor=white)
 
 ## Descarga
 ```bash
