@@ -7,6 +7,8 @@ import com.barbershop.enums.ToastNotificationType;
 import com.barbershop.exceptions.appointment.InvalidAppointmentUpdateException;
 import com.barbershop.launcher.controller.interfaces.ViewController;
 import com.barbershop.service.interfaces.AppointmentService;
+import io.github.palexdev.materialfx.controls.MFXComboBox;
+import io.github.palexdev.materialfx.controls.MFXDatePicker;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -79,16 +81,16 @@ public class AppointmentViewController implements ViewController {
     private Button register_new_appointment_button;
 
     @FXML
-    private ComboBox<AppointmentStatus> appointment_status_selector;
+    private MFXComboBox<AppointmentStatus> appointment_status_selector;
 
     @FXML
-    private ComboBox<EmployeeInfoDTO> employee_selector;
+    private MFXComboBox<EmployeeInfoDTO> employee_selector;
 
     @FXML
     private TextField client_search_field;
 
     @FXML
-    private DatePicker date_selector;
+    private MFXDatePicker date_selector;
 
     @FXML
     public void initialize() {
@@ -290,6 +292,8 @@ public class AppointmentViewController implements ViewController {
         cleanVBox(appointment_list_VBox);
 
         loadAppointmentsListOnView(appointments);
+
+        setTextOnLabel(total_appointments_count, parseNumberValueToText(appointments.size()) + " encontrados");
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.barbershop.launcher.controller.implementation.appointment;
 import com.barbershop.dto.appointment.AppointmentInfoDTO;
 import com.barbershop.enums.AppointmentStatus;
 import com.barbershop.launcher.controller.interfaces.ItemController;
+import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.fxml.FXML;
 
 import javafx.scene.control.Button;
@@ -12,11 +13,10 @@ import lombok.Setter;
 import org.springframework.stereotype.Component;
 
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
-import static com.barbershop.launcher.constants.ui.css_class.CssStylesStrings.*;
+import static com.barbershop.launcher.constants.ui.css_class.MaterialDesignStatusBadge.*;
 import static com.barbershop.launcher.controller.helper.UIBasicComponents.*;
 
 @Component
@@ -33,13 +33,13 @@ public class AppointmentItemController implements ItemController<AppointmentInfo
     private AppointmentInfoDTO infoDTOReference;
 
     @FXML
-    private Button edit_button;
+    private MFXButton edit_button;
 
     @FXML
-    private Button complete_button;
+    private MFXButton complete_button;
 
     @FXML
-    private Button cancel_button;
+    private MFXButton cancel_button;
 
     @FXML
     private Label start_time;
@@ -92,19 +92,34 @@ public class AppointmentItemController implements ItemController<AppointmentInfo
     private void updateStatusBadge(AppointmentStatus status) {
 
         status_badge.getStyleClass().clear();
+        status_badge.getStyleClass().add(BADGE);
 
         switch (status) {
-            case PROGRAMADO:
-                configureLabelStyle(status_badge, APPOINTMENT_STATUS_PROGRAMADO_STYLE_CLASS);
+            case PROGRAMADO, REPROGRAMADO:
+
+                addLabelStyle(status_badge, SCHEDULED_BADGE);
+
+                if (status == AppointmentStatus.PROGRAMADO) {
+
+                    setTextOnLabel(status_badge, AppointmentStatus.PROGRAMADO.getDisplayName());
+
+                } else {
+
+                    setTextOnLabel(status_badge, AppointmentStatus.REPROGRAMADO.getDisplayName());
+                }
+
                 break;
+
             case FINALIZADO:
-                configureLabelStyle(status_badge, APPOINTMENT_STATUS_FINALIZADO_STYLE_CLASS);
+
+                addLabelStyle(status_badge, COMPLETED_BADGE);
+                setTextOnLabel(status_badge, AppointmentStatus.FINALIZADO.getDisplayName());
                 break;
+
             case CANCELADO:
-                configureLabelStyle(status_badge, APPOINTMENT_STATUS_CANCELADO_STYLE_CLASS);
-                break;
-            case REPROGRAMADO:
-                configureLabelStyle(status_badge, APPOINTMENT_STATUS_REPROGRAMADO_STYLE_CLASS);
+
+                addLabelStyle(status_badge, CANCELED_BADGE);
+                setTextOnLabel(status_badge, AppointmentStatus.CANCELADO.getDisplayName());
                 break;
         }
     }

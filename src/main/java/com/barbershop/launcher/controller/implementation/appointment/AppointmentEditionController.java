@@ -12,6 +12,8 @@ import com.barbershop.exceptions.appointment.InvalidAppointmentStartDateExceptio
 import com.barbershop.exceptions.common.EmployeeNotAvailableException;
 import com.barbershop.launcher.controller.interfaces.AppointmentController;
 import com.barbershop.service.interfaces.AppointmentService;
+import io.github.palexdev.materialfx.controls.MFXComboBox;
+import io.github.palexdev.materialfx.controls.MFXDatePicker;
 import jakarta.validation.ConstraintViolationException;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -41,6 +43,8 @@ import static com.barbershop.launcher.controller.helper.ValidationFormatter.*;
 import static com.barbershop.launcher.controller.helper.ViewRedirectionHelper.redirectToView;
 import static com.barbershop.launcher.controller.helper.VisibilityHelper.setNodeAsNotVisible;
 import static com.barbershop.launcher.controller.helper.VisibilityHelper.setNodeAsVisible;
+import static com.barbershop.launcher.controller.implementation.appointment.AppointmentControllerConstant.APPOINTMENT_DEFAULT_DURATION_IN_MINUTES;
+import static com.barbershop.launcher.controller.implementation.appointment.AppointmentControllerConstant.DATETIME_SUMMARY_FORMAT;
 
 @Component
 @RequiredArgsConstructor
@@ -49,8 +53,6 @@ public class AppointmentEditionController implements AppointmentController {
 
     private final ApplicationContext applicationContext;
     private final AppointmentService appointmentService;
-
-    private static final String DATETIME_SUMMARY_FORMAT = "%2s a las %02d:%02d";
 
     private AppointmentInfoDTO infoDTOReference;
     private BarberServiceInfoDTO barberServiceReference;
@@ -69,10 +71,10 @@ public class AppointmentEditionController implements AppointmentController {
     private HBox current_status_container;
 
     @FXML
-    private ComboBox<BarberServiceInfoDTO> barber_service_selector;
+    private MFXComboBox<BarberServiceInfoDTO> barber_service_selector;
 
     @FXML
-    private ComboBox<EmployeeInfoDTO> employee_selector;
+    private MFXComboBox<EmployeeInfoDTO> employee_selector;
 
     @FXML
     private Label current_service_name;
@@ -87,13 +89,13 @@ public class AppointmentEditionController implements AppointmentController {
     private Label service_price;
 
     @FXML
-    private DatePicker date_selector;
+    private MFXDatePicker date_selector;
 
     @FXML
-    private ComboBox<LocalTime> hour_selector;
+    private MFXComboBox<LocalTime> hour_selector;
 
     @FXML
-    private ComboBox<LocalTime> minute_selector;
+    private MFXComboBox<LocalTime> minute_selector;
 
     @FXML
     private Label current_start_datetime;
@@ -102,7 +104,7 @@ public class AppointmentEditionController implements AppointmentController {
     private TextField appointment_notes;
 
     @FXML
-    private ComboBox<AppointmentStatus> status_selector;
+    private MFXComboBox<AppointmentStatus> status_selector;
 
     @FXML
     private Label current_status_label;
@@ -160,10 +162,14 @@ public class AppointmentEditionController implements AppointmentController {
         List<BarberServiceInfoDTO> barberServices = appointmentService.getBarberServicesFromServiceInstance();
         List<EmployeeInfoDTO> employees = appointmentService.getEmployeesFromServiceInstance();
 
-        List<Label> labels = List.of(current_client_name, current_employee_name, current_service_name, current_start_datetime, current_status_label, service_price);
-        List<String> texts = List.of(clientFullName, employeeFullName, infoDTO.getServiceName(), appointmentDateAsString, infoDTO.getCurrentStatus().getDisplayName(), infoDTO.getServicePrice().toString());
-
-        Map<Label, String> map = generateMap(labels, texts);
+        Map<Label, String> map = Map.ofEntries(
+                Map.entry(current_client_name, clientFullName),
+                Map.entry(current_employee_name, employeeFullName),
+                Map.entry(current_service_name, infoDTO.getServiceName()),
+                Map.entry(current_start_datetime, appointmentDateAsString),
+                Map.entry(current_status_label, infoDTO.getCurrentStatus().getDisplayName()),
+                Map.entry(service_price, parseNumberValueToText(infoDTO.getServicePrice()))
+        );
 
         setTextsOnLabelMap(map);
 
@@ -221,7 +227,7 @@ public class AppointmentEditionController implements AppointmentController {
         if (date_selector.getValue() != null && hour_selector.getValue() != null && minute_selector.getValue() != null) {
 
             newStartDateTime = LocalDateTime.of(date_selector.getValue(), LocalTime.of(hour_selector.getValue().getHour(), minute_selector.getValue().getMinute()));
-            newEndDateTime = newStartDateTime.plusMinutes(30);
+            newEndDateTime = newStartDateTime.plusMinutes(APPOINTMENT_DEFAULT_DURATION_IN_MINUTES);
 
         }
 
@@ -237,23 +243,23 @@ public class AppointmentEditionController implements AppointmentController {
 
             resetForm();
 
-        } catch (ConstraintViolationException exception) {
+        } catch (ConstraintViolationException | InvalidAppointmentStartDateException |
+                 DateTimeOutsideServiceHoursException | EmployeeNotAvailableException exception) {
 
-            String errorMessages = getConstraintViolationsList(exception);
+            String errorMessage;
 
-            showErrorAlert(VALIDATION_ERROR_TITLE, APPOINTMENT_EDITION_VALIDATION_FAILED, errorMessages);
+            if (exception instanceof ConstraintViolationException) {
 
-        } catch (InvalidAppointmentStartDateException startDateException) {
+                errorMessage = getConstraintViolationsList((ConstraintViolationException) exception);
 
-            showToastNotification(anchor_pane, applicationContext, startDateException.getMessage(), ToastNotificationType.FAILED);
+                showErrorAlert(VALIDATION_ERROR_TITLE, APPOINTMENT_EDITION_VALIDATION_FAILED, errorMessage);
 
-        } catch (DateTimeOutsideServiceHoursException dateTimeOutsideServiceHoursException) {
+            } else {
 
-            showToastNotification(anchor_pane, applicationContext, dateTimeOutsideServiceHoursException.getMessage(), ToastNotificationType.FAILED);
+                errorMessage = exception.getMessage();
 
-        } catch (EmployeeNotAvailableException employeeNotAvailableException) {
-
-            showToastNotification(anchor_pane, applicationContext, employeeNotAvailableException.getMessage(), ToastNotificationType.FAILED);
+                showToastNotification(anchor_pane, applicationContext, errorMessage, ToastNotificationType.FAILED);
+            }
         }
     }
 

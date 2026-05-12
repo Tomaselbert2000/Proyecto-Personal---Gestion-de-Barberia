@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import java.lang.String?>
+
+<HBox styleClass="md-list-item"
+      xmlns="http://javafx.com/javafx/25"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.barbershop.launcher.controller.implementation.appointment.AppointmentItemController">
+
+    <VBox styleClass="md-list-item-leading">
+        <Label fx:id="start_time" styleClass="md-list-item-leading-text"/>
+        <Label fx:id="end_time" styleClass="md-list-item-subtitle"/>
+    </VBox>
+
+    <Separator orientation="VERTICAL" styleClass="md-menu-separator"/>
+
+    <VBox styleClass="md-list-item-content" HBox.hgrow="ALWAYS">
+
+        <HBox styleClass="md-heading-group">
+
+            <Label fx:id="client_name" styleClass="md-list-item-title"/>
+            <Label fx:id="status_badge">
+                <styleClass>
+                    <String fx:value="md-badge"/>
+                    <String fx:value=""/>
+                </styleClass>
+            </Label>
+
+        </HBox>
+
+        <Label fx:id="service_name" styleClass="md-list-item-subtitle"/>
+
+        <HBox styleClass="md-heading-group">
+
+            <Label styleClass="md-list-item-subtitle" text="Barbero:"/>
+            <Label fx:id="employee_name" styleClass="md-list-item-subtitle"/>
+
+        </HBox>
+    </VBox>
+
+    <HBox styleClass="md-action-button-container">
+
+        <MFXButton fx:id="complete_button" styleClass="md-button-filled" text="Completar"/>
+
+        <MFXButton fx:id="cancel_button" styleClass="md-button-outlined" text="Cancelar"/>
+
+        <MFXButton fx:id="edit_button" styleClass="md-button-outlined" text="Editar"/>
+    </HBox>
+</HBox>

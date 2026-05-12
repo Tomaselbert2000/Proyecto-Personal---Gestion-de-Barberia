@@ -1,62 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.geometry.*?>
+<?import io.github.palexdev.materialfx.controls.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
-
-<AnchorPane fx:id="anchor_pane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+<AnchorPane fx:id="anchor_pane"
+            maxHeight="1.7976931348623157E308"
+            maxWidth="1.7976931348623157E308"
             xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.barbershop.launcher.controller.implementation.appointment.AppointmentCreationController">
 
-    <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+    <VBox AnchorPane.bottomAnchor="0.0"
+          AnchorPane.leftAnchor="0.0"
+          AnchorPane.rightAnchor="0.0"
           AnchorPane.topAnchor="0.0">
+
         <!-- Header del Panel -->
-        <HBox alignment="CENTER_LEFT" styleClass="header-bar">
-            <padding>
-                <Insets bottom="20.0" left="30.0" right="30.0" top="20.0"/>
-            </padding>
-            <Button fx:id="back_button" mnemonicParsing="false" styleClass="back-button" text="← Volver"/>
-            <VBox alignment="CENTER_LEFT">
-                <Label styleClass="page-title" text="Nuevo Turno">
-                    <font>
-                        <Font name="Roboto Bold" size="28.0"/>
-                    </font>
-                </Label>
-                <Label text="Registra un nuevo turno en el sistema">
-                    <font>
-                        <Font name="Roboto Regular" size="14.0"/>
-                    </font>
-                    <styleClass>
-                        <String fx:value="page-subtitle"/>
-                    </styleClass>
-                </Label>
-                <HBox.margin>
-                    <Insets left="15.0"/>
-                </HBox.margin>
+        <HBox styleClass="md-header-bar">
+
+            <MFXButton fx:id="back_button" styleClass="md-button-filled-tonal" text="← Volver"/>
+
+            <VBox styleClass="md-heading-group">
+                <Label styleClass="md-page-title" text="Nuevo Turno"/>
+                <Label text="Registra un nuevo turno en el sistema" styleClass="md-page-subtitle"/>
             </VBox>
         </HBox>
 
         <!-- Contenido Principal -->
-        <ScrollPane fitToHeight="true" fitToWidth="true" VBox.vgrow="ALWAYS">
-            <padding>
-                <Insets bottom="30.0" left="30.0" right="30.0" top="20.0"/>
-            </padding>
-            <VBox spacing="25.0">
-                <!-- Tarjeta de Cliente -->
-                <VBox styleClass="form-card">
-                    <padding>
-                        <Insets bottom="25.0" left="25.0" right="25.0" top="25.0"/>
-                    </padding>
-                    <VBox spacing="15.0">
-                        <Label styleClass="form-section-title" text="Datos del Cliente">
-                            <font>
-                                <Font name="Roboto Medium" size="16.0"/>
-                            </font>
-                        </Label>
+        <ScrollPane fitToHeight="true" fitToWidth="true" VBox.vgrow="ALWAYS" styleClass="md-content-scroll">
 
-                        <GridPane hgap="20.0" vgap="15.0">
+            <VBox styleClass="md-content-section">
+
+                <!-- Tarjeta de Cliente -->
+                <VBox styleClass="md-card">
+                    <VBox styleClass="md-section-group">
+                        <Label styleClass="md-section-title" text="Datos del Cliente"/>
+
+                        <GridPane styleClass="md-grid-pane">
                             <columnConstraints>
                                 <ColumnConstraints hgrow="SOMETIMES" minWidth="300.0"/>
                                 <ColumnConstraints hgrow="NEVER" minWidth="180.0"/>
@@ -66,93 +45,48 @@
                             </rowConstraints>
 
                             <!-- Client Search -->
-                            <VBox alignment="CENTER_LEFT" spacing="5.0" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                            <VBox styleClass="md-filter-column" GridPane.columnIndex="0" GridPane.rowIndex="0">
                                 <HBox spacing="4.0">
-                                    <Label styleClass="form-label" text="Buscar Cliente">
-                                        <font>
-                                            <Font name="Roboto Regular" size="13.0"/>
-                                        </font>
-                                    </Label>
-                                    <Label styleClass="form-required" text="*">
-                                        <font>
-                                            <Font name="Roboto Bold" size="13.0"/>
-                                        </font>
-                                    </Label>
+                                    <Label styleClass="md-filter-label" text="Buscar Cliente"/>
+                                    <Label styleClass="md-filter-label" text="*" style="-fx-text-fill: -fx-error"/>
                                 </HBox>
-                                <HBox spacing="10.0">
-                                    <TextField fx:id="client_search_field" styleClass="form-text-field"
-                                               HBox.hgrow="ALWAYS">
-                                        <font>
-                                            <Font name="Roboto Regular" size="14.0"/>
-                                        </font>
-                                    </TextField>
-                                </HBox>
+                                <MFXTextField fx:id="client_search_field" styleClass="md-mfx-input"
+                                              maxWidth="Infinity"/>
                             </VBox>
 
                             <!-- New Client Button -->
-                            <VBox alignment="CENTER_LEFT" spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="0">
-                                <Label styleClass="form-label" text="¿Cliente nuevo?">
-                                    <font>
-                                        <Font name="Roboto Regular" size="13.0"/>
-                                    </font>
-                                </Label>
-                                <Button fx:id="create_client_button" mnemonicParsing="false"
-                                        styleClass="action-button-primary" text="+ Nuevo Cliente">
-                                    <font>
-                                        <Font name="Roboto Medium" size="13.0"/>
-                                    </font>
-                                </Button>
+                            <VBox styleClass="md-filter-column" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                                <Label styleClass="md-filter-label" text="¿Cliente nuevo?"/>
+                                <MFXButton fx:id="create_client_button"
+                                           styleClass="md-button-filled" text="+ Nuevo Cliente"/>
                             </VBox>
                         </GridPane>
-                        <ListView fx:id="client_result_list" minHeight="150.0" prefHeight="150.0" visible="false"/>
+
+                        <MFXListView fx:id="client_result_list" minHeight="150.0" prefHeight="250.0" maxWidth="Infinity"
+                                     visible="false"/>
 
                         <!-- Selected Client Info -->
-                        <VBox fx:id="selected_client_card_vbox" styleClass="selected-client-card" visible="false">
+                        <VBox fx:id="selected_client_card_vbox" styleClass="md-list-item" visible="false">
                             <HBox alignment="CENTER_LEFT" spacing="15.0">
                                 <VBox alignment="CENTER" styleClass="client-avatar-container">
-                                    <Label fx:id="client_initials" styleClass="client-avatar-text">
-                                        <font>
-                                            <Font name="Roboto Bold" size="16.0"/>
-                                        </font>
-                                    </Label>
+                                    <Label fx:id="client_initials" styleClass="md-initials"/>
                                 </VBox>
                                 <VBox alignment="CENTER_LEFT" spacing="3.0">
-                                    <Label fx:id="client_name" styleClass="client-name">
-                                        <font>
-                                            <Font name="Roboto Medium" size="15.0"/>
-                                        </font>
-                                    </Label>
-                                    <Label fx:id="national_id_card_number" styleClass="client-info-value">
-                                        <font>
-                                            <Font name="Roboto Regular" size="13.0"/>
-                                        </font>
-                                    </Label>
+                                    <Label fx:id="client_name" styleClass="md-list-item-title"/>
+                                    <Label fx:id="national_id_card_number" styleClass="md-list-item-subtitle"/>
                                 </VBox>
                                 <Region HBox.hgrow="ALWAYS"/>
-                                <Button fx:id="change_client_button" mnemonicParsing="false" styleClass="filter-button"
-                                        text="Cambiar">
-                                    <font>
-                                        <Font name="Roboto Medium" size="12.0"/>
-                                    </font>
-                                </Button>
+                                <MFXButton fx:id="change_client_button" styleClass="md-button-outlined" text="Cambiar"/>
                             </HBox>
                         </VBox>
                     </VBox>
                 </VBox>
 
                 <!-- Tarjeta de Servicio y Empleado -->
-                <VBox styleClass="form-card">
-                    <padding>
-                        <Insets bottom="25.0" left="25.0" right="25.0" top="25.0"/>
-                    </padding>
-                    <VBox spacing="15.0">
-                        <Label styleClass="form-section-title" text="Servicio y Profesional">
-                            <font>
-                                <Font name="Roboto Medium" size="16.0"/>
-                            </font>
-                        </Label>
-
-                        <GridPane hgap="20.0" vgap="15.0">
+                <VBox styleClass="md-card">
+                    <VBox styleClass="md-section-group">
+                        <Label styleClass="md-section-title" text="Servicio y Profesional"/>
+                        <GridPane styleClass="md-grid-pane">
                             <columnConstraints>
                                 <ColumnConstraints hgrow="SOMETIMES" minWidth="250.0"/>
                                 <ColumnConstraints hgrow="SOMETIMES" minWidth="250.0"/>
@@ -162,73 +96,46 @@
                             </rowConstraints>
 
                             <!-- Service Selection -->
-                            <VBox alignment="CENTER_LEFT" spacing="5.0" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                            <VBox styleClass="md-filter-column" GridPane.columnIndex="0" GridPane.rowIndex="0">
                                 <HBox spacing="4.0">
-                                    <Label styleClass="form-label" text="Servicio">
-                                        <font>
-                                            <Font name="Roboto Regular" size="13.0"/>
-                                        </font>
-                                    </Label>
-                                    <Label styleClass="form-required" text="*">
-                                        <font>
-                                            <Font name="Roboto Bold" size="13.0"/>
-                                        </font>
-                                    </Label>
+                                    <Label styleClass="md-filter-label" text="Servicio"/>
+                                    <Label styleClass="md-filter-label" text="*" style="-fx-text-fill: -fx-error"/>
                                 </HBox>
-                                <ComboBox fx:id="barberservice_selector" styleClass="form-combo-box">
-                                </ComboBox>
+
+                                <MFXComboBox fx:id="barberservice_selector" styleClass="md-mfx-input"
+                                             maxWidth="Infinity"/>
+
                             </VBox>
 
                             <!-- Employee Selection -->
-                            <VBox alignment="CENTER_LEFT" spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                            <VBox styleClass="md-filter-column" GridPane.columnIndex="1" GridPane.rowIndex="0">
                                 <HBox spacing="4.0">
-                                    <Label styleClass="form-label" text="Profesional">
-                                        <font>
-                                            <Font name="Roboto Regular" size="13.0"/>
-                                        </font>
-                                    </Label>
-                                    <Label styleClass="form-required" text="*">
-                                        <font>
-                                            <Font name="Roboto Bold" size="13.0"/>
-                                        </font>
-                                    </Label>
+                                    <Label styleClass="md-filter-label" text="Empleado asignado"/>
+                                    <Label styleClass="md-filter-label" text="*" style="-fx-text-fill: -fx-error"/>
                                 </HBox>
-                                <ComboBox fx:id="employee_selector" styleClass="form-combo-box">
-                                </ComboBox>
+
+                                <MFXComboBox fx:id="employee_selector" styleClass="md-mfx-input" maxWidth="Infinity"/>
+
                             </VBox>
                         </GridPane>
 
                         <!-- Service Duration Info -->
-                        <VBox fx:id="service_selection_container" styleClass="service-info-card" visible="false">
+                        <VBox fx:id="service_selection_container" styleClass="md-filter-card" visible="false">
                             <HBox alignment="CENTER_LEFT" spacing="15.0">
-                                <Label styleClass="service-info-label" text="Precio:">
-                                    <font>
-                                        <Font name="Roboto Regular" size="13.0"/>
-                                    </font>
-                                </Label>
-                                <Label fx:id="service_price" styleClass="service-info-value" text="\$2.500">
-                                    <font>
-                                        <Font name="Roboto Medium" size="14.0"/>
-                                    </font>
-                                </Label>
+                                <Label styleClass="md-filter-label" text="Precio:"/>
+                                <Label fx:id="service_price" styleClass="md-filter-label"/>
                             </HBox>
                         </VBox>
                     </VBox>
                 </VBox>
 
                 <!-- Tarjeta de Fecha y Hora -->
-                <VBox styleClass="form-card">
-                    <padding>
-                        <Insets bottom="25.0" left="25.0" right="25.0" top="25.0"/>
-                    </padding>
-                    <VBox spacing="15.0">
-                        <Label styleClass="form-section-title" text="Fecha y Hora">
-                            <font>
-                                <Font name="Roboto Medium" size="16.0"/>
-                            </font>
-                        </Label>
+                <VBox styleClass="md-card">
+                    <VBox styleClass="md-section-group">
 
-                        <GridPane hgap="30.0" vgap="45.0">
+                        <Label styleClass="md-section-title" text="Fecha y Hora"/>
+
+                        <GridPane styleClass="md-grid-pane">
                             <columnConstraints>
                                 <ColumnConstraints hgrow="SOMETIMES" minWidth="200.0"/>
                                 <ColumnConstraints hgrow="SOMETIMES" minWidth="150.0"/>
@@ -241,161 +148,86 @@
                             </rowConstraints>
 
                             <!-- Start Date -->
-                            <VBox alignment="CENTER_LEFT" spacing="5.0" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                            <VBox styleClass="md-filter-column" GridPane.columnIndex="0" GridPane.rowIndex="0">
                                 <HBox spacing="4.0">
-                                    <Label styleClass="form-label" text="Fecha de Inicio">
-                                        <font>
-                                            <Font name="Roboto Regular" size="13.0"/>
-                                        </font>
-                                    </Label>
-                                    <Label styleClass="form-required" text="*">
-                                        <font>
-                                            <Font name="Roboto Bold" size="13.0"/>
-                                        </font>
-                                    </Label>
+                                    <Label styleClass="md-filter-label" text="Fecha de Inicio"/>
+                                    <Label styleClass="md-filter-label" text="*" style="-fx-text-fill: -fx-error"/>
                                 </HBox>
-                                <DatePicker fx:id="date_selector" editable="false" styleClass="form-date-picker"/>
+
+                                <MFXDatePicker fx:id="date_selector" editable="false" styleClass="md-mfx-input"
+                                               maxWidth="Infinity"/>
                             </VBox>
 
                             <!-- Start Time -->
-                            <VBox alignment="CENTER_LEFT" spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                            <VBox styleClass="md-filter-column" GridPane.columnIndex="1" GridPane.rowIndex="0">
                                 <HBox spacing="4.0">
-                                    <Label styleClass="form-label" text="Hora de Inicio">
-                                        <font>
-                                            <Font name="Roboto Regular" size="13.0"/>
-                                        </font>
-                                    </Label>
-                                    <Label styleClass="form-required" text="*">
-                                        <font>
-                                            <Font name="Roboto Bold" size="13.0"/>
-                                        </font>
-                                    </Label>
+                                    <Label styleClass="md-filter-label" text="Hora de Inicio"/>
+                                    <Label styleClass="md-filter-label" text="*" style="-fx-text-fill: -fx-error"/>
                                 </HBox>
-                                <ComboBox fx:id="hour_selector" styleClass="form-combo-box">
-                                </ComboBox>
+
+                                <MFXComboBox fx:id="hour_selector" styleClass="md-mfx-input" maxWidth="Infinity"/>
+
                             </VBox>
 
                             <!-- Start Minutes -->
-                            <VBox alignment="CENTER_LEFT" spacing="5.0" GridPane.columnIndex="2" GridPane.rowIndex="0">
+                            <VBox styleClass="md-filter-column" GridPane.columnIndex="2" GridPane.rowIndex="0">
                                 <HBox spacing="4.0">
-                                    <Label styleClass="form-label" text="Minutos">
-                                        <font>
-                                            <Font name="Roboto Regular" size="13.0"/>
-                                        </font>
-                                    </Label>
+                                    <Label styleClass="md-filter-label" text="Minutos"/>
                                 </HBox>
-                                <ComboBox fx:id="minute_selector" styleClass="form-combo-box">
-                                </ComboBox>
+                                <MFXComboBox fx:id="minute_selector" styleClass="md-mfx-input" maxWidth="Infinity">
+                                </MFXComboBox>
                             </VBox>
 
                             <!-- Notes -->
-                            <VBox alignment="CENTER_LEFT" spacing="5.0" GridPane.columnIndex="0" GridPane.columnSpan="4"
+                            <VBox styleClass="md-filter-column" GridPane.columnIndex="0" GridPane.columnSpan="4"
                                   GridPane.rowIndex="1">
                                 <HBox spacing="4.0">
-                                    <Label styleClass="form-label" text="Notas (opcional)">
-                                        <font>
-                                            <Font name="Roboto Regular" size="13.0"/>
-                                        </font>
-                                    </Label>
+                                    <Label styleClass="md-filter-label" text="Notas (opcional)"/>
                                 </HBox>
-                                <TextField fx:id="appointment_notes" styleClass="form-text-field-notes">
-                                    <font>
-                                        <Font name="Roboto Regular" size="14.0"/>
-                                    </font>
-                                </TextField>
+                                <MFXTextField fx:id="appointment_notes" styleClass="md-textfield-outlined"
+                                              maxWidth="Infinity" maxHeight="Infinity"/>
                             </VBox>
-                            <padding>
-                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
-                            </padding>
                         </GridPane>
                     </VBox>
                 </VBox>
 
                 <!-- Tarjeta de Resumen -->
-                <VBox spacing="-Infinity" styleClass="appointment-summary-card" visible="false">
-                    <padding>
-                        <Insets bottom="25.0" left="25.0" right="25.0" top="25.0"/>
-                    </padding>
-                    <VBox spacing="15.0">
-                        <Label styleClass="form-section-title" text="Resumen del Turno">
-                            <font>
-                                <Font name="Roboto Medium" size="16.0"/>
-                            </font>
-                        </Label>
+                <VBox fx:id="summary_card_vbox" styleClass="md-card" visible="false">
+                    <VBox styleClass="md-content-section">
+                        <Label styleClass="md-section-title" text="Resumen del Turno"/>
 
-                        <VBox spacing="12.0">
-                            <HBox alignment="CENTER_LEFT" spacing="20.0">
-                                <Label styleClass="summary-label" text="Cliente:">
-                                    <font>
-                                        <Font name="Roboto Regular" size="14.0"/>
-                                    </font>
-                                </Label>
-                                <Label fx:id="summary_client" styleClass="summary-value" text="-">
-                                    <font>
-                                        <Font name="Roboto Medium" size="14.0"/>
-                                    </font>
-                                </Label>
+                        <VBox styleClass="md-section-group">
+                            <HBox styleClass="md-heading-group">
+                                <Label styleClass="md-list-item-subtitle" text="Cliente:"/>
+                                <Label fx:id="summary_client" styleClass="md-list-item-title"/>
                             </HBox>
-                            <HBox alignment="CENTER_LEFT" spacing="20.0">
-                                <Label styleClass="summary-label" text="Servicio:">
-                                    <font>
-                                        <Font name="Roboto Regular" size="14.0"/>
-                                    </font>
-                                </Label>
-                                <Label fx:id="summary_service" styleClass="summary-value" text="-">
-                                    <font>
-                                        <Font name="Roboto Medium" size="14.0"/>
-                                    </font>
-                                </Label>
+                            <HBox styleClass="md-heading-group">
+                                <Label styleClass="md-list-item-subtitle" text="Servicio:"/>
+                                <Label fx:id="summary_service" styleClass="md-list-item-title"/>
                             </HBox>
-                            <HBox alignment="CENTER_LEFT" spacing="20.0">
-                                <Label styleClass="summary-label" text="Profesional:">
-                                    <font>
-                                        <Font name="Roboto Regular" size="14.0"/>
-                                    </font>
-                                </Label>
-                                <Label fx:id="summary_employee" styleClass="summary-value" text="-">
-                                    <font>
-                                        <Font name="Roboto Medium" size="14.0"/>
-                                    </font>
-                                </Label>
+                            <HBox styleClass="md-heading-group">
+                                <Label styleClass="md-list-item-subtitle" text="Profesional:"/>
+                                <Label fx:id="summary_employee" styleClass="md-list-item-title"/>
                             </HBox>
-                            <HBox alignment="CENTER_LEFT" spacing="20.0">
-                                <Label styleClass="summary-label" text="Fecha y Hora:">
-                                    <font>
-                                        <Font name="Roboto Regular" size="14.0"/>
-                                    </font>
-                                </Label>
-                                <Label fx:id="summary_datetime" styleClass="summary-value" text="-">
-                                    <font>
-                                        <Font name="Roboto Medium" size="14.0"/>
-                                    </font>
-                                </Label>
+                            <HBox styleClass="md-heading-group">
+                                <Label styleClass="md-list-item-subtitle" text="Fecha y Hora:"/>
+                                <Label fx:id="summary_datetime" styleClass="md-list-item-title"/>
                             </HBox>
-                            <HBox alignment="CENTER_LEFT" spacing="20.0">
-                                <Label styleClass="summary-label" text="Precio Total:">
-                                    <font>
-                                        <Font name="Roboto Regular" size="14.0"/>
-                                    </font>
-                                </Label>
-                                <Label fx:id="summary_price" styleClass="summary-price" text="\$0.00">
-                                    <font>
-                                        <Font name="Roboto Bold" size="16.0"/>
-                                    </font>
-                                </Label>
+                            <HBox styleClass="md-heading-group">
+                                <Label styleClass="md-list-item-subtitle" text="Precio Total:"/>
+                                <Label fx:id="summary_price" styleClass="md-list-item-title"/>
                             </HBox>
                         </VBox>
                     </VBox>
                 </VBox>
 
                 <!-- Botones de Acción -->
-                <HBox alignment="CENTER_RIGHT" spacing="15.0">
-                    <Button fx:id="save_button" mnemonicParsing="false" styleClass="action-button-primary"
-                            text="Crear Turno">
-                        <font>
-                            <Font name="Roboto Medium" size="14.0"/>
-                        </font>
-                    </Button>
+                <HBox styleClass="md-action-button-container">
+
+                    <MFXButton fx:id="reset_form_button" styleClass="md-button-outlined" text="Limpiar datos"/>
+
+                    <MFXButton fx:id="save_button" styleClass="md-button-filled"
+                               text="Crear Turno"/>
                 </HBox>
             </VBox>
         </ScrollPane>
