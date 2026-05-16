@@ -1,6 +1,6 @@
 package com.barbershop.launcher.constants.entity_constraints;
 
-public class AppointmentConstraintViolationMessageStarters {
+public final class AppointmentConstraintViolationMessageSubject {
 
     public static final String CLIENT_ID = "El ID de cliente";
     public static final String EMPLOYEE_ID = "El ID de empleado";
@@ -9,7 +9,7 @@ public class AppointmentConstraintViolationMessageStarters {
     public static final String APPOINTMENT_END_DATETIME = "La fecha y hora de finalización";
     public static final String APPOINTMENT_OPTIONAL_NOTES = "El campo de notas opcionales del turno";
 
-    private AppointmentConstraintViolationMessageStarters() {
+    private AppointmentConstraintViolationMessageSubject() {
 
     }
 }

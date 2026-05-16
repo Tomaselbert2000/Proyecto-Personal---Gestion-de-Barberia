@@ -1,6 +1,6 @@
 package com.barbershop.launcher.constants.entity_constraints;
 
-public class GenericConstraintViolationConstants {
+public final class ConstraintViolationMessagePredicate {
 
     public static final String NOT_NULL = " no puede ser NULL";
     public static final String NOT_BLANK = " no puede quedar en blanco";

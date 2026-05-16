@@ -1,6 +1,6 @@
 package com.barbershop.launcher.constants.entity_constraints;
 
-public final class ProductConstraintViolationMessageStarters {
+public final class ProductConstraintViolationMessageSubject {
 
     public static final String PRODUCT_NAME = "El nombre de producto";
     public static final String BRAND_NAME = "El nombre de la marca";
@@ -17,6 +17,6 @@ public final class ProductConstraintViolationMessageStarters {
     public static final String PRODUCT_SAFETY_STOCK_LEVEL = "El stock mínimo seguro";
     public static final String IMAGE_FILE_PATH = "La ruta de archivo";
 
-    private ProductConstraintViolationMessageStarters() {
+    private ProductConstraintViolationMessageSubject() {
     }
 }
