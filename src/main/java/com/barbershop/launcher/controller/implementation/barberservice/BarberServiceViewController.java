@@ -6,13 +6,14 @@ import com.barbershop.enums.PriceRanges;
 import com.barbershop.enums.ToastNotificationType;
 import com.barbershop.launcher.controller.interfaces.ViewController;
 import com.barbershop.service.interfaces.BarberserviceService;
+import io.github.palexdev.materialfx.controls.MFXButton;
+import io.github.palexdev.materialfx.controls.MFXComboBox;
+import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import lombok.Getter;
@@ -76,19 +77,19 @@ public class BarberServiceViewController implements ViewController {
     private Label average_price_percentage_vs_last_month;
 
     @FXML
-    private TextField service_search_field;
+    private MFXTextField service_search_field;
 
     @FXML
-    private ComboBox<BarberServiceCategory> service_category_selector;
+    private MFXComboBox<BarberServiceCategory> service_category_selector;
 
     @FXML
-    private ComboBox<PriceRanges> service_price_range_selector;
+    private MFXComboBox<PriceRanges> service_price_range_selector;
 
     @FXML
-    private Button clean_filters_button;
+    private MFXButton clean_filters_button;
 
     @FXML
-    private Button create_barber_service_button;
+    private MFXButton create_barber_service_button;
 
     @FXML
     private VBox services_list_vbox;

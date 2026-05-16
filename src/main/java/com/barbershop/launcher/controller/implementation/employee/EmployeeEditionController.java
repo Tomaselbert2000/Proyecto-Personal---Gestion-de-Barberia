@@ -7,10 +7,10 @@ import com.barbershop.enums.ViewRedirection;
 import com.barbershop.launcher.controller.interfaces.EditionController;
 import com.barbershop.launcher.controller.interfaces.EmployeeController;
 import com.barbershop.service.interfaces.EmployeeService;
+import io.github.palexdev.materialfx.controls.MFXDatePicker;
 import jakarta.validation.ConstraintViolationException;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
@@ -78,7 +78,7 @@ public class EmployeeEditionController implements EditionController<EmployeeInfo
     private Button toggle_status_button;
 
     @FXML
-    private DatePicker termination_date_picker;
+    private MFXDatePicker termination_date_picker;
 
     @FXML
     private Button reset_button;

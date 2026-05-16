@@ -2,6 +2,7 @@ package com.barbershop.launcher.controller.implementation.barberservice;
 
 import com.barbershop.dto.barbershopservice.BarberServiceInfoDTO;
 import com.barbershop.launcher.controller.interfaces.ItemController;
+import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -36,10 +37,10 @@ public class BarberServiceItemController implements ItemController<BarberService
     private Label category_text;
 
     @FXML
-    private Button edit_button;
+    private MFXButton edit_button;
 
     @FXML
-    private Button delete_button;
+    private MFXButton delete_button;
 
     @FXML
     public void initialize() {

@@ -8,6 +8,7 @@ import com.barbershop.enums.ViewRedirection;
 import com.barbershop.exceptions.barberservice.BlankBarberServicePriceException;
 import com.barbershop.launcher.controller.interfaces.EditionController;
 import com.barbershop.service.interfaces.BarberserviceService;
+import io.github.palexdev.materialfx.controls.MFXComboBox;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
@@ -50,7 +51,7 @@ public class BarberServiceEditionController implements EditionController<BarberS
     private TextField price_field;
 
     @FXML
-    private ComboBox<BarberServiceCategory> category_combo_box;
+    private MFXComboBox<BarberServiceCategory> category_combo_box;
 
     @FXML
     private TextField internal_notes_field;

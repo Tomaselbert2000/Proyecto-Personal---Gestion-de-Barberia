@@ -6,10 +6,10 @@ import com.barbershop.enums.ViewRedirection;
 import com.barbershop.launcher.controller.interfaces.CreationController;
 import com.barbershop.launcher.controller.interfaces.EmployeeController;
 import com.barbershop.service.interfaces.EmployeeService;
+import io.github.palexdev.materialfx.controls.MFXDatePicker;
 import jakarta.validation.ConstraintViolationException;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import lombok.RequiredArgsConstructor;
@@ -51,7 +51,7 @@ public class EmployeeCreationController implements CreationController, EmployeeC
     private TextField last_name_field;
 
     @FXML
-    private DatePicker hire_date_picker;
+    private MFXDatePicker hire_date_picker;
 
     @FXML
     private TextField commission_field;

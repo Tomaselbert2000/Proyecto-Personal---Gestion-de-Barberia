@@ -9,7 +9,6 @@ import java.util.List;
 
 import static com.barbershop.utils.strings.RegexPatterns.*;
 import static com.barbershop.validation.client.ClientValidatorConstants.*;
-import static com.barbershop.validation.client.ClientValidatorConstants.MAX_PHONE_LENGTH;
 import static com.barbershop.validation.common.CommonConstants.*;
 
 @Getter

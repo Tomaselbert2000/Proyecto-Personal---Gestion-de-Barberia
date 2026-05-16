@@ -5,7 +5,6 @@ import com.barbershop.dto.sale.SaleInfoDTO;
 import com.barbershop.exceptions.common.NullMapperInputException;
 import com.barbershop.mapper.interfaces.SaleMapper;
 import com.barbershop.model.*;
-import com.barbershop.model.*;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

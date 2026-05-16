@@ -5,11 +5,11 @@ import com.barbershop.enums.ProductCategory;
 import com.barbershop.enums.StockStatus;
 import com.barbershop.launcher.controller.interfaces.ViewController;
 import com.barbershop.service.interfaces.ProductService;
+import io.github.palexdev.materialfx.controls.MFXComboBox;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
@@ -67,10 +67,10 @@ public class ProductViewController implements ViewController {
     private TextField product_search_field;
 
     @FXML
-    private ComboBox<ProductCategory> product_category_selector;
+    private MFXComboBox<ProductCategory> product_category_selector;
 
     @FXML
-    private ComboBox<StockStatus> product_stock_status_selector;
+    private MFXComboBox<StockStatus> product_stock_status_selector;
 
     @FXML
     private Button clean_filters_button;

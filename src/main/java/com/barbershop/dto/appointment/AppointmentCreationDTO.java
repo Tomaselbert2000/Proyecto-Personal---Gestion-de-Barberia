@@ -6,9 +6,9 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 
-import static com.barbershop.launcher.constants.entity_constraints.AppointmentConstraintViolationMessageStarters.*;
-import static com.barbershop.launcher.constants.entity_constraints.GenericConstraintViolationConstants.NOT_NULL;
-import static com.barbershop.launcher.constants.entity_constraints.GenericConstraintViolationConstants.OPTIONAL_TEXT_MAX_SIZE;
+import static com.barbershop.launcher.constants.entity_constraints.AppointmentConstraintViolationMessageSubject.*;
+import static com.barbershop.launcher.constants.entity_constraints.ConstraintViolationMessagePredicate.NOT_NULL;
+import static com.barbershop.launcher.constants.entity_constraints.ConstraintViolationMessagePredicate.OPTIONAL_TEXT_MAX_SIZE;
 import static com.barbershop.validation.common.CommonConstants.MAX_OPTIONAL_DESCRIPTION_LENGTH;
 
 @Getter

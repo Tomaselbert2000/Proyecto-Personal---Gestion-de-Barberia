@@ -5,6 +5,7 @@ import com.barbershop.enums.EmployeeStatus;
 import com.barbershop.enums.HireDateRange;
 import com.barbershop.launcher.controller.interfaces.ViewController;
 import com.barbershop.service.interfaces.EmployeeService;
+import io.github.palexdev.materialfx.controls.MFXComboBox;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -66,10 +67,10 @@ public class EmployeeViewController implements ViewController {
     private TextField search_field;
 
     @FXML
-    private ComboBox<EmployeeStatus> status_filter;
+    private MFXComboBox<EmployeeStatus> status_filter;
 
     @FXML
-    private ComboBox<HireDateRange> hire_date_filter;
+    private MFXComboBox<HireDateRange> hire_date_filter;
 
     @FXML
     private Button clear_filters_button;

@@ -9,6 +9,7 @@ import com.barbershop.launcher.controller.helper.ValidationFormatter;
 import com.barbershop.launcher.controller.interfaces.CreationController;
 import com.barbershop.launcher.controller.interfaces.ProductController;
 import com.barbershop.service.interfaces.ProductService;
+import io.github.palexdev.materialfx.controls.MFXComboBox;
 import jakarta.validation.ConstraintViolationException;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -53,7 +54,7 @@ public class ProductCreationController implements CreationController, ProductCon
     private TextField name;
 
     @FXML
-    private ComboBox<ProductCategory> product_category_selector;
+    private MFXComboBox<ProductCategory> product_category_selector;
 
     @FXML
     private TextField optional_description;
@@ -65,7 +66,7 @@ public class ProductCreationController implements CreationController, ProductCon
     private TextField product_presentation_field;
 
     @FXML
-    private ComboBox<ProductPresentationUnit> presentation_unit_combobox;
+    private MFXComboBox<ProductPresentationUnit> presentation_unit_combobox;
 
     @FXML
     private TextField cost;

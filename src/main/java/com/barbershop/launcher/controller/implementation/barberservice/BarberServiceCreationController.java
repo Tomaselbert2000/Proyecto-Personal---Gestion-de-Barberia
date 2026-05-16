@@ -7,13 +7,14 @@ import com.barbershop.enums.ViewRedirection;
 import com.barbershop.exceptions.barberservice.BlankBarberServicePriceException;
 import com.barbershop.launcher.controller.interfaces.CreationController;
 import com.barbershop.service.interfaces.BarberserviceService;
+import io.github.palexdev.materialfx.controls.MFXButton;
+import io.github.palexdev.materialfx.controls.MFXComboBox;
+import io.github.palexdev.materialfx.controls.MFXTextField;
+import jakarta.validation.ConstraintViolationException;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.VBox;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
@@ -22,12 +23,13 @@ import java.util.List;
 import java.util.Map;
 
 import static com.barbershop.launcher.constants.ui.messages.ToastNotificationMessage.BARBER_SERVICE_CREATION_TOAST_NOTIFICATION_MESSAGE;
+import static com.barbershop.launcher.constants.ui.messages.ValidationErrorMessage.*;
 import static com.barbershop.launcher.constants.ui.prompt_text.BarberServicePromptText.*;
 import static com.barbershop.launcher.controller.helper.ComboBoxHelper.loadEnumsOnComboBox;
 import static com.barbershop.launcher.controller.helper.ComboBoxHelper.removeFirstItemFromComboBox;
-import static com.barbershop.launcher.controller.helper.ToastNotificationHelper.showExceptionErrorMessage;
 import static com.barbershop.launcher.controller.helper.ToastNotificationHelper.showToastNotification;
 import static com.barbershop.launcher.controller.helper.UIBasicComponents.*;
+import static com.barbershop.launcher.controller.helper.ValidationFormatter.*;
 import static com.barbershop.launcher.controller.helper.ViewRedirectionHelper.redirectToView;
 
 @Component
@@ -41,31 +43,25 @@ public class BarberServiceCreationController implements CreationController {
     private AnchorPane anchor_pane;
 
     @FXML
-    private Button back_button;
+    private MFXButton back_button;
 
     @FXML
-    private TextField service_name_field;
+    private MFXTextField service_name_field;
 
     @FXML
-    private TextField price_field;
+    private MFXTextField price_field;
 
     @FXML
-    private ComboBox<BarberServiceCategory> category_combo_box;
+    private MFXComboBox<BarberServiceCategory> category_combo_box;
 
     @FXML
-    private TextField internal_notes_field;
+    private MFXTextField internal_notes_field;
 
     @FXML
-    private VBox error_message_container;
+    private MFXButton clean_fields_button;
 
     @FXML
-    private Label error_message_label;
-
-    @FXML
-    private Button clean_fields_button;
-
-    @FXML
-    private Button save_button;
+    private MFXButton save_button;
 
     @FXML
     public void initialize() {
@@ -75,6 +71,9 @@ public class BarberServiceCreationController implements CreationController {
         configureDecimalTextfieldRestrictions(price_field);
 
         loadEnumsOnComboBox(category_combo_box, BarberServiceCategory.values());
+
+        setStringConverter(category_combo_box, BarberServiceCategory.TODOS);
+
         removeFirstItemFromComboBox(category_combo_box);
     }
 
@@ -101,9 +100,11 @@ public class BarberServiceCreationController implements CreationController {
                     ToastNotificationType.SUCCESSFUL
             );
 
-        } catch (RuntimeException exception) {
+        } catch (ConstraintViolationException exception) {
 
-            showExceptionErrorMessage(exception, error_message_label, error_message_container);
+            String errorMessage = getConstraintViolationsList(exception);
+
+            showErrorAlert(VALIDATION_ERROR_TITLE, BARBER_SERVICE_CREATION_VALIDATION_FAILED, errorMessage);
         }
     }
 

@@ -323,7 +323,7 @@ public class AppointmentEditionController implements AppointmentController {
 
         barberServiceReference = barberServiceSelected;
 
-        String price = barberServiceSelected.getPrice().toString();
+        String price = parseNumberValueToText(barberServiceSelected.getPrice());
 
         setTextOnLabel(summary_service, barberServiceSelected.getName());
         setTextOnLabel(summary_price, CURRENCY_STRING_ARG + price);

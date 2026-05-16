@@ -5,8 +5,8 @@ import com.barbershop.enums.ProductPresentationUnit;
 import jakarta.validation.constraints.*;
 import lombok.*;
 
-import static com.barbershop.launcher.constants.entity_constraints.GenericConstraintViolationConstants.*;
-import static com.barbershop.launcher.constants.entity_constraints.ProductConstraintViolationMessageStarters.*;
+import static com.barbershop.launcher.constants.entity_constraints.ConstraintViolationMessagePredicate.*;
+import static com.barbershop.launcher.constants.entity_constraints.ProductConstraintViolationMessageSubject.*;
 import static com.barbershop.utils.strings.RegexPatterns.NAME_REGEX;
 import static com.barbershop.validation.common.CommonConstants.*;
 import static com.barbershop.validation.product.ProductValidatorConstants.*;

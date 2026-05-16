@@ -6,7 +6,7 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 
-import static com.barbershop.launcher.constants.entity_constraints.AppointmentConstraintViolationMessageStarters.APPOINTMENT_OPTIONAL_NOTES;
+import static com.barbershop.launcher.constants.entity_constraints.AppointmentConstraintViolationMessageSubject.APPOINTMENT_OPTIONAL_NOTES;
 import static com.barbershop.validation.common.CommonConstants.MAX_OPTIONAL_DESCRIPTION_LENGTH;
 
 @Getter

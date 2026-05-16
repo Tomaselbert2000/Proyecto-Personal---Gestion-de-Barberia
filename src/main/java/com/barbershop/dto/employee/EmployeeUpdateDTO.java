@@ -5,8 +5,8 @@ import lombok.*;
 
 import java.time.LocalDate;
 
-import static com.barbershop.launcher.constants.entity_constraints.EmployeeConstraintViolationMessageStarters.*;
-import static com.barbershop.launcher.constants.entity_constraints.GenericConstraintViolationConstants.*;
+import static com.barbershop.launcher.constants.entity_constraints.EmployeeConstraintViolationMessageSubject.*;
+import static com.barbershop.launcher.constants.entity_constraints.ConstraintViolationMessagePredicate.*;
 import static com.barbershop.utils.strings.RegexPatterns.NAME_REGEX;
 import static com.barbershop.validation.common.CommonConstants.MAX_NAME_LENGTH;
 import static com.barbershop.validation.common.CommonConstants.MIN_NAME_LENGTH;
