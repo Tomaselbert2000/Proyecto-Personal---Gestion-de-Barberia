@@ -16,7 +16,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Map;
 
-import static com.barbershop.launcher.constants.ui.css_class.MaterialDesignIcon.*;
+import static com.barbershop.launcher.constants.ui.css_class.Material_Icon.*;
 import static com.barbershop.launcher.controller.helper.UIBasicComponents.generateMap;
 import static com.barbershop.launcher.controller.helper.UIBasicComponents.setTextsOnLabelMap;
 

@@ -8,6 +8,7 @@ import com.barbershop.service.interfaces.ClientService;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -21,7 +22,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static com.barbershop.launcher.constants.ui.css_class.CssStylesStrings.*;
+import static com.barbershop.launcher.constants.ui.css_class.MaterialButton.MD_BUTTON_FILLED_OUTLINED;
+import static com.barbershop.launcher.constants.ui.css_class.MaterialMFXInput.MATERIAL_MFX_INPUT;
 import static com.barbershop.launcher.constants.ui.messages.ToastNotificationMessage.CLIENT_CREATION_TOAST_NOTIFICATION_MESSAGE;
 import static com.barbershop.launcher.constants.ui.prompt_text.ClientPromptText.*;
 import static com.barbershop.launcher.controller.helper.ContainerManager.*;
@@ -109,38 +111,36 @@ public class ClientCreationController implements CreationController {
 
     private void addPhoneToList() {
 
-        HBox hbox = createHBox();
+        int phoneContainerSpaceValue = 10;
+        Pos phoneContainerAligment = Pos.CENTER_LEFT;
 
-        TextField phoneTextfield = createPhoneNumberTextfield();
+        HBox hbox = createPhoneHBox(phoneContainerSpaceValue, phoneContainerAligment);
 
-        Button removePhoneButton = createRemoveButton(hbox);
+        MFXTextField phoneTextfield = createPhoneNumberTextfield();
+
+        MFXButton removePhoneButton = createRemoveButton(hbox);
 
         addNodesToHBox(hbox, phoneTextfield, removePhoneButton);
 
         loadItemOnVBox(phones_container, hbox);
     }
 
-    private TextField createPhoneNumberTextfield() {
+    private MFXTextField createPhoneNumberTextfield() {
 
-        TextField textField = new TextField();
-        textField.setPromptText(CLIENT_PHONE_PROMPT_TEXT);
-        textField.getStyleClass().add(PHONE_NUMBER_CONTAINER_TEXTFIELD_STYLE_CLASS);
-        HBox.setHgrow(textField, Priority.ALWAYS);
+        MFXTextField mfxTextField = new MFXTextField();
+        mfxTextField.setPromptText(CLIENT_PHONE_PROMPT_TEXT);
+        mfxTextField.getStyleClass().add(MATERIAL_MFX_INPUT);
+        mfxTextField.maxWidth(Double.POSITIVE_INFINITY);
 
-        return textField;
+        return mfxTextField;
     }
 
-    private Button createRemoveButton(HBox hbox) {
+    private MFXButton createRemoveButton(HBox hbox) {
 
-        Button removePhoneButton = new Button();
-        removePhoneButton.getStyleClass().add(PHONE_NUMBER_CONTAINER_REMOVE_PHONE_BUTTON_STYLE_CLASS);
+        MFXButton removePhoneButton = new MFXButton();
+        removePhoneButton.getStyleClass().add(MD_BUTTON_FILLED_OUTLINED);
         removePhoneButton.setOnAction(_ -> phones_container.getChildren().remove(hbox));
-
-        Region regionComponentForIcon = new Region();
-
-        regionComponentForIcon.getStyleClass().add(PHONE_NUMBER_REGION_ICON);
-
-        removePhoneButton.setGraphic(regionComponentForIcon);
+        removePhoneButton.setText("Eliminar");
 
         return removePhoneButton;
     }

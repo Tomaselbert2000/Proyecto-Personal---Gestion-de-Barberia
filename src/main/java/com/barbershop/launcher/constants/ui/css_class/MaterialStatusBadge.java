@@ -1,6 +1,6 @@
 package com.barbershop.launcher.constants.ui.css_class;
 
-public class MaterialDesignStatusBadge {
+public class MaterialStatusBadge {
 
     public static final String BADGE = "md-badge";
     public static final String SCHEDULED_BADGE = "md-badge-scheduled";

@@ -16,7 +16,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Map;
 import java.util.function.Consumer;
 
-import static com.barbershop.launcher.constants.ui.css_class.MaterialDesignStatusBadge.*;
+import static com.barbershop.launcher.constants.ui.css_class.MaterialStatusBadge.*;
 import static com.barbershop.launcher.controller.helper.UIBasicComponents.*;
 
 @Component

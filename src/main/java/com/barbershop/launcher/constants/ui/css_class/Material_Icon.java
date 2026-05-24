@@ -1,6 +1,6 @@
 package com.barbershop.launcher.constants.ui.css_class;
 
-public class MaterialDesignIcon {
+public class Material_Icon {
 
     public static final String ADD_ALERT_ICON = "add-alert-icon";
     public static final String PERSON_REMOVE = "person-remove-icon";
