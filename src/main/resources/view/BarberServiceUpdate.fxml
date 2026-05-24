@@ -1,71 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
+<?import io.github.palexdev.materialfx.controls.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
-
-<AnchorPane fx:id="anchor_pane" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1"
+<AnchorPane fx:id="anchor_pane"
+            xmlns="http://javafx.com/javafx/17.0.12"
+            xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.barbershop.launcher.controller.implementation.barberservice.BarberServiceEditionController">
 
-    <!-- Header Panel -->
-    <HBox alignment="CENTER_LEFT" styleClass="md-header-bar" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
-          AnchorPane.topAnchor="0.0">
-        <padding>
-            <Insets bottom="20.0" left="30.0" right="30.0" top="20.0"/>
-        </padding>
-        <HBox alignment="CENTER_LEFT" spacing="15.0">
-            <Button fx:id="back_button" mnemonicParsing="false" styleClass="back-button" text="← Volver">
-                <font>
-                    <Font name="Roboto Medium" size="14.0"/>
-                </font>
-            </Button>
-            <VBox alignment="CENTER_LEFT">
-                <Label styleClass="page-title" text="Editar Servicio">
-                    <font>
-                        <Font name="Roboto Bold" size="28.0"/>
-                    </font>
-                </Label>
-                <Label text="Actualiza los datos del servicio seleccionado">
-                    <font>
-                        <Font name="Roboto Regular" size="14.0"/>
-                    </font>
-                </Label>
+    <VBox AnchorPane.topAnchor="0.0"
+          AnchorPane.bottomAnchor="0.0"
+          AnchorPane.leftAnchor="0.0"
+          AnchorPane.rightAnchor="0.0">
+
+        <!-- Header Panel -->
+        <HBox styleClass="md-header-bar">
+            <MFXButton fx:id="back_button" styleClass="md-button-filled-tonal" text="← Volver"/>
+            <VBox styleClass="md-heading-group">
+                <Label styleClass="md-page-title" text="Editar Servicio"/>
+                <Label styleClass="md-page-subtitle" text="Actualiza los datos del servicio seleccionado"/>
             </VBox>
         </HBox>
-        <Region HBox.hgrow="ALWAYS"/>
-    </HBox>
 
-    <!-- Main Content -->
-    <ScrollPane fitToHeight="true" fitToWidth="true" layoutY="100.0" styleClass="content-scroll"
-                AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
-                AnchorPane.topAnchor="100.0">
-        <padding>
-            <Insets bottom="20.0" left="30.0" right="30.0" top="10.0"/>
-        </padding>
-        <VBox spacing="25.0">
+        <!-- Main Content -->
+        <ScrollPane fitToHeight="true" fitToWidth="true" styleClass="md-content-scroll" VBox.vgrow="ALWAYS">
+            <VBox styleClass="md-content-section">
 
-            <!-- Service Form -->
-            <VBox styleClass="form-card">
-                <VBox alignment="CENTER_LEFT" spacing="4.0">
-                    <Label styleClass="form-section-title" text="Datos del Servicio">
-                        <font>
-                            <Font name="Roboto Medium" size="16.0"/>
-                        </font>
-                    </Label>
-                    <Label styleClass="form-section-subtitle" text="Modifica los datos del servicio">
-                        <font>
-                            <Font name="Roboto Regular" size="12.0"/>
-                        </font>
-                    </Label>
-                </VBox>
+                <!-- Service Form -->
+                <VBox styleClass="md-card">
+                    <VBox styleClass="md-section-group">
+                        <Label styleClass="md-section-title" text="Datos del Servicio"/>
+                    </VBox>
 
-                <VBox spacing="20.0">
-                    <padding>
-                        <Insets top="15.0"/>
-                    </padding>
-
-                    <GridPane hgap="25.0" vgap="20.0">
+                    <GridPane styleClass="md-grid-pane">
                         <columnConstraints>
                             <ColumnConstraints hgrow="SOMETIMES" minWidth="300.0"/>
                             <ColumnConstraints hgrow="SOMETIMES" minWidth="300.0"/>
@@ -78,100 +45,50 @@
                         </rowConstraints>
 
                         <!-- Service ID (read-only) -->
-                        <VBox alignment="CENTER_LEFT" spacing="8.0" GridPane.columnIndex="0" GridPane.rowIndex="0">
-                            <HBox spacing="5.0">
-                                <Label styleClass="form-label" text="ID del Servicio">
-                                    <font>
-                                        <Font name="Roboto Medium" size="14.0"/>
-                                    </font>
-                                </Label>
+                        <VBox styleClass="md-filter-column" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                            <HBox spacing="4.0">
+                                <Label styleClass="md-filter-label" text="ID del Servicio"/>
                             </HBox>
-                            <TextField fx:id="service_id_field" editable="false" promptText="ID del servicio"
-                                       styleClass="form-text-field-disabled"/>
+                            <MFXTextField fx:id="service_id_field" editable="false" promptText="ID del servicio"
+                                          styleClass="form-text-field-disabled"/>
                         </VBox>
 
                         <!-- Service Name -->
-                        <VBox alignment="CENTER_LEFT" spacing="8.0" GridPane.columnIndex="1" GridPane.rowIndex="0">
-                            <HBox spacing="5.0">
-                                <Label styleClass="form-label" text="Nombre del Servicio">
-                                    <font>
-                                        <Font name="Roboto Medium" size="14.0"/>
-                                    </font>
-                                    <HBox.margin>
-                                        <Insets/>
-                                    </HBox.margin>
-                                </Label>
-                                <Label styleClass="form-required" text="*">
-                                    <font>
-                                        <Font name="Roboto Medium" size="14.0"/>
-                                    </font>
-                                </Label>
+                        <VBox styleClass="md-filter-column" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                            <HBox spacing="4.0">
+                                <Label styleClass="md-filter-label" text="Nombre del Servicio"/>
+                                <Label styleClass="md-filter-label" text="*" style="-fx-text-fill: -fx-error"/>
                             </HBox>
-                            <TextField fx:id="service_name_field" styleClass="form-text-field">
-                                <VBox.margin>
-                                    <Insets/>
-                                </VBox.margin>
-                            </TextField>
+                            <MFXTextField fx:id="service_name_field" styleClass="md-mfx-input" maxWidth="Infinity"/>
                         </VBox>
 
                         <!-- Price -->
-                        <VBox alignment="CENTER_LEFT" spacing="8.0" GridPane.columnIndex="0" GridPane.rowIndex="1">
-                            <HBox spacing="5.0">
-                                <Label styleClass="form-label" text="Precio">
-                                    <font>
-                                        <Font name="Roboto Medium" size="14.0"/>
-                                    </font>
-                                </Label>
-                                <Label styleClass="form-required" text="*">
-                                    <font>
-                                        <Font name="Roboto Medium" size="14.0"/>
-                                    </font>
-                                </Label>
+                        <VBox styleClass="md-filter-column" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                            <HBox spacing="4.0">
+                                <Label styleClass="md-filter-label" text="Precio"/>
+                                <Label styleClass="md-filter-label" text="*" style="-fx-text-fill: -fx-error"/>
                             </HBox>
-                            <TextField fx:id="price_field" styleClass="form-text-field"/>
+                            <MFXTextField fx:id="price_field" styleClass="md-mfx-input"/>
                         </VBox>
 
                         <!-- Category -->
-                        <VBox alignment="CENTER_LEFT" spacing="8.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                            <HBox spacing="5.0">
-                                <Label styleClass="form-label" text="Categoría">
-                                    <font>
-                                        <Font name="Roboto Medium" size="14.0"/>
-                                    </font>
-                                </Label>
-                                <Label styleClass="form-required" text="*">
-                                    <font>
-                                        <Font name="Roboto Medium" size="14.0"/>
-                                    </font>
-                                </Label>
+                        <VBox styleClass="md-filter-column" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                            <HBox spacing="4.0">
+                                <Label styleClass="md-filter-label" text="Categoría"/>
+                                <Label styleClass="md-filter-label" text="*" style="-fx-text-fill: -fx-error"/>
                             </HBox>
-                            <ComboBox fx:id="category_combo_box" styleClass="form-combo-box"/>
+                            <MFXComboBox fx:id="category_combo_box" styleClass="md-mfx-input" maxWidth="Infinity"/>
                         </VBox>
                     </GridPane>
                 </VBox>
-            </VBox>
 
-            <!-- Additional Information -->
-            <VBox styleClass="form-card">
-                <VBox alignment="CENTER_LEFT" spacing="4.0">
-                    <Label styleClass="form-section-title" text="Información Adicional">
-                        <font>
-                            <Font name="Roboto Medium" size="16.0"/>
-                        </font>
-                    </Label>
-                    <Label styleClass="form-section-subtitle" text="Datos opcionales del servicio">
-                        <font>
-                            <Font name="Roboto Regular" size="12.0"/>
-                        </font>
-                    </Label>
-                </VBox>
+                <!-- Additional Information -->
+                <VBox styleClass="md-card">
+                    <VBox styleClass="md-section-group">
+                        <Label styleClass="md-section-title" text="Información Adicional"/>
+                    </VBox>
 
-                <VBox spacing="20.0">
-                    <padding>
-                        <Insets top="15.0"/>
-                    </padding>
-
-                    <GridPane hgap="25.0" vgap="20.0">
+                    <GridPane styleClass="md-grid-pane">
                         <columnConstraints>
                             <ColumnConstraints hgrow="SOMETIMES" minWidth="300.0"/>
                             <ColumnConstraints hgrow="SOMETIMES" minWidth="300.0"/>
@@ -181,56 +98,19 @@
                         </rowConstraints>
 
                         <!-- Internal Notes -->
-                        <VBox alignment="CENTER_LEFT" spacing="8.0" GridPane.columnIndex="0" GridPane.columnSpan="2">
-                            <Label styleClass="form-label" text="Notas Internas">
-                                <font>
-                                    <Font name="Roboto Medium" size="14.0"/>
-                                </font>
-                            </Label>
-                            <TextField fx:id="internal_notes_field" styleClass="form-text-field-notes"/>
+                        <VBox styleClass="md-filter-column" GridPane.columnIndex="0" GridPane.columnSpan="2">
+                            <Label styleClass="md-filter-label" text="Notas Internas"/>
+                            <MFXTextField fx:id="internal_notes_field" styleClass="md-mfx-input"/>
                         </VBox>
                     </GridPane>
                 </VBox>
-            </VBox>
 
-            <!-- General Error Message -->
-            <VBox fx:id="error_message_container" styleClass="general-error-container" visible="false">
-                <HBox alignment="CENTER_LEFT" spacing="10.0">
-                    <Label styleClass="general-error-icon" text="⚠">
-                        <font>
-                            <Font name="Roboto Bold" size="18.0"/>
-                        </font>
-                    </Label>
-                    <VBox alignment="CENTER_LEFT" spacing="2.0">
-                        <Label styleClass="general-error-title" text="Error al actualizar el servicio">
-                            <font>
-                                <Font name="Roboto Medium" size="14.0"/>
-                            </font>
-                        </Label>
-                        <Label fx:id="error_message_label" styleClass="general-error-message">
-                            <font>
-                                <Font name="Roboto Regular" size="12.0"/>
-                            </font>
-                        </Label>
-                    </VBox>
+                <!-- Action Buttons -->
+                <HBox styleClass="md-action-button-container">
+                    <MFXButton fx:id="restore_values_button" styleClass="md-button-outlined" text="Restaurar valores"/>
+                    <MFXButton fx:id="update_button" styleClass="md-button-filled" text="Actualizar Servicio"/>
                 </HBox>
             </VBox>
-
-            <!-- Action Buttons -->
-            <HBox alignment="CENTER_RIGHT" spacing="15.0">
-                <Button fx:id="restore_values_button" mnemonicParsing="false" styleClass="filter-button"
-                        text="Restaurar valores">
-                    <font>
-                        <Font name="Roboto Medium" size="14.0"/>
-                    </font>
-                </Button>
-                <Button fx:id="update_button" mnemonicParsing="false" styleClass="action-button-primary"
-                        text="Actualizar Servicio">
-                    <font>
-                        <Font name="Roboto Medium" size="14.0"/>
-                    </font>
-                </Button>
-            </HBox>
-        </VBox>
-    </ScrollPane>
+        </ScrollPane>
+    </VBox>
 </AnchorPane>
