@@ -3,6 +3,7 @@ package com.barbershop.launcher.controller.implementation.dashboard;
 import com.barbershop.dto.dashboard.RecentActivityDTO;
 import com.barbershop.enums.EventType;
 import com.barbershop.launcher.controller.interfaces.ItemController;
+import com.barbershop.utils.time.TimeCalculation;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Region;
@@ -24,23 +25,18 @@ import static com.barbershop.launcher.controller.helper.UIBasicComponents.setTex
 @Setter
 public class ActivityItemController implements ItemController<RecentActivityDTO> {
 
-    private static LocalDateTime NOW = LocalDateTime.now();
-
     @FXML
     private Region activity_icon;
 
     @FXML
-    private Label event_type;
-
-    @FXML
-    private Label text_to_attach;
-
-    @FXML
-    private Label timestamp;
+    private Label
+            event_type,
+            text_to_attach,
+            timestamp;
 
     private String generateTimestampFromString(LocalDateTime timestamp) {
 
-        long timeDifferenceInMinutes = ChronoUnit.MINUTES.between(timestamp, NOW);
+        long timeDifferenceInMinutes = ChronoUnit.MINUTES.between(timestamp, TimeCalculation.getCurrentDateTime());
 
         if (timeDifferenceInMinutes >= 60) {
 

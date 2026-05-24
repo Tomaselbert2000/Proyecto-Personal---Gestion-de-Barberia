@@ -24,23 +24,20 @@ public class BarberServiceItemController implements ItemController<BarberService
 
     private BarberServiceInfoDTO infoDTOReference;
 
-    private Consumer<BarberServiceInfoDTO> onEditCallback;
-    private Consumer<BarberServiceInfoDTO> onDeleteCallback;
+    private Consumer<BarberServiceInfoDTO>
+            onEditCallback,
+            onDeleteCallback;
 
     @FXML
-    private Label service_name;
+    private Label
+            service_name,
+            service_price,
+            category_text;
 
     @FXML
-    private Label service_price;
-
-    @FXML
-    private Label category_text;
-
-    @FXML
-    private MFXButton edit_button;
-
-    @FXML
-    private MFXButton delete_button;
+    private MFXButton
+            edit_button,
+            delete_button;
 
     @FXML
     public void initialize() {

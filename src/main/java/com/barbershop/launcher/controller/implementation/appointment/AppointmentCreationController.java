@@ -63,31 +63,38 @@ public class AppointmentCreationController implements CreationController, Appoin
     private AnchorPane anchor_pane;
 
     @FXML
-    private MFXButton back_button;
+    private MFXButton
+            back_button,
+            create_client_button,
+            change_client_button,
+            reset_form_button,
+            save_button;
 
     @FXML
-    private MFXTextField client_search_field;
+    private MFXTextField
+            client_search_field,
+            appointment_notes;
 
     @FXML
-    private MFXButton create_client_button;
-
-    @FXML
-    private Label client_initials;
-
-    @FXML
-    private Label client_name;
+    private Label
+            client_initials,
+            client_name,
+            national_id_card_number,
+            service_price,
+            summary_client,
+            summary_service,
+            summary_employee,
+            summary_datetime,
+            summary_price;
 
     @FXML
     private MFXListView<ClientInfoDTO> client_result_list;
 
     @FXML
-    private VBox selected_client_card_vbox;
-
-    @FXML
-    private Label national_id_card_number;
-
-    @FXML
-    private MFXButton change_client_button;
+    private VBox
+            selected_client_card_vbox,
+            service_selection_container,
+            summary_card_vbox;
 
     @FXML
     private MFXComboBox<BarberServiceInfoDTO> barberservice_selector;
@@ -96,46 +103,12 @@ public class AppointmentCreationController implements CreationController, Appoin
     private MFXComboBox<EmployeeInfoDTO> employee_selector;
 
     @FXML
-    private VBox service_selection_container;
-
-    @FXML
-    private Label service_price;
-
-    @FXML
     private MFXDatePicker date_selector;
 
     @FXML
-    private MFXComboBox<LocalTime> hour_selector;
-
-    @FXML
-    private MFXComboBox<LocalTime> minute_selector;
-
-    @FXML
-    private MFXTextField appointment_notes;
-
-    @FXML
-    private Label summary_client;
-
-    @FXML
-    private Label summary_service;
-
-    @FXML
-    private Label summary_employee;
-
-    @FXML
-    private Label summary_datetime;
-
-    @FXML
-    private Label summary_price;
-
-    @FXML
-    private VBox summary_card_vbox;
-
-    @FXML
-    private MFXButton reset_form_button;
-
-    @FXML
-    private MFXButton save_button;
+    private MFXComboBox<LocalTime>
+            hour_selector,
+            minute_selector;
 
     @FXML
     public void initialize() {

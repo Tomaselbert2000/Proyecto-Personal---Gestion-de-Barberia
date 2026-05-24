@@ -1,10 +1,10 @@
 package com.barbershop.launcher.controller.implementation.toast_notification;
 
 import com.barbershop.enums.ToastNotificationType;
+import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Region;
@@ -32,25 +32,23 @@ public class ToastNotificationController {
     private static final Integer TOAST_NOTIFICATION_DURATION_IN_SECONDS = 5;
 
     @FXML
-    private Region toast_notification_region_icon;
+    private Region
+            toast_notification_region_icon,
+            toast_progress_bar;
 
     @FXML
     private Circle toast_notification_icon_background_circle;
 
     @FXML
-    private Label toast_title;
+    private Label
+            toast_title,
+            toast_message;
 
     @FXML
-    private Label toast_message;
-
-    @FXML
-    private Button toast_close_button;
+    private MFXButton toast_close_button;
 
     @FXML
     private VBox toast_progress_container;
-
-    @FXML
-    private Region toast_progress_bar;
 
     public void configureAndShowOnScreen(String message, AnchorPane anchorPane, Node node, ToastNotificationType notificationType) {
 

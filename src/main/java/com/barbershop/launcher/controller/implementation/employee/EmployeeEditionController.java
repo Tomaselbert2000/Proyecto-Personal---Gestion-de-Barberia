@@ -7,7 +7,9 @@ import com.barbershop.enums.ViewRedirection;
 import com.barbershop.launcher.controller.interfaces.EditionController;
 import com.barbershop.launcher.controller.interfaces.EmployeeController;
 import com.barbershop.service.interfaces.EmployeeService;
+import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXDatePicker;
+import io.github.palexdev.materialfx.controls.MFXTextField;
 import jakarta.validation.ConstraintViolationException;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -45,46 +47,29 @@ public class EmployeeEditionController implements EditionController<EmployeeInfo
     private AnchorPane anchor_pane;
 
     @FXML
-    private Button back_button;
+    private MFXButton
+            back_button,
+            toggle_status_button,
+            reset_button,
+            save_button;
 
     @FXML
-    private Label current_first_name;
+    private Label
+            current_first_name,
+            current_last_name,
+            current_hire_date,
+            current_commission,
+            current_status_label,
+            current_termination_date;
 
     @FXML
-    private Label current_last_name;
-
-    @FXML
-    private Label current_hire_date;
-
-    @FXML
-    private Label current_commission;
-
-    @FXML
-    private Label current_status_label;
-
-    @FXML
-    private Label current_termination_date;
-
-    @FXML
-    private TextField first_name_field;
-
-    @FXML
-    private TextField last_name_field;
-
-    @FXML
-    private TextField commission_field;
-
-    @FXML
-    private Button toggle_status_button;
+    private MFXTextField
+            first_name_field,
+            last_name_field,
+            commission_field;
 
     @FXML
     private MFXDatePicker termination_date_picker;
-
-    @FXML
-    private Button reset_button;
-
-    @FXML
-    private Button save_button;
 
     @FXML
     public void initialize(EmployeeInfoDTO infoDTO) {

@@ -5,7 +5,9 @@ import com.barbershop.enums.EmployeeStatus;
 import com.barbershop.enums.HireDateRange;
 import com.barbershop.launcher.controller.interfaces.ViewController;
 import com.barbershop.service.interfaces.EmployeeService;
+import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
+import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -40,31 +42,19 @@ public class EmployeeViewController implements ViewController {
     private AnchorPane anchor_pane;
 
     @FXML
-    private Label total_employees_count;
+    private Label
+            total_employees_count,
+            total_employees_trend,
+            active_employees_count,
+            active_employees_percentage,
+            inactive_employees_count,
+            inactive_employees_percentage,
+            average_productivity_count,
+            productivity_trend,
+            results_count;
 
     @FXML
-    private Label total_employees_trend;
-
-    @FXML
-    private Label active_employees_count;
-
-    @FXML
-    private Label active_employees_percentage;
-
-    @FXML
-    private Label inactive_employees_count;
-
-    @FXML
-    private Label inactive_employees_percentage;
-
-    @FXML
-    private Label average_productivity_count;
-
-    @FXML
-    private Label productivity_trend;
-
-    @FXML
-    private TextField search_field;
+    private MFXTextField search_field;
 
     @FXML
     private MFXComboBox<EmployeeStatus> status_filter;
@@ -73,13 +63,9 @@ public class EmployeeViewController implements ViewController {
     private MFXComboBox<HireDateRange> hire_date_filter;
 
     @FXML
-    private Button clear_filters_button;
-
-    @FXML
-    private Button new_employee_button;
-
-    @FXML
-    private Label results_count;
+    private MFXButton
+            clear_filters_button,
+            new_employee_button;
 
     @FXML
     private VBox employee_list_container;

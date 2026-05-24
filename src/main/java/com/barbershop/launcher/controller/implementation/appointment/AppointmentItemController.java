@@ -26,38 +26,27 @@ public class AppointmentItemController implements ItemController<AppointmentInfo
 
     private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("HH:mm");
 
-    private Consumer<AppointmentInfoDTO> onCompleteCallback;
-    private Consumer<AppointmentInfoDTO> onCancelCallback;
-    private Consumer<AppointmentInfoDTO> onEditCallback;
+    private Consumer<AppointmentInfoDTO>
+            onCompleteCallback,
+            onCancelCallback,
+            onEditCallback;
 
     private AppointmentInfoDTO infoDTOReference;
 
     @FXML
-    private MFXButton edit_button;
+    private MFXButton
+            edit_button,
+            complete_button,
+            cancel_button;
 
     @FXML
-    private MFXButton complete_button;
-
-    @FXML
-    private MFXButton cancel_button;
-
-    @FXML
-    private Label start_time;
-
-    @FXML
-    private Label end_time;
-
-    @FXML
-    private Label client_name;
-
-    @FXML
-    private Label service_name;
-
-    @FXML
-    private Label employee_name;
-
-    @FXML
-    private Label status_badge;
+    private Label
+            start_time,
+            end_time,
+            client_name,
+            service_name,
+            employee_name,
+            status_badge;
 
     @FXML
     public void initialize() {

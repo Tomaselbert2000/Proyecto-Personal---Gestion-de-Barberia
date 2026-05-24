@@ -1,5 +1,6 @@
 package com.barbershop.launcher.controller.implementation.dialog;
 
+import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -17,16 +18,14 @@ public class DeleteConfirmationDialogController {
     private Node dialog_icon;
 
     @FXML
-    private Label confirmation_title;
+    private Label
+            confirmation_title,
+            confirmation_message;
 
     @FXML
-    private Label confirmation_message;
-
-    @FXML
-    private Button cancel_button;
-
-    @FXML
-    private Button confirm_button;
+    private MFXButton
+            cancel_button,
+            confirm_button;
 
     public void configureDialog(String title, String message, Runnable onConfirm, Runnable onCancel, Runnable onCloseDialog) {
 

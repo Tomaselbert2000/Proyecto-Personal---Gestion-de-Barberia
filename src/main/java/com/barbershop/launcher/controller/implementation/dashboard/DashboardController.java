@@ -43,6 +43,8 @@ public class DashboardController implements Controller {
     private final AppointmentService appointmentService;
     private final ProductService productService;
 
+    private final ApplicationContext applicationContext;
+
     @FXML
     private Node dashboardReference;
 
@@ -53,78 +55,34 @@ public class DashboardController implements Controller {
     private VBox activity_log_vbox;
 
     @FXML
-    private MFXButton navbar_dashboard_button;
+    private MFXButton
+            navbar_dashboard_button,
+            navbar_client_button,
+            navbar_employee_button,
+            navbar_appointment_button,
+            navbar_product_button,
+            navbar_barber_service_button,
+            navbar_settings_button,
+            navbar_logout_button,
+            clients_view_button,
+            create_client_button,
+            employee_view_button,
+            create_employee_button,
+            appointments_view_button,
+            create_appointment_button,
+            products_view_button,
+            create_product_button;
 
     @FXML
-    private MFXButton navbar_client_button;
-
-    @FXML
-    private MFXButton navbar_employee_button;
-
-    @FXML
-    private MFXButton navbar_appointment_button;
-
-    @FXML
-    private MFXButton navbar_product_button;
-
-    @FXML
-    private MFXButton navbar_barber_service_button;
-
-    @FXML
-    private MFXButton navbar_settings_button;
-
-    @FXML
-    private MFXButton navbar_logout_button;
-
-    @FXML
-    private MFXButton clients_view_button;
-
-    @FXML
-    private MFXButton create_client_button;
-
-    @FXML
-    private MFXButton employee_view_button;
-
-    @FXML
-    private MFXButton create_employee_button;
-
-    @FXML
-    private MFXButton appointments_view_button;
-
-    @FXML
-    private MFXButton create_appointment_button;
-
-    @FXML
-    private MFXButton products_view_button;
-
-    @FXML
-    private MFXButton create_product_button;
-
-    @FXML
-    private Label clients_registered_count;
-
-    @FXML
-    private Label clients_registered_percentage_vs_last_month;
-
-    @FXML
-    private Label active_employees_count;
-
-    @FXML
-    private Label active_employees_this_month_count;
-
-    @FXML
-    private Label appointments_today_count;
-
-    @FXML
-    private Label finished_appointments_today_count;
-
-    @FXML
-    private Label products_on_stock_count;
-
-    @FXML
-    private Label low_stock_products_count;
-
-    private final ApplicationContext applicationContext;
+    private Label
+            clients_registered_count,
+            clients_registered_percentage_vs_last_month,
+            active_employees_count,
+            active_employees_this_month_count,
+            appointments_today_count,
+            finished_appointments_today_count,
+            products_on_stock_count,
+            low_stock_products_count;
 
     @FXML
     public void initialize() {

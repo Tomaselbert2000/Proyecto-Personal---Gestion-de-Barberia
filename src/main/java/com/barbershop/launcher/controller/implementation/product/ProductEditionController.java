@@ -9,7 +9,9 @@ import com.barbershop.enums.ViewRedirection;
 import com.barbershop.launcher.controller.interfaces.EditionController;
 import com.barbershop.launcher.controller.interfaces.ProductController;
 import com.barbershop.service.interfaces.ProductService;
+import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
+import io.github.palexdev.materialfx.controls.MFXTextField;
 import jakarta.validation.ConstraintViolationException;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -48,64 +50,38 @@ public class ProductEditionController implements EditionController<ProductInfoDT
     private AnchorPane anchor_pane;
 
     @FXML
-    private Button back_button;
+    private MFXButton
+            back_button,
+            select_image_button,
+            remove_image_button,
+            reset_button,
+            save_button;
 
     @FXML
-    private TextField name;
+    private MFXTextField
+            name,
+            optional_description,
+            brand_name,
+            presentation_size,
+            product_cost,
+            current_price,
+            product_wholesale_price,
+            min_price,
+            max_discount_percentage,
+            current_stock_level,
+            safety_stock_level;
 
     @FXML
     private MFXComboBox<ProductCategory> category;
 
     @FXML
-    private TextField optional_description;
-
-    @FXML
-    private TextField brand_name;
-
-    @FXML
-    private TextField presentation_size;
-
-    @FXML
     private MFXComboBox<ProductPresentationUnit> presentation_unit;
-
-    @FXML
-    private TextField product_cost;
-
-    @FXML
-    private TextField current_price;
 
     @FXML
     private Label profit_margin_value;
 
     @FXML
-    private TextField product_wholesale_price;
-
-    @FXML
-    private TextField min_price;
-
-    @FXML
-    private TextField max_discount_percentage;
-
-    @FXML
-    private TextField current_stock_level;
-
-    @FXML
-    private TextField safety_stock_level;
-
-    @FXML
     private ImageView product_image_preview;
-
-    @FXML
-    private Button select_image_button;
-
-    @FXML
-    private Button remove_image_button;
-
-    @FXML
-    private Button reset_button;
-
-    @FXML
-    private Button save_button;
 
     @FXML
     public void initialize(ProductInfoDTO infoDTO) {

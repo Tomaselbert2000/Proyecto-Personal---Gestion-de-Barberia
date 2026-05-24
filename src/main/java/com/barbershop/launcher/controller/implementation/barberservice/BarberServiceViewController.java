@@ -53,28 +53,16 @@ public class BarberServiceViewController implements ViewController {
     private AnchorPane anchor_pane;
 
     @FXML
-    private Label service_count;
-
-    @FXML
-    private Label new_services_this_month_count;
-
-    @FXML
-    private Label category_count;
-
-    @FXML
-    private Label highest_category_count;
-
-    @FXML
-    private Label highest_price;
-
-    @FXML
-    private Label lowest_price;
-
-    @FXML
-    private Label average_price;
-
-    @FXML
-    private Label average_price_percentage_vs_last_month;
+    private Label
+            service_count,
+            new_services_this_month_count,
+            category_count,
+            highest_category_count,
+            highest_price,
+            lowest_price,
+            average_price,
+            average_price_percentage_vs_last_month,
+            service_list_vbox_service_count;
 
     @FXML
     private MFXTextField service_search_field;
@@ -86,16 +74,12 @@ public class BarberServiceViewController implements ViewController {
     private MFXComboBox<PriceRanges> service_price_range_selector;
 
     @FXML
-    private MFXButton clean_filters_button;
-
-    @FXML
-    private MFXButton create_barber_service_button;
+    private MFXButton
+            clean_filters_button,
+            create_barber_service_button;
 
     @FXML
     private VBox services_list_vbox;
-
-    @FXML
-    private Label service_list_vbox_service_count;
 
     @FXML
     public void initialize() {

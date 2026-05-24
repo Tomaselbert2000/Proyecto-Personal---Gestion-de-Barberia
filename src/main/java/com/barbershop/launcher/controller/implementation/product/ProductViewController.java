@@ -5,13 +5,14 @@ import com.barbershop.enums.ProductCategory;
 import com.barbershop.enums.StockStatus;
 import com.barbershop.launcher.controller.interfaces.ViewController;
 import com.barbershop.service.interfaces.ProductService;
+import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
+import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import lombok.RequiredArgsConstructor;
@@ -43,28 +44,17 @@ public class ProductViewController implements ViewController {
     private AnchorPane anchor_pane;
 
     @FXML
-    private Label product_count;
+    private Label
+            product_count,
+            products_created_this_month,
+            critical_stock_level_product_count,
+            low_stock_level_product_count,
+            total_stock_value,
+            total_stock_value_vs_last_month,
+            products_found_count;
 
     @FXML
-    private Label products_created_this_month;
-
-    @FXML
-    private Label critical_stock_level_product_count;
-
-    @FXML
-    private Label low_stock_level_product_count;
-
-    @FXML
-    private Label total_stock_value;
-
-    @FXML
-    private Label total_stock_value_vs_last_month;
-
-    @FXML
-    private Label products_found_count;
-
-    @FXML
-    private TextField product_search_field;
+    private MFXTextField product_search_field;
 
     @FXML
     private MFXComboBox<ProductCategory> product_category_selector;
@@ -73,10 +63,9 @@ public class ProductViewController implements ViewController {
     private MFXComboBox<StockStatus> product_stock_status_selector;
 
     @FXML
-    private Button clean_filters_button;
-
-    @FXML
-    private Button create_product_button;
+    private MFXButton
+            clean_filters_button,
+            create_product_button;
 
     @FXML
     private VBox product_list_vbox;

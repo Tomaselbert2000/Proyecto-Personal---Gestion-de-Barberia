@@ -7,8 +7,10 @@ import com.barbershop.enums.ToastNotificationType;
 import com.barbershop.exceptions.appointment.InvalidAppointmentUpdateException;
 import com.barbershop.launcher.controller.interfaces.ViewController;
 import com.barbershop.service.interfaces.AppointmentService;
+import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXDatePicker;
+import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -48,37 +50,21 @@ public class AppointmentViewController implements ViewController {
     private VBox appointment_list_VBox;
 
     @FXML
-    private Label appointments_today;
+    private Label
+            appointments_today,
+            completed_appointments_today,
+            scheduled_appointments,
+            new_appointments_scheduled_today,
+            appointments_this_month,
+            percentage_of_appointments_registered_vs_previous_month,
+            canceled_appointments,
+            canceled_appointments_vs_past_week,
+            total_appointments_count;
 
     @FXML
-    private Label completed_appointments_today;
-
-    @FXML
-    private Label scheduled_appointments;
-
-    @FXML
-    private Label new_appointments_scheduled_today;
-
-    @FXML
-    private Label appointments_this_month;
-
-    @FXML
-    private Label percentage_of_appointments_registered_vs_previous_month;
-
-    @FXML
-    private Label canceled_appointments;
-
-    @FXML
-    private Label canceled_appointments_vs_past_week;
-
-    @FXML
-    private Label total_appointments_count;
-
-    @FXML
-    private Button clear_filters_button;
-
-    @FXML
-    private Button register_new_appointment_button;
+    private MFXButton
+            clear_filters_button,
+            register_new_appointment_button;
 
     @FXML
     private MFXComboBox<AppointmentStatus> appointment_status_selector;
@@ -87,7 +73,7 @@ public class AppointmentViewController implements ViewController {
     private MFXComboBox<EmployeeInfoDTO> employee_selector;
 
     @FXML
-    private TextField client_search_field;
+    private MFXTextField client_search_field;
 
     @FXML
     private MFXDatePicker date_selector;

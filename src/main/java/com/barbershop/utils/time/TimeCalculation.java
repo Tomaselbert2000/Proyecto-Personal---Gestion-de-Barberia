@@ -15,6 +15,11 @@ public class TimeCalculation {
         return LocalDate.now();
     }
 
+    public static LocalDateTime getCurrentDateTime() {
+
+        return LocalDateTime.now();
+    }
+
     public static LocalDateTime getStartOfToday() {
 
         LocalDate today = getCurrentDate();

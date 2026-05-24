@@ -2,6 +2,7 @@ package com.barbershop.launcher.controller.implementation.product;
 
 import com.barbershop.dto.product.ProductInfoDTO;
 import com.barbershop.launcher.controller.interfaces.ItemController;
+import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -30,8 +31,9 @@ public class ProductItemController implements ItemController<ProductInfoDTO> {
 
     private ProductInfoDTO infoDTOReference;
 
-    private Consumer<ProductInfoDTO> onEditCallback;
-    private Consumer<ProductInfoDTO> onAddStockCallback;
+    private Consumer<ProductInfoDTO>
+            onEditCallback,
+            onAddStockCallback;
 
     private static final Image IMAGE_PLACEHOLDER;
     private static final String PLACEHOLDER_PATH = "/images/placeholder-image.jpg";
@@ -48,31 +50,19 @@ public class ProductItemController implements ItemController<ProductInfoDTO> {
     private ImageView product_image_placeholder;
 
     @FXML
-    private Label product_name;
+    private Label
+            product_name,
+            stock_status_text,
+            product_cost,
+            product_price,
+            product_profit,
+            current_stock,
+            safety_stock;
 
     @FXML
-    private Label stock_status_text;
-
-    @FXML
-    private Label product_cost;
-
-    @FXML
-    private Label product_price;
-
-    @FXML
-    private Label product_profit;
-
-    @FXML
-    private Label current_stock;
-
-    @FXML
-    private Label safety_stock;
-
-    @FXML
-    private Button edit_button;
-
-    @FXML
-    private Button add_stock_button;
+    private MFXButton
+            edit_button,
+            add_stock_button;
 
     @FXML
     public void initialize() {

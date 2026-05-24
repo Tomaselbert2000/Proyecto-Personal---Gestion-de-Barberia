@@ -5,6 +5,8 @@ import com.barbershop.enums.ToastNotificationType;
 import com.barbershop.enums.ViewRedirection;
 import com.barbershop.launcher.controller.interfaces.CreationController;
 import com.barbershop.service.interfaces.ClientService;
+import io.github.palexdev.materialfx.controls.MFXButton;
+import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -39,40 +41,27 @@ public class ClientCreationController implements CreationController {
     private AnchorPane anchor_pane;
 
     @FXML
-    public VBox phones_container;
-
-    @FXML
-    public VBox error_message_container;
+    public VBox
+            phones_container,
+            error_message_container;
 
     @FXML
     public Label error_message_label;
 
     @FXML
-    private Button back_button;
+    private MFXButton
+            back_button,
+            add_phone_button,
+            clean_all_fields_button,
+            save_button;
 
     @FXML
-    private TextField dni_field;
-
-    @FXML
-    private TextField first_name_field;
-
-    @FXML
-    private TextField last_name_field;
-
-    @FXML
-    private TextField email_field;
-
-    @FXML
-    private Button add_phone_button;
-
-    @FXML
-    private TextField optional_notes_field;
-
-    @FXML
-    private Button clean_all_fields_button;
-
-    @FXML
-    private Button save_button;
+    private MFXTextField
+            dni_field,
+            first_name_field,
+            last_name_field,
+            email_field,
+            optional_notes_field;
 
     @FXML
     public void initialize() {

@@ -8,7 +8,9 @@ import com.barbershop.enums.ViewRedirection;
 import com.barbershop.exceptions.barberservice.BlankBarberServicePriceException;
 import com.barbershop.launcher.controller.interfaces.EditionController;
 import com.barbershop.service.interfaces.BarberserviceService;
+import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
+import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
@@ -36,37 +38,29 @@ public class BarberServiceEditionController implements EditionController<BarberS
     private final ApplicationContext applicationContext;
 
     @FXML
-    private TextField service_id_field;
+    private MFXTextField
+            service_id_field,
+            service_name_field,
+            price_field,
+            internal_notes_field;
 
     @FXML
     private AnchorPane anchor_pane;
 
     @FXML
-    private Button back_button;
-
-    @FXML
-    private TextField service_name_field;
-
-    @FXML
-    private TextField price_field;
+    private MFXButton
+            back_button,
+            restore_values_button,
+            update_button;
 
     @FXML
     private MFXComboBox<BarberServiceCategory> category_combo_box;
-
-    @FXML
-    private TextField internal_notes_field;
 
     @FXML
     private VBox error_message_container;
 
     @FXML
     private Label error_message_label;
-
-    @FXML
-    private Button restore_values_button;
-
-    @FXML
-    private Button update_button;
 
     @FXML
     public void initialize(BarberServiceInfoDTO infoDTO) {

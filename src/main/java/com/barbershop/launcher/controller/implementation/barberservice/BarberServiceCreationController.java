@@ -43,25 +43,19 @@ public class BarberServiceCreationController implements CreationController {
     private AnchorPane anchor_pane;
 
     @FXML
-    private MFXButton back_button;
-
-    @FXML
-    private MFXTextField service_name_field;
-
-    @FXML
-    private MFXTextField price_field;
+    private MFXTextField
+            service_name_field,
+            price_field,
+            internal_notes_field;
 
     @FXML
     private MFXComboBox<BarberServiceCategory> category_combo_box;
 
     @FXML
-    private MFXTextField internal_notes_field;
-
-    @FXML
-    private MFXButton clean_fields_button;
-
-    @FXML
-    private MFXButton save_button;
+    private MFXButton
+            back_button,
+            clean_fields_button,
+            save_button;
 
     @FXML
     public void initialize() {

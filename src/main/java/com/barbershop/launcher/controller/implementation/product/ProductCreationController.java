@@ -9,7 +9,9 @@ import com.barbershop.launcher.controller.helper.ValidationFormatter;
 import com.barbershop.launcher.controller.interfaces.CreationController;
 import com.barbershop.launcher.controller.interfaces.ProductController;
 import com.barbershop.service.interfaces.ProductService;
+import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
+import io.github.palexdev.materialfx.controls.MFXTextField;
 import jakarta.validation.ConstraintViolationException;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -48,61 +50,37 @@ public class ProductCreationController implements CreationController, ProductCon
     private AnchorPane anchor_pane;
 
     @FXML
-    private Button back_button;
+    private MFXButton
+            back_button,
+            select_image_button,
+            remove_image_button,
+            save_button;
 
     @FXML
-    private TextField name;
+    private MFXTextField
+            name,
+            optional_description,
+            brand_name,
+            product_presentation_field,
+            cost,
+            current_price,
+            wholesale_price,
+            min_price,
+            max_discount,
+            current_stock_level,
+            safety_stock_level;
 
     @FXML
     private MFXComboBox<ProductCategory> product_category_selector;
 
     @FXML
-    private TextField optional_description;
-
-    @FXML
-    private TextField brand_name;
-
-    @FXML
-    private TextField product_presentation_field;
-
-    @FXML
     private MFXComboBox<ProductPresentationUnit> presentation_unit_combobox;
-
-    @FXML
-    private TextField cost;
-
-    @FXML
-    private TextField current_price;
 
     @FXML
     private Label profit_margin_value;
 
     @FXML
-    private TextField wholesale_price;
-
-    @FXML
-    private TextField min_price;
-
-    @FXML
-    private TextField max_discount;
-
-    @FXML
-    private TextField current_stock_level;
-
-    @FXML
-    private TextField safety_stock_level;
-
-    @FXML
     private ImageView product_image_preview;
-
-    @FXML
-    private Button select_image_button;
-
-    @FXML
-    private Button remove_image_button;
-
-    @FXML
-    private Button save_button;
 
     @FXML
     public void initialize() {

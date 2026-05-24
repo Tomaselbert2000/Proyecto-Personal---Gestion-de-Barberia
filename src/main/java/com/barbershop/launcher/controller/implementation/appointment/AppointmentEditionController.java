@@ -12,8 +12,10 @@ import com.barbershop.exceptions.appointment.InvalidAppointmentStartDateExceptio
 import com.barbershop.exceptions.common.EmployeeNotAvailableException;
 import com.barbershop.launcher.controller.interfaces.AppointmentController;
 import com.barbershop.service.interfaces.AppointmentService;
+import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXDatePicker;
+import io.github.palexdev.materialfx.controls.MFXTextField;
 import jakarta.validation.ConstraintViolationException;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -62,10 +64,24 @@ public class AppointmentEditionController implements AppointmentController {
     private AnchorPane anchor_pane;
 
     @FXML
-    private Button back_button;
+    private MFXButton
+            back_button,
+            restore_values_button,
+            save_button;
 
     @FXML
-    private Label current_client_name;
+    private Label
+            current_client_name,
+            current_service_name,
+            current_employee_name,
+            service_price,
+            current_start_datetime,
+            current_status_label,
+            summary_client,
+            summary_service,
+            summary_employee,
+            summary_datetime,
+            summary_price;
 
     @FXML
     private HBox current_status_container;
@@ -77,61 +93,23 @@ public class AppointmentEditionController implements AppointmentController {
     private MFXComboBox<EmployeeInfoDTO> employee_selector;
 
     @FXML
-    private Label current_service_name;
-
-    @FXML
-    private Label current_employee_name;
-
-    @FXML
-    private VBox service_selection_container;
-
-    @FXML
-    private Label service_price;
+    private VBox
+            service_selection_container,
+            appointment_summary_card;
 
     @FXML
     private MFXDatePicker date_selector;
 
     @FXML
-    private MFXComboBox<LocalTime> hour_selector;
+    private MFXComboBox<LocalTime>
+            hour_selector,
+            minute_selector;
 
     @FXML
-    private MFXComboBox<LocalTime> minute_selector;
-
-    @FXML
-    private Label current_start_datetime;
-
-    @FXML
-    private TextField appointment_notes;
+    private MFXTextField appointment_notes;
 
     @FXML
     private MFXComboBox<AppointmentStatus> status_selector;
-
-    @FXML
-    private Label current_status_label;
-
-    @FXML
-    private VBox appointment_summary_card;
-
-    @FXML
-    private Label summary_client;
-
-    @FXML
-    private Label summary_service;
-
-    @FXML
-    private Label summary_employee;
-
-    @FXML
-    private Label summary_datetime;
-
-    @FXML
-    private Label summary_price;
-
-    @FXML
-    private Button restore_values_button;
-
-    @FXML
-    private Button save_button;
 
     @FXML
     public void initialize(AppointmentInfoDTO infoDTO) {

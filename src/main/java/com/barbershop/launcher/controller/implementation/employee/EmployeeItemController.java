@@ -2,6 +2,7 @@ package com.barbershop.launcher.controller.implementation.employee;
 
 import com.barbershop.dto.employee.EmployeeInfoDTO;
 import com.barbershop.launcher.controller.interfaces.ItemController;
+import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -27,38 +28,29 @@ public class EmployeeItemController implements ItemController<EmployeeInfoDTO> {
 
     private EmployeeInfoDTO infoDTOReference;
 
-    private Consumer<EmployeeInfoDTO> onEditCallBack;
-    private Consumer<EmployeeInfoDTO> onStatusChangeCallBack;
+    private Consumer<EmployeeInfoDTO>
+            onEditCallBack,
+            onStatusChangeCallBack;
 
     @FXML
     private Circle employee_avatar;
 
     @FXML
-    private Label employee_initials;
-
-    @FXML
-    private Label employee_name;
+    private Label
+            employee_initials,
+            employee_name,
+            status_label,
+            hire_date,
+            commission_percentage,
+            monthly_appointments;
 
     @FXML
     private VBox employee_status_badge;
 
     @FXML
-    private Label status_label;
-
-    @FXML
-    private Label hire_date;
-
-    @FXML
-    private Label commission_percentage;
-
-    @FXML
-    private Label monthly_appointments;
-
-    @FXML
-    private Button edit_button;
-
-    @FXML
-    private Button toggle_status_button;
+    private MFXButton
+            edit_button,
+            toggle_status_button;
 
     @FXML
     public void initialize() {
