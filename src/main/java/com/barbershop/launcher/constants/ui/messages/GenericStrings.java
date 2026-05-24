@@ -1,6 +1,6 @@
 package com.barbershop.launcher.constants.ui.messages;
 
-public class GenericStrings {
+public final class GenericStrings {
 
     public static final String APP_TITLE = "Sistema de gestión - La Tercera Barbershop";
 

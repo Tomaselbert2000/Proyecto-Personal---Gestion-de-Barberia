@@ -1,6 +1,6 @@
 package com.barbershop.launcher.constants.ui.prompt_text;
 
-public class ClientPromptText {
+public final class ClientPromptText {
 
     public static final String CLIENT_NATIONAL_ID_CARD_NUMBER = "Ej: 12345678";
     public static final String CLIENT_NAME = "Ej: Juan";

@@ -1,6 +1,6 @@
 package com.barbershop.launcher.constants.ui.messages;
 
-public class ConfirmationDialogMessage {
+public final class ConfirmationDialogMessage {
 
     public static final String BARBER_SERVICE_DELETE_CONFIRMATION_DIALOG_TITLE = "Eliminar servicio del catálogo";
     public static final String BARBER_SERVICE_DELETE_CONFIRMATION_DIALOG_MESSAGE = "¿Está seguro que desea eliminar este servicio del catálogo? Esta acción es irreversible";

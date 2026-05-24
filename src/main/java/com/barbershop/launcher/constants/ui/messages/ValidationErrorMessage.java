@@ -1,6 +1,6 @@
 package com.barbershop.launcher.constants.ui.messages;
 
-public class ValidationErrorMessage {
+public final class ValidationErrorMessage {
 
     public static final String VALIDATION_ERROR_TITLE = "Error de validación";
 

@@ -1,6 +1,6 @@
 package com.barbershop.launcher.constants.ui.messages;
 
-public class ViewLoadingErrorMessage {
+public final class ViewLoadingErrorMessage {
 
     public static final String DASHBOARD_VIEW_LOADING_FAILED = "Hubo un error al cargar la vista principal.";
 

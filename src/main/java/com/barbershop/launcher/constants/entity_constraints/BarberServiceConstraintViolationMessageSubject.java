@@ -1,6 +1,6 @@
 package com.barbershop.launcher.constants.entity_constraints;
 
-public class BarberServiceConstraintViolationMessageSubject {
+public final class BarberServiceConstraintViolationMessageSubject {
 
     public static final String BARBER_SERVICE_NAME = "El nombre de servicio para el catálogo";
     public static final String BARBER_SERVICE_PRICE = "El precio de servicio";

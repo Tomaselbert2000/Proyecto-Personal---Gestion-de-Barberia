@@ -1,6 +1,6 @@
 package com.barbershop.launcher.constants.ui.messages;
 
-public class EmptyListMessage {
+public final class EmptyListMessage {
 
     public static final String EMPTY_ACTIVITY_LOG_MESSAGE = "No se registra actividad reciente.";
     public static final String EMPTY_APPOINTMENTS_LIST_MESSAGE = "No se registran turnos agendados hasta este momento";

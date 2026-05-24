@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.UnaryOperator;
 
-import static com.barbershop.launcher.constants.ui.css_class.CssStylesStrings.EMPTY_LIST_STYLE_CLASS;
+import static com.barbershop.launcher.constants.ui.css_class.MaterialLabel.MD_PAGE_SUBTITLE;
 import static com.barbershop.launcher.controller.helper.ComboBoxHelper.*;
 import static com.barbershop.launcher.controller.helper.ValidationFormatter.generateTextFormatterWithFilter;
 import static com.barbershop.launcher.controller.helper.ValidationFormatter.generateUnaryOperatorFilterForTextFormatterWith;
@@ -24,11 +24,11 @@ import static com.barbershop.utils.strings.RegexPatterns.DECIMAL_REGEX;
 
 public class UIBasicComponents {
 
-    public static HBox createHBox() {
+    public static HBox createPhoneHBox(int spacing, Pos aligment) {
 
         HBox hbox = new HBox();
-        hbox.setAlignment(Pos.CENTER_LEFT);
-        hbox.setSpacing(10);
+        hbox.setAlignment(aligment);
+        hbox.setSpacing(spacing);
 
         return hbox;
     }
@@ -54,7 +54,7 @@ public class UIBasicComponents {
 
         setTextOnLabel(emptyListLabel, message);
 
-        addLabelStyle(emptyListLabel, EMPTY_LIST_STYLE_CLASS);
+        addLabelStyle(emptyListLabel, MD_PAGE_SUBTITLE);
 
         setMaxLabelWidth(emptyListLabel);
 

@@ -1,6 +1,6 @@
 package com.barbershop.launcher.constants.view;
 
-public class ViewPath {
+public final class ViewPath {
 
     public static final String DASHBOARD_VIEW_PATH = "/view/Dashboard.fxml";
 

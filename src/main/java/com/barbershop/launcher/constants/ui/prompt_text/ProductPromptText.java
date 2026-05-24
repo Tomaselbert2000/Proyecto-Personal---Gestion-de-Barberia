@@ -1,6 +1,6 @@
 package com.barbershop.launcher.constants.ui.prompt_text;
 
-public class ProductPromptText {
+public final class ProductPromptText {
 
     public static final String PRODUCT_NAME = "Ej: Cera para modelar";
     public static final String PRODUCT_OPTIONAL_DESCRIPTION = "Descripción opcional del producto";

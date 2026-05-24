@@ -1,6 +1,6 @@
 package com.barbershop.launcher.constants.ui.messages;
 
-public class ToastNotificationMessage {
+public final class ToastNotificationMessage {
 
     public static final String TOAST_NOTIFICATION_TITLE_SUCCESSFUL = "Operación exitosa";
     public static final String TOAST_NOTIFICATION_TITLE_FAILED = "Operación fallida";
