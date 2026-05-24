@@ -8,6 +8,7 @@
             styleClass="md-main-content"
             xmlns="http://javafx.com/javafx/17.0.12"
             xmlns:fx="http://javafx.com/fxml/1"
+            stylesheets="@../css/material-icons.css"
             fx:controller="com.barbershop.launcher.controller.implementation.appointment.AppointmentViewController">
 
     <VBox
