@@ -54,6 +54,7 @@ public class ProductCreationController implements CreationController, ProductCon
             back_button,
             select_image_button,
             remove_image_button,
+            reset_form_button,
             save_button;
 
     @FXML
@@ -243,6 +244,7 @@ public class ProductCreationController implements CreationController, ProductCon
                 select_image_button, this::handleImageSelection,
                 remove_image_button, () -> cleanImageView(product_image_preview),
                 back_button, () -> redirectToView(ViewRedirection.PRODUCTS, anchor_pane, applicationContext),
+                reset_form_button, this::resetForm,
                 save_button, this::registerNewProduct
         );
 

@@ -8,5 +8,5 @@ public final class ProductPromptText {
     public static final String PRODUCT_SIZE_OR_VOLUME = "Ej: 250ml";
     public static final String PRICE_FIELD_DEFAULT_VALUE = "$0";
     public static final String DISCOUNT_PERCENTAGE_DEFAULT_VALUE = "0%";
-    public static final String STOCK_LEVEL_DEFAULT_VALUE = "0";
+    public static final String STOCK_LEVEL_DEFAULT_VALUE = "0 unidades";
 }
