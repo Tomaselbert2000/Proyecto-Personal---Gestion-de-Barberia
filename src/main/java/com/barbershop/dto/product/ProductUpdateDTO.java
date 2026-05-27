@@ -19,14 +19,14 @@ import static com.barbershop.validation.product.ProductValidatorConstants.*;
 public class ProductUpdateDTO implements ProductDTOCommonMethods {
 
     @Size(min = MIN_NAME_LENGTH, max = MAX_NAME_LENGTH, message = PRODUCT_NAME + INVALID_NAME_SIZE)
-    @Pattern(regexp = NAME_REGEX, message = PRODUCT_NAME + DOES_NOT_MATCH_REGEX)
+    @Pattern(regexp = NAME_REGEX, message = PRODUCT_NAME + DOES_NOT_MATCH_NAME_REGEX)
     private String name;
 
     @Size(max = MAX_OPTIONAL_DESCRIPTION_LENGTH, message = OPTIONAL_DESCRIPTION + OPTIONAL_TEXT_MAX_SIZE)
     private String optionalDescription;
 
     @Size(min = MIN_NAME_LENGTH, max = MAX_NAME_LENGTH, message = BRAND_NAME + INVALID_NAME_SIZE)
-    @Pattern(regexp = NAME_REGEX, message = BRAND_NAME + DOES_NOT_MATCH_REGEX)
+    @Pattern(regexp = NAME_REGEX, message = BRAND_NAME + DOES_NOT_MATCH_NAME_REGEX)
     private String brandName;
 
     private ProductPresentationUnit presentationUnit;

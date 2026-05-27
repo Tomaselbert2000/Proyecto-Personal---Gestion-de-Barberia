@@ -18,7 +18,7 @@ public class BarberServiceCreationDTO {
 
     @NotNull(message = BARBER_SERVICE_NAME + NOT_NULL)
     @NotBlank(message = BARBER_SERVICE_NAME + NOT_BLANK)
-    @Pattern(regexp = NAME_REGEX, message = BARBER_SERVICE_NAME + DOES_NOT_MATCH_REGEX)
+    @Pattern(regexp = NAME_REGEX, message = BARBER_SERVICE_NAME + DOES_NOT_MATCH_NAME_REGEX)
     @Size(min = MIN_NAME_LENGTH, max = MAX_NAME_LENGTH, message = BARBER_SERVICE_NAME + INVALID_NAME_SIZE)
     private String name;
 

@@ -21,11 +21,11 @@ import static com.barbershop.validation.employee.EmployeeValidatorConstants.MIN_
 public class EmployeeUpdateDTO {
 
     @Size(min = MIN_NAME_LENGTH, max = MAX_NAME_LENGTH, message = EMPLOYEE_FIRST_NAME + INVALID_NAME_SIZE)
-    @Pattern(regexp = NAME_REGEX, message = EMPLOYEE_FIRST_NAME + DOES_NOT_MATCH_REGEX)
+    @Pattern(regexp = NAME_REGEX, message = EMPLOYEE_FIRST_NAME + DOES_NOT_MATCH_NAME_REGEX)
     private String firstName;
 
     @Size(min = MIN_NAME_LENGTH, max = MAX_NAME_LENGTH, message = EMPLOYEE_LAST_NAME + INVALID_NAME_SIZE)
-    @Pattern(regexp = NAME_REGEX, message = EMPLOYEE_LAST_NAME + DOES_NOT_MATCH_REGEX)
+    @Pattern(regexp = NAME_REGEX, message = EMPLOYEE_LAST_NAME + DOES_NOT_MATCH_NAME_REGEX)
     private String lastName;
 
     private Boolean isActive;

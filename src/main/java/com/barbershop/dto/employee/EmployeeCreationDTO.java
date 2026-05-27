@@ -23,13 +23,13 @@ public class EmployeeCreationDTO {
     @NotNull(message = EMPLOYEE_FIRST_NAME + NOT_NULL)
     @NotBlank(message = EMPLOYEE_FIRST_NAME + NOT_BLANK)
     @Size(min = MIN_NAME_LENGTH, max = MAX_NAME_LENGTH, message = EMPLOYEE_FIRST_NAME + INVALID_NAME_SIZE)
-    @Pattern(regexp = NAME_REGEX, message = EMPLOYEE_FIRST_NAME + DOES_NOT_MATCH_REGEX)
+    @Pattern(regexp = NAME_REGEX, message = EMPLOYEE_FIRST_NAME + DOES_NOT_MATCH_NAME_REGEX)
     private String firstName;
 
     @NotNull(message = EMPLOYEE_LAST_NAME + NOT_NULL)
     @NotBlank(message = EMPLOYEE_LAST_NAME + NOT_BLANK)
     @Size(min = MIN_NAME_LENGTH, max = MAX_NAME_LENGTH, message = EMPLOYEE_LAST_NAME + INVALID_NAME_SIZE)
-    @Pattern(regexp = NAME_REGEX, message = EMPLOYEE_LAST_NAME + DOES_NOT_MATCH_REGEX)
+    @Pattern(regexp = NAME_REGEX, message = EMPLOYEE_LAST_NAME + DOES_NOT_MATCH_NAME_REGEX)
     private String lastName;
 
     @NotNull(message = EMPLOYEE_HIRE_DATE + NOT_NULL)
