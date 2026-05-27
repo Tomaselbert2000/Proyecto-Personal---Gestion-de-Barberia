@@ -7,11 +7,11 @@ import com.barbershop.launcher.controller.interfaces.CreationController;
 import com.barbershop.service.interfaces.ClientService;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXTextField;
+import jakarta.validation.ConstraintViolationException;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import lombok.RequiredArgsConstructor;
@@ -25,11 +25,14 @@ import java.util.Map;
 import static com.barbershop.launcher.constants.ui.css_class.MaterialButton.MD_BUTTON_FILLED_OUTLINED;
 import static com.barbershop.launcher.constants.ui.css_class.MaterialMFXInput.MATERIAL_MFX_INPUT;
 import static com.barbershop.launcher.constants.ui.messages.ToastNotificationMessage.CLIENT_CREATION_TOAST_NOTIFICATION_MESSAGE;
+import static com.barbershop.launcher.constants.ui.messages.ValidationErrorMessage.CLIENT_CREATION_VALIDATION_FAILED;
+import static com.barbershop.launcher.constants.ui.messages.ValidationErrorMessage.VALIDATION_ERROR_TITLE;
 import static com.barbershop.launcher.constants.ui.prompt_text.ClientPromptText.*;
 import static com.barbershop.launcher.controller.helper.ContainerManager.*;
-import static com.barbershop.launcher.controller.helper.ToastNotificationHelper.showExceptionErrorMessage;
 import static com.barbershop.launcher.controller.helper.ToastNotificationHelper.showToastNotification;
 import static com.barbershop.launcher.controller.helper.UIBasicComponents.*;
+import static com.barbershop.launcher.controller.helper.ValidationFormatter.getConstraintViolationsList;
+import static com.barbershop.launcher.controller.helper.ValidationFormatter.showErrorAlert;
 import static com.barbershop.launcher.controller.helper.ViewRedirectionHelper.redirectToView;
 
 @Component
@@ -44,11 +47,7 @@ public class ClientCreationController implements CreationController {
 
     @FXML
     public VBox
-            phones_container,
-            error_message_container;
-
-    @FXML
-    public Label error_message_label;
+            phones_container;
 
     @FXML
     private MFXButton
@@ -97,9 +96,11 @@ public class ClientCreationController implements CreationController {
                     ToastNotificationType.SUCCESSFUL
             );
 
-        } catch (RuntimeException exception) {
+        } catch (ConstraintViolationException exception) {
 
-            showExceptionErrorMessage(exception, error_message_label, error_message_container);
+            String errorMessage = getConstraintViolationsList(exception);
+
+            showErrorAlert(VALIDATION_ERROR_TITLE, CLIENT_CREATION_VALIDATION_FAILED, errorMessage);
         }
     }
 
