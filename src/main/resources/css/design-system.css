@@ -204,6 +204,30 @@
     -fx-alignment: center-left;
 }
 
+.md-filter-spacer {
+
+    -fx-spacing: 4;
+}
+
+.md-image-selector {
+    display: flex;
+    align-items: center;
+}
+
+.md-image-preview-container {
+
+    -fx-padding: 16;
+    -fx-border-radius: 8;
+    -fx-background-color: -fx-surface;
+}
+
+.md-image-placeholder {
+
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+}
+
 .md-mfx-input {
 
     -mfx-main: -fx-primary;
