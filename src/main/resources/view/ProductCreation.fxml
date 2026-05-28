@@ -42,11 +42,6 @@
                                 <ColumnConstraints hgrow="SOMETIMES" minWidth="250.0"/>
                                 <ColumnConstraints hgrow="SOMETIMES" minWidth="250.0"/>
                             </columnConstraints>
-                            <rowConstraints>
-                                <RowConstraints minHeight="60.0" vgrow="SOMETIMES"/>
-                                <RowConstraints minHeight="60.0" vgrow="SOMETIMES"/>
-                                <RowConstraints minHeight="60.0" vgrow="SOMETIMES"/>
-                            </rowConstraints>
 
                             <!-- Nombre del Producto -->
                             <VBox styleClass="md-filter-column" GridPane.columnIndex="0" GridPane.rowIndex="0">
@@ -58,6 +53,15 @@
                                 <MFXTextField fx:id="name" styleClass="md-mfx-input" maxWidth="Infinity"/>
                             </VBox>
 
+                            <!-- Marca -->
+                            <VBox styleClass="md-filter-column" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                                <HBox styleClass="md-filter-spacer">
+                                    <Label styleClass="md-filter-label" text="Marca"/>
+                                </HBox>
+
+                                <MFXTextField fx:id="brand_name" styleClass="md-mfx-input" maxWidth="Infinity"/>
+                            </VBox>
+
                             <HBox GridPane.columnIndex="1" GridPane.rowIndex="0">
 
                                 <!-- Categoría -->
@@ -67,7 +71,8 @@
                                         <Label styleClass="md-filter-label" text="*" style="-fx-text-fill: -fx-error"/>
                                     </HBox>
 
-                                    <MFXComboBox fx:id="product_category_selector" styleClass="md-mfx-input" maxWidth="Infinity"/>
+                                    <MFXComboBox fx:id="product_category_selector" styleClass="md-mfx-input"
+                                                 maxWidth="Infinity"/>
                                 </VBox>
 
                                 <!-- Presentación -->
@@ -81,102 +86,88 @@
                                     </HBox>
                                 </VBox>
                             </HBox>
-
-                            <!-- Descripción -->
-                            <VBox styleClass="md-filter-column" GridPane.columnIndex="0" GridPane.columnSpan="2"
-                                  GridPane.rowIndex="1">
-                                <HBox styleClass="md-filter-spacer">
-                                    <Label styleClass="md-filter-label" text="Descripción"/>
-                                </HBox>
-
-                                <MFXTextField fx:id="optional_description" styleClass="md-mfx-input"
-                                              maxWidth="Infinity"/>
-                            </VBox>
-
-                            <!-- Marca -->
-                            <VBox styleClass="md-filter-column" GridPane.columnIndex="0" GridPane.rowIndex="2">
-                                <HBox styleClass="md-filter-spacer">
-                                    <Label styleClass="md-filter-label" text="Marca"/>
-                                </HBox>
-
-                                <MFXTextField fx:id="brand_name" styleClass="md-mfx-input" maxWidth="Infinity"/>
-                            </VBox>
                         </GridPane>
-                    </VBox>
-                </VBox>
 
-                <!-- Tarjeta de Precios y Costos -->
-                <VBox styleClass="md-card">
-                    <VBox styleClass="md-section-group">
-                        <Label styleClass="md-section-title" text="Precios y Costos"/>
+                        <!-- Descripción -->
+                        <VBox styleClass="md-filter-column" GridPane.columnIndex="0" GridPane.columnSpan="2"
+                              GridPane.rowIndex="1">
+                            <HBox styleClass="md-filter-spacer">
+                                <Label styleClass="md-filter-label" text="Descripción"/>
+                            </HBox>
 
-                        <GridPane styleClass="md-grid-pane">
-                            <columnConstraints>
-                                <ColumnConstraints hgrow="SOMETIMES" minWidth="200.0"/>
-                                <ColumnConstraints hgrow="SOMETIMES" minWidth="200.0"/>
-                                <ColumnConstraints hgrow="SOMETIMES" minWidth="200.0"/>
-                            </columnConstraints>
-                            <rowConstraints>
-                                <RowConstraints minHeight="60.0" vgrow="SOMETIMES"/>
-                                <RowConstraints minHeight="60.0" vgrow="SOMETIMES"/>
-                            </rowConstraints>
-
-                            <!-- Costo de Compra -->
-                            <VBox styleClass="md-filter-column" GridPane.columnIndex="0" GridPane.rowIndex="0">
-                                <HBox styleClass="md-filter-spacer">
-                                    <Label styleClass="md-filter-label" text="Costo de Compra"/>
-                                    <Label styleClass="md-filter-label" text="*" style="-fx-text-fill: -fx-error"/>
-                                </HBox>
-                                <MFXTextField fx:id="cost" styleClass="md-mfx-input"/>
-                            </VBox>
-
-                            <!-- Precio de Venta -->
-                            <VBox styleClass="md-filter-column" GridPane.columnIndex="1" GridPane.rowIndex="0">
-                                <HBox styleClass="md-filter-spacer">
-                                    <Label styleClass="md-filter-label" text="Precio de Venta"/>
-                                    <Label styleClass="md-filter-label" text="*" style="-fx-text-fill: -fx-error"/>
-                                </HBox>
-                                <MFXTextField fx:id="current_price" styleClass="md-mfx-input"/>
-                            </VBox>
-
-                            <!-- Margen de Ganancia -->
-                            <VBox styleClass="md-filter-column" GridPane.columnIndex="2" GridPane.rowIndex="0">
-                                <HBox styleClass="md-filter-spacer">
-                                    <Label styleClass="md-filter-label" text="Margen de Ganancia"/>
-                                </HBox>
-                                <HBox styleClass="md-filter-spacer">
-                                    <Label fx:id="profit_margin_value" styleClass="md-filter-label"/>
-                                </HBox>
-                            </VBox>
-
-                            <!-- Precio Mayoreo -->
-                            <VBox styleClass="md-filter-column" GridPane.columnIndex="0" GridPane.rowIndex="1">
-                                <HBox styleClass="md-filter-spacer">
-                                    <Label styleClass="md-filter-label" text="Precio de venta por mayor"/>
-                                </HBox>
-                                <MFXTextField fx:id="wholesale_price" styleClass="md-mfx-input"/>
-                            </VBox>
-
-                            <!-- Precio Mínimo -->
-                            <VBox styleClass="md-filter-column" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                                <HBox styleClass="md-filter-spacer">
-                                    <Label styleClass="md-filter-label" text="Precio de venta mínimo"/>
-                                </HBox>
-                                <MFXTextField fx:id="min_price" styleClass="md-mfx-input"/>
-                            </VBox>
-
-                            <!-- Descuento Máximo -->
-                            <VBox styleClass="md-filter-column" GridPane.columnIndex="2" GridPane.rowIndex="1">
-                                <HBox styleClass="md-filter-spacer">
-                                    <Label styleClass="md-filter-label" text="Descuento Máximo"/>
-                                </HBox>
-                                <MFXTextField fx:id="max_discount" styleClass="md-mfx-input"/>
-                            </VBox>
-                        </GridPane>
+                            <MFXTextField fx:id="optional_description" styleClass="md-mfx-input"
+                                          maxWidth="Infinity"/>
+                        </VBox>
                     </VBox>
                 </VBox>
 
                 <HBox styleClass="md-section-group">
+
+                    <!-- Tarjeta de Precios y Costos -->
+                    <VBox styleClass="md-card">
+                        <VBox styleClass="md-section-group">
+                            <Label styleClass="md-section-title" text="Precios y Costos"/>
+
+                            <GridPane styleClass="md-grid-pane">
+                                <rowConstraints>
+                                    <RowConstraints minHeight="60.0" vgrow="SOMETIMES"/>
+                                    <RowConstraints minHeight="60.0" vgrow="SOMETIMES"/>
+                                </rowConstraints>
+
+                                <!-- Costo de Compra -->
+                                <VBox styleClass="md-filter-column" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                                    <HBox styleClass="md-filter-spacer">
+                                        <Label styleClass="md-filter-label" text="Costo de Compra"/>
+                                        <Label styleClass="md-filter-label" text="*" style="-fx-text-fill: -fx-error"/>
+                                    </HBox>
+                                    <MFXTextField fx:id="cost" styleClass="md-mfx-input"/>
+                                </VBox>
+
+                                <!-- Precio de Venta -->
+                                <VBox styleClass="md-filter-column" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                                    <HBox styleClass="md-filter-spacer">
+                                        <Label styleClass="md-filter-label" text="Precio de Venta"/>
+                                        <Label styleClass="md-filter-label" text="*" style="-fx-text-fill: -fx-error"/>
+                                    </HBox>
+                                    <MFXTextField fx:id="current_price" styleClass="md-mfx-input"/>
+                                </VBox>
+
+                                <!-- Margen de Ganancia -->
+                                <VBox styleClass="md-filter-column" GridPane.columnIndex="2" GridPane.rowIndex="0">
+                                    <HBox styleClass="md-filter-spacer">
+                                        <Label styleClass="md-filter-label" text="Margen de Ganancia"/>
+                                    </HBox>
+                                    <HBox styleClass="md-filter-spacer">
+                                        <Label fx:id="profit_margin_value" styleClass="md-filter-label"/>
+                                    </HBox>
+                                </VBox>
+
+                                <!-- Precio Mayoreo -->
+                                <VBox styleClass="md-filter-column" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                                    <HBox styleClass="md-filter-spacer">
+                                        <Label styleClass="md-filter-label" text="Precio de venta por mayor"/>
+                                    </HBox>
+                                    <MFXTextField fx:id="wholesale_price" styleClass="md-mfx-input"/>
+                                </VBox>
+
+                                <!-- Precio Mínimo -->
+                                <VBox styleClass="md-filter-column" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                    <HBox styleClass="md-filter-spacer">
+                                        <Label styleClass="md-filter-label" text="Precio de venta mínimo"/>
+                                    </HBox>
+                                    <MFXTextField fx:id="min_price" styleClass="md-mfx-input"/>
+                                </VBox>
+
+                                <!-- Descuento Máximo -->
+                                <VBox styleClass="md-filter-column" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                                    <HBox styleClass="md-filter-spacer">
+                                        <Label styleClass="md-filter-label" text="Descuento Máximo"/>
+                                    </HBox>
+                                    <MFXTextField fx:id="max_discount" styleClass="md-mfx-input"/>
+                                </VBox>
+                            </GridPane>
+                        </VBox>
+                    </VBox>
 
                     <!-- Tarjeta de Stock e Inventario -->
                     <VBox styleClass="md-card">
@@ -218,8 +209,8 @@
                             <HBox styleClass="md-content-section">
 
                                 <!-- Preview de Imagen -->
-                                <VBox alignment="CENTER" styleClass="product-image-preview-container">
-                                    <VBox alignment="CENTER" styleClass="product-image-placeholder">
+                                <VBox styleClass="md-image-preview-container">
+                                    <VBox styleClass="md-image-placeholder">
                                         <ImageView fx:id="product_image_preview" fitHeight="150.0" fitWidth="150.0"
                                                    pickOnBounds="true" preserveRatio="true">
                                         </ImageView>
