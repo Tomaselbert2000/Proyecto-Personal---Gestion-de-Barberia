@@ -1,252 +1,173 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.geometry.*?>
+<?import io.github.palexdev.materialfx.controls.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
-
-<AnchorPane fx:id="anchor_pane" styleClass="theme-barberia" stylesheets="@../css/styles.css"
-            xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1"
+<AnchorPane fx:id="anchor_pane"
+            xmlns="http://javafx.com/javafx/17.0.12"
+            xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.barbershop.launcher.controller.implementation.employee.EmployeeEditionController">
 
-    <!-- Header del Panel -->
-    <HBox alignment="CENTER_LEFT" styleClass="header-bar" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
-          AnchorPane.topAnchor="0.0">
-        <padding>
-            <Insets bottom="20.0" left="30.0" right="30.0" top="20.0"/>
-        </padding>
-        <Button fx:id="back_button" mnemonicParsing="false" styleClass="back-button" text="← Volver"/>
-        <VBox alignment="CENTER_LEFT">
-            <Label styleClass="page-title" text="Editar Empleado">
-                <font>
-                    <Font name="Roboto Bold" size="28.0"/>
-                </font>
-            </Label>
-            <Label text="Modifica los datos del empleado">
-                <font>
-                    <Font name="Roboto Regular" size="14.0"/>
-                </font>
-                <styleClass>
-                    <String fx:value="page-subtitle"/>
-                </styleClass>
-            </Label>
-            <HBox.margin>
-                <Insets left="15.0"/>
-            </HBox.margin>
-        </VBox>
-    </HBox>
+    <VBox
+            AnchorPane.topAnchor="0.0"
+            AnchorPane.leftAnchor="0.0"
+            AnchorPane.rightAnchor="0.0"
+            AnchorPane.bottomAnchor="0.0">
 
-    <!-- Contenido Principal -->
-    <ScrollPane fitToHeight="true" fitToWidth="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
-                AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="80.0">
-        <padding>
-            <Insets bottom="30.0" left="30.0" right="30.0" top="20.0"/>
-        </padding>
-        <VBox spacing="25.0">
-
-            <!-- Tarjeta de Información Actual -->
-            <VBox styleClass="form-card">
-                <padding>
-                    <Insets bottom="25.0" left="25.0" right="25.0" top="25.0"/>
-                </padding>
-                <VBox spacing="15.0">
-                    <Label styleClass="form-section-title" text="Información Actual">
-                        <font>
-                            <Font name="Roboto Medium" size="16.0"/>
-                        </font>
-                    </Label>
-
-                    <GridPane hgap="20.0" vgap="15.0">
-                        <columnConstraints>
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="250.0"/>
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="250.0"/>
-                        </columnConstraints>
-                        <rowConstraints>
-                            <RowConstraints minHeight="60.0" vgrow="SOMETIMES"/>
-                            <RowConstraints minHeight="60.0" vgrow="SOMETIMES"/>
-                            <RowConstraints minHeight="60.0" vgrow="SOMETIMES"/>
-                        </rowConstraints>
-
-                        <!-- Current Name (Read-only) -->
-                        <VBox alignment="CENTER_LEFT" spacing="5.0" GridPane.columnIndex="0" GridPane.rowIndex="0">
-                            <HBox spacing="4.0">
-                                <Label styleClass="form-label" text="Nombre Actual">
-                                    <font>
-                                        <Font name="Roboto Regular" size="13.0"/>
-                                    </font>
-                                </Label>
-                            </HBox>
-                            <Label fx:id="current_first_name" styleClass="form-text-field-disabled"/>
-                        </VBox>
-
-                        <!-- Current Last Name (Read-only) -->
-                        <VBox alignment="CENTER_LEFT" spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="0">
-                            <HBox spacing="4.0">
-                                <Label styleClass="form-label" text="Apellido Actual">
-                                    <font>
-                                        <Font name="Roboto Regular" size="13.0"/>
-                                    </font>
-                                </Label>
-                            </HBox>
-                            <Label fx:id="current_last_name" styleClass="form-text-field-disabled"/>
-                        </VBox>
-
-                        <!-- Current Hire Date (Read-only) -->
-                        <VBox alignment="CENTER_LEFT" spacing="5.0" GridPane.columnIndex="0" GridPane.rowIndex="1">
-                            <HBox spacing="4.0">
-                                <Label styleClass="form-label" text="Fecha de Contratación">
-                                    <font>
-                                        <Font name="Roboto Regular" size="13.0"/>
-                                    </font>
-                                </Label>
-                            </HBox>
-                            <Label fx:id="current_hire_date" styleClass="form-text-field-disabled"/>
-                        </VBox>
-
-                        <!-- Current Commission (Read-only) -->
-                        <VBox alignment="CENTER_LEFT" spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                            <HBox spacing="4.0">
-                                <Label styleClass="form-label" text="Comisión Actual">
-                                    <font>
-                                        <Font name="Roboto Regular" size="13.0"/>
-                                    </font>
-                                </Label>
-                            </HBox>
-                            <Label fx:id="current_commission" styleClass="form-text-field-disabled"/>
-                        </VBox>
-
-                        <!-- Current Status (Read-only) -->
-                        <VBox alignment="CENTER_LEFT" spacing="5.0" GridPane.columnIndex="0" GridPane.rowIndex="2">
-                            <HBox spacing="4.0">
-                                <Label styleClass="form-label" text="Estado Actual">
-                                    <font>
-                                        <Font name="Roboto Regular" size="13.0"/>
-                                    </font>
-                                </Label>
-                            </HBox>
-                            <HBox alignment="CENTER_LEFT">
-                                <Label fx:id="current_status_label"/>
-                            </HBox>
-                        </VBox>
-
-                        <!-- Termination Date (Read-only if exists) -->
-                        <VBox alignment="CENTER_LEFT" spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                            <HBox spacing="4.0">
-                                <Label styleClass="form-label" text="Fecha de Baja">
-                                    <font>
-                                        <Font name="Roboto Regular" size="13.0"/>
-                                    </font>
-                                </Label>
-                            </HBox>
-                            <Label fx:id="current_termination_date" styleClass="form-text-field-disabled"/>
-                        </VBox>
-                    </GridPane>
-                </VBox>
+        <!-- Header del Panel -->
+        <HBox styleClass="md-header-bar">
+            <MFXButton fx:id="back_button" styleClass="md-button-filled-tonal" text="← Volver"/>
+            <VBox styleClass="md-section-group">
+                <Label styleClass="md-page-title" text="Editar Empleado"/>
             </VBox>
+        </HBox>
 
-            <!-- Tarjeta de Cambiar Datos -->
-            <VBox styleClass="form-card">
-                <padding>
-                    <Insets bottom="25.0" left="25.0" right="25.0" top="25.0"/>
-                </padding>
-                <VBox spacing="15.0">
-                    <Label styleClass="form-section-title" text="Cambiar Datos">
-                        <font>
-                            <Font name="Roboto Medium" size="16.0"/>
-                        </font>
-                    </Label>
-                    <Label styleClass="form-section-subtitle"
-                           text="Deja los campos vacíos para mantener los valores actuales">
-                        <font>
-                            <Font name="Roboto Regular" size="12.0"/>
-                        </font>
-                    </Label>
+        <!-- Contenido Principal -->
+        <ScrollPane fitToHeight="true"
+                    fitToWidth="true"
+                    styleClass="md-content-scroll"
+                    VBox.vgrow="ALWAYS">
+            <VBox styleClass="md-content-section">
 
-                    <GridPane hgap="25.0" vgap="20.0">
-                        <columnConstraints>
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="300.0"/>
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="300.0"/>
-                        </columnConstraints>
-                        <rowConstraints>
-                            <RowConstraints vgrow="SOMETIMES"/>
-                            <RowConstraints vgrow="SOMETIMES"/>
-                            <RowConstraints vgrow="SOMETIMES"/>
-                        </rowConstraints>
+                <!-- Tarjeta de Información Actual -->
+                <VBox styleClass="md-card">
+                    <VBox styleClass="md-section-group">
+                        <Label styleClass="md-section-title" text="Información Actual"/>
 
-                        <!-- New First Name -->
-                        <VBox alignment="CENTER_LEFT" spacing="8.0" GridPane.columnIndex="0" GridPane.rowIndex="0">
-                            <HBox spacing="5.0">
-                                <Label styleClass="form-label" text="Nuevo Nombre">
-                                    <font>
-                                        <Font name="Roboto Regular" size="13.0"/>
-                                    </font>
-                                </Label>
-                            </HBox>
-                            <TextField fx:id="first_name_field" styleClass="form-text-field"/>
-                        </VBox>
+                        <GridPane styleClass="md-grid-pane">
+                            <columnConstraints>
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="250.0"/>
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="250.0"/>
+                            </columnConstraints>
+                            <rowConstraints>
+                                <RowConstraints minHeight="60.0" vgrow="SOMETIMES"/>
+                                <RowConstraints minHeight="60.0" vgrow="SOMETIMES"/>
+                                <RowConstraints minHeight="60.0" vgrow="SOMETIMES"/>
+                            </rowConstraints>
 
-                        <!-- New Last Name -->
-                        <VBox alignment="CENTER_LEFT" spacing="8.0" GridPane.columnIndex="1" GridPane.rowIndex="0">
-                            <HBox spacing="5.0">
-                                <Label styleClass="form-label" text="Nuevo Apellido">
-                                    <font>
-                                        <Font name="Roboto Regular" size="13.0"/>
-                                    </font>
-                                </Label>
-                            </HBox>
-                            <TextField fx:id="last_name_field" styleClass="form-text-field"/>
-                        </VBox>
+                            <!-- Current Name (Read-only) -->
+                            <VBox styleClass="md-filter-column" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                                <HBox styleClass="md-filter-spacer">
+                                    <Label styleClass="md-filter-label" text="Nombre Actual"/>
+                                </HBox>
+                                <Label fx:id="current_first_name" styleClass="form-text-field-disabled"/>
+                            </VBox>
 
-                        <!-- New Commission Percentage -->
-                        <VBox alignment="CENTER_LEFT" spacing="8.0" GridPane.columnIndex="0" GridPane.rowIndex="1">
-                            <HBox spacing="5.0">
-                                <Label styleClass="form-label" text="Nueva Comisión (%)">
-                                    <font>
-                                        <Font name="Roboto Regular" size="13.0"/>
-                                    </font>
-                                </Label>
-                            </HBox>
-                            <TextField fx:id="commission_field" styleClass="form-text-field"/>
-                        </VBox>
+                            <!-- Current Last Name (Read-only) -->
+                            <VBox styleClass="md-filter-column" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                                <HBox styleClass="md-filter-spacer">
+                                    <Label styleClass="md-filter-label" text="Apellido Actual"/>
+                                </HBox>
+                                <Label fx:id="current_last_name" styleClass="form-text-field-disabled"/>
+                            </VBox>
 
-                        <!-- Status Toggle -->
-                        <VBox alignment="CENTER_LEFT" spacing="8.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                            <HBox spacing="5.0">
-                                <Label styleClass="form-label" text="Cambiar Estado">
-                                    <font>
-                                        <Font name="Roboto Regular" size="13.0"/>
-                                    </font>
-                                </Label>
-                            </HBox>
-                            <HBox alignment="CENTER_LEFT" spacing="10.0">
-                                <Button fx:id="toggle_status_button" mnemonicParsing="false"
-                                        styleClass="appointment-action-button" text="Desactivar"/>
-                            </HBox>
-                        </VBox>
+                            <!-- Current Hire Date (Read-only) -->
+                            <VBox styleClass="md-filter-column" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                                <HBox styleClass="md-filter-spacer">
+                                    <Label styleClass="md-filter-label" text="Fecha de Contratación"/>
+                                </HBox>
+                                <Label fx:id="current_hire_date" styleClass="form-text-field-disabled"/>
+                            </VBox>
 
-                        <!-- Termination Date (Optional) -->
-                        <VBox alignment="CENTER_LEFT" spacing="8.0" GridPane.columnIndex="0" GridPane.columnSpan="2"
-                              GridPane.rowIndex="2">
-                            <HBox spacing="5.0">
-                                <Label styleClass="form-label" text="Fecha de Baja (Opcional)">
-                                    <font>
-                                        <Font name="Roboto Regular" size="13.0"/>
-                                    </font>
-                                </Label>
-                            </HBox>
-                            <DatePicker fx:id="termination_date_picker" editable="false" styleClass="form-date-picker"/>
-                        </VBox>
-                    </GridPane>
+                            <!-- Current Commission (Read-only) -->
+                            <VBox styleClass="md-filter-column" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                <HBox styleClass="md-filter-spacer">
+                                    <Label styleClass="md-filter-label" text="Comisión Actual"/>
+                                </HBox>
+                                <Label fx:id="current_commission" styleClass="form-text-field-disabled"/>
+                            </VBox>
+
+                            <!-- Current Status (Read-only) -->
+                            <VBox styleClass="md-filter-column" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                                <HBox styleClass="md-filter-spacer">
+                                    <Label styleClass="md-filter-label" text="Estado Actual"/>
+                                </HBox>
+                                <HBox alignment="CENTER_LEFT">
+                                    <Label fx:id="current_status_label"/>
+                                </HBox>
+                            </VBox>
+
+                            <!-- Termination Date (Read-only if exists) -->
+                            <VBox styleClass="md-filter-column" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                <HBox styleClass="md-filter-spacer">
+                                    <Label styleClass="md-filter-label" text="Fecha de Baja"/>
+                                </HBox>
+                                <Label fx:id="current_termination_date" styleClass="form-text-field-disabled"/>
+                            </VBox>
+                        </GridPane>
+                    </VBox>
                 </VBox>
-            </VBox>
 
-            <!-- Botones de Acción -->
-            <HBox alignment="CENTER_RIGHT" spacing="15.0">
-                <Button fx:id="reset_button" mnemonicParsing="false" styleClass="filter-button" text="Limpiar Campos"/>
-                <Button fx:id="save_button" mnemonicParsing="false" styleClass="action-button-primary"
-                        text="Actualizar Empleado"/>
-            </HBox>
-        </VBox>
-    </ScrollPane>
+                <!-- Tarjeta de Cambiar Datos -->
+                <VBox styleClass="md-card">
+                    <VBox styleClass="md-section-group">
+                        <Label styleClass="md-section-title" text="Cambiar Datos"/>
+
+                        <GridPane styleClass="md-grid-pane">
+                            <columnConstraints>
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="300.0"/>
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="300.0"/>
+                            </columnConstraints>
+                            <rowConstraints>
+                                <RowConstraints vgrow="SOMETIMES"/>
+                                <RowConstraints vgrow="SOMETIMES"/>
+                                <RowConstraints vgrow="SOMETIMES"/>
+                            </rowConstraints>
+
+                            <!-- New First Name -->
+                            <VBox styleClass="md-filter-column" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                                <HBox styleClass="md-filter-spacer">
+                                    <Label styleClass="md-filter-label" text="Nuevo Nombre"/>
+                                </HBox>
+                                <MFXTextField fx:id="first_name_field" styleClass="md-mfx-input" maxWidth="Infinity"/>
+                            </VBox>
+
+                            <!-- New Last Name -->
+                            <VBox styleClass="md-filter-column" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                                <HBox styleClass="md-filter-spacer">
+                                    <Label styleClass="md-filter-label" text="Nuevo Apellido"/>
+                                </HBox>
+                                <MFXTextField fx:id="last_name_field" styleClass="md-mfx-input" maxWidth="Infinity"/>
+                            </VBox>
+
+                            <!-- New Commission Percentage -->
+                            <VBox styleClass="md-filter-column" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                                <HBox styleClass="md-filter-spacer">
+                                    <Label styleClass="md-filter-label" text="Nueva Comisión (%)"/>
+                                </HBox>
+                                <MFXTextField fx:id="commission_field" styleClass="md-mfx-input" maxWidth="Infinity"/>
+                            </VBox>
+
+                            <!-- Status Toggle -->
+                            <VBox styleClass="md-filter-column" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                <HBox styleClass="md-filter-spacer">
+                                    <Label styleClass="md-filter-label" text="Cambiar Estado"/>
+                                </HBox>
+                                <HBox styleClass="md-action-button-container">
+                                    <MFXButton fx:id="toggle_status_button" styleClass="md-button-filled-tonal"
+                                               text="Desactivar"/>
+                                </HBox>
+                            </VBox>
+
+                            <!-- Termination Date (Optional) -->
+                            <VBox styleClass="md-filter-column" GridPane.columnIndex="0" GridPane.columnSpan="2"
+                                  GridPane.rowIndex="2">
+                                <HBox styleClass="md-filter-spacer">
+                                    <Label styleClass="md-filter-label" text="Fecha de Baja (Opcional)"/>
+                                </HBox>
+                                <MFXDatePicker fx:id="termination_date_picker" styleClass="md-mfx-input"
+                                               maxWidth="Infinity"/>
+                            </VBox>
+                        </GridPane>
+                    </VBox>
+                </VBox>
+
+                <!-- Botones de Acción -->
+                <HBox styleClass="md-action-button-container">
+                    <MFXButton fx:id="reset_button" styleClass="md-button-filled-tonal" text="Restaurar datos"/>
+                    <MFXButton fx:id="save_button" styleClass="md-button-filled" text="Actualizar Empleado"/>
+                </HBox>
+            </VBox>
+        </ScrollPane>
+    </VBox>
 </AnchorPane>
