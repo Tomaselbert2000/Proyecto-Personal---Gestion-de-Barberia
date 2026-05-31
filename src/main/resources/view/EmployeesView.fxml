@@ -1,282 +1,191 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
+<?import io.github.palexdev.materialfx.controls.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
-
-<AnchorPane fx:id="anchor_pane" styleClass="theme-barberia" stylesheets="@../css/styles.css"
-            xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1"
+<?import java.lang.*?>
+<AnchorPane fx:id="anchor_pane"
+            styleClass="theme-barberia"
+            stylesheets="@../css/material-icons.css"
+            xmlns="http://javafx.com/javafx/17.0.12"
+            xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.barbershop.launcher.controller.implementation.employee.EmployeeViewController">
 
-    <!-- Header del Panel -->
-    <HBox alignment="CENTER_LEFT" styleClass="header-bar" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
-          AnchorPane.topAnchor="0.0">
-        <padding>
-            <Insets bottom="20.0" left="30.0" right="30.0" top="20.0"/>
-        </padding>
-        <VBox alignment="CENTER_LEFT">
-            <Label styleClass="page-title" text="Empleados">
-                <font>
-                    <Font name="Roboto Bold" size="28.0"/>
-                </font>
-            </Label>
-            <Label styleClass="page-subtitle" text="Gestiona tu equipo de trabajo">
-                <font>
-                    <Font name="Roboto Regular" size="14.0"/>
-                </font>
-            </Label>
-        </VBox>
-        <Region HBox.hgrow="ALWAYS"/>
-        <HBox alignment="CENTER" spacing="15.0"/>
-    </HBox>
+    <VBox
+            AnchorPane.topAnchor="0.0"
+            AnchorPane.bottomAnchor="0.0"
+            AnchorPane.leftAnchor="0.0"
+            AnchorPane.rightAnchor="0.0">
 
-    <!-- Contenido Principal -->
-    <ScrollPane fitToHeight="true" fitToWidth="true" layoutY="80.0" styleClass="content-scroll"
-                AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
-                AnchorPane.topAnchor="80.0">
-        <padding>
-            <Insets bottom="20.0" left="30.0" right="30.0" top="10.0"/>
-        </padding>
-        <VBox spacing="25.0">
-            <!-- Tarjetas de Estadísticas -->
-            <GridPane hgap="20.0" vgap="20.0">
-                <columnConstraints>
-                    <ColumnConstraints hgrow="SOMETIMES" minWidth="250.0"/>
-                    <ColumnConstraints hgrow="SOMETIMES" minWidth="250.0"/>
-                    <ColumnConstraints hgrow="SOMETIMES" minWidth="250.0"/>
-                    <ColumnConstraints hgrow="SOMETIMES" minWidth="250.0"/>
-                </columnConstraints>
-                <rowConstraints>
-                    <RowConstraints minHeight="140.0" vgrow="SOMETIMES"/>
-                </rowConstraints>
+        <!-- Header del Panel -->
+        <HBox styleClass="md-header-bar">
+            <VBox styleClass="md-heading-group">
+                <Label styleClass="md-page-title" text="Empleados"/>
+                <Label styleClass="md-page-subtitle" text="Gestiona tu equipo de trabajo"/>
+            </VBox>
+            <Region HBox.hgrow="ALWAYS"/>
+            <HBox alignment="CENTER" spacing="15.0"/>
+        </HBox>
 
-                <!-- Tarjeta: Total Empleados -->
-                <VBox styleClass="stat-card" GridPane.columnIndex="0">
-                    <HBox alignment="CENTER_LEFT" spacing="15.0">
-                        <VBox styleClass="icon-container">
-                            <Region prefHeight="24.0" prefWidth="24.0"/>
+        <!-- Contenido Principal -->
+        <ScrollPane fitToHeight="true" fitToWidth="true" styleClass="md-content-scroll" VBox.vgrow="ALWAYS">
+            <VBox styleClass="md-content-section">
+
+                <!-- Tarjetas de Estadísticas -->
+                <GridPane styleClass="md-grid-pane">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="250.0"/>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="250.0"/>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="250.0"/>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="250.0"/>
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="140.0" vgrow="SOMETIMES"/>
+                    </rowConstraints>
+
+                    <!-- Tarjeta: Total Empleados -->
+                    <VBox styleClass="md-card" GridPane.columnIndex="0">
+                        <HBox styleClass="md-stat-card-container">
+                            <Region HBox.hgrow="ALWAYS"/>
+                            <VBox>
+                                <Region>
+                                    <styleClass>
+                                        <String fx:value="md-action-card-icon"/>
+                                        <String fx:value="work-icon"/>
+                                    </styleClass>
+                                </Region>
+                            </VBox>
+                        </HBox>
+                        <VBox styleClass="md-action-label-container">
+                            <Label fx:id="total_employees_count" styleClass="md-stat-value"/>
+                            <Label styleClass="md-stat-label" text="Total Empleados"/>
                         </VBox>
-                        <Region HBox.hgrow="ALWAYS"/>
-                    </HBox>
-                    <VBox alignment="CENTER_LEFT" spacing="5.0">
-                        <Label fx:id="total_employees_count" styleClass="stat-value" text="0">
-                            <font>
-                                <Font name="Roboto Bold" size="32.0"/>
-                            </font>
-                        </Label>
-                        <Label styleClass="stat-label" text="Total Empleados">
-                            <font>
-                                <Font name="Roboto Regular" size="13.0"/>
-                            </font>
-                        </Label>
+                        <HBox styleClass="md-action-label-container">
+                            <Label fx:id="total_employees_trend" styleClass="md-stat-trend-neutral"/>
+                            <Label styleClass="md-stat-trend-label" text="este mes"/>
+                        </HBox>
                     </VBox>
-                    <HBox alignment="CENTER_LEFT" spacing="5.0">
-                        <Label fx:id="total_employees_trend" styleClass="stat-trend-neutral" text="0">
-                            <font>
-                                <Font name="Roboto Medium" size="12.0"/>
-                            </font>
-                        </Label>
-                        <Label styleClass="stat-trend-label" text="este mes">
-                            <font>
-                                <Font name="Roboto Regular" size="11.0"/>
-                            </font>
-                        </Label>
-                    </HBox>
+
+                    <!-- Tarjeta: Empleados Activos -->
+                    <VBox styleClass="md-card" GridPane.columnIndex="1">
+                        <HBox styleClass="md-stat-card-container">
+                            <Region HBox.hgrow="ALWAYS"/>
+                            <VBox>
+                                <Region>
+                                    <styleClass>
+                                        <String fx:value="md-action-card-icon"/>
+                                        <String fx:value="enterprise-icon"/>
+                                    </styleClass>
+                                </Region>
+                            </VBox>
+                        </HBox>
+                        <VBox styleClass="md-action-label-container">
+                            <Label fx:id="active_employees_count" styleClass="md-stat-value"/>
+                            <Label styleClass="md-stat-label" text="Activos"/>
+                        </VBox>
+                        <HBox styleClass="md-action-label-container">
+                            <Label fx:id="active_employees_percentage" styleClass="md-stat-trend-neutral"/>
+                            <Label styleClass="md-stat-trend-label" text="del equipo"/>
+                        </HBox>
+                    </VBox>
+
+                    <!-- Tarjeta: Empleados Inactivos -->
+                    <VBox styleClass="md-card" GridPane.columnIndex="2">
+                        <HBox styleClass="md-stat-card-container">
+                            <Region HBox.hgrow="ALWAYS"/>
+                            <VBox>
+                                <Region>
+                                    <styleClass>
+                                        <String fx:value="md-action-card-icon"/>
+                                        <String fx:value="enterprise-off-icon"/>
+                                    </styleClass>
+                                </Region>
+                            </VBox>
+                        </HBox>
+                        <VBox styleClass="md-action-label-container">
+                            <Label fx:id="inactive_employees_count" styleClass="md-stat-value"/>
+                            <Label styleClass="md-stat-label" text="Inactivos"/>
+                        </VBox>
+                        <HBox alignment="CENTER_LEFT" spacing="5.0">
+                            <Label fx:id="inactive_employees_percentage" styleClass="md-stat-trend-neutral"/>
+                            <Label styleClass="md-stat-trend-label" text="del equipo"/>
+                        </HBox>
+                    </VBox>
+
+                    <!-- Tarjeta: Turnos Realizados Este Mes -->
+                    <VBox styleClass="md-card" GridPane.columnIndex="3">
+                        <HBox styleClass="md-stat-card-container">
+                            <Region HBox.hgrow="ALWAYS"/>
+                            <VBox>
+                                <Region>
+                                    <styleClass>
+                                        <String fx:value="md-action-card-icon"/>
+                                        <String fx:value="work-history-icon"/>
+                                    </styleClass>
+                                </Region>
+                            </VBox>
+                        </HBox>
+                        <VBox styleClass="md-action-label-container">
+                            <Label fx:id="average_productivity_count" styleClass="md-stat-value"/>
+                            <Label styleClass="md-stat-label" text="Promedio Turnos/Mes"/>
+                        </VBox>
+                        <HBox styleClass="md-action-label-container">
+                            <Label fx:id="productivity_trend" styleClass="md-stat-trend-neutral"/>
+                            <Label styleClass="md-stat-trend-label" text="vs mes anterior"/>
+                        </HBox>
+                    </VBox>
+                </GridPane>
+
+                <!-- Sección de Filtros -->
+                <VBox styleClass="md-section-group">
+                    <Label styleClass="md-section-title" text="Filtros y Acciones"/>
+
+                    <VBox styleClass="md-filter-card">
+                        <HBox styleClass="md-filter-container">
+                            <!-- Buscador -->
+                            <VBox styleClass="md-filter-column" HBox.hgrow="ALWAYS">
+                                <Label styleClass="md-filter-label" text="Buscar empleado"/>
+                                <MFXTextField fx:id="search_field" styleClass="md-mfx-input" maxWidth="Infinity"/>
+                            </VBox>
+
+                            <!-- Filtro por Estado -->
+                            <VBox styleClass="md-filter-column" HBox.hgrow="ALWAYS">
+                                <Label styleClass="md-filter-label" text="Estado"/>
+                                <MFXComboBox fx:id="status_filter" styleClass="md-mfx-input" maxWidth="Infinity"/>
+                            </VBox>
+
+                            <!-- Filtro por Fecha de Contratación -->
+                            <VBox styleClass="md-filter-column" HBox.hgrow="ALWAYS">
+                                <Label styleClass="md-filter-label" text="Fecha contratación"/>
+                                <MFXComboBox fx:id="hire_date_filter" styleClass="md-mfx-input" maxWidth="Infinity"/>
+                            </VBox>
+
+                            <!-- Botones de Acción -->
+                            <VBox styleClass="md-filter-column">
+                                <Label styleClass="md-filter-label" text="Acciones"/>
+                                <HBox styleClass="md-action-button-container">
+                                    <MFXButton fx:id="clear_filters_button" styleClass="md-button-outlined"
+                                               text="Limpiar"/>
+                                    <MFXButton fx:id="new_employee_button"
+                                               styleClass="md-button-filled" text="+ Nuevo Empleado"/>
+                                </HBox>
+                            </VBox>
+                        </HBox>
+                    </VBox>
                 </VBox>
 
-                <!-- Tarjeta: Empleados Activos -->
-                <VBox styleClass="stat-card" GridPane.columnIndex="1">
+                <!-- Lista de Empleados -->
+                <VBox styleClass="md-section-group">
                     <HBox alignment="CENTER_LEFT" spacing="15.0">
-                        <VBox styleClass="icon-container">
-                            <Region prefHeight="24.0" prefWidth="24.0"/>
-                        </VBox>
+                        <Label styleClass="md-section-title" text="Lista de Empleados"/>
                         <Region HBox.hgrow="ALWAYS"/>
+                        <Label fx:id="results_count" styleClass="md-action-subtitle"/>
                     </HBox>
-                    <VBox alignment="CENTER_LEFT" spacing="5.0">
-                        <Label fx:id="active_employees_count" styleClass="stat-value" text="0">
-                            <font>
-                                <Font name="Roboto Bold" size="32.0"/>
-                            </font>
-                        </Label>
-                        <Label styleClass="stat-label" text="Activos">
-                            <font>
-                                <Font name="Roboto Regular" size="13.0"/>
-                            </font>
-                        </Label>
-                    </VBox>
-                    <HBox alignment="CENTER_LEFT" spacing="5.0">
-                        <Label fx:id="active_employees_percentage" styleClass="stat-trend-positive" text="0%">
-                            <font>
-                                <Font name="Roboto Medium" size="12.0"/>
-                            </font>
-                        </Label>
-                        <Label styleClass="stat-trend-label" text="del equipo">
-                            <font>
-                                <Font name="Roboto Regular" size="11.0"/>
-                            </font>
-                        </Label>
-                    </HBox>
-                </VBox>
 
-                <!-- Tarjeta: Empleados Inactivos -->
-                <VBox styleClass="stat-card" GridPane.columnIndex="2">
-                    <HBox alignment="CENTER_LEFT" spacing="15.0">
-                        <VBox styleClass="icon-container">
-                            <Region prefHeight="24.0" prefWidth="24.0"/>
-                        </VBox>
-                        <Region HBox.hgrow="ALWAYS"/>
-                    </HBox>
-                    <VBox alignment="CENTER_LEFT" spacing="5.0">
-                        <Label fx:id="inactive_employees_count" styleClass="stat-value" text="0">
-                            <font>
-                                <Font name="Roboto Bold" size="32.0"/>
-                            </font>
-                        </Label>
-                        <Label styleClass="stat-label" text="Inactivos">
-                            <font>
-                                <Font name="Roboto Regular" size="13.0"/>
-                            </font>
-                        </Label>
-                    </VBox>
-                    <HBox alignment="CENTER_LEFT" spacing="5.0">
-                        <Label fx:id="inactive_employees_percentage" styleClass="stat-trend-negative" text="0%">
-                            <font>
-                                <Font name="Roboto Medium" size="12.0"/>
-                            </font>
-                        </Label>
-                        <Label styleClass="stat-trend-label" text="del equipo">
-                            <font>
-                                <Font name="Roboto Regular" size="11.0"/>
-                            </font>
-                        </Label>
-                    </HBox>
-                </VBox>
-
-                <!-- Tarjeta: Turnos Realizados Este Mes -->
-                <VBox styleClass="stat-card" GridPane.columnIndex="3">
-                    <HBox alignment="CENTER_LEFT" spacing="15.0">
-                        <VBox styleClass="icon-container">
-                            <Region prefHeight="24.0" prefWidth="24.0"/>
-                        </VBox>
-                        <Region HBox.hgrow="ALWAYS"/>
-                    </HBox>
-                    <VBox alignment="CENTER_LEFT" spacing="5.0">
-                        <Label fx:id="average_productivity_count" styleClass="stat-value" text="0">
-                            <font>
-                                <Font name="Roboto Bold" size="32.0"/>
-                            </font>
-                        </Label>
-                        <Label styleClass="stat-label" text="Promedio Turnos/Mes">
-                            <font>
-                                <Font name="Roboto Regular" size="13.0"/>
-                            </font>
-                        </Label>
-                    </VBox>
-                    <HBox alignment="CENTER_LEFT" spacing="5.0">
-                        <Label fx:id="productivity_trend" styleClass="stat-trend-neutral" text="0%">
-                            <font>
-                                <Font name="Roboto Medium" size="12.0"/>
-                            </font>
-                        </Label>
-                        <Label styleClass="stat-trend-label" text="vs mes anterior">
-                            <font>
-                                <Font name="Roboto Regular" size="11.0"/>
-                            </font>
-                        </Label>
-                    </HBox>
-                </VBox>
-            </GridPane>
-
-            <!-- Sección de Filtros -->
-            <VBox spacing="15.0">
-                <Label styleClass="section-title" text="Filtros y Acciones">
-                    <font>
-                        <Font name="Roboto Medium" size="18.0"/>
-                    </font>
-                </Label>
-
-                <VBox styleClass="filter-card">
-                    <HBox alignment="CENTER_LEFT" spacing="20.0">
-                        <!-- Buscador -->
-                        <VBox alignment="CENTER_LEFT" spacing="8.0">
-                            <Label styleClass="filter-label" text="Buscar empleado">
-                                <font>
-                                    <Font name="Roboto Regular" size="12.0"/>
-                                </font>
-                            </Label>
-                            <TextField fx:id="search_field" promptText="Nombre o apellido" styleClass="search-field"/>
-                        </VBox>
-
-                        <!-- Filtro por Estado -->
-                        <VBox alignment="CENTER_LEFT" spacing="8.0">
-                            <Label styleClass="filter-label" text="Estado">
-                                <font>
-                                    <Font name="Roboto Regular" size="12.0"/>
-                                </font>
-                            </Label>
-                            <ComboBox fx:id="status_filter" styleClass="combo-box"/>
-                        </VBox>
-
-                        <!-- Filtro por Fecha de Contratación -->
-                        <VBox alignment="CENTER_LEFT" spacing="8.0">
-                            <Label styleClass="filter-label" text="Fecha contratación">
-                                <font>
-                                    <Font name="Roboto Regular" size="12.0"/>
-                                </font>
-                            </Label>
-                            <ComboBox fx:id="hire_date_filter" styleClass="combo-box"/>
-                        </VBox>
-
-                        <Region HBox.hgrow="ALWAYS"/>
-
-                        <!-- Botones de Acción -->
-                        <VBox alignment="CENTER_RIGHT" spacing="8.0">
-                            <Label styleClass="filter-label" text="Acciones">
-                                <font>
-                                    <Font name="Roboto Regular" size="12.0"/>
-                                </font>
-                            </Label>
-                            <HBox spacing="10.0">
-                                <Button fx:id="clear_filters_button" mnemonicParsing="false" styleClass="filter-button"
-                                        text="Limpiar">
-                                    <font>
-                                        <Font name="Roboto Medium" size="13.0"/>
-                                    </font>
-                                </Button>
-                                <Button fx:id="new_employee_button" mnemonicParsing="false"
-                                        styleClass="action-button-primary" text="+ Nuevo Empleado">
-                                    <font>
-                                        <Font name="Roboto Medium" size="13.0"/>
-                                    </font>
-                                </Button>
-                            </HBox>
-                        </VBox>
-                    </HBox>
+                    <!-- Contenedor de la Lista de Empleados -->
+                    <VBox fx:id="employee_list_container" styleClass="md-recent-activity-card"/>
                 </VBox>
             </VBox>
-
-            <!-- Lista de Empleados -->
-            <VBox spacing="15.0">
-                <HBox alignment="CENTER_LEFT" spacing="15.0">
-                    <Label styleClass="section-title" text="Lista de Empleados">
-                        <font>
-                            <Font name="Roboto Medium" size="18.0"/>
-                        </font>
-                    </Label>
-                    <Region HBox.hgrow="ALWAYS"/>
-                    <Label fx:id="results_count" styleClass="results-count" text="0 empleados encontrados">
-                        <font>
-                            <Font name="Roboto Regular" size="13.0"/>
-                        </font>
-                    </Label>
-                </HBox>
-
-                <!-- Contenedor de la Lista de Empleados -->
-                <VBox fx:id="employee_list_container" spacing="12.0">
-                    <!-- Los empleados se cargarán dinámicamente desde el controller -->
-                </VBox>
-            </VBox>
-        </VBox>
-    </ScrollPane>
+        </ScrollPane>
+    </VBox>
 </AnchorPane>

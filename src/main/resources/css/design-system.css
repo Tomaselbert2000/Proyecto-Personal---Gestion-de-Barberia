@@ -288,6 +288,12 @@
     -fx-alignment: bottom-left;
 }
 
+.md-avatar-circle {
+
+    -fx-background-color: -fx-surface-variant;
+    -fx-border-radius: 28;
+}
+
 /* Botones */
 
 .md-nav-button {
