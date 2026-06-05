@@ -1,9 +1,12 @@
 package com.barbershop.launcher.controller.helper;
 
+import javafx.animation.FadeTransition;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.util.Duration;
 
 import java.net.URL;
 
@@ -13,6 +16,9 @@ import static com.barbershop.launcher.constants.ui.themes.ThemeFilePath.LA_TERCE
 import static com.barbershop.launcher.controller.helper.HelperConstants.*;
 
 public class ContainerManager {
+
+    private static final double THEME_TRANSITION_STARTING_VALUE = 1.0;
+    private static final double THEME_TRANSITION_ENDING_VALUE = 0.0;
 
     public static void loadItemOnVBox(VBox vBox, Parent parent) {
 
@@ -97,5 +103,23 @@ public class ContainerManager {
 
         if (!materialIconsFilePathToExternalForm.isEmpty())
             newScene.getStylesheets().add(materialIconsFilePathToExternalForm);
+    }
+
+    public static void playThemeTransitionAnimation(ImageView snapshotView, int themeTransitionDurationInMs) {
+
+        FadeTransition transition = new FadeTransition(Duration.millis(themeTransitionDurationInMs), snapshotView);
+
+        transition.setFromValue(THEME_TRANSITION_STARTING_VALUE);
+        transition.setToValue(THEME_TRANSITION_ENDING_VALUE);
+
+        transition.play();
+
+        transition.setOnFinished(_ -> {
+
+                    Node parentNode = snapshotView.getParent();
+
+                    ((Pane) parentNode).getChildren().remove(snapshotView);
+                }
+        );
     }
 }

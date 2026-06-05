@@ -1,14 +1,20 @@
 package com.barbershop.launcher.controller.implementation.settings;
 
+import com.barbershop.config.AppPreferences;
 import com.barbershop.enums.Theme;
 import com.barbershop.launcher.controller.interfaces.Controller;
 import com.barbershop.utils.info.AppInformation;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
+import javafx.scene.image.WritableImage;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -32,6 +38,7 @@ public class SettingsController implements Controller {
     private static final int THEME_CONTAINER_SPACING = 16;
     private static final int THEME_CARD_SPACING = 8;
     private static final Pos DEFAULT_THEME_CARD_POS = Pos.CENTER_LEFT;
+    private static final int THEME_TRANSITION_DURATION_IN_MS = 400;
 
     @FXML
     private HBox theme_container;
@@ -136,7 +143,17 @@ public class SettingsController implements Controller {
 
                         Scene currentScene = theme_container.getScene();
 
+                        Parent parentNode = currentScene.getRoot();
+
+                        WritableImage snapshot = parentNode.snapshot(new SnapshotParameters(), null);
+
+                        ImageView snapshotView = new ImageView(snapshot);
+
+                        ((Pane) parentNode).getChildren().add(snapshotView);
+
                         changeSceneTheme(currentScene, cssFilePath);
+
+                        playThemeTransitionAnimation(snapshotView, THEME_TRANSITION_DURATION_IN_MS);
                     }
                 }
         );
@@ -159,4 +176,6 @@ public class SettingsController implements Controller {
 
         setTextsOnLabelMap(map);
     }
+
+    //TODO: completar logica para persistir ajustes
 }
