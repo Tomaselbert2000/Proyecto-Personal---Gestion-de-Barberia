@@ -7,42 +7,6 @@
     configurados con el valor numérico directamente
      */
 
-    /* --- 1. COLOR ROLES (Material You) --- */
-    /* Primarios */
-    -fx-primary: #D4AF37;
-    -fx-on-primary: #1A1A1A;
-    -fx-primary-container: #F5EFDC;
-    -fx-on-primary-container: #3E2723;
-
-    /* Secundarios (Tonos de apoyo) */
-    -fx-secondary: #615E51;
-    -fx-on-secondary: #FFFFFF;
-    -fx-secondary-container: #E7E2D2;
-    -fx-on-secondary-container: #1C1B1F;
-
-    /* Superficies (Fondos de la app) */
-    -fx-surface: #FFFBFE;
-    -fx-surface-variant: #E7E0EC;
-    -fx-on-surface: #1C1B1F;
-    -fx-on-surface-variant: #49454F;
-
-    /* Contenedores de Superficie */
-    -fx-surface-container-low: #F7F2F9;
-    -fx-surface-container: #F3EDF7;
-    -fx-surface-container-high: #ECE6F0;
-
-    /* Utilidades */
-    -fx-outline: #79747E;
-    -fx-outline-variant: #CAC4D0;
-    -fx-error: #B3261E;
-    -fx-on-error: #FFFFFF;
-
-    /* Tendencias de estadísticas */
-    -fx-positive-trend: #5CE65C;
-    -fx-negative-trend: #FF2C2C;
-    -fx-neutral-trend: #000000;
-
-    /* --- 2. SHAPES (Radios de esquina M3) --- */
     -fx-shape-none: 0px;
     -fx-shape-extra-small: 4px;
     -fx-shape-small: 8px;
@@ -51,12 +15,10 @@
     -fx-shape-extra-large: 28px;
     -fx-shape-full: 50px;
 
-    /* --- 3. ELEVATIONS (Sombras M3) --- */
     -fx-elevation-1: dropshadow(gaussian, rgba(0, 0, 0, 0.05), 3, 0, 0, 1);
     -fx-elevation-2: dropshadow(gaussian, rgba(0, 0, 0, 0.15), 6, 0, 0, 2);
     -fx-elevation-3: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 8, 0, 0, 3);
 
-    /* --- 4. SPACING (Rejilla de 8px) --- */
     -fx-space-xs: 4px;
     -fx-space-sm: 8px;
     -fx-space-md: 16px;
@@ -64,13 +26,10 @@
     -fx-space-xl: 32px;
     -fx-space-xxl: 48px;
 
-    /* --- 5. TIPOGRAFÍA (MD3) --- */
-    /* Familia base */
     -fx-font-family-base: "Roboto", sans-serif;
 
-    /* Rol: Label Large (usado para botones) */
     -fx-font-size-label-large: 14px;
-    -fx-font-weight-label-large: 500; /* Equivale a Medium */
+    -fx-font-weight-label-large: 500;
 }
 
 /* Titulo, subtitulo y logo */
@@ -83,7 +42,7 @@
 
 .md-brand-title {
 
-    -fx-text-fill: -fx-surface;
+    -fx-text-fill: -fx-on-surface;
     -fx-font-family: "Roboto";
     -fx-font-weight: bold;
     -fx-font-size: 22px;
@@ -91,7 +50,7 @@
 
 .md-brand-subtitle {
 
-    -fx-text-fill: -fx-surface;
+    -fx-text-fill: -fx-on-surface;
     -fx-font-family: "Roboto";
     -fx-font-weight: 300;
     -fx-font-size: 12px;
@@ -133,7 +92,7 @@
     -fx-alignment: top-center;
     -fx-max-width: 280;
     -fx-min-width: 280;
-    -fx-background-color: linear-gradient(to bottom, -fx-on-primary-container, -fx-on-primary);
+    -fx-background-color: linear-gradient(to bottom, -fx-surface-container-low, -fx-surface);
 }
 
 .md-navbar-button-container {
@@ -185,6 +144,12 @@
 .md-content-scroll {
 
     -fx-padding: 24;
+    -fx-background-color: transparent;
+}
+
+.md-content-scroll .viewport {
+
+    -fx-background-color: transparent;
 }
 
 .md-action-card-icon {
@@ -209,11 +174,6 @@
     -fx-spacing: 4;
 }
 
-.md-image-selector {
-    display: flex;
-    align-items: center;
-}
-
 .md-image-preview-container {
 
     -fx-padding: 16;
@@ -223,40 +183,323 @@
 
 .md-image-placeholder {
 
-    width: 150px;
-    height: 150px;
-    object-fit: cover;
+    -fx-pref-width: 150px;
+    -fx-pref-height: 150px;
 }
 
-.md-mfx-input {
+.md-text-field {
 
-    -mfx-main: -fx-primary;
     -fx-background-color: transparent;
-    -fx-border-radius: 4px;
+    -fx-border-color: -fx-on-surface-variant;
     -fx-border-width: 1px;
-    -fx-padding: 8 12 8 12;
-    -fx-font-family: "Roboto";
+    -fx-border-radius: 4px;
+    -fx-background-radius: 4px;
+    -fx-padding: 8 12;
+    -fx-font-family: "Roboto", "Segoe UI", sans-serif;
     -fx-font-size: 14px;
     -fx-text-fill: -fx-on-surface;
-    -fx-min-height: 38px;
-    -fx-max-height: 38px;
-    -fx-pref-height: 38px;
+    -fx-prompt-text-fill: -fx-on-surface-variant;
 }
 
-.md-mfx-input:hover {
+.md-text-field:hover {
 
     -fx-border-color: -fx-on-surface;
 }
 
-.md-mfx-input:focused {
+.md-text-field:focused {
+
+    -fx-border-color: -fx-primary;
+    -fx-border-width: 2px;
+    -fx-padding: 7 11;
+}
+
+.md-combo-box {
+
+    -fx-background-color: transparent;
+    -fx-border-color: -fx-on-surface-variant;
+    -fx-border-width: 1px;
+    -fx-border-radius: 4px;
+    -fx-background-radius: 4px;
+    -fx-padding: 5 12;
+    -fx-font-family: "Roboto", "Segoe UI", sans-serif;
+    -fx-font-size: 14px;
+}
+
+.md-combo-box:hover {
+
+    -fx-border-color: -fx-on-surface;
+}
+
+.md-combo-box:focused {
+
+    -fx-border-color: -fx-primary;
+    -fx-border-width: 2px;
+    -fx-padding: 4 11;
+}
+
+.md-combo-box .list-cell {
+
+    -fx-text-fill: -fx-on-surface;
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
+.md-combo-box .arrow-button {
+
+    -fx-background-color: transparent;
+    -fx-padding: 0 0 0 8;
+}
+
+.md-combo-box .arrow {
+
+    -fx-background-color: -fx-on-surface-variant;
+}
+
+.md-combo-box .list-view {
+
+    -fx-background-color: -fx-surface-container;
+    -fx-background-radius: 4px;
+    -fx-border-color: transparent;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.3), 8, 0.0, 0, 2);
+    -fx-padding: 4 0;
+}
+
+.md-combo-box .list-view .list-cell {
+
+    -fx-padding: 10 12;
+    -fx-background-color: transparent;
+    -fx-text-fill: -fx-on-surface;
+}
+
+.md-combo-box .list-view .list-cell:hover {
+
+    -fx-background-color: -fx-surface-variant;
+}
+
+.md-combo-box .list-view .list-cell:selected {
+
+    -fx-background-color: -fx-secondary-container;
+    -fx-text-fill: -fx-on-secondary-container;
+}
+
+.md-date-picker {
+
+    -fx-background-color: transparent;
+    -fx-border-color: -fx-on-surface-variant;
+    -fx-border-width: 1px;
+    -fx-border-radius: 4px;
+    -fx-background-radius: 4px;
+    -fx-font-family: "Roboto", "Segoe UI", sans-serif;
+    -fx-font-size: 14px;
+}
+
+.md-date-picker:hover {
+
+    -fx-border-color: -fx-on-surface;
+}
+
+.md-date-picker:focused,
+.md-date-picker:contains-focus {
 
     -fx-border-color: -fx-primary;
     -fx-border-width: 2px;
 }
 
-.md-mfx-input .mfx-icon-wrapper .mfx-icon {
+.md-date-picker .text-field {
 
-    -fx-fill: -fx-on-surface-variant;
+    -fx-background-color: transparent;
+    -fx-padding: 8 12;
+    -fx-text-fill: -fx-on-surface;
+    -fx-prompt-text-fill: -fx-on-surface-variant;
+}
+
+.md-date-picker .arrow-button {
+
+    -fx-background-color: transparent;
+    -fx-padding: 0 12 0 0;
+}
+
+.md-date-picker .arrow-button .arrow {
+
+    -fx-background-color: -fx-on-surface-variant;
+}
+
+.date-picker-popup {
+
+    -fx-background-color: -fx-surface-container;
+    -fx-background-radius: 12px;
+    -fx-border-color: transparent;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.3), 10, 0, 0, 4);
+}
+
+.date-picker-popup .month-year-pane {
+
+    -fx-background-color: transparent;
+    -fx-padding: 12 8 12 8;
+}
+
+.date-picker-popup .month-year-pane .label {
+
+    -fx-text-fill: -fx-on-surface;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+.date-picker-popup .calendar-grid {
+
+    -fx-background-color: transparent;
+}
+
+.date-picker-popup .month-year-pane .left-button .left-arrow,
+.date-picker-popup .month-year-pane .right-button .right-arrow {
+
+    -fx-background-color: -fx-on-surface-variant;
+}
+
+.date-picker-popup .month-year-pane .left-button:hover .left-arrow,
+.date-picker-popup .month-year-pane .right-button:hover .right-arrow {
+
+    -fx-background-color: -fx-on-surface;
+}
+
+.date-picker-popup .day-name-cell {
+
+    -fx-text-fill: -fx-on-surface-variant;
+    -fx-font-size: 12px;
+    -fx-padding: 8 0 8 0;
+}
+
+.date-picker-popup .day-cell {
+
+    -fx-background-color: transparent;
+    -fx-text-fill: -fx-on-surface !important;
+    -fx-padding: 6 8;
+    -fx-background-radius: 100px;
+}
+
+.date-picker-popup .day-cell:hover {
+
+    -fx-background-color: -fx-surface-variant;
+}
+
+.date-picker-popup .day-cell:today {
+
+    -fx-border-color: -fx-primary;
+    -fx-border-radius: 100px;
+    -fx-border-width: 1px;
+}
+
+.date-picker-popup .day-cell:selected {
+
+    -fx-background-color: -fx-primary;
+    -fx-text-fill: -fx-on-primary;
+    -fx-font-weight: bold;
+}
+
+.md-check-box {
+
+    -fx-text-fill: -fx-on-surface;
+    -fx-font-family: "Roboto", "Segoe UI", sans-serif;
+    -fx-font-size: 14px;
+    -fx-label-padding: 0 0 0 8;
+    -fx-cursor: hand;
+}
+
+.md-check-box .box {
+
+    -fx-background-color: transparent;
+    -fx-border-color: -fx-on-surface-variant;
+    -fx-border-width: 2px;
+    -fx-border-radius: 2px;
+    -fx-background-radius: 2px;
+    -fx-padding: 2;
+    -fx-pref-width: 18px;
+    -fx-pref-height: 18px;
+}
+
+.md-check-box:hover .box {
+
+    -fx-border-color: -fx-on-surface;
+}
+
+.md-check-box:selected .box {
+
+    -fx-background-color: -fx-primary;
+    -fx-border-color: -fx-primary;
+}
+
+.md-check-box .mark {
+
+    -fx-background-color: transparent;
+}
+
+.md-check-box:selected .mark {
+
+    -fx-background-color: -fx-on-primary;
+}
+
+.md-check-box:focused .box {
+
+    -fx-border-color: -fx-primary;
+}
+
+.md-check-box:disabled {
+
+    -fx-opacity: 0.5;
+}
+
+.md-radio-button {
+
+    -fx-text-fill: -fx-on-surface;
+    -fx-font-family: "Roboto", "Segoe UI", sans-serif;
+    -fx-font-size: 14px;
+    -fx-label-padding: 0 0 0 8;
+    -fx-cursor: hand;
+}
+
+.md-radio-button .radio {
+
+    -fx-background-color: transparent;
+    -fx-border-color: -fx-on-surface-variant;
+    -fx-border-width: 2px;
+    -fx-border-radius: 100px;
+    -fx-background-radius: 100px;
+    -fx-alignment: center;
+    -fx-padding: 4;
+    -fx-border-insets: 0;
+}
+
+.md-radio-button:hover .radio {
+
+    -fx-border-color: -fx-on-surface;
+}
+
+.md-radio-button:selected .radio {
+
+    -fx-border-color: -fx-primary;
+}
+
+.md-radio-button .dot {
+
+    -fx-background-color: transparent;
+    -fx-background-radius: 100px;
+    -fx-padding: 5;
+    -fx-border-insets: 0;
+}
+
+.md-radio-button:selected .dot {
+
+    -fx-background-color: -fx-primary;
+}
+
+.md-radio-button:focused .radio {
+
+    -fx-border-color: -fx-primary;
+}
+
+.md-radio-button:disabled {
+
+    -fx-opacity: 0.5;
 }
 
 .md-filter-label {
@@ -277,6 +520,7 @@
 .md-filter-card {
 
     -fx-background-color: -fx-surface-variant;
+    -fx-border-radius: 16;
     -fx-background-radius: 16;
     -fx-spacing: 24;
     -fx-padding: 16;
@@ -301,22 +545,22 @@
     -fx-font-family: "Roboto";
     -fx-font-size: 14px;
     -fx-font-weight: 500;
-    -fx-text-fill: -fx-surface;
+    -fx-text-fill: -fx-on-surface;
     -fx-background-radius: 50;
     -fx-padding: 10 24;
     -fx-background-color: transparent;
-    -fx-alignment: CENTER-LEFT;
+    -fx-alignment: center-left;
 }
 
 .md-nav-button-active {
 
-    -fx-background-color: -fx-primary;
-    -fx-text-fill: -fx-on-primary;
+    -fx-background-color: -fx-secondary-container;
+    -fx-text-fill: -fx-on-secondary-container;
 }
 
 .md-nav-button:hover {
 
-    -fx-background-color: rgba(255, 255, 255, 0.1);
+    -fx-background-color: -fx-surface-variant;
 }
 
 .mfx-button.md-button-filled {
@@ -364,7 +608,7 @@
 
 .mfx-button.md-button-outlined:pressed {
 
-    -fx-background-color: rgba(0, 0, 0, 0.05);
+    -fx-background-color: -fx-surface-container-high;
 }
 
 .mfx-button.md-button-filled-tonal {
@@ -395,7 +639,7 @@
 .md-card {
 
     -fx-background-color: -fx-surface-container;
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 6, 0, 0, 2);
+    -fx-effect: -fx-elevation-2;
     -fx-background-radius: 24;
     -fx-padding: 16;
 }
@@ -456,7 +700,7 @@
     -fx-background-radius: 16;
     -fx-background-color: -fx-surface-container-high;
     -fx-padding: 16;
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 6, 0, 0, 2);
+    -fx-effect: -fx-elevation-1;
 }
 
 .md-action-title {
@@ -488,7 +732,7 @@
 }
 
 .md-action-label-container {
-    -fx-alignment: center_left;
+    -fx-alignment: center-left;
     -fx-spacing: 8;
 }
 
@@ -497,7 +741,7 @@
 .md-recent-activity-card {
 
     -fx-spacing: 16;
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.15), 6, 0, 0, 2);
+    -fx-effect: -fx-elevation-1;
 }
 
 .md-activity-icon {
@@ -517,7 +761,7 @@
     -fx-spacing: 16;
     -fx-padding: 16 24 16 24;
     -fx-alignment: center-left;
-    -fx-effect: -fx-elevation-2;
+    -fx-effect: -fx-elevation-1;
 }
 
 .md-list-item-title {

@@ -10,6 +10,9 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
+import static com.barbershop.launcher.constants.ui.themes.ThemeFilePath.MD3_LIGHT_THEME_FILE_PATH;
+import static com.barbershop.launcher.controller.helper.ContainerManager.changeSceneTheme;
+
 @Component
 public class SceneManager {
 
@@ -34,6 +37,8 @@ public class SceneManager {
             Parent root = loader.load();
 
             Scene newScene = new Scene(root);
+
+            changeSceneTheme(newScene, MD3_LIGHT_THEME_FILE_PATH);
 
             setSceneOnStage(newScene);
 

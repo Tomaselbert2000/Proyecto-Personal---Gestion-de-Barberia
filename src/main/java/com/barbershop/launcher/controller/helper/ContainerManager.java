@@ -2,11 +2,13 @@ package com.barbershop.launcher.controller.helper;
 
 import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.Scene;
+import javafx.scene.layout.*;
 
+import java.net.URL;
+
+import static com.barbershop.launcher.constants.ui.CssFilePath.DESIGN_SYSTEM_TOKEN_FILE_PATH;
+import static com.barbershop.launcher.constants.ui.CssFilePath.MATERIAL_ICONS_FILE_PATH;
 import static com.barbershop.launcher.controller.helper.HelperConstants.*;
 
 public class ContainerManager {
@@ -36,13 +38,49 @@ public class ContainerManager {
         AnchorPane.setRightAnchor(parent, ANCHOR_PANE_RIGHT_ANCHOR_MARGIN_VALUE);
     }
 
-    public static void cleanVBox(VBox vBox) {
+    public static void cleanContainer(Pane container) {
 
-        vBox.getChildren().clear();
+        container.getChildren().clear();
     }
 
-    public static void addNodesToHBox(HBox hbox, Node... nodes) {
+    public static void addAllChildrensToPane(Pane pane, Node... nodes) {
 
-        hbox.getChildren().addAll(nodes);
+        pane.getChildren().addAll(nodes);
+    }
+
+    public static void changeSceneTheme(Scene currentScene, String selectedThemeFilePath) {
+
+        currentScene.getStylesheets().clear();
+
+        URL designSystemTokenFilePath = ContainerManager.class.getResource(DESIGN_SYSTEM_TOKEN_FILE_PATH);
+        URL themeFilePath = ContainerManager.class.getResource(selectedThemeFilePath);
+
+        String designSystemTokenFilePathToExternalForm = convertURLtoExternalForm(designSystemTokenFilePath);
+        String themeFilePathToExternalForm = convertURLtoExternalForm(themeFilePath);
+
+        if (!designSystemTokenFilePathToExternalForm.isEmpty() && !themeFilePathToExternalForm.isEmpty())
+            currentScene.getStylesheets().addAll(designSystemTokenFilePathToExternalForm, themeFilePathToExternalForm);
+
+        loadMaterialIconsCSS(currentScene);
+    }
+
+    private static String convertURLtoExternalForm(URL designSystemTokenFilePath) {
+
+        if (designSystemTokenFilePath != null) {
+
+            return designSystemTokenFilePath.toExternalForm();
+        }
+
+        return "";
+    }
+
+    public static void loadMaterialIconsCSS(Scene newScene) {
+
+        URL materialIconsFilePath = ContainerManager.class.getResource(MATERIAL_ICONS_FILE_PATH);
+
+        String materialIconsFilePathToExternalForm = convertURLtoExternalForm(materialIconsFilePath);
+
+        if (!materialIconsFilePathToExternalForm.isEmpty())
+            newScene.getStylesheets().add(materialIconsFilePathToExternalForm);
     }
 }
