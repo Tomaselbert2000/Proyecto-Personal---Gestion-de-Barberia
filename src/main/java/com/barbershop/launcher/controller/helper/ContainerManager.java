@@ -7,8 +7,9 @@ import javafx.scene.layout.*;
 
 import java.net.URL;
 
-import static com.barbershop.launcher.constants.ui.CssFilePath.DESIGN_SYSTEM_TOKEN_FILE_PATH;
-import static com.barbershop.launcher.constants.ui.CssFilePath.MATERIAL_ICONS_FILE_PATH;
+import static com.barbershop.launcher.constants.ui.CssFilePath.*;
+import static com.barbershop.launcher.constants.ui.themes.ThemeFilePath.LA_TERCERA_DARK_THEME_FILE_PATH;
+import static com.barbershop.launcher.constants.ui.themes.ThemeFilePath.LA_TERCERA_LIGHT_THEME_FILE_PATH;
 import static com.barbershop.launcher.controller.helper.HelperConstants.*;
 
 public class ContainerManager {
@@ -62,6 +63,20 @@ public class ContainerManager {
             currentScene.getStylesheets().addAll(designSystemTokenFilePathToExternalForm, themeFilePathToExternalForm);
 
         loadMaterialIconsCSS(currentScene);
+
+        loadFixedColorsCSSIfNeeded(currentScene, selectedThemeFilePath);
+    }
+
+    private static void loadFixedColorsCSSIfNeeded(Scene currentScene, String selectedThemeFilePath) {
+
+        if (selectedThemeFilePath.equals(LA_TERCERA_LIGHT_THEME_FILE_PATH) || selectedThemeFilePath.equals(LA_TERCERA_DARK_THEME_FILE_PATH)) {
+
+            URL fixedColorsFilePath = ContainerManager.class.getResource(LA_TERCERA_FIXED_COLORS_FILE_PATH);
+
+            String fixedColorsFilePathToExternalForm = convertURLtoExternalForm(fixedColorsFilePath);
+
+            currentScene.getStylesheets().add(fixedColorsFilePathToExternalForm);
+        }
     }
 
     private static String convertURLtoExternalForm(URL designSystemTokenFilePath) {

@@ -1,0 +1,15 @@
+.root {
+
+    -fx-primary-fixed: #ffe086;
+    -fx-on-primary-fixed: #231b00;
+    -fx-primary-fixed-dim: #e1c46d;
+    -fx-on-primary-fixed-variant: #574500;
+    -fx-secondary-fixed: #f1e1bb;
+    -fx-on-secondary-fixed: #221b04;
+    -fx-secondary-fixed-dim: #d4c5a1;
+    -fx-on-secondary-fixed-variant: #50462a;
+    -fx-tertiary-fixed: #c8ecca;
+    -fx-on-tertiary-fixed: #02210c;
+    -fx-tertiary-fixed-dim: #accfaf;
+    -fx-on-tertiary-fixed-variant: #2f4e35;
+}
