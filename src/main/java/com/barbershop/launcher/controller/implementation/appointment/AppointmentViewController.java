@@ -8,9 +8,6 @@ import com.barbershop.exceptions.appointment.InvalidAppointmentUpdateException;
 import com.barbershop.launcher.controller.interfaces.ViewController;
 import com.barbershop.service.interfaces.AppointmentService;
 import io.github.palexdev.materialfx.controls.MFXButton;
-import io.github.palexdev.materialfx.controls.MFXComboBox;
-import io.github.palexdev.materialfx.controls.MFXDatePicker;
-import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -67,16 +64,16 @@ public class AppointmentViewController implements ViewController {
             register_new_appointment_button;
 
     @FXML
-    private MFXComboBox<AppointmentStatus> appointment_status_selector;
+    private ComboBox<AppointmentStatus> appointment_status_selector;
 
     @FXML
-    private MFXComboBox<EmployeeInfoDTO> employee_selector;
+    private ComboBox<EmployeeInfoDTO> employee_selector;
 
     @FXML
-    private MFXTextField client_search_field;
+    private TextField client_search_field;
 
     @FXML
-    private MFXDatePicker date_selector;
+    private DatePicker date_selector;
 
     @FXML
     public void initialize() {
@@ -91,7 +88,7 @@ public class AppointmentViewController implements ViewController {
         loadEnumsOnComboBox(appointment_status_selector, AppointmentStatus.values());
         setStringConverter(appointment_status_selector, AppointmentStatus.TODOS);
 
-        loadDTOsOnComboBox(employee_selector, employees);
+        loadGenericTypeListOnComboBox(employee_selector, employees);
 
         configureLiveSearch();
         configureButtonActions();
@@ -275,7 +272,7 @@ public class AppointmentViewController implements ViewController {
 
         List<AppointmentInfoDTO> appointments = appointmentService.liveSearch(clientName, date, selectedAppointmentStatus, employeeName);
 
-        cleanVBox(appointment_list_VBox);
+        cleanContainer(appointment_list_VBox);
 
         loadAppointmentsListOnView(appointments);
 

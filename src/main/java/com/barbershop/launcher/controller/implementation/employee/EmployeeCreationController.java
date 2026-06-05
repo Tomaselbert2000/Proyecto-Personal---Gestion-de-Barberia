@@ -7,11 +7,10 @@ import com.barbershop.launcher.controller.interfaces.CreationController;
 import com.barbershop.launcher.controller.interfaces.EmployeeController;
 import com.barbershop.service.interfaces.EmployeeService;
 import io.github.palexdev.materialfx.controls.MFXButton;
-import io.github.palexdev.materialfx.controls.MFXDatePicker;
-import io.github.palexdev.materialfx.controls.MFXTextField;
 import jakarta.validation.ConstraintViolationException;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import lombok.RequiredArgsConstructor;
@@ -50,13 +49,13 @@ public class EmployeeCreationController implements CreationController, EmployeeC
             save_button;
 
     @FXML
-    private MFXTextField
+    private TextField
             first_name_field,
             last_name_field,
             commission_field;
 
     @FXML
-    private MFXDatePicker hire_date_picker;
+    private DatePicker hire_date_picker;
 
     @FXML
     public void initialize() {

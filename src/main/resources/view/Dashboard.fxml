@@ -11,7 +11,6 @@
             prefHeight="720"
             prefWidth="1200"
             styleClass="md-main-content"
-            stylesheets="@../css/design-system.css, @../css/material-icons.css"
             xmlns="http://javafx.com/javafx/17.0.12"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.barbershop.launcher.controller.implementation.dashboard.DashboardController">
@@ -35,27 +34,21 @@
             <VBox VBox.vgrow="ALWAYS" styleClass="md-navbar-button-container">
 
                 <MFXButton fx:id="navbar_dashboard_button" maxWidth="Infinity" styleClass="md-nav-button"
-                           text="Dashboard">
-                </MFXButton>
+                           text="Dashboard"/>
 
-                <MFXButton fx:id="navbar_client_button" maxWidth="Infinity" styleClass="md-nav-button" text="Clientes">
-                </MFXButton>
+                <MFXButton fx:id="navbar_client_button" maxWidth="Infinity" styleClass="md-nav-button" text="Clientes"/>
 
                 <MFXButton fx:id="navbar_employee_button" maxWidth="Infinity" styleClass="md-nav-button"
-                           text="Empleados">
-                </MFXButton>
+                           text="Empleados"/>
 
                 <MFXButton fx:id="navbar_appointment_button" maxWidth="Infinity" styleClass="md-nav-button"
-                           text="Turnos">
-                </MFXButton>
+                           text="Turnos"/>
 
                 <MFXButton fx:id="navbar_barber_service_button" maxWidth="Infinity" styleClass="md-nav-button"
-                           text="Servicios">
-                </MFXButton>
+                           text="Servicios"/>
 
                 <MFXButton fx:id="navbar_product_button" maxWidth="Infinity" styleClass="md-nav-button"
-                           text="Stock de productos">
-                </MFXButton>
+                           text="Stock de productos"/>
             </VBox>
 
             <Separator styleClass="md-menu-separator"/>
@@ -64,12 +57,10 @@
             <VBox styleClass="md-navbar-button-container">
 
                 <MFXButton fx:id="navbar_settings_button" maxWidth="Infinity" styleClass="md-nav-button"
-                           text="Configuración">
-                </MFXButton>
+                           text="Configuración"/>
 
                 <MFXButton fx:id="navbar_logout_button" maxWidth="Infinity" styleClass="md-nav-button"
-                           text="Cerrar Sesión">
-                </MFXButton>
+                           text="Cerrar Sesión"/>
             </VBox>
         </VBox>
     </left>
@@ -118,7 +109,7 @@
                                 </VBox>
                             </HBox>
                             <VBox styleClass="md-action-label-container">
-                                <Label fx:id="clients_registered_count" styleClass="md-stat-value" text="1,248"/>
+                                <Label fx:id="clients_registered_count" styleClass="md-stat-value"/>
                                 <Label styleClass="md-stat-label" text="Clientes Registrados"/>
                             </VBox>
                             <HBox styleClass="md-action-label-container">
@@ -141,12 +132,11 @@
                                 </VBox>
                             </HBox>
                             <VBox styleClass="md-action-label-container">
-                                <Label fx:id="active_employees_count" styleClass="md-stat-value" text="8"/>
+                                <Label fx:id="active_employees_count" styleClass="md-stat-value"/>
                                 <Label styleClass="md-stat-label" text="Empleados Activos"/>
                             </VBox>
                             <HBox styleClass="md-action-label-container">
-                                <Label fx:id="active_employees_this_month_count"
-                                       text="+2"/>
+                                <Label fx:id="active_employees_this_month_count"/>
                                 <Label styleClass="md-stat-trend-label" text="este mes"/>
                             </HBox>
                         </VBox>
@@ -165,12 +155,11 @@
                                 </VBox>
                             </HBox>
                             <VBox styleClass="md-action-label-container">
-                                <Label fx:id="appointments_today_count" styleClass="md-stat-value" text="24"/>
+                                <Label fx:id="appointments_today_count" styleClass="md-stat-value"/>
                                 <Label styleClass="md-stat-label" text="Turnos Hoy"/>
                             </VBox>
                             <HBox styleClass="md-action-label-container">
-                                <Label fx:id="finished_appointments_today_count" styleClass="md-stat-trend-neutral"
-                                       text="8"/>
+                                <Label fx:id="finished_appointments_today_count" styleClass="md-stat-trend-neutral"/>
                                 <Label styleClass="md-stat-trend-label" text="completados"/>
                             </HBox>
                         </VBox>
@@ -189,11 +178,11 @@
                                 </VBox>
                             </HBox>
                             <VBox styleClass="md-action-label-container">
-                                <Label fx:id="products_on_stock_count" styleClass="md-stat-value" text="156"/>
+                                <Label fx:id="products_on_stock_count" styleClass="md-stat-value"/>
                                 <Label styleClass="md-stat-label" text="Productos en Stock"/>
                             </VBox>
                             <HBox styleClass="md-action-label-container">
-                                <Label fx:id="low_stock_products_count" styleClass="md-stat-trend-negative" text="3"/>
+                                <Label fx:id="low_stock_products_count" styleClass="md-stat-trend-negative"/>
                                 <Label styleClass="md-stat-trend-label" text="bajo stock"/>
                             </HBox>
                         </VBox>
@@ -234,12 +223,10 @@
                                       VBox.vgrow="ALWAYS">
 
                                     <MFXButton fx:id="clients_view_button" styleClass="md-button-outlined"
-                                               text="Ver Clientes">
-                                    </MFXButton>
+                                               text="Ver Clientes"/>
 
                                     <MFXButton fx:id="create_client_button" styleClass="md-button-filled"
-                                               text="+ Nuevo Cliente">
-                                    </MFXButton>
+                                               text="+ Nuevo Cliente"/>
 
                                 </HBox>
                             </VBox>
@@ -264,12 +251,10 @@
                                       VBox.vgrow="ALWAYS">
 
                                     <MFXButton fx:id="employee_view_button" styleClass="md-button-outlined"
-                                               text="Ver Empleados">
-                                    </MFXButton>
+                                               text="Ver Empleados"/>
 
                                     <MFXButton fx:id="create_employee_button" styleClass="md-button-filled"
-                                               text="+ Nuevo Empleado">
-                                    </MFXButton>
+                                               text="+ Nuevo Empleado"/>
 
                                 </HBox>
                             </VBox>
@@ -294,12 +279,10 @@
                                       VBox.vgrow="ALWAYS">
 
                                     <MFXButton fx:id="appointments_view_button" styleClass="md-button-outlined"
-                                               text="Ver Turnos">
-                                    </MFXButton>
+                                               text="Ver Turnos"/>
 
                                     <MFXButton fx:id="create_appointment_button" styleClass="md-button-filled"
-                                               text="+ Nuevo Turno">
-                                    </MFXButton>
+                                               text="+ Nuevo Turno"/>
 
                                 </HBox>
                             </VBox>
@@ -323,13 +306,10 @@
                                 <HBox styleClass="md-action-button-container" VBox.vgrow="ALWAYS">
 
                                     <MFXButton fx:id="products_view_button" styleClass="md-button-outlined"
-                                               text="Ver Inventario">
-                                    </MFXButton>
+                                               text="Ver Inventario"/>
 
                                     <MFXButton fx:id="create_product_button" styleClass="md-button-filled"
-                                               text="+ Nuevo Producto">
-
-                                    </MFXButton>
+                                               text="+ Nuevo Producto"/>
 
                                 </HBox>
                             </VBox>

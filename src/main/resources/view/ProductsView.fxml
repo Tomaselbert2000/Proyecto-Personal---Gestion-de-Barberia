@@ -143,19 +143,19 @@
                             <!-- Buscador -->
                             <VBox styleClass="md-filter-column" HBox.hgrow="ALWAYS">
                                 <Label styleClass="md-filter-label" text="Buscar producto"/>
-                                <MFXTextField fx:id="product_search_field" styleClass="md-mfx-input"/>
+                                <TextField fx:id="product_search_field" styleClass="md-text-field" maxWidth="Infinity"/>
                             </VBox>
 
                             <!-- Filtro por Categoría -->
                             <VBox styleClass="md-filter-column" HBox.hgrow="ALWAYS">
                                 <Label styleClass="md-filter-label" text="Categoría"/>
-                                <MFXComboBox fx:id="product_category_selector" styleClass="md-mfx-input"/>
+                                <ComboBox fx:id="product_category_selector" styleClass="md-combo-box" maxWidth="Infinity"/>
                             </VBox>
 
                             <!-- Filtro por Estado de Stock -->
                             <VBox styleClass="md-filter-column" HBox.hgrow="ALWAYS">
                                 <Label styleClass="md-filter-label" text="Estado de Stock"/>
-                                <MFXComboBox fx:id="product_stock_status_selector" styleClass="md-mfx-input"/>
+                                <ComboBox fx:id="product_stock_status_selector" styleClass="md-combo-box" maxWidth="Infinity"/>
                             </VBox>
 
                             <!-- Botones de Acción -->
@@ -177,7 +177,7 @@
 
                 <!-- Lista de Productos -->
                 <VBox styleClass="md-section-group">
-                    <HBox alignment="CENTER_LEFT" spacing="15.0">
+                    <HBox styleClass="md-section-group">
                         <Label styleClass="md-section-title" text="Inventario de Productos"/>
                         <Region HBox.hgrow="ALWAYS"/>
                         <Label fx:id="products_found_count" styleClass="md-action-subtitle"/>

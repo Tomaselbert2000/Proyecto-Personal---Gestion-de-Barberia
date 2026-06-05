@@ -1,8 +1,6 @@
 package com.barbershop.launcher.controller.helper;
 
 import com.barbershop.enums.AppointmentStatus;
-import io.github.palexdev.materialfx.controls.MFXComboBox;
-import io.github.palexdev.materialfx.controls.MFXDatePicker;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -99,10 +97,11 @@ public class UIBasicComponents {
         }
     }
 
-    public static void setNodeStyleClass(Node node, String styleClass) {
+    public static void addNodeStyleClass(Node node, String styleClass) {
 
-        node.getStyleClass().removeAll();
-        node.getStyleClass().add(styleClass);
+        if (!node.getStyleClass().contains(styleClass)) {
+            node.getStyleClass().add(styleClass);
+        }
     }
 
     public static void setStylesOnNodeMap(Map<Node, String> map) {
@@ -111,7 +110,7 @@ public class UIBasicComponents {
 
             String styleClass = map.get(node);
 
-            setNodeStyleClass(node, styleClass);
+            addNodeStyleClass(node, styleClass);
         }
     }
 
@@ -153,7 +152,7 @@ public class UIBasicComponents {
         }
     }
 
-    public static void cleanDatePicker(MFXDatePicker dateSelector) {
+    public static void cleanDatePicker(DatePicker dateSelector) {
 
         dateSelector.valueProperty().setValue(null);
     }
@@ -166,12 +165,12 @@ public class UIBasicComponents {
         }
     }
 
-    public static void disableComboBox(MFXComboBox<AppointmentStatus> comboBox) {
+    public static void disableComboBox(ComboBox<AppointmentStatus> comboBox) {
 
         comboBox.disableProperty();
     }
 
-    public static void setTimeSelectors(MFXComboBox<LocalTime> hourSelector, MFXComboBox<LocalTime> minuteSelector) {
+    public static void setHourAndMinuteSelectors(ComboBox<LocalTime> hourSelector, ComboBox<LocalTime> minuteSelector) {
 
         List<LocalTime> hours = new ArrayList<>();
         List<LocalTime> minutes = new ArrayList<>();
@@ -186,11 +185,28 @@ public class UIBasicComponents {
             minutes.add(LocalTime.of(0, i));
         }
 
-        loadDTOsOnComboBox(hourSelector, hours); // I use this method because takes a generic type argument
-        loadDTOsOnComboBox(minuteSelector, minutes);
+        loadGenericTypeListOnComboBox(hourSelector, hours); // I use this method because takes a generic type argument
+        loadGenericTypeListOnComboBox(minuteSelector, minutes);
 
         setLocalTimeHourConverter(hourSelector);
         setLocalTimeMinuteConverter(minuteSelector);
+    }
+
+    @SafeVarargs
+    public static void configureServiceHoursSelectors(ComboBox<LocalTime>... selectors) {
+
+        List<LocalTime> hours = new ArrayList<>();
+
+        for (int i = 0; i <= 23; i++) {
+
+            hours.add(LocalTime.of(i, 0));
+        }
+
+        for (ComboBox<LocalTime> comboBox : selectors) {
+
+            loadGenericTypeListOnComboBox(comboBox, hours);
+            setLocalTimeHourConverter(comboBox);
+        }
     }
 
     public static void configureDecimalTextfieldRestrictions(TextField textfield) {

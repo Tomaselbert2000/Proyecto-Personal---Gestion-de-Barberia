@@ -8,11 +8,10 @@ import com.barbershop.launcher.controller.interfaces.EditionController;
 import com.barbershop.launcher.controller.interfaces.EmployeeController;
 import com.barbershop.service.interfaces.EmployeeService;
 import io.github.palexdev.materialfx.controls.MFXButton;
-import io.github.palexdev.materialfx.controls.MFXDatePicker;
-import io.github.palexdev.materialfx.controls.MFXTextField;
 import jakarta.validation.ConstraintViolationException;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
@@ -63,13 +62,13 @@ public class EmployeeEditionController implements EditionController<EmployeeInfo
             current_termination_date;
 
     @FXML
-    private MFXTextField
+    private TextField
             first_name_field,
             last_name_field,
             commission_field;
 
     @FXML
-    private MFXDatePicker termination_date_picker;
+    private DatePicker termination_date_picker;
 
     @FXML
     public void initialize(EmployeeInfoDTO infoDTO) {

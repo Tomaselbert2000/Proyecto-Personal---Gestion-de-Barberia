@@ -6,8 +6,6 @@ import com.barbershop.enums.HireDateRange;
 import com.barbershop.launcher.controller.interfaces.ViewController;
 import com.barbershop.service.interfaces.EmployeeService;
 import io.github.palexdev.materialfx.controls.MFXButton;
-import io.github.palexdev.materialfx.controls.MFXComboBox;
-import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -54,13 +52,13 @@ public class EmployeeViewController implements ViewController {
             results_count;
 
     @FXML
-    private MFXTextField search_field;
+    private TextField search_field;
 
     @FXML
-    private MFXComboBox<EmployeeStatus> status_filter;
+    private ComboBox<EmployeeStatus> status_filter;
 
     @FXML
-    private MFXComboBox<HireDateRange> hire_date_filter;
+    private ComboBox<HireDateRange> hire_date_filter;
 
     @FXML
     private MFXButton
@@ -237,7 +235,7 @@ public class EmployeeViewController implements ViewController {
 
         List<EmployeeInfoDTO> employees = employeeService.liveSearch(employeeName, selectedStatus, selectedDateRange);
 
-        cleanVBox(employee_list_container);
+        cleanContainer(employee_list_container);
 
         loadEmployeeListOnView(employees);
     }

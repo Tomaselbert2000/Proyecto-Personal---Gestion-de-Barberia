@@ -9,8 +9,6 @@ import com.barbershop.exceptions.barberservice.BlankBarberServicePriceException;
 import com.barbershop.launcher.controller.interfaces.EditionController;
 import com.barbershop.service.interfaces.BarberserviceService;
 import io.github.palexdev.materialfx.controls.MFXButton;
-import io.github.palexdev.materialfx.controls.MFXComboBox;
-import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
@@ -38,7 +36,7 @@ public class BarberServiceEditionController implements EditionController<BarberS
     private final ApplicationContext applicationContext;
 
     @FXML
-    private MFXTextField
+    private TextField
             service_id_field,
             service_name_field,
             price_field,
@@ -54,7 +52,7 @@ public class BarberServiceEditionController implements EditionController<BarberS
             update_button;
 
     @FXML
-    private MFXComboBox<BarberServiceCategory> category_combo_box;
+    private ComboBox<BarberServiceCategory> category_combo_box;
 
     @FXML
     private VBox error_message_container;

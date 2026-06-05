@@ -50,34 +50,34 @@
 
                         <!-- Service Name -->
                         <VBox styleClass="md-filter-column" GridPane.columnIndex="0" GridPane.rowIndex="0">
-                            <HBox spacing="4.0">
+                            <HBox styleClass="md-filter-spacer">
                                 <Label styleClass="md-filter-label" text="Nombre del Servicio"/>
                                 <Label styleClass="md-filter-label" text="*" style="-fx-text-fill: -fx-error"/>
                             </HBox>
 
-                            <MFXTextField fx:id="service_name_field" styleClass="md-mfx-input" maxWidth="Infinity"/>
+                            <TextField fx:id="service_name_field" styleClass="md-text-field" maxWidth="Infinity"/>
 
                         </VBox>
 
                         <!-- Price -->
                         <VBox styleClass="md-filter-column" GridPane.columnIndex="1" GridPane.rowIndex="0">
-                            <HBox spacing="4.0">
+                            <HBox styleClass="md-filter-spacer">
                                 <Label styleClass="md-filter-label" text="Precio"/>
                                 <Label styleClass="md-filter-label" text="*" style="-fx-text-fill: -fx-error"/>
                             </HBox>
 
-                            <MFXTextField fx:id="price_field" styleClass="md-mfx-input"/>
+                            <TextField fx:id="price_field" styleClass="md-text-field"/>
 
                         </VBox>
 
                         <!-- Category -->
                         <VBox styleClass="md-filter-column" GridPane.columnIndex="0" GridPane.rowIndex="1">
-                            <HBox spacing="4.0">
+                            <HBox styleClass="md-filter-spacer">
                                 <Label styleClass="md-filter-label" text="Categoría"/>
                                 <Label styleClass="md-filter-label" text="*" style="-fx-text-fill: -fx-error"/>
                             </HBox>
 
-                            <MFXComboBox fx:id="category_combo_box" styleClass="md-mfx-input"/>
+                            <ComboBox fx:id="category_combo_box" styleClass="md-combo-box"/>
                         </VBox>
                     </GridPane>
 
@@ -106,7 +106,8 @@
 
                             <Label styleClass="md-filter-label" text="Notas Internas"/>
 
-                            <MFXTextField fx:id="internal_notes_field" styleClass="md-mfx-input" maxWidth="Infinity" maxHeight="Infinity"/>
+                            <TextField fx:id="internal_notes_field" styleClass="md-text-field" maxWidth="Infinity"
+                                       maxHeight="Infinity"/>
                         </VBox>
                     </GridPane>
                 </VBox>

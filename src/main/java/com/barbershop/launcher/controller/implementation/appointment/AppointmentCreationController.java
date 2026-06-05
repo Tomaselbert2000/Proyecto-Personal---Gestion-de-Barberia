@@ -71,7 +71,7 @@ public class AppointmentCreationController implements CreationController, Appoin
             save_button;
 
     @FXML
-    private MFXTextField
+    private TextField
             client_search_field,
             appointment_notes;
 
@@ -97,16 +97,16 @@ public class AppointmentCreationController implements CreationController, Appoin
             summary_card_vbox;
 
     @FXML
-    private MFXComboBox<BarberServiceInfoDTO> barberservice_selector;
+    private ComboBox<BarberServiceInfoDTO> barberservice_selector;
 
     @FXML
-    private MFXComboBox<EmployeeInfoDTO> employee_selector;
+    private ComboBox<EmployeeInfoDTO> employee_selector;
 
     @FXML
-    private MFXDatePicker date_selector;
+    private DatePicker date_selector;
 
     @FXML
-    private MFXComboBox<LocalTime>
+    private ComboBox<LocalTime>
             hour_selector,
             minute_selector;
 
@@ -127,8 +127,8 @@ public class AppointmentCreationController implements CreationController, Appoin
         List<BarberServiceInfoDTO> catalog = appointmentService.getBarberServicesFromServiceInstance();
         List<EmployeeInfoDTO> employees = appointmentService.getEmployeesFromServiceInstance();
 
-        loadDTOsOnComboBox(barberservice_selector, catalog);
-        loadDTOsOnComboBox(employee_selector, employees);
+        loadGenericTypeListOnComboBox(barberservice_selector, catalog);
+        loadGenericTypeListOnComboBox(employee_selector, employees);
 
         setNodeAsNotVisible(client_result_list, selected_client_card_vbox);
     }
@@ -323,7 +323,7 @@ public class AppointmentCreationController implements CreationController, Appoin
     @Override
     public void configureTimeSelectors() {
 
-        setTimeSelectors(hour_selector, minute_selector);
+        setHourAndMinuteSelectors(hour_selector, minute_selector);
 
         date_selector.valueProperty().addListener((_, _, _) -> onDateTimeChanged());
         hour_selector.valueProperty().addListener((_, _, _) -> onDateTimeChanged());

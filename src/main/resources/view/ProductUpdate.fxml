@@ -52,7 +52,7 @@
                                     <Label styleClass="md-filter-label" text="Nombre del Producto"/>
                                     <Label styleClass="md-filter-label" text="*" style="-fx-text-fill: -fx-error"/>
                                 </HBox>
-                                <MFXTextField fx:id="name" styleClass="md-mfx-input" maxWidth="Infinity"/>
+                                <TextField fx:id="name" styleClass="md-text-field" maxWidth="Infinity"/>
                             </VBox>
 
                             <!-- Brand Name -->
@@ -60,17 +60,17 @@
                                 <HBox styleClass="md-filter-spacer">
                                     <Label styleClass="md-filter-label" text="Marca"/>
                                 </HBox>
-                                <MFXTextField fx:id="brand_name" styleClass="md-mfx-input" maxWidth="Infinity"/>
+                                <TextField fx:id="brand_name" styleClass="md-text-field" maxWidth="Infinity"/>
                             </VBox>
 
                             <HBox GridPane.columnIndex="1" GridPane.rowIndex="0">
                                 <!-- Category -->
-                                <VBox styleClass="md-filter-column" >
+                                <VBox styleClass="md-filter-column">
                                     <HBox styleClass="md-filter-spacer">
                                         <Label styleClass="md-filter-label" text="Categoría"/>
                                         <Label styleClass="md-filter-label" text="*" style="-fx-text-fill: -fx-error"/>
                                     </HBox>
-                                    <MFXComboBox fx:id="category" styleClass="md-mfx-input" maxWidth="Infinity"/>
+                                    <ComboBox fx:id="category" styleClass="md-combo-box" maxWidth="Infinity"/>
                                 </VBox>
 
                                 <!-- Presentation -->
@@ -79,8 +79,8 @@
                                         <Label styleClass="md-filter-label" text="Presentación"/>
                                     </HBox>
                                     <HBox styleClass="md-filter-spacer">
-                                        <MFXTextField fx:id="presentation_size" styleClass="md-mfx-input"/>
-                                        <MFXComboBox fx:id="presentation_unit" styleClass="md-mfx-input"/>
+                                        <TextField fx:id="presentation_size" styleClass="md-text-field"/>
+                                        <ComboBox fx:id="presentation_unit" styleClass="md-combo-box"/>
                                     </HBox>
                                 </VBox>
                             </HBox>
@@ -92,7 +92,7 @@
                             <HBox styleClass="md-filter-spacer">
                                 <Label styleClass="md-filter-label" text="Descripción"/>
                             </HBox>
-                            <MFXTextField fx:id="optional_description" styleClass="md-mfx-input" maxWidth="Infinity"/>
+                            <TextField fx:id="optional_description" styleClass="md-text-field" maxWidth="Infinity"/>
                         </VBox>
                     </VBox>
                 </VBox>
@@ -116,7 +116,7 @@
                                         <Label styleClass="md-filter-label" text="Costo de Compra"/>
                                         <Label styleClass="md-filter-label" text="*" style="-fx-text-fill: -fx-error"/>
                                     </HBox>
-                                    <MFXTextField fx:id="product_cost" styleClass="md-mfx-input"/>
+                                    <TextField fx:id="product_cost" styleClass="md-text-field"/>
                                 </VBox>
 
                                 <!-- Current Price -->
@@ -125,7 +125,7 @@
                                         <Label styleClass="md-filter-label" text="Precio de Venta"/>
                                         <Label styleClass="md-filter-label" text="*" style="-fx-text-fill: -fx-error"/>
                                     </HBox>
-                                    <MFXTextField fx:id="current_price" styleClass="md-mfx-input"/>
+                                    <TextField fx:id="current_price" styleClass="md-text-field"/>
                                 </VBox>
 
                                 <!-- Profit Margin -->
@@ -143,7 +143,7 @@
                                     <HBox styleClass="md-filter-spacer">
                                         <Label styleClass="md-filter-label" text="Precio de venta por mayor"/>
                                     </HBox>
-                                    <MFXTextField fx:id="product_wholesale_price" styleClass="md-mfx-input"/>
+                                    <TextField fx:id="product_wholesale_price" styleClass="md-text-field"/>
                                 </VBox>
 
                                 <!-- Min Price -->
@@ -151,7 +151,7 @@
                                     <HBox styleClass="md-filter-spacer">
                                         <Label styleClass="md-filter-label" text="Precio de venta mínimo"/>
                                     </HBox>
-                                    <MFXTextField fx:id="min_price" styleClass="md-mfx-input"/>
+                                    <TextField fx:id="min_price" styleClass="md-text-field"/>
                                 </VBox>
 
                                 <!-- Max Discount Percentage -->
@@ -159,7 +159,7 @@
                                     <HBox styleClass="md-filter-spacer">
                                         <Label styleClass="md-filter-label" text="Descuento Máximo"/>
                                     </HBox>
-                                    <MFXTextField fx:id="max_discount_percentage" styleClass="md-mfx-input"/>
+                                    <TextField fx:id="max_discount_percentage" styleClass="md-text-field"/>
                                 </VBox>
                             </GridPane>
                         </VBox>
@@ -180,8 +180,8 @@
                                     <HBox styleClass="md-filter-spacer">
                                         <Label styleClass="md-filter-label" text="Stock Actual"/>
                                     </HBox>
-                                    <MFXTextField fx:id="current_stock_level" editable="false"
-                                                  styleClass="md-mfx-input"/>
+                                    <TextField fx:id="current_stock_level" editable="false"
+                                               styleClass="md-text-field"/>
                                 </VBox>
 
                                 <!-- Safety Stock Level -->
@@ -190,7 +190,7 @@
                                         <Label styleClass="md-filter-label" text="Stock Mínimo"/>
                                         <Label styleClass="form-required" text="*" style="-fx-text-fill: -fx-error"/>
                                     </HBox>
-                                    <MFXTextField fx:id="safety_stock_level" styleClass="md-mfx-input"/>
+                                    <TextField fx:id="safety_stock_level" styleClass="md-text-field"/>
                                 </VBox>
                             </GridPane>
                         </VBox>

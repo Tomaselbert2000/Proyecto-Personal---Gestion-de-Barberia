@@ -6,13 +6,13 @@ import com.barbershop.enums.StockStatus;
 import com.barbershop.launcher.controller.interfaces.ViewController;
 import com.barbershop.service.interfaces.ProductService;
 import io.github.palexdev.materialfx.controls.MFXButton;
-import io.github.palexdev.materialfx.controls.MFXComboBox;
-import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import lombok.RequiredArgsConstructor;
@@ -54,13 +54,13 @@ public class ProductViewController implements ViewController {
             products_found_count;
 
     @FXML
-    private MFXTextField product_search_field;
+    private TextField product_search_field;
 
     @FXML
-    private MFXComboBox<ProductCategory> product_category_selector;
+    private ComboBox<ProductCategory> product_category_selector;
 
     @FXML
-    private MFXComboBox<StockStatus> product_stock_status_selector;
+    private ComboBox<StockStatus> product_stock_status_selector;
 
     @FXML
     private MFXButton
@@ -212,7 +212,7 @@ public class ProductViewController implements ViewController {
 
         List<ProductInfoDTO> products = productService.liveSearch(productName, selectedCategory, selectedStatus);
 
-        cleanVBox(product_list_vbox);
+        cleanContainer(product_list_vbox);
 
         loadProductListOnView(products);
     }

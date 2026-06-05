@@ -52,7 +52,7 @@
                                     <Label styleClass="md-filter-label" text="Nombre"/>
                                     <Label styleClass="md-filter-label" text="*" style="-fx-text-fill: -fx-error"/>
                                 </HBox>
-                                <MFXTextField fx:id="first_name_field" styleClass="md-mfx-input" maxWidth="Infinity"/>
+                                <TextField fx:id="first_name_field" styleClass="md-text-field" maxWidth="Infinity"/>
                             </VBox>
 
                             <!-- Apellido -->
@@ -61,7 +61,7 @@
                                     <Label styleClass="md-filter-label" text="Apellido"/>
                                     <Label styleClass="md-filter-label" text="*" style="-fx-text-fill: -fx-error"/>
                                 </HBox>
-                                <MFXTextField fx:id="last_name_field" styleClass="md-mfx-input" maxWidth="Infinity"/>
+                                <TextField fx:id="last_name_field" styleClass="md-text-field" maxWidth="Infinity"/>
                             </VBox>
 
                             <!-- Fecha de Contratación -->
@@ -70,7 +70,7 @@
                                     <Label styleClass="md-filter-label" text="Fecha de Contratación"/>
                                     <Label styleClass="md-filter-label" text="*" style="-fx-text-fill: -fx-error"/>
                                 </HBox>
-                                <MFXDatePicker fx:id="hire_date_picker" styleClass="md-mfx-input"/>
+                                <DatePicker fx:id="hire_date_picker" styleClass="md-date-picker"/>
                             </VBox>
 
                             <!-- Porcentaje de Comisión -->
@@ -79,7 +79,7 @@
                                     <Label styleClass="md-filter-label" text="Comisión (%)"/>
                                     <Label styleClass="md-filter-label" text="*" style="-fx-text-fill: -fx-error"/>
                                 </HBox>
-                                <MFXTextField fx:id="commission_field" styleClass="md-mfx-input" maxWidth="Infinity"/>
+                                <TextField fx:id="commission_field" styleClass="md-text-field" maxWidth="Infinity"/>
                             </VBox>
                         </GridPane>
                     </VBox>

@@ -13,9 +13,6 @@ import com.barbershop.exceptions.common.EmployeeNotAvailableException;
 import com.barbershop.launcher.controller.interfaces.AppointmentController;
 import com.barbershop.service.interfaces.AppointmentService;
 import io.github.palexdev.materialfx.controls.MFXButton;
-import io.github.palexdev.materialfx.controls.MFXComboBox;
-import io.github.palexdev.materialfx.controls.MFXDatePicker;
-import io.github.palexdev.materialfx.controls.MFXTextField;
 import jakarta.validation.ConstraintViolationException;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -87,10 +84,10 @@ public class AppointmentEditionController implements AppointmentController {
     private HBox current_status_container;
 
     @FXML
-    private MFXComboBox<BarberServiceInfoDTO> barber_service_selector;
+    private ComboBox<BarberServiceInfoDTO> barber_service_selector;
 
     @FXML
-    private MFXComboBox<EmployeeInfoDTO> employee_selector;
+    private ComboBox<EmployeeInfoDTO> employee_selector;
 
     @FXML
     private VBox
@@ -98,18 +95,18 @@ public class AppointmentEditionController implements AppointmentController {
             appointment_summary_card;
 
     @FXML
-    private MFXDatePicker date_selector;
+    private DatePicker date_selector;
 
     @FXML
-    private MFXComboBox<LocalTime>
+    private ComboBox<LocalTime>
             hour_selector,
             minute_selector;
 
     @FXML
-    private MFXTextField appointment_notes;
+    private TextField appointment_notes;
 
     @FXML
-    private MFXComboBox<AppointmentStatus> status_selector;
+    private ComboBox<AppointmentStatus> status_selector;
 
     @FXML
     public void initialize(AppointmentInfoDTO infoDTO) {
@@ -151,8 +148,8 @@ public class AppointmentEditionController implements AppointmentController {
 
         setTextsOnLabelMap(map);
 
-        loadDTOsOnComboBox(barber_service_selector, barberServices);
-        loadDTOsOnComboBox(employee_selector, employees);
+        loadGenericTypeListOnComboBox(barber_service_selector, barberServices);
+        loadGenericTypeListOnComboBox(employee_selector, employees);
 
         loadAvailableStatuses(infoDTO.getCurrentStatus());
 
@@ -287,7 +284,7 @@ public class AppointmentEditionController implements AppointmentController {
     @Override
     public void configureTimeSelectors() {
 
-        setTimeSelectors(hour_selector, minute_selector);
+        setHourAndMinuteSelectors(hour_selector, minute_selector);
 
         date_selector.valueProperty().addListener((_, _, _) -> updateDateTimeSummary());
         hour_selector.valueProperty().addListener((_, _, _) -> updateDateTimeSummary());

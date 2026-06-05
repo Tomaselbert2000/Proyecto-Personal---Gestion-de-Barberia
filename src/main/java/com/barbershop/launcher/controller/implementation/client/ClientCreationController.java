@@ -57,7 +57,7 @@ public class ClientCreationController implements CreationController {
             save_button;
 
     @FXML
-    private MFXTextField
+    private TextField
             dni_field,
             first_name_field,
             last_name_field,
@@ -106,7 +106,7 @@ public class ClientCreationController implements CreationController {
 
     private void cleanPhoneNumbersList() {
 
-        cleanVBox(phones_container);
+        cleanContainer(phones_container);
         addPhoneToList();
     }
 
@@ -121,7 +121,7 @@ public class ClientCreationController implements CreationController {
 
         MFXButton removePhoneButton = createRemoveButton(hbox);
 
-        addNodesToHBox(hbox, phoneTextfield, removePhoneButton);
+        addAllChildrensToPane(hbox, phoneTextfield, removePhoneButton);
 
         loadItemOnVBox(phones_container, hbox);
     }

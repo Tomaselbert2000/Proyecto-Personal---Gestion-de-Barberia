@@ -4,14 +4,16 @@ import com.barbershop.dto.client.ClientInfoDTO;
 import com.barbershop.launcher.controller.interfaces.EditionController;
 import com.barbershop.service.interfaces.ClientService;
 import io.github.palexdev.materialfx.controls.MFXButton;
-import io.github.palexdev.materialfx.controls.MFXCheckbox;
-import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.fxml.FXML;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
+
+import java.awt.*;
 
 @Component
 @RequiredArgsConstructor
@@ -31,7 +33,7 @@ public class ClientEditionController implements EditionController<ClientInfoDTO>
             save_button;
 
     @FXML
-    private MFXTextField
+    private TextField
             dni_field,
             first_name_field,
             last_name_field,
@@ -42,7 +44,7 @@ public class ClientEditionController implements EditionController<ClientInfoDTO>
     private VBox phones_container;
 
     @FXML
-    private MFXCheckbox client_active_checkbox;
+    private CheckBox client_active_checkbox;
 
     @FXML
     public void initialize() {

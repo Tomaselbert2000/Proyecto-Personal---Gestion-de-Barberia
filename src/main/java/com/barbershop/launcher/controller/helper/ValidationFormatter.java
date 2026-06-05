@@ -1,7 +1,6 @@
 package com.barbershop.launcher.controller.helper;
 
 import com.barbershop.enums.*;
-import io.github.palexdev.materialfx.controls.MFXComboBox;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import javafx.scene.control.*;
@@ -52,7 +51,7 @@ public class ValidationFormatter {
         return String.format(PERCENTAGE_FORMAT, percentage);
     }
 
-    public static <T extends DescribableEnum> void setStringConverter(MFXComboBox<T> comboBox, T defaultValue) {
+    public static <T extends DescribableEnum> void setStringConverter(ComboBox<T> comboBox, T defaultValue) {
 
         comboBox.setConverter(
 

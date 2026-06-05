@@ -106,7 +106,7 @@
                             <Label fx:id="inactive_employees_count" styleClass="md-stat-value"/>
                             <Label styleClass="md-stat-label" text="Inactivos"/>
                         </VBox>
-                        <HBox alignment="CENTER_LEFT" spacing="5.0">
+                        <HBox styleClass="md-action-label-container">
                             <Label fx:id="inactive_employees_percentage" styleClass="md-stat-trend-neutral"/>
                             <Label styleClass="md-stat-trend-label" text="del equipo"/>
                         </HBox>
@@ -145,19 +145,19 @@
                             <!-- Buscador -->
                             <VBox styleClass="md-filter-column" HBox.hgrow="ALWAYS">
                                 <Label styleClass="md-filter-label" text="Buscar empleado"/>
-                                <MFXTextField fx:id="search_field" styleClass="md-mfx-input" maxWidth="Infinity"/>
+                                <TextField fx:id="search_field" styleClass="md-text-field" maxWidth="Infinity"/>
                             </VBox>
 
                             <!-- Filtro por Estado -->
                             <VBox styleClass="md-filter-column" HBox.hgrow="ALWAYS">
                                 <Label styleClass="md-filter-label" text="Estado"/>
-                                <MFXComboBox fx:id="status_filter" styleClass="md-mfx-input" maxWidth="Infinity"/>
+                                <ComboBox fx:id="status_filter" styleClass="md-combo-box" maxWidth="Infinity"/>
                             </VBox>
 
                             <!-- Filtro por Fecha de Contratación -->
                             <VBox styleClass="md-filter-column" HBox.hgrow="ALWAYS">
                                 <Label styleClass="md-filter-label" text="Fecha contratación"/>
-                                <MFXComboBox fx:id="hire_date_filter" styleClass="md-mfx-input" maxWidth="Infinity"/>
+                                <ComboBox fx:id="hire_date_filter" styleClass="md-combo-box" maxWidth="Infinity"/>
                             </VBox>
 
                             <!-- Botones de Acción -->
@@ -176,7 +176,7 @@
 
                 <!-- Lista de Empleados -->
                 <VBox styleClass="md-section-group">
-                    <HBox alignment="CENTER_LEFT" spacing="15.0">
+                    <HBox styleClass="md-section-group">
                         <Label styleClass="md-section-title" text="Lista de Empleados"/>
                         <Region HBox.hgrow="ALWAYS"/>
                         <Label fx:id="results_count" styleClass="md-action-subtitle"/>

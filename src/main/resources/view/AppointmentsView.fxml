@@ -148,36 +148,36 @@
                             <!-- Buscador -->
                             <VBox styleClass="md-filter-column" HBox.hgrow="ALWAYS">
                                 <Label styleClass="md-filter-label" text="Buscar por cliente"/>
-                                <MFXTextField fx:id="client_search_field"
+                                <TextField fx:id="client_search_field"
                                               promptText="Nombre o apellido del cliente"
                                               maxWidth="Infinity"
-                                              styleClass="md-mfx-input"/>
+                                              styleClass="md-text-field"/>
                             </VBox>
 
                             <!-- Filtro por Fecha -->
                             <VBox styleClass="md-filter-column" HBox.hgrow="ALWAYS">
                                 <Label styleClass="md-filter-label" text="Fecha"/>
-                                <MFXDatePicker fx:id="date_selector"
+                                <DatePicker fx:id="date_selector"
                                                promptText="Seleccionar fecha"
                                                maxWidth="Infinity"
-                                               styleClass="md-mfx-input"/>
+                                               styleClass="md-date-picker"/>
                             </VBox>
 
                             <!-- Filtro por Estado -->
                             <VBox styleClass="md-filter-column" HBox.hgrow="ALWAYS">
                                 <Label styleClass="md-filter-label" text="Estado"/>
-                                <MFXComboBox fx:id="appointment_status_selector"
+                                <ComboBox fx:id="appointment_status_selector"
                                              maxWidth="Infinity"
-                                             styleClass="md-mfx-input"/>
+                                             styleClass="md-combo-box"/>
                             </VBox>
 
                             <!-- Filtro por Empleado -->
                             <VBox styleClass="md-filter-column" HBox.hgrow="ALWAYS">
                                 <Label styleClass="md-filter-label" text="Empleado"/>
-                                <MFXComboBox fx:id="employee_selector"
+                                <ComboBox fx:id="employee_selector"
                                              promptText="Todos los empleados"
                                              maxWidth="Infinity"
-                                             styleClass="md-mfx-input"/>
+                                             styleClass="md-combo-box"/>
                             </VBox>
 
                             <!-- Botones de Acción -->
@@ -203,7 +203,7 @@
 
                 <!-- Lista de Turnos -->
                 <VBox styleClass="md-section-group">
-                    <HBox alignment="CENTER_LEFT" spacing="15.0">
+                    <HBox styleClass="md-section-group">
                         <Label styleClass="md-section-title" text="Lista de Turnos"/>
                         <Region HBox.hgrow="ALWAYS"/>
                         <Label fx:id="total_appointments_count" styleClass="md-action-subtitle"/>

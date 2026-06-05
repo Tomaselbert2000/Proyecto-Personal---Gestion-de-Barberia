@@ -25,7 +25,7 @@ import java.util.Map;
 import static com.barbershop.launcher.constants.ui.messages.EmptyListMessage.EMPTY_ACTIVITY_LOG_MESSAGE;
 import static com.barbershop.launcher.constants.ui.messages.ViewLoadingErrorMessage.*;
 import static com.barbershop.launcher.constants.view.ViewPath.*;
-import static com.barbershop.launcher.controller.helper.ContainerManager.cleanVBox;
+import static com.barbershop.launcher.controller.helper.ContainerManager.cleanContainer;
 import static com.barbershop.launcher.controller.helper.ContainerManager.loadItemOnVBox;
 import static com.barbershop.launcher.controller.helper.FXMLViewLoader.*;
 import static com.barbershop.launcher.controller.helper.UIBasicComponents.*;
@@ -117,7 +117,7 @@ public class DashboardController implements Controller {
 
     private void loadRecentActivitiesOnDashboard(List<RecentActivityDTO> recentActivity) {
 
-        cleanVBox(activity_log_vbox);
+        cleanContainer(activity_log_vbox);
 
         if (recentActivity.isEmpty()) {
 

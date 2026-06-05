@@ -146,26 +146,26 @@
                             <!-- Search -->
                             <VBox styleClass="md-filter-column" HBox.hgrow="ALWAYS">
                                 <Label styleClass="md-filter-label" text="Buscar servicio"/>
-                                <MFXTextField fx:id="service_search_field"
+                                <TextField fx:id="service_search_field"
                                               promptText="Nombre del servicio"
                                               maxWidth="Infinity"
-                                              styleClass="md-mfx-input"/>
+                                              styleClass="md-text-field"/>
                             </VBox>
 
                             <!-- Category Filter -->
                             <VBox styleClass="md-filter-column" HBox.hgrow="ALWAYS">
                                 <Label styleClass="md-filter-label" text="Categoría"/>
-                                <MFXComboBox fx:id="service_category_selector"
+                                <ComboBox fx:id="service_category_selector"
                                              maxWidth="Infinity"
-                                             styleClass="md-mfx-input"/>
+                                             styleClass="md-combo-box"/>
                             </VBox>
 
                             <!-- Price Range -->
                             <VBox styleClass="md-filter-column" HBox.hgrow="ALWAYS">
                                 <Label styleClass="md-filter-label" text="Rango de precio"/>
-                                <MFXComboBox fx:id="service_price_range_selector"
+                                <ComboBox fx:id="service_price_range_selector"
                                              maxWidth="Infinity"
-                                             styleClass="md-mfx-input"/>
+                                             styleClass="md-combo-box"/>
                             </VBox>
 
                             <!-- Action Buttons -->
@@ -187,7 +187,7 @@
 
                 <!-- Services List -->
                 <VBox styleClass="md-section-group">
-                    <HBox alignment="CENTER_LEFT" spacing="15.0">
+                    <HBox styleClass="md-section-group">
                         <Label styleClass="md-section-title" text="Lista de Servicios"/>
                         <Region HBox.hgrow="ALWAYS"/>
                         <Label fx:id="service_list_vbox_service_count" styleClass="md-action-subtitle"/>

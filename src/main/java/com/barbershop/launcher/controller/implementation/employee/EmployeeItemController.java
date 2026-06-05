@@ -63,14 +63,14 @@ public class EmployeeItemController implements ItemController<EmployeeInfoDTO> {
         if (isActive) {
 
             setTextOnLabel(status_label, "Activo");
-            setNodeStyleClass(employee_status_badge, EMPLOYEE_ITEM_STATUS_ACTIVO);
+            addNodeStyleClass(employee_status_badge, EMPLOYEE_ITEM_STATUS_ACTIVO);
 
             setTextOnButton(toggle_status_button, "Desactivar");
 
         } else {
 
             setTextOnLabel(status_label, "Inactivo");
-            setNodeStyleClass(employee_status_badge, EMPLOYEE_ITEM_STATUS_INACTIVO);
+            addNodeStyleClass(employee_status_badge, EMPLOYEE_ITEM_STATUS_INACTIVO);
 
             setTextOnButton(toggle_status_button, "Activar");
 

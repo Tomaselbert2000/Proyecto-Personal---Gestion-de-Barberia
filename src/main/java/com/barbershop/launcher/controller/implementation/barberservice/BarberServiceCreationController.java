@@ -8,11 +8,10 @@ import com.barbershop.exceptions.barberservice.BlankBarberServicePriceException;
 import com.barbershop.launcher.controller.interfaces.CreationController;
 import com.barbershop.service.interfaces.BarberserviceService;
 import io.github.palexdev.materialfx.controls.MFXButton;
-import io.github.palexdev.materialfx.controls.MFXComboBox;
-import io.github.palexdev.materialfx.controls.MFXTextField;
 import jakarta.validation.ConstraintViolationException;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import lombok.RequiredArgsConstructor;
@@ -43,13 +42,13 @@ public class BarberServiceCreationController implements CreationController {
     private AnchorPane anchor_pane;
 
     @FXML
-    private MFXTextField
+    private TextField
             service_name_field,
             price_field,
             internal_notes_field;
 
     @FXML
-    private MFXComboBox<BarberServiceCategory> category_combo_box;
+    private ComboBox<BarberServiceCategory> category_combo_box;
 
     @FXML
     private MFXButton

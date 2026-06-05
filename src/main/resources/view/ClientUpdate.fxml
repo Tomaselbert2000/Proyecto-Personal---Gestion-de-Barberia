@@ -52,7 +52,7 @@
                                     <Label styleClass="md-filter-label" text="*" style="-fx-text-fill: -fx-error"/>
                                 </HBox>
 
-                                <MFXTextField fx:id="dni_field" styleClass="md-mfx-input"/>
+                                <TextField fx:id="dni_field" styleClass="md-text-field" maxWidth="Infinity"/>
                             </VBox>
 
                             <!-- Nombre -->
@@ -62,7 +62,7 @@
                                     <Label styleClass="md-filter-label" text="*" style="-fx-text-fill: -fx-error"/>
                                 </HBox>
 
-                                <MFXTextField fx:id="first_name_field" styleClass="md-mfx-input"/>
+                                <TextField fx:id="first_name_field" styleClass="md-text-field" maxWidth="Infinity"/>
                             </VBox>
 
                             <!-- Apellido -->
@@ -72,7 +72,7 @@
                                     <Label styleClass="md-filter-label" text="*" style="-fx-text-fill: -fx-error"/>
                                 </HBox>
 
-                                <MFXTextField fx:id="last_name_field" styleClass="md-mfx-input"/>
+                                <TextField fx:id="last_name_field" styleClass="md-text-field"/>
                             </VBox>
 
                             <!-- Email -->
@@ -82,7 +82,7 @@
                                     <Label styleClass="md-filter-label" text="*" style="-fx-text-fill: -fx-error"/>
                                 </HBox>
 
-                                <MFXTextField fx:id="email_field" styleClass="md-mfx-input"/>
+                                <TextField fx:id="email_field" styleClass="md-text-field" maxWidth="Infinity"/>
                             </VBox>
 
                             <!-- Teléfonos -->
@@ -103,7 +103,7 @@
                             <!-- Estado del Cliente -->
                             <VBox styleClass="md-filter-column" GridPane.columnIndex="0" GridPane.columnSpan="2"
                                   GridPane.rowIndex="3">
-                                <MFXCheckbox fx:id="client_active_checkbox" selected="true" styleClass="form-checkbox"
+                                <CheckBox fx:id="client_active_checkbox" selected="true" styleClass="md-check-box"
                                              text="Cliente activo"/>
                             </VBox>
                         </GridPane>
@@ -127,7 +127,7 @@
                             <VBox styleClass="md-filter-column" GridPane.columnIndex="0"
                                   GridPane.columnSpan="2">
                                 <Label styleClass="md-filter-label" text="Notas"/>
-                                <MFXTextField fx:id="optional_notes_field" styleClass="md-mfx-input"/>
+                                <TextField fx:id="optional_notes_field" styleClass="md-text-field" maxWidth="Infinity"/>
                             </VBox>
                         </GridPane>
                     </VBox>

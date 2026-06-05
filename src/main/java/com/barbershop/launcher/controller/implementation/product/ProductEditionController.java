@@ -10,11 +10,10 @@ import com.barbershop.launcher.controller.interfaces.EditionController;
 import com.barbershop.launcher.controller.interfaces.ProductController;
 import com.barbershop.service.interfaces.ProductService;
 import io.github.palexdev.materialfx.controls.MFXButton;
-import io.github.palexdev.materialfx.controls.MFXComboBox;
-import io.github.palexdev.materialfx.controls.MFXTextField;
 import jakarta.validation.ConstraintViolationException;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
@@ -58,7 +57,7 @@ public class ProductEditionController implements EditionController<ProductInfoDT
             save_button;
 
     @FXML
-    private MFXTextField
+    private TextField
             name,
             optional_description,
             brand_name,
@@ -72,10 +71,10 @@ public class ProductEditionController implements EditionController<ProductInfoDT
             safety_stock_level;
 
     @FXML
-    private MFXComboBox<ProductCategory> category;
+    private ComboBox<ProductCategory> category;
 
     @FXML
-    private MFXComboBox<ProductPresentationUnit> presentation_unit;
+    private ComboBox<ProductPresentationUnit> presentation_unit;
 
     @FXML
     private Label profit_margin_value;

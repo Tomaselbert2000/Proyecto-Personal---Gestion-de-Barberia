@@ -51,7 +51,7 @@
                                     <Label styleClass="md-filter-label" text="DNI"/>
                                     <Label styleClass="md-filter-label" text="*" style="-fx-text-fill: -fx-error"/>
                                 </HBox>
-                                <MFXTextField fx:id="dni_field" styleClass="md-mfx-input" maxWidth="Infinity"/>
+                                <TextField fx:id="dni_field" styleClass="md-text-field" maxWidth="Infinity"/>
                             </VBox>
 
                             <!-- Nombre -->
@@ -60,7 +60,7 @@
                                     <Label styleClass="md-filter-label" text="Nombre"/>
                                     <Label styleClass="md-filter-label" text="*" style="-fx-text-fill: -fx-error"/>
                                 </HBox>
-                                <MFXTextField fx:id="first_name_field" styleClass="md-mfx-input" maxWidth="Infinity"/>
+                                <TextField fx:id="first_name_field" styleClass="md-text-field" maxWidth="Infinity"/>
                             </VBox>
 
                             <!-- Apellido -->
@@ -69,7 +69,7 @@
                                     <Label styleClass="md-filter-label" text="Apellido"/>
                                     <Label styleClass="form-required" text="*" style="-fx-text-fill: -fx-error"/>
                                 </HBox>
-                                <MFXTextField fx:id="last_name_field" styleClass="md-mfx-input" maxWidth="Infinity"/>
+                                <TextField fx:id="last_name_field" styleClass="md-text-field" maxWidth="Infinity"/>
                             </VBox>
 
                             <!-- Email -->
@@ -78,7 +78,7 @@
                                     <Label styleClass="md-filter-label" text="Email"/>
                                     <Label styleClass="form-required" text="*" style="-fx-text-fill: -fx-error"/>
                                 </HBox>
-                                <MFXTextField fx:id="email_field" styleClass="md-mfx-input" maxWidth="Infinity"/>
+                                <TextField fx:id="email_field" styleClass="md-text-field" maxWidth="Infinity"/>
                             </VBox>
 
                             <!-- Teléfonos -->
@@ -114,7 +114,7 @@
                             <!-- Notas -->
                             <VBox styleClass="md-filter-column" GridPane.columnIndex="0" GridPane.columnSpan="2">
                                 <Label styleClass="md-filter-label" text="Notas"/>
-                                <MFXTextField fx:id="optional_notes_field" styleClass="form-text-field-notes"
+                                <TextField fx:id="optional_notes_field" styleClass="md-text-field"
                                               maxWidth="Infinity" maxHeight="Infinity"/>
                             </VBox>
                         </GridPane>

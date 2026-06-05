@@ -3,12 +3,11 @@ package com.barbershop.launcher.controller.implementation.dialog;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import org.springframework.stereotype.Component;
 
 import static com.barbershop.launcher.constants.ui.css_class.CssStylesStrings.CONFIRM_DELETE_DIALOG_WARNING_ICON;
-import static com.barbershop.launcher.controller.helper.UIBasicComponents.setNodeStyleClass;
+import static com.barbershop.launcher.controller.helper.UIBasicComponents.addNodeStyleClass;
 import static com.barbershop.launcher.controller.helper.UIBasicComponents.setTextOnLabel;
 
 @Component
@@ -32,7 +31,7 @@ public class DeleteConfirmationDialogController {
         setTextOnLabel(confirmation_title, title);
         setTextOnLabel(confirmation_message, message);
 
-        setNodeStyleClass(dialog_icon, CONFIRM_DELETE_DIALOG_WARNING_ICON);
+        addNodeStyleClass(dialog_icon, CONFIRM_DELETE_DIALOG_WARNING_ICON);
 
         if (onCancel != null && onCloseDialog != null) {
 

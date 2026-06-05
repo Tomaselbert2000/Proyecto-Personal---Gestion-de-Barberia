@@ -6,7 +6,8 @@
 <AnchorPane fx:id="anchor_pane"
             maxHeight="1.7976931348623157E308"
             maxWidth="1.7976931348623157E308"
-            xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1"
+            xmlns="http://javafx.com/javafx/17.0.12"
+            xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.barbershop.launcher.controller.implementation.appointment.AppointmentCreationController">
 
     <VBox AnchorPane.bottomAnchor="0.0"
@@ -46,12 +47,12 @@
 
                             <!-- Client Search -->
                             <VBox styleClass="md-filter-column" GridPane.columnIndex="0" GridPane.rowIndex="0">
-                                <HBox spacing="4.0">
+                                <HBox styleClass="md-filter-spacer">
                                     <Label styleClass="md-filter-label" text="Buscar Cliente"/>
                                     <Label styleClass="md-filter-label" text="*" style="-fx-text-fill: -fx-error"/>
                                 </HBox>
-                                <MFXTextField fx:id="client_search_field" styleClass="md-mfx-input"
-                                              maxWidth="Infinity"/>
+                                <TextField fx:id="client_search_field" styleClass="md-text-field"
+                                           maxWidth="Infinity"/>
                             </VBox>
 
                             <!-- New Client Button -->
@@ -67,11 +68,11 @@
 
                         <!-- Selected Client Info -->
                         <VBox fx:id="selected_client_card_vbox" styleClass="md-list-item" visible="false">
-                            <HBox alignment="CENTER_LEFT" spacing="15.0">
+                            <HBox styleClass="md-section-group">
                                 <VBox alignment="CENTER" styleClass="client-avatar-container">
                                     <Label fx:id="client_initials" styleClass="md-initials"/>
                                 </VBox>
-                                <VBox alignment="CENTER_LEFT" spacing="3.0">
+                                <VBox styleClass="md-filter-spacer">
                                     <Label fx:id="client_name" styleClass="md-list-item-title"/>
                                     <Label fx:id="national_id_card_number" styleClass="md-list-item-subtitle"/>
                                 </VBox>
@@ -97,31 +98,31 @@
 
                             <!-- Service Selection -->
                             <VBox styleClass="md-filter-column" GridPane.columnIndex="0" GridPane.rowIndex="0">
-                                <HBox spacing="4.0">
+                                <HBox styleClass="md-filter-spacer">
                                     <Label styleClass="md-filter-label" text="Servicio"/>
                                     <Label styleClass="md-filter-label" text="*" style="-fx-text-fill: -fx-error"/>
                                 </HBox>
 
-                                <MFXComboBox fx:id="barberservice_selector" styleClass="md-mfx-input"
-                                             maxWidth="Infinity"/>
+                                <ComboBox fx:id="barberservice_selector" styleClass="md-combo-box"
+                                          maxWidth="Infinity"/>
 
                             </VBox>
 
                             <!-- Employee Selection -->
                             <VBox styleClass="md-filter-column" GridPane.columnIndex="1" GridPane.rowIndex="0">
-                                <HBox spacing="4.0">
+                                <HBox styleClass="md-filter-spacer">
                                     <Label styleClass="md-filter-label" text="Empleado asignado"/>
                                     <Label styleClass="md-filter-label" text="*" style="-fx-text-fill: -fx-error"/>
                                 </HBox>
 
-                                <MFXComboBox fx:id="employee_selector" styleClass="md-mfx-input" maxWidth="Infinity"/>
+                                <ComboBox fx:id="employee_selector" styleClass="md-combo-box" maxWidth="Infinity"/>
 
                             </VBox>
                         </GridPane>
 
                         <!-- Service Duration Info -->
                         <VBox fx:id="service_selection_container" styleClass="md-filter-card" visible="false">
-                            <HBox alignment="CENTER_LEFT" spacing="15.0">
+                            <HBox styleClass="md-section-group">
                                 <Label styleClass="md-filter-label" text="Precio:"/>
                                 <Label fx:id="service_price" styleClass="md-filter-label"/>
                             </HBox>
@@ -149,43 +150,41 @@
 
                             <!-- Start Date -->
                             <VBox styleClass="md-filter-column" GridPane.columnIndex="0" GridPane.rowIndex="0">
-                                <HBox spacing="4.0">
+                                <HBox styleClass="md-filter-spacer">
                                     <Label styleClass="md-filter-label" text="Fecha de Inicio"/>
                                     <Label styleClass="md-filter-label" text="*" style="-fx-text-fill: -fx-error"/>
                                 </HBox>
 
-                                <MFXDatePicker fx:id="date_selector" editable="false" styleClass="md-mfx-input"
-                                               maxWidth="Infinity"/>
+                                <DatePicker fx:id="date_selector" styleClass="md-date-picker" maxWidth="Infinity"/>
                             </VBox>
 
                             <!-- Start Time -->
                             <VBox styleClass="md-filter-column" GridPane.columnIndex="1" GridPane.rowIndex="0">
-                                <HBox spacing="4.0">
+                                <HBox styleClass="md-filter-spacer">
                                     <Label styleClass="md-filter-label" text="Hora de Inicio"/>
                                     <Label styleClass="md-filter-label" text="*" style="-fx-text-fill: -fx-error"/>
                                 </HBox>
 
-                                <MFXComboBox fx:id="hour_selector" styleClass="md-mfx-input" maxWidth="Infinity"/>
+                                <ComboBox fx:id="hour_selector" styleClass="md-combo-box"/>
 
                             </VBox>
 
                             <!-- Start Minutes -->
                             <VBox styleClass="md-filter-column" GridPane.columnIndex="2" GridPane.rowIndex="0">
-                                <HBox spacing="4.0">
+                                <HBox styleClass="md-filter-spacer">
                                     <Label styleClass="md-filter-label" text="Minutos"/>
                                 </HBox>
-                                <MFXComboBox fx:id="minute_selector" styleClass="md-mfx-input" maxWidth="Infinity">
-                                </MFXComboBox>
+                                <ComboBox fx:id="minute_selector" styleClass="md-combo-box"/>
                             </VBox>
 
                             <!-- Notes -->
                             <VBox styleClass="md-filter-column" GridPane.columnIndex="0" GridPane.columnSpan="4"
                                   GridPane.rowIndex="1">
-                                <HBox spacing="4.0">
+                                <HBox styleClass="md-filter-spacer">
                                     <Label styleClass="md-filter-label" text="Notas (opcional)"/>
                                 </HBox>
-                                <MFXTextField fx:id="appointment_notes" styleClass="md-textfield-outlined"
-                                              maxWidth="Infinity" maxHeight="Infinity"/>
+                                <TextField fx:id="appointment_notes" styleClass="md-text-field"
+                                           maxWidth="Infinity" maxHeight="Infinity"/>
                             </VBox>
                         </GridPane>
                     </VBox>
