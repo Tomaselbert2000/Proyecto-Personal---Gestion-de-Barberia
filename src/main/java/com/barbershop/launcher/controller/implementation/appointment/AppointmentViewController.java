@@ -22,6 +22,9 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
+import static com.barbershop.launcher.animation.AnimationEngine.fadeNodeIn;
+import static com.barbershop.launcher.animation.AnimationEngineConstant.ANIMATION_DELAY_IN_MS;
+import static com.barbershop.launcher.concurrency.ConcurrencyManager.executeUITask;
 import static com.barbershop.launcher.constants.ui.messages.EmptyListMessage.EMPTY_APPOINTMENTS_LIST_MESSAGE;
 import static com.barbershop.launcher.constants.ui.messages.ToastNotificationMessage.APPOINTMENT_STATUS_UPDATED_TOAST_NOTIFICATION_MESSAGE;
 import static com.barbershop.launcher.constants.ui.messages.ViewLoadingErrorMessage.*;
@@ -102,7 +105,9 @@ public class AppointmentViewController implements ViewController {
 
         } else {
 
-            for (AppointmentInfoDTO infoDTO : appointmentInfoDTOList) {
+            for (int i = 0; i < appointmentInfoDTOList.size(); i++) {
+
+                AppointmentInfoDTO infoDTO = appointmentInfoDTOList.get(i);
 
                 FXMLLoader loader = generateLoaderWithPath(APPOINTMENT_ITEM_VIEW_PATH);
 
@@ -117,6 +122,8 @@ public class AppointmentViewController implements ViewController {
                 appointmentCardItemController.setOnEditCallback(this::goToAppointmentEditionView);
 
                 loadItemOnVBox(appointment_list_VBox, appointmentView);
+
+                fadeNodeIn(appointment_list_VBox, i * ANIMATION_DELAY_IN_MS);
             }
         }
     }
@@ -184,53 +191,78 @@ public class AppointmentViewController implements ViewController {
 
     private void statsOfAppointmentsScheduledForToday() {
 
-        Long appointmentsToday = appointmentService.appointmentsToday();
+        executeUITask(
+                () -> {
+                    Long appointmentsToday = appointmentService.appointmentsToday();
+                    Long completedAppointmentsToday = appointmentService.completedAppointmentsToday();
 
-        setTextOnLabel(appointments_today, appointmentsToday.toString());
+                    return List.of(appointmentsToday, completedAppointmentsToday);
+                },
+                uiActionValues -> {
 
-        Long completedAppointmentsToday = appointmentService.completedAppointmentsToday();
-
-        setTextOnLabel(completed_appointments_today, completedAppointmentsToday.toString());
+                    setTextOnLabel(appointments_today, parseNumberValueToText(uiActionValues.getFirst()));
+                    setTextOnLabel(completed_appointments_today, parseNumberValueToText(uiActionValues.getLast()));
+                }
+        );
     }
 
     private void statsOfScheduledAppointmentsInTheFuture() {
 
-        Long appointmentsWithStatus_PROGRAMADO = appointmentService.appointmentsByStatus(AppointmentStatus.PROGRAMADO);
+        executeUITask(
+                () -> {
+                    Long appointmentsWithStatus_PROGRAMADO = appointmentService.appointmentsByStatus(AppointmentStatus.PROGRAMADO);
+                    Long newAppointmentsCreatedToday = appointmentService.appointmentsCreatedToday();
 
-        setTextOnLabel(scheduled_appointments, appointmentsWithStatus_PROGRAMADO.toString());
+                    return List.of(appointmentsWithStatus_PROGRAMADO, newAppointmentsCreatedToday);
+                },
+                uiActionValues -> {
 
-        Long newAppointmentsCreatedToday = appointmentService.appointmentsCreatedToday();
-
-        setTextOnLabel(new_appointments_scheduled_today, newAppointmentsCreatedToday.toString());
+                    setTextOnLabel(scheduled_appointments, parseNumberValueToText(uiActionValues.getFirst()));
+                    setTextOnLabel(new_appointments_scheduled_today, parseNumberValueToText(uiActionValues.getLast()));
+                }
+        );
     }
 
     private void statsOfAppointmentsThisMonth() {
 
-        Long appointmentsThisMonth = appointmentService.appointmentsDuringThisMonth();
+        executeUITask(
+                () -> {
+                    Long appointmentsThisMonth = appointmentService.appointmentsDuringThisMonth();
+                    Long percentageOfAppointmentsRegisteredVsPreviousMonth = appointmentService.calculatePercentageOfAppointmentsVsPreviousMonth();
 
-        setTextOnLabel(appointments_this_month, appointmentsThisMonth.toString());
+                    return List.of(appointmentsThisMonth, percentageOfAppointmentsRegisteredVsPreviousMonth);
+                },
+                uiActionValues -> {
 
-        Long percentageOfAppointmentsRegisteredVsPreviousMonth = appointmentService.calculatePercentageOfAppointmentsVsPreviousMonth();
-
-        setTextOnLabel(percentage_of_appointments_registered_vs_previous_month, percentageOfAppointmentsRegisteredVsPreviousMonth.toString() + "%");
+                    setTextOnLabel(appointments_this_month, parseNumberValueToText(uiActionValues.getFirst()));
+                    setTextOnLabel(percentage_of_appointments_registered_vs_previous_month, formatAsPercentage(Double.valueOf(uiActionValues.getLast())) + "%");
+                }
+        );
     }
 
     private void statsOfCanceledAppointments() {
 
-        Long appointmentsCanceled = appointmentService.canceledAppointments();
+        executeUITask(
+                () -> {
+                    Long appointmentsCanceled = appointmentService.canceledAppointments();
+                    Long appointmentsCanceledVsPastWeek = appointmentService.canceledAppointmentsVsPastWeek();
 
-        setTextOnLabel(canceled_appointments, appointmentsCanceled.toString());
+                    return List.of(appointmentsCanceled, appointmentsCanceledVsPastWeek);
+                },
+                uiActionValues -> {
 
-        Long appointmentsCanceledVsPastWeek = appointmentService.canceledAppointmentsVsPastWeek();
-
-        setTextOnLabel(canceled_appointments_vs_past_week, appointmentsCanceledVsPastWeek.toString());
+                    setTextOnLabel(canceled_appointments, parseNumberValueToText(uiActionValues.getFirst()));
+                    setTextOnLabel(canceled_appointments_vs_past_week, parseNumberValueToText(uiActionValues.getLast()));
+                }
+        );
     }
 
     private void totalAppointmentsFound() {
 
-        Long appointmentsCount = appointmentService.getTotalAppointmentsCount();
-
-        setTextOnLabel(total_appointments_count, appointmentsCount.toString() + " encontrados");
+        executeUITask(
+                appointmentService::getTotalAppointmentsCount,
+                uiActionValue -> setTextOnLabel(total_appointments_count, parseNumberValueToText(uiActionValue) + " encontrados")
+        );
     }
 
     @Override

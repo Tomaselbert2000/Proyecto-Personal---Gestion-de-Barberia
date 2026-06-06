@@ -7,8 +7,6 @@ import com.barbershop.utils.time.TimeCalculation;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Region;
-import lombok.Getter;
-import lombok.Setter;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -21,8 +19,6 @@ import static com.barbershop.launcher.controller.helper.UIBasicComponents.genera
 import static com.barbershop.launcher.controller.helper.UIBasicComponents.setTextsOnLabelMap;
 
 @Component
-@Getter
-@Setter
 public class ActivityItemController implements ItemController<RecentActivityDTO> {
 
     @FXML

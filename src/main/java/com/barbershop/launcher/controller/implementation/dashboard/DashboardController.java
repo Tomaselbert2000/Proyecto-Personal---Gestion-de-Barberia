@@ -13,15 +13,16 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Map;
 
+import static com.barbershop.launcher.animation.AnimationEngine.fadeNodeIn;
+import static com.barbershop.launcher.animation.AnimationEngineConstant.ANIMATION_DELAY_IN_MS;
+import static com.barbershop.launcher.concurrency.ConcurrencyManager.executeUITask;
 import static com.barbershop.launcher.constants.ui.messages.EmptyListMessage.EMPTY_ACTIVITY_LOG_MESSAGE;
 import static com.barbershop.launcher.constants.ui.messages.ViewLoadingErrorMessage.*;
 import static com.barbershop.launcher.constants.view.ViewPath.*;
@@ -29,11 +30,11 @@ import static com.barbershop.launcher.controller.helper.ContainerManager.cleanCo
 import static com.barbershop.launcher.controller.helper.ContainerManager.loadItemOnVBox;
 import static com.barbershop.launcher.controller.helper.FXMLViewLoader.*;
 import static com.barbershop.launcher.controller.helper.UIBasicComponents.*;
+import static com.barbershop.launcher.controller.helper.ValidationFormatter.formatAsPercentage;
+import static com.barbershop.launcher.controller.helper.ValidationFormatter.parseNumberValueToText;
 import static com.barbershop.launcher.controller.helper.ViewRedirectionHelper.redirectToView;
 
 @Component
-@Getter
-@Setter
 @RequiredArgsConstructor
 public class DashboardController implements Controller {
 
@@ -96,16 +97,17 @@ public class DashboardController implements Controller {
 
     public void reloadDashboard() {
 
-        borderPane.setCenter(dashboardReference);
+        animateViewChange(dashboardReference, borderPane);
 
         loadStatistics();
     }
 
     private void loadEventLog() {
 
-        List<RecentActivityDTO> recentActivity = dashboardService.getRecentActivityLog();
-
-        loadRecentActivitiesOnDashboard(recentActivity);
+        executeUITask(
+                dashboardService::getRecentActivityLog,
+                this::loadRecentActivitiesOnDashboard
+        );
     }
 
     private void loadStatistics() {
@@ -125,7 +127,9 @@ public class DashboardController implements Controller {
 
         } else {
 
-            for (RecentActivityDTO activityDTO : recentActivity) {
+            for (int i = 0; i < recentActivity.size(); i++) {
+
+                RecentActivityDTO activityDTO = recentActivity.get(i);
 
                 FXMLLoader loader = generateLoaderWithPath(ACTIVITY_LOG_ITEM_VIEW_PATH);
 
@@ -136,6 +140,8 @@ public class DashboardController implements Controller {
                 activityItemController.setDataOnItem(activityDTO);
 
                 loadItemOnVBox(activity_log_vbox, activityLog);
+
+                fadeNodeIn(activityLog, i * ANIMATION_DELAY_IN_MS);
             }
         }
     }
@@ -153,46 +159,72 @@ public class DashboardController implements Controller {
 
     private void loadClientsStats() {
 
-        Long clientsRegistered = clientService.getClientsRegisteredQuantity();
+        executeUITask(
+                () -> {
+                    Long clientsRegistered = clientService.getClientsRegisteredQuantity();
+                    Long clientsRegisteredPercentageVsPreviousMonth = clientService.calculatePercentageOfClientsVsLastMonth();
 
-        setTextOnLabel(clients_registered_count, clientsRegistered.toString());
+                    return List.of(clientsRegistered, clientsRegisteredPercentageVsPreviousMonth);
+                },
 
-        Long clientsRegisteredPercentageVsPreviousMonth = clientService.calculatePercentageOfClientsVsLastMonth();
+                longList -> {
 
-        setTextOnLabel(clients_registered_percentage_vs_last_month, clientsRegisteredPercentageVsPreviousMonth.toString() + "%");
+                    setTextOnLabel(clients_registered_count, parseNumberValueToText(longList.getFirst()));
+                    setTextOnLabel(clients_registered_percentage_vs_last_month, formatAsPercentage(Double.valueOf(longList.getLast())));
+                }
+        );
     }
 
     private void loadEmployeesStats() {
 
-        Long activeEmployees = employeeService.getActiveEmployees();
+        executeUITask(
+                () -> {
+                    Long activeEmployees = employeeService.getActiveEmployees();
+                    Long activeEmployeesThisMonthVsLastMonth = employeeService.calculateActiveEmployeesVsLastMonth();
 
-        setTextOnLabel(active_employees_count, activeEmployees.toString());
+                    return List.of(activeEmployees, activeEmployeesThisMonthVsLastMonth);
+                },
 
-        Long activeEmployeesThisMonthVsLastMonth = employeeService.calculateActiveEmployeesVsLastMonth();
+                longList -> {
 
-        setTextOnLabel(active_employees_this_month_count, activeEmployeesThisMonthVsLastMonth.toString());
+                    setTextOnLabel(active_employees_count, parseNumberValueToText(longList.getFirst()));
+                    setTextOnLabel(active_employees_this_month_count, parseNumberValueToText(longList.getLast()));
+                }
+        );
     }
 
     private void loadAppointmentsStats() {
 
-        Long appointmentsTodayCount = appointmentService.appointmentsToday();
+        executeUITask(
+                () -> {
+                    Long appointmentsTodayCount = appointmentService.appointmentsToday();
+                    Long finishedAppointmentsToday = appointmentService.completedAppointmentsToday();
 
-        setTextOnLabel(appointments_today_count, appointmentsTodayCount.toString());
+                    return List.of(appointmentsTodayCount, finishedAppointmentsToday);
+                },
+                longList -> {
 
-        Long finishedAppointmentsToday = appointmentService.completedAppointmentsToday();
-
-        setTextOnLabel(finished_appointments_today_count, finishedAppointmentsToday.toString());
+                    setTextOnLabel(appointments_today_count, parseNumberValueToText(longList.getFirst()));
+                    setTextOnLabel(finished_appointments_today_count, parseNumberValueToText(longList.getLast()));
+                }
+        );
     }
 
     private void loadProductsStats() {
 
-        Long productsOnStockCount = productService.getProductsRegisteredCount();
+        executeUITask(
+                () -> {
+                    Long productsOnStockCount = productService.getProductsRegisteredCount();
+                    Long lowStockProductCount = productService.getProductsOnLowStock();
 
-        setTextOnLabel(products_on_stock_count, productsOnStockCount.toString());
+                    return List.of(productsOnStockCount, lowStockProductCount);
+                },
+                longList -> {
 
-        Long lowStockProductCount = productService.getProductsOnLowStock();
-
-        setTextOnLabel(low_stock_products_count, lowStockProductCount.toString());
+                    setTextOnLabel(products_on_stock_count, parseNumberValueToText(longList.getFirst()));
+                    setTextOnLabel(low_stock_products_count, parseNumberValueToText(longList.getLast()));
+                }
+        );
     }
 
     @Override

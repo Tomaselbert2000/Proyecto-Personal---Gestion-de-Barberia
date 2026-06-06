@@ -22,6 +22,9 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.Map;
 
+import static com.barbershop.launcher.animation.AnimationEngine.fadeNodeIn;
+import static com.barbershop.launcher.animation.AnimationEngineConstant.ANIMATION_DELAY_IN_MS;
+import static com.barbershop.launcher.concurrency.ConcurrencyManager.executeUITask;
 import static com.barbershop.launcher.constants.ui.messages.EmptyListMessage.EMPTY_PRODUCT_LIST_MESSAGE;
 import static com.barbershop.launcher.constants.ui.messages.GenericStrings.*;
 import static com.barbershop.launcher.constants.ui.messages.ViewLoadingErrorMessage.*;
@@ -95,30 +98,57 @@ public class ProductViewController implements ViewController {
 
     private void loadTotalProductCountStats() {
 
-        Long productCount = productService.getProductsRegisteredCount();
-        Long productsCreatedThisMonth = productService.getProductsCreatedThisMonth();
+        executeUITask(
+                () -> {
+                    Long productCount = productService.getProductsRegisteredCount();
+                    Long productsCreatedThisMonth = productService.getProductsCreatedThisMonth();
 
-        setTextOnLabel(product_count, productCount.toString());
-        setTextOnLabel(products_created_this_month, productsCreatedThisMonth.toString());
-        setTextOnLabel(products_found_count, productCount + " productos encontrados");
+                    return List.of(productCount, productsCreatedThisMonth);
+                },
+                uiActionValues -> {
+
+                    Map<Label, String> map = Map.ofEntries(
+                            Map.entry(product_count, parseNumberValueToText(uiActionValues.getFirst())),
+                            Map.entry(products_created_this_month, parseNumberValueToText(uiActionValues.getLast())),
+                            Map.entry(products_found_count, parseNumberValueToText(uiActionValues.getFirst()) + " productos encontrados"));
+
+                    setTextsOnLabelMap(map);
+                }
+        );
     }
 
     private void loadStockLevelStats() {
 
-        Long productsWithCriticalStockLevel = productService.getProductsOnCriticalStockCount();
-        Long productsWithLowStockLevel = productService.getProductsOnLowStock();
+        executeUITask(
+                () -> {
+                    Long productsWithCriticalStockLevel = productService.getProductsOnCriticalStockCount();
+                    Long productsWithLowStockLevel = productService.getProductsOnLowStock();
 
-        setTextOnLabel(critical_stock_level_product_count, productsWithCriticalStockLevel.toString());
-        setTextOnLabel(low_stock_level_product_count, productsWithLowStockLevel.toString());
+                    return List.of(productsWithCriticalStockLevel, productsWithLowStockLevel);
+                },
+                uiActionValues -> {
+
+                    setTextOnLabel(critical_stock_level_product_count, parseNumberValueToText(uiActionValues.getFirst()));
+                    setTextOnLabel(low_stock_level_product_count, parseNumberValueToText(uiActionValues.getLast()));
+                }
+        );
     }
 
     private void loadTotalStockValue() {
 
-        Double currentTotalStockValue = productService.calculateTotalStockValue();
-        Double totalStockValuePercentageVariationVsLastMonth = productService.calculateTotalStockValuePercentageVariationVsLastMonth();
+        executeUITask(
+                () -> {
+                    Double currentTotalStockValue = productService.calculateTotalStockValue();
+                    Double totalStockValuePercentageVariationVsLastMonth = productService.calculateTotalStockValuePercentageVariationVsLastMonth();
 
-        setTextOnLabel(total_stock_value, CURRENCY_STRING_ARG + currentTotalStockValue);
-        setTextOnLabel(total_stock_value_vs_last_month, totalStockValuePercentageVariationVsLastMonth.toString() + "%");
+                    return List.of(currentTotalStockValue, totalStockValuePercentageVariationVsLastMonth);
+                },
+                uiActionValues -> {
+
+                    setTextOnLabel(total_stock_value, CURRENCY_STRING_ARG + parseNumberValueToText(uiActionValues.getFirst()));
+                    setTextOnLabel(total_stock_value_vs_last_month, formatAsPercentage(uiActionValues.getLast()) + "%");
+                }
+        );
     }
 
     private void loadProductListOnView(List<ProductInfoDTO> products) {
@@ -129,7 +159,9 @@ public class ProductViewController implements ViewController {
 
         } else {
 
-            for (ProductInfoDTO infoDTO : products) {
+            for (int i = 0; i < products.size(); i++) {
+
+                ProductInfoDTO infoDTO = products.get(i);
 
                 FXMLLoader loader = generateLoaderWithPath(PRODUCT_ITEM_VIEW_PATH);
 
@@ -143,6 +175,8 @@ public class ProductViewController implements ViewController {
                 productItemController.setOnAddStockCallback(this::goToAddStockView);
 
                 loadItemOnVBox(product_list_vbox, productItem);
+
+                fadeNodeIn(product_list_vbox, i * ANIMATION_DELAY_IN_MS);
             }
         }
     }
@@ -168,7 +202,6 @@ public class ProductViewController implements ViewController {
     }
 
     private void goToAddStockView(ProductInfoDTO productInfoDTO) {
-
 
     }
 

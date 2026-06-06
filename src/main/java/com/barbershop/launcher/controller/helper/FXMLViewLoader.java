@@ -1,16 +1,19 @@
 package com.barbershop.launcher.controller.helper;
 
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import org.springframework.context.ApplicationContext;
 
 import java.io.IOException;
 
+import static com.barbershop.launcher.animation.AnimationEngine.slideAndFadeNodeIn;
+import static com.barbershop.launcher.animation.AnimationEngine.slideAndFadeNodeOut;
 import static com.barbershop.launcher.controller.helper.ContainerManager.setViewOnAnchorPaneCenter;
-import static com.barbershop.launcher.controller.helper.ContainerManager.setViewOnBorderPaneCenter;
 
 public class FXMLViewLoader {
 
@@ -41,20 +44,55 @@ public class FXMLViewLoader {
             String optionalErrorMessage,
             Pane pane
     ) {
-
         FXMLLoader loader = generateLoaderWithPath(viewPath);
-
         setControllerOnLoader(loader, applicationContext);
+        Parent newView = returnParentFromLoader(loader, optionalErrorMessage);
 
-        Parent parent = returnParentFromLoader(loader, optionalErrorMessage);
+        animateViewChange(newView, pane);
+    }
 
-        if (pane instanceof BorderPane) {
+    public static void animateViewChange(Node newView, Pane pane) {
 
-            setViewOnBorderPaneCenter((BorderPane) pane, parent);
+        if (pane instanceof BorderPane borderPane) {
+
+            Node currentCenter = borderPane.getCenter();
+
+            StackPane animationContainer;
+
+            if (currentCenter instanceof StackPane) {
+
+                animationContainer = (StackPane) currentCenter;
+
+            } else {
+
+                animationContainer = new StackPane();
+
+                if (currentCenter != null) {
+
+                    animationContainer.getChildren().add(currentCenter);
+                }
+                borderPane.setCenter(animationContainer);
+            }
+
+            Node oldView = animationContainer.getChildren().isEmpty() ? null : animationContainer.getChildren().getLast();
+
+            if (oldView != null) {
+
+                animationContainer.getChildren().removeIf(node -> node != oldView);
+
+            } else {
+
+                animationContainer.getChildren().clear();
+            }
+
+            animationContainer.getChildren().add(newView);
+
+            if (oldView != null) slideAndFadeNodeOut(oldView, 0.0);
+            if (newView != null) slideAndFadeNodeIn(newView, 0.0);
 
         } else {
 
-            setViewOnAnchorPaneCenter((AnchorPane) pane, parent);
+            setViewOnAnchorPaneCenter((AnchorPane) pane, (Parent) newView);
         }
     }
 }

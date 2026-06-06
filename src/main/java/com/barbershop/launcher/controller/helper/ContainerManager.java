@@ -25,11 +25,6 @@ public class ContainerManager {
         vBox.getChildren().add(parent);
     }
 
-    public static void setViewOnBorderPaneCenter(BorderPane borderPane, Parent view) {
-
-        borderPane.setCenter(view);
-    }
-
     public static void setViewOnAnchorPaneCenter(AnchorPane anchorPane, Parent parent) {
 
         anchorPane.getChildren().clear();

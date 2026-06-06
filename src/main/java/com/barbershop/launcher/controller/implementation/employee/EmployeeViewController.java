@@ -3,6 +3,7 @@ package com.barbershop.launcher.controller.implementation.employee;
 import com.barbershop.dto.employee.EmployeeInfoDTO;
 import com.barbershop.enums.EmployeeStatus;
 import com.barbershop.enums.HireDateRange;
+import com.barbershop.launcher.controller.helper.UIBasicComponents;
 import com.barbershop.launcher.controller.interfaces.ViewController;
 import com.barbershop.service.interfaces.EmployeeService;
 import io.github.palexdev.materialfx.controls.MFXButton;
@@ -19,6 +20,9 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.Map;
 
+import static com.barbershop.launcher.animation.AnimationEngine.fadeNodeIn;
+import static com.barbershop.launcher.animation.AnimationEngineConstant.ANIMATION_DELAY_IN_MS;
+import static com.barbershop.launcher.concurrency.ConcurrencyManager.executeUITask;
 import static com.barbershop.launcher.constants.ui.messages.EmptyListMessage.EMPTY_EMPLOYEE_LIST_MESSAGE;
 import static com.barbershop.launcher.constants.ui.messages.ViewLoadingErrorMessage.*;
 import static com.barbershop.launcher.constants.view.ViewPath.*;
@@ -91,62 +95,80 @@ public class EmployeeViewController implements ViewController {
 
     private void loadTotalEmployeesStats() {
 
-        Long count = employeeService.getEmployeeCount();
-        Long employeesTrendCount = employeeService.getEmployeesTrendThisMonth();
+        executeUITask(
+                () -> {
+                    Long count = employeeService.getEmployeeCount();
+                    Long employeesTrendCount = employeeService.getEmployeesTrendThisMonth();
 
-        List<Label> labels = List.of(total_employees_count, total_employees_trend, results_count);
-        List<String> texts = List.of(parseNumberValueToText(count), parseNumberValueToText(employeesTrendCount), parseNumberValueToText(count));
+                    List<Label> labels = List.of(total_employees_count, total_employees_trend, results_count);
+                    List<String> texts = List.of(parseNumberValueToText(count), parseNumberValueToText(employeesTrendCount), parseNumberValueToText(count));
 
-        Map<Label, String> map = generateMap(labels, texts);
-
-        setTextsOnLabelMap(map);
+                    return generateMap(labels, texts);
+                },
+                UIBasicComponents::setTextsOnLabelMap
+        );
     }
 
     private void loadEmployeeActivityStats(int totalCount) {
 
-        Long activeEmployeesCount = employeeService.getActiveEmployees();
-        Long inactiveEmployeesCount = employeeService.getInactiveEmployees();
+        executeUITask(
+                () -> {
+                    Long activeEmployeesCount = employeeService.getActiveEmployees();
+                    Long inactiveEmployeesCount = employeeService.getInactiveEmployees();
 
-        double activePercentage;
-        double inactivePercentage;
+                    return List.of(activeEmployeesCount, inactiveEmployeesCount);
+                },
+                uiActionValues -> {
 
-        if (totalCount > 0) {
+                    double activePercentage;
+                    double inactivePercentage;
 
-            activePercentage = (activeEmployeesCount * 100.0) / totalCount;
-            inactivePercentage = (inactiveEmployeesCount * 100.0) / totalCount;
+                    if (totalCount > 0) {
 
-        } else {
+                        activePercentage = (uiActionValues.getFirst() * 100.0) / totalCount;
+                        inactivePercentage = (uiActionValues.getLast() * 100.0) / totalCount;
 
-            activePercentage = 0.0;
-            inactivePercentage = 0.0;
-        }
+                    } else {
 
-        Map<Label, String> map = Map.of(
-                active_employees_count, parseNumberValueToText(activeEmployeesCount),
-                inactive_employees_count, parseNumberValueToText(inactiveEmployeesCount),
-                active_employees_percentage, formatAsPercentage(activePercentage),
-                inactive_employees_percentage, formatAsPercentage(inactivePercentage)
+                        activePercentage = 0.0;
+                        inactivePercentage = 0.0;
+                    }
+
+                    Map<Label, String> map = Map.of(
+                            active_employees_count, parseNumberValueToText(uiActionValues.getFirst()),
+                            inactive_employees_count, parseNumberValueToText(uiActionValues.getLast()),
+                            active_employees_percentage, formatAsPercentage(activePercentage),
+                            inactive_employees_percentage, formatAsPercentage(inactivePercentage)
+                    );
+
+                    setTextsOnLabelMap(map);
+                }
         );
-
-        setTextsOnLabelMap(map);
     }
 
     private void loadProductivityStats() {
 
-        double averageMonthlyProductivity = employeeService.calculateAverageMonthlyProductivity();
-        double productivityTrend = employeeService.calculateProductivityTrendVsLastMonth();
+        executeUITask(
+                () -> {
+                    double averageMonthlyProductivity = employeeService.calculateAverageMonthlyProductivity();
+                    double productivityTrend = employeeService.calculateProductivityTrendVsLastMonth();
 
-        setTextOnLabel(average_productivity_count, formatAsDecimalValue(averageMonthlyProductivity));
+                    return List.of(averageMonthlyProductivity, productivityTrend);
+                },
+                uiActionValues -> {
 
-        if (productivityTrend > 0.0) {
+                    setTextOnLabel(average_productivity_count, formatAsDecimalValue(uiActionValues.getFirst()));
 
-            setTextOnLabel(productivity_trend, "+" + formatAsPercentage(productivityTrend));
+                    if (uiActionValues.getLast() > 0.0) {
 
-        } else {
+                        setTextOnLabel(productivity_trend, "+" + formatAsPercentage(uiActionValues.getLast()));
 
-            setTextOnLabel(productivity_trend, "-" + formatAsPercentage(productivityTrend));
+                    } else {
 
-        }
+                        setTextOnLabel(productivity_trend, "-" + formatAsPercentage(uiActionValues.getLast()));
+                    }
+                }
+        );
     }
 
     private void loadEmployeeListOnView(List<EmployeeInfoDTO> employees) {
@@ -157,7 +179,9 @@ public class EmployeeViewController implements ViewController {
 
         } else {
 
-            for (EmployeeInfoDTO infoDTO : employees) {
+            for (int i = 0; i < employees.size(); i++) {
+
+                EmployeeInfoDTO infoDTO = employees.get(i);
 
                 FXMLLoader loader = generateLoaderWithPath(EMPLOYEE_ITEM_VIEW_PATH);
 
@@ -171,6 +195,8 @@ public class EmployeeViewController implements ViewController {
                 employeeItemController.setOnStatusChangeCallBack(this::changeEmployeeStatus);
 
                 loadItemOnVBox(employee_list_container, employeeItem);
+
+                fadeNodeIn(employee_list_container, i * ANIMATION_DELAY_IN_MS);
             }
         }
     }

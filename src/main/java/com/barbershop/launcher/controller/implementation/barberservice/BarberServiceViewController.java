@@ -26,6 +26,9 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.Map;
 
+import static com.barbershop.launcher.animation.AnimationEngine.fadeNodeIn;
+import static com.barbershop.launcher.animation.AnimationEngineConstant.ANIMATION_DELAY_IN_MS;
+import static com.barbershop.launcher.concurrency.ConcurrencyManager.executeUITask;
 import static com.barbershop.launcher.constants.ui.messages.ConfirmationDialogMessage.*;
 import static com.barbershop.launcher.constants.ui.messages.EmptyListMessage.EMPTY_BARBER_SERVICE_CATALOG_LIST_MESSAGE;
 import static com.barbershop.launcher.constants.ui.messages.GenericStrings.*;
@@ -115,47 +118,64 @@ public class BarberServiceViewController implements ViewController {
 
     private void loadTotalServicesStats() {
 
-        Long servicesCount = barberService.getServiceCount();
+        executeUITask(
+                barberService::getServiceCount,
+                uiActionValue -> {
 
-        setTextOnLabel(service_count, servicesCount.toString());
-
-        setTextOnLabel(service_list_vbox_service_count, servicesCount + " servicios encontrados");
+                    setTextOnLabel(service_count, parseNumberValueToText(uiActionValue));
+                    setTextOnLabel(service_list_vbox_service_count, parseNumberValueToText(uiActionValue) + " servicios encontrados");
+                }
+        );
     }
 
     private void loadServicesCreatedThisMonthVsLastMonth() {
 
-        Long servicesCreatedThisMonth = barberService.calculateServicesCreatedThisMonthVsLastMonth();
-
-        setTextOnLabel(new_services_this_month_count, servicesCreatedThisMonth.toString());
+        executeUITask(
+                barberService::calculateServicesCreatedThisMonthVsLastMonth,
+                uiActionValue -> setTextOnLabel(new_services_this_month_count, parseNumberValueToText(uiActionValue))
+        );
     }
 
     private void loadServicesStatsByCategory() {
 
-        Long categoryCount = barberService.getCategoryCount();
-
-        setTextOnLabel(category_count, categoryCount.toString());
+        executeUITask(
+                barberService::getCategoryCount,
+                uiActionValue -> setTextOnLabel(category_count, parseNumberValueToText(uiActionValue))
+        );
     }
 
     private void loadLowestAndHighestPricesStats() {
 
-        Double highestPrice = barberService.getHighestPrice();
+        executeUITask(
+                () -> {
+                    Double highestPrice = barberService.getHighestPrice();
+                    Double lowestPrice = barberService.getLowestPrice();
 
-        setTextOnLabel(highest_price, CURRENCY_STRING_ARG + highestPrice.toString());
+                    return List.of(highestPrice, lowestPrice);
+                },
+                uiActionValues -> {
 
-        Double lowestPrice = barberService.getLowestPrice();
-
-        setTextOnLabel(lowest_price, CURRENCY_STRING_ARG + lowestPrice.toString());
+                    setTextOnLabel(highest_price, CURRENCY_STRING_ARG + parseNumberValueToText(uiActionValues.getFirst()));
+                    setTextOnLabel(lowest_price, CURRENCY_STRING_ARG + parseNumberValueToText(uiActionValues.getLast()));
+                }
+        );
     }
 
     private void loadAveragePriceStats() {
 
-        Double averagePriceOfAllBarberServices = barberService.getAveragePrice();
+        executeUITask(
+                () -> {
+                    Double averagePriceOfAllBarberServices = barberService.getAveragePrice();
+                    Double averagePricePercentageVsLastMonth = barberService.getAveragePricePercentageVsLastMonth();
 
-        setTextOnLabel(average_price, CURRENCY_STRING_ARG + averagePriceOfAllBarberServices.toString());
+                    return List.of(averagePriceOfAllBarberServices, averagePricePercentageVsLastMonth);
+                },
+                uiActionValues -> {
 
-        Double averagePricePercentageVsLastMonth = barberService.getAveragePricePercentageVsLastMonth();
-
-        setTextOnLabel(average_price_percentage_vs_last_month, averagePricePercentageVsLastMonth.toString() + "%");
+                    setTextOnLabel(average_price, CURRENCY_STRING_ARG + parseNumberValueToText(uiActionValues.getFirst()));
+                    setTextOnLabel(average_price_percentage_vs_last_month, formatAsPercentage(uiActionValues.getLast()) + "%");
+                }
+        );
     }
 
     private void goToBarberServiceCreationView() {
@@ -227,7 +247,9 @@ public class BarberServiceViewController implements ViewController {
 
         } else {
 
-            for (BarberServiceInfoDTO infoDTO : barberServiceInfoDTOS) {
+            for (int i = 0; i<barberServiceInfoDTOS.size(); i++) {
+
+                BarberServiceInfoDTO infoDTO = barberServiceInfoDTOS.get(i);
 
                 FXMLLoader loader = generateLoaderWithPath(BARBER_SERVICE_ITEM_VIEW_PATH);
 
@@ -241,6 +263,8 @@ public class BarberServiceViewController implements ViewController {
                 barberServiceItemController.setOnDeleteCallback(this::confirmAndDeleteService);
 
                 loadItemOnVBox(services_list_vbox, catalogItem);
+
+                fadeNodeIn(services_list_vbox, i * ANIMATION_DELAY_IN_MS);
             }
         }
     }

@@ -20,6 +20,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import lombok.RequiredArgsConstructor;
+import org.jspecify.annotations.NonNull;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
@@ -173,16 +174,24 @@ public class AppointmentCreationController implements CreationController, Appoin
         checkAndToggleSummary();
 
         String firstNameInitial = String.valueOf(selectedClient.getFirstName().charAt(0));
-        String lastNameInitial = String.valueOf(selectedClient.getLastName().charAt(0));
-        String fullClientName = selectedClient.getFirstName() + " " + selectedClient.getLastName();
+        Map<Label, String> labelMap = getLabelStringMap(selectedClient, firstNameInitial);
 
-        setTextOnLabel(client_name, fullClientName);
-        setTextOnLabel(national_id_card_number, selectedClient.getNationalIdentityCardNumber());
-        setTextOnLabel(client_initials, firstNameInitial + lastNameInitial);
-        setTextOnLabel(summary_client, fullClientName);
+        setTextsOnLabelMap(labelMap);
 
         setNodeAsVisible(client_name, national_id_card_number, selected_client_card_vbox);
         setNodeAsNotVisible(client_search_field, client_result_list);
+    }
+
+    private @NonNull Map<Label, String> getLabelStringMap(ClientInfoDTO selectedClient, String firstNameInitial) {
+        String lastNameInitial = String.valueOf(selectedClient.getLastName().charAt(0));
+        String fullClientName = selectedClient.getFirstName() + " " + selectedClient.getLastName();
+
+        return Map.ofEntries(
+                Map.entry(client_name, fullClientName),
+                Map.entry(national_id_card_number, selectedClient.getNationalIdentityCardNumber()),
+                Map.entry(client_initials, firstNameInitial + lastNameInitial),
+                Map.entry(summary_client, fullClientName)
+        );
     }
 
     private void registerNewAppointment() {
