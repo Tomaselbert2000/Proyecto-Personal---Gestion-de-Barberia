@@ -20,9 +20,10 @@ public class RegexPatterns {
                 "porttitor ullamcorper rutrum gravida.";
     }
 
-    public static final String NAME_REGEX = "^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$";
+    public static final String NAME_REGEX = "^[a-zA-ZáéíóúÁÉÍÓÚñÑ .,]+$";
+    public static final String ADDRESS_REGEX = "^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\\s.,-]+$";
     public static final String NATIONAL_ID_CARD_NUMBER_REGEX = "^\\d+$";
     public static final String EMAIL_REGEX = "^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,}$";
-    public static final String PHONE_REGEX = "^\\+?[0-9+]+$";
+    public static final String PHONE_REGEX = "^\\+?[0-9 ]+$";
     public static final String DECIMAL_REGEX = "^\\d*\\.?\\d*$";
 }
