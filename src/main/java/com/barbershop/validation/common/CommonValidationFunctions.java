@@ -18,9 +18,9 @@ public class CommonValidationFunctions {
         if (dto == null) throw new NullDTOException();
     }
 
-    public static <T> void validateAnnotationConstraints(Validator validatorEngine, T creationDTO) {
+    public static <T> void validateAnnotationConstraints(Validator validatorEngine, T dto) {
 
-        Set<ConstraintViolation<T>> constraintViolationSet = validatorEngine.validate(creationDTO);
+        Set<ConstraintViolation<T>> constraintViolationSet = validatorEngine.validate(dto);
 
         if (!constraintViolationSet.isEmpty()) throw new ConstraintViolationException(constraintViolationSet);
     }

@@ -5,8 +5,8 @@ import lombok.*;
 
 import java.util.List;
 
-import static com.barbershop.launcher.constants.entity_constraints.ClientConstraintViolationMessageSubject.*;
-import static com.barbershop.launcher.constants.entity_constraints.ConstraintViolationMessagePredicate.*;
+import static com.barbershop.launcher.constants.entity_constraints.subject.ClientConstraintViolationMessageSubject.*;
+import static com.barbershop.launcher.constants.entity_constraints.predicate.ConstraintViolationMessagePredicate.*;
 import static com.barbershop.utils.strings.RegexPatterns.*;
 import static com.barbershop.validation.client.ClientValidatorConstants.*;
 import static com.barbershop.validation.common.CommonConstants.*;

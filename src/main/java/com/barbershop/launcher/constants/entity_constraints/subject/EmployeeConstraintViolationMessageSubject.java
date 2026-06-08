@@ -1,4 +1,4 @@
-package com.barbershop.launcher.constants.entity_constraints;
+package com.barbershop.launcher.constants.entity_constraints.subject;
 
 public final class EmployeeConstraintViolationMessageSubject {
 
