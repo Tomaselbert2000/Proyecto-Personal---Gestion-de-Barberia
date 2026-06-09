@@ -38,8 +38,10 @@ import static com.barbershop.launcher.constants.ui.messages.ValidationErrorMessa
 import static com.barbershop.launcher.constants.ui.prompt_text.AppointmentPromptText.APPOINTMENT_CLIENT_NAME;
 import static com.barbershop.launcher.constants.ui.prompt_text.AppointmentPromptText.APPOINTMENT_NOTES;
 import static com.barbershop.launcher.controller.helper.ComboBoxHelper.*;
+import static com.barbershop.launcher.controller.helper.HelperConstants.ACCEPT_BUTTON_TEXT;
 import static com.barbershop.launcher.controller.helper.ListViewHelper.cleanListView;
 import static com.barbershop.launcher.controller.helper.ListViewHelper.loadItemsOnListView;
+import static com.barbershop.launcher.controller.helper.PopUpWindowHelper.showWindowAlert;
 import static com.barbershop.launcher.controller.helper.ToastNotificationHelper.showToastNotification;
 import static com.barbershop.launcher.controller.helper.UIBasicComponents.*;
 import static com.barbershop.launcher.controller.helper.ValidationFormatter.*;
@@ -233,7 +235,7 @@ public class AppointmentCreationController implements CreationController, Appoin
             if (exception instanceof ConstraintViolationException) {
 
                 errorMessage = getConstraintViolationsList((ConstraintViolationException) exception);
-                showErrorAlert(VALIDATION_ERROR_TITLE, APPOINTMENT_CREATION_VALIDATION_FAILED, errorMessage);
+                showWindowAlert(VALIDATION_ERROR_TITLE, APPOINTMENT_CREATION_VALIDATION_FAILED, errorMessage, Alert.AlertType.ERROR, ACCEPT_BUTTON_TEXT);
 
             } else {
 

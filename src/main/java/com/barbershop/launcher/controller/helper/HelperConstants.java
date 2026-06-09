@@ -17,5 +17,7 @@ public class HelperConstants {
     public static final String PERCENTAGE_FORMAT = "%.1f%%";
     public static final List<String> ALLOWED_IMAGE_EXTENSIONS = List.of("*.png", "*.jpg");
     public static final String FILE_CHOOSER_IMAGE_DESCRIPTION = "Seleccionar una imagen";
-    public static final String ERROR_MESSAGE_NEW_LINE = "\n• ";
+    public static final String NEW_LINE = "\n• ";
+    public static final String ACCEPT_BUTTON_TEXT = "Aceptar";
+    public static final String CLIPBOARD_BUTTON_TEXT = "Copiar al portapapeles";
 }

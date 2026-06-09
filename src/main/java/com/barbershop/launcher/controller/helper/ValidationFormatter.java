@@ -122,16 +122,6 @@ public class ValidationFormatter {
 
     public static String getConstraintViolationsList(ConstraintViolationException exception) {
 
-        return exception.getConstraintViolations().stream().map(ConstraintViolation::getMessage).collect(Collectors.joining(ERROR_MESSAGE_NEW_LINE));
-    }
-
-    public static void showErrorAlert(String title, String headerMessage, String errorMessages) {
-
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-
-        alert.setTitle(title);
-        alert.setHeaderText(headerMessage);
-        alert.setContentText(ERROR_MESSAGE_NEW_LINE + errorMessages);
-        alert.showAndWait();
+        return exception.getConstraintViolations().stream().map(ConstraintViolation::getMessage).collect(Collectors.joining(NEW_LINE));
     }
 }

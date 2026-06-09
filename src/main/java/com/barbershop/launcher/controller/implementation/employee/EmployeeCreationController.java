@@ -9,6 +9,7 @@ import com.barbershop.service.interfaces.EmployeeService;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import jakarta.validation.ConstraintViolationException;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
@@ -24,10 +25,11 @@ import static com.barbershop.launcher.constants.ui.messages.ToastNotificationMes
 import static com.barbershop.launcher.constants.ui.messages.ValidationErrorMessage.EMPLOYEE_CREATION_VALIDATION_FAILED;
 import static com.barbershop.launcher.constants.ui.messages.ValidationErrorMessage.VALIDATION_ERROR_TITLE;
 import static com.barbershop.launcher.constants.ui.prompt_text.EmployeePromptText.*;
+import static com.barbershop.launcher.controller.helper.HelperConstants.ACCEPT_BUTTON_TEXT;
+import static com.barbershop.launcher.controller.helper.PopUpWindowHelper.showWindowAlert;
 import static com.barbershop.launcher.controller.helper.ToastNotificationHelper.showToastNotification;
 import static com.barbershop.launcher.controller.helper.UIBasicComponents.*;
 import static com.barbershop.launcher.controller.helper.ValidationFormatter.getConstraintViolationsList;
-import static com.barbershop.launcher.controller.helper.ValidationFormatter.showErrorAlert;
 import static com.barbershop.launcher.controller.helper.ViewRedirectionHelper.redirectToView;
 
 @Component
@@ -121,7 +123,7 @@ public class EmployeeCreationController implements CreationController, EmployeeC
 
             String errorMessages = getConstraintViolationsList(exception);
 
-            showErrorAlert(VALIDATION_ERROR_TITLE, EMPLOYEE_CREATION_VALIDATION_FAILED, errorMessages);
+            showWindowAlert(VALIDATION_ERROR_TITLE, EMPLOYEE_CREATION_VALIDATION_FAILED, errorMessages, Alert.AlertType.ERROR, ACCEPT_BUTTON_TEXT);
         }
     }
 

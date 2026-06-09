@@ -27,6 +27,8 @@ import static com.barbershop.launcher.constants.ui.messages.ToastNotificationMes
 import static com.barbershop.launcher.constants.ui.messages.ValidationErrorMessage.PRODUCT_CREATION_VALIDATION_FAILED;
 import static com.barbershop.launcher.constants.ui.messages.ValidationErrorMessage.VALIDATION_ERROR_TITLE;
 import static com.barbershop.launcher.constants.ui.prompt_text.ProductPromptText.*;
+import static com.barbershop.launcher.controller.helper.HelperConstants.ACCEPT_BUTTON_TEXT;
+import static com.barbershop.launcher.controller.helper.PopUpWindowHelper.showWindowAlert;
 import static com.barbershop.launcher.controller.helper.ValidationFormatter.*;
 import static com.barbershop.launcher.controller.helper.ComboBoxHelper.loadEnumsOnComboBox;
 import static com.barbershop.launcher.controller.helper.ComboBoxHelper.removeFirstItemFromComboBox;
@@ -144,7 +146,7 @@ public class ProductCreationController implements CreationController, ProductCon
 
             String errorMessages = getConstraintViolationsList(exception);
 
-            showErrorAlert(VALIDATION_ERROR_TITLE, PRODUCT_CREATION_VALIDATION_FAILED, errorMessages);
+            showWindowAlert(VALIDATION_ERROR_TITLE, PRODUCT_CREATION_VALIDATION_FAILED, errorMessages, Alert.AlertType.ERROR, ACCEPT_BUTTON_TEXT);
         }
     }
 

@@ -12,10 +12,7 @@ import com.barbershop.service.interfaces.ProductService;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import jakarta.validation.ConstraintViolationException;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +27,8 @@ import static com.barbershop.launcher.constants.ui.messages.ToastNotificationMes
 import static com.barbershop.launcher.constants.ui.messages.ValidationErrorMessage.PRODUCT_EDITION_VALIDATION_FAILED;
 import static com.barbershop.launcher.constants.ui.messages.ValidationErrorMessage.VALIDATION_ERROR_TITLE;
 import static com.barbershop.launcher.controller.helper.ComboBoxHelper.*;
+import static com.barbershop.launcher.controller.helper.HelperConstants.ACCEPT_BUTTON_TEXT;
+import static com.barbershop.launcher.controller.helper.PopUpWindowHelper.showWindowAlert;
 import static com.barbershop.launcher.controller.helper.UIBasicComponents.*;
 import static com.barbershop.launcher.controller.helper.ValidationFormatter.*;
 import static com.barbershop.launcher.controller.helper.FileImageHelper.*;
@@ -173,7 +172,7 @@ public class ProductEditionController implements EditionController<ProductInfoDT
 
             String errorMessages = getConstraintViolationsList(exception);
 
-            showErrorAlert(VALIDATION_ERROR_TITLE, PRODUCT_EDITION_VALIDATION_FAILED, errorMessages);
+            showWindowAlert(VALIDATION_ERROR_TITLE, PRODUCT_EDITION_VALIDATION_FAILED, errorMessages, Alert.AlertType.ERROR, ACCEPT_BUTTON_TEXT);
         }
 
     }

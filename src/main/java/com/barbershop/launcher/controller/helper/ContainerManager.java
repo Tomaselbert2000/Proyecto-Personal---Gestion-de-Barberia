@@ -8,12 +8,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.util.Duration;
 
-import java.net.URL;
-
 import static com.barbershop.launcher.constants.ui.CssFilePath.*;
 import static com.barbershop.launcher.constants.ui.themes.ThemeFilePath.LA_TERCERA_DARK_THEME_FILE_PATH;
 import static com.barbershop.launcher.constants.ui.themes.ThemeFilePath.LA_TERCERA_LIGHT_THEME_FILE_PATH;
 import static com.barbershop.launcher.controller.helper.HelperConstants.*;
+import static com.barbershop.utils.resource_helper.ResourceLocator.getResourceAsExternalForm;
 
 public class ContainerManager {
 
@@ -54,11 +53,8 @@ public class ContainerManager {
 
         currentScene.getStylesheets().clear();
 
-        URL designSystemTokenFilePath = ContainerManager.class.getResource(DESIGN_SYSTEM_TOKEN_FILE_PATH);
-        URL themeFilePath = ContainerManager.class.getResource(selectedThemeFilePath);
-
-        String designSystemTokenFilePathToExternalForm = convertURLtoExternalForm(designSystemTokenFilePath);
-        String themeFilePathToExternalForm = convertURLtoExternalForm(themeFilePath);
+        String designSystemTokenFilePathToExternalForm = getResourceAsExternalForm(ContainerManager.class, DESIGN_SYSTEM_TOKEN_FILE_PATH);
+        String themeFilePathToExternalForm = getResourceAsExternalForm(ContainerManager.class, selectedThemeFilePath);
 
         if (!designSystemTokenFilePathToExternalForm.isEmpty() && !themeFilePathToExternalForm.isEmpty())
             currentScene.getStylesheets().addAll(designSystemTokenFilePathToExternalForm, themeFilePathToExternalForm);
@@ -72,29 +68,15 @@ public class ContainerManager {
 
         if (selectedThemeFilePath.equals(LA_TERCERA_LIGHT_THEME_FILE_PATH) || selectedThemeFilePath.equals(LA_TERCERA_DARK_THEME_FILE_PATH)) {
 
-            URL fixedColorsFilePath = ContainerManager.class.getResource(LA_TERCERA_FIXED_COLORS_FILE_PATH);
-
-            String fixedColorsFilePathToExternalForm = convertURLtoExternalForm(fixedColorsFilePath);
+            String fixedColorsFilePathToExternalForm = getResourceAsExternalForm(ContainerManager.class, LA_TERCERA_FIXED_COLORS_FILE_PATH);
 
             currentScene.getStylesheets().add(fixedColorsFilePathToExternalForm);
         }
     }
 
-    private static String convertURLtoExternalForm(URL designSystemTokenFilePath) {
-
-        if (designSystemTokenFilePath != null) {
-
-            return designSystemTokenFilePath.toExternalForm();
-        }
-
-        return "";
-    }
-
     public static void loadMaterialIconsCSS(Scene newScene) {
 
-        URL materialIconsFilePath = ContainerManager.class.getResource(MATERIAL_ICONS_FILE_PATH);
-
-        String materialIconsFilePathToExternalForm = convertURLtoExternalForm(materialIconsFilePath);
+        String materialIconsFilePathToExternalForm = getResourceAsExternalForm(ContainerManager.class, MATERIAL_ICONS_FILE_PATH);
 
         if (!materialIconsFilePathToExternalForm.isEmpty())
             newScene.getStylesheets().add(materialIconsFilePathToExternalForm);

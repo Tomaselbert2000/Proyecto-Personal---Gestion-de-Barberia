@@ -10,6 +10,7 @@ import com.barbershop.service.interfaces.BarberserviceService;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import jakarta.validation.ConstraintViolationException;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
@@ -26,6 +27,8 @@ import static com.barbershop.launcher.constants.ui.messages.ValidationErrorMessa
 import static com.barbershop.launcher.constants.ui.prompt_text.BarberServicePromptText.*;
 import static com.barbershop.launcher.controller.helper.ComboBoxHelper.loadEnumsOnComboBox;
 import static com.barbershop.launcher.controller.helper.ComboBoxHelper.removeFirstItemFromComboBox;
+import static com.barbershop.launcher.controller.helper.HelperConstants.ACCEPT_BUTTON_TEXT;
+import static com.barbershop.launcher.controller.helper.PopUpWindowHelper.showWindowAlert;
 import static com.barbershop.launcher.controller.helper.ToastNotificationHelper.showToastNotification;
 import static com.barbershop.launcher.controller.helper.UIBasicComponents.*;
 import static com.barbershop.launcher.controller.helper.ValidationFormatter.*;
@@ -97,7 +100,7 @@ public class BarberServiceCreationController implements CreationController {
 
             String errorMessage = getConstraintViolationsList(exception);
 
-            showErrorAlert(VALIDATION_ERROR_TITLE, BARBER_SERVICE_CREATION_VALIDATION_FAILED, errorMessage);
+            showWindowAlert(VALIDATION_ERROR_TITLE, BARBER_SERVICE_CREATION_VALIDATION_FAILED, errorMessage, Alert.AlertType.ERROR, ACCEPT_BUTTON_TEXT);
         }
     }
 
