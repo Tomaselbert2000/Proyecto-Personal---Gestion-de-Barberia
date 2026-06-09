@@ -1,5 +1,7 @@
 package com.barbershop.launcher.ui;
 
+import com.barbershop.config.AppPreferences;
+import com.barbershop.enums.Theme;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -10,21 +12,22 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
-import static com.barbershop.launcher.constants.ui.themes.ThemeFilePath.MD3_LIGHT_THEME_FILE_PATH;
 import static com.barbershop.launcher.controller.helper.ContainerManager.changeSceneTheme;
 
 @Component
 public class SceneManager {
 
     private static final String PATH_ERROR_MESSAGE = "Hubo un error al cargar la siguiente vista: ";
+    private final AppPreferences appPreferences;
 
     @Setter
     private Stage primaryStage;
     private final ApplicationContext applicationContext;
 
-    public SceneManager(ApplicationContext applicationContext) {
+    public SceneManager(ApplicationContext applicationContext, AppPreferences appPreferences) {
 
         this.applicationContext = applicationContext;
+        this.appPreferences = appPreferences;
     }
 
     public void switchScene(String fxmlPath) {
@@ -38,7 +41,11 @@ public class SceneManager {
 
             Scene newScene = new Scene(root);
 
-            changeSceneTheme(newScene, MD3_LIGHT_THEME_FILE_PATH);
+            String currentThemePreference = appPreferences.getTheme();
+
+            Theme currentThemeEnum = Theme.valueOf(currentThemePreference);
+
+            changeSceneTheme(newScene, currentThemeEnum.getThemeFilePath());
 
             setSceneOnStage(newScene);
 
