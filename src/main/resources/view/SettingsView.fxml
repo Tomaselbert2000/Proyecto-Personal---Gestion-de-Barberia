@@ -7,6 +7,7 @@
 <?import javafx.scene.layout.*?>
 
 <AnchorPane
+        fx:id="anchor_pane"
         xmlns="http://javafx.com/javafx/25"
         xmlns:fx="http://javafx.com/fxml/1"
         fx:controller="com.barbershop.launcher.controller.implementation.settings.SettingsController">
@@ -164,45 +165,45 @@
                 <VBox styleClass="md-section-group">
                     <Label styleClass="md-section-title" text="Seguridad"/>
 
-                    <VBox styleClass="md-card">
-                        <GridPane styleClass="md-grid-pane">
-                            <columnConstraints>
-                                <ColumnConstraints hgrow="SOMETIMES" minWidth="250.0"/>
-                                <ColumnConstraints hgrow="SOMETIMES" minWidth="250.0"/>
-                            </columnConstraints>
-                            <rowConstraints>
-                                <RowConstraints vgrow="SOMETIMES"/>
-                                <RowConstraints vgrow="SOMETIMES"/>
-                            </rowConstraints>
+                    <HBox styleClass="md-card" maxWidth="Infinity">
+                        <!-- Usuario Admin -->
+                        <VBox styleClass="md-filter-column" maxWidth="Infinity" HBox.hgrow="ALWAYS">
+                            <Label styleClass="md-list-item-title" text="Usuario Administrador"/>
+                            <TextField fx:id="user_textfield" styleClass="md-text-field" maxWidth="Infinity"/>
 
-                            <!-- Usuario Admin -->
-                            <VBox styleClass="md-filter-column" GridPane.columnIndex="0" GridPane.rowIndex="0">
-                                <Label styleClass="md-list-item-title" text="Usuario Administrador"/>
-                                <TextField fx:id="user_textfield" styleClass="md-text-field" maxWidth="Infinity"/>
-                            </VBox>
+                            <!-- Contraseña -->
+                            <Label styleClass="md-list-item-title" text="Nueva Contraseña"/>
+                            <PasswordField fx:id="password_textfield" styleClass="md-text-field"
+                                           maxWidth="Infinity"/>
 
-                            <!-- Cambiar Contraseña -->
-                            <VBox styleClass="md-filter-column" GridPane.columnIndex="1" GridPane.rowIndex="0">
-                                <Label styleClass="md-list-item-title" text="Nueva Contraseña"/>
-                                <PasswordField fx:id="password_textfield" styleClass="md-text-field"
-                                               maxWidth="Infinity"/>
-                            </VBox>
+                            <!-- Confirmar contraseña -->
+                            <Label styleClass="md-list-item-title" text="Confirmar Contraseña"/>
+                            <PasswordField fx:id="confirm_password_textfield" styleClass="md-text-field"
+                                           maxWidth="Infinity"/>
 
-                            <!-- Confirmar Contraseña -->
-                            <VBox styleClass="md-filter-column" GridPane.columnIndex="0" GridPane.rowIndex="1">
-                                <Label styleClass="md-list-item-title" text="Confirmar Contraseña"/>
-                                <PasswordField fx:id="confirm_password_textfield" styleClass="md-text-field"
-                                               maxWidth="Infinity"/>
-                            </VBox>
-
-                            <!-- Botón Actualizar -->
-                            <VBox styleClass="md-action-button-container" GridPane.columnIndex="1"
-                                  GridPane.rowIndex="1">
+                            <Region VBox.vgrow="ALWAYS" maxHeight="16"/>
+                            <HBox>
+                                <Region HBox.hgrow="ALWAYS"/>
                                 <MFXButton fx:id="update_password_button" styleClass="md-button-filled"
-                                           text="Actualizar Contraseña"/>
+                                           text="Actualizar datos"/>
+                            </HBox>
+                        </VBox>
+
+                        <Region maxWidth="24" HBox.hgrow="ALWAYS"/>
+
+                        <HBox styleClass="md-filter-column">
+                            <!-- Botón Actualizar -->
+                            <VBox styleClass="md-action-button-container">
+                                <Label fx:id="password_length_label" styleClass="md-list-item-title"/>
+                                <Slider fx:id="password_length_slider"/>
+                                <HBox styleClass="md-action-button-container">
+                                    <MFXButton fx:id="suggest_strong_password" styleClass="md-button-filled-tonal"
+                                               text="Generar contraseña"/>
+                                </HBox>
+                                <Region VBox.vgrow="ALWAYS"/>
                             </VBox>
-                        </GridPane>
-                    </VBox>
+                        </HBox>
+                    </HBox>
                 </VBox>
 
                 <!-- Información de la Aplicación -->
@@ -261,7 +262,7 @@
 
                 <!-- Botones de Acción -->
                 <HBox styleClass="md-action-button-container">
-                    <MFXButton fx:id="cancel_button" styleClass="md-button-filled-tonal" text="Cancelar"/>
+                    <MFXButton fx:id="cancel_button" styleClass="md-button-filled-tonal" text="Restaurar datos"/>
                     <MFXButton fx:id="save_button" styleClass="md-button-filled" text="Guardar Cambios"/>
                 </HBox>
             </VBox>
