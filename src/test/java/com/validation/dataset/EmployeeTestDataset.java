@@ -2,7 +2,7 @@ package com.validation.dataset;
 
 import java.time.LocalDate;
 
-public class EmployeeTestDataset {
+public final class EmployeeTestDataset {
 
     public static final String NAME = "Ramiro Hernan";
     public static final String SURNAME = "Ardiles";
@@ -18,4 +18,7 @@ public class EmployeeTestDataset {
     public static final Boolean IS_ACTIVE = false;
     public static final LocalDate TERMINATION_DATE = LocalDate.of(2026, 12, 31);
     public static final Double NEW_COMMISSION_PERCENTAGE = 0.75;
+
+    private EmployeeTestDataset() {
+    }
 }

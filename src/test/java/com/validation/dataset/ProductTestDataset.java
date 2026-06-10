@@ -3,7 +3,7 @@ package com.validation.dataset;
 import com.barbershop.enums.ProductCategory;
 import com.barbershop.enums.ProductPresentationUnit;
 
-public class ProductTestDataset {
+public final class ProductTestDataset {
 
     public static final String NAME = "Cera para modelar";
     public static final String OPTIONAL_DESCRIPTION = "Cera para modelado de cabello, terminación mate";
@@ -30,4 +30,7 @@ public class ProductTestDataset {
     public static final Double NEGATIVE_PRICE = -3250.0;
     public static final Double DISCOUNT_PERCENTAGE_LOWER_THAN_ZERO = -0.5;
     public static final Double DISCOUNT_PERCENTAGE_HIGHER_THAN_ONE = 1.5;
+
+    private ProductTestDataset() {
+    }
 }

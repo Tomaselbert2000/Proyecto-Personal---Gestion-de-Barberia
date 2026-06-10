@@ -4,7 +4,7 @@ import com.barbershop.utils.strings.RegexPatterns;
 
 import java.util.List;
 
-public class ClientTestDataset {
+public final class ClientTestDataset {
 
     public static final String NATIONAL_ID_CARD_NUMBER = "1234567";
     public static final String FIRST_NAME = "Tomas Gabriel";
@@ -25,4 +25,7 @@ public class ClientTestDataset {
     public static final String NAME_TOO_SHORT = "Abc";
     public static final String NAME_TOO_LONG = "FUMzLuBzrUtcycKBpbjdyCcAaNRUZYhnwGqguTyHidnDShRPTKgfcQbHvHjUNWAzHGvvaxcbDWaTLvZGidmXAABudxxcxRBFeGkLdkPPpTrVUvgpFnxrFnGj";
     public static final String OPTIONAL_NOTES_TOO_LONG = RegexPatterns.returnLoremIpsum();
+
+    private ClientTestDataset() {
+    }
 }

@@ -10,7 +10,7 @@ import java.util.List;
 
 import static com.barbershop.validation.common.CommonValidationFunctions.generateClockInstance;
 
-public class SaleTestDataset {
+public final class SaleTestDataset {
 
     public static final Instant INSTANT = Instant.parse("2026-01-01T15:00:00Z");
     public static final ZoneId ZONE_ID = ZoneId.of("America/Argentina/Buenos_Aires");
@@ -37,4 +37,7 @@ public class SaleTestDataset {
     public static final List<ProductItemDTO> LIST_WITH_NULL_PRODUCT = List.of(PRODUCT_WITH_NULL_ID);
     public static final List<ProductItemDTO> LIST_WITH_NULL_QUANTITY = List.of(PRODUCT_WITH_NULL_QUANTITY);
     public static final List<ProductItemDTO> LIST_WITH_NEGATIVE_QUANTITY = List.of(PRODUCT_WITH_QUANTITY_LOWER_THAN_ONE);
+
+    private SaleTestDataset() {
+    }
 }

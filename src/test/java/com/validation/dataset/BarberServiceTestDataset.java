@@ -2,7 +2,7 @@ package com.validation.dataset;
 
 import com.barbershop.enums.BarberServiceCategory;
 
-public class BarberServiceTestDataset {
+public final class BarberServiceTestDataset {
 
     public static final String SERVICE_NAME = "Corte de pelo americano";
     public static final Double PRICE = 12000.0;
@@ -14,4 +14,7 @@ public class BarberServiceTestDataset {
     public static final String INVALID_NAME = "N0mbe3 Inv@lido!";
     public static final String INTERNAL_NOTES_TOO_LONG = "eyPmDG9jQQSwQBxp3706LwLyDQ6BgTinrBkgPhD6MJTU3uHBEHu7yZkQwPb4nJS50jSc7QwjgxpEGGWktr0gaRuA2K5FNqAMZ9pNDgdGW21PxammQHdBeRrr2HJGJn2P4uMiPW4DJSBDdUMTvwarkAEV79wvE0g1mM9vVGcrV26XcRiNPtArJBH9A2mFn0VH9znZqXE6j3CcYgPpZvRuJxudG6m5dtShcnStemHFkUp5bFa7ZaqhwYEhTMtk91CYC";
     public static final Double INVALID_PRICE = -12000.0;
+
+    private BarberServiceTestDataset() {
+    }
 }

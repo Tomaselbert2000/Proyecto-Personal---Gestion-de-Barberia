@@ -6,7 +6,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 
-public class AppointmentTestDataset {
+public final class AppointmentTestDataset {
 
     public static final Long CLIENT_ID = 1L;
     public static final Long BARBER_SERVICE_ID = 10L;
@@ -37,4 +37,7 @@ public class AppointmentTestDataset {
 
     public static final LocalDateTime END_DATETIME_EXACTLY_ON_CLOSING_HOURS = LocalDateTime.of(2026, 1, 2, 20, 0);
     public static final LocalDateTime START_DATETIME_FOR_EXACTLY_CLOSING_HOURS_TEST = END_DATETIME_EXACTLY_ON_CLOSING_HOURS.minusHours(1);
+
+    private AppointmentTestDataset() {
+    }
 }
