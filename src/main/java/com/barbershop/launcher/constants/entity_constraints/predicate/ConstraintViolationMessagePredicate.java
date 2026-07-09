@@ -16,4 +16,8 @@ public final class ConstraintViolationMessagePredicate {
     public static final String LOWER_OR_EQUALS_THAN_ONE = " debe ser menor o igual a 1 (uno)";
     public static final String PERCENTAGE_LOWER_THAN_ZERO = " debe ser igual o mayor a 0 (cero).";
     public static final String PERCENTAGE_HIGHER_THAN_100 = " debe ser igual o menor a 100 (cien).";
+    public static final String CANNOT_BE_SPACES_ONLY = " no puede contener solo espacios";
+
+    private ConstraintViolationMessagePredicate() {
+    }
 }

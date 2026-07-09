@@ -1,6 +1,6 @@
 package com.barbershop.validation.app_user;
 
-import com.barbershop.dto.app_user.AppUserCreationDTO;
+import com.barbershop.dto.app_user.AppUserUpdateDTO;
 import jakarta.validation.Validator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -14,10 +14,10 @@ public class AppUserValidator {
 
     private final Validator validatorEngine;
 
-    public void validateForCreation(AppUserCreationDTO creationDTO) {
+    public <T> void validateDTO(T dto) {
 
-        checkIfDtoIsNull(creationDTO);
+        checkIfDtoIsNull(dto);
 
-        validateAnnotationConstraints(validatorEngine, creationDTO);
+        validateAnnotationConstraints(validatorEngine, dto);
     }
 }

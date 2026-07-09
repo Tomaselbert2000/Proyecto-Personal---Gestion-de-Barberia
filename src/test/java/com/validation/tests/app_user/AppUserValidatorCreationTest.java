@@ -106,6 +106,6 @@ public class AppUserValidatorCreationTest implements ValidatorCreationTestFuncti
     @Override
     public void validateForCreation() {
 
-        appUserValidator.validateForCreation(creationDTO);
+        appUserValidator.validateDTO(creationDTO);
     }
 }
