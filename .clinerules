@@ -1,0 +1,20 @@
+# Project Context: Barbershop Desktop Application
+# Stack: Java, JavaFX, FXML, Spring Boot
+
+## 1. UI & Presentation Layer (JavaFX)
+- **Strict Visual Separation:** UI structure and design MUST reside exclusively within `.fxml` files. Zero UI layout generation in Java classes.
+- **Material Design:** Apply Material Design guidelines for all UI components.
+- **Dynamic Modularity:** Repetitive UI components (e.g., activity items) must be designed modularly and injected dynamically. NEVER hardcode repetitive UI blocks.
+
+## 2. Routing & Controllers
+- **Centralized Navigation:** The `DashboardController` has the EXCLUSIVE responsibility of handling application routing, redirection, and view swapping.
+- **View Decoupling:** Maintain loose coupling between different FXML views to allow them to scale, update, and be tested independently.
+
+## 3. Business Logic & Spring Boot Integration
+- **Zero Logic in Controllers:** JavaFX Controllers MUST NOT contain heavy business logic, data processing, or direct database queries.
+- **Service Delegation:** Delegate all business logic to Spring Boot `@Service` components and data access to `@Repository` interfaces.
+- **Dependency Injection:** Enforce strict Dependency Injection (Constructor Injection preferred over `@Autowired` fields) to wire Spring services into JavaFX controllers.
+
+## 4. Security & Database Operations
+- **Least Privilege:** Enforce strict security validation for database interactions. Always use correct and explicit database-level roles (e.g., ensuring `db_backupoperator` is used instead of invalid server roles).
+- **Input Validation:** Always sanitize and validate inputs at the controller level before passing data to the business layer.
