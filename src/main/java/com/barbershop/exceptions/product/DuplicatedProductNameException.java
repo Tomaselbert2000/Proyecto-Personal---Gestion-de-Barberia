@@ -1,6 +1,6 @@
 package com.barbershop.exceptions.product;
 
-public class DuplicatedProductNameException extends RuntimeException{
+public class DuplicatedProductNameException extends RuntimeException {
 
     @Override
     public String getMessage() {

@@ -1,9 +1,9 @@
 package com.barbershop.exceptions.sale;
 
-public class InvalidSaleDateTimeException extends RuntimeException{
+public class InvalidSaleDateTimeException extends RuntimeException {
 
     @Override
-    public String getMessage(){
+    public String getMessage() {
 
         return "La fecha de venta ingresada no es válida.";
     }

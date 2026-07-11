@@ -1,9 +1,9 @@
 package com.barbershop.exceptions.client;
 
-public class DuplicatedEmailException extends RuntimeException{
+public class DuplicatedEmailException extends RuntimeException {
 
     @Override
-    public String getMessage(){
+    public String getMessage() {
         return "El email ingresado ya fue registrado anteriormente.";
     }
 }

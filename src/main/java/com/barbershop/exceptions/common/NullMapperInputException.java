@@ -1,9 +1,9 @@
 package com.barbershop.exceptions.common;
 
-public class NullMapperInputException extends RuntimeException{
+public class NullMapperInputException extends RuntimeException {
 
     @Override
-    public String getMessage(){
+    public String getMessage() {
 
         return "Uno o más objetos requeridos para el mapeo de nueva entidad son NULL.";
     }

@@ -1,6 +1,6 @@
 package com.barbershop.exceptions.product;
 
-public class BlankProductNameException extends RuntimeException{
+public class BlankProductNameException extends RuntimeException {
 
     @Override
     public String getMessage() {

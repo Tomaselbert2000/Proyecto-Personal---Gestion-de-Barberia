@@ -1,6 +1,6 @@
 package com.barbershop.exceptions.credentials;
 
-public class PasswordMismatchException extends RuntimeException{
+public class PasswordMismatchException extends RuntimeException {
 
     @Override
     public String getMessage() {
