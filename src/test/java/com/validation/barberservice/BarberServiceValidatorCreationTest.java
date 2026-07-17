@@ -1,156 +1,142 @@
-package com.validation.tests.barberservice;
+package com.validation.barberservice;
 
-import com.barbershop.dto.barbershopservice.BarberServiceCreationDTO;
-import com.barbershop.exceptions.common.NullDTOException;
-import com.barbershop.validation.barberservice.BarberServiceValidator;
-import com.validation.common.ValidatorCreationTestFunctions;
+import com.abstract_test_class.BaseValidatorTest;
+import com.dto.barbershopservice.BarberServiceCreationDTO;
+import com.exceptions.common.NullDTOException;
 import jakarta.validation.ConstraintViolationException;
-import jakarta.validation.Validator;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 
-import static com.barbershop.validation.common.CommonValidationFunctions.generateValidatorEngine;
-import static com.validation.dataset.BarberServiceTestDataset.*;
+import static com.factory.BarberServiceTestDataFactory.buildValidBarberServiceCreationDTO;
+import static com.test_constant.BarberServiceTestConstants.InvalidData.*;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@ExtendWith(MockitoExtension.class)
-public class BarberServiceValidatorCreationTest implements ValidatorCreationTestFunctions {
-
-    private final Validator validatorEngine = generateValidatorEngine();
-    private final BarberServiceValidator validator = new BarberServiceValidator(validatorEngine);
-
-    private BarberServiceCreationDTO creationDTO;
-
-    @BeforeEach
-    public void init() {
-
-        setupCreationDTO();
-    }
+public class BarberServiceValidatorCreationTest extends BaseValidatorTest<BarberServiceValidator, BarberServiceCreationDTO> {
 
     @Test
     @DisplayName("Dado un DTO de creación NULL, la validación fallará y arrojará NullDTOException")
     void givenNullCreationDTO_WhenCreating_ThenThrows_NullDTOException() {
 
-        creationDTO = null;
+        inputDTO = null;
 
-        assertThrows(NullDTOException.class, this::validateForCreation);
+        assertThrows(NullDTOException.class, this::validateInputDTO);
     }
 
     @Test
     @DisplayName("Dado un DTO de creación con un nombre NULL, la validación fallará y arrojará ConstraintViolationException")
     void givenNullBarberServiceName_WhenCreating_ThenThrows_ConstraintViolationException() {
 
-        creationDTO.setName(null);
+        inputDTO.setName(null);
 
-        assertThrows(ConstraintViolationException.class, this::validateForCreation);
+        assertThrows(ConstraintViolationException.class, this::validateInputDTO);
     }
 
     @Test
     @DisplayName("Dado un DTO de creación con un precio NULL, la validación fallará y arrojará ConstraintViolationException")
     void givenNullPrice_WhenCreating_ThenThrows_ConstraintViolationException() {
 
-        creationDTO.setPrice(null);
+        inputDTO.setPrice(null);
 
-        assertThrows(ConstraintViolationException.class, this::validateForCreation);
+        assertThrows(ConstraintViolationException.class, this::validateInputDTO);
     }
 
     @Test
     @DisplayName("Dado un DTO de creación con una categoría NULL, la validación fallará y arrojará ConstraintViolationException")
     void givenNullCategory_WhenCreating_ThenThrows_ConstraintViolationException() {
 
-        creationDTO.setServiceCategory(null);
+        inputDTO.setServiceCategory(null);
 
-        assertThrows(ConstraintViolationException.class, this::validateForCreation);
+        assertThrows(ConstraintViolationException.class, this::validateInputDTO);
     }
 
     @Test
     @DisplayName("Dado un DTO de creación con notas internas NULL, la validación fallará y arrojará ConstraintViolationException")
     void givenNullInternalNotes_WhenCreating_ThenThrows_ConstraintViolationException() {
 
-        creationDTO.setInternalNotes(null);
+        inputDTO.setInternalNotes(null);
 
-        assertThrows(ConstraintViolationException.class, this::validateForCreation);
+        assertThrows(ConstraintViolationException.class, this::validateInputDTO);
     }
 
     @Test
     @DisplayName("Dado un DTO de creación con un nombre que no cumpla longitud mínima, la validación fallará y arrojará ConstraintViolationException")
     void givenNameTooShort_WhenCreating_ThenThrows_ConstraintViolationException() {
 
-        creationDTO.setName(NAME_TOO_SHORT);
+        inputDTO.setName(NAME_TOO_SHORT);
 
-        assertThrows(ConstraintViolationException.class, this::validateForCreation);
+        assertThrows(ConstraintViolationException.class, this::validateInputDTO);
     }
 
     @Test
     @DisplayName("Dado un DTO de creación con nombre que no cumpla la longitud máxima, la validación fallará y arrojará ConstraintViolationException")
     void givenNameTooLong_WhenCreating_ThenThrows_ConstraintViolationException() {
 
-        creationDTO.setName(NAME_TOO_LONG);
+        inputDTO.setName(NAME_TOO_LONG);
 
-        assertThrows(ConstraintViolationException.class, this::validateForCreation);
+        assertThrows(ConstraintViolationException.class, this::validateInputDTO);
     }
 
     @Test
     @DisplayName("Dado un DTO de creación con un nombre compuesto por caractéres inválidos, la validación fallará y arrojará ConstraintViolationException")
     void givenInvalidName_WhenCreating_ThenThrows_ConstraintViolationException() {
 
-        creationDTO.setName(INVALID_NAME);
+        inputDTO.setName(INVALID_NAME);
 
-        assertThrows(ConstraintViolationException.class, this::validateForCreation);
+        assertThrows(ConstraintViolationException.class, this::validateInputDTO);
     }
 
     @Test
     @DisplayName("Dado un DTO de creación con un string de notas internas con una longitud que exceda el límite, la validación fallará y arrojará ConstraintViolationException")
     void givenInternalNotesTooLong_WhenCreating_ThenThrows_ConstraintViolationException() {
 
-        creationDTO.setInternalNotes(INTERNAL_NOTES_TOO_LONG);
+        inputDTO.setInternalNotes(INTERNAL_NOTES_TOO_LONG);
 
-        assertThrows(ConstraintViolationException.class, this::validateForCreation);
+        assertThrows(ConstraintViolationException.class, this::validateInputDTO);
     }
 
     @Test
     @DisplayName("Dado un DTO de creación con un string de notas internas en blanco, la validación deberá ser exitosa y no arrojará excepción")
     void givenBlankInternalNotes_WhenCreating_ThenDoesNotThrowAnything() {
 
-        creationDTO.setInternalNotes("");
+        inputDTO.setInternalNotes("");
 
-        assertDoesNotThrow(this::validateForCreation);
+        assertDoesNotThrow(this::validateInputDTO);
     }
 
     @Test
     @DisplayName("Dado un DTO de creación con un nombre en blanco, la validación deberá fallar y arrojará ConstraintViolationException")
     void givenBlankName_WhenCreating_ThenThrows_ConstraintViolationException() {
 
-        creationDTO.setName("");
+        inputDTO.setName("");
 
-        assertThrows(ConstraintViolationException.class, this::validateForCreation);
+        assertThrows(ConstraintViolationException.class, this::validateInputDTO);
     }
 
     @Test
     @DisplayName("Dado un DTO de creación con un precio negativo o cero, la validación deberá fallar y arrojará ConstraintViolationException")
     void givenPriceLesserOrEqualThanZero_WhenCreating_ThenThrows_ConstraintViolationException() {
 
-        creationDTO.setPrice(INVALID_PRICE);
+        inputDTO.setPrice(INVALID_PRICE);
 
-        assertThrows(ConstraintViolationException.class, this::validateForCreation);
+        assertThrows(ConstraintViolationException.class, this::validateInputDTO);
     }
 
-    public void setupCreationDTO() {
+    @Override
+    protected void setupInputDTO() {
 
-        creationDTO = BarberServiceCreationDTO.builder()
-                .name(SERVICE_NAME)
-                .price(PRICE)
-                .serviceCategory(CATEGORY)
-                .internalNotes(INTERNAL_NOTES)
-                .build();
+        inputDTO = buildValidBarberServiceCreationDTO();
     }
 
-    public void validateForCreation() {
+    @Override
+    protected void setupValidator() {
 
-        validator.validateDTO(creationDTO);
+        validator = new BarberServiceValidator(validatorEngine);
+    }
+
+    @Override
+    protected void validateInputDTO() {
+
+        validator.validateDTO(inputDTO);
     }
 }

@@ -1,390 +1,376 @@
-package com.validation.tests.product;
+package com.validation.product;
 
-import com.barbershop.dto.product.ProductCreationDTO;
-import com.barbershop.exceptions.common.NullDTOException;
-import com.barbershop.exceptions.product.*;
-import com.barbershop.validation.product.ProductValidator;
-import com.validation.common.ValidatorCreationTestFunctions;
+import com.abstract_test_class.BaseValidatorTest;
+import com.dto.product.ProductCreationDTO;
+import com.exceptions.common.NullDTOException;
+import com.exceptions.product.InvalidProductCurrentPriceException;
 import jakarta.validation.ConstraintViolationException;
-import jakarta.validation.Validation;
-import jakarta.validation.Validator;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 
-import static com.validation.dataset.ProductTestDataset.*;
+import static com.factory.ProductTestDataFactory.buildValidProductCreationDTO;
+import static com.test_constant.ProductTestConstants.CreationValidData.*;
+import static com.test_constant.ProductTestConstants.InvalidData.*;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@ExtendWith(MockitoExtension.class)
-public class ProductValidatorCreationTest implements ValidatorCreationTestFunctions {
-
-    private final Validator validatorEngine = Validation.buildDefaultValidatorFactory().getValidator();
-    private final ProductValidator validator = new ProductValidator(validatorEngine);
-
-    private ProductCreationDTO creationDTO;
-
-    @BeforeEach
-    public void init() {
-
-        setupCreationDTO();
-    }
+public class ProductValidatorCreationTest extends BaseValidatorTest<ProductValidator, ProductCreationDTO> {
 
     @Test
     @DisplayName("Dado un DTO de creación con datos válidos, la validación deberá ser exitosa")
     void givenDTOWithValidData_WhenCreating_ThenDoesNotThrowAnything() {
 
-        assertDoesNotThrow(this::validateForCreation);
+        assertDoesNotThrow(this::validateInputDTO);
     }
 
     @Test
     @DisplayName("Dado un DTO de creación NULL, la validación deberá fallar y arrojar NullDTOException")
     void givenNullDTO_WhenCreating_ThenThrows_NullDTOException() {
 
-        creationDTO = null;
+        inputDTO = null;
 
-        assertThrows(NullDTOException.class, this::validateForCreation);
+        assertThrows(NullDTOException.class, this::validateInputDTO);
     }
 
     @Test
     @DisplayName("Dado un DTO de creación con un nombre NULL, la validación deberá fallar y arrojará ConstraintViolationException")
     void givenNullName_WhenCreating_ThenThrows_ConstraintViolationException() {
 
-        creationDTO.setName(null);
+        inputDTO.setName(null);
 
-        assertThrows(ConstraintViolationException.class, this::validateForCreation);
+        assertThrows(ConstraintViolationException.class, this::validateInputDTO);
     }
 
     @Test
     @DisplayName("Dado un DTO de creación con una marca NULL, la validación deberá fallar y arrojará ConstraintViolationException")
     void givenNullBrandName_WhenCreating_ThenThrows_ConstraintViolationException() {
 
-        creationDTO.setBrandName(null);
+        inputDTO.setBrandName(null);
 
-        assertThrows(ConstraintViolationException.class, this::validateForCreation);
+        assertThrows(ConstraintViolationException.class, this::validateInputDTO);
+    }
+
+    @Test
+    @DisplayName("Dado un DTO de creación con un string de notas opcionales NULL, la validación deberá fallar y arrojará ConstraintViolationException")
+    void givenNullOptionalDescription_WhenCreating_ThenThrows_ConstraintViolationException() {
+
+        inputDTO.setOptionalDescription(null);
+
+        assertThrows(ConstraintViolationException.class, this::validateInputDTO);
     }
 
     @Test
     @DisplayName("Dado un DTO de creación cuyo valor de presentación NULL, la validación deberá fallar y arrojará ConstraintViolationException")
     void givenNullPresentationValue_WhenCreating_ThenThrows_ConstraintViolationException() {
 
-        creationDTO.setPresentationSize(null);
+        inputDTO.setPresentationSize(null);
 
-        assertThrows(ConstraintViolationException.class, this::validateForCreation);
+        assertThrows(ConstraintViolationException.class, this::validateInputDTO);
     }
 
     @Test
     @DisplayName("Dado un DTO de creación con una unidad de medida de presentación NULL, la validación deberá fallar y arrojará ConstraintViolationException")
     void givenNullPresentationUnit_WhenCreating_ThenThrows_ConstraintViolationException() {
 
-        creationDTO.setPresentationUnit(null);
+        inputDTO.setPresentationUnit(null);
 
-        assertThrows(ConstraintViolationException.class, this::validateForCreation);
+        assertThrows(ConstraintViolationException.class, this::validateInputDTO);
     }
 
     @Test
     @DisplayName("Dado un DTO de creación con un costo NULL, la validación deberá fallar y arrojará ConstraintViolationException")
     void givenNullCost_WhenCreating_ThenThrows_ConstraintViolationException() {
 
-        creationDTO.setProductCost(null);
+        inputDTO.setProductCost(null);
 
-        assertThrows(ConstraintViolationException.class, this::validateForCreation);
+        assertThrows(ConstraintViolationException.class, this::validateInputDTO);
     }
 
     @Test
     @DisplayName("Dado un DTO de creación con un precio de venta mínimo NULL, la validación deberá fallar y arrojará ConstraintViolationException")
     void givenNullMinPrice_WhenCreating_ThenThrows_ConstraintViolationException() {
 
-        creationDTO.setMinPrice(null);
+        inputDTO.setMinPrice(null);
 
-        assertThrows(ConstraintViolationException.class, this::validateForCreation);
+        assertThrows(ConstraintViolationException.class, this::validateInputDTO);
     }
 
     @Test
     @DisplayName("Dado un DTO de creación con un precio NULL, la validación deberá fallar y arrojará ConstraintViolationException")
     void givenNullCurrentPrice_WhenCreating_ThenThrows_ConstraintViolationException() {
 
-        creationDTO.setCurrentPrice(null);
+        inputDTO.setCurrentPrice(null);
 
-        assertThrows(ConstraintViolationException.class, this::validateForCreation);
+        assertThrows(ConstraintViolationException.class, this::validateInputDTO);
     }
 
     @Test
     @DisplayName("Dado un DTO de creación con un precio mayorista NULL, la validación deberá fallar y arrojará ConstraintViolationException")
     void givenNullWholeSalePrice_WhenCreating_ThenThrows_ConstraintViolationException() {
 
-        creationDTO.setProductWholeSalePrice(null);
+        inputDTO.setProductWholeSalePrice(null);
 
-        assertThrows(ConstraintViolationException.class, this::validateForCreation);
+        assertThrows(ConstraintViolationException.class, this::validateInputDTO);
     }
 
     @Test
     @DisplayName("Dado un DTO de creación con un valor de descuento máximo permitido NULL, la validación deberá fallar y arrojará ConstraintViolationException")
     void givenNullMaxDiscountPercentage_WhenCreating_ThenThrows_ConstraintViolationException() {
 
-        creationDTO.setMaxDiscountPercentage(null);
+        inputDTO.setMaxDiscountPercentage(null);
 
-        assertThrows(ConstraintViolationException.class, this::validateForCreation);
+        assertThrows(ConstraintViolationException.class, this::validateInputDTO);
     }
 
     @Test
     @DisplayName("Dado un DTO de creación con una categoría NULL, la validación deberá fallar y arrojará ConstraintViolationException")
     void givenNullCategory_WhenCreating_ThenThrows_ConstraintViolationException() {
 
-        creationDTO.setCategory(null);
+        inputDTO.setCategory(null);
 
-        assertThrows(ConstraintViolationException.class, this::validateForCreation);
+        assertThrows(ConstraintViolationException.class, this::validateInputDTO);
     }
 
     @Test
     @DisplayName("Dado un DTO de creación con un stock actual NULL, la validación deberá fallar y arrojará ConstraintViolationException")
     void givenNullCurrentStock_WhenCreating_ThenThrows_ConstraintViolationException() {
 
-        creationDTO.setCurrentStockLevel(null);
+        inputDTO.setCurrentStockLevel(null);
 
-        assertThrows(ConstraintViolationException.class, this::validateForCreation);
+        assertThrows(ConstraintViolationException.class, this::validateInputDTO);
     }
 
     @Test
     @DisplayName("Dado un DTO de creación con un stock mínimo NULL, la validación deberá fallar y arrojará ConstraintViolationException")
     void givenNullSafetyStockLevel_WhenCreating_ThenThrows_ConstraintViolationException() {
 
-        creationDTO.setSafetyStockLevel(null);
+        inputDTO.setSafetyStockLevel(null);
 
-        assertThrows(ConstraintViolationException.class, this::validateForCreation);
+        assertThrows(ConstraintViolationException.class, this::validateInputDTO);
     }
 
     @Test
     @DisplayName("Dado un DTO de creación con una ruta de archivo de imagen NULL, la validación deberá fallar y arrojará ConstraintViolationException")
     void givenNullFilePathString_WhenCreating_ThenThrows_ConstraintViolationException() {
 
-        creationDTO.setImageFilePath(null);
+        inputDTO.setImageFilePath(null);
 
-        assertThrows(ConstraintViolationException.class, this::validateForCreation);
+        assertThrows(ConstraintViolationException.class, this::validateInputDTO);
     }
 
     @Test
     @DisplayName("Dado un DTO de creación con un nombre en blanco, la validación deberá fallar y arrojará ConstraintViolationException")
     void givenBlankName_WhenCreating_ThenThrows_ConstraintViolationException() {
 
-        creationDTO.setName("");
+        inputDTO.setName("");
 
-        assertThrows(ConstraintViolationException.class, this::validateForCreation);
+        assertThrows(ConstraintViolationException.class, this::validateInputDTO);
     }
 
     @Test
     @DisplayName("Dado un DTO de creación con un nombre con caractéres inválidos, la validación deberá fallar y arrojará ConstraintViolationException")
     void givenInvalidName_WhenCreating_ThenThrows_ConstraintViolationException() {
 
-        creationDTO.setName(INVALID_NAME);
+        inputDTO.setName(PRODUCT_INVALID_NAME);
 
-        assertThrows(ConstraintViolationException.class, this::validateForCreation);
+        assertThrows(ConstraintViolationException.class, this::validateInputDTO);
     }
 
     @Test
     @DisplayName("Dado un DTO de creación con un nombre que no cumpla la longitud mínima, la validación deberá fallar y arrojara ConstraintViolationException")
     void givenNameTooShort_WhenCreating_ThenThrows_ConstraintViolationException() {
 
-        creationDTO.setName(NAME_TOO_SHORT);
+        inputDTO.setName(PRODUCT_NAME_TOO_SHORT);
 
-        assertThrows(ConstraintViolationException.class, this::validateForCreation);
+        assertThrows(ConstraintViolationException.class, this::validateInputDTO);
     }
 
     @Test
     @DisplayName("Dado un DTO de creación con un nombre que no cumpla la longitud máxima, la validación deberá fallar y arrojará ConstraintViolationException")
     void givenNameTooLong_WhenCreating_ThenThrows_ConstraintViolationException() {
 
-        creationDTO.setName(NAME_TOO_LONG);
+        inputDTO.setName(PRODUCT_NAME_TOO_LONG);
 
-        assertThrows(ConstraintViolationException.class, this::validateForCreation);
+        assertThrows(ConstraintViolationException.class, this::validateInputDTO);
     }
 
     @Test
     @DisplayName("Dado un DTO de creación con un nombre de marca en blanco, la validación deberá fallar y arrojará ConstraintViolationException")
     void givenBlankBrandName_WhenCreating_ThenThrows_ConstraintViolationException() {
 
-        creationDTO.setBrandName("");
+        inputDTO.setBrandName("");
 
-        assertThrows(ConstraintViolationException.class, this::validateForCreation);
+        assertThrows(ConstraintViolationException.class, this::validateInputDTO);
     }
 
     @Test
     @DisplayName("Dado un DTO de creación con un nombre de marca compuesto por caractéres inválidos, la validación deberá fallar y arrojará ConstraintViolationException")
     void givenBrandNameWithInvalidCharacters_WhenCreating_ThenThrows_ConstraintViolationException() {
 
-        creationDTO.setBrandName(INVALID_BRAND_NAME);
+        inputDTO.setBrandName(PRODUCT_INVALID_BRAND_NAME);
 
-        assertThrows(ConstraintViolationException.class, this::validateForCreation);
+        assertThrows(ConstraintViolationException.class, this::validateInputDTO);
     }
 
     @Test
     @DisplayName("Dado un DTO de creación con un nombre de marca que no cumpla la longitud mínima, la validación deberá fallar y arrojará ConstraintViolationException")
     void givenBrandNameTooShort_WhenCreating_ThenThrows_ConstraintViolationException() {
 
-        creationDTO.setBrandName(NAME_TOO_SHORT);
+        inputDTO.setBrandName(PRODUCT_NAME_TOO_SHORT);
 
-        assertThrows(ConstraintViolationException.class, this::validateForCreation);
+        assertThrows(ConstraintViolationException.class, this::validateInputDTO);
     }
 
     @Test
     @DisplayName("Dado un DTO de creación con un nombre de marca que no cumpla la longitud máxima, la validación deberá fallar y arrojará ConstraintViolationException")
     void givenBrandNameTooLong_WhenCreating_ThenThrows_ConstraintViolationException() {
 
-        creationDTO.setBrandName(NAME_TOO_LONG);
+        inputDTO.setBrandName(PRODUCT_NAME_TOO_LONG);
 
-        assertThrows(ConstraintViolationException.class, this::validateForCreation);
+        assertThrows(ConstraintViolationException.class, this::validateInputDTO);
     }
 
     @Test
     @DisplayName("Dado un DTO de creación con una descripción en blanco, la validación deberá ser exitosa y no arrojará excepción")
     void givenBlankOptionalDescription_WhenCreating_ThenDoesNotThrowAnything() {
 
-        creationDTO.setOptionalDescription("");
+        inputDTO.setOptionalDescription("");
 
-        assertDoesNotThrow(this::validateForCreation);
+        assertDoesNotThrow(this::validateInputDTO);
     }
 
     @Test
     @DisplayName("Dado un DTO de creación con una descripción que supere la longitud máxima, la validación deberá fallar y arrojará ConstraintViolationException")
     void givenOptionalDescriptionTooLong_WhenCreating_ThenThrows_ConstraintViolationException() {
 
-        creationDTO.setOptionalDescription(OPTIONAL_DESCRIPTION_TOO_LONG);
+        inputDTO.setOptionalDescription(PRODUCT_OPTIONAL_DESCRIPTION_TOO_LONG);
 
-        assertThrows(ConstraintViolationException.class, this::validateForCreation);
+        assertThrows(ConstraintViolationException.class, this::validateInputDTO);
     }
 
     @Test
     @DisplayName("Dado un DTO de creación con una medida de presentación menor o igual a cero, la validación deberá fallar y arrojará ConstraintViolationException")
     void givenPresentationSizeLowerOrEqualsThanZero_WhenCreating_ThenThrows_ConstraintViolationException() {
 
-        creationDTO.setPresentationSize(INVALID_SIZE);
+        inputDTO.setPresentationSize(PRODUCT_INVALID_SIZE);
 
-        assertThrows(ConstraintViolationException.class, this::validateForCreation);
+        assertThrows(ConstraintViolationException.class, this::validateInputDTO);
     }
 
     @Test
     @DisplayName("Dado un DTO de creación con un valor de costo negativo o cero, la validación deberá fallar y arrojara ConstraintViolationException")
     void givenCostLowerOrEqualsThanZero_WhenCreating_ThenThrows_ConstraintViolationException() {
 
-        creationDTO.setProductCost(NEGATIVE_COST);
+        inputDTO.setProductCost(PRODUCT_NEGATIVE_COST);
 
-        assertThrows(ConstraintViolationException.class, this::validateForCreation);
+        assertThrows(ConstraintViolationException.class, this::validateInputDTO);
     }
 
     @Test
     @DisplayName("Dado un DTO de creación con un precio actual negativo o cero, la validación deberá fallar y arrojará ConstraintViolationException")
     void givenCurrentPriceLowerOrEqualsThanZero_WhenCreating_ThenThrows_ConstraintViolationException() {
 
-        creationDTO.setCurrentPrice(NEGATIVE_PRICE);
+        inputDTO.setCurrentPrice(PRODUCT_NEGATIVE_PRICE);
 
-        assertThrows(ConstraintViolationException.class, this::validateForCreation);
+        assertThrows(ConstraintViolationException.class, this::validateInputDTO);
     }
 
     @Test
     @DisplayName("Dado un DTO de creación con un precio de venta mínimo negativo o cero, la validación deberá fallar y arrojará ConstraintViolationException")
     void givenMinPriceLowerOrEqualsThanZero_WhenCreating_ThenThrows_ConstraintViolationException() {
 
-        creationDTO.setMinPrice(NEGATIVE_PRICE);
+        inputDTO.setMinPrice(PRODUCT_NEGATIVE_PRICE);
 
-        assertThrows(ConstraintViolationException.class, this::validateForCreation);
+        assertThrows(ConstraintViolationException.class, this::validateInputDTO);
     }
 
     @Test
     @DisplayName("Dado un DTO de creación con un precio mayorista negativo o cero, la validación deberá fallar y arrojará ConstraintViolationException")
     void givenWholeSalePriceLowerOrEqualsThanZero_WhenCreating_ThenThrows_ConstraintViolationException() {
 
-        creationDTO.setProductWholeSalePrice(NEGATIVE_PRICE);
+        inputDTO.setProductWholeSalePrice(PRODUCT_NEGATIVE_PRICE);
 
-        assertThrows(ConstraintViolationException.class, this::validateForCreation);
+        assertThrows(ConstraintViolationException.class, this::validateInputDTO);
     }
 
     @Test
     @DisplayName("Dado un DTO de creación con un precio de venta actual menor al costo del producto, la validación deberá fallar y arrojará InvalidProductCurrentPriceException")
     void givenCurrentPriceLowerThanCost_WhenCreating_ThenThrows_InvalidProductCurrentPriceException() {
 
-        creationDTO.setCurrentPrice(COST - 100.0);
+        inputDTO.setCurrentPrice(PRODUCT_COST - 100.0);
 
-        assertThrows(InvalidProductCurrentPriceException.class, this::validateForCreation);
+        assertThrows(InvalidProductCurrentPriceException.class, this::validateInputDTO);
     }
 
     @Test
     @DisplayName("Dado un DTO de creación con un precio de venta igual al precio de costo del producto, la validación deberá fallar y arrojará InvalidProductCurrentPriceException")
     void givenCurrentPriceEqualsThanCost_WhenCreating_ThenThrows_InvalidProductCurrentPriceException() {
 
-        creationDTO.setCurrentPrice(COST);
+        inputDTO.setCurrentPrice(PRODUCT_COST);
 
-        assertThrows(InvalidProductCurrentPriceException.class, this::validateForCreation);
+        assertThrows(InvalidProductCurrentPriceException.class, this::validateInputDTO);
     }
 
     @Test
     @DisplayName("Dado un DTO de creación con un valor de porcentaje de descuento máximo menor que cero, la validación fallará y arrojará ConstraintViolationException")
     void givenMaxDiscountPercentageLowerThanZero_WhenCreating_ThenThrows_ConstraintViolationException() {
 
-        creationDTO.setMaxDiscountPercentage(DISCOUNT_PERCENTAGE_LOWER_THAN_ZERO);
+        inputDTO.setMaxDiscountPercentage(PRODUCT_DISCOUNT_PERCENTAGE_LOWER_THAN_ZERO);
 
-        assertThrows(ConstraintViolationException.class, this::validateForCreation);
+        assertThrows(ConstraintViolationException.class, this::validateInputDTO);
     }
 
     @Test
     @DisplayName("Dado un DTO de creación con un valor de porcentaje de descuento máximo mayot que uno, la validación fallará y arrojará ConstraintViolationException")
     void givenMaxDiscountPercentageHigherThanOne_WhenCreating_ThenThrows_ConstraintViolationException() {
 
-        creationDTO.setMaxDiscountPercentage(DISCOUNT_PERCENTAGE_HIGHER_THAN_ONE);
+        inputDTO.setMaxDiscountPercentage(PRODUCT_DISCOUNT_PERCENTAGE_HIGHER_THAN_ONE);
 
-        assertThrows(ConstraintViolationException.class, this::validateForCreation);
+        assertThrows(ConstraintViolationException.class, this::validateInputDTO);
     }
 
     @Test
     @DisplayName("Dado un DTO de creación con un stock actual menor a cero, la validación fallará y arrojará ConstraintViolationException")
     void givenCurrentStockLowerThanZero_WhenCreating_ThenThrows_ConstraintViolationException() {
 
-        creationDTO.setCurrentStockLevel(CURRENT_STOCK_LEVEL * (-1));
+        inputDTO.setCurrentStockLevel(PRODUCT_CURRENT_STOCK_LEVEL * (-1));
 
-        assertThrows(ConstraintViolationException.class, this::validateForCreation);
+        assertThrows(ConstraintViolationException.class, this::validateInputDTO);
     }
 
     @Test
     @DisplayName("Dado un DTO de creación con un stock mínimo menor que cero, la validación fallará y arrojará ConstraintViolationException")
     void givenSafetyStockLevelLowerThanZero_WhenCreating_ThenThrows_ConstraintViolationException() {
 
-        creationDTO.setSafetyStockLevel(SAFETY_STOCK_LEVEL * (-1));
+        inputDTO.setSafetyStockLevel(PRODUCT_SAFETY_STOCK_LEVEL * (-1));
 
-        assertThrows(ConstraintViolationException.class, this::validateForCreation);
+        assertThrows(ConstraintViolationException.class, this::validateInputDTO);
     }
 
     @Test
     @DisplayName("Dado un DTO de creación con una ruta de archivo en blanco, se asumirá que no tendrá archivo asociado y la validación deberá ser exitosa")
     void givenBlankFilePath_WhenCreating_ThenDoesNotThrowAnything() {
 
-        creationDTO.setImageFilePath("");
+        inputDTO.setImageFilePath("");
 
-        assertDoesNotThrow(this::validateForCreation);
+        assertDoesNotThrow(this::validateInputDTO);
     }
 
-    public void setupCreationDTO() {
+    @Override
+    protected void setupInputDTO() {
 
-        creationDTO = ProductCreationDTO.builder()
-                .name(NAME)
-                .optionalDescription(OPTIONAL_DESCRIPTION)
-                .brandName(BRAND_NAME)
-                .presentationSize(PRESENTATION_SIZE)
-                .presentationUnit(UNIT)
-                .productCost(COST)
-                .minPrice(MIN_PRICE)
-                .currentPrice(CURRENT_PRICE)
-                .productWholeSalePrice(WHOLE_SALE_PRICE)
-                .maxDiscountPercentage(MAX_DISCOUNT_PERCENTAGE_VALUE)
-                .category(CATEGORY)
-                .currentStockLevel(CURRENT_STOCK_LEVEL)
-                .safetyStockLevel(SAFETY_STOCK_LEVEL)
-                .imageFilePath(FILE_PATH)
-                .build();
+        inputDTO = buildValidProductCreationDTO();
     }
 
-    public void validateForCreation() {
+    @Override
+    protected void setupValidator() {
 
-        validator.validateDTO(creationDTO);
+        validator = new ProductValidator(validatorEngine);
+    }
+
+    @Override
+    protected void validateInputDTO() {
+
+        validator.validateDTO(inputDTO);
     }
 }

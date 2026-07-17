@@ -1,51 +1,34 @@
-package com.validation.tests.client;
+package com.validation.client;
 
-import com.barbershop.dto.client.ClientUpdateDTO;
-import com.barbershop.exceptions.client.*;
-import com.barbershop.exceptions.common.NullDTOException;
-import com.barbershop.validation.client.ClientValidator;
-import com.validation.common.ValidatorUpdateTestFunctions;
+import com.abstract_test_class.BaseValidatorTest;
+import com.dto.client.ClientUpdateDTO;
+import com.exceptions.client.DuplicatedPhoneInListException;
+import com.exceptions.common.NullDTOException;
 import jakarta.validation.ConstraintViolationException;
-import jakarta.validation.Validator;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 
-import static com.barbershop.validation.common.CommonValidationFunctions.generateValidatorEngine;
-import static com.validation.dataset.ClientTestDataset.*;
+import static com.factory.ClientTestDataFactory.buildValidClientUpdateDTO;
+import static com.test_constant.ClientTestConstants.InvalidData.*;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@ExtendWith(MockitoExtension.class)
-public class ClientValidatorUpdateTest implements ValidatorUpdateTestFunctions {
-
-    private final Validator validatorEngine = generateValidatorEngine();
-    private final ClientValidator validator = new ClientValidator(validatorEngine);
-
-    private ClientUpdateDTO updateDTO;
-
-    @BeforeEach
-    public void init() {
-
-        setupUpdateDTO();
-    }
+public class ClientValidatorUpdateTest extends BaseValidatorTest<ClientValidator, ClientUpdateDTO> {
 
     @Test
     @DisplayName("Dado un DTO de actualización con datos correctos, la validación deberá ser exitosa y no arrojará excepción")
     void givenUpdateDTO_WithValidData_ThenDoesNotThrowAnything() {
 
-        assertDoesNotThrow(this::validateForUpdate);
+        assertDoesNotThrow(this::validateInputDTO);
     }
 
     @Test
     @DisplayName("Dado un DTO de actualización NULL, la validación deberá fallar y arrojará NullDTOException")
     void givenNullDTO_WhenUpdating_ThenThrows_NullDTOException() {
 
-        updateDTO = null;
+        inputDTO = null;
 
-        assertThrows(NullDTOException.class, this::validateForUpdate);
+        assertThrows(NullDTOException.class, this::validateInputDTO);
     }
 
     @Test
@@ -54,160 +37,160 @@ public class ClientValidatorUpdateTest implements ValidatorUpdateTestFunctions {
 
         setAllFieldsOnNull();
 
-        assertDoesNotThrow(this::validateForUpdate);
+        assertDoesNotThrow(this::validateInputDTO);
     }
 
     @Test
     @DisplayName("Dado un DTO de actualización con DNI igual a NULL, la validación deberá ser exitosa conservando el valor anterior")
     void givenNullNationalIDCardNumber_WhenUpdating_ThenValidationShouldBeSuccessfull() {
 
-        updateDTO.setNationalIdentityCardNumber(null);
+        inputDTO.setNationalIdentityCardNumber(null);
 
-        assertDoesNotThrow(this::validateForUpdate);
+        assertDoesNotThrow(this::validateInputDTO);
     }
 
     @Test
     @DisplayName("Dado un DTO de actualización con un DNI en blanco, la validación deberá fallar y arrojará ConstraintViolationException")
     void givenBlankNationalIDCardNumber_WhenUpdating_ThenThrows_ConstraintViolationException() {
 
-        updateDTO.setNationalIdentityCardNumber("");
+        inputDTO.setNationalIdentityCardNumber("");
 
-        assertThrows(ConstraintViolationException.class, this::validateForUpdate);
+        assertThrows(ConstraintViolationException.class, this::validateInputDTO);
     }
 
     @Test
     @DisplayName("Dado un DTO de actualización con nombre en blanco, la validación deberá fallar y arrojará ConstraintViolationException")
     void givenBlankFirstName_WhenUpdating_ThenThrows_ConstraintViolationException() {
 
-        updateDTO.setFirstName("");
+        inputDTO.setFirstName("");
 
-        assertThrows(ConstraintViolationException.class, this::validateForUpdate);
+        assertThrows(ConstraintViolationException.class, this::validateInputDTO);
     }
 
     @Test
     @DisplayName("Dado un DTO de actualización con un apellido en blanco, la validación deberá fallar y arrojará ConstraintViolationException")
     void givenBlankLastName_WhenUpdating_ThenThrows_ConstraintViolationException() {
 
-        updateDTO.setLastName("");
+        inputDTO.setLastName("");
 
-        assertThrows(ConstraintViolationException.class, this::validateForUpdate);
+        assertThrows(ConstraintViolationException.class, this::validateInputDTO);
     }
 
     @Test
     @DisplayName("Dado un DTO de actualización con un email en blanco, la validación deberá fallar y arrojará ConstraintViolationException")
     void givenBlankEmail_WhenUpdating_ThenThrows_ConstraintViolationException() {
 
-        updateDTO.setEmail("");
+        inputDTO.setEmail("");
 
-        assertThrows(ConstraintViolationException.class, this::validateForUpdate);
+        assertThrows(ConstraintViolationException.class, this::validateInputDTO);
     }
 
     @Test
     @DisplayName("Dado un DTO de actualización con una lista de teléfonos en blanco, la validación deberá fallar y arrojará ConstraintViolationException")
     void givenEmptyPhoneList_WhenUpdating_ThenThrows_ConstraintViolationException() {
 
-        updateDTO.setPhoneNumbersList(EMPTY_PHONE_LIST);
+        inputDTO.setPhoneNumbersList(EMPTY_PHONE_LIST);
 
-        assertThrows(ConstraintViolationException.class, this::validateForUpdate);
+        assertThrows(ConstraintViolationException.class, this::validateInputDTO);
     }
 
     @Test
     @DisplayName("Dado un DTO de actualización con un DNI con caracteres inválidos, la validación deberá fallar y arrojará ConstraintViolationException")
     void givenInvalidNationalIDCardNumber_WhenUpdating_ThenThrows_ConstraintViolationException() {
 
-        updateDTO.setNationalIdentityCardNumber(INVALID_NATIONAL_ID_CARD_NUMBER);
+        inputDTO.setNationalIdentityCardNumber(INVALID_NATIONAL_ID_CARD_NUMBER);
 
-        assertThrows(ConstraintViolationException.class, this::validateForUpdate);
+        assertThrows(ConstraintViolationException.class, this::validateInputDTO);
     }
 
     @Test
     @DisplayName("Dado un DTO de actualización con un nombre con caractéres inválidos, la validación deberá fallar y arrojará ConstraintViolationException")
     void givenInvalidFirstName_WhenUpdating_ThenThrows_ConstraintViolationException() {
 
-        updateDTO.setFirstName(INVALID_FIRST_NAME);
+        inputDTO.setFirstName(INVALID_FIRST_NAME);
 
-        assertThrows(ConstraintViolationException.class, this::validateForUpdate);
+        assertThrows(ConstraintViolationException.class, this::validateInputDTO);
     }
 
     @Test
     @DisplayName("Dado un DTO de actualización con un apellido con caractéres inválidos, la validación deberá fallar y arrojará ConstraintViolationException")
     void givenInvalidLastName_WhenUpdating_ThenThrows_ConstraintViolationException() {
 
-        updateDTO.setLastName(INVALID_LAST_NAME);
+        inputDTO.setLastName(INVALID_LAST_NAME);
 
-        assertThrows(ConstraintViolationException.class, this::validateForUpdate);
+        assertThrows(ConstraintViolationException.class, this::validateInputDTO);
     }
 
     @Test
     @DisplayName("Dado un DTO de actualización con un email con caractéres inválidos, la validación deberá fallar y arrojará ConstraintViolationException")
     void givenInvalidEmail_WhenUpdating_ThenThrows_ConstraintViolationException() {
 
-        updateDTO.setEmail(INVALID_EMAIL);
+        inputDTO.setEmail(INVALID_EMAIL);
 
-        assertThrows(ConstraintViolationException.class, this::validateForUpdate);
+        assertThrows(ConstraintViolationException.class, this::validateInputDTO);
     }
 
     @Test
     @DisplayName("Dado un DTO de actualización con un DNI que no cumpla límites de longitud, la validación deberá fallar y arrojará ConstraintViolationException")
     void givenNationalIDCardNumberWithInvalidLength_WhenUpdating_ThenThrows_ConstraintViolationException() {
 
-        updateDTO.setNationalIdentityCardNumber(INVALID_LENGTH_NATIONAL_ID_CARD_NUMBER);
+        inputDTO.setNationalIdentityCardNumber(INVALID_LENGTH_NATIONAL_ID_CARD_NUMBER);
 
-        assertThrows(ConstraintViolationException.class, this::validateForUpdate);
+        assertThrows(ConstraintViolationException.class, this::validateInputDTO);
     }
 
     @Test
     @DisplayName("Dado un DTO de actualización con un nombre que no cumpla la longitud mínima, la validación deberá fallar y arrojará ConstraintViolationException")
     void givenFirstNameTooShort_WhenUpdating_ThenThrows_ConstraintViolationException() {
 
-        updateDTO.setFirstName(NAME_TOO_SHORT);
+        inputDTO.setFirstName(NAME_TOO_SHORT);
 
-        assertThrows(ConstraintViolationException.class, this::validateForUpdate);
+        assertThrows(ConstraintViolationException.class, this::validateInputDTO);
     }
 
     @Test
     @DisplayName("Dado un DTO de actualización con un apellido que no cumpla la longitud mínima, la validación deberá fallar y arrojará ConstraintViolationException")
     void givenLastNameTooShort_WhenUpdating_ThenThrows_ConstraintViolationException() {
 
-        updateDTO.setLastName(NAME_TOO_SHORT);
+        inputDTO.setLastName(NAME_TOO_SHORT);
 
-        assertThrows(ConstraintViolationException.class, this::validateForUpdate);
+        assertThrows(ConstraintViolationException.class, this::validateInputDTO);
     }
 
     @Test
     @DisplayName("Dado un DTO de actualización con un nombre que no cumpla la longitud máxima, la validación deberá fallar y arrojará ConstraintViolationException")
     void givenFirstNameTooLong_WhenUpdating_ThenThrows_ConstraintViolationException() {
 
-        updateDTO.setFirstName(NAME_TOO_LONG);
+        inputDTO.setFirstName(NAME_TOO_LONG);
 
-        assertThrows(ConstraintViolationException.class, this::validateForUpdate);
+        assertThrows(ConstraintViolationException.class, this::validateInputDTO);
     }
 
     @Test
     @DisplayName("Dado un DTO de actualización con un apellido que no cumpla la longitud máxima, la validación deberá fallar y arrojará ConstraintViolationException")
     void givenLastNameTooLong_WhenUpdating_ThenThrows_ConstraintViolationException() {
 
-        updateDTO.setLastName(NAME_TOO_LONG);
+        inputDTO.setLastName(NAME_TOO_LONG);
 
-        assertThrows(ConstraintViolationException.class, this::validateForUpdate);
+        assertThrows(ConstraintViolationException.class, this::validateInputDTO);
     }
 
     @Test
     @DisplayName("Dado un DTO de actualización con una lista de teléfonos que contenga 1 o más valores inválidos, la validación deberá fallar y arrojará ConstraintViolationException")
     void givenInvalidPhoneNumberList_WhenUpdating_ThenThrows_ConstraintViolationException() {
 
-        updateDTO.setPhoneNumbersList(INVALID_PHONE_LIST);
+        inputDTO.setPhoneNumbersList(INVALID_PHONE_LIST);
 
-        assertThrows(ConstraintViolationException.class, this::validateForUpdate);
+        assertThrows(ConstraintViolationException.class, this::validateInputDTO);
     }
 
     @Test
     @DisplayName("Dado un DTO de actualización con una lista de teléfonos que contenga 1 o más valores duplicados, la validación deberá fallar y arrojará DuplicatedPhoneInListException")
     void givenPhoneNumberListWithDuplicatedValues_WhenUpdating_ThenThrows_DuplicatedPhoneInListException() {
 
-        updateDTO.setPhoneNumbersList(PHONE_LIST_WITH_DUPLICATED_VALUES);
+        inputDTO.setPhoneNumbersList(PHONE_LIST_WITH_DUPLICATED_VALUES);
 
-        assertThrows(DuplicatedPhoneInListException.class, this::validateForUpdate);
+        assertThrows(DuplicatedPhoneInListException.class, this::validateInputDTO);
     }
 
     @Test
@@ -215,44 +198,45 @@ public class ClientValidatorUpdateTest implements ValidatorUpdateTestFunctions {
             ", la validación deberá fallar y arrojará ConstraintViolationException")
     void givenPhoneListWithInvalidLength_WhenUpdating_ThenThrows_ConstraintViolationException() {
 
-        updateDTO.setPhoneNumbersList(INVALID_LENGTH_PHONE_LIST);
+        inputDTO.setPhoneNumbersList(INVALID_LENGTH_PHONE_LIST);
 
-        assertThrows(ConstraintViolationException.class, this::validateForUpdate);
+        assertThrows(ConstraintViolationException.class, this::validateInputDTO);
     }
 
     @Test
     @DisplayName("Dado un DTO de actualización con un string de notas opcionales que no cumpla la longitud máxima, la validación deberá fallar y arrojará ConstraintViolationException")
     void givenOptionalNotesTooLong_WhenUpdating_ThenThrows_ConstraintViolationException() {
 
-        updateDTO.setOptionalNotes(OPTIONAL_NOTES_TOO_LONG);
+        inputDTO.setOptionalNotes(OPTIONAL_NOTES_TOO_LONG);
 
-        assertThrows(ConstraintViolationException.class, this::validateForUpdate);
-    }
-
-    public void setupUpdateDTO() {
-
-        updateDTO = ClientUpdateDTO.builder()
-                .nationalIdentityCardNumber(NATIONAL_ID_CARD_NUMBER)
-                .firstName(FIRST_NAME)
-                .lastName(LAST_NAME)
-                .email(EMAIL)
-                .phoneNumbersList(PHONE_LIST)
-                .optionalNotes(OPTIONAL_NOTES)
-                .build();
-    }
-
-    public void validateForUpdate() {
-
-        validator.validateDTO(updateDTO);
+        assertThrows(ConstraintViolationException.class, this::validateInputDTO);
     }
 
     public void setAllFieldsOnNull() {
 
-        updateDTO.setNationalIdentityCardNumber(null);
-        updateDTO.setFirstName(null);
-        updateDTO.setLastName(null);
-        updateDTO.setEmail(null);
-        updateDTO.setPhoneNumbersList(null);
-        updateDTO.setOptionalNotes(null);
+        inputDTO.setNationalIdentityCardNumber(null);
+        inputDTO.setFirstName(null);
+        inputDTO.setLastName(null);
+        inputDTO.setEmail(null);
+        inputDTO.setPhoneNumbersList(null);
+        inputDTO.setOptionalNotes(null);
+    }
+
+    @Override
+    protected void setupInputDTO() {
+
+        inputDTO = buildValidClientUpdateDTO();
+    }
+
+    @Override
+    protected void setupValidator() {
+
+        validator = new ClientValidator(validatorEngine);
+    }
+
+    @Override
+    protected void validateInputDTO() {
+
+        validator.validateDTO(inputDTO);
     }
 }
