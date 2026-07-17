@@ -1,103 +1,83 @@
 package com.mapper.paymentmethod;
 
-import com.barbershop.dto.payment.PaymentMethodUpdateDTO;
-import com.barbershop.enums.PaymentMethodModifierType;
-import com.barbershop.mapper.implementation.PaymentMethodMapperImpl;
-import com.barbershop.mapper.interfaces.PaymentMethodMapper;
-import com.barbershop.model.PaymentMethod;
-import org.junit.jupiter.api.BeforeEach;
+import com.dto.payment.PaymentMethodUpdateDTO;
+import com.mapper.implementation.PaymentMethodMapperImpl;
+import com.mapper.interfaces.PaymentMethodMapper;
+import com.model.PaymentMethod;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.time.Clock;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.ZoneId;
-
+import static com.factory.PaymentMethodTestDataFactory.buildValidPaymentMethod;
+import static com.factory.PaymentMethodTestDataFactory.buildValidPaymentMethodUpdateDTO;
+import static com.test_constant.PaymentMethodTestConstants.CreationValidData.*;
+import static com.test_constant.PaymentMethodTestConstants.MapperData.PAYMENT_METHOD_TEST_CLOCK;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PaymentMethodMapperUpdateTest {
 
-    private final Clock clock = Clock.fixed(Instant.parse("2026-01-01T15:00:00Z"), ZoneId.of("America/Argentina/Buenos_Aires"));
+    private final PaymentMethodMapper mapper = new PaymentMethodMapperImpl(PAYMENT_METHOD_TEST_CLOCK);
 
-    private final PaymentMethodMapper mapper = new PaymentMethodMapperImpl(clock);
-
-    private PaymentMethod existingPaymentMethod;
-    private PaymentMethodUpdateDTO updateDTO;
-
-    @BeforeEach
-    void init() {
-
-        existingPaymentMethod = PaymentMethod.builder()
-                .paymentMethodID(1L)
-                .name("Mercado Pago")
-                .description("Pasarela de pagos provista por Mercado Libre SRL")
-                .isActive(true)
-                .createdAt(LocalDate.of(2026, 1, 1))
-                .modifierType(PaymentMethodModifierType.NINGUNO)
-                .priceModifier(0.0)
-                .build();
-
-        updateDTO = PaymentMethodUpdateDTO.builder()
-                .newName("Mastercard")
-                .newDescription("Pasarela de pagos de Mastercard")
-                .isActive(false)
-                .newModifierType(PaymentMethodModifierType.RECARGO)
-                .priceModifier(0.01)
-                .build();
-    }
+    private final PaymentMethod existingPaymentMethod = buildValidPaymentMethod();
+    private final PaymentMethodUpdateDTO updateDTO = buildValidPaymentMethodUpdateDTO();
 
     @Test
+    @DisplayName("Debería mantener el nombre actual si se proporciona un valor null para newName")
     void givenNullNewName_WhenUpdating_ThenEntityKeepsCurrentName() {
 
-        String currentName = "Mercado Pago";
         updateDTO.setNewName(null);
 
-        PaymentMethod result = mapper.mapPaymentMethodUpdateDtoToPaymentMethod(existingPaymentMethod, updateDTO);
+        PaymentMethod result = mapEntity(existingPaymentMethod, updateDTO);
 
-        assertEquals(currentName, result.getName());
+        assertEquals(PAYMENT_METHOD_NAME, result.getName());
     }
 
     @Test
+    @DisplayName("Debería mantener la descripción actual si se proporciona un valor null para newDescription")
     void givenNullNewDescription_WhenUpdating_ThenEntityKeepsCurrentDescription() {
 
-        String currentDescription = "Pasarela de pagos provista por Mercado Libre SRL";
         updateDTO.setNewDescription(null);
 
-        PaymentMethod result = mapper.mapPaymentMethodUpdateDtoToPaymentMethod(existingPaymentMethod, updateDTO);
+        PaymentMethod result = mapEntity(existingPaymentMethod, updateDTO);
 
-        assertEquals(currentDescription, result.getDescription());
+        assertEquals(PAYMENT_METHOD_DESCRIPTION, result.getDescription());
     }
 
     @Test
-    void givenNullIsActiveValue_WhenUpdating_ThenEntityKeepsCurrentIsActiveValue(){
+    @DisplayName("Debería mantener el valor isActive actual si se proporciona un valor null para newIsActiveValue")
+    void givenNullIsActiveValue_WhenUpdating_ThenEntityKeepsCurrentIsActiveValue() {
 
         Boolean currentIsActiveValue = true;
         updateDTO.setIsActive(null);
 
-        PaymentMethod result = mapper.mapPaymentMethodUpdateDtoToPaymentMethod(existingPaymentMethod, updateDTO);
+        PaymentMethod result = mapEntity(existingPaymentMethod, updateDTO);
 
         assertEquals(currentIsActiveValue, result.getIsActive());
     }
 
     @Test
-    void givenNullNewModifierType_WhenUpdating_ThenEntityKeepsCurrentPriceModifier(){
+    @DisplayName("Debería mantener el tipo de modificador actual si se proporciona un valor null para newModifierType")
+    void givenNullNewModifierType_WhenUpdating_ThenEntityKeepsCurrentPriceModifier() {
 
-        PaymentMethodModifierType currentPriceModifier = PaymentMethodModifierType.NINGUNO;
         updateDTO.setNewModifierType(null);
 
-        PaymentMethod result = mapper.mapPaymentMethodUpdateDtoToPaymentMethod(existingPaymentMethod, updateDTO);
+        PaymentMethod result = mapEntity(existingPaymentMethod, updateDTO);
 
-        assertEquals(currentPriceModifier, result.getModifierType());
+        assertEquals(PAYMENT_METHOD_MODIFIER_TYPE, result.getModifierType());
     }
 
     @Test
-    void givenNullNewPriceModifier_WhenUpdating_ThenEntityKeepsCurrentPriceModifier(){
+    @DisplayName("Debería mantener el modificador de precio actual si se proporciona un valor null para priceModifier")
+    void givenNullNewPriceModifier_WhenUpdating_ThenEntityKeepsCurrentPriceModifier() {
 
-        Double currentPriceModifier = 0.0;
         updateDTO.setPriceModifier(null);
 
-        PaymentMethod result = mapper.mapPaymentMethodUpdateDtoToPaymentMethod(existingPaymentMethod, updateDTO);
+        PaymentMethod result = mapEntity(existingPaymentMethod, updateDTO);
 
-        assertEquals(currentPriceModifier, result.getPriceModifier());
+        assertEquals(PAYMENT_METHOD_PRICE_MODIFIER_VALUE, result.getPriceModifier());
+    }
+
+    private PaymentMethod mapEntity(PaymentMethod existingPaymentMethod, PaymentMethodUpdateDTO updateDTO) {
+
+        return mapper.mapPaymentMethodUpdateDtoToPaymentMethod(existingPaymentMethod, updateDTO);
     }
 }

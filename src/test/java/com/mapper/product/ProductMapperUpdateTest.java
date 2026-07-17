@@ -1,109 +1,81 @@
 package com.mapper.product;
 
-import com.barbershop.dto.product.ProductUpdateDTO;
-import com.barbershop.enums.ProductCategory;
-import com.barbershop.mapper.implementation.ProductMapperImpl;
-import com.barbershop.mapper.interfaces.ProductMapper;
-import com.barbershop.model.Product;
-import org.junit.jupiter.api.BeforeEach;
+import com.dto.product.ProductUpdateDTO;
+import com.mapper.implementation.ProductMapperImpl;
+import com.mapper.interfaces.ProductMapper;
+import com.model.Product;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import static com.factory.ProductTestDataFactory.buildValidProduct;
+import static com.factory.ProductTestDataFactory.buildValidProductUpdateDTO;
+import static com.test_constant.ProductTestConstants.CreationValidData.*;
+import static com.test_constant.ProductTestConstants.MapperData.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ProductMapperUpdateTest {
 
     private final ProductMapper mapper = new ProductMapperImpl();
 
-    private ProductUpdateDTO updateDTO;
-    private Product product;
-
-    @BeforeEach
-    void init() {
-
-        product = new Product();
-        updateDTO = new ProductUpdateDTO();
-    }
+    private final ProductUpdateDTO updateDTO = buildValidProductUpdateDTO();
+    private final Product product = buildValidProduct();
 
     @Test
+    @DisplayName("Dado un DTO de actualización con nombre de producto con espacios innecesarios, al mapear serán eliminados")
     void givenNameWithSpaces_WhenUpdating_ThenIsTrimmed() {
 
-        String productNameWithSpaces = "   Cera para modelar   ";
+        updateDTO.setName(PRODUCT_NAME_WITH_SPACES);
 
-        updateDTO.setName(productNameWithSpaces);
+        Product updatedProduct = mapEntity(product, updateDTO);
 
-        Product updatedProduct = mapper.mapProductUpdateDTOtoEntity(product, updateDTO);
-
-        assertEquals("Cera para modelar", updatedProduct.getName());
+        assertEquals(PRODUCT_NAME, updatedProduct.getName());
     }
 
     @Test
+    @DisplayName("Dado un DTO de actualización con nombre de producto en minúsculas, al mapear se agregará la mayúscula correspondiente")
     void givenLowercaseName_WhenUpdating_ThenIsCapitalized() {
 
-        String lowercaseName = "shampoo";
+        updateDTO.setName(LOWERCASE_PRODUCT_NAME);
 
-        updateDTO.setName(lowercaseName);
+        Product updatedProduct = mapEntity(product, updateDTO);
 
-        Product updatedProduct = mapper.mapProductUpdateDTOtoEntity(product, updateDTO);
-
-        assertEquals("Shampoo", updatedProduct.getName());
+        assertEquals(PRODUCT_NAME, updatedProduct.getName());
     }
 
     @Test
-    void givenNullName_WhenUpdating_ThenEntityKeepsCurrentName() {
+    @DisplayName("Dado un DTO de actualización con nombre de marca con espacios innecesarios, al mapear serán eliminados")
+    void givenBrandNameWithSpaces_WhenUpdating_ThenIsTrimmed() {
 
-        updateDTO.setName(null);
-        product.setName("Producto 1");
+        updateDTO.setBrandName(PRODUCT_BRAND_NAME_WITH_SPACES);
 
-        Product result = mapper.mapProductUpdateDTOtoEntity(product, updateDTO);
+        Product updatedProduct = mapEntity(product, updateDTO);
 
-        assertEquals("Producto 1", result.getName());
+        assertEquals(PRODUCT_BRAND_NAME, updatedProduct.getBrandName());
     }
 
     @Test
-    void givenNullProductCost_WhenUpdating_ThenEntityKeepsCurrentCost() {
+    @DisplayName("Dado un DTO de actualización con un nombre de marca en minúsculas, al mapear se agregará la mayúscula correspondiente")
+    void givenLowercaseBrandName_WhenUpdating_ThenIsCapitalized() {
 
-        product.setProductCost(3500.0);
+        updateDTO.setBrandName(LOWERCASE_BRAND_NAME);
 
-        updateDTO.setProductCost(null);
+        Product updatedProduct = mapEntity(product, updateDTO);
 
-        Product result = mapper.mapProductUpdateDTOtoEntity(product, updateDTO);
-
-        assertEquals(3500.0, result.getProductCost());
+        assertEquals(PRODUCT_BRAND_NAME, updatedProduct.getBrandName());
     }
 
     @Test
-    void givenNullProductCategory_WhenUpdating_ThenEntityKeepsCurrentCategory() {
+    @DisplayName("Dado un DTO de actualización con un string de descripción opcional con espacios innecesarios, al mapear serán eliminados")
+    void givenOptionalDescriptionWithUnnecessarySpaces_WhenUpdating_ThenIsTrimmed() {
 
-        product.setCategory(ProductCategory.HOJA_DE_AFEITAR);
+        updateDTO.setOptionalDescription(PRODUCT_OPTIONAL_DESCRIPTION_WITH_SPACES);
 
-        updateDTO.setCategory(null);
+        Product updatedProduct = mapEntity(product, updateDTO);
 
-        Product result = mapper.mapProductUpdateDTOtoEntity(product, updateDTO);
-
-        assertEquals(ProductCategory.HOJA_DE_AFEITAR, result.getCategory());
+        assertEquals(PRODUCT_OPTIONAL_DESCRIPTION, updatedProduct.getOptionalDescription());
     }
 
-    @Test
-    void givenNullCurrentStockLevel_WhenUpdating_ThenEntityKeepsCurrentStockValue() {
-
-        product.setCurrentStockLevel(150);
-
-        updateDTO.setCurrentStockLevel(null);
-
-        Product result = mapper.mapProductUpdateDTOtoEntity(product, updateDTO);
-
-        assertEquals(150, result.getCurrentStockLevel());
-    }
-
-    @Test
-    void givenNullSafetyStockLevel_WhenUpdating_ThenEntityKeepsCurrentSafetyStockValue() {
-
-        product.setSafetyStockLevel(150);
-
-        updateDTO.setSafetyStockLevel(null);
-
-        Product result = mapper.mapProductUpdateDTOtoEntity(product, updateDTO);
-
-        assertEquals(150, result.getSafetyStockLevel());
+    private Product mapEntity(Product product, ProductUpdateDTO updateDTO) {
+        return mapper.mapProductUpdateDTOtoEntity(product, updateDTO);
     }
 }

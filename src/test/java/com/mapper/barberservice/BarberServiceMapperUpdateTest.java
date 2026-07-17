@@ -1,145 +1,75 @@
 package com.mapper.barberservice;
 
-import com.barbershop.dto.barbershopservice.BarberServiceUpdateDTO;
-import com.barbershop.enums.BarberServiceCategory;
-import com.barbershop.mapper.implementation.BarberServiceMapperImpl;
-import com.barbershop.mapper.interfaces.BarberServiceMapper;
-import com.barbershop.model.BarberService;
+import com.dto.barbershopservice.BarberServiceUpdateDTO;
+import com.mapper.implementation.BarberServiceMapperImpl;
+import com.mapper.interfaces.BarberServiceMapper;
+import com.model.BarberService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDateTime;
-
+import static com.factory.BarberServiceTestDataFactory.buildValidBarberService;
+import static com.factory.BarberServiceTestDataFactory.buildValidBarberServiceUpdateDTO;
+import static com.test_constant.BarberServiceTestConstants.CreationValidData.*;
+import static com.test_constant.BarberServiceTestConstants.MapperTestData.*;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class BarberServiceMapperUpdateTest {
 
     private final BarberServiceMapper mapper = new BarberServiceMapperImpl();
-
-    private BarberService barberService = null;
-
+    private BarberService barberService;
     private BarberServiceUpdateDTO updateDTO;
-
-    private static final Long ID = 1L;
-    private static final String NAME = "Corte de pelo básico";
-    private static final Double PRICE = 12000.0;
-    private static final BarberServiceCategory CATEGORY = BarberServiceCategory.CORTE;
-    private static final LocalDateTime REGISTRATION_TIMESTAMP = LocalDateTime.of(2026, 1, 1, 12, 30);
-    private static final LocalDateTime MODIFICATION_TIMESTAMP = null;
-    private static final String INTERNAL_NOTES = "Completar en máximo 30 minutos";
-
-    private static final String NEW_NAME = "Corte de pelo";
-    private static final String NEW_NAME_WITH_SPACES = "        Corte de pelo       ";
-    private static final String LOWERCASE_NEW_NAME = "corte de pelo";
-    private static final Double NEW_PRICE = 16000.0;
-    private static final String NEW_INTERNAL_NOTES = "Completar en máximo 45 minutos";
-    private static final String NEW_INTERNAL_NOTES_WITH_SPACES = "      Completar en máximo 45 minutos      ";
-    private static final String EMPTY_INTERNAL_NOTES = "";
 
     @BeforeEach
     void init() {
 
-        setupExistingEntity();
-        setupUpdateDTO();
+        barberService = buildValidBarberService();
+        updateDTO = buildValidBarberServiceUpdateDTO();
     }
 
     @Test
-    @DisplayName("Dado cualquiera de los atributos del DTO de actualización que sean NULL, la entidad mantendrá sus valores actuales")
-    void givenAnyNullValue_WhenUpdating_ThenEntityKeepsCurrentData(){
+    @DisplayName("Dado un DTO de actualización con cualquier atributo NULL, la entidad original mantiene el valor actual para cada caso")
+    void givenAnyNullValue_WhenUpdating_ThenEntityKeepsCurrentData() {
+        setAllFieldsToNull();
 
-        setAllFieldsOfUpdateDtoOnNull();
-
-        mapUpdateDtoToEntity();
-
+        mapEntityAndUpdate(barberService, updateDTO);
         assertAll(
                 "Verificación de campos",
-                () -> assertEquals(ID, barberService.getBarbershopServiceID()),
-                () -> assertEquals(NAME, barberService.getName()),
-                () -> assertEquals(PRICE, barberService.getPrice()),
-                () -> assertEquals(CATEGORY, barberService.getServiceCategory()),
+                () -> assertEquals(BARBER_SERVICE_ID, barberService.getBarbershopServiceID()),
+                () -> assertEquals(BARBER_SERVICE_NAME, barberService.getName()),
+                () -> assertEquals(BARBER_SERVICE_PRICE, barberService.getPrice()),
+                () -> assertEquals(BARBER_SERVICE_CATEGORY, barberService.getServiceCategory()),
                 () -> assertEquals(INTERNAL_NOTES, barberService.getInternalNotes())
         );
     }
 
     @Test
-    @DisplayName("Dado un DTO de actualización con un nombre con espacios en blanco innecesarios, serán limpiados al momento del mapeo")
-    void givenNewNameWithSpaces_WhenUpdating_ThenIsTrimmed(){
+    @DisplayName("Dado un DTO de actualización con nombre en minúsculas, se modificará agregando la mayúscula correspondiente")
+    void givenLowerCaseNewName_WhenUpdating_ThenIsCapitalized() {
+        updateDTO.setName(LOWERCASE_NAME);
+        mapEntityAndUpdate(barberService, updateDTO);
 
-        updateDTO.setName(NEW_NAME_WITH_SPACES);
-
-        mapUpdateDtoToEntity();
-
-        assertEquals(NEW_NAME, barberService.getName());
+        assertEquals(BARBER_SERVICE_NAME, barberService.getName());
     }
 
     @Test
-    @DisplayName("Dado un DTO de actualización con un nombre en minúsculas, deberá ser correctamente formateado para incluir la mayúscula inicial")
-    void givenLowerCaseNewName_WhenUpdating_ThenIsCapitalized(){
+    @DisplayName("Dado un DTO de actualización cuyo nombre tenga espacios innecesarios, serán limpiados al mapearse")
+    void givenNewNameWithSpaces_WhenUpdating_ThenIsTrimmed() {
+        updateDTO.setName(BARBER_SERVICE_NAME_WITH_SPACES);
+        mapEntityAndUpdate(barberService, updateDTO);
 
-        updateDTO.setName(LOWERCASE_NEW_NAME);
-
-        mapUpdateDtoToEntity();
-
-        assertEquals(NEW_NAME, barberService.getName());
+        assertEquals(BARBER_SERVICE_NAME, barberService.getName());
     }
 
-    @Test
-    @DisplayName("Dado un DTO de actualización con un string de notas internas con espacios en blanco innecesarios, deberán ser limpiados al momemto del mapeo")
-    void givenInternalNotesStringWithSpaces_WhenUpdating_ThenIsTrimmed(){
-
-        updateDTO.setInternalNotes(NEW_INTERNAL_NOTES_WITH_SPACES);
-
-        mapUpdateDtoToEntity();
-
-        assertEquals(NEW_INTERNAL_NOTES, barberService.getInternalNotes());
-    }
-
-    @Test
-    @DisplayName("Dado un DTO de actualización con un string de notas internas en blanco, se mapeará exitosamente como borrado de notas")
-    void givenBlankInternalNotes_WhenUpdating_ThenIsSuccesfullyMapped(){
-
-        updateDTO.setInternalNotes(EMPTY_INTERNAL_NOTES);
-
-        mapUpdateDtoToEntity();
-
-        assertEquals("", barberService.getInternalNotes());
-    }
-
-    private void setupExistingEntity() {
-
-        barberService = BarberService.builder()
-                .barbershopServiceID(ID)
-                .name(NAME)
-                .price(PRICE)
-                .serviceCategory(CATEGORY)
-                .registrationTimestamp(REGISTRATION_TIMESTAMP)
-                .modifiedDate(MODIFICATION_TIMESTAMP)
-                .internalNotes(INTERNAL_NOTES)
-                .build();
-    }
-
-    private void setupUpdateDTO() {
-
-        updateDTO = BarberServiceUpdateDTO.builder()
-                .name(NEW_NAME)
-                .price(NEW_PRICE)
-                .serviceCategory(CATEGORY)
-                .internalNotes(NEW_INTERNAL_NOTES)
-                .build();
-    }
-
-    private void mapUpdateDtoToEntity() {
-
-        mapper.mapBarberServiceUpdateDtoToEntity(barberService, updateDTO);
-    }
-
-    private void setAllFieldsOfUpdateDtoOnNull() {
-
+    private void setAllFieldsToNull() {
         updateDTO.setName(null);
         updateDTO.setPrice(null);
         updateDTO.setServiceCategory(null);
         updateDTO.setInternalNotes(null);
+    }
+
+    private void mapEntityAndUpdate(BarberService entity, BarberServiceUpdateDTO dto) {
+        mapper.mapBarberServiceUpdateDtoToEntity(entity, dto);
     }
 }

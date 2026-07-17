@@ -1,119 +1,114 @@
 package com.mapper.client;
 
-import com.barbershop.dto.client.ClientCreationDTO;
-import com.barbershop.mapper.implementation.ClientMapperImpl;
-import com.barbershop.mapper.interfaces.ClientMapper;
-import com.barbershop.model.Client;
-import org.junit.jupiter.api.BeforeEach;
+import com.dto.client.ClientCreationDTO;
+import com.mapper.implementation.ClientMapperImpl;
+import com.mapper.interfaces.ClientMapper;
+import com.model.Client;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
+import static com.factory.ClientTestDataFactory.buildValidClientCreationDTO;
+import static com.test_constant.ClientTestConstants.CreationValidData.*;
+import static com.test_constant.ClientTestConstants.MapperData.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ClientMapperCreationTest {
 
-    private final ClientMapper clientMapper = new ClientMapperImpl();
+    private final ClientMapper mapper = new ClientMapperImpl();
 
-    private ClientCreationDTO createDTO;
+    private final ClientCreationDTO createDTO = buildValidClientCreationDTO();
 
-    @BeforeEach
-    void init() {
+    private final LocalDate today = LocalDate.now();
 
-        createDTO = ClientCreationDTO.builder()
-                .nationalIdentityCardNumber("1234567")
-                .firstName("Tomas Gabriel")
-                .lastName("Elbert")
-                .email("tomas@gmail.com")
-                .phoneNumbersList(new ArrayList<>(List.of("1122334455")))
-                .build();
-    }
+    private Client clientMapped;
 
     @Test
+    @DisplayName("Dado un DTO de creación cuyo valor de DNI tenga espacios, deberán ser limpiados al mapear la entidad")
     void givenNationalIdentityCardNumberWithSpaces_WhenCreating_ThenIsTrimmed() {
 
-        String nationalIDCardNumberWithSpaces = "   1122334   ";
+        createDTO.setNationalIdentityCardNumber(NATIONAL_ID_CARD_NUMBER_WITH_SPACES);
 
-        createDTO.setNationalIdentityCardNumber(nationalIDCardNumberWithSpaces);
+        clientMapped = mapEntity();
 
-        Client clientMapped = clientMapper.mapClientCreationDTOtoEntity(createDTO, LocalDate.now());
-
-        assertEquals("1122334", clientMapped.getNationalIdentityCardNumber());
+        assertEquals(NATIONAL_ID_CARD_NUMBER, clientMapped.getNationalIdentityCardNumber());
     }
 
     @Test
+    @DisplayName("Dado un nombre con espacios, al mapear la entidad serán eliminados")
     void givenFirstNameWithSpaces_WhenCreating_ThenIsTrimmed() {
 
-        String nameWithSpaces = "   Tomas Gabriel   ";
+        createDTO.setFirstName(FIRST_NAME_WITH_SPACES);
 
-        createDTO.setFirstName(nameWithSpaces);
+        clientMapped = mapEntity();
 
-        Client mappedClient = clientMapper.mapClientCreationDTOtoEntity(createDTO, LocalDate.now());
-
-        assertEquals("Tomas Gabriel", mappedClient.getFirstName());
+        assertEquals(FIRST_NAME, clientMapped.getFirstName());
     }
 
     @Test
-    void givenLowercaseFirstName_WhenCreating_ThenIsFullyCapitalized() {
-
-        String lowercaseFirstName = "tomas gabriel";
-
-        createDTO.setFirstName(lowercaseFirstName);
-
-        Client mappedClient = clientMapper.mapClientCreationDTOtoEntity(createDTO, LocalDate.now());
-
-        assertEquals("Tomas Gabriel", mappedClient.getFirstName());
-    }
-
-    @Test
+    @DisplayName("Dado un apellido con espacios, al crearlo, debe estar trimado")
     void givenLastNameWith_Spaces_WhenCreating_ThenIsTrimmed() {
 
-        String lastNameWithSpaces = "   Elbert   ";
+        createDTO.setLastName(LAST_NAME_WITH_SPACES);
 
-        createDTO.setLastName(lastNameWithSpaces);
-
-        Client mappedClient = clientMapper.mapClientCreationDTOtoEntity(createDTO, LocalDate.now());
-
-        assertEquals("Elbert", mappedClient.getLastName());
+        clientMapped = mapEntity();
+        assertEquals(LAST_NAME, clientMapped.getLastName());
     }
 
     @Test
+    @DisplayName("Dado un nombre en minúsculas, al crearlo, debe estar completamente capitalizado")
+    void givenLowercaseFirstName_WhenCreating_ThenIsFullyCapitalized() {
+
+        createDTO.setFirstName(LOWERCASE_FIRST_NAME);
+
+        clientMapped = mapEntity();
+        assertEquals(FIRST_NAME, clientMapped.getFirstName());
+    }
+
+    @Test
+    @DisplayName("Dado un apellido en minúsculas, al crearlo, debe estar completamente capitalizado")
     void givenLowercaseLastName_WhenCreating_ThenIsFullyCapitalized() {
 
-        String lowercaseLastName = "elbert";
+        createDTO.setLastName(LOWERCASE_LAST_NAME);
 
-        createDTO.setLastName(lowercaseLastName);
-
-        Client mappedClient = clientMapper.mapClientCreationDTOtoEntity(createDTO, LocalDate.now());
-
-        assertEquals("Elbert", mappedClient.getLastName());
+        clientMapped = mapEntity();
+        assertEquals(LAST_NAME, clientMapped.getLastName());
     }
 
     @Test
+    @DisplayName("Dado un correo electrónico con espacios, al mapear la entidad serán eliminados")
     void givenEmailWithSpaces_WhenCreating_ThenIsTrimmed() {
 
-        String emailWithSpaces = "   tomas@gmail.com   ";
+        createDTO.setEmail(EMAIL_WITH_SPACES);
 
-        createDTO.setEmail(emailWithSpaces);
-
-        Client mappedClient = clientMapper.mapClientCreationDTOtoEntity(createDTO, LocalDate.now());
-
-        assertEquals("tomas@gmail.com", mappedClient.getEmail());
+        clientMapped = mapEntity();
+        assertEquals(EMAIL, clientMapped.getEmail());
     }
 
     @Test
+    @DisplayName("Dado un número de teléfono con espacios, al mapear la entidad serán eliminados")
     void givenPhoneNumberWithSpaces_WhenCreating_ThenIsTrimmed() {
 
-        String phoneWithSpaces = "   1122334455   ";
+        createDTO.setPhoneNumbersList(PHONE_LIST_THAT_CONTAINS_PHONE_WITH_SPACES);
 
-        createDTO.getPhoneNumbersList().clear();
-        createDTO.getPhoneNumbersList().add(phoneWithSpaces);
+        clientMapped = mapEntity();
+        assertEquals(PHONE_LIST.getFirst(), clientMapped.getPhoneNumbersList().getFirst());
+    }
 
-        Client mappedClient = clientMapper.mapClientCreationDTOtoEntity(createDTO, LocalDate.now());
+    @Test
+    @DisplayName("Dado un string de notas opcionales con espacios innecesarios, al mapear la entidad serán eliminados")
+    void givenOptionalNotesWithUnnecessarySpaces_WhenCreating_ThenIsTrimmed() {
 
-        assertTrue(mappedClient.getPhoneNumbersList().stream().anyMatch(ph -> ph.equals("1122334455")));
+        createDTO.setOptionalNotes(OPTIONAL_NOTES_WITH_SPACES);
+
+        clientMapped = mapEntity();
+
+        assertEquals(OPTIONAL_NOTES, clientMapped.getOptionalNotes());
+    }
+
+    private Client mapEntity() {
+
+        return mapper.mapClientCreationDTOtoEntity(createDTO, today);
     }
 }

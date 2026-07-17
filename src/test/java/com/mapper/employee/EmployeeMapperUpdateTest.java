@@ -1,102 +1,106 @@
 package com.mapper.employee;
 
-import com.barbershop.dto.employee.EmployeeUpdateDTO;
-import com.barbershop.mapper.implementation.EmployeeMapperImpl;
-import com.barbershop.mapper.interfaces.EmployeeMapper;
-import com.barbershop.model.Employee;
-import org.junit.jupiter.api.BeforeEach;
+import com.dto.employee.EmployeeUpdateDTO;
+import com.mapper.implementation.EmployeeMapperImpl;
+import com.mapper.interfaces.EmployeeMapper;
+import com.model.Employee;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDate;
-
+import static com.factory.EmployeeTestDataFactory.buildValidEmployee;
+import static com.factory.EmployeeTestDataFactory.buildValidEmployeeUpdateDTO;
+import static com.test_constant.EmployeeTestConstants.CreationValidData.EMPLOYEE_FIRST_NAME;
+import static com.test_constant.EmployeeTestConstants.CreationValidData.EMPLOYEE_LAST_NAME;
+import static com.test_constant.EmployeeTestConstants.MapperData.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class EmployeeMapperUpdateTest {
 
     private final EmployeeMapper mapper = new EmployeeMapperImpl();
 
-    private EmployeeUpdateDTO updateDTO;
+    private final EmployeeUpdateDTO updateDTO = buildValidEmployeeUpdateDTO();
 
-    private Employee employeeOnDB;
-
-    @BeforeEach
-    void init() {
-
-        updateDTO = new EmployeeUpdateDTO();
-        employeeOnDB = Employee.builder().employeeID(1L).firstName("Tomas Gabriel").lastName("Elbert").hireDate(LocalDate.of(2026, 1, 1)).isActive(true).build();
-    }
+    private final Employee employeeOnDB = buildValidEmployee();
 
     @Test
+    @DisplayName("Dado un DTO de actualización con nombre completo que incluye espacios, cuando se realiza la actualización, entonces el espacio es eliminado")
     void givenFirstNameWithSpaces_WhenUpdating_ThenIsTrimmed() {
 
-        updateDTO.setFirstName("   Tomas Gabriel   ");
+        updateDTO.setFirstName(EMPLOYEE_FIRST_NAME_WITH_SPACES);
 
-        Employee result = mapper.mapEmployeeUpdateDtoToEntity(new Employee(), updateDTO);
+        Employee result = mapEntity();
 
-        assertEquals("Tomas Gabriel", result.getFirstName());
+        assertEquals(EMPLOYEE_FIRST_NAME, result.getFirstName());
     }
 
     @Test
+    @DisplayName("Dado un DTO de actualización con apellido que incluye espacios, cuando se realiza la actualización, entonces el espacio es eliminado")
     void givenLastNameWithSpaces_WhenUpdating_ThenIsTrimmed() {
 
-        updateDTO.setFirstName("   Tomas Gabriel   ");
+        updateDTO.setLastName(EMPLOYEE_LAST_NAME_WITH_SPACES);
 
-        Employee result = mapper.mapEmployeeUpdateDtoToEntity(new Employee(), updateDTO);
+        Employee result = mapEntity();
 
-        assertEquals("Tomas Gabriel", result.getFirstName());
+        assertEquals(EMPLOYEE_LAST_NAME, result.getLastName());
     }
 
     @Test
+    @DisplayName("Dado un DTO de actualización con nombre completo en minúsculas, cuando se realiza la actualización, entonces el nombre completo es convertido a mayúsculas")
     void givenLowercaseFirstName_WhenUpdating_ThenIsFullyCapitalized() {
 
-        updateDTO.setFirstName("tomas gabriel");
+        updateDTO.setFirstName(EMPLOYEE_LOWERCASE_FIRST_NAME);
 
-        Employee result = mapper.mapEmployeeUpdateDtoToEntity(new Employee(), updateDTO);
+        Employee result = mapEntity();
 
-        assertEquals("Tomas Gabriel", result.getFirstName());
+        assertEquals(EMPLOYEE_FIRST_NAME, result.getFirstName());
     }
 
     @Test
+    @DisplayName("Dado un DTO de actualización con apellido en minúsculas, cuando se realiza la actualización, entonces el nombre completo es convertido a mayúsculas")
     void givenLowercaseLastName_WhenUpdating_ThenIsFullyCapitalized() {
 
-        updateDTO.setLastName("elbert");
+        updateDTO.setLastName(EMPLOYEE_LOWERCASE_LAST_NAME);
 
-        Employee result = mapper.mapEmployeeUpdateDtoToEntity(new Employee(), updateDTO);
+        Employee result = mapEntity();
 
-        assertEquals("Elbert", result.getLastName());
+        assertEquals(EMPLOYEE_LAST_NAME, result.getLastName());
     }
 
     @Test
+    @DisplayName("Dado un DTO de actualización con nombre completo nulo, cuando se realiza la actualización, entonces el nombre del empleado en la base de datos permanece igual")
     void givenNullFirstName_WhenUpdating_ThenEntityKeepsCurrentFirstName() {
 
         updateDTO.setFirstName(null);
 
-        String expectedFirstName = "Tomas Gabriel";
-        String returnedFirstName = mapper.mapEmployeeUpdateDtoToEntity(employeeOnDB, updateDTO).getFirstName();
+        Employee employee = mapEntity();
 
-        assertEquals(expectedFirstName, returnedFirstName);
+        assertEquals(EMPLOYEE_FIRST_NAME, employee.getFirstName());
     }
 
     @Test
+    @DisplayName("Dado un DTO de actualización con apellido nulo, cuando se realiza la actualización, entonces el apellido del empleado en la base de datos permanece igual")
     void givenNullLastName_WhenUpdating_ThenEntityKeepsCurrentLastName() {
 
         updateDTO.setLastName(null);
 
-        String expectedLastName = "Elbert";
-        String returnedLastName = mapper.mapEmployeeUpdateDtoToEntity(employeeOnDB, updateDTO).getLastName();
+        Employee employee = mapEntity();
 
-        assertEquals(expectedLastName, returnedLastName);
+        assertEquals(EMPLOYEE_LAST_NAME, employee.getLastName());
     }
 
     @Test
+    @DisplayName("Dado un DTO de actualización con valor nulo para el atributo 'isActive', cuando se realiza la actualización, entonces el valor del atributo 'isActive' en el empleado en la base de datos permanece igual")
     void givenNullIsActive_WhenUpdating_ThenEntityKeepsCurrentIsActiveValue() {
 
         updateDTO.setIsActive(null);
 
-        Boolean expectedValue = true;
-        Boolean returnedValue = mapper.mapEmployeeUpdateDtoToEntity(employeeOnDB, updateDTO).isActive();
+        Employee employee = mapEntity();
 
-        assertEquals(expectedValue, returnedValue);
+        assertEquals(EMPLOYEE_IS_ACTIVE_VALUE, employee.isActive());
+    }
+
+    private Employee mapEntity() {
+
+        return mapper.mapEmployeeUpdateDtoToEntity(employeeOnDB, updateDTO);
     }
 }

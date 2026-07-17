@@ -1,11 +1,11 @@
 package com.mapper.product;
 
-import com.barbershop.dto.product.ProductInfoDTO;
-import com.barbershop.enums.ProductCategory;
-import com.barbershop.enums.StockStatus;
-import com.barbershop.mapper.implementation.ProductMapperImpl;
-import com.barbershop.mapper.interfaces.ProductMapper;
-import com.barbershop.model.Product;
+import com.dto.product.ProductInfoDTO;
+import com.enums.ProductCategory;
+import com.enums.StockStatus;
+import com.mapper.implementation.ProductMapperImpl;
+import com.mapper.interfaces.ProductMapper;
+import com.model.Product;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -13,9 +13,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ProductMapperInfoTest {
 
-    private Product product;
-
     private final ProductMapper mapper = new ProductMapperImpl();
+    private Product product;
 
     @BeforeEach
     void init() {

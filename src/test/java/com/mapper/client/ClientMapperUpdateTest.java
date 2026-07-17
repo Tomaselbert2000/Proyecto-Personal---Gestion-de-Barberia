@@ -1,122 +1,94 @@
 package com.mapper.client;
 
-import com.barbershop.dto.client.ClientUpdateDTO;
-import com.barbershop.mapper.implementation.ClientMapperImpl;
-import com.barbershop.mapper.interfaces.ClientMapper;
-import com.barbershop.model.Client;
-import org.junit.jupiter.api.BeforeEach;
+import com.dto.client.ClientUpdateDTO;
+import com.mapper.implementation.ClientMapperImpl;
+import com.mapper.interfaces.ClientMapper;
+import com.model.Client;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-
+import static com.factory.ClientTestDataFactory.buildValidClient;
+import static com.factory.ClientTestDataFactory.buildValidClientUpdateDTO;
+import static com.test_constant.ClientTestConstants.CreationValidData.*;
+import static com.test_constant.ClientTestConstants.MapperData.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ClientMapperUpdateTest {
 
     private final ClientMapper clientMapper = new ClientMapperImpl();
-
-    private ClientUpdateDTO updateDTO;
-    private Client clientToUpdate;
-
-    @BeforeEach
-    void init() {
-
-        clientToUpdate = Client.builder().clientID(1L)
-                .nationalIdentityCardNumber("1111111")
-                .firstName("Nombre")
-                .lastName("Apellido")
-                .registrationDate(LocalDate.of(2026, 1, 1))
-                .email("abcdef@hotmail.com")
-                .phoneNumbersList(new ArrayList<>(List.of("0000000000")))
-                .build();
-
-        updateDTO = new ClientUpdateDTO();
-    }
+    private final ClientUpdateDTO updateDTO = buildValidClientUpdateDTO();
+    private final Client existingClient = buildValidClient();
 
     @Test
+    @DisplayName("Dado un DTO de actualización con un DNI que contenga espacios en blanco, al mapear serán eliminados")
     void givenNationalIdentityCardNumberWithSpaces_WhenUpdating_ThenIsTrimmed() {
 
-        String nationalIdCardNumberWithSpaces = "  1122334   ";
+        updateDTO.setNationalIdentityCardNumber(NATIONAL_ID_CARD_NUMBER_WITH_SPACES);
 
-        updateDTO.setNationalIdentityCardNumber(nationalIdCardNumberWithSpaces);
-
-        Client updatedClient = clientMapper.mapClientUpdateDTOtoEntity(clientToUpdate, updateDTO);
-
-        assertEquals("1122334", updatedClient.getNationalIdentityCardNumber());
+        Client updatedClient = mapEntity(updateDTO, existingClient);
+        assertEquals(NATIONAL_ID_CARD_NUMBER, updatedClient.getNationalIdentityCardNumber());
     }
 
     @Test
+    @DisplayName("Dado un nombre con espacios en blanco, al mapear serán eliminados")
     void givenFirstNameWithSpaces_WhenUpdating_ThenIsTrimmed() {
 
-        String firstNameWithSpaces = "   Tomas   ";
+        updateDTO.setFirstName(FIRST_NAME_WITH_SPACES);
 
-        updateDTO.setFirstName(firstNameWithSpaces);
-
-        Client updatedClient = clientMapper.mapClientUpdateDTOtoEntity(clientToUpdate, updateDTO);
-
-        assertEquals("Tomas", updatedClient.getFirstName());
+        Client updatedClient = mapEntity(updateDTO, existingClient);
+        assertEquals(FIRST_NAME, updatedClient.getFirstName());
     }
 
     @Test
+    @DisplayName("Dado un nombre en minúsculas, al mapear se convertirá a mayúscula")
     void givenLowerCaseFirstName_WhenUpdating_ThenIsFullyCapitalized() {
 
-        String lowercaseFirstName = "tomas gabriel";
+        updateDTO.setFirstName(LOWERCASE_FIRST_NAME);
 
-        updateDTO.setFirstName(lowercaseFirstName);
-
-        Client updatedClient = clientMapper.mapClientUpdateDTOtoEntity(clientToUpdate, updateDTO);
-
-        assertEquals("Tomas Gabriel", updatedClient.getFirstName());
+        Client updatedClient = mapEntity(updateDTO, existingClient);
+        assertEquals(FIRST_NAME, updatedClient.getFirstName());
     }
 
     @Test
+    @DisplayName("Dado un apellido con espacios en blanco, al mapear serán eliminados")
     void givenLastNameWithSpaces_WhenUpdating_ThenIsTrimmed() {
 
-        String lastNameWithSpaces = "   Elbert   ";
+        updateDTO.setLastName(LOWERCASE_LAST_NAME);
 
-        updateDTO.setLastName(lastNameWithSpaces);
-
-        Client updatedClient = clientMapper.mapClientUpdateDTOtoEntity(clientToUpdate, updateDTO);
-
-        assertEquals("Elbert", updatedClient.getLastName());
+        Client updatedClient = mapEntity(updateDTO, existingClient);
+        assertEquals(LAST_NAME, updatedClient.getLastName());
     }
 
     @Test
+    @DisplayName("Dado un apellido en minúsculas, al mapear se convertirá a mayúscula")
     void givenLowercaseLastName_WhenUpdating_ThenIsFullyCapitalized() {
 
-        String lowercaseLastName = "elbert";
-
-        updateDTO.setLastName(lowercaseLastName);
-
-        Client updatedClient = clientMapper.mapClientUpdateDTOtoEntity(clientToUpdate, updateDTO);
-
-        assertEquals("Elbert", updatedClient.getLastName());
+        updateDTO.setLastName(LOWERCASE_LAST_NAME);
+        Client updatedClient = mapEntity(updateDTO, existingClient);
+        assertEquals(LAST_NAME, updatedClient.getLastName());
     }
 
     @Test
+    @DisplayName("Dado un correo electrónico con espacios en blanco, al mapear serán eliminados")
     void givenEmailWithSpaces_WhenUpdating_ThenIsTrimmed() {
 
-        String emailWithSpaces = "   nuevoemail@gmail.com   ";
-
-        updateDTO.setEmail(emailWithSpaces);
-
-        Client updatedClient = clientMapper.mapClientUpdateDTOtoEntity(clientToUpdate, updateDTO);
-
-        assertEquals("nuevoemail@gmail.com", updatedClient.getEmail());
+        updateDTO.setEmail(EMAIL_WITH_SPACES);
+        Client updatedClient = mapEntity(updateDTO, existingClient);
+        assertEquals(EMAIL, updatedClient.getEmail());
     }
 
     @Test
+    @DisplayName("Dado un número de teléfono con espacios en blanco, al mapear serán eliminados")
     void givenPhoneNumberValueWithSpaces_WhenUpdating_ThenIsTrimmed() {
 
-        String phoneWithSpaces = "   1168433212   ";
+        updateDTO.setPhoneNumbersList(PHONE_LIST_THAT_CONTAINS_PHONE_WITH_SPACES);
+        Client updatedClient = mapEntity(updateDTO, existingClient);
 
-        updateDTO.setPhoneNumbersList(new ArrayList<>(List.of(phoneWithSpaces)));
+        assertEquals(PHONE_LIST.getFirst(), updatedClient.getPhoneNumbersList().getFirst());
+    }
 
-        Client updatedClient = clientMapper.mapClientUpdateDTOtoEntity(clientToUpdate, updateDTO);
+    private Client mapEntity(ClientUpdateDTO updateDTO, Client existingClient) {
 
-        assertTrue(updatedClient.getPhoneNumbersList().stream().anyMatch(ph -> ph.equals("1168433212")));
+        return clientMapper.mapClientUpdateDTOtoEntity(existingClient, updateDTO);
     }
 }

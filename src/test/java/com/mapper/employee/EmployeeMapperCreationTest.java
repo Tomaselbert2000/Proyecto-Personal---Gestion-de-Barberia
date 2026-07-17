@@ -1,63 +1,65 @@
 package com.mapper.employee;
 
-import com.barbershop.dto.employee.EmployeeCreationDTO;
-import com.barbershop.mapper.implementation.EmployeeMapperImpl;
-import com.barbershop.mapper.interfaces.EmployeeMapper;
-import com.barbershop.model.Employee;
-import org.junit.jupiter.api.BeforeEach;
+import com.dto.employee.EmployeeCreationDTO;
+import com.mapper.implementation.EmployeeMapperImpl;
+import com.mapper.interfaces.EmployeeMapper;
+import com.model.Employee;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import static com.factory.EmployeeTestDataFactory.buildValidEmployeeCreationDTO;
+import static com.test_constant.EmployeeTestConstants.CreationValidData.EMPLOYEE_FIRST_NAME;
+import static com.test_constant.EmployeeTestConstants.CreationValidData.EMPLOYEE_LAST_NAME;
+import static com.test_constant.EmployeeTestConstants.MapperData.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class EmployeeMapperCreationTest {
 
     private final EmployeeMapper mapper = new EmployeeMapperImpl();
 
-    private EmployeeCreationDTO creationDTO;
+    private final EmployeeCreationDTO creationDTO = buildValidEmployeeCreationDTO();
 
-    @BeforeEach
-    void init(){
+    @Test
+    @DisplayName("Verifica que el nombre con espacios se trimea correctamente al crear un empleado")
+    void givenFirstNameWithSpaces_WhenCreating_ThenIsTrimmed() {
+        creationDTO.setFirstName(EMPLOYEE_FIRST_NAME_WITH_SPACES);
 
-        creationDTO = new EmployeeCreationDTO();
+        Employee result = mapEntity();
+        assertEquals(EMPLOYEE_FIRST_NAME, result.getFirstName());
     }
 
     @Test
-    void givenFirstNameWithSpaces_WhenCreating_ThenIsTrimmed(){
+    @DisplayName("Verifica que el apellido con espacios se trimea correctamente al crear un empleado")
+    void givenLastNameWithSpaces_WhenCreating_ThenIsTrimmed() {
 
-        creationDTO.setFirstName("   Tomas Gabriel   ");
+        creationDTO.setLastName(EMPLOYEE_LAST_NAME_WITH_SPACES);
 
-        Employee result = mapper.mapEmployeeCreationDtoToEntity(creationDTO);
-
-        assertEquals("Tomas Gabriel", result.getFirstName());
+        Employee result = mapEntity();
+        assertEquals(EMPLOYEE_LAST_NAME, result.getLastName());
     }
 
     @Test
-    void givenLastNameWithSpaces_WhenCreating_ThenIsTrimmed(){
+    @DisplayName("Verifica que el nombre en minúsculas se convierte completamente a mayúsculas al crear un empleado")
+    void givenLowercaseFirstName_WhenCreating_ThenIsFullyCapitalized() {
 
-        creationDTO.setLastName("   Elbert   ");
+        creationDTO.setFirstName(EMPLOYEE_LOWERCASE_FIRST_NAME);
 
-        Employee result = mapper.mapEmployeeCreationDtoToEntity(creationDTO);
-
-        assertEquals("Elbert", result.getLastName());
+        Employee result = mapEntity();
+        assertEquals(EMPLOYEE_FIRST_NAME, result.getFirstName());
     }
 
     @Test
-    void givenLowercaseFirstName_WhenCreating_ThenIsFullyCapitalized(){
+    @DisplayName("Verifica que el apellido en minúsculas se convierte completamente a mayúsculas al crear un empleado")
+    void givenLowercaseLastName_WhenCreating_ThenIsFullyCapitalized() {
 
-        creationDTO.setFirstName("tomas gabriel");
+        creationDTO.setLastName(EMPLOYEE_LOWERCASE_LAST_NAME);
 
-        Employee result = mapper.mapEmployeeCreationDtoToEntity(creationDTO);
-
-        assertEquals("Tomas Gabriel", result.getFirstName());
+        Employee result = mapEntity();
+        assertEquals(EMPLOYEE_LAST_NAME, result.getLastName());
     }
 
-    @Test
-    void givenLowercaseLastName_WhenCreating_ThenIsFullyCapitalized(){
+    private Employee mapEntity() {
 
-        creationDTO.setLastName("elbert");
-
-        Employee result = mapper.mapEmployeeCreationDtoToEntity(creationDTO);
-
-        assertEquals("Elbert", result.getLastName());
+        return mapper.mapEmployeeCreationDtoToEntity(creationDTO);
     }
 }
