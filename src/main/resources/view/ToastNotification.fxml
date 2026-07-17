@@ -4,8 +4,9 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.Circle?>
-<StackPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1"
-           fx:controller="com.barbershop.launcher.controller.implementation.toast_notification.ToastNotificationController">
+<StackPane xmlns:fx="http://javafx.com/fxml/1"
+           xmlns="http://javafx.com/javafx/17.0.12"
+           fx:controller="com.launcher.controller.implementation.toast_notification.ToastNotificationController">
 
     <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="400.0" styleClass="toast-container">
 

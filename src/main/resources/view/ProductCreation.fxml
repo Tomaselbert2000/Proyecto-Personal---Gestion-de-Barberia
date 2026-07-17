@@ -5,11 +5,11 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
 <AnchorPane
+        xmlns:fx="http://javafx.com/fxml/1"
         fx:id="anchor_pane"
         maxHeight="1.7976931348623157E308"
-        maxWidth="1.7976931348623157E308"
-        xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1"
-        fx:controller="com.barbershop.launcher.controller.implementation.product.ProductCreationController">
+        maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/25"
+        fx:controller="com.launcher.controller.implementation.product.ProductCreationController">
 
     <VBox AnchorPane.bottomAnchor="0.0"
           AnchorPane.leftAnchor="0.0"

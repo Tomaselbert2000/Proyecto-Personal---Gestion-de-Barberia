@@ -6,14 +6,13 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
 <?import java.lang.*?>
-
-<BorderPane fx:id="borderPane"
+<BorderPane xmlns:fx="http://javafx.com/fxml/1"
+            fx:id="borderPane"
             prefHeight="720"
             prefWidth="1200"
             styleClass="md-main-content"
             xmlns="http://javafx.com/javafx/17.0.12"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.barbershop.launcher.controller.implementation.dashboard.DashboardController">
+            fx:controller="com.launcher.controller.implementation.dashboard.DashboardController">
 
     <left>
         <VBox styleClass="md-sidebar">

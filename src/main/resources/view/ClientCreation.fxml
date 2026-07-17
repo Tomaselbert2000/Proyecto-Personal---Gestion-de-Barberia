@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import io.github.palexdev.materialfx.controls.*?>
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<AnchorPane fx:id="anchor_pane"
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1"
+            fx:id="anchor_pane"
             xmlns="http://javafx.com/javafx/17.0.12"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.barbershop.launcher.controller.implementation.client.ClientCreationController">
+            fx:controller="com.launcher.controller.implementation.client.ClientCreationController">
 
     <VBox AnchorPane.topAnchor="0.0"
           AnchorPane.bottomAnchor="0.0"
@@ -115,7 +115,7 @@
                             <VBox styleClass="md-filter-column" GridPane.columnIndex="0" GridPane.columnSpan="2">
                                 <Label styleClass="md-filter-label" text="Notas"/>
                                 <TextField fx:id="optional_notes_field" styleClass="md-text-field"
-                                              maxWidth="Infinity" maxHeight="Infinity"/>
+                                           maxWidth="Infinity" maxHeight="Infinity"/>
                             </VBox>
                         </GridPane>
                     </VBox>

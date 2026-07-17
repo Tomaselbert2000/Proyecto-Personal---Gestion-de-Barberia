@@ -4,11 +4,10 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.Circle?>
-
-<HBox styleClass="md-list-item"
+<HBox xmlns:fx="http://javafx.com/fxml/1"
+      styleClass="md-list-item"
       xmlns="http://javafx.com/javafx/25"
-      xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.barbershop.launcher.controller.implementation.employee.EmployeeItemController">
+      fx:controller="com.launcher.controller.implementation.employee.EmployeeItemController">
 
     <!-- Employee Avatar -->
     <VBox styleClass="md-list-item-content">

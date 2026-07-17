@@ -4,10 +4,10 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
-<HBox xmlns="http://javafx.com/javafx/25"
-      xmlns:fx="http://javafx.com/fxml/1"
+<HBox xmlns:fx="http://javafx.com/fxml/1"
+      xmlns="http://javafx.com/javafx/25"
       styleClass="md-list-item"
-      fx:controller="com.barbershop.launcher.controller.implementation.product.ProductItemController">
+      fx:controller="com.launcher.controller.implementation.product.ProductItemController">
 
     <!-- Product Icon Placeholder -->
     <VBox styleClass="md-list-item-leading">

@@ -179,6 +179,7 @@
 .section-title {
     -fx-text-fill: -fx-on-surface;
 }
+
 .content-scroll {
     -fx-background-color: -fx-surface;
 }

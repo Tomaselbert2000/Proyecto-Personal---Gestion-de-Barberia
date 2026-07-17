@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import io.github.palexdev.materialfx.controls.*?>
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import java.lang.*?>
-<AnchorPane xmlns="http://javafx.com/javafx/25"
-            xmlns:fx="http://javafx.com/fxml/1"
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1"
+            xmlns="http://javafx.com/javafx/25"
             stylesheets="@../css/material-icons.css"
             styleClass="md-main-content"
-            fx:controller="com.barbershop.launcher.controller.implementation.barberservice.BarberServiceViewController"
+            fx:controller="com.launcher.controller.implementation.barberservice.BarberServiceViewController"
             fx:id="anchor_pane">
 
     <VBox
@@ -147,25 +147,25 @@
                             <VBox styleClass="md-filter-column" HBox.hgrow="ALWAYS">
                                 <Label styleClass="md-filter-label" text="Buscar servicio"/>
                                 <TextField fx:id="service_search_field"
-                                              promptText="Nombre del servicio"
-                                              maxWidth="Infinity"
-                                              styleClass="md-text-field"/>
+                                           promptText="Nombre del servicio"
+                                           maxWidth="Infinity"
+                                           styleClass="md-text-field"/>
                             </VBox>
 
                             <!-- Category Filter -->
                             <VBox styleClass="md-filter-column" HBox.hgrow="ALWAYS">
                                 <Label styleClass="md-filter-label" text="Categoría"/>
                                 <ComboBox fx:id="service_category_selector"
-                                             maxWidth="Infinity"
-                                             styleClass="md-combo-box"/>
+                                          maxWidth="Infinity"
+                                          styleClass="md-combo-box"/>
                             </VBox>
 
                             <!-- Price Range -->
                             <VBox styleClass="md-filter-column" HBox.hgrow="ALWAYS">
                                 <Label styleClass="md-filter-label" text="Rango de precio"/>
                                 <ComboBox fx:id="service_price_range_selector"
-                                             maxWidth="Infinity"
-                                             styleClass="md-combo-box"/>
+                                          maxWidth="Infinity"
+                                          styleClass="md-combo-box"/>
                             </VBox>
 
                             <!-- Action Buttons -->

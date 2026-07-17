@@ -4,8 +4,8 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-<StackPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1"
-           fx:controller="com.barbershop.launcher.controller.implementation.dialog.DeleteConfirmationDialogController">
+<StackPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17.0.12"
+           fx:controller="com.launcher.controller.implementation.dialog.DeleteConfirmationDialogController">
 
     <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="400.0" styleClass="confirmation-dialog-container">
         <VBox styleClass="confirmation-dialog-content">

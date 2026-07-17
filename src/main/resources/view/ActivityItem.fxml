@@ -3,11 +3,11 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.*?>
 <?import java.lang.String?>
-<HBox alignment="CENTER_LEFT"
+<HBox xmlns:fx="http://javafx.com/fxml/1"
+      alignment="CENTER_LEFT"
       styleClass="md-list-item"
       xmlns="http://javafx.com/javafx/25"
-      xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.barbershop.launcher.controller.implementation.dashboard.ActivityItemController">
+      fx:controller="com.launcher.controller.implementation.dashboard.ActivityItemController">
 
     <!-- Icono según tipo de actividad -->
     <StackPane>

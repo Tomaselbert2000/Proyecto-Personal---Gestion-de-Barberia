@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import io.github.palexdev.materialfx.controls.*?>
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
-
 <AnchorPane
+        xmlns:fx="http://javafx.com/fxml/1"
         fx:id="anchor_pane"
         xmlns="http://javafx.com/javafx/25"
-        xmlns:fx="http://javafx.com/fxml/1"
-        fx:controller="com.barbershop.launcher.controller.implementation.settings.SettingsController">
+        fx:controller="com.launcher.controller.implementation.settings.SettingsController">
 
     <fx:define>
         <ToggleGroup fx:id="themeGroup"/>

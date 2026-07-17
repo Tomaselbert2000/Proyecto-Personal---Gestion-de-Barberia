@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import io.github.palexdev.materialfx.controls.*?>
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<AnchorPane fx:id="anchor_pane"
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1"
+            fx:id="anchor_pane"
             xmlns="http://javafx.com/javafx/17.0.12"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.barbershop.launcher.controller.implementation.barberservice.BarberServiceEditionController">
+            fx:controller="com.launcher.controller.implementation.barberservice.BarberServiceEditionController">
 
     <VBox AnchorPane.topAnchor="0.0"
           AnchorPane.bottomAnchor="0.0"
@@ -50,7 +50,7 @@
                                 <Label styleClass="md-filter-label" text="ID del Servicio"/>
                             </HBox>
                             <TextField fx:id="service_id_field" editable="false" promptText="ID del servicio"
-                                          styleClass="md-text-field"/>
+                                       styleClass="md-text-field"/>
                         </VBox>
 
                         <!-- Service Name -->

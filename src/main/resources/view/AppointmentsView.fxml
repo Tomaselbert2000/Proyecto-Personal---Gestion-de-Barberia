@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import io.github.palexdev.materialfx.controls.*?>
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import java.lang.*?>
-<AnchorPane fx:id="anchor_pane"
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1"
+            fx:id="anchor_pane"
             styleClass="md-main-content"
             xmlns="http://javafx.com/javafx/17.0.12"
-            xmlns:fx="http://javafx.com/fxml/1"
             stylesheets="@../css/material-icons.css"
-            fx:controller="com.barbershop.launcher.controller.implementation.appointment.AppointmentViewController">
+            fx:controller="com.launcher.controller.implementation.appointment.AppointmentViewController">
 
     <VBox
             AnchorPane.topAnchor="0.0"
@@ -149,35 +149,35 @@
                             <VBox styleClass="md-filter-column" HBox.hgrow="ALWAYS">
                                 <Label styleClass="md-filter-label" text="Buscar por cliente"/>
                                 <TextField fx:id="client_search_field"
-                                              promptText="Nombre o apellido del cliente"
-                                              maxWidth="Infinity"
-                                              styleClass="md-text-field"/>
+                                           promptText="Nombre o apellido del cliente"
+                                           maxWidth="Infinity"
+                                           styleClass="md-text-field"/>
                             </VBox>
 
                             <!-- Filtro por Fecha -->
                             <VBox styleClass="md-filter-column" HBox.hgrow="ALWAYS">
                                 <Label styleClass="md-filter-label" text="Fecha"/>
                                 <DatePicker fx:id="date_selector"
-                                               promptText="Seleccionar fecha"
-                                               maxWidth="Infinity"
-                                               styleClass="md-date-picker"/>
+                                            promptText="Seleccionar fecha"
+                                            maxWidth="Infinity"
+                                            styleClass="md-date-picker"/>
                             </VBox>
 
                             <!-- Filtro por Estado -->
                             <VBox styleClass="md-filter-column" HBox.hgrow="ALWAYS">
                                 <Label styleClass="md-filter-label" text="Estado"/>
                                 <ComboBox fx:id="appointment_status_selector"
-                                             maxWidth="Infinity"
-                                             styleClass="md-combo-box"/>
+                                          maxWidth="Infinity"
+                                          styleClass="md-combo-box"/>
                             </VBox>
 
                             <!-- Filtro por Empleado -->
                             <VBox styleClass="md-filter-column" HBox.hgrow="ALWAYS">
                                 <Label styleClass="md-filter-label" text="Empleado"/>
                                 <ComboBox fx:id="employee_selector"
-                                             promptText="Todos los empleados"
-                                             maxWidth="Infinity"
-                                             styleClass="md-combo-box"/>
+                                          promptText="Todos los empleados"
+                                          maxWidth="Infinity"
+                                          styleClass="md-combo-box"/>
                             </VBox>
 
                             <!-- Botones de Acción -->

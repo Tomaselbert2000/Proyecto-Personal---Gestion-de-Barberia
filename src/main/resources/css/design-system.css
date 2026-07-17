@@ -538,6 +538,45 @@
     -fx-border-radius: 28;
 }
 
+.dialog-pane {
+
+    -fx-background-color: -fx-surface;
+    -fx-background-radius: 28px;
+    -fx-border-radius: 28px;
+    -fx-padding: 16px;
+}
+
+.dialog-pane .header-panel {
+
+    -fx-background-color: transparent;
+}
+
+.dialog-pane .content {
+
+    -fx-font-size: 14px;
+    -fx-text-fill: -fx-on-surface;
+}
+
+.dialog-pane > .button-bar > .container {
+
+    -fx-padding: 16px 0 0 0;
+}
+
+.dialog-pane .button {
+
+    -fx-background-color: transparent;
+    -fx-text-fill: -fx-primary;
+    -fx-font-weight: bold;
+    -fx-padding: 8px 12px;
+    -fx-cursor: hand;
+}
+
+.dialog-pane .button:hover {
+
+    -fx-background-color: -fx-primary-container;
+    -fx-background-radius: 20px;
+}
+
 /* Botones */
 
 .md-nav-button {
