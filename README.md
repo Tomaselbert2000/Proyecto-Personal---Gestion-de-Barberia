@@ -4,7 +4,8 @@ Proyecto personal de sistema de control y administración para locales de barber
 
 ## Descripción
 
-Este sistema se presenta como una herramienta para centralizar y organizar el flujo de trabajo de una barbería típica. A continuación, se enumeran algunas de las funcionalidades más relevantes del mismo:
+Este sistema se presenta como una herramienta para centralizar y organizar el flujo de trabajo de una barbería típica. A
+continuación, se enumeran algunas de las funcionalidades más relevantes del mismo:
 
 - Registro de clientes, empleados, productos en stock, servicios prestados, turnos, etc.
 - Gestión de turnos asignados a clientes, incluyendo empleados seleccionados.
@@ -13,10 +14,15 @@ Este sistema se presenta como una herramienta para centralizar y organizar el fl
 
 ## Diseño visual
 
-El proyecto adopta como filosfía de diseño a **Material Design 3**, con el fin de servir al usuario con una interfaz gráfica moderna, intuitiva y amigable; similar a lo que puede encontrar al usar una aplicación móvil. Por otra parte, permite implementar de manera coherente los distintos componentes de las vistas, haciendo uso de tokens de diseño modulares y reutilizables, y en última instancia, reduciendo el peso total del proyecto.
+El proyecto adopta como filosfía de diseño a **Material Design 3**, con el fin de servir al usuario con una interfaz
+gráfica moderna, intuitiva y amigable; similar a lo que puede encontrar al usar una aplicación móvil. Por otra parte,
+permite implementar de manera coherente los distintos componentes de las vistas, haciendo uso de tokens de diseño
+modulares y reutilizables, y en última instancia, reduciendo el peso total del proyecto.
 
 ## Tecnologías
+
 Lenguajes y Framework:
+
 - ![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white)
 
 - ![Spring](https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white)
@@ -24,26 +30,35 @@ Lenguajes y Framework:
 - ![CSS](https://img.shields.io/badge/css-%23663399.svg?style=for-the-badge&logo=css&logoColor=white)
 
 Implementación de UI:
+
 - ![JavaFX](https://img.shields.io/badge/javafx-%23FF0000.svg?style=for-the-badge&logo=javafx&logoColor=white)
 
 Gestor de dependencias implementado:
+
 - ![Maven](https://img.shields.io/badge/apachemaven-C71A36.svg?style=for-the-badge&logo=apachemaven&logoColor=white)
 
 Persistencia de datos:
+
 - ![MicrosoftSQLServer](https://img.shields.io/badge/Microsoft%20SQL%20Server-CC2927?style=for-the-badge&logo=microsoft%20sql%20server&logoColor=white)
 
 Entorno de desarrollo utilizado:
+
 - ![IntelliJ IDEA](https://img.shields.io/badge/IntelliJIDEA-000000.svg?style=for-the-badge&logo=intellij-idea&logoColor=white)
 
 Control de versiones:
+
 - ![Git](https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white)
 
 Testing
+
 - ![JUnit 5](https://img.shields.io/badge/JUnit5-25A162?style=for-the-badge&logo=junit5&logoColor=white)
 
 ## Descarga
+
 ```bash
 git clone https://github.com/Tomaselbert2000/Proyecto-Personal---Gestion-de-Barberia.git
 ```
+
 ## Estado
+
 El proyecto se encuentra en desarrollo activo actualmente.

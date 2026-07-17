@@ -1,6 +1,6 @@
 package com.launcher.ui;
 
-import com.config.AppPreferences;
+import com.config.preferences.AppPreferences;
 import com.enums.Theme;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

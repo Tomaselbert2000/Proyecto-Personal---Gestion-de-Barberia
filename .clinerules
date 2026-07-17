@@ -1,20 +1,120 @@
 # Project Context: Barbershop Desktop Application
+
 # Stack: Java, JavaFX, FXML, Spring Boot
 
 ## 1. UI & Presentation Layer (JavaFX)
-- **Strict Visual Separation:** UI structure and design MUST reside exclusively within `.fxml` files. Zero UI layout generation in Java classes.
+
+- **Strict Visual Separation:** UI structure and design MUST reside exclusively within `.fxml` files. Zero UI layout
+  generation in Java classes.
 - **Material Design:** Apply Material Design guidelines for all UI components.
-- **Dynamic Modularity:** Repetitive UI components (e.g., activity items) must be designed modularly and injected dynamically. NEVER hardcode repetitive UI blocks.
+- **Dynamic Modularity:** Repetitive UI components (e.g., activity items) must be designed modularly and injected
+  dynamically. NEVER hardcode repetitive UI blocks.
 
 ## 2. Routing & Controllers
-- **Centralized Navigation:** The `DashboardController` has the EXCLUSIVE responsibility of handling application routing, redirection, and view swapping.
-- **View Decoupling:** Maintain loose coupling between different FXML views to allow them to scale, update, and be tested independently.
+
+- **Centralized Navigation:** The `DashboardController` has the EXCLUSIVE responsibility of handling application
+  routing, redirection, and view swapping.
+- **View Decoupling:** Maintain loose coupling between different FXML views to allow them to scale, update, and be
+  tested independently.
 
 ## 3. Business Logic & Spring Boot Integration
-- **Zero Logic in Controllers:** JavaFX Controllers MUST NOT contain heavy business logic, data processing, or direct database queries.
-- **Service Delegation:** Delegate all business logic to Spring Boot `@Service` components and data access to `@Repository` interfaces.
-- **Dependency Injection:** Enforce strict Dependency Injection (Constructor Injection preferred over `@Autowired` fields) to wire Spring services into JavaFX controllers.
+
+- **Zero Logic in Controllers:** JavaFX Controllers MUST NOT contain heavy business logic, data processing, or direct
+  database queries.
+- **Service Delegation:** Delegate all business logic to Spring Boot `@Service` components and data access to
+  `@Repository` interfaces.
+- **Dependency Injection:** Enforce strict Dependency Injection (Constructor Injection preferred over `@Autowired`
+  fields) to wire Spring services into JavaFX controllers.
 
 ## 4. Security & Database Operations
-- **Least Privilege:** Enforce strict security validation for database interactions. Always use correct and explicit database-level roles (e.g., ensuring `db_backupoperator` is used instead of invalid server roles).
-- **Input Validation:** Always sanitize and validate inputs at the controller level before passing data to the business layer.
+
+- **Least Privilege:** Enforce strict security validation for database interactions. Always use correct and explicit
+  database-level roles (e.g., ensuring `db_backupoperator` is used instead of invalid server roles).
+- **Input Validation:** Always sanitize and validate inputs at the controller level before passing data to the business
+  layer.
+
+# 5. Spring Boot Best Practices
+
+Your goal is to help me write high-quality Spring Boot applications by following established best practices.
+
+## 6. Project Setup & Structure
+
+- **Build Tool:** Use Maven (`pom.xml`) or Gradle (`build.gradle`) for dependency management.
+- **Starters:** Use Spring Boot starters (e.g., `spring-boot-starter-web`, `spring-boot-starter-data-jpa`) to simplify
+  dependency management.
+- **Package Structure:** Organize code by feature/domain (e.g., `com.example.app.order`, `com.example.app.user`) rather
+  than by layer (e.g., `com.example.app.controller`, `com.example.app.service`).
+
+## 7. Dependency Injection & Components
+
+- **Constructor Injection:** Always use constructor-based injection for required dependencies. This makes components
+  easier to test and dependencies explicit.
+- **Immutability:** Declare dependency fields as `private final`.
+- **Component Stereotypes:** Use `@Component`, `@Service`, `@Repository`, and `@Controller`/`@RestController`
+  annotations appropriately to define beans.
+
+## 8. Configuration
+
+- **Externalized Configuration:** Use `application.yml` (or `application.properties`) for configuration. YAML is often
+  preferred for its readability and hierarchical structure.
+- **Type-Safe Properties:** Use `@ConfigurationProperties` to bind configuration to strongly-typed Java objects.
+- **Profiles:** Use Spring Profiles (`application-dev.yml`, `application-prod.yml`) to manage environment-specific
+  configurations.
+- **Secrets Management:** Do not hardcode secrets. Use environment variables, or a dedicated secret management tool like
+  HashiCorp Vault or AWS Secrets Manager.
+
+## 9. Web Layer (Controllers)
+
+- **RESTful APIs:** Design clear and consistent RESTful endpoints.
+- **DTOs (Data Transfer Objects):** Use DTOs to expose and consume data in the API layer. Do not expose JPA entities
+  directly to the client.
+- **Validation:** Use Java Bean Validation (JSR 380) with annotations (`@Valid`, `@NotNull`, `@Size`) on DTOs to
+  validate request payloads.
+- **Error Handling:** Implement a global exception handler using `@ControllerAdvice` and `@ExceptionHandler` to provide
+  consistent error responses.
+
+## 10. Service Layer
+
+- **Business Logic:** Encapsulate all business logic within `@Service` classes.
+- **Statelessness:** Services should be stateless.
+- **Transaction Management:** Use `@Transactional` on service methods to manage database transactions declaratively.
+  Apply it at the most granular level necessary.
+
+## 11. Data Layer (Repositories)
+
+- **Spring Data JPA:** Use Spring Data JPA repositories by extending `JpaRepository` or `CrudRepository` for standard
+  database operations.
+- **Custom Queries:** For complex queries, use `@Query` or the JPA Criteria API.
+- **Projections:** Use DTO projections to fetch only the necessary data from the database.
+
+## 12. Logging
+
+- **SLF4J:** Use the SLF4J API for logging.
+- **Logger Declaration:** `private static final Logger logger = LoggerFactory.getLogger(MyClass.class);`
+- **Parameterized Logging:** Use parameterized messages (`logger.info("Processing user {}...", userId);`) instead of
+  string concatenation to improve performance.
+
+## 13. Testing
+
+- **Unit Tests:** Write unit tests for services and components using JUnit 5 and a mocking framework like Mockito.
+- **Integration Tests:** Use `@SpringBootTest` for integration tests that load the Spring application context.
+- **Test Slices:** Use test slice annotations like `@WebMvcTest` (for controllers) or `@DataJpaTest` (for repositories)
+  to test specific parts of the application in isolation.
+- **Testcontainers:** Consider using Testcontainers for reliable integration tests with real databases, message brokers,
+  etc.
+
+## 14. Security
+
+- **Spring Security:** Use Spring Security for authentication and authorization.
+- **Password Encoding:** Always encode passwords using a strong hashing algorithm like BCrypt.
+- **Input Sanitization:** Prevent SQL injection by using Spring Data JPA or parameterized queries. Prevent Cross-Site
+  Scripting (XSS) by properly encoding output.
+
+## 15. Custom Application Context (Desktop App)
+
+- This project integrates Spring Boot with a desktop user interface built on JavaFX and FXML.
+- The UI architecture must strictly adhere to Material Design principles.
+- Views are highly modular. The redirection logic and the loading of FXML files are centrally managed by the main
+  Dashboard controller.
+- Do NOT suggest pure backend or REST API annotations (such as `@RestController` or `@RequestMapping`) unless explicitly
+  requested to build an external endpoint. Focus on desktop controller architecture.
