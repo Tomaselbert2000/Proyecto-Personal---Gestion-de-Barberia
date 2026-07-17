@@ -18,22 +18,17 @@ import static org.mockito.Mockito.*;
 
 public class AppUserServiceImplTest {
 
+    AppUserCreationDTO inputDTO;
     @Mock
     private AppUserRepository repository;
-
     @Mock
     private AppUserValidator validator;
-
     @Spy
     private AppUserMapper mapper;
-
     @InjectMocks
     private AppUserServiceImpl appUserService;
-
     @Captor
     private ArgumentCaptor<AppUser> captor;
-
-    AppUserCreationDTO inputDTO;
 
     @Test
     @DisplayName("Dado un DTO de creación con datos correctos, deberá ser persistido correctamente")

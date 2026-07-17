@@ -9,9 +9,9 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
 
-import static com.validation.common.CommonValidationFunctions.generateClockInstance;
 import static com.factory.SaleTestDataFactory.buildValidSale;
 import static com.test_constant.SaleTestConstants.TimeConfigData.SALE_TEST_CLOCK;
+import static com.validation.common.CommonValidationFunctions.generateClockInstance;
 
 public final class SaleTestConstants {
 

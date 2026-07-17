@@ -46,31 +46,6 @@ public class AppointmentServiceImplTest extends BaseServiceTest<Appointment, App
     private static final Long NON_EXISTING_ID = 999L;
     private static final Long ANOTHER_EMPLOYEE_ID = 1000L;
     private static final Long ANOTHER_BARBER_SERVICE_ID = 555L;
-
-    @Mock
-    private AppointmentRepository appointmentRepository;
-
-    @Mock
-    private ClientRepository clientRepository;
-
-    @Mock
-    private BarberServiceRepository barberServiceRepository;
-
-    @Mock
-    private EmployeeRepository employeeRepository;
-
-    @Spy
-    private AppointmentMapper mapper = new AppointmentMapperImpl();
-
-    @Mock
-    private AppointmentValidator validator;
-
-    @InjectMocks
-    private AppointmentServiceImpl appointmentService;
-
-    @Captor
-    private ArgumentCaptor<Appointment> captor;
-
     private final Client client = buildValidClient();
     private final BarberService barberService = buildValidBarberService();
     private final BarberService anotherBarberService = buildValidBarberService();
@@ -81,6 +56,22 @@ public class AppointmentServiceImplTest extends BaseServiceTest<Appointment, App
     private final LocalDateTime overlapedEndDateTime = appointment.getEndDateTime().plusMinutes(20);
     private final AppointmentCreationDTO creationDTO = buildValidAppointmentCreationDTO();
     private final AppointmentUpdateDTO updateDTO = buildValidAppointmentUpdateDTO();
+    @Mock
+    private AppointmentRepository appointmentRepository;
+    @Mock
+    private ClientRepository clientRepository;
+    @Mock
+    private BarberServiceRepository barberServiceRepository;
+    @Mock
+    private EmployeeRepository employeeRepository;
+    @Spy
+    private AppointmentMapper mapper = new AppointmentMapperImpl();
+    @Mock
+    private AppointmentValidator validator;
+    @InjectMocks
+    private AppointmentServiceImpl appointmentService;
+    @Captor
+    private ArgumentCaptor<Appointment> captor;
 
     @Test
     @DisplayName("Dado un nuevo turno con información válida, debe ser persistido correctamente")

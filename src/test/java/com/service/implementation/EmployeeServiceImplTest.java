@@ -27,21 +27,17 @@ public class EmployeeServiceImplTest extends BaseServiceTest<Employee, EmployeeR
 
     private static final LocalDate HIRE_DATE = LocalDate.of(2026, 1, 1);
     private static final LocalDate INVALID_TERMINATION_DATE = LocalDate.of(2025, 1, 1);
-
-    @Mock
-    private EmployeeRepository employeeRepository;
-
-    @Mock
-    private EmployeeValidator validator;
-
-    @Spy
-    private EmployeeMapper mapper = new EmployeeMapperImpl();
-
-    @InjectMocks
-    private EmployeeServiceImpl employeeService;
     private final Employee employeeOnDB = buildValidEmployee();
     private final EmployeeCreationDTO creationDTO = buildValidEmployeeCreationDTO();
     private final EmployeeUpdateDTO updateDTO = buildValidEmployeeUpdateDTO();
+    @Mock
+    private EmployeeRepository employeeRepository;
+    @Mock
+    private EmployeeValidator validator;
+    @Spy
+    private EmployeeMapper mapper = new EmployeeMapperImpl();
+    @InjectMocks
+    private EmployeeServiceImpl employeeService;
 
     @Override
     protected EmployeeRepository getPrimaryRepository() {

@@ -50,7 +50,7 @@ public class SaleServiceTestHelper {
         when(barberServiceRepository.findById(barberService.getBarbershopServiceID())).thenReturn(Optional.of(barberService));
     }
 
-    public static void mockProductList(ProductRepository productRepository,List<Product> listToMock) {
+    public static void mockProductList(ProductRepository productRepository, List<Product> listToMock) {
 
         when(productRepository.findAllById(listToMock.stream().map(Product::getProductID).toList())).thenReturn(listToMock);
     }

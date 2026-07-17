@@ -52,7 +52,7 @@ public class ProductTestDataFactory {
                 build();
     }
 
-    public static Product buildValidProduct(){
+    public static Product buildValidProduct() {
 
         return Product.builder()
                 .productID(PRODUCT_ID)

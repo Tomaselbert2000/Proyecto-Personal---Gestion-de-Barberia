@@ -38,33 +38,6 @@ import static org.mockito.Mockito.when;
 
 public class SaleServiceImplTest extends BaseServiceTest<Sale, SaleRepository> {
 
-    @Captor
-    ArgumentCaptor<Sale> saleCaptor;
-
-    @Mock
-    private SaleRepository saleRepository;
-
-    @Mock
-    private ClientRepository clientRepository;
-
-    @Mock
-    private EmployeeRepository employeeRepository;
-
-    @Mock
-    private BarberServiceRepository barberServiceRepository;
-
-    @Mock
-    private ProductRepository productRepository;
-
-    @Mock
-    private PaymentMethodRepository paymentMethodRepository;
-
-    @Mock
-    private SaleValidator validator;
-
-    @Spy
-    private SaleMapper mapper = new SaleMapperImpl();
-
     private final Product product = buildValidProduct();
     private final Client client = buildValidClient();
     private final Employee employee = buildValidEmployee();
@@ -74,7 +47,24 @@ public class SaleServiceImplTest extends BaseServiceTest<Sale, SaleRepository> {
     private final Sale saleOnDB = buildValidSale();
     private final SaleCreationDTO creationDTO = buildValidSaleCreationDTO();
     private final List<ProductItemDTO> emptyList = List.of();
-
+    @Captor
+    ArgumentCaptor<Sale> saleCaptor;
+    @Mock
+    private SaleRepository saleRepository;
+    @Mock
+    private ClientRepository clientRepository;
+    @Mock
+    private EmployeeRepository employeeRepository;
+    @Mock
+    private BarberServiceRepository barberServiceRepository;
+    @Mock
+    private ProductRepository productRepository;
+    @Mock
+    private PaymentMethodRepository paymentMethodRepository;
+    @Mock
+    private SaleValidator validator;
+    @Spy
+    private SaleMapper mapper = new SaleMapperImpl();
     @InjectMocks
     private SaleServiceImpl saleService;
 

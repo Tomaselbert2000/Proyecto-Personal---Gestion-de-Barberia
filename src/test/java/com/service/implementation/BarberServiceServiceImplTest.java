@@ -25,23 +25,19 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class BarberServiceServiceImplTest extends BaseServiceTest<BarberService, BarberServiceRepository> {
 
-    @Mock
-    private BarberServiceRepository barberServiceRepository;
-
-    @Mock
-    private ServicePriceHistoryRepository servicePriceHistoryRepository;
-
-    @Mock
-    private BarberServiceValidator validator;
-
-    @Spy
-    private BarberServiceMapper mapper = new BarberServiceMapperImpl();
-
-    @InjectMocks
-    private BarberServiceServiceImpl barberServiceImplInstance;
     private final BarberService existingService = buildValidBarberService();
     private final BarberServiceCreationDTO creationDTO = buildValidBarberServiceCreationDTO();
     private final BarberServiceUpdateDTO updateDTO = buildValidBarberServiceUpdateDTO();
+    @Mock
+    private BarberServiceRepository barberServiceRepository;
+    @Mock
+    private ServicePriceHistoryRepository servicePriceHistoryRepository;
+    @Mock
+    private BarberServiceValidator validator;
+    @Spy
+    private BarberServiceMapper mapper = new BarberServiceMapperImpl();
+    @InjectMocks
+    private BarberServiceServiceImpl barberServiceImplInstance;
 
     @Test
     @DisplayName("Dado un DTO de creación de servicio de barbería con datos correctos, deberá ser persistido exitosamente")

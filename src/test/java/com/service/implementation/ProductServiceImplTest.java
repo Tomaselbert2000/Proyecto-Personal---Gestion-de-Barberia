@@ -22,22 +22,17 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class ProductServiceImplTest extends BaseServiceTest<Product, ProductRepository> {
 
-    @Mock
-    private ProductRepository productRepository;
-
-    @Mock
-    private ProductValidator validator;
-
-    @Spy
-    private ProductMapper mapper = new ProductMapperImpl();
-
-    @Captor
-    private ArgumentCaptor<Product> productCaptor;
-
     private final ProductCreationDTO creationDTO = buildValidProductCreationDTO();
     private final ProductUpdateDTO updateDTO = buildValidProductUpdateDTO();
     private final Product product = buildValidProduct();
-
+    @Mock
+    private ProductRepository productRepository;
+    @Mock
+    private ProductValidator validator;
+    @Spy
+    private ProductMapper mapper = new ProductMapperImpl();
+    @Captor
+    private ArgumentCaptor<Product> productCaptor;
     @InjectMocks
     private ProductServiceImpl productService;
 

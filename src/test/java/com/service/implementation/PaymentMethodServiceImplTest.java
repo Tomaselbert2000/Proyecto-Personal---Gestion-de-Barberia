@@ -28,24 +28,19 @@ public class PaymentMethodServiceImplTest extends BaseServiceTest<PaymentMethod,
     private static final Clock clock = Clock.systemDefaultZone();
     private static final String DEFAULT_DESCRIPTION = PaymentMethodMapperImpl.DEFAULT_DESCRIPTION;
     private static final Boolean DEFAULT_IS_ACTIVE_VALUE = PaymentMethodMapperImpl.DEFAULT_IS_ACTIVE_VALUE;
-
-    @Captor
-    ArgumentCaptor<PaymentMethod> captor;
-
-    @Mock
-    private PaymentMethodRepository paymentMethodRepository;
-
-    @Mock
-    private PaymentMethodValidator validator;
-
-    @Spy
-    private PaymentMethodMapper mapper = new PaymentMethodMapperImpl(clock);
-
-    @InjectMocks
-    private PaymentMethodServiceImpl paymentMethodService;
     private final PaymentMethod paymentMethod = buildValidPaymentMethod();
     private final PaymentMethodCreationDTO creationDTO = buildValidPaymentMethodCreationDTO();
     private final PaymentMethodUpdateDTO updateDTO = buildValidPaymentMethodUpdateDTO();
+    @Captor
+    ArgumentCaptor<PaymentMethod> captor;
+    @Mock
+    private PaymentMethodRepository paymentMethodRepository;
+    @Mock
+    private PaymentMethodValidator validator;
+    @Spy
+    private PaymentMethodMapper mapper = new PaymentMethodMapperImpl(clock);
+    @InjectMocks
+    private PaymentMethodServiceImpl paymentMethodService;
 
     @Test
     @DisplayName("Dado un DTO de creación con datos correctos, deberá ser persistido exitosamente")

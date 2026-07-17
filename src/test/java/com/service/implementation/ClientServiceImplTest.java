@@ -23,26 +23,21 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class ClientServiceImplTest extends BaseServiceTest<Client, ClientRepository> {
 
-    @Mock
-    private ClientRepository clientRepository;
-
-    @Mock
-    private ClientValidator validator;
-
-    @Spy
-    private Clock clock = Clock.systemDefaultZone();
-
-    @Spy
-    private ClientMapper mapper = new ClientMapperImpl();
-
-    @Captor
-    private ArgumentCaptor<Client> captor;
-
-    @InjectMocks
-    private ClientServiceImpl clientService;
     private final Client client = buildValidClient();
     private final ClientCreationDTO creationDTO = buildValidClientCreationDTO();
     private final ClientUpdateDTO updateDTO = buildValidClientUpdateDTO();
+    @Mock
+    private ClientRepository clientRepository;
+    @Mock
+    private ClientValidator validator;
+    @Spy
+    private Clock clock = Clock.systemDefaultZone();
+    @Spy
+    private ClientMapper mapper = new ClientMapperImpl();
+    @Captor
+    private ArgumentCaptor<Client> captor;
+    @InjectMocks
+    private ClientServiceImpl clientService;
 
     @Override
     protected ClientRepository getPrimaryRepository() {
