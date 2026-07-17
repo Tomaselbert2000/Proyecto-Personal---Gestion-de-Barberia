@@ -20,17 +20,13 @@ public class AppUserMapperInfoTest {
 
     private final AppUser existingUser = builValidAppUser1();
     private final AppUser anotherExistingUser = buildValidAppUser2();
-
     private final List<AppUser> userList = List.of(existingUser, anotherExistingUser);
-
-    private AppUserInfoDTO appUserMappedAsDTO;
-    private List<AppUserInfoDTO> infoDTOList;
 
     @Test
     @DisplayName("Dado un usuario registrado, se deberá mapear correctamente a DTO informativo")
     void givenAnExistingUser_ThenShouldBeMappedCorrectly() {
 
-        appUserMappedAsDTO = mapper.mapAppUserToInfoDTO(existingUser);
+        AppUserInfoDTO appUserMappedAsDTO = mapper.mapAppUserToInfoDTO(existingUser);
 
         assertAll(
                 "Verificación de campos",
@@ -45,7 +41,7 @@ public class AppUserMapperInfoTest {
     @DisplayName("Dados N usuarios registrados, se deberán mapear correctamente como lista de DTOs informativos")
     void given_N_UsersRegistered_ThenShouldBeMappedCorrectlyAsDTOList() {
 
-        infoDTOList = mapper.mapAppUserToInfoDTO(userList);
+        List<AppUserInfoDTO> infoDTOList = mapper.mapAppUserToInfoDTO(userList);
 
         assertAll(
                 "Verificación de campos",
@@ -62,5 +58,4 @@ public class AppUserMapperInfoTest {
                         appUserInfoDTO.getHasAdminRights().equals(APP_USER_1_DEFAULT_ADMIN_RIGHTS_BOOLEAN) || appUserInfoDTO.getHasAdminRights().equals(APP_USER_2_DEFAULT_ADMIN_RIGHTS_BOOLEAN)))
         );
     }
-
 }
