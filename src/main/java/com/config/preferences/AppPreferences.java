@@ -1,4 +1,4 @@
-package com.config;
+package com.config.preferences;
 
 import com.dto.settings.SettingsUpdateDTO;
 import lombok.Getter;
