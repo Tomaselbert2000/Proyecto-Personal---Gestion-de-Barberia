@@ -50,6 +50,8 @@ public class SceneManager {
 
             primaryStage.show();
 
+            primaryStage.setMaximized(true);
+
         } catch (IOException exception) {
 
             throw new RuntimeException(PATH_ERROR_MESSAGE + fxmlPath, exception);

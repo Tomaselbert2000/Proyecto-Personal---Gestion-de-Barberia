@@ -101,7 +101,7 @@ public class ClientCreationController implements CreationController {
 
             String errorMessage = getConstraintViolationsList(exception);
 
-            showWindowAlert(VALIDATION_ERROR_TITLE, CLIENT_CREATION_VALIDATION_FAILED, errorMessage, Alert.AlertType.ERROR, ACCEPT_BUTTON_TEXT);
+            showWindowAlert(VALIDATION_ERROR_TITLE, CLIENT_CREATION_VALIDATION_FAILED, errorMessage, Alert.AlertType.ERROR, ACCEPT_BUTTON_TEXT, getCurrentWindow(anchor_pane));
         }
     }
 

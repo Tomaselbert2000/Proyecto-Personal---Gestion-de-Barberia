@@ -29,6 +29,7 @@ import static com.launcher.constants.ui.messages.ValidationErrorMessage.VALIDATI
 import static com.launcher.constants.ui.prompt_text.ProductPromptText.*;
 import static com.launcher.controller.helper.ComboBoxHelper.loadEnumsOnComboBox;
 import static com.launcher.controller.helper.ComboBoxHelper.removeFirstItemFromComboBox;
+import static com.launcher.controller.helper.ContainerManager.getCurrentWindow;
 import static com.launcher.controller.helper.FileImageHelper.*;
 import static com.launcher.controller.helper.HelperConstants.ACCEPT_BUTTON_TEXT;
 import static com.launcher.controller.helper.PopUpWindowHelper.showWindowAlert;
@@ -146,7 +147,7 @@ public class ProductCreationController implements CreationController, ProductCon
 
             String errorMessages = getConstraintViolationsList(exception);
 
-            showWindowAlert(VALIDATION_ERROR_TITLE, PRODUCT_CREATION_VALIDATION_FAILED, errorMessages, Alert.AlertType.ERROR, ACCEPT_BUTTON_TEXT);
+            showWindowAlert(VALIDATION_ERROR_TITLE, PRODUCT_CREATION_VALIDATION_FAILED, errorMessages, Alert.AlertType.ERROR, ACCEPT_BUTTON_TEXT, getCurrentWindow(anchor_pane));
         }
     }
 

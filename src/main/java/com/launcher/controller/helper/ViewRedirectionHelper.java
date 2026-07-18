@@ -1,15 +1,22 @@
 package com.launcher.controller.helper;
 
+import com.config.preferences.AppPreferences;
 import com.enums.ViewRedirection;
-import com.launcher.controller.implementation.dashboard.DashboardController;
+import com.launcher.ui.SceneManager;
 import javafx.scene.layout.Pane;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationContext;
+import org.springframework.stereotype.Component;
 
 import static com.launcher.constants.ui.messages.ViewLoadingErrorMessage.*;
 import static com.launcher.constants.view.ViewPath.*;
 import static com.launcher.controller.helper.FXMLViewLoader.loadViewOnPane;
 
+@Component
+@RequiredArgsConstructor
 public class ViewRedirectionHelper {
+
+    private final AppPreferences appPreferences;
 
     public static void redirectToView(ViewRedirection destination, Pane borderPane, ApplicationContext applicationContext) {
 
@@ -17,9 +24,9 @@ public class ViewRedirectionHelper {
 
             case DASHBOARD -> {
 
-                DashboardController dashboardController = applicationContext.getBean(DashboardController.class);
+                SceneManager sceneManager = applicationContext.getBean(SceneManager.class);
 
-                dashboardController.reloadDashboard();
+                sceneManager.switchScene(DASHBOARD_VIEW_PATH);
             }
 
             case CLIENTS ->
@@ -61,6 +68,8 @@ public class ViewRedirectionHelper {
             case SETTINGS ->
                     loadViewOnPane(SETTINGS_VIEW_PATH, applicationContext, SETTINGS_VIEW_LOADING_FAILED, borderPane);
 
+            case LOGIN -> loadViewOnPane(LOGIN_VIEW_PATH, applicationContext, LOGIN_VIEW_LOADING_FAILED, borderPane);
+
             case LOGOUT -> {
             }
 
@@ -84,5 +93,17 @@ public class ViewRedirectionHelper {
         }
 
         redirectToView(destination, borderPane, applicationContext);
+    }
+
+    public ViewRedirection determineInitialView() {
+
+        if (appPreferences.isRememberCredentialsEnabled() && appPreferences.getCurrentUser() != null && !appPreferences.getCurrentUser().isBlank()) {
+
+            return ViewRedirection.DASHBOARD;
+
+        } else {
+
+            return ViewRedirection.LOGIN;
+        }
     }
 }

@@ -75,6 +75,16 @@ public class AppUserServiceImpl implements AppUserService {
         appUserRepository.save(existingAppUser);
     }
 
+    @Override
+    public Boolean signIn(String username, String password) {
+
+        AppUser userOnDB = appUserRepository.findByUsername(username);
+
+        if (userOnDB == null) return false;
+
+        return passwordEncoder.matches(password, userOnDB.getPassword());
+    }
+
     private AppUser loadAppUser(Long appUserId) {
 
         return appUserRepository.findById(appUserId).orElseThrow(AppUserNotFoundException::new);

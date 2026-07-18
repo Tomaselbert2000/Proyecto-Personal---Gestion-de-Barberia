@@ -37,6 +37,7 @@ import static com.launcher.constants.ui.messages.ValidationErrorMessage.APPOINTM
 import static com.launcher.constants.ui.messages.ValidationErrorMessage.VALIDATION_ERROR_TITLE;
 import static com.launcher.controller.helper.ComboBoxHelper.cleanComboBoxes;
 import static com.launcher.controller.helper.ComboBoxHelper.loadGenericTypeListOnComboBox;
+import static com.launcher.controller.helper.ContainerManager.getCurrentWindow;
 import static com.launcher.controller.helper.HelperConstants.ACCEPT_BUTTON_TEXT;
 import static com.launcher.controller.helper.PopUpWindowHelper.showWindowAlert;
 import static com.launcher.controller.helper.ToastNotificationHelper.showToastNotification;
@@ -230,7 +231,7 @@ public class AppointmentEditionController implements AppointmentController {
 
                 errorMessage = getConstraintViolationsList((ConstraintViolationException) exception);
 
-                showWindowAlert(VALIDATION_ERROR_TITLE, APPOINTMENT_EDITION_VALIDATION_FAILED, errorMessage, Alert.AlertType.ERROR, ACCEPT_BUTTON_TEXT);
+                showWindowAlert(VALIDATION_ERROR_TITLE, APPOINTMENT_EDITION_VALIDATION_FAILED, errorMessage, Alert.AlertType.ERROR, ACCEPT_BUTTON_TEXT, getCurrentWindow(anchor_pane));
 
             } else {
 

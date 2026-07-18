@@ -25,6 +25,7 @@ import static com.launcher.constants.ui.messages.ToastNotificationMessage.EMPLOY
 import static com.launcher.constants.ui.messages.ValidationErrorMessage.EMPLOYEE_CREATION_VALIDATION_FAILED;
 import static com.launcher.constants.ui.messages.ValidationErrorMessage.VALIDATION_ERROR_TITLE;
 import static com.launcher.constants.ui.prompt_text.EmployeePromptText.*;
+import static com.launcher.controller.helper.ContainerManager.getCurrentWindow;
 import static com.launcher.controller.helper.HelperConstants.ACCEPT_BUTTON_TEXT;
 import static com.launcher.controller.helper.PopUpWindowHelper.showWindowAlert;
 import static com.launcher.controller.helper.ToastNotificationHelper.showToastNotification;
@@ -121,7 +122,7 @@ public class EmployeeCreationController implements CreationController, EmployeeC
 
             String errorMessages = getConstraintViolationsList(exception);
 
-            showWindowAlert(VALIDATION_ERROR_TITLE, EMPLOYEE_CREATION_VALIDATION_FAILED, errorMessages, Alert.AlertType.ERROR, ACCEPT_BUTTON_TEXT);
+            showWindowAlert(VALIDATION_ERROR_TITLE, EMPLOYEE_CREATION_VALIDATION_FAILED, errorMessages, Alert.AlertType.ERROR, ACCEPT_BUTTON_TEXT, getCurrentWindow(anchor_pane));
         }
     }
 

@@ -4,6 +4,11 @@ public final class ValidationErrorMessage {
 
     public static final String VALIDATION_ERROR_TITLE = "Error de validación";
 
+    public static final String LOGIN_ERROR_TITLE = "Error de inicio de sesión";
+    public static final String LOGIN_FIELDS_BLANK = "Campos de ingreso en blanco.";
+    public static final String LOGIN_FAILED = "Usuario o contraseña incorrectos";
+
+
     public static final String CLIENT_CREATION_VALIDATION_FAILED = "No se pudo registrar el cliente. Por favor, revisa lo siguiente: ";
 
     public static final String PRODUCT_CREATION_VALIDATION_FAILED = "No se pudo registrar el producto. Por favor, revisa lo siguiente: ";

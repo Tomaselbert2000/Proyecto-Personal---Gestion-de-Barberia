@@ -16,5 +16,6 @@ public enum ViewRedirection {
     PRODUCT_CREATION,
     PRODUCT_EDITION,
     SETTINGS,
+    LOGIN,
     LOGOUT
 }

@@ -3,6 +3,7 @@ package com.launcher.controller.helper;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
+import javafx.stage.Window;
 
 import static com.launcher.constants.ui.CssFilePath.DESIGN_SYSTEM_TOKEN_FILE_PATH;
 import static com.launcher.controller.helper.HelperConstants.NEW_LINE;
@@ -15,7 +16,8 @@ public class PopUpWindowHelper {
             String headerMessage,
             String contentMessage,
             Alert.AlertType alertType,
-            String buttonText
+            String buttonText,
+            Window windowOwner
     ) {
 
         Alert alert = new Alert(alertType);
@@ -31,6 +33,8 @@ public class PopUpWindowHelper {
         ButtonType customButton = new ButtonType(buttonText, ButtonBar.ButtonData.OK_DONE);
 
         alert.getButtonTypes().setAll(customButton);
+
+        alert.initOwner(windowOwner);
 
         var result = alert.showAndWait();
 

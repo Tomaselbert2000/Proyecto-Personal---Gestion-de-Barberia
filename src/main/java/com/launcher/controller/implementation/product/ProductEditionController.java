@@ -27,6 +27,7 @@ import static com.launcher.constants.ui.messages.ToastNotificationMessage.PRODUC
 import static com.launcher.constants.ui.messages.ValidationErrorMessage.PRODUCT_EDITION_VALIDATION_FAILED;
 import static com.launcher.constants.ui.messages.ValidationErrorMessage.VALIDATION_ERROR_TITLE;
 import static com.launcher.controller.helper.ComboBoxHelper.*;
+import static com.launcher.controller.helper.ContainerManager.getCurrentWindow;
 import static com.launcher.controller.helper.FileImageHelper.*;
 import static com.launcher.controller.helper.HelperConstants.ACCEPT_BUTTON_TEXT;
 import static com.launcher.controller.helper.PopUpWindowHelper.showWindowAlert;
@@ -172,7 +173,7 @@ public class ProductEditionController implements EditionController<ProductInfoDT
 
             String errorMessages = getConstraintViolationsList(exception);
 
-            showWindowAlert(VALIDATION_ERROR_TITLE, PRODUCT_EDITION_VALIDATION_FAILED, errorMessages, Alert.AlertType.ERROR, ACCEPT_BUTTON_TEXT);
+            showWindowAlert(VALIDATION_ERROR_TITLE, PRODUCT_EDITION_VALIDATION_FAILED, errorMessages, Alert.AlertType.ERROR, ACCEPT_BUTTON_TEXT, getCurrentWindow(anchor_pane));
         }
 
     }

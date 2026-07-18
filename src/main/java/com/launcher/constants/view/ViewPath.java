@@ -2,6 +2,8 @@ package com.launcher.constants.view;
 
 public final class ViewPath {
 
+    public static final String LOGIN_VIEW_PATH = "/view/Login.fxml";
+
     public static final String DASHBOARD_VIEW_PATH = "/view/Dashboard.fxml";
 
     public static final String APPOINTMENT_VIEW_PATH = "/view/AppointmentsView.fxml";

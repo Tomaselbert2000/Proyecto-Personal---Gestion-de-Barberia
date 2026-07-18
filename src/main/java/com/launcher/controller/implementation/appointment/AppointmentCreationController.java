@@ -40,6 +40,7 @@ import static com.launcher.constants.ui.prompt_text.AppointmentPromptText.APPOIN
 import static com.launcher.constants.ui.prompt_text.AppointmentPromptText.APPOINTMENT_NOTES;
 import static com.launcher.controller.helper.ComboBoxHelper.cleanComboBoxes;
 import static com.launcher.controller.helper.ComboBoxHelper.loadGenericTypeListOnComboBox;
+import static com.launcher.controller.helper.ContainerManager.getCurrentWindow;
 import static com.launcher.controller.helper.HelperConstants.ACCEPT_BUTTON_TEXT;
 import static com.launcher.controller.helper.ListViewHelper.cleanListView;
 import static com.launcher.controller.helper.ListViewHelper.loadItemsOnListView;
@@ -238,7 +239,7 @@ public class AppointmentCreationController implements CreationController, Appoin
             if (exception instanceof ConstraintViolationException) {
 
                 errorMessage = getConstraintViolationsList((ConstraintViolationException) exception);
-                showWindowAlert(VALIDATION_ERROR_TITLE, APPOINTMENT_CREATION_VALIDATION_FAILED, errorMessage, Alert.AlertType.ERROR, ACCEPT_BUTTON_TEXT);
+                showWindowAlert(VALIDATION_ERROR_TITLE, APPOINTMENT_CREATION_VALIDATION_FAILED, errorMessage, Alert.AlertType.ERROR, ACCEPT_BUTTON_TEXT, getCurrentWindow(anchor_pane));
 
             } else {
 

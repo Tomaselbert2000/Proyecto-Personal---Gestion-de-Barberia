@@ -97,8 +97,12 @@ public class DashboardController implements Controller {
 
     public void reloadDashboard() {
 
-        animateViewChange(dashboardReference, borderPane);
+        animateChangeAndLoadStats();
+    }
 
+    private void animateChangeAndLoadStats() {
+
+        animateViewChange(dashboardReference, borderPane);
         loadStatistics();
     }
 

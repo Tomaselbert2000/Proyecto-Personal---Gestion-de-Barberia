@@ -13,4 +13,7 @@ public interface AppUserService {
     AppUserInfoDTO getAppUserById(Long appUserId);
 
     void updateAppUser(Long appUserId, AppUserUpdateDTO appUserUpdateDTO);
+
+    Boolean signIn(String username, String password);
+
 }

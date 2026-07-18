@@ -9,6 +9,7 @@ import com.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.NonNull;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -58,12 +59,15 @@ public class DatabaseSeeder implements CommandLineRunner {
     private final BarberServiceRepository barberServiceRepository;
     private final AppointmentRepository appointmentRepository;
     private final ProductRepository productRepository;
+    private final AppUserRepository appUserRepository;
+    private final PasswordEncoder passwordEncoder;
     private Client client;
     private Employee employee;
     private BarberService barberService;
     private Appointment appointment;
     private Appointment canceledAppointment;
     private Product product;
+    private AppUser appUser;
 
     @Override
     public void run(String @NonNull ... args) {
@@ -85,6 +89,23 @@ public class DatabaseSeeder implements CommandLineRunner {
 
         setupProduct();
         saveProduct();
+
+        setupAppUser();
+        saveAppUser();
+    }
+
+    private void saveAppUser() {
+
+        appUserRepository.save(appUser);
+    }
+
+    private void setupAppUser() {
+
+        appUser = AppUser.builder()
+                .username("Tomas")
+                .password(passwordEncoder.encode("12345"))
+                .hasAdminRights(true)
+                .build();
     }
 
     private void setupClient() {

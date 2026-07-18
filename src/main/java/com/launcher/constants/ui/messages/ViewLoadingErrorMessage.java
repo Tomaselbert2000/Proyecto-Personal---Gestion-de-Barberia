@@ -2,7 +2,7 @@ package com.launcher.constants.ui.messages;
 
 public final class ViewLoadingErrorMessage {
 
-    public static final String DASHBOARD_VIEW_LOADING_FAILED = "Hubo un error al cargar la vista principal.";
+    public static final String LOGIN_VIEW_LOADING_FAILED = "Hubo un error al cargar la vista de inicio de sesión.";
 
     public static final String EMPLOYEE_VIEW_LOADING_FAILED = "Hubo un error al cargar la vista de empleados.";
     public static final String EMPLOYEE_ITEM_VIEW_LOADING_FAILED = "Hubo un error al cargar la lista de empleados registrados.";
@@ -25,7 +25,6 @@ public final class ViewLoadingErrorMessage {
 
     public static final String CLIENTS_VIEW_LOADING_FAILED = "Hubo un error al cargar la vista de clientes.";
     public static final String CLIENT_CREATION_VIEW_LOADING_FAILED = "Hubo un error al cargar la vista de registro de nuevo cliente.";
-    public static final String CLIENT_EDITION_VIEW_LOADING_FAILED = "Hubo un error al cargar la vista de edición de cliente.";
 
     public static final String APPOINTMENTS_VIEW_LOADING_FAILED = "Hubo un error al cargar la lista de turnos recientes.";
     public static final String APPOINTMENT_CREATION_VIEW_LOADING_FAILED = "Hubo un error al cargar la vista de creación de turnos.";

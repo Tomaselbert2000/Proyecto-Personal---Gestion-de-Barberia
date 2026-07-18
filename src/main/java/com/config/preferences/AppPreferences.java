@@ -29,14 +29,37 @@ public class AppPreferences {
     private static final String CLIENT_REMINDER_NOTIFICATION = "client_reminder_notification";
     private static final String LOW_STOCK_NOTIFICATION = "low_stock_notification";
     private static final String WORKPLACE_CHANGES_NOTIFICATION = "workplace_changes_notification";
+    private static final String REMEMBER_CREDENTIALS = "remember_credentials";
+    private static final String CURRENT_USER = "current_user";
 
     private static final String DEFAULT_THEME = "MD3_LIGHT";
     private static final String DEFAULT_STRING_VALUE = "";
     private static final Boolean DEFAULT_STATUS = true;
+    private static final Boolean DEFAULT_REMEMBER_CREDENTIALS = false;
     private static final String DEFAULT_OPENING_TIME = "08:00";
     private static final String DEFAULT_CLOSING_TIME = "20:00";
 
     private static final Preferences prefs = Preferences.userNodeForPackage(AppPreferences.class);
+
+    public String getCurrentUser() {
+
+        return prefs.get(CURRENT_USER, DEFAULT_STRING_VALUE);
+    }
+
+    public void setCurrentUser(String currentUser) {
+
+        prefs.put(CURRENT_USER, currentUser == null || currentUser.isBlank() ? DEFAULT_STRING_VALUE : currentUser);
+    }
+
+    public boolean isRememberCredentialsEnabled() {
+
+        return prefs.getBoolean(REMEMBER_CREDENTIALS, DEFAULT_REMEMBER_CREDENTIALS);
+    }
+
+    public void setRememberCredentials(boolean status) {
+
+        prefs.putBoolean(REMEMBER_CREDENTIALS, status);
+    }
 
     public String getTheme() {
 

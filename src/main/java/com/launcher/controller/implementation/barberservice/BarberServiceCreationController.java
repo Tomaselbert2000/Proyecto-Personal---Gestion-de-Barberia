@@ -28,6 +28,7 @@ import static com.launcher.constants.ui.messages.ValidationErrorMessage.VALIDATI
 import static com.launcher.constants.ui.prompt_text.BarberServicePromptText.*;
 import static com.launcher.controller.helper.ComboBoxHelper.loadEnumsOnComboBox;
 import static com.launcher.controller.helper.ComboBoxHelper.removeFirstItemFromComboBox;
+import static com.launcher.controller.helper.ContainerManager.getCurrentWindow;
 import static com.launcher.controller.helper.HelperConstants.ACCEPT_BUTTON_TEXT;
 import static com.launcher.controller.helper.PopUpWindowHelper.showWindowAlert;
 import static com.launcher.controller.helper.ToastNotificationHelper.showToastNotification;
@@ -102,7 +103,7 @@ public class BarberServiceCreationController implements CreationController {
 
             String errorMessage = getConstraintViolationsList(exception);
 
-            showWindowAlert(VALIDATION_ERROR_TITLE, BARBER_SERVICE_CREATION_VALIDATION_FAILED, errorMessage, Alert.AlertType.ERROR, ACCEPT_BUTTON_TEXT);
+            showWindowAlert(VALIDATION_ERROR_TITLE, BARBER_SERVICE_CREATION_VALIDATION_FAILED, errorMessage, Alert.AlertType.ERROR, ACCEPT_BUTTON_TEXT, getCurrentWindow(anchor_pane));
         }
     }
 

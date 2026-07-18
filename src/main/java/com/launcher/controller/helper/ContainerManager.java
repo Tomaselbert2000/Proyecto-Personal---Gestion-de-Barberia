@@ -8,6 +8,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Window;
 import javafx.util.Duration;
 
 import static com.launcher.constants.ui.CssFilePath.*;
@@ -105,5 +106,10 @@ public class ContainerManager {
                     ((Pane) parentNode).getChildren().remove(snapshotView);
                 }
         );
+    }
+
+    public static Window getCurrentWindow(Pane pane) {
+
+        return pane.getScene().getWindow();
     }
 }

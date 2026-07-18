@@ -288,7 +288,7 @@ public class SettingsController implements Controller {
 
         String password = generatePassword(length);
 
-        boolean isClicked = showWindowAlert("", PASSWORD_GENERATED_SUCCESFULLY, password, Alert.AlertType.INFORMATION, CLIPBOARD_BUTTON_TEXT);
+        boolean isClicked = showWindowAlert("", PASSWORD_GENERATED_SUCCESFULLY, password, Alert.AlertType.INFORMATION, CLIPBOARD_BUTTON_TEXT, getCurrentWindow(anchor_pane));
 
         if (isClicked) {
 
@@ -320,11 +320,11 @@ public class SettingsController implements Controller {
 
                 String errorMessage = getConstraintViolationsList((ConstraintViolationException) exception);
 
-                showWindowAlert(VALIDATION_ERROR_TITLE, CREDENTIALS_UPDATE_VALIDATION_FAILED, errorMessage, Alert.AlertType.ERROR, ACCEPT_BUTTON_TEXT);
+                showWindowAlert(VALIDATION_ERROR_TITLE, CREDENTIALS_UPDATE_VALIDATION_FAILED, errorMessage, Alert.AlertType.ERROR, ACCEPT_BUTTON_TEXT, getCurrentWindow(anchor_pane));
 
             } else {
 
-                showWindowAlert(VALIDATION_ERROR_TITLE, "", exception.getMessage(), Alert.AlertType.ERROR, ACCEPT_BUTTON_TEXT);
+                showWindowAlert(VALIDATION_ERROR_TITLE, "", exception.getMessage(), Alert.AlertType.ERROR, ACCEPT_BUTTON_TEXT, getCurrentWindow(anchor_pane));
             }
         }
     }
@@ -370,7 +370,7 @@ public class SettingsController implements Controller {
 
             String errorMessage = getConstraintViolationsList(exception);
 
-            showWindowAlert(VALIDATION_ERROR_TITLE, SETTINGS_UPDATE_VALIDATION_FAILED, errorMessage, Alert.AlertType.INFORMATION, ACCEPT_BUTTON_TEXT);
+            showWindowAlert(VALIDATION_ERROR_TITLE, SETTINGS_UPDATE_VALIDATION_FAILED, errorMessage, Alert.AlertType.INFORMATION, ACCEPT_BUTTON_TEXT, getCurrentWindow(anchor_pane));
         }
     }
 
