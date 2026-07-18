@@ -26,27 +26,21 @@ import static org.mockito.Mockito.verify;
 
 public class AppUserServiceImplTest extends BaseServiceTest<AppUser, AppUserRepository> {
 
-    @Mock
-    private AppUserRepository repository;
-
-    @Mock
-    private AppUserValidator validator;
-
-    @Mock
-    private PasswordEncoder passwordEncoder;
-
     @Spy
     private final AppUserMapper mapper = new AppUserMapperImpl();
-
-    @InjectMocks
-    private AppUserServiceImpl appUserService;
-
-    @Captor
-    private ArgumentCaptor<AppUser> captor;
-
     private final AppUserCreationDTO creationDTO = buildValidAppUserCreationDTO();
     private final AppUserUpdateDTO updateDTO = buildValidAppUserUpdateDTO();
     private final AppUser existingAppUser = builValidAppUser1();
+    @Mock
+    private AppUserRepository repository;
+    @Mock
+    private AppUserValidator validator;
+    @Mock
+    private PasswordEncoder passwordEncoder;
+    @InjectMocks
+    private AppUserServiceImpl appUserService;
+    @Captor
+    private ArgumentCaptor<AppUser> captor;
 
     @Test
     @DisplayName("Dado un DTO de creación con datos correctos, deberá ser persistido correctamente")

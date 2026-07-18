@@ -28,12 +28,10 @@ import static com.launcher.controller.helper.ViewRedirectionHelper.redirectToVie
 @RequiredArgsConstructor
 public class LoginController implements Controller {
 
+    private static final String RETRY_LOGIN_BUTTON_TEXT = "Reintentar";
     private final ApplicationContext applicationContext;
     private final AppPreferences appPreferences;
     private final AppUserService appUserService;
-
-    private static final String RETRY_LOGIN_BUTTON_TEXT = "Reintentar";
-
     @FXML
     private AnchorPane anchor_pane;
 

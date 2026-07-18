@@ -30,12 +30,12 @@ public class EmployeeServiceImplTest extends BaseServiceTest<Employee, EmployeeR
     private final Employee employeeOnDB = buildValidEmployee();
     private final EmployeeCreationDTO creationDTO = buildValidEmployeeCreationDTO();
     private final EmployeeUpdateDTO updateDTO = buildValidEmployeeUpdateDTO();
+    @Spy
+    private final EmployeeMapper mapper = new EmployeeMapperImpl();
     @Mock
     private EmployeeRepository employeeRepository;
     @Mock
     private EmployeeValidator validator;
-    @Spy
-    private final EmployeeMapper mapper = new EmployeeMapperImpl();
     @InjectMocks
     private EmployeeServiceImpl employeeService;
 

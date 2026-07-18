@@ -31,14 +31,14 @@ public class PaymentMethodServiceImplTest extends BaseServiceTest<PaymentMethod,
     private final PaymentMethod paymentMethod = buildValidPaymentMethod();
     private final PaymentMethodCreationDTO creationDTO = buildValidPaymentMethodCreationDTO();
     private final PaymentMethodUpdateDTO updateDTO = buildValidPaymentMethodUpdateDTO();
+    @Spy
+    private final PaymentMethodMapper mapper = new PaymentMethodMapperImpl(clock);
     @Captor
     ArgumentCaptor<PaymentMethod> captor;
     @Mock
     private PaymentMethodRepository paymentMethodRepository;
     @Mock
     private PaymentMethodValidator validator;
-    @Spy
-    private final PaymentMethodMapper mapper = new PaymentMethodMapperImpl(clock);
     @InjectMocks
     private PaymentMethodServiceImpl paymentMethodService;
 

@@ -47,7 +47,7 @@ public class BarberServiceTestDataFactory {
                 .build();
     }
 
-    public static BarberService buildValidServiceForUpdateOperation(){
+    public static BarberService buildValidServiceForUpdateOperation() {
 
         return BarberService.builder()
                 .barbershopServiceID(NEW_BARBER_SERVICE_ID)

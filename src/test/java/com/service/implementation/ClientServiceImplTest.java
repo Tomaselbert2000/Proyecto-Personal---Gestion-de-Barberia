@@ -26,14 +26,14 @@ public class ClientServiceImplTest extends BaseServiceTest<Client, ClientReposit
     private final Client client = buildValidClient();
     private final ClientCreationDTO creationDTO = buildValidClientCreationDTO();
     private final ClientUpdateDTO updateDTO = buildValidClientUpdateDTO();
-    @Mock
-    private ClientRepository clientRepository;
-    @Mock
-    private ClientValidator validator;
     @Spy
     private final Clock clock = Clock.systemDefaultZone();
     @Spy
     private final ClientMapper mapper = new ClientMapperImpl();
+    @Mock
+    private ClientRepository clientRepository;
+    @Mock
+    private ClientValidator validator;
     @Captor
     private ArgumentCaptor<Client> captor;
     @InjectMocks

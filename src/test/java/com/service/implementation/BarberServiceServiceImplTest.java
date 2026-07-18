@@ -28,14 +28,14 @@ public class BarberServiceServiceImplTest extends BaseServiceTest<BarberService,
     private final BarberService existingService = buildValidBarberService();
     private final BarberServiceCreationDTO creationDTO = buildValidBarberServiceCreationDTO();
     private final BarberServiceUpdateDTO updateDTO = buildValidBarberServiceUpdateDTO();
+    @Spy
+    private final BarberServiceMapper mapper = new BarberServiceMapperImpl();
     @Mock
     private BarberServiceRepository barberServiceRepository;
     @Mock
     private ServicePriceHistoryRepository servicePriceHistoryRepository;
     @Mock
     private BarberServiceValidator validator;
-    @Spy
-    private final BarberServiceMapper mapper = new BarberServiceMapperImpl();
     @InjectMocks
     private BarberServiceServiceImpl barberServiceImplInstance;
 

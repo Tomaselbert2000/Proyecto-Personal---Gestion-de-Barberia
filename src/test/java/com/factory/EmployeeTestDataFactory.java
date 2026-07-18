@@ -49,7 +49,7 @@ public class EmployeeTestDataFactory {
                 .build();
     }
 
-    public static Employee buildValidEmployeeForUpdateOperation(){
+    public static Employee buildValidEmployeeForUpdateOperation() {
 
         return Employee.builder().
                 employeeID(NEW_EMPLOYEE_ID)

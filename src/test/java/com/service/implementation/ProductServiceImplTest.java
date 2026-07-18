@@ -25,12 +25,12 @@ public class ProductServiceImplTest extends BaseServiceTest<Product, ProductRepo
     private final ProductCreationDTO creationDTO = buildValidProductCreationDTO();
     private final ProductUpdateDTO updateDTO = buildValidProductUpdateDTO();
     private final Product product = buildValidProduct();
+    @Spy
+    private final ProductMapper mapper = new ProductMapperImpl();
     @Mock
     private ProductRepository productRepository;
     @Mock
     private ProductValidator validator;
-    @Spy
-    private final ProductMapper mapper = new ProductMapperImpl();
     @Captor
     private ArgumentCaptor<Product> productCaptor;
     @InjectMocks

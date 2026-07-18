@@ -60,22 +60,16 @@ public class AppointmentServiceImplTest extends BaseServiceTest<Appointment, App
 
     private final AppointmentCreationDTO creationDTO = buildValidAppointmentCreationDTO();
     private final AppointmentUpdateDTO updateDTO = buildValidAppointmentUpdateDTO();
-
-    @Mock
-    private AppointmentRepository appointmentRepository;
-
-    @Mock
-    private ClientRepository clientRepository;
-
-    @Mock
-    private BarberServiceRepository barberServiceRepository;
-
-    @Mock
-    private EmployeeRepository employeeRepository;
-
     @Spy
     private final AppointmentMapper mapper = new AppointmentMapperImpl();
-
+    @Mock
+    private AppointmentRepository appointmentRepository;
+    @Mock
+    private ClientRepository clientRepository;
+    @Mock
+    private BarberServiceRepository barberServiceRepository;
+    @Mock
+    private EmployeeRepository employeeRepository;
     @Mock
     private AppointmentValidator validator;
 

@@ -47,6 +47,8 @@ public class SaleServiceImplTest extends BaseServiceTest<Sale, SaleRepository> {
     private final Sale saleOnDB = buildValidSale();
     private final SaleCreationDTO creationDTO = buildValidSaleCreationDTO();
     private final List<ProductItemDTO> emptyList = List.of();
+    @Spy
+    private final SaleMapper mapper = new SaleMapperImpl();
     @Captor
     ArgumentCaptor<Sale> saleCaptor;
     @Mock
@@ -63,8 +65,6 @@ public class SaleServiceImplTest extends BaseServiceTest<Sale, SaleRepository> {
     private PaymentMethodRepository paymentMethodRepository;
     @Mock
     private SaleValidator validator;
-    @Spy
-    private final SaleMapper mapper = new SaleMapperImpl();
     @InjectMocks
     private SaleServiceImpl saleService;
 
