@@ -64,7 +64,7 @@ public class SaleServiceImplTest extends BaseServiceTest<Sale, SaleRepository> {
     @Mock
     private SaleValidator validator;
     @Spy
-    private SaleMapper mapper = new SaleMapperImpl();
+    private final SaleMapper mapper = new SaleMapperImpl();
     @InjectMocks
     private SaleServiceImpl saleService;
 

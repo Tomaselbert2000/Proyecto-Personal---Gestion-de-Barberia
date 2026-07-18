@@ -30,7 +30,7 @@ public class ProductServiceImplTest extends BaseServiceTest<Product, ProductRepo
     @Mock
     private ProductValidator validator;
     @Spy
-    private ProductMapper mapper = new ProductMapperImpl();
+    private final ProductMapper mapper = new ProductMapperImpl();
     @Captor
     private ArgumentCaptor<Product> productCaptor;
     @InjectMocks

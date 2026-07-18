@@ -74,7 +74,7 @@ public class AppointmentServiceImplTest extends BaseServiceTest<Appointment, App
     private EmployeeRepository employeeRepository;
 
     @Spy
-    private AppointmentMapper mapper = new AppointmentMapperImpl();
+    private final AppointmentMapper mapper = new AppointmentMapperImpl();
 
     @Mock
     private AppointmentValidator validator;

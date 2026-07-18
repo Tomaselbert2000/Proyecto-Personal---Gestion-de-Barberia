@@ -38,7 +38,7 @@ public class PaymentMethodServiceImplTest extends BaseServiceTest<PaymentMethod,
     @Mock
     private PaymentMethodValidator validator;
     @Spy
-    private PaymentMethodMapper mapper = new PaymentMethodMapperImpl(clock);
+    private final PaymentMethodMapper mapper = new PaymentMethodMapperImpl(clock);
     @InjectMocks
     private PaymentMethodServiceImpl paymentMethodService;
 

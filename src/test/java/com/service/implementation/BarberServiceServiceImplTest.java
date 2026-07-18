@@ -35,7 +35,7 @@ public class BarberServiceServiceImplTest extends BaseServiceTest<BarberService,
     @Mock
     private BarberServiceValidator validator;
     @Spy
-    private BarberServiceMapper mapper = new BarberServiceMapperImpl();
+    private final BarberServiceMapper mapper = new BarberServiceMapperImpl();
     @InjectMocks
     private BarberServiceServiceImpl barberServiceImplInstance;
 

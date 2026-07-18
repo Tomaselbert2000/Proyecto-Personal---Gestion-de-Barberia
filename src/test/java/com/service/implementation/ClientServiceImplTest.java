@@ -31,9 +31,9 @@ public class ClientServiceImplTest extends BaseServiceTest<Client, ClientReposit
     @Mock
     private ClientValidator validator;
     @Spy
-    private Clock clock = Clock.systemDefaultZone();
+    private final Clock clock = Clock.systemDefaultZone();
     @Spy
-    private ClientMapper mapper = new ClientMapperImpl();
+    private final ClientMapper mapper = new ClientMapperImpl();
     @Captor
     private ArgumentCaptor<Client> captor;
     @InjectMocks

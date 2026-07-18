@@ -36,7 +36,7 @@ public class AppUserServiceImplTest extends BaseServiceTest<AppUser, AppUserRepo
     private PasswordEncoder passwordEncoder;
 
     @Spy
-    private AppUserMapper mapper = new AppUserMapperImpl();
+    private final AppUserMapper mapper = new AppUserMapperImpl();
 
     @InjectMocks
     private AppUserServiceImpl appUserService;

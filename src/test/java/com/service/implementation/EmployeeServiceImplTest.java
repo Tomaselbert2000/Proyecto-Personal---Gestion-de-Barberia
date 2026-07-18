@@ -35,7 +35,7 @@ public class EmployeeServiceImplTest extends BaseServiceTest<Employee, EmployeeR
     @Mock
     private EmployeeValidator validator;
     @Spy
-    private EmployeeMapper mapper = new EmployeeMapperImpl();
+    private final EmployeeMapper mapper = new EmployeeMapperImpl();
     @InjectMocks
     private EmployeeServiceImpl employeeService;
 
