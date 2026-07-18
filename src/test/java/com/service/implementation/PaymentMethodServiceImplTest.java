@@ -298,6 +298,8 @@ public class PaymentMethodServiceImplTest extends BaseServiceTest<PaymentMethod,
         mockPaymentMethod(paymentMethodRepository, paymentMethod);
         mockThatNameWillCauseConflictOnUpdate(paymentMethodRepository, paymentMethod);
 
+        updateDTO.setNewName(paymentMethod.getName());
+
         assertThrows(DuplicatedPaymentMethodNameException.class, () -> updatePaymentMethod(paymentMethodService, paymentMethod, updateDTO));
 
         verifyUpdateProcessFailure();
