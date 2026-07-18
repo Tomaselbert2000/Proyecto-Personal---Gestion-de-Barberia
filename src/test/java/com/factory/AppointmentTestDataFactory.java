@@ -10,6 +10,9 @@ import com.model.Employee;
 
 import java.time.LocalDateTime;
 
+import static com.factory.BarberServiceTestDataFactory.buildValidBarberService;
+import static com.factory.ClientTestDataFactory.buildValidClient;
+import static com.factory.EmployeeTestDataFactory.buildValidEmployee;
 import static com.test_constant.AppointmentTestConstants.CreationValidData.*;
 import static com.test_constant.AppointmentTestConstants.UpdateValidData.*;
 
@@ -20,10 +23,14 @@ public class AppointmentTestDataFactory {
 
     public static AppointmentCreationDTO buildValidAppointmentCreationDTO() {
 
+        Client client = buildValidClient();
+        BarberService barberService = buildValidBarberService();
+        Employee employee = buildValidEmployee();
+
         return AppointmentCreationDTO.builder()
-                .clientID(CLIENT_ID)
-                .employeeID(EMPLOYEE_ID)
-                .barberserviceID(BARBER_SERVICE_ID)
+                .clientID(client.getClientID())
+                .employeeID(employee.getEmployeeID())
+                .barberserviceID(barberService.getBarbershopServiceID())
                 .startDateTime(START_DATETIME)
                 .endDateTime(END_DATETIME)
                 .optionalNotes(APPOINTMENT_OPTIONAL_NOTES)
@@ -44,9 +51,9 @@ public class AppointmentTestDataFactory {
 
     public static Appointment buildValidAppointment() {
 
-        Client client = new Client();
-        BarberService barberService = new BarberService();
-        Employee employee = new Employee();
+        Client client = buildValidClient();
+        BarberService barberService = buildValidBarberService();
+        Employee employee = buildValidEmployee();
 
         return Appointment.builder()
                 .appointmentID(1L)

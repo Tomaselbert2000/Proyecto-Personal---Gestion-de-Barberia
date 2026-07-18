@@ -25,59 +25,86 @@ import com.repository.BarberServiceRepository;
 import com.repository.ClientRepository;
 import com.repository.EmployeeRepository;
 import com.validation.appointment.AppointmentValidator;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 import static com.factory.AppointmentTestDataFactory.*;
 import static com.factory.BarberServiceTestDataFactory.buildValidBarberService;
+import static com.factory.BarberServiceTestDataFactory.buildValidServiceForUpdateOperation;
 import static com.factory.ClientTestDataFactory.buildValidClient;
 import static com.factory.EmployeeTestDataFactory.buildValidEmployee;
+import static com.factory.EmployeeTestDataFactory.buildValidEmployeeForUpdateOperation;
 import static com.service.helper.AppointmentServiceTestHelper.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 public class AppointmentServiceImplTest extends BaseServiceTest<Appointment, AppointmentRepository> {
 
-    private static final Long NON_EXISTING_ID = 999L;
     private static final Long ANOTHER_EMPLOYEE_ID = 1000L;
     private static final Long ANOTHER_BARBER_SERVICE_ID = 555L;
+
     private final Client client = buildValidClient();
     private final BarberService barberService = buildValidBarberService();
-    private final BarberService anotherBarberService = buildValidBarberService();
+    private final BarberService anotherBarberService = buildValidServiceForUpdateOperation();
     private final Employee employee = buildValidEmployee();
-    private final Employee anotherEmployee = buildValidEmployee();
+    private final Employee anotherEmployee = buildValidEmployeeForUpdateOperation();
     private final Appointment appointment = buildValidAppointment();
+
     private final LocalDateTime overlapedStartDateTime = appointment.getStartDateTime().plusMinutes(10);
     private final LocalDateTime overlapedEndDateTime = appointment.getEndDateTime().plusMinutes(20);
+
     private final AppointmentCreationDTO creationDTO = buildValidAppointmentCreationDTO();
     private final AppointmentUpdateDTO updateDTO = buildValidAppointmentUpdateDTO();
+
     @Mock
     private AppointmentRepository appointmentRepository;
+
     @Mock
     private ClientRepository clientRepository;
+
     @Mock
     private BarberServiceRepository barberServiceRepository;
+
     @Mock
     private EmployeeRepository employeeRepository;
+
     @Spy
     private AppointmentMapper mapper = new AppointmentMapperImpl();
+
     @Mock
     private AppointmentValidator validator;
+
     @InjectMocks
     private AppointmentServiceImpl appointmentService;
+
     @Captor
     private ArgumentCaptor<Appointment> captor;
+
+    @Override
+    @BeforeEach
+    protected void init() {
+
+        setSecondaryEntityID();
+        syncDTOsIDs();
+        setAppointmentWithFactoryData();
+    }
+
+    @Override
+    protected AppointmentRepository getPrimaryRepository() {
+
+        return appointmentRepository;
+    }
 
     @Test
     @DisplayName("Dado un nuevo turno con información válida, debe ser persistido correctamente")
     void givenNewAppointment_WhenCreating_ThenIsPersisted() {
 
-        mockBasicSuccessfulScenario(clientRepository, client, barberServiceRepository, barberService, employeeRepository, employee);
+        mockAllEntities();
 
         registerAppointment(appointmentService, creationDTO);
 
@@ -223,9 +250,9 @@ public class AppointmentServiceImplTest extends BaseServiceTest<Appointment, App
 
         mockAppointment(appointmentRepository, appointment);
 
-        when(barberServiceRepository.findById(NON_EXISTING_ID)).thenReturn(Optional.empty());
+        mockEmptyBarberService(barberServiceRepository, anotherBarberService);
 
-        updateDTO.setNewBarberserviceID(NON_EXISTING_ID);
+        updateDTO.setNewBarberserviceID(anotherBarberService.getBarbershopServiceID());
 
         assertThrows(BarberServiceNotFoundException.class, () -> updateAppointment(appointmentService, appointment, updateDTO));
 
@@ -237,10 +264,9 @@ public class AppointmentServiceImplTest extends BaseServiceTest<Appointment, App
     void givenNonExistingNewEmployee_WhenUpdating_ThenThrows_EmployeeNotFoundException() {
 
         mockAppointment(appointmentRepository, appointment);
+        mockEmptyEmployee(employeeRepository, anotherEmployee);
 
-        when(employeeRepository.findById(NON_EXISTING_ID)).thenReturn(Optional.empty());
-
-        updateDTO.setNewEmployeeID(NON_EXISTING_ID);
+        updateDTO.setNewEmployeeID(anotherEmployee.getEmployeeID());
 
         assertThrows(EmployeeNotFoundException.class, () -> updateAppointment(appointmentService, appointment, updateDTO));
 
@@ -261,6 +287,8 @@ public class AppointmentServiceImplTest extends BaseServiceTest<Appointment, App
     @Test
     @DisplayName("Dado un turno existente de estado CANCELADO, al intentar actualizarlo arrojará InvalidAppointmentUpdateException")
     void givenAppointmentStatus_CANCELADO_WhenUpdating_ThenThrows_InvalidAppointmentUpdateException() {
+
+        mockAppointment(appointmentRepository, appointment);
 
         appointment.setCurrentStatus(AppointmentStatus.CANCELADO);
 
@@ -413,7 +441,7 @@ public class AppointmentServiceImplTest extends BaseServiceTest<Appointment, App
         mockAppointment(appointmentRepository, appointment);
         mockEmployee(employeeRepository, anotherEmployee);
 
-        updateDTO.setNewEmployeeID(ANOTHER_EMPLOYEE_ID);
+        updateDTO.setNewEmployeeID(anotherEmployee.getEmployeeID());
 
         updateAppointment(appointmentService, appointment, updateDTO);
 
@@ -424,7 +452,7 @@ public class AppointmentServiceImplTest extends BaseServiceTest<Appointment, App
 
         Appointment capturedAppointment = captor.getValue();
 
-        verifyUpdateAssertions(anotherEmployee, capturedAppointment, barberService);
+        assertEquals(anotherEmployee, capturedAppointment.getEmployee());
     }
 
     @Test
@@ -434,18 +462,17 @@ public class AppointmentServiceImplTest extends BaseServiceTest<Appointment, App
         mockAppointment(appointmentRepository, appointment);
         mockBarberService(barberServiceRepository, anotherBarberService);
 
-        updateDTO.setNewBarberserviceID(ANOTHER_BARBER_SERVICE_ID);
+        updateDTO.setNewBarberserviceID(anotherBarberService.getBarbershopServiceID());
 
         updateAppointment(appointmentService, appointment, updateDTO);
 
-        verifyThatEntityWasCaptured(appointmentRepository, captor);
-
         verifyValidatorUpdateInteraction(validator);
         verifyMapperUpdateInteraction(mapper);
+        verifyThatEntityWasCaptured(appointmentRepository, captor);
 
         Appointment capturedAppointment = captor.getValue();
 
-        verifyUpdateAssertions(employee, capturedAppointment, anotherBarberService);
+        assertEquals(anotherBarberService, capturedAppointment.getBarberservice());
     }
 
     @Test
@@ -454,7 +481,7 @@ public class AppointmentServiceImplTest extends BaseServiceTest<Appointment, App
 
         employee.setActive(false);
 
-        mockBasicSuccessfulScenario(clientRepository, client, barberServiceRepository, barberService, employeeRepository, employee);
+        mockAllEntities();
 
         creationDTO.setEmployeeID(employee.getEmployeeID());
 
@@ -469,7 +496,7 @@ public class AppointmentServiceImplTest extends BaseServiceTest<Appointment, App
     @DisplayName("Dado un turno existente con un empleado determinado, no es posible registrar un nuevo turno con ese empleado en horarios superpuestos")
     void givenEmployeeWithScheduledAppointment_WhenCreating_ThenThrows_EmployeeNotAvailableException() {
 
-        mockBasicSuccessfulScenario(clientRepository, client, barberServiceRepository, barberService, employeeRepository, employee);
+        mockAllEntities();
         mockThatNewAppointmentWillCauseOverlap(appointmentRepository);
 
         creationDTO.setEmployeeID(employee.getEmployeeID());
@@ -497,6 +524,11 @@ public class AppointmentServiceImplTest extends BaseServiceTest<Appointment, App
         verifyUpdateProcessFailure();
     }
 
+    private void mockAllEntities() {
+
+        mockBasicSuccessfulScenario(clientRepository, client, barberServiceRepository, barberService, employeeRepository, employee);
+    }
+
     private void syncDTOsIDs() {
 
         creationDTO.setClientID(client.getClientID());
@@ -521,6 +553,7 @@ public class AppointmentServiceImplTest extends BaseServiceTest<Appointment, App
     }
 
     private void verifyRegisterProcessSuccess() {
+
         verifyValidatorCreationInteraction(validator);
         verifyMapperCreationInteraction(mapper);
         verifyThatEntityWasSaved();
@@ -534,12 +567,14 @@ public class AppointmentServiceImplTest extends BaseServiceTest<Appointment, App
     }
 
     private void verifyUpdateProcessSuccess() {
+
         verifyValidatorUpdateInteraction(validator);
         verifyMapperUpdateInteraction(mapper);
         verifyThatAppointmentWasUpdated(mapper);
     }
 
     private void verifyUpdateProcessFailure() {
+
         verifyValidatorUpdateInteraction(validator);
         verifyMapperUpdateNoInteractions(mapper);
         verifyThatAppointmentWasNotUpdated(mapper);
@@ -561,17 +596,6 @@ public class AppointmentServiceImplTest extends BaseServiceTest<Appointment, App
         );
     }
 
-    private void verifyUpdateAssertions(Employee employee, Appointment capturedAppointment, BarberService anotherBarberService) {
-        assertAll(
-                "Verificacion de campos",
-                () -> assertEquals(employee, capturedAppointment.getEmployee()),
-                () -> assertEquals(anotherBarberService, capturedAppointment.getBarberservice()),
-                () -> assertEquals(appointment.getClient(), capturedAppointment.getClient()),
-                () -> assertEquals(appointment.getStartDateTime(), capturedAppointment.getStartDateTime()),
-                () -> assertEquals(appointment.getEndDateTime(), capturedAppointment.getEndDateTime())
-        );
-    }
-
     private void verifyInfoDTOListAssertions(List<AppointmentInfoDTO> returnedList, AppointmentInfoDTO firstResult) {
         assertAll("Verificación de campos",
                 () -> assertNotNull(returnedList),
@@ -579,19 +603,5 @@ public class AppointmentServiceImplTest extends BaseServiceTest<Appointment, App
                 () -> assertEquals(appointment.getStartDateTime(), firstResult.getStartDateTime()),
                 () -> assertEquals(appointment.getBarberservice().getName(), firstResult.getServiceName())
         );
-    }
-
-    @Override
-    protected void init() {
-
-        syncDTOsIDs();
-        setAppointmentWithFactoryData();
-        setSecondaryEntityID();
-    }
-
-    @Override
-    protected AppointmentRepository getPrimaryRepository() {
-
-        return appointmentRepository;
     }
 }

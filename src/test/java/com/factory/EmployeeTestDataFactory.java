@@ -4,6 +4,7 @@ import com.dto.employee.EmployeeCreationDTO;
 import com.dto.employee.EmployeeUpdateDTO;
 import com.model.Employee;
 
+import static com.test_constant.AppointmentTestConstants.UpdateValidData.NEW_EMPLOYEE_ID;
 import static com.test_constant.EmployeeTestConstants.CreationValidData.*;
 import static com.test_constant.EmployeeTestConstants.MapperData.EMPLOYEE_ID;
 import static com.test_constant.EmployeeTestConstants.MapperData.EMPLOYEE_IS_ACTIVE_VALUE;
@@ -39,6 +40,19 @@ public class EmployeeTestDataFactory {
 
         return Employee.builder().
                 employeeID(EMPLOYEE_ID)
+                .firstName(EMPLOYEE_FIRST_NAME)
+                .lastName(EMPLOYEE_LAST_NAME)
+                .hireDate(EMPLOYEE_HIRE_DATE)
+                .terminationDate(EMPLOYEE_TERMINATION_DATE)
+                .isActive(EMPLOYEE_IS_ACTIVE_VALUE)
+                .commissionPercentage(EMPLOYEE_COMMISSION_PERCENTAGE)
+                .build();
+    }
+
+    public static Employee buildValidEmployeeForUpdateOperation(){
+
+        return Employee.builder().
+                employeeID(NEW_EMPLOYEE_ID)
                 .firstName(EMPLOYEE_FIRST_NAME)
                 .lastName(EMPLOYEE_LAST_NAME)
                 .hireDate(EMPLOYEE_HIRE_DATE)

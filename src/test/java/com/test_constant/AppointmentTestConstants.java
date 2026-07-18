@@ -23,9 +23,6 @@ public final class AppointmentTestConstants {
     }
 
     public static class CreationValidData {
-        public static final Long CLIENT_ID = 1L;
-        public static final Long BARBER_SERVICE_ID = 10L;
-        public static final Long EMPLOYEE_ID = 100L;
         public static final LocalDateTime START_DATETIME = LocalDateTime.of(2026, 1, 1, 12, 30);
         public static final LocalDateTime END_DATETIME = LocalDateTime.of(2026, 1, 1, 13, 0);
         public static final String APPOINTMENT_OPTIONAL_NOTES = "Sin notas adicionales";
