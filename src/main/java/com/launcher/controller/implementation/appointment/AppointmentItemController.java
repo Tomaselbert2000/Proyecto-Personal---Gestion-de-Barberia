@@ -1,3 +1,7 @@
+/**
+ * Controlador para un ítem de cita. Se encarga de gestionar la lógica de negocio relacionada con la visualización y edición de citas,
+ * incluyendo la interacción con callbacks para acciones como editar, completar y cancelar citas.
+ */
 package com.launcher.controller.implementation.appointment;
 
 import com.dto.appointment.AppointmentInfoDTO;
@@ -12,19 +16,17 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.stereotype.Component;
 
-import java.time.format.DateTimeFormatter;
 import java.util.Map;
 import java.util.function.Consumer;
 
-import static com.launcher.constants.ui.css_class.MaterialStatusBadge.*;
+import static com.launcher.constants.ControllerConstants.AppointmentControllerConstants.TIME_FORMATTER;
+import static com.launcher.constants.MaterialDesignResources.MaterialIcon.MaterialDesignStyles.MaterialDesignStyleClass.*;
 import static com.launcher.controller.helper.UIBasicComponents.*;
 
 @Component
 @Getter
 @Setter
 public class AppointmentItemController implements ItemController<AppointmentInfoDTO> {
-
-    private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("HH:mm");
 
     private Consumer<AppointmentInfoDTO>
             onCompleteCallback,
@@ -50,63 +52,62 @@ public class AppointmentItemController implements ItemController<AppointmentInfo
 
     @FXML
     public void initialize() {
-
         configureButtonActions();
     }
 
+    /**
+     * Navega a la edición de la cita.
+     */
     private void goToEditAppointment() {
-
         if (onEditCallback != null) onEditCallback.accept(infoDTOReference);
     }
 
+    /**
+     * Marca la cita como completada.
+     */
     private void setAppointmentAsComplete() {
-
         if (onCompleteCallback != null) onCompleteCallback.accept(infoDTOReference);
-
         disableButtons(cancel_button, complete_button);
     }
 
+    /**
+     * Marca la cita como cancelada.
+     */
     private void setAppointmentAsCanceled() {
-
         if (onCancelCallback != null) onCancelCallback.accept(infoDTOReference);
-
         disableButtons(cancel_button, complete_button);
     }
 
+    /**
+     * Concatena el nombre y apellido de una persona.
+     *
+     * @param firstName El nombre de la persona.
+     * @param lastName  El apellido de la persona.
+     * @return El nombre completo de la persona.
+     */
     private String concatNames(String firstName, String lastName) {
-
         return firstName + " " + lastName;
     }
 
+    /**
+     * Actualiza el estado de la cita en el badge.
+     *
+     * @param status El estado de la cita.
+     */
     private void updateStatusBadge(AppointmentStatus status) {
-
         status_badge.getStyleClass().clear();
         status_badge.getStyleClass().add(BADGE);
 
         switch (status) {
             case PROGRAMADO, REPROGRAMADO:
-
                 addLabelStyle(status_badge, SCHEDULED_BADGE);
-
-                if (status == AppointmentStatus.PROGRAMADO) {
-
-                    setTextOnLabel(status_badge, AppointmentStatus.PROGRAMADO.getDisplayName());
-
-                } else {
-
-                    setTextOnLabel(status_badge, AppointmentStatus.REPROGRAMADO.getDisplayName());
-                }
-
+                setTextOnLabel(status_badge, status == AppointmentStatus.PROGRAMADO ? AppointmentStatus.PROGRAMADO.getDisplayName() : AppointmentStatus.REPROGRAMADO.getDisplayName());
                 break;
-
             case FINALIZADO:
-
                 addLabelStyle(status_badge, COMPLETED_BADGE);
                 setTextOnLabel(status_badge, AppointmentStatus.FINALIZADO.getDisplayName());
                 break;
-
             case CANCELADO:
-
                 addLabelStyle(status_badge, CANCELED_BADGE);
                 setTextOnLabel(status_badge, AppointmentStatus.CANCELADO.getDisplayName());
                 break;
@@ -115,11 +116,9 @@ public class AppointmentItemController implements ItemController<AppointmentInfo
 
     @Override
     public void setDataOnItem(AppointmentInfoDTO infoDTO) {
-
         infoDTOReference = infoDTO;
 
         if (infoDTO.getCurrentStatus() == AppointmentStatus.FINALIZADO || infoDTO.getCurrentStatus() == AppointmentStatus.CANCELADO)
-
             disableButtons(cancel_button, complete_button);
 
         String clientFullName = concatNames(infoDTO.getClientFirstName(), infoDTO.getClientLastName());
@@ -135,20 +134,16 @@ public class AppointmentItemController implements ItemController<AppointmentInfo
 
         setTextsOnLabelMap(map);
 
-        AppointmentStatus status = infoDTO.getCurrentStatus();
-
-        updateStatusBadge(status);
+        updateStatusBadge(infoDTO.getCurrentStatus());
     }
 
     @Override
     public void configureButtonActions() {
-
         Map<Button, Runnable> map = Map.of(
                 edit_button, this::goToEditAppointment,
                 complete_button, this::setAppointmentAsComplete,
                 cancel_button, this::setAppointmentAsCanceled
         );
-
         configureRunnableMaps(map);
     }
 }
