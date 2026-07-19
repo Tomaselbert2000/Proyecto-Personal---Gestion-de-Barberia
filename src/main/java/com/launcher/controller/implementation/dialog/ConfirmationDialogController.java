@@ -7,11 +7,10 @@ import javafx.scene.control.Label;
 import org.springframework.stereotype.Component;
 
 import static com.launcher.constants.ui.css_class.CssStylesStrings.CONFIRM_DELETE_DIALOG_WARNING_ICON;
-import static com.launcher.controller.helper.UIBasicComponents.addNodeStyleClass;
-import static com.launcher.controller.helper.UIBasicComponents.setTextOnLabel;
+import static com.launcher.controller.helper.UIBasicComponents.*;
 
 @Component
-public class DeleteConfirmationDialogController {
+public class ConfirmationDialogController {
 
     @FXML
     private Node dialog_icon;
@@ -26,10 +25,18 @@ public class DeleteConfirmationDialogController {
             cancel_button,
             confirm_button;
 
-    public void configureDialog(String title, String message, Runnable onConfirm, Runnable onCancel, Runnable onCloseDialog) {
+    public void configureDialog(String title,
+                                String message,
+                                String cancelButtonText,
+                                String confirmButtonText,
+                                Runnable onConfirm,
+                                Runnable onCancel,
+                                Runnable onCloseDialog) {
 
         setTextOnLabel(confirmation_title, title);
         setTextOnLabel(confirmation_message, message);
+        setTextOnButton(cancel_button, cancelButtonText);
+        setTextOnButton(confirm_button, confirmButtonText);
 
         addNodeStyleClass(dialog_icon, CONFIRM_DELETE_DIALOG_WARNING_ICON);
 
