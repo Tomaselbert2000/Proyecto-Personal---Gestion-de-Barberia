@@ -5,6 +5,8 @@ import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Window;
 
+import java.util.Optional;
+
 import static com.launcher.constants.CssResourceFilePath.DESIGN_SYSTEM_TOKEN_FILE_PATH;
 import static com.launcher.constants.StringResource.DisplayString.NEW_LINE;
 import static com.utils.resource_helper.ResourceLocator.getResourceAsExternalForm;
@@ -37,7 +39,10 @@ public class PopUpWindowHelper {
         alert.setContentText(NEW_LINE + contentMessage);
         alert.getButtonTypes().setAll(new ButtonType(buttonText, ButtonBar.ButtonData.OK_DONE));
         alert.initOwner(windowOwner);
-        return alert.showAndWait().isPresent() && alert.showAndWait().get() == alert.getButtonTypes().getFirst();
+
+        Optional<ButtonType> optionalButtonType = alert.showAndWait();
+
+        return optionalButtonType.isPresent() && optionalButtonType.get() == alert.getButtonTypes().getFirst();
     }
 
     /**
