@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1"
+            fx:id="anchor_pane"
+            fx:controller="com.launcher.controller.implementation.register.RegisterController"
+            xmlns="http://javafx.com/javafx/17.0.12"
+            styleClass="md-main-content">
+
+    <VBox AnchorPane.topAnchor="0.0"
+          AnchorPane.bottomAnchor="0.0"
+          AnchorPane.leftAnchor="0.0"
+          AnchorPane.rightAnchor="0.0">
+
+        <HBox styleClass="md-header-bar">
+            <MFXButton fx:id="back_button" styleClass="md-button-filled-tonal" text="← Volver"/>
+            <VBox styleClass="md-heading-group">
+                <Label styleClass="md-page-title" text="Crear cuenta"/>
+                <Label styleClass="md-page-subtitle" text="Registra un nuevo usuario en el sistema"/>
+            </VBox>
+        </HBox>
+
+        <ScrollPane fitToHeight="true"
+                    fitToWidth="true"
+                    styleClass="md-content-scroll"
+                    VBox.vgrow="ALWAYS">
+
+            <VBox alignment="CENTER"
+                  styleClass="md-content-section"
+                  VBox.vgrow="ALWAYS"
+                  maxWidth="1.7976931348623157E308"
+                  minWidth="320">
+
+                <VBox alignment="CENTER"
+                      spacing="24"
+                      maxWidth="400"
+                      minWidth="280"
+                      VBox.vgrow="ALWAYS">
+
+                    <VBox styleClass="md-card" maxWidth="1.7976931348623157E308">
+                        <VBox styleClass="md-section-group" maxWidth="1.7976931348623157E308">
+
+                            <VBox styleClass="md-filter-column" maxWidth="1.7976931348623157E308">
+                                <HBox styleClass="md-filter-spacer">
+                                    <Label styleClass="md-filter-label" text="Nombre de usuario"/>
+                                    <Label styleClass="md-filter-label" text="*" style="-fx-text-fill: -fx-error"/>
+                                </HBox>
+                                <TextField fx:id="username_field"
+                                           styleClass="md-text-field"
+                                           promptText="Ingresá tu nombre de usuario"
+                                           maxWidth="1.7976931348623157E308"
+                                           minWidth="200"/>
+                            </VBox>
+
+                            <VBox styleClass="md-filter-column" maxWidth="1.7976931348623157E308">
+                                <HBox styleClass="md-filter-spacer">
+                                    <Label styleClass="md-filter-label" text="Contraseña"/>
+                                    <Label styleClass="md-filter-label" text="*" style="-fx-text-fill: -fx-error"/>
+                                </HBox>
+                                <PasswordField fx:id="password_field"
+                                               styleClass="md-text-field"
+                                               promptText="Ingresá tu contraseña"
+                                               maxWidth="1.7976931348623157E308"
+                                               minWidth="200"/>
+                            </VBox>
+
+                            <VBox styleClass="md-filter-column" maxWidth="1.7976931348623157E308">
+                                <HBox styleClass="md-filter-spacer">
+                                    <Label styleClass="md-filter-label" text="Confirmar contraseña"/>
+                                    <Label styleClass="md-filter-label" text="*" style="-fx-text-fill: -fx-error"/>
+                                </HBox>
+                                <PasswordField fx:id="confirm_password_field"
+                                               styleClass="md-text-field"
+                                               promptText="Repetí tu contraseña"
+                                               maxWidth="1.7976931348623157E308"
+                                               minWidth="200"/>
+                            </VBox>
+
+                        </VBox>
+                    </VBox>
+
+                    <MFXButton fx:id="create_user_button"
+                               maxWidth="1.7976931348623157E308"
+                               minWidth="200"
+                               styleClass="md-button-filled"
+                               text="Crear usuario"/>
+
+                </VBox>
+
+            </VBox>
+        </ScrollPane>
+    </VBox>
+</AnchorPane>
