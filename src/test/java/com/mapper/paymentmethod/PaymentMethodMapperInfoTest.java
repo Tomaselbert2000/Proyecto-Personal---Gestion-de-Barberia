@@ -1,7 +1,6 @@
 package com.mapper.paymentmethod;
 
 import com.dto.payment.PaymentMethodInfoDTO;
-import com.enums.PaymentMethodStatus;
 import com.mapper.implementation.PaymentMethodMapperImpl;
 import com.mapper.interfaces.PaymentMethodMapper;
 import com.model.PaymentMethod;
@@ -18,23 +17,23 @@ public class PaymentMethodMapperInfoTest {
     private final PaymentMethod existingPaymentMethod = buildValidPaymentMethod();
 
     @Test
-    @DisplayName("Dado un medio de pago existente y activo, el atributo currentStatus será igual a ACTIVO")
+    @DisplayName("Dado un medio de pago existente y activo, el atributo currentStatus true")
     void givenExistingPaymentMethod_WhenGettingItsInformation_ItsCurrentStatusIsMappedAsACTIVO() {
 
         PaymentMethodInfoDTO infoDTO = mapEntity(existingPaymentMethod);
 
-        assertEquals(PaymentMethodStatus.ACTIVO, infoDTO.getCurrentStatus());
+        assertEquals(true, infoDTO.getIsActive());
     }
 
     @Test
-    @DisplayName("Dado un medio de pago existente e inactivo, el atributo currentStatus será igual a INACTIVO")
+    @DisplayName("Dado un medio de pago existente e inactivo, el atributo currentStatus será false")
     void givenExistingPaymentMethodMarkedAsInactive_WhenGettingItsInformation_ItsCurrentStatusIsMappedAsINACTIVO() {
 
         existingPaymentMethod.setIsActive(false);
 
         PaymentMethodInfoDTO infoDTO = mapEntity(existingPaymentMethod);
 
-        assertEquals(PaymentMethodStatus.INACTIVO, infoDTO.getCurrentStatus());
+        assertEquals(false, infoDTO.getIsActive());
     }
 
     private PaymentMethodInfoDTO mapEntity(PaymentMethod paymentMethod) {

@@ -3,7 +3,6 @@ package com.mapper.implementation;
 import com.dto.payment.PaymentMethodCreationDTO;
 import com.dto.payment.PaymentMethodInfoDTO;
 import com.dto.payment.PaymentMethodUpdateDTO;
-import com.enums.PaymentMethodStatus;
 import com.exceptions.common.NullMapperInputException;
 import com.mapper.interfaces.PaymentMethodMapper;
 import com.model.PaymentMethod;
@@ -56,14 +55,12 @@ public class PaymentMethodMapperImpl implements PaymentMethodMapper {
 
         if (paymentMethod == null) throw new NullMapperInputException();
 
-        PaymentMethodStatus currentStatus = getPaymentMethodStatus(paymentMethod);
-
         return PaymentMethodInfoDTO.builder()
                 .name(paymentMethod.getName())
                 .description(paymentMethod.getDescription())
                 .modifierType(paymentMethod.getModifierType())
                 .priceModifier(paymentMethod.getPriceModifier())
-                .currentStatus(currentStatus)
+                .isActive(paymentMethod.getIsActive())
                 .build();
     }
 
@@ -95,17 +92,5 @@ public class PaymentMethodMapperImpl implements PaymentMethodMapper {
         if (updateDTO.getNewModifierType() != null) paymentMethod.setModifierType(updateDTO.getNewModifierType());
 
         if (updateDTO.getPriceModifier() != null) paymentMethod.setPriceModifier(updateDTO.getPriceModifier());
-    }
-
-    private PaymentMethodStatus getPaymentMethodStatus(PaymentMethod paymentMethod) {
-
-        if (paymentMethod.getIsActive()) {
-
-            return PaymentMethodStatus.ACTIVO;
-
-        } else {
-
-            return PaymentMethodStatus.INACTIVO;
-        }
     }
 }

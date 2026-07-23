@@ -14,4 +14,5 @@ public class PaymentMethodInfoDTO {
     private String description;
     private PaymentMethodModifierType modifierType;
     private Double priceModifier;
+    private Boolean isActive;
 }
