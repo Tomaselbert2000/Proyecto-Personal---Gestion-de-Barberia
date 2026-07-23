@@ -6,6 +6,20 @@ import java.util.List;
 
 import static java.util.Collections.shuffle;
 
+/**
+ * Generador de contraseñas seguras que garantiza la inclusión de caracteres obligatorios
+ * de cada tipo (mayúsculas, minúsculas, números y símbolos especiales).
+ *
+ * <p>Esta clase implementa una estrategia de generación que asegura:
+ * <ul>
+ *   <li>Al menos un carácter de cada categoría requerida</li>
+ *   <li>Distribución aleatoria de los caracteres restantes</li>
+ *   <li>Mezcla completa de todos los caracteres para evitar patrones predecibles</li>
+ * </ul>
+ *
+ * <p>Utiliza {@link SecureRandom} para garantizar la aleatoriedad criptográfica,
+ * esencial para proteger contra ataques de fuerza bruta y predicción de patrones.
+ */
 public final class PasswordGenerator {
 
     private static final String UPPERCASE = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -19,6 +33,29 @@ public final class PasswordGenerator {
     private PasswordGenerator() {
     }
 
+    /**
+     * Genera una contraseña segura con la longitud especificada.
+     *
+     * <p>La implementación garantiza que la contraseña contenga al menos un carácter
+     * de cada tipo obligatorio (mayúscula, minúscula, número y símbolo especial),
+     * independientemente de la longitud solicitada. Los caracteres restantes se
+     * seleccionan aleatoriamente del conjunto completo de caracteres permitidos.
+     *
+     * <p>El proceso de generación sigue estos pasos:
+     * <ol>
+     *   <li>Selecciona un carácter obligatorio de cada categoría</li>
+     *   <li>Completa la contraseña con caracteres aleatorios adicionales</li>
+     *   <li>Mezcla todos los caracteres para eliminar patrones predecibles</li>
+     * </ol>
+     *
+     * @param length longitud mínima de 4 caracteres. Valores inferiores lanzarán
+     *               {@link IllegalArgumentException}.
+     * @return una contraseña segura con la longitud especificada, garantizando
+     * inclusión de todos los tipos de caracteres obligatorios.
+     * @throws IllegalArgumentException si la longitud solicitada es menor a 4,
+     *                                  ya que se requieren al menos un carácter
+     *                                  de cada categoría obligatoria.
+     */
     public static String generatePassword(int length) {
 
         if (length < MIN_MANDATORY_CHARACTERS) throw new IllegalArgumentException();
