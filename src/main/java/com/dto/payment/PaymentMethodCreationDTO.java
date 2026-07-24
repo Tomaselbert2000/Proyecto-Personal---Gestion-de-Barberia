@@ -4,8 +4,8 @@ import com.enums.PaymentMethodModifierType;
 import jakarta.validation.constraints.*;
 import lombok.*;
 
-import static com.launcher.constants.entity_constraints.predicate.ConstraintViolationMessagePredicate.*;
-import static com.launcher.constants.entity_constraints.subject.PaymentMethodConstraintViolationMessageSubject.*;
+import static com.launcher.constants.ConstraintViolationMessages.MessagePredicates.*;
+import static com.launcher.constants.ConstraintViolationMessages.PaymentMethodConstraintSubject.*;
 import static com.utils.strings.RegexPatterns.NAME_REGEX;
 import static com.validation.common.CommonConstants.*;
 
@@ -26,7 +26,7 @@ public class PaymentMethodCreationDTO {
     @Size(max = MAX_OPTIONAL_DESCRIPTION_LENGTH, message = PAYMENT_METHOD_DESCRIPTION + OPTIONAL_TEXT_OR_DESCRIPTION_MAX_SIZE)
     private String description;
 
-    @NotNull
+    @NotNull(message = PAYMENT_METHOD_MODIFIER_TYPE + NOT_NULL)
     private PaymentMethodModifierType priceModifierType;
 
     @NotNull

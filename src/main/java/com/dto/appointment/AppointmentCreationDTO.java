@@ -6,9 +6,9 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 
-import static com.launcher.constants.entity_constraints.predicate.ConstraintViolationMessagePredicate.NOT_NULL;
-import static com.launcher.constants.entity_constraints.predicate.ConstraintViolationMessagePredicate.OPTIONAL_TEXT_OR_DESCRIPTION_MAX_SIZE;
-import static com.launcher.constants.entity_constraints.subject.AppointmentConstraintViolationMessageSubject.*;
+import static com.launcher.constants.ConstraintViolationMessages.AppointmentConstraintSubject.*;
+import static com.launcher.constants.ConstraintViolationMessages.MessagePredicates.NOT_NULL;
+import static com.launcher.constants.ConstraintViolationMessages.MessagePredicates.OPTIONAL_TEXT_OR_DESCRIPTION_MAX_SIZE;
 import static com.validation.common.CommonConstants.MAX_OPTIONAL_DESCRIPTION_LENGTH;
 
 @Getter

@@ -6,8 +6,8 @@ import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
-import static com.launcher.constants.entity_constraints.predicate.ConstraintViolationMessagePredicate.*;
-import static com.launcher.constants.entity_constraints.subject.PaymentMethodConstraintViolationMessageSubject.*;
+import static com.launcher.constants.ConstraintViolationMessages.MessagePredicates.*;
+import static com.launcher.constants.ConstraintViolationMessages.PaymentMethodConstraintSubject.*;
 import static com.utils.strings.RegexPatterns.NAME_REGEX;
 import static com.validation.common.CommonConstants.*;
 

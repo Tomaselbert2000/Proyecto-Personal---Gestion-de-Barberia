@@ -5,8 +5,8 @@ import com.enums.ProductPresentationUnit;
 import jakarta.validation.constraints.*;
 import lombok.*;
 
-import static com.launcher.constants.entity_constraints.predicate.ConstraintViolationMessagePredicate.*;
-import static com.launcher.constants.entity_constraints.subject.ProductConstraintViolationMessageSubject.*;
+import static com.launcher.constants.ConstraintViolationMessages.MessagePredicates.*;
+import static com.launcher.constants.ConstraintViolationMessages.ProductConstraintSubject.*;
 import static com.utils.strings.RegexPatterns.NAME_REGEX;
 import static com.validation.common.CommonConstants.*;
 import static com.validation.product.ProductValidatorConstants.MAX_DISCOUNT_VALUE;

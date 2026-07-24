@@ -6,7 +6,7 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 
-import static com.launcher.constants.entity_constraints.subject.AppointmentConstraintViolationMessageSubject.APPOINTMENT_OPTIONAL_NOTES;
+import static com.launcher.constants.ConstraintViolationMessages.AppointmentConstraintSubject.APPOINTMENT_OPTIONAL_NOTES;
 import static com.validation.common.CommonConstants.MAX_OPTIONAL_DESCRIPTION_LENGTH;
 
 @Getter

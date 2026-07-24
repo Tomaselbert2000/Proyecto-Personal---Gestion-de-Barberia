@@ -4,8 +4,8 @@ import com.enums.BarberServiceCategory;
 import jakarta.validation.constraints.*;
 import lombok.*;
 
-import static com.launcher.constants.entity_constraints.predicate.ConstraintViolationMessagePredicate.*;
-import static com.launcher.constants.entity_constraints.subject.BarberServiceConstraintViolationMessageSubject.*;
+import static com.launcher.constants.ConstraintViolationMessages.BarberServiceConstraintSubject.*;
+import static com.launcher.constants.ConstraintViolationMessages.MessagePredicates.*;
 import static com.utils.strings.RegexPatterns.NAME_REGEX;
 import static com.validation.common.CommonConstants.*;
 

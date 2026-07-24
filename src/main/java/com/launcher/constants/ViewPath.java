@@ -1,8 +1,9 @@
-package com.launcher.constants.view;
+package com.launcher.constants;
 
 public final class ViewPath {
 
     public static final String LOGIN_VIEW_PATH = "/view/Login.fxml";
+    public static final String REGISTER_VIEW_PATH = "/view/Register.fxml";
 
     public static final String DASHBOARD_VIEW_PATH = "/view/Dashboard.fxml";
 
@@ -29,11 +30,14 @@ public final class ViewPath {
     public static final String BARBER_SERVICE_EDITION_VIEW_PATH = "/view/BarberServiceUpdate.fxml";
     public static final String BARBER_SERVICE_ITEM_VIEW_PATH = "/view/BarberServiceItem.fxml";
 
+    public static final String PAYMENT_METHOD_VIEW_PATH = "/view/PaymentmethodView.fxml";
+    public static final String PAYMENT_METHOD_ITEM_VIEW_PATH = "/view/PaymentMethodItem.fxml";
+
     public static final String SETTINGS_VIEW_PATH = "/view/SettingsView.fxml";
 
     public static final String ACTIVITY_LOG_ITEM_VIEW_PATH = "/view/ActivityItem.fxml";
 
     public static final String TOAST_NOTIFICATION_VIEW_PATH = "/view/ToastNotification.fxml";
 
-    public static final String DELETE_CONFIRMATION_VIEW_PATH = "/view/DeleteConfirmationDialog.fxml";
+    public static final String DELETE_CONFIRMATION_VIEW_PATH = "/view/ConfirmationDialog.fxml";
 }

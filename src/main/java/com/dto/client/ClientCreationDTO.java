@@ -5,8 +5,8 @@ import lombok.*;
 
 import java.util.List;
 
-import static com.launcher.constants.entity_constraints.predicate.ConstraintViolationMessagePredicate.*;
-import static com.launcher.constants.entity_constraints.subject.ClientConstraintViolationMessageSubject.*;
+import static com.launcher.constants.ConstraintViolationMessages.ClientConstraintSubject.*;
+import static com.launcher.constants.ConstraintViolationMessages.MessagePredicates.*;
 import static com.utils.strings.RegexPatterns.*;
 import static com.validation.client.ClientValidatorConstants.MAX_NATIONAL_ID_CARD_NUMBER_LENGTH;
 import static com.validation.client.ClientValidatorConstants.MIN_NATIONAL_ID_CARD_NUMBER_LENGTH;
