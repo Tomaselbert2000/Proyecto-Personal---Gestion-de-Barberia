@@ -1,234 +1,225 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import io.github.palexdev.materialfx.controls.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
-<AnchorPane
-        xmlns:fx="http://javafx.com/fxml/1"
-        fx:id="anchor_pane"
-        maxHeight="1.7976931348623157E308"
-        maxWidth="1.7976931348623157E308"
-        xmlns="http://javafx.com/javafx/25"
-        fx:controller="com.launcher.controller.implementation.product.ProductEditionController">
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1"
+            fx:id="anchor_pane"
+            xmlns="http://javafx.com/javafx/25"
+            fx:controller="com.launcher.controller.implementation.product.ProductEditionController">
 
     <VBox
-            AnchorPane.bottomAnchor="0.0"
-            AnchorPane.leftAnchor="0.0"
-            AnchorPane.rightAnchor="0.0"
-            AnchorPane.topAnchor="0.0">
-        <!-- Header del Panel -->
+            AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0"
+          AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
 
-        <HBox styleClass="md-header-bar">
-            <MFXButton fx:id="back_button" styleClass="md-button-filled-tonal" text="← Volver"/>
-            <VBox styleClass="md-heading-group">
-                <Label styleClass="md-page-title" text="Editar Producto"/>
-                <Label styleClass="md-page-subtitle" text="Actualiza los datos del empleado seleccionado"/>
+        <!-- Header del Panel -->
+        <HBox alignment="CENTER_LEFT" spacing="16">
+            <padding>
+                <Insets top="20" right="24" bottom="12" left="24"/>
+            </padding>
+            <MFXButton fx:id="back_button" styleClass="md-button-outlined" text="Volver"/>
+            <VBox spacing="2">
+                <Label styleClass="md-headline-medium" text="Editar Producto"/>
+                <Label styleClass="md-body-large" text="Actualiza los datos del producto seleccionado"/>
             </VBox>
         </HBox>
 
         <!-- Contenido Principal -->
-        <ScrollPane fitToHeight="true"
-                    fitToWidth="true"
-                    VBox.vgrow="ALWAYS"
-                    styleClass="md-content-scroll">
-
-            <VBox styleClass="md-content-section">
+        <ScrollPane fitToHeight="true" fitToWidth="true"
+                    style="-fx-background-color: transparent; -fx-background: transparent;"
+                    VBox.vgrow="ALWAYS">
+            <VBox spacing="24">
+                <padding>
+                    <Insets top="16" right="24" bottom="24" left="24"/>
+                </padding>
 
                 <!-- Tarjeta de Información General -->
-                <VBox styleClass="md-card">
-                    <VBox styleClass="md-section-group">
-                        <Label styleClass="md-filter-label" text="Información General"/>
+                <VBox styleClass="md-card" spacing="16">
+                    <padding>
+                        <Insets top="20" right="20" bottom="20" left="20"/>
+                    </padding>
 
-                        <GridPane styleClass="md-grid-pane">
-                            <columnConstraints>
-                                <ColumnConstraints hgrow="SOMETIMES" minWidth="250.0"/>
-                                <ColumnConstraints hgrow="SOMETIMES" minWidth="250.0"/>
-                            </columnConstraints>
+                    <Label styleClass="md-title-medium" text="Información General"/>
 
-                            <!-- Name -->
-                            <VBox styleClass="md-filter-column" GridPane.columnIndex="0" GridPane.rowIndex="0">
-                                <HBox styleClass="md-filter-spacer">
-                                    <Label styleClass="md-filter-label" text="Nombre del Producto"/>
-                                    <Label styleClass="md-filter-label" text="*" style="-fx-text-fill: -fx-error"/>
-                                </HBox>
-                                <TextField fx:id="name" styleClass="md-text-field" maxWidth="Infinity"/>
-                            </VBox>
+                    <GridPane hgap="16" vgap="16">
+                        <columnConstraints>
+                            <ColumnConstraints hgrow="ALWAYS" percentWidth="50"/>
+                            <ColumnConstraints hgrow="ALWAYS" percentWidth="50"/>
+                        </columnConstraints>
 
-                            <!-- Brand Name -->
-                            <VBox styleClass="md-filter-column" GridPane.columnIndex="0" GridPane.rowIndex="2">
-                                <HBox styleClass="md-filter-spacer">
-                                    <Label styleClass="md-filter-label" text="Marca"/>
-                                </HBox>
-                                <TextField fx:id="brand_name" styleClass="md-text-field" maxWidth="Infinity"/>
-                            </VBox>
-
-                            <HBox GridPane.columnIndex="1" GridPane.rowIndex="0">
-                                <!-- Category -->
-                                <VBox styleClass="md-filter-column">
-                                    <HBox styleClass="md-filter-spacer">
-                                        <Label styleClass="md-filter-label" text="Categoría"/>
-                                        <Label styleClass="md-filter-label" text="*" style="-fx-text-fill: -fx-error"/>
-                                    </HBox>
-                                    <ComboBox fx:id="category" styleClass="md-combo-box" maxWidth="Infinity"/>
-                                </VBox>
-
-                                <!-- Presentation -->
-                                <VBox styleClass="md-filter-column" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                                    <HBox styleClass="md-filter-spacer">
-                                        <Label styleClass="md-filter-label" text="Presentación"/>
-                                    </HBox>
-                                    <HBox styleClass="md-filter-spacer">
-                                        <TextField fx:id="presentation_size" styleClass="md-text-field"/>
-                                        <ComboBox fx:id="presentation_unit" styleClass="md-combo-box"/>
-                                    </HBox>
-                                </VBox>
+                        <!-- Nombre del Producto -->
+                        <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                            <HBox spacing="4">
+                                <Label styleClass="md-label-medium" text="Nombre del Producto"/>
+                                <Label styleClass="md-label-medium" text="*" style="-fx-text-fill: -fx-error"/>
                             </HBox>
-                        </GridPane>
-
-                        <!-- Optional Description -->
-                        <VBox styleClass="md-filter-column" GridPane.columnIndex="0" GridPane.columnSpan="2"
-                              GridPane.rowIndex="1">
-                            <HBox styleClass="md-filter-spacer">
-                                <Label styleClass="md-filter-label" text="Descripción"/>
-                            </HBox>
-                            <TextField fx:id="optional_description" styleClass="md-text-field" maxWidth="Infinity"/>
+                            <TextField fx:id="name" styleClass="md-text-field" maxWidth="Infinity"/>
                         </VBox>
-                    </VBox>
+
+                        <!-- Categoría -->
+                        <VBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                            <HBox spacing="4">
+                                <Label styleClass="md-label-medium" text="Categoría"/>
+                                <Label styleClass="md-label-medium" text="*" style="-fx-text-fill: -fx-error"/>
+                            </HBox>
+                            <ComboBox fx:id="category" styleClass="md-combo-box" maxWidth="Infinity"/>
+                        </VBox>
+
+                        <!-- Descripción -->
+                        <VBox spacing="4" GridPane.columnIndex="0" GridPane.columnSpan="2"
+                              GridPane.rowIndex="1">
+                            <Label styleClass="md-label-medium" text="Descripción"/>
+                            <TextField fx:id="optional_description" styleClass="md-text-field"
+                                       maxWidth="Infinity"/>
+                        </VBox>
+
+                        <!-- Marca -->
+                        <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                            <Label styleClass="md-label-medium" text="Marca"/>
+                            <TextField fx:id="brand_name" styleClass="md-text-field" maxWidth="Infinity"/>
+                        </VBox>
+
+                        <!-- Presentación -->
+                        <HBox spacing="8" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                            <VBox spacing="4" HBox.hgrow="ALWAYS">
+                                <Label styleClass="md-label-medium" text="Presentación"/>
+                                <TextField fx:id="presentation_size" styleClass="md-text-field"
+                                           maxWidth="Infinity"/>
+                            </VBox>
+                            <VBox spacing="4">
+                                <Label styleClass="md-label-medium" text="Unidad"/>
+                                <ComboBox fx:id="presentation_unit" styleClass="md-combo-box"/>
+                            </VBox>
+                        </HBox>
+                    </GridPane>
                 </VBox>
 
-                <HBox styleClass="md-section-group">
+                <!-- Fila: Precios, Stock e Imagen -->
+                <HBox spacing="16">
 
                     <!-- Tarjeta de Precios y Costos -->
-                    <VBox styleClass="md-card">
-                        <VBox styleClass="md-section-group">
-                            <Label styleClass="md-section-title" text="Precios y Costos"/>
+                    <VBox styleClass="md-card" spacing="16" HBox.hgrow="ALWAYS">
+                        <padding>
+                            <Insets top="20" right="20" bottom="20" left="20"/>
+                        </padding>
 
-                            <GridPane styleClass="md-grid-pane">
-                                <rowConstraints>
-                                    <RowConstraints minHeight="60.0" vgrow="SOMETIMES"/>
-                                    <RowConstraints minHeight="60.0" vgrow="SOMETIMES"/>
-                                </rowConstraints>
+                        <Label styleClass="md-title-medium" text="Precios y Costos"/>
 
-                                <!-- Product Cost -->
-                                <VBox styleClass="md-filter-column" GridPane.columnIndex="0" GridPane.rowIndex="0">
-                                    <HBox styleClass="md-filter-spacer">
-                                        <Label styleClass="md-filter-label" text="Costo de Compra"/>
-                                        <Label styleClass="md-filter-label" text="*" style="-fx-text-fill: -fx-error"/>
-                                    </HBox>
-                                    <TextField fx:id="product_cost" styleClass="md-text-field"/>
-                                </VBox>
+                        <GridPane hgap="16" vgap="16">
+                            <columnConstraints>
+                                <ColumnConstraints hgrow="ALWAYS" percentWidth="33"/>
+                                <ColumnConstraints hgrow="ALWAYS" percentWidth="33"/>
+                                <ColumnConstraints hgrow="ALWAYS" percentWidth="33"/>
+                            </columnConstraints>
 
-                                <!-- Current Price -->
-                                <VBox styleClass="md-filter-column" GridPane.columnIndex="1" GridPane.rowIndex="0">
-                                    <HBox styleClass="md-filter-spacer">
-                                        <Label styleClass="md-filter-label" text="Precio de Venta"/>
-                                        <Label styleClass="md-filter-label" text="*" style="-fx-text-fill: -fx-error"/>
-                                    </HBox>
-                                    <TextField fx:id="current_price" styleClass="md-text-field"/>
-                                </VBox>
+                            <!-- Costo de Compra -->
+                            <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                                <HBox spacing="4">
+                                    <Label styleClass="md-label-medium" text="Costo de Compra"/>
+                                    <Label styleClass="md-label-medium" text="*" style="-fx-text-fill: -fx-error"/>
+                                </HBox>
+                                <TextField fx:id="product_cost" styleClass="md-text-field"/>
+                            </VBox>
 
-                                <!-- Profit Margin -->
-                                <VBox styleClass="md-filter-column" GridPane.columnIndex="2" GridPane.rowIndex="0">
-                                    <HBox styleClass="md-filter-spacer">
-                                        <Label styleClass="md-filter-label" text="Margen de Ganancia"/>
-                                    </HBox>
-                                    <HBox styleClass="md-filter-spacer">
-                                        <Label fx:id="profit_margin_value" styleClass="md-filter-label"/>
-                                    </HBox>
-                                </VBox>
+                            <!-- Precio de Venta -->
+                            <VBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                                <HBox spacing="4">
+                                    <Label styleClass="md-label-medium" text="Precio de Venta"/>
+                                    <Label styleClass="md-label-medium" text="*" style="-fx-text-fill: -fx-error"/>
+                                </HBox>
+                                <TextField fx:id="current_price" styleClass="md-text-field"/>
+                            </VBox>
 
-                                <!-- Product Wholesale Price -->
-                                <VBox styleClass="md-filter-column" GridPane.columnIndex="0" GridPane.rowIndex="1">
-                                    <HBox styleClass="md-filter-spacer">
-                                        <Label styleClass="md-filter-label" text="Precio de venta por mayor"/>
-                                    </HBox>
-                                    <TextField fx:id="product_wholesale_price" styleClass="md-text-field"/>
-                                </VBox>
+                            <!-- Margen de Ganancia -->
+                            <VBox spacing="4" GridPane.columnIndex="2" GridPane.rowIndex="0">
+                                <Label styleClass="md-label-medium" text="Margen de Ganancia"/>
+                                <Label fx:id="profit_margin_value" styleClass="md-body-medium"/>
+                            </VBox>
 
-                                <!-- Min Price -->
-                                <VBox styleClass="md-filter-column" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                                    <HBox styleClass="md-filter-spacer">
-                                        <Label styleClass="md-filter-label" text="Precio de venta mínimo"/>
-                                    </HBox>
-                                    <TextField fx:id="min_price" styleClass="md-text-field"/>
-                                </VBox>
+                            <!-- Precio Mayoreo -->
+                            <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                                <Label styleClass="md-label-medium" text="Precio de venta por mayor"/>
+                                <TextField fx:id="product_wholesale_price" styleClass="md-text-field"/>
+                            </VBox>
 
-                                <!-- Max Discount Percentage -->
-                                <VBox styleClass="md-filter-column" GridPane.columnIndex="2" GridPane.rowIndex="1">
-                                    <HBox styleClass="md-filter-spacer">
-                                        <Label styleClass="md-filter-label" text="Descuento Máximo"/>
-                                    </HBox>
-                                    <TextField fx:id="max_discount_percentage" styleClass="md-text-field"/>
-                                </VBox>
-                            </GridPane>
-                        </VBox>
+                            <!-- Precio Mínimo -->
+                            <VBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                <Label styleClass="md-label-medium" text="Precio de venta mínimo"/>
+                                <TextField fx:id="min_price" styleClass="md-text-field"/>
+                            </VBox>
+
+                            <!-- Descuento Máximo -->
+                            <VBox spacing="4" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                                <Label styleClass="md-label-medium" text="Descuento Máximo"/>
+                                <TextField fx:id="max_discount_percentage" styleClass="md-text-field"/>
+                            </VBox>
+                        </GridPane>
                     </VBox>
 
                     <!-- Tarjeta de Stock e Inventario -->
-                    <VBox styleClass="md-card">
-                        <VBox styleClass="md-section-group">
-                            <Label styleClass="md-section-title" text="Stock e Inventario"/>
+                    <VBox styleClass="md-card" spacing="16" HBox.hgrow="ALWAYS">
+                        <padding>
+                            <Insets top="20" right="20" bottom="20" left="20"/>
+                        </padding>
 
-                            <GridPane styleClass="md-grid-pane">
-                                <rowConstraints>
-                                    <RowConstraints minHeight="60.0" vgrow="SOMETIMES"/>
-                                </rowConstraints>
+                        <Label styleClass="md-title-medium" text="Stock e Inventario"/>
 
-                                <!-- Current Stock Level -->
-                                <VBox styleClass="md-filter-column" GridPane.columnIndex="0" GridPane.rowIndex="0">
-                                    <HBox styleClass="md-filter-spacer">
-                                        <Label styleClass="md-filter-label" text="Stock Actual"/>
-                                    </HBox>
-                                    <TextField fx:id="current_stock_level" editable="false"
-                                               styleClass="md-text-field"/>
-                                </VBox>
+                        <GridPane hgap="16" vgap="16">
+                            <columnConstraints>
+                                <ColumnConstraints hgrow="ALWAYS" percentWidth="50"/>
+                                <ColumnConstraints hgrow="ALWAYS" percentWidth="50"/>
+                            </columnConstraints>
 
-                                <!-- Safety Stock Level -->
-                                <VBox styleClass="md-filter-column" GridPane.columnIndex="1" GridPane.rowIndex="0">
-                                    <HBox styleClass="md-filter-spacer">
-                                        <Label styleClass="md-filter-label" text="Stock Mínimo"/>
-                                        <Label styleClass="form-required" text="*" style="-fx-text-fill: -fx-error"/>
-                                    </HBox>
-                                    <TextField fx:id="safety_stock_level" styleClass="md-text-field"/>
-                                </VBox>
-                            </GridPane>
-                        </VBox>
+                            <!-- Stock Actual -->
+                            <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                                <Label styleClass="md-label-medium" text="Stock Actual"/>
+                                <TextField fx:id="current_stock_level" editable="false"
+                                           styleClass="md-text-field"/>
+                            </VBox>
+
+                            <!-- Stock Mínimo -->
+                            <VBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                                <HBox spacing="4">
+                                    <Label styleClass="md-label-medium" text="Stock Mínimo"/>
+                                    <Label styleClass="md-label-medium" text="*" style="-fx-text-fill: -fx-error"/>
+                                </HBox>
+                                <TextField fx:id="safety_stock_level" styleClass="md-text-field"/>
+                            </VBox>
+                        </GridPane>
                     </VBox>
 
                     <!-- Tarjeta de Imagen del Producto -->
-                    <VBox styleClass="md-card">
-                        <VBox styleClass="md-section-group">
-                            <Label styleClass="md-section-title" text="Imagen del Producto"/>
+                    <VBox styleClass="md-card" spacing="16">
+                        <padding>
+                            <Insets top="20" right="20" bottom="20" left="20"/>
+                        </padding>
 
-                            <HBox styleClass="md-content-section">
-                                <!-- Preview de Imagen -->
-                                <VBox styleClass="md-image-preview-container">
-                                    <VBox styleClass="md-image-placeholder">
-                                        <ImageView fx:id="product_image_preview" fitHeight="150.0" fitWidth="150.0"
-                                                   pickOnBounds="true" preserveRatio="true">
-                                        </ImageView>
-                                    </VBox>
-                                </VBox>
+                        <Label styleClass="md-title-medium" text="Imagen del Producto"/>
 
-                                <!-- Controles de Imagen -->
-                                <VBox styleClass="md-action-button-container">
-                                    <MFXButton fx:id="select_image_button" styleClass="md-button-filled-tonal"
-                                               text="Seleccionar Imagen"/>
-                                    <MFXButton fx:id="remove_image_button" styleClass="md-button-outlined"
-                                               text="Eliminar Imagen"/>
-                                    <Label styleClass="md-filter-label" text="Formatos: JPG, PNG"/>
-                                </VBox>
-                            </HBox>
-                        </VBox>
+                        <HBox spacing="16" alignment="CENTER_LEFT">
+                            <ImageView fx:id="product_image_preview"
+                                       fitHeight="120.0" fitWidth="120.0"
+                                       pickOnBounds="true" preserveRatio="true"/>
+
+                            <VBox spacing="8">
+                                <MFXButton fx:id="select_image_button" styleClass="md-button-outlined"
+                                           text="Seleccionar Imagen"/>
+                                <MFXButton fx:id="remove_image_button" styleClass="md-button-text"
+                                           text="Eliminar Imagen"/>
+                                <Label styleClass="md-body-small" text="Formatos: JPG, PNG"/>
+                            </VBox>
+                        </HBox>
                     </VBox>
                 </HBox>
 
                 <!-- Botones de Acción -->
-                <HBox styleClass="md-action-button-container">
-                    <MFXButton fx:id="reset_button" styleClass="md-button-filled-tonal" text="Restaurar valores"/>
+                <HBox spacing="8" alignment="CENTER_RIGHT">
+                    <MFXButton fx:id="reset_button" styleClass="md-button-text" text="Restaurar valores"/>
                     <MFXButton fx:id="save_button" styleClass="md-button-filled" text="Actualizar datos"/>
                 </HBox>
+
             </VBox>
         </ScrollPane>
     </VBox>

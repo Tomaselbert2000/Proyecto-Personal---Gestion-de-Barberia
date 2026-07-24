@@ -1,0 +1,91 @@
+/* ==========================================================================
+   MATERIAL DESIGN 3 - SHAPE TOKENS & UTILITIES
+   Borders & Corner Radii
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   NONE (0px)
+   Uso: Contenedores rectangulares sin curvatura (Full-bleed dividers, etc.)
+   -------------------------------------------------------------------------- */
+.md-shape-none {
+    -fx-background-radius: 0;
+    -fx-border-radius: 0;
+}
+
+
+/* --------------------------------------------------------------------------
+   EXTRA SMALL (4px)
+   Uso: Campos de texto (Text Fields), Tooltips, Checkboxes, Menús desplegables
+   -------------------------------------------------------------------------- */
+.md-shape-extra-small {
+    -fx-background-radius: 4;
+    -fx-border-radius: 4;
+}
+
+/* Variantes para esquinas específicas */
+.md-shape-extra-small-top {
+    -fx-background-radius: 4 4 0 0;
+    -fx-border-radius: 4 4 0 0;
+}
+
+
+/* --------------------------------------------------------------------------
+   SMALL (8px)
+   Uso: Chips, Snackbars, Badges de información
+   -------------------------------------------------------------------------- */
+.md-shape-small {
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+}
+
+
+/* --------------------------------------------------------------------------
+   MEDIUM (12px)
+   Uso: Menús flotantes principales, Cards pequeñas, DatePicker popups
+   -------------------------------------------------------------------------- */
+.md-shape-medium {
+    -fx-background-radius: 12;
+    -fx-border-radius: 12;
+}
+
+
+/* --------------------------------------------------------------------------
+   LARGE (16px)
+   Uso: Tarjetas de contenido (Cards), Contenedores de accesos rápidos
+   -------------------------------------------------------------------------- */
+.md-shape-large {
+    -fx-background-radius: 16;
+    -fx-border-radius: 16;
+}
+
+/* Variante para contenedores con bordes superiores redondeados */
+.md-shape-large-top {
+    -fx-background-radius: 16 16 0 0;
+    -fx-border-radius: 16 16 0 0;
+}
+
+
+/* --------------------------------------------------------------------------
+   EXTRA LARGE (28px)
+   Uso: Diálogos modales, Banners, Tarjetas flotantes principales, Navigation Drawers
+   -------------------------------------------------------------------------- */
+.md-shape-extra-large {
+    -fx-background-radius: 28;
+    -fx-border-radius: 28;
+}
+
+/* Variante común para contenedores laterales (Sidebar / Drawer) */
+.md-shape-extra-large-start {
+    -fx-background-radius: 0 28 28 0;
+    -fx-border-radius: 0 28 28 0;
+}
+
+
+/* --------------------------------------------------------------------------
+   FULL / PILL (50px / Circular)
+   Uso: Botones (Filled, Outlined, Tonal), Badges de estado, Search Bars, Avatares
+   -------------------------------------------------------------------------- */
+.md-shape-full {
+    -fx-background-radius: 50;
+    -fx-border-radius: 50;
+}

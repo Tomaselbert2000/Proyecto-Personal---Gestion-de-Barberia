@@ -1,0 +1,123 @@
+/* ==========================================================================
+   MATERIAL DESIGN 3 - TYPOGRAPHY TOKENS
+   Font Family: Roboto
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   DISPLAY
+   Uso: Textos de gran impacto visual y muy de paso (números grandes, dashboards)
+   -------------------------------------------------------------------------- */
+
+.md-display-large {
+    -fx-font-family: "Roboto";
+    -fx-font-size: 57px;
+    -fx-font-weight: 400;
+}
+
+.md-display-medium {
+    -fx-font-family: "Roboto";
+    -fx-font-size: 45px;
+    -fx-font-weight: 400;
+}
+
+.md-display-small {
+    -fx-font-family: "Roboto";
+    -fx-font-size: 36px;
+    -fx-font-weight: 400;
+}
+
+
+/* --------------------------------------------------------------------------
+   HEADLINE
+   Uso: Títulos principales de páginas, pantallas o vistas destacadas
+   -------------------------------------------------------------------------- */
+
+.md-headline-large {
+    -fx-font-family: "Roboto";
+    -fx-font-size: 32px;
+    -fx-font-weight: 400;
+}
+
+.md-headline-medium {
+    -fx-font-family: "Roboto";
+    -fx-font-size: 28px;
+    -fx-font-weight: 400;
+}
+
+.md-headline-small {
+    -fx-font-family: "Roboto";
+    -fx-font-size: 24px;
+    -fx-font-weight: 400;
+}
+
+
+/* --------------------------------------------------------------------------
+   TITLE
+   Uso: Encabezados dentro de componentes como Cards, Dialogs o secciones
+   -------------------------------------------------------------------------- */
+
+.md-title-large {
+    -fx-font-family: "Roboto";
+    -fx-font-size: 22px;
+    -fx-font-weight: 400;
+}
+
+.md-title-medium {
+    -fx-font-family: "Roboto";
+    -fx-font-size: 16px;
+    -fx-font-weight: 500;
+}
+
+.md-title-small {
+    -fx-font-family: "Roboto";
+    -fx-font-size: 14px;
+    -fx-font-weight: 500;
+}
+
+
+/* --------------------------------------------------------------------------
+   BODY
+   Uso: Párrafos de texto continuo, descripciones y lectura principal
+   -------------------------------------------------------------------------- */
+
+.md-body-large {
+    -fx-font-family: "Roboto";
+    -fx-font-size: 16px;
+    -fx-font-weight: 400;
+}
+
+.md-body-medium {
+    -fx-font-family: "Roboto";
+    -fx-font-size: 14px;
+    -fx-font-weight: 400;
+}
+
+.md-body-small {
+    -fx-font-family: "Roboto";
+    -fx-font-size: 12px;
+    -fx-font-weight: 400;
+}
+
+
+/* --------------------------------------------------------------------------
+   LABEL
+   Uso: Texto utilitario como botones, inputs, tags, badges y metadatos
+   -------------------------------------------------------------------------- */
+
+.md-label-large {
+    -fx-font-family: "Roboto";
+    -fx-font-size: 14px;
+    -fx-font-weight: 500;
+}
+
+.md-label-medium {
+    -fx-font-family: "Roboto";
+    -fx-font-size: 12px;
+    -fx-font-weight: 500;
+}
+
+.md-label-small {
+    -fx-font-family: "Roboto";
+    -fx-font-size: 11px;
+    -fx-font-weight: 500;
+}

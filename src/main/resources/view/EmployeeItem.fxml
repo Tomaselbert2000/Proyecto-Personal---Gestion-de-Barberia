@@ -1,49 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.Circle?>
 <HBox xmlns:fx="http://javafx.com/fxml/1"
+      alignment="CENTER_LEFT"
+      spacing="16"
       styleClass="md-list-item"
       xmlns="http://javafx.com/javafx/25"
       fx:controller="com.launcher.controller.implementation.employee.EmployeeItemController">
+    <padding>
+        <Insets top="12" right="16" bottom="12" left="16"/>
+    </padding>
 
     <!-- Employee Avatar -->
-    <VBox styleClass="md-list-item-content">
-        <StackPane>
-            <Circle fx:id="employee_avatar" styleClass="md-avatar-circle"/>
-            <Label fx:id="employee_initials" styleClass="md-section-title"/>
-        </StackPane>
-    </VBox>
+    <StackPane minWidth="40.0" minHeight="40.0">
+        <Circle fx:id="employee_avatar" radius="20"/>
+        <Label fx:id="employee_initials" styleClass="md-label-large"/>
+    </StackPane>
 
     <!-- Employee Information -->
-    <VBox styleClass="md-list-item-content" HBox.hgrow="ALWAYS">
-        <HBox styleClass="md-heading-group">
-            <Label fx:id="employee_name" styleClass="md-list-item-title" text="Employee Name"/>
-            <VBox fx:id="employee_status_badge" styleClass="md-badge">
-                <Label fx:id="status_label" styleClass="md-list-item-subtitle"/>
+    <VBox spacing="4" HBox.hgrow="ALWAYS">
+        <!-- Name + Status -->
+        <HBox spacing="8" alignment="CENTER_LEFT">
+            <Label fx:id="employee_name" styleClass="md-list-item-headline"
+                   text="Employee Name"/>
+            <VBox fx:id="employee_status_badge">
+                <Label fx:id="status_label" styleClass="md-label-small"/>
             </VBox>
         </HBox>
-        <HBox styleClass="md-section-group">
-            <HBox styleClass="md-heading-group">
-                <Label styleClass="md-list-item-subtitle" text="Contratación:"/>
-                <Label fx:id="hire_date" styleClass="md-list-item-subtitle"/>
+
+        <!-- Details -->
+        <HBox spacing="16" alignment="CENTER_LEFT">
+            <HBox spacing="4">
+                <Label styleClass="md-list-item-supporting-text" text="Contratación:"/>
+                <Label fx:id="hire_date" styleClass="md-list-item-supporting-text"/>
             </HBox>
-            <HBox styleClass="md-heading-group">
-                <Label styleClass="md-list-item-subtitle" text="Comisión:"/>
-                <Label fx:id="commission_percentage" styleClass="md-list-item-subtitle"/>
+            <HBox spacing="4">
+                <Label styleClass="md-list-item-supporting-text" text="Comisión:"/>
+                <Label fx:id="commission_percentage" styleClass="md-list-item-supporting-text"/>
             </HBox>
-            <HBox styleClass="md-heading-group">
-                <Label styleClass="md-list-item-subtitle" text="Turnos este mes:"/>
-                <Label fx:id="monthly_appointments" styleClass="md-list-item-subtitle"/>
+            <HBox spacing="4">
+                <Label styleClass="md-list-item-supporting-text" text="Turnos este mes:"/>
+                <Label fx:id="monthly_appointments" styleClass="md-list-item-supporting-text"/>
             </HBox>
         </HBox>
     </VBox>
 
     <!-- Actions -->
-    <HBox styleClass="md-action-button-container">
-        <MFXButton fx:id="edit_button" styleClass="md-button-filled" text="Editar"/>
-        <MFXButton fx:id="toggle_status_button" styleClass="md-button-outlined" text="Desactivar"/>
+    <HBox spacing="8" alignment="CENTER_RIGHT">
+        <MFXButton fx:id="edit_button" styleClass="md-button-outlined" text="Editar"/>
+        <MFXButton fx:id="toggle_status_button" styleClass="md-button-filled" text="Desactivar"/>
     </HBox>
 </HBox>

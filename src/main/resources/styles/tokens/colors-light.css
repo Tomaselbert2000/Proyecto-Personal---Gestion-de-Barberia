@@ -1,0 +1,76 @@
+/* ==========================================================================
+   MATERIAL DESIGN 3 - LIGHT COLOR SCHEME
+   Tokens de color para tema claro estándar de MD3
+   ========================================================================== */
+
+.root {
+    /* ----------------------------------------------------------------------
+       PRIMARY & ON-PRIMARY
+       Color principal de la marca (Botones destacados, FAB, estados seleccionados)
+       ---------------------------------------------------------------------- */
+    -fx-primary: #6750A4;
+    -fx-on-primary: #FFFFFF;
+    -fx-primary-container: #EADDFF;
+    -fx-on-primary-container: #21005D;
+
+    /* ----------------------------------------------------------------------
+       SECONDARY & ON-SECONDARY
+       Color secundario para elementos de menor jerarquía (Filter chips, Badges)
+       ---------------------------------------------------------------------- */
+    -fx-secondary: #625B71;
+    -fx-on-secondary: #FFFFFF;
+    -fx-secondary-container: #E8DEF8;
+    -fx-on-secondary-container: #1D192B;
+
+    /* ----------------------------------------------------------------------
+       TERTIARY & ON-TERTIARY
+       Color de acento complementario para balances visuales y estados contrastantes
+       ---------------------------------------------------------------------- */
+    -fx-tertiary: #7D5260;
+    -fx-on-tertiary: #FFFFFF;
+    -fx-tertiary-container: #FFD8E4;
+    -fx-on-tertiary-container: #31111D;
+
+    /* ----------------------------------------------------------------------
+       ERROR & ON-ERROR
+       Indicadores de estado de error o acciones destructivas
+       ---------------------------------------------------------------------- */
+    -fx-error: #B3261E;
+    -fx-on-error: #FFFFFF;
+    -fx-error-container: #F9DEDC;
+    -fx-on-error-container: #410E0B;
+
+    /* ----------------------------------------------------------------------
+       SURFACE & BACKGROUND
+       Superficies base y elevaciones tonales de contenedores
+       ---------------------------------------------------------------------- */
+    -fx-background: #FEF7FF;
+    -fx-on-background: #1D1B20;
+
+    -fx-surface: #FEF7FF;
+    -fx-on-surface: #1D1B20;
+    -fx-surface-variant: #E7E0EC;
+    -fx-on-surface-variant: #49454F;
+
+    /* Escala de contenedores tonales para elevación en MD3 */
+    -fx-surface-container-lowest: #FFFFFF;
+    -fx-surface-container-low: #F7F2FA;
+    -fx-surface-container: #F3EDF7;
+    -fx-surface-container-high: #ECE6F0;
+    -fx-surface-container-highest: #E6E0E9;
+
+    /* ----------------------------------------------------------------------
+       OUTLINE & DIVIDERS
+       Bordes de campos de texto, tarjetas contorneadas y divisores
+       ---------------------------------------------------------------------- */
+    -fx-outline: #79747E;
+    -fx-outline-variant: #CAC4D0;
+
+    /* ----------------------------------------------------------------------
+       TENDENCIAS Y ESTADOS ADICIONALES
+       Tokens personalizados para paneles de métricas/dashboard
+       ---------------------------------------------------------------------- */
+    -fx-positive-trend: #2E7D32;
+    -fx-negative-trend: #B3261E;
+    -fx-neutral-trend: #49454F;
+}

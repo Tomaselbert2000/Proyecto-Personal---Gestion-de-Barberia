@@ -1,169 +1,152 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import java.lang.*?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1"
             fx:id="anchor_pane"
-            styleClass="theme-barberia"
-            stylesheets="@../css/material-icons.css"
             xmlns="http://javafx.com/javafx/17.0.12"
             fx:controller="com.launcher.controller.implementation.employee.EmployeeViewController">
 
     <VBox
-            AnchorPane.topAnchor="0.0"
-            AnchorPane.bottomAnchor="0.0"
-            AnchorPane.leftAnchor="0.0"
-            AnchorPane.rightAnchor="0.0">
+            AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0"
+          AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
 
         <!-- Header del Panel -->
-        <HBox styleClass="md-header-bar">
-            <VBox styleClass="md-heading-group">
-                <Label styleClass="md-page-title" text="Empleados"/>
-                <Label styleClass="md-page-subtitle" text="Gestiona tu equipo de trabajo"/>
+        <HBox alignment="CENTER_LEFT">
+            <padding>
+                <Insets top="20" right="24" bottom="12" left="24"/>
+            </padding>
+            <VBox spacing="2">
+                <Label styleClass="md-headline-medium" text="Empleados"/>
+                <Label styleClass="md-body-large" text="Gestiona tu equipo de trabajo"/>
             </VBox>
             <Region HBox.hgrow="ALWAYS"/>
-            <HBox alignment="CENTER" spacing="15.0"/>
         </HBox>
 
         <!-- Contenido Principal -->
-        <ScrollPane fitToHeight="true" fitToWidth="true" styleClass="md-content-scroll" VBox.vgrow="ALWAYS">
-            <VBox styleClass="md-content-section">
+        <ScrollPane fitToHeight="true" fitToWidth="true"
+                    style="-fx-background-color: transparent; -fx-background: transparent;"
+                    VBox.vgrow="ALWAYS">
+            <VBox spacing="24">
+                <padding>
+                    <Insets top="16" right="24" bottom="24" left="24"/>
+                </padding>
 
                 <!-- Tarjetas de Estadísticas -->
-                <GridPane styleClass="md-grid-pane">
+                <GridPane hgap="16" vgap="16">
                     <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="250.0"/>
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="250.0"/>
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="250.0"/>
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="250.0"/>
+                        <ColumnConstraints hgrow="ALWAYS" percentWidth="25"/>
+                        <ColumnConstraints hgrow="ALWAYS" percentWidth="25"/>
+                        <ColumnConstraints hgrow="ALWAYS" percentWidth="25"/>
+                        <ColumnConstraints hgrow="ALWAYS" percentWidth="25"/>
                     </columnConstraints>
-                    <rowConstraints>
-                        <RowConstraints minHeight="140.0" vgrow="SOMETIMES"/>
-                    </rowConstraints>
 
                     <!-- Tarjeta: Total Empleados -->
-                    <VBox styleClass="md-card" GridPane.columnIndex="0">
-                        <HBox styleClass="md-stat-card-container">
-                            <Region HBox.hgrow="ALWAYS"/>
-                            <VBox>
-                                <Region>
-                                    <styleClass>
-                                        <String fx:value="md-action-card-icon"/>
-                                        <String fx:value="work-icon"/>
-                                    </styleClass>
-                                </Region>
+                    <VBox styleClass="md-card" spacing="12" GridPane.columnIndex="0">
+                        <padding>
+                            <Insets top="16" right="16" bottom="16" left="16"/>
+                        </padding>
+                        <HBox alignment="CENTER_LEFT">
+                            <VBox spacing="2" HBox.hgrow="ALWAYS">
+                                <Label fx:id="total_employees_count" styleClass="md-headline-large"/>
+                                <Label styleClass="md-body-medium" text="Total Empleados"/>
                             </VBox>
+                            <Region styleClass="work-icon, md-icon-large, md-icon-primary"/>
                         </HBox>
-                        <VBox styleClass="md-action-label-container">
-                            <Label fx:id="total_employees_count" styleClass="md-stat-value"/>
-                            <Label styleClass="md-stat-label" text="Total Empleados"/>
-                        </VBox>
-                        <HBox styleClass="md-action-label-container">
-                            <Label fx:id="total_employees_trend" styleClass="md-stat-trend-neutral"/>
-                            <Label styleClass="md-stat-trend-label" text="este mes"/>
+                        <HBox spacing="4" alignment="CENTER_LEFT">
+                            <Label fx:id="total_employees_trend" styleClass="md-label-medium"/>
+                            <Label styleClass="md-label-small" text="este mes"/>
                         </HBox>
                     </VBox>
 
                     <!-- Tarjeta: Empleados Activos -->
-                    <VBox styleClass="md-card" GridPane.columnIndex="1">
-                        <HBox styleClass="md-stat-card-container">
-                            <Region HBox.hgrow="ALWAYS"/>
-                            <VBox>
-                                <Region>
-                                    <styleClass>
-                                        <String fx:value="md-action-card-icon"/>
-                                        <String fx:value="enterprise-icon"/>
-                                    </styleClass>
-                                </Region>
+                    <VBox styleClass="md-card" spacing="12" GridPane.columnIndex="1">
+                        <padding>
+                            <Insets top="16" right="16" bottom="16" left="16"/>
+                        </padding>
+                        <HBox alignment="CENTER_LEFT">
+                            <VBox spacing="2" HBox.hgrow="ALWAYS">
+                                <Label fx:id="active_employees_count" styleClass="md-headline-large"/>
+                                <Label styleClass="md-body-medium" text="Activos"/>
                             </VBox>
+                            <Region styleClass="enterprise-icon, md-icon-large, md-icon-primary"/>
                         </HBox>
-                        <VBox styleClass="md-action-label-container">
-                            <Label fx:id="active_employees_count" styleClass="md-stat-value"/>
-                            <Label styleClass="md-stat-label" text="Activos"/>
-                        </VBox>
-                        <HBox styleClass="md-action-label-container">
-                            <Label fx:id="active_employees_percentage" styleClass="md-stat-trend-neutral"/>
-                            <Label styleClass="md-stat-trend-label" text="del equipo"/>
+                        <HBox spacing="4" alignment="CENTER_LEFT">
+                            <Label fx:id="active_employees_percentage" styleClass="md-label-medium"/>
+                            <Label styleClass="md-label-small" text="del equipo"/>
                         </HBox>
                     </VBox>
 
                     <!-- Tarjeta: Empleados Inactivos -->
-                    <VBox styleClass="md-card" GridPane.columnIndex="2">
-                        <HBox styleClass="md-stat-card-container">
-                            <Region HBox.hgrow="ALWAYS"/>
-                            <VBox>
-                                <Region>
-                                    <styleClass>
-                                        <String fx:value="md-action-card-icon"/>
-                                        <String fx:value="enterprise-off-icon"/>
-                                    </styleClass>
-                                </Region>
+                    <VBox styleClass="md-card" spacing="12" GridPane.columnIndex="2">
+                        <padding>
+                            <Insets top="16" right="16" bottom="16" left="16"/>
+                        </padding>
+                        <HBox alignment="CENTER_LEFT">
+                            <VBox spacing="2" HBox.hgrow="ALWAYS">
+                                <Label fx:id="inactive_employees_count" styleClass="md-headline-large"/>
+                                <Label styleClass="md-body-medium" text="Inactivos"/>
                             </VBox>
+                            <Region styleClass="enterprise-off-icon, md-icon-large, md-icon-primary"/>
                         </HBox>
-                        <VBox styleClass="md-action-label-container">
-                            <Label fx:id="inactive_employees_count" styleClass="md-stat-value"/>
-                            <Label styleClass="md-stat-label" text="Inactivos"/>
-                        </VBox>
-                        <HBox styleClass="md-action-label-container">
-                            <Label fx:id="inactive_employees_percentage" styleClass="md-stat-trend-neutral"/>
-                            <Label styleClass="md-stat-trend-label" text="del equipo"/>
+                        <HBox spacing="4" alignment="CENTER_LEFT">
+                            <Label fx:id="inactive_employees_percentage" styleClass="md-label-medium"/>
+                            <Label styleClass="md-label-small" text="del equipo"/>
                         </HBox>
                     </VBox>
 
                     <!-- Tarjeta: Turnos Realizados Este Mes -->
-                    <VBox styleClass="md-card" GridPane.columnIndex="3">
-                        <HBox styleClass="md-stat-card-container">
-                            <Region HBox.hgrow="ALWAYS"/>
-                            <VBox>
-                                <Region>
-                                    <styleClass>
-                                        <String fx:value="md-action-card-icon"/>
-                                        <String fx:value="work-history-icon"/>
-                                    </styleClass>
-                                </Region>
+                    <VBox styleClass="md-card" spacing="12" GridPane.columnIndex="3">
+                        <padding>
+                            <Insets top="16" right="16" bottom="16" left="16"/>
+                        </padding>
+                        <HBox alignment="CENTER_LEFT">
+                            <VBox spacing="2" HBox.hgrow="ALWAYS">
+                                <Label fx:id="average_productivity_count" styleClass="md-headline-large"/>
+                                <Label styleClass="md-body-medium" text="Promedio Turnos/Mes"/>
                             </VBox>
+                            <Region styleClass="work-history-icon, md-icon-large, md-icon-primary"/>
                         </HBox>
-                        <VBox styleClass="md-action-label-container">
-                            <Label fx:id="average_productivity_count" styleClass="md-stat-value"/>
-                            <Label styleClass="md-stat-label" text="Promedio Turnos/Mes"/>
-                        </VBox>
-                        <HBox styleClass="md-action-label-container">
-                            <Label fx:id="productivity_trend" styleClass="md-stat-trend-neutral"/>
-                            <Label styleClass="md-stat-trend-label" text="vs mes anterior"/>
+                        <HBox spacing="4" alignment="CENTER_LEFT">
+                            <Label fx:id="productivity_trend" styleClass="md-label-medium"/>
+                            <Label styleClass="md-label-small" text="vs mes anterior"/>
                         </HBox>
                     </VBox>
                 </GridPane>
 
                 <!-- Sección de Filtros -->
-                <VBox styleClass="md-section-group">
-                    <Label styleClass="md-section-title" text="Filtros y Acciones"/>
+                <VBox spacing="12">
+                    <Label styleClass="md-title-medium" text="Filtros y Acciones"/>
 
-                    <VBox styleClass="md-filter-card">
-                        <HBox styleClass="md-filter-container">
+                    <VBox styleClass="md-card" spacing="16">
+                        <padding>
+                            <Insets top="16" right="16" bottom="16" left="16"/>
+                        </padding>
+                        <HBox spacing="16">
                             <!-- Buscador -->
-                            <VBox styleClass="md-filter-column" HBox.hgrow="ALWAYS">
-                                <Label styleClass="md-filter-label" text="Buscar empleado"/>
+                            <VBox spacing="4" HBox.hgrow="ALWAYS">
+                                <Label styleClass="md-label-medium" text="Buscar empleado"/>
                                 <TextField fx:id="search_field" styleClass="md-text-field" maxWidth="Infinity"/>
                             </VBox>
 
                             <!-- Filtro por Estado -->
-                            <VBox styleClass="md-filter-column" HBox.hgrow="ALWAYS">
-                                <Label styleClass="md-filter-label" text="Estado"/>
+                            <VBox spacing="4" HBox.hgrow="ALWAYS">
+                                <Label styleClass="md-label-medium" text="Estado"/>
                                 <ComboBox fx:id="status_filter" styleClass="md-combo-box" maxWidth="Infinity"/>
                             </VBox>
 
                             <!-- Filtro por Fecha de Contratación -->
-                            <VBox styleClass="md-filter-column" HBox.hgrow="ALWAYS">
-                                <Label styleClass="md-filter-label" text="Fecha contratación"/>
+                            <VBox spacing="4" HBox.hgrow="ALWAYS">
+                                <Label styleClass="md-label-medium" text="Fecha contratación"/>
                                 <ComboBox fx:id="hire_date_filter" styleClass="md-combo-box" maxWidth="Infinity"/>
                             </VBox>
 
                             <!-- Botones de Acción -->
-                            <VBox styleClass="md-filter-column">
-                                <Label styleClass="md-filter-label" text="Acciones"/>
-                                <HBox styleClass="md-action-button-container">
+                            <VBox spacing="4">
+                                <Label styleClass="md-label-medium" text="Acciones"/>
+                                <HBox spacing="8" alignment="CENTER_LEFT">
                                     <MFXButton fx:id="clear_filters_button" styleClass="md-button-outlined"
                                                text="Limpiar"/>
                                     <MFXButton fx:id="new_employee_button"
@@ -175,16 +158,20 @@
                 </VBox>
 
                 <!-- Lista de Empleados -->
-                <VBox styleClass="md-section-group">
-                    <HBox styleClass="md-section-group">
-                        <Label styleClass="md-section-title" text="Lista de Empleados"/>
+                <VBox spacing="12">
+                    <HBox spacing="8" alignment="CENTER_LEFT">
+                        <Label styleClass="md-title-medium" text="Lista de Empleados"/>
                         <Region HBox.hgrow="ALWAYS"/>
-                        <Label fx:id="results_count" styleClass="md-action-subtitle"/>
+                        <Label fx:id="results_count" styleClass="md-body-small"/>
                     </HBox>
 
-                    <!-- Contenedor de la Lista de Empleados -->
-                    <VBox fx:id="employee_list_container" styleClass="md-recent-activity-card"/>
+                    <VBox fx:id="employee_list_container" styleClass="md-card">
+                        <padding>
+                            <Insets top="8" right="16" bottom="8" left="16"/>
+                        </padding>
+                    </VBox>
                 </VBox>
+
             </VBox>
         </ScrollPane>
     </VBox>

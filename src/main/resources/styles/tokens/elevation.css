@@ -1,0 +1,61 @@
+/* ==========================================================================
+   MATERIAL DESIGN 3 - ELEVATION TOKENS & UTILITIES
+   Shadows & Elevation Levels (Level 0 - Level 5)
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   LEVEL 0 (0dp)
+   Uso: Elementos completamente planos apoyados sobre la superficie base
+   (Flat Cards, List Items por defecto, contenedores estándar)
+   -------------------------------------------------------------------------- */
+.md-elevation-0 {
+    -fx-effect: none;
+}
+
+
+/* --------------------------------------------------------------------------
+   LEVEL 1 (1dp)
+   Uso: Tarjetas estándar (Card / Outlined Card en hover), botones flotantes secundarios,
+   ítems de lista al arrastrar
+   -------------------------------------------------------------------------- */
+.md-elevation-1 {
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.08), 4, 0.0, 0, 1);
+}
+
+
+/* --------------------------------------------------------------------------
+   LEVEL 2 (3dp)
+   Uso: Tarjetas rellenas al interactuar, botones elevados (Elevated Buttons),
+   barras superiores empujadas por scroll (Top App Bar scrolled)
+   -------------------------------------------------------------------------- */
+.md-elevation-2 {
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.12), 8, 0.0, 0, 2);
+}
+
+
+/* --------------------------------------------------------------------------
+   LEVEL 3 (6dp)
+   Uso: Botones de Acción Flotante (FAB), Menús desplegables (Dropdowns / Menus),
+   Tarjetas en estado arrastrado/hover prominente
+   -------------------------------------------------------------------------- */
+.md-elevation-3 {
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.15), 12, 0.0, 0, 4);
+}
+
+
+/* --------------------------------------------------------------------------
+   LEVEL 4 (8dp)
+   Uso: Diálogos modales (Dialogs / Modals), Hoja de navegación inferior / lateral
+   -------------------------------------------------------------------------- */
+.md-elevation-4 {
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.18), 16, 0.0, 0, 6);
+}
+
+
+/* --------------------------------------------------------------------------
+   LEVEL 5 (12dp)
+   Uso: Elementos de máxima jerarquía flotante, Pickers desplegados
+   -------------------------------------------------------------------------- */
+.md-elevation-5 {
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.20), 24, 0.0, 0, 8);
+}

@@ -1,131 +1,126 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1"
-            fx:id="anchor_pane"
             xmlns="http://javafx.com/javafx/17.0.12"
+            fx:id="anchor_pane"
             fx:controller="com.launcher.controller.implementation.client.ClientCreationController">
 
-    <VBox AnchorPane.topAnchor="0.0"
-          AnchorPane.bottomAnchor="0.0"
-          AnchorPane.leftAnchor="0.0"
-          AnchorPane.rightAnchor="0.0">
+    <VBox
+            AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0"
+          AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
 
         <!-- Header del Panel -->
-        <HBox styleClass="md-header-bar">
-            <MFXButton fx:id="back_button" styleClass="md-button-filled-tonal" text="← Volver"/>
-
-            <VBox styleClass="md-heading-group">
-                <Label styleClass="md-page-title" text="Nuevo Cliente"/>
-                <Label styleClass="md-page-subtitle" text="Registra un nuevo cliente en el sistema"/>
+        <HBox alignment="CENTER_LEFT" spacing="12">
+            <padding>
+                <Insets top="20" right="24" bottom="12" left="24"/>
+            </padding>
+            <MFXButton fx:id="back_button" styleClass="md-button-outlined" text="← Volver"/>
+            <VBox spacing="2">
+                <Label styleClass="md-headline-medium" text="Nuevo Cliente"/>
+                <Label styleClass="md-body-large" text="Registra un nuevo cliente en el sistema"/>
             </VBox>
         </HBox>
 
         <!-- Contenido Principal -->
-        <ScrollPane fitToHeight="true" fitToWidth="true" styleClass="md-content-scroll" VBox.vgrow="ALWAYS">
-
-            <VBox styleClass="md-content-section">
+        <ScrollPane fitToHeight="true" fitToWidth="true"
+                    style="-fx-background-color: transparent; -fx-background: transparent;"
+                    VBox.vgrow="ALWAYS">
+            <VBox spacing="24">
+                <padding>
+                    <Insets top="16" right="24" bottom="24" left="24"/>
+                </padding>
 
                 <!-- Formulario de Cliente -->
-                <VBox styleClass="md-card">
-                    <VBox styleClass="md-section-group">
-                        <Label styleClass="md-section-title" text="Datos Personales"/>
+                <VBox styleClass="md-card" spacing="16">
+                    <padding>
+                        <Insets top="16" right="16" bottom="16" left="16"/>
+                    </padding>
+                    <Label styleClass="md-title-medium" text="Datos Personales"/>
 
-                        <GridPane styleClass="md-grid-pane">
-                            <columnConstraints>
-                                <ColumnConstraints hgrow="SOMETIMES" minWidth="300.0"/>
-                                <ColumnConstraints hgrow="SOMETIMES" minWidth="300.0"/>
-                            </columnConstraints>
-                            <rowConstraints>
-                                <RowConstraints vgrow="SOMETIMES"/>
-                                <RowConstraints vgrow="SOMETIMES"/>
-                                <RowConstraints vgrow="SOMETIMES"/>
-                                <RowConstraints vgrow="SOMETIMES"/>
-                            </rowConstraints>
+                    <GridPane hgap="16" vgap="16">
+                        <columnConstraints>
+                            <ColumnConstraints hgrow="ALWAYS" percentWidth="50"/>
+                            <ColumnConstraints hgrow="ALWAYS" percentWidth="50"/>
+                        </columnConstraints>
 
-                            <!-- DNI -->
-                            <VBox styleClass="md-filter-column" GridPane.columnIndex="0" GridPane.rowIndex="0">
-                                <HBox styleClass="md-filter-spacer">
-                                    <Label styleClass="md-filter-label" text="DNI"/>
-                                    <Label styleClass="md-filter-label" text="*" style="-fx-text-fill: -fx-error"/>
-                                </HBox>
-                                <TextField fx:id="dni_field" styleClass="md-text-field" maxWidth="Infinity"/>
-                            </VBox>
+                        <!-- DNI -->
+                        <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                            <HBox spacing="2">
+                                <Label styleClass="md-label-medium" text="DNI"/>
+                                <Label styleClass="md-label-medium" text="*" style="-fx-text-fill: -fx-error"/>
+                            </HBox>
+                            <TextField fx:id="dni_field" styleClass="md-text-field" maxWidth="Infinity"/>
+                        </VBox>
 
-                            <!-- Nombre -->
-                            <VBox styleClass="md-filter-column" GridPane.columnIndex="1" GridPane.rowIndex="0">
-                                <HBox styleClass="md-filter-spacer">
-                                    <Label styleClass="md-filter-label" text="Nombre"/>
-                                    <Label styleClass="md-filter-label" text="*" style="-fx-text-fill: -fx-error"/>
-                                </HBox>
-                                <TextField fx:id="first_name_field" styleClass="md-text-field" maxWidth="Infinity"/>
-                            </VBox>
+                        <!-- Nombre -->
+                        <VBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                            <HBox spacing="2">
+                                <Label styleClass="md-label-medium" text="Nombre"/>
+                                <Label styleClass="md-label-medium" text="*" style="-fx-text-fill: -fx-error"/>
+                            </HBox>
+                            <TextField fx:id="first_name_field" styleClass="md-text-field" maxWidth="Infinity"/>
+                        </VBox>
 
-                            <!-- Apellido -->
-                            <VBox styleClass="md-filter-column" GridPane.columnIndex="0" GridPane.rowIndex="1">
-                                <HBox styleClass="md-filter-spacer">
-                                    <Label styleClass="md-filter-label" text="Apellido"/>
-                                    <Label styleClass="form-required" text="*" style="-fx-text-fill: -fx-error"/>
-                                </HBox>
-                                <TextField fx:id="last_name_field" styleClass="md-text-field" maxWidth="Infinity"/>
-                            </VBox>
+                        <!-- Apellido -->
+                        <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                            <HBox spacing="2">
+                                <Label styleClass="md-label-medium" text="Apellido"/>
+                                <Label styleClass="md-label-medium" text="*" style="-fx-text-fill: -fx-error"/>
+                            </HBox>
+                            <TextField fx:id="last_name_field" styleClass="md-text-field" maxWidth="Infinity"/>
+                        </VBox>
 
-                            <!-- Email -->
-                            <VBox styleClass="md-filter-column" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                                <HBox styleClass="md-filter-spacer">
-                                    <Label styleClass="md-filter-label" text="Email"/>
-                                    <Label styleClass="form-required" text="*" style="-fx-text-fill: -fx-error"/>
-                                </HBox>
-                                <TextField fx:id="email_field" styleClass="md-text-field" maxWidth="Infinity"/>
-                            </VBox>
+                        <!-- Email -->
+                        <VBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                            <HBox spacing="2">
+                                <Label styleClass="md-label-medium" text="Email"/>
+                                <Label styleClass="md-label-medium" text="*" style="-fx-text-fill: -fx-error"/>
+                            </HBox>
+                            <TextField fx:id="email_field" styleClass="md-text-field" maxWidth="Infinity"/>
+                        </VBox>
 
-                            <!-- Teléfonos -->
-                            <VBox styleClass="md-filter-column" GridPane.columnIndex="0" GridPane.columnSpan="2"
-                                  GridPane.rowIndex="2">
-                                <HBox styleClass="md-filter-spacer">
-                                    <Label styleClass="md-filter-label" text="Teléfonos"/>
-                                    <MFXButton fx:id="add_phone_button" styleClass="md-button-filled-tonal"
-                                               text="+ Agregar teléfono"/>
-                                </HBox>
-
-                                <!-- Contenedor de teléfonos -->
-                                <VBox fx:id="phones_container" styleClass="md-section-group"/>
-                            </VBox>
-                        </GridPane>
-                    </VBox>
+                        <!-- Teléfonos -->
+                        <VBox spacing="4" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="2">
+                            <HBox spacing="8" alignment="CENTER_LEFT">
+                                <Label styleClass="md-label-medium" text="Teléfonos"/>
+                                <MFXButton fx:id="add_phone_button" styleClass="md-button-outlined"
+                                           text="+ Agregar teléfono"/>
+                            </HBox>
+                            <VBox fx:id="phones_container" spacing="8"/>
+                        </VBox>
+                    </GridPane>
                 </VBox>
 
                 <!-- Información Adicional -->
-                <VBox styleClass="md-card">
-                    <VBox styleClass="md-section-group">
-                        <Label styleClass="md-section-title" text="Información Adicional"/>
+                <VBox styleClass="md-card" spacing="16">
+                    <padding>
+                        <Insets top="16" right="16" bottom="16" left="16"/>
+                    </padding>
+                    <Label styleClass="md-title-medium" text="Información Adicional"/>
 
-                        <GridPane styleClass="md-grid-pane">
-                            <columnConstraints>
-                                <ColumnConstraints hgrow="SOMETIMES" minWidth="300.0"/>
-                                <ColumnConstraints hgrow="SOMETIMES" minWidth="300.0"/>
-                            </columnConstraints>
-                            <rowConstraints>
-                                <RowConstraints vgrow="SOMETIMES"/>
-                            </rowConstraints>
+                    <GridPane hgap="16" vgap="16">
+                        <columnConstraints>
+                            <ColumnConstraints hgrow="ALWAYS" percentWidth="100"/>
+                        </columnConstraints>
 
-                            <!-- Notas -->
-                            <VBox styleClass="md-filter-column" GridPane.columnIndex="0" GridPane.columnSpan="2">
-                                <Label styleClass="md-filter-label" text="Notas"/>
-                                <TextField fx:id="optional_notes_field" styleClass="md-text-field"
-                                           maxWidth="Infinity" maxHeight="Infinity"/>
-                            </VBox>
-                        </GridPane>
-                    </VBox>
+                        <!-- Notas -->
+                        <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                            <Label styleClass="md-label-medium" text="Notas"/>
+                            <TextField fx:id="optional_notes_field" styleClass="md-text-field" maxWidth="Infinity"/>
+                        </VBox>
+                    </GridPane>
                 </VBox>
 
                 <!-- Botones de Acción -->
-                <HBox styleClass="md-action-button-container">
+                <HBox spacing="8" alignment="CENTER_RIGHT">
                     <MFXButton fx:id="clean_all_fields_button" styleClass="md-button-outlined" text="Limpiar campos"/>
                     <MFXButton fx:id="save_button" styleClass="md-button-filled" text="Crear Cliente"/>
                 </HBox>
+
             </VBox>
         </ScrollPane>
     </VBox>

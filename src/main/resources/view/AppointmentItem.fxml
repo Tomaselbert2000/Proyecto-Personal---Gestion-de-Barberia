@@ -1,51 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import java.lang.String?>
 <HBox xmlns:fx="http://javafx.com/fxml/1"
+      alignment="CENTER_LEFT"
+      spacing="16"
       styleClass="md-list-item"
       xmlns="http://javafx.com/javafx/25"
       fx:controller="com.launcher.controller.implementation.appointment.AppointmentItemController">
+    <padding>
+        <Insets top="12" right="16" bottom="12" left="16"/>
+    </padding>
 
-    <VBox styleClass="md-list-item-leading">
-        <Label fx:id="start_time" styleClass="md-list-item-leading-text"/>
-        <Label fx:id="end_time" styleClass="md-list-item-subtitle"/>
+    <!-- Time Column -->
+    <VBox alignment="CENTER" minWidth="80.0">
+        <Label fx:id="start_time" styleClass="md-headline-small"/>
+        <Label fx:id="end_time" styleClass="md-body-small"/>
     </VBox>
 
-    <Separator orientation="VERTICAL" styleClass="md-menu-separator"/>
+    <Separator orientation="VERTICAL" styleClass="md-nav-divider"/>
 
-    <VBox styleClass="md-list-item-content" HBox.hgrow="ALWAYS">
-
-        <HBox styleClass="md-heading-group">
-
-            <Label fx:id="client_name" styleClass="md-list-item-title"/>
-            <Label fx:id="status_badge">
-                <styleClass>
-                    <String fx:value="md-badge"/>
-                    <String fx:value=""/>
-                </styleClass>
-            </Label>
-
+    <!-- Appointment Information -->
+    <VBox spacing="4" HBox.hgrow="ALWAYS">
+        <!-- Client + Status -->
+        <HBox spacing="8" alignment="CENTER_LEFT">
+            <Label fx:id="client_name" styleClass="md-list-item-headline"/>
+            <VBox>
+                <Label fx:id="status_badge" styleClass="md-label-small"/>
+            </VBox>
         </HBox>
 
-        <Label fx:id="service_name" styleClass="md-list-item-subtitle"/>
+        <!-- Service -->
+        <Label fx:id="service_name" styleClass="md-list-item-supporting-text"/>
 
-        <HBox styleClass="md-heading-group">
-
-            <Label styleClass="md-list-item-subtitle" text="Barbero:"/>
-            <Label fx:id="employee_name" styleClass="md-list-item-subtitle"/>
-
+        <!-- Employee -->
+        <HBox spacing="4">
+            <Label styleClass="md-list-item-supporting-text" text="Barbero:"/>
+            <Label fx:id="employee_name" styleClass="md-list-item-supporting-text"/>
         </HBox>
     </VBox>
 
-    <HBox styleClass="md-action-button-container">
-
+    <!-- Actions -->
+    <HBox spacing="8" alignment="CENTER_RIGHT">
         <MFXButton fx:id="complete_button" styleClass="md-button-filled" text="Completar"/>
-
         <MFXButton fx:id="cancel_button" styleClass="md-button-outlined" text="Cancelar"/>
-
         <MFXButton fx:id="edit_button" styleClass="md-button-outlined" text="Editar"/>
     </HBox>
 </HBox>

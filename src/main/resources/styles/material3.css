@@ -1,0 +1,14 @@
+/* --- 1. TOKENS BASE (colores por defecto, formas, tipografía, elevación) --- */
+@import "tokens/colors-light.css";
+@import "tokens/colors-dark.css";
+@import "tokens/shapes.css";
+@import "tokens/typography.css";
+@import "tokens/elevation.css";
+@import "tokens/spacing.css";
+
+/* --- 2. COMPONENTES --- */
+@import "components/buttons.css";
+@import "components/inputs.css";
+@import "components/cards.css";
+@import "components/lists.css";
+@import "components/navigation.css";

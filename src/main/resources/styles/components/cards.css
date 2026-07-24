@@ -1,0 +1,165 @@
+/* ==========================================================================
+   MATERIAL DESIGN 3 - CARD COMPONENTS
+   Variants: Elevated, Filled, Outlined
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   ESTILOS BASE COMUNES PARA CARDS
+   -------------------------------------------------------------------------- */
+.md-card,
+.md-card-elevated,
+.md-card-filled,
+.md-card-outlined {
+    -fx-background-radius: 12;
+    -fx-border-radius: 12;
+    -fx-padding: 16;
+}
+
+
+/* ==========================================================================
+   1. ELEVATED CARD (Superficie con sombra sutil)
+   ========================================================================== */
+.md-card-elevated {
+    -fx-background-color: -fx-surface-container-low;
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+    /* Elevation Level 1 */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.08), 4, 0.0, 0, 1);
+}
+
+/* Hover: Se eleva a Level 2 */
+.md-card-elevated:hover {
+    -fx-background-color: derive(-fx-surface-container-low, -2%);
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.12), 8, 0.0, 0, 2);
+}
+
+/* Focused: Borde indicativo de foco */
+.md-card-elevated:focused {
+    -fx-border-color: -fx-primary;
+    -fx-border-width: 2px;
+    -fx-padding: 15; /* Compensación del borde */
+}
+
+/* Pressed: Vuelve a Level 1 con tono más oscuro */
+.md-card-elevated:pressed {
+    -fx-background-color: derive(-fx-surface-container-low, -5%);
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.08), 4, 0.0, 0, 1);
+}
+
+/* Disabled */
+.md-card-elevated:disabled {
+    -fx-background-color: derive(-fx-on-surface, 92%);
+    -fx-effect: none;
+    -fx-opacity: 0.38;
+}
+
+
+/* ==========================================================================
+   2. FILLED CARD (Contenedor tonal plano)
+   ========================================================================== */
+.md-card,
+.md-card-filled {
+    -fx-background-color: -fx-surface-container-highest;
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+    -fx-effect: none;
+}
+
+/* Hover: Se aclara/oscurece sutilmente y gana Elevation Level 1 */
+.md-card:hover,
+.md-card-filled:hover {
+    -fx-background-color: derive(-fx-surface-container-highest, -4%);
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.08), 4, 0.0, 0, 1);
+}
+
+/* Focused: Borde indicativo de foco */
+.md-card:focused,
+.md-card-filled:focused {
+    -fx-border-color: -fx-primary;
+    -fx-border-width: 2px;
+    -fx-padding: 15; /* Compensación del borde */
+}
+
+/* Pressed: Sin elevación y capa de estado más marcada */
+.md-card:pressed,
+.md-card-filled:pressed {
+    -fx-background-color: derive(-fx-surface-container-highest, -8%);
+    -fx-effect: none;
+}
+
+/* Disabled */
+.md-card:disabled,
+.md-card-filled:disabled {
+    -fx-background-color: derive(-fx-on-surface, 92%);
+    -fx-opacity: 0.38;
+}
+
+
+/* ==========================================================================
+   3. OUTLINED CARD (Tarjeta contorneada neutra)
+   ========================================================================== */
+.md-card-outlined {
+    -fx-background-color: -fx-surface;
+    -fx-border-color: -fx-outline-variant;
+    -fx-border-width: 1px;
+    -fx-effect: none;
+}
+
+/* Hover: El borde se oscurece y gana Elevation Level 1 */
+.md-card-outlined:hover {
+    -fx-border-color: -fx-outline;
+    -fx-background-color: derive(-fx-surface, -2%);
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.08), 4, 0.0, 0, 1);
+}
+
+/* Focused: Borde primario resaltado */
+.md-card-outlined:focused {
+    -fx-border-color: -fx-primary;
+    -fx-border-width: 2px;
+    -fx-padding: 15; /* Compensación del borde */
+}
+
+/* Pressed: Capa de estado interior */
+.md-card-outlined:pressed {
+    -fx-background-color: derive(-fx-surface, -6%);
+    -fx-effect: none;
+}
+
+/* Disabled */
+.md-card-outlined:disabled {
+    -fx-background-color: -fx-surface;
+    -fx-border-color: derive(-fx-on-surface, 85%);
+    -fx-opacity: 0.38;
+}
+
+
+/* ==========================================================================
+   4. TARJETA DE ACCIÓN / SELECCIONABLE (.md-action-card)
+   Variante específica para la grilla de acciones rápidas del Dashboard
+   ========================================================================== */
+.md-action-card {
+    -fx-background-color: -fx-surface-container-low;
+    -fx-border-color: -fx-outline-variant;
+    -fx-border-width: 1px;
+    -fx-background-radius: 12;
+    -fx-border-radius: 12;
+    -fx-padding: 16;
+    -fx-cursor: hand;
+}
+
+.md-action-card:hover {
+    -fx-background-color: -fx-surface-container-high;
+    -fx-border-color: -fx-outline;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.08), 4, 0.0, 0, 1);
+}
+
+.md-action-card:focused {
+    -fx-border-color: -fx-primary;
+    -fx-border-width: 2px;
+    -fx-padding: 15;
+}
+
+.md-action-card:pressed {
+    -fx-background-color: derive(-fx-surface-container-high, -6%);
+    -fx-effect: none;
+}

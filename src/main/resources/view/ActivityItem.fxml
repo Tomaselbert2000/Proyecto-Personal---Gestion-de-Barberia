@@ -1,37 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.*?>
-<?import java.lang.String?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
 <HBox xmlns:fx="http://javafx.com/fxml/1"
       alignment="CENTER_LEFT"
+      spacing="16"
       styleClass="md-list-item"
       xmlns="http://javafx.com/javafx/25"
       fx:controller="com.launcher.controller.implementation.dashboard.ActivityItemController">
+    <padding>
+        <Insets top="8" right="16" bottom="8" left="16"/>
+    </padding>
 
     <!-- Icono según tipo de actividad -->
-    <StackPane>
-        <Region fx:id="activity_icon">
-            <styleClass>
-                <String fx:value="md-action-card-icon"/>
-                <String fx:value=""/>
-            </styleClass>
-        </Region>
-    </StackPane>
+    <Region fx:id="activity_icon" styleClass="md-icon-small, md-icon-on-surface-variant"/>
 
     <!-- Información de la actividad -->
-    <VBox styleClass="md-list-item-content" HBox.hgrow="ALWAYS">
-
-        <!-- Título de la actividad -->
-        <Label fx:id="event_type" styleClass="md-list-item-title" text="Nuevo cliente registrado"/>
-
-        <!-- Detalles adicionales -->
-        <Label fx:id="text_to_attach" styleClass="md-list-item-subtitle"
+    <VBox spacing="2" HBox.hgrow="ALWAYS">
+        <Label fx:id="event_type" styleClass="md-list-item-headline"
+               text="Nuevo cliente registrado"/>
+        <Label fx:id="text_to_attach" styleClass="md-list-item-supporting-text"
                text="Juan Pérez se ha registrado en el sistema"/>
     </VBox>
 
     <!-- Tiempo transcurrido -->
-    <VBox alignment="CENTER_RIGHT" minWidth="80.0">
-        <Label fx:id="timestamp" styleClass="md-list-item-leading-text" text="Hace 5 min"/>
-    </VBox>
+    <Label fx:id="timestamp" styleClass="md-list-item-trailing"
+           alignment="CENTER_RIGHT" minWidth="80.0"
+           text="Hace 5 min"/>
 </HBox>

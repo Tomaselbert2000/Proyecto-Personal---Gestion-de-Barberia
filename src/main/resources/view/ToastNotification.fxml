@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.Circle?>
@@ -8,9 +9,12 @@
            xmlns="http://javafx.com/javafx/17.0.12"
            fx:controller="com.launcher.controller.implementation.toast_notification.ToastNotificationController">
 
-    <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="400.0" styleClass="toast-container">
+    <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="400.0" spacing="12" styleClass="md-card">
+        <padding>
+            <Insets top="12" right="16" bottom="12" left="16"/>
+        </padding>
 
-        <HBox styleClass="md-section-group">
+        <HBox spacing="12" alignment="CENTER_LEFT">
 
             <!-- Icon Container -->
             <StackPane>
@@ -20,13 +24,13 @@
             </StackPane>
 
             <!-- Message Content -->
-            <VBox styleClass="md-list-item-content" VBox.vgrow="ALWAYS">
-                <Label fx:id="toast_title" styleClass="md-list-item-title"/>
-                <Label fx:id="toast_message" styleClass="md-list-item-subtitle"/>
+            <VBox spacing="2" HBox.hgrow="ALWAYS">
+                <Label fx:id="toast_title" styleClass="md-list-item-headline"/>
+                <Label fx:id="toast_message" styleClass="md-list-item-supporting-text"/>
             </VBox>
 
             <!-- Close Button -->
-            <MFXButton fx:id="toast_close_button" styleClass="md-button-filled">
+            <MFXButton fx:id="toast_close_button" styleClass="md-button-outlined">
                 <graphic>
                     <Region styleClass="toast-close-icon-shape"/>
                 </graphic>
@@ -34,7 +38,7 @@
         </HBox>
 
         <!-- Progress Bar (optional for auto-dismiss) -->
-        <VBox fx:id="toast_progress_container" styleClass="toast-progress-container" visible="false" fillWidth="false"
+        <VBox fx:id="toast_progress_container" visible="false" fillWidth="false"
               alignment="CENTER_LEFT">
             <Region fx:id="toast_progress_bar"/>
         </VBox>

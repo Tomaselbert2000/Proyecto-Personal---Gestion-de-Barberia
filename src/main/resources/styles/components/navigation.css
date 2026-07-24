@@ -1,0 +1,193 @@
+/* ==========================================================================
+   MATERIAL DESIGN 3 - NAVIGATION COMPONENTS
+   Navigation Drawer, Navigation Rail, Navigation Bar & Navigation Items
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. NAVIGATION DRAWER / SIDEBAR CONTENEDOR (.md-navigation-drawer)
+   -------------------------------------------------------------------------- */
+.vbox.md-navigation-drawer,
+.scroll-pane.md-navigation-drawer {
+    -fx-background-color: -fx-surface-container-low;
+    -fx-pref-width: 280px;
+    -fx-min-width: 280px;
+    -fx-padding: 12 12;
+    -fx-spacing: 4;
+}
+
+/* Modal Navigation Drawer (Elevation Level 1) */
+.vbox.md-navigation-drawer-modal {
+    -fx-background-color: -fx-surface-container-low;
+    -fx-background-radius: 0 28 28 0;
+    -fx-border-radius: 0 28 28 0;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.08), 4, 0.0, 0, 1);
+}
+
+
+/* --------------------------------------------------------------------------
+   2. NAVIGATION RAIL CONTENEDOR (.md-navigation-rail)
+   -------------------------------------------------------------------------- */
+.vbox.md-navigation-rail {
+    -fx-background-color: -fx-surface;
+    -fx-pref-width: 80px;
+    -fx-min-width: 80px;
+    -fx-padding: 24 8 16 8;
+    -fx-spacing: 12;
+    -fx-alignment: top-center;
+}
+
+
+/* --------------------------------------------------------------------------
+   3. NAVIGATION BAR CONTENEDOR (.md-navigation-bar)
+   -------------------------------------------------------------------------- */
+.hbox.md-navigation-bar {
+    -fx-background-color: -fx-surface-container;
+    -fx-pref-height: 80px;
+    -fx-min-height: 80px;
+    -fx-padding: 0 16;
+    -fx-alignment: center;
+    -fx-spacing: 8;
+}
+
+
+/* --------------------------------------------------------------------------
+   4. NAVIGATION DRAWER ITEM (.md-nav-button)
+   Botón lateral completo (Icono + Texto)
+   -------------------------------------------------------------------------- */
+.mfx-button.md-nav-button,
+.button.md-nav-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: -fx-on-surface-variant;
+    -fx-font-family: "Roboto", sans-serif;
+    -fx-font-size: 14px;
+    -fx-font-weight: 500;
+    -fx-background-radius: 50;
+    -fx-border-radius: 50;
+    -fx-padding: 12 16 12 24;
+    -fx-pref-height: 56px;
+    -fx-alignment: center-left;
+    -fx-cursor: hand;
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+}
+
+/* Hover State */
+.mfx-button.md-nav-button:hover,
+.button.md-nav-button:hover {
+    -fx-background-color: -fx-surface-variant;
+    -fx-text-fill: -fx-on-surface;
+}
+
+/* Focused State */
+.mfx-button.md-nav-button:focused,
+.button.md-nav-button:focused {
+    -fx-border-color: -fx-primary;
+    -fx-border-width: 2px;
+}
+
+/* Pressed State */
+.mfx-button.md-nav-button:pressed,
+.button.md-nav-button:pressed {
+    -fx-background-color: derive(-fx-surface-variant, -8%);
+}
+
+/* Active / Selected State (Píldora Activa M3) */
+.mfx-button.md-nav-button.active,
+.mfx-button.md-nav-button:selected,
+.button.md-nav-button.active,
+.button.md-nav-button:selected,
+.md-nav-button-active {
+    -fx-background-color: -fx-secondary-container;
+    -fx-text-fill: -fx-on-secondary-container;
+    -fx-font-weight: bold;
+    -fx-background-radius: 50;
+}
+
+.mfx-button.md-nav-button.active:hover,
+.button.md-nav-button.active:hover,
+.md-nav-button-active:hover {
+    -fx-background-color: derive(-fx-secondary-container, -4%);
+}
+
+.mfx-button.md-nav-button.active:pressed,
+.button.md-nav-button.active:pressed,
+.md-nav-button-active:pressed {
+    -fx-background-color: derive(-fx-secondary-container, -8%);
+}
+
+/* Disabled State */
+.mfx-button.md-nav-button:disabled,
+.button.md-nav-button:disabled {
+    -fx-opacity: 0.38;
+    -fx-cursor: default;
+}
+
+
+/* --------------------------------------------------------------------------
+   5. NAVIGATION RAIL / BAR ITEM (.md-nav-rail-button / .md-nav-bar-button)
+   Botón vertical o compacto (Icono + Etiqueta pequeña inferior)
+   -------------------------------------------------------------------------- */
+.mfx-button.md-nav-rail-button,
+.button.md-nav-rail-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: -fx-on-surface-variant;
+    -fx-font-family: "Roboto", sans-serif;
+    -fx-font-size: 12px;
+    -fx-font-weight: 500;
+    -fx-background-radius: 16;
+    -fx-border-radius: 16;
+    -fx-padding: 4 12;
+    -fx-alignment: center;
+    -fx-content-display: top;
+    -fx-cursor: hand;
+}
+
+.mfx-button.md-nav-rail-button:hover,
+.button.md-nav-rail-button:hover {
+    -fx-background-color: -fx-surface-variant;
+    -fx-text-fill: -fx-on-surface;
+}
+
+.mfx-button.md-nav-rail-button.active,
+.mfx-button.md-nav-rail-button:selected,
+.button.md-nav-rail-button.active,
+.button.md-nav-rail-button:selected {
+    -fx-background-color: -fx-secondary-container;
+    -fx-text-fill: -fx-on-secondary-container;
+    -fx-font-weight: bold;
+}
+
+
+/* --------------------------------------------------------------------------
+   6. HEADER & SECTION DIVIDERS DENTRO DE NAVEGACIÓN
+   -------------------------------------------------------------------------- */
+/* Títulos de sección en la barra lateral */
+.md-nav-section-title {
+    -fx-font-family: "Roboto", sans-serif;
+    -fx-font-size: 12px;
+    -fx-font-weight: 500;
+    -fx-text-fill: -fx-on-surface-variant;
+    -fx-padding: 16 16 8 16;
+}
+
+/* Divisor interno del drawer */
+.separator.md-nav-divider .line {
+    -fx-border-color: -fx-outline-variant;
+    -fx-border-width: 1px 0 0 0;
+    -fx-padding: 8 0;
+}
+
+
+/* --------------------------------------------------------------------------
+   7. BADGES DENTRO DE ITEMS DE NAVEGACIÓN (.md-nav-badge)
+   -------------------------------------------------------------------------- */
+.md-nav-badge {
+    -fx-background-color: -fx-error;
+    -fx-text-fill: -fx-on-error;
+    -fx-font-family: "Roboto", sans-serif;
+    -fx-font-size: 11px;
+    -fx-font-weight: 500;
+    -fx-background-radius: 50;
+    -fx-padding: 2 6;
+    -fx-alignment: center;
+}

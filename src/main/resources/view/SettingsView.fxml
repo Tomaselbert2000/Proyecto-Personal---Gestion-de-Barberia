@@ -1,110 +1,108 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
-<AnchorPane
-        xmlns:fx="http://javafx.com/fxml/1"
-        fx:id="anchor_pane"
-        xmlns="http://javafx.com/javafx/25"
-        fx:controller="com.launcher.controller.implementation.settings.SettingsController">
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1"
+            fx:id="anchor_pane"
+            xmlns="http://javafx.com/javafx/25"
+            fx:controller="com.launcher.controller.implementation.settings.SettingsController">
 
     <fx:define>
         <ToggleGroup fx:id="themeGroup"/>
     </fx:define>
 
     <VBox
-            AnchorPane.topAnchor="0.0"
-            AnchorPane.bottomAnchor="0.0"
-            AnchorPane.leftAnchor="0.0"
-            AnchorPane.rightAnchor="0.0">
+            AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0"
+          AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
 
         <!-- Header del Panel -->
-        <HBox styleClass="md-header-bar">
-            <VBox styleClass="md-heading-group">
-                <Label styleClass="md-page-title" text="Configuración"/>
-                <Label styleClass="md-page-subtitle" text="Administra las opciones de la aplicación"/>
+        <HBox alignment="CENTER_LEFT">
+            <padding>
+                <Insets top="20" right="24" bottom="12" left="24"/>
+            </padding>
+            <VBox spacing="2">
+                <Label styleClass="md-headline-medium" text="Configuración"/>
+                <Label styleClass="md-body-large" text="Administra las opciones de la aplicación"/>
             </VBox>
             <Region HBox.hgrow="ALWAYS"/>
         </HBox>
 
         <!-- Contenido Principal -->
-        <ScrollPane
-                fitToHeight="true"
-                fitToWidth="true"
-                styleClass="md-content-scroll"
-                VBox.vgrow="ALWAYS">
-
-            <VBox styleClass="md-content-section">
+        <ScrollPane fitToHeight="true" fitToWidth="true"
+                    style="-fx-background-color: transparent; -fx-background: transparent;"
+                    VBox.vgrow="ALWAYS">
+            <VBox spacing="24">
+                <padding>
+                    <Insets top="16" right="24" bottom="24" left="24"/>
+                </padding>
 
                 <!-- Selector de Tema -->
-                <VBox styleClass="md-section-group">
-                    <Label styleClass="md-section-title" text="Apariencia"/>
-
-                    <HBox styleClass="md-card">
-                        <VBox styleClass="md-heading-group">
-                            <Label styleClass="md-list-item-title" text="Tema de Color"/>
-                            <Label styleClass="md-filter-label" text="Selecciona el tema visual de la aplicación"/>
+                <VBox spacing="12">
+                    <Label styleClass="md-title-medium" text="Apariencia"/>
+                    <HBox styleClass="md-card" spacing="16" alignment="CENTER_LEFT">
+                        <padding>
+                            <Insets top="16" right="16" bottom="16" left="16"/>
+                        </padding>
+                        <VBox spacing="2">
+                            <Label styleClass="md-title-large" text="Tema de Color"/>
+                            <Label styleClass="md-body-small"
+                                   text="Selecciona el tema visual de la aplicación"/>
                         </VBox>
-
                         <Region HBox.hgrow="ALWAYS"/>
-
-                        <HBox fx:id="theme_container" styleClass="md-section-group" HBox.hgrow="ALWAYS"/>
+                        <HBox fx:id="theme_container" spacing="12" HBox.hgrow="ALWAYS"/>
                     </HBox>
                 </VBox>
 
                 <!-- Configuración del Negocio -->
-                <VBox styleClass="md-section-group">
-
-                    <Label styleClass="md-section-title" text="Datos del Negocio"/>
-
-                    <VBox styleClass="md-card">
-                        <GridPane styleClass="md-grid-pane">
+                <VBox spacing="12">
+                    <Label styleClass="md-title-medium" text="Datos del Negocio"/>
+                    <VBox styleClass="md-card" spacing="16">
+                        <padding>
+                            <Insets top="20" right="20" bottom="20" left="20"/>
+                        </padding>
+                        <GridPane hgap="16" vgap="16">
                             <columnConstraints>
-                                <ColumnConstraints hgrow="SOMETIMES" minWidth="250.0"/>
-                                <ColumnConstraints hgrow="SOMETIMES" minWidth="250.0"/>
+                                <ColumnConstraints hgrow="ALWAYS" percentWidth="50"/>
+                                <ColumnConstraints hgrow="ALWAYS" percentWidth="50"/>
                             </columnConstraints>
-                            <rowConstraints>
-                                <RowConstraints vgrow="SOMETIMES"/>
-                                <RowConstraints vgrow="SOMETIMES"/>
-                                <RowConstraints vgrow="SOMETIMES"/>
-                            </rowConstraints>
 
                             <!-- Nombre del Negocio -->
-                            <VBox styleClass="md-filter-column" GridPane.columnIndex="0" GridPane.rowIndex="0">
-                                <Label styleClass="md-filter-label" text="Nombre de la Barbería"/>
+                            <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                                <Label styleClass="md-label-medium" text="Nombre de la Barbería"/>
                                 <TextField fx:id="name" styleClass="md-text-field" maxWidth="Infinity"/>
                             </VBox>
 
                             <!-- Teléfono -->
-                            <VBox styleClass="md-filter-column" GridPane.columnIndex="1" GridPane.rowIndex="0">
-                                <Label styleClass="md-filter-label" text="Teléfono"/>
+                            <VBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                                <Label styleClass="md-label-medium" text="Teléfono"/>
                                 <TextField fx:id="phone" styleClass="md-text-field" maxWidth="Infinity"/>
                             </VBox>
 
                             <!-- Email -->
-                            <VBox styleClass="md-filter-column" GridPane.columnIndex="0" GridPane.rowIndex="1">
-                                <Label styleClass="md-filter-label" text="Email"/>
+                            <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                                <Label styleClass="md-label-medium" text="Email"/>
                                 <TextField fx:id="email" styleClass="md-text-field" maxWidth="Infinity"/>
                             </VBox>
 
                             <!-- Dirección -->
-                            <VBox styleClass="md-filter-column" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                                <Label styleClass="md-filter-label" text="Dirección"/>
+                            <VBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                <Label styleClass="md-label-medium" text="Dirección"/>
                                 <TextField fx:id="address" styleClass="md-text-field" maxWidth="Infinity"/>
                             </VBox>
 
                             <!-- Horario de Apertura -->
-                            <VBox styleClass="md-filter-column" GridPane.columnIndex="0" GridPane.rowIndex="2">
-                                <Label styleClass="md-filter-label" text="Horario de Apertura"/>
+                            <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                                <Label styleClass="md-label-medium" text="Horario de Apertura"/>
                                 <ComboBox fx:id="opening_hours" styleClass="md-combo-box"/>
                             </VBox>
 
                             <!-- Horario de Cierre -->
-                            <VBox styleClass="md-filter-column" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                                <Label styleClass="md-filter-label" text="Horario de Cierre"/>
+                            <VBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                <Label styleClass="md-label-medium" text="Horario de Cierre"/>
                                 <ComboBox fx:id="closing_hours" styleClass="md-combo-box"/>
                             </VBox>
                         </GridPane>
@@ -112,158 +110,185 @@
                 </VBox>
 
                 <!-- Configuración de Notificaciones -->
-                <VBox styleClass="md-section-group">
-                    <Label styleClass="md-section-title" text="Notificaciones"/>
+                <VBox spacing="12">
+                    <Label styleClass="md-title-medium" text="Notificaciones"/>
+                    <VBox styleClass="md-card">
+                        <padding>
+                            <Insets top="8" right="16" bottom="8" left="16"/>
+                        </padding>
 
-                    <VBox styleClass="md-card, md-section-group">
-                        <HBox styleClass="md-stat-card-container">
-                            <VBox styleClass="md-filter-spacer" HBox.hgrow="ALWAYS">
-                                <Label styleClass="md-list-item-title" text="Notificaciones de Turnos"/>
-                                <Label styleClass="md-filter-label"
+                        <!-- Notificación: Turnos -->
+                        <HBox alignment="CENTER_LEFT" spacing="16">
+                            <padding>
+                                <Insets top="12" bottom="12"/>
+                            </padding>
+                            <VBox spacing="2" HBox.hgrow="ALWAYS">
+                                <Label styleClass="md-title-medium" text="Notificaciones de Turnos"/>
+                                <Label styleClass="md-body-small"
                                        text="Recibir alertas cuando se agende un nuevo turno"/>
                             </VBox>
-                            <CheckBox fx:id="new_appointment_checkbox" selected="true" styleClass="md-check-box"/>
+                            <CheckBox fx:id="new_appointment_checkbox" selected="true"
+                                      styleClass="md-check-box"/>
                         </HBox>
 
-                        <Separator styleClass="md-menu-separator"/>
+                        <Separator styleClass="md-nav-divider"/>
 
-                        <HBox styleClass="md-stat-card-container">
-                            <VBox styleClass="md-filter-spacer" HBox.hgrow="ALWAYS">
-                                <Label styleClass="md-list-item-title" text="Recordatorios de Turnos"/>
-                                <Label styleClass="md-filter-label"
+                        <!-- Notificación: Recordatorios -->
+                        <HBox alignment="CENTER_LEFT" spacing="16">
+                            <padding>
+                                <Insets top="12" bottom="12"/>
+                            </padding>
+                            <VBox spacing="2" HBox.hgrow="ALWAYS">
+                                <Label styleClass="md-title-medium" text="Recordatorios de Turnos"/>
+                                <Label styleClass="md-body-small"
                                        text="Enviar recordatorios a los clientes antes de su turno"/>
                             </VBox>
-                            <CheckBox fx:id="client_reminder_checkbox" selected="true" styleClass="md-check-box"/>
+                            <CheckBox fx:id="client_reminder_checkbox" selected="true"
+                                      styleClass="md-check-box"/>
                         </HBox>
 
-                        <Separator styleClass="md-menu-separator"/>
+                        <Separator styleClass="md-nav-divider"/>
 
-                        <HBox styleClass="md-stat-card-container">
-                            <VBox styleClass="md-filter-spacer" HBox.hgrow="ALWAYS">
-                                <Label styleClass="md-list-item-title" text="Alertas de Stock"/>
-                                <Label styleClass="md-filter-label"
+                        <!-- Notificación: Stock -->
+                        <HBox alignment="CENTER_LEFT" spacing="16">
+                            <padding>
+                                <Insets top="12" bottom="12"/>
+                            </padding>
+                            <VBox spacing="2" HBox.hgrow="ALWAYS">
+                                <Label styleClass="md-title-medium" text="Alertas de Stock"/>
+                                <Label styleClass="md-body-small"
                                        text="Notificar cuando el stock esté bajo o crítico"/>
                             </VBox>
-                            <CheckBox fx:id="low_stock_checkbox" selected="true" styleClass="md-check-box"/>
+                            <CheckBox fx:id="low_stock_checkbox" selected="true"
+                                      styleClass="md-check-box"/>
                         </HBox>
 
-                        <Separator styleClass="md-menu-separator"/>
+                        <Separator styleClass="md-nav-divider"/>
 
-                        <HBox styleClass="md-stat-card-container">
-                            <VBox styleClass="md-filter-spacer" HBox.hgrow="ALWAYS">
-                                <Label styleClass="md-list-item-title" text="Notificaciones de Empleados"/>
-                                <Label styleClass="md-filter-label"
+                        <!-- Notificación: Empleados -->
+                        <HBox alignment="CENTER_LEFT" spacing="16">
+                            <padding>
+                                <Insets top="12" bottom="12"/>
+                            </padding>
+                            <VBox spacing="2" HBox.hgrow="ALWAYS">
+                                <Label styleClass="md-title-medium" text="Notificaciones de Empleados"/>
+                                <Label styleClass="md-body-small"
                                        text="Alertas sobre cambios en el equipo de trabajo"/>
                             </VBox>
-                            <CheckBox fx:id="workplace_changes_checkbox" selected="true" styleClass="md-check-box"/>
+                            <CheckBox fx:id="workplace_changes_checkbox" selected="true"
+                                      styleClass="md-check-box"/>
                         </HBox>
                     </VBox>
                 </VBox>
 
                 <!-- Configuración de Seguridad -->
-                <VBox styleClass="md-section-group">
-                    <Label styleClass="md-section-title" text="Seguridad"/>
+                <VBox spacing="12">
+                    <Label styleClass="md-title-medium" text="Seguridad"/>
+                    <HBox styleClass="md-card" spacing="24" maxWidth="Infinity">
+                        <padding>
+                            <Insets top="20" right="20" bottom="20" left="20"/>
+                        </padding>
 
-                    <HBox styleClass="md-card" maxWidth="Infinity">
-                        <!-- Usuario Admin -->
-                        <VBox styleClass="md-filter-column" maxWidth="Infinity" HBox.hgrow="ALWAYS">
-                            <Label styleClass="md-list-item-title" text="Usuario Administrador"/>
-                            <TextField fx:id="user_textfield" styleClass="md-text-field" maxWidth="Infinity"/>
+                        <!-- Credenciales -->
+                        <VBox spacing="12" HBox.hgrow="ALWAYS">
+                            <Label styleClass="md-title-large" text="Usuario Administrador"/>
+                            <TextField fx:id="user_textfield" styleClass="md-text-field"
+                                       maxWidth="Infinity"/>
 
-                            <!-- Contraseña -->
-                            <Label styleClass="md-list-item-title" text="Nueva Contraseña"/>
+                            <Label styleClass="md-title-large" text="Nueva Contraseña"/>
                             <PasswordField fx:id="password_textfield" styleClass="md-text-field"
                                            maxWidth="Infinity"/>
 
-                            <!-- Confirmar contraseña -->
-                            <Label styleClass="md-list-item-title" text="Confirmar Contraseña"/>
+                            <Label styleClass="md-title-large" text="Confirmar Contraseña"/>
                             <PasswordField fx:id="confirm_password_textfield" styleClass="md-text-field"
                                            maxWidth="Infinity"/>
 
-                            <Region VBox.vgrow="ALWAYS" maxHeight="16"/>
-                            <HBox>
-                                <Region HBox.hgrow="ALWAYS"/>
+                            <Region VBox.vgrow="ALWAYS"/>
+                            <HBox alignment="CENTER_RIGHT">
                                 <MFXButton fx:id="update_password_button" styleClass="md-button-filled"
                                            text="Actualizar datos"/>
                             </HBox>
                         </VBox>
 
-                        <Region maxWidth="24" HBox.hgrow="ALWAYS"/>
+                        <Separator orientation="VERTICAL" styleClass="md-nav-divider"/>
 
-                        <HBox styleClass="md-filter-column">
-                            <!-- Botón Actualizar -->
-                            <VBox styleClass="md-action-button-container">
-                                <Label fx:id="password_length_label" styleClass="md-list-item-title"/>
-                                <Slider fx:id="password_length_slider"/>
-                                <HBox styleClass="md-action-button-container">
-                                    <MFXButton fx:id="suggest_strong_password" styleClass="md-button-filled-tonal"
-                                               text="Generar contraseña"/>
-                                </HBox>
-                                <Region VBox.vgrow="ALWAYS"/>
-                            </VBox>
-                        </HBox>
+                        <!-- Generador de Contraseña -->
+                        <VBox spacing="12" HBox.hgrow="ALWAYS">
+                            <Label fx:id="password_length_label" styleClass="md-title-large"/>
+                            <Slider fx:id="password_length_slider"/>
+                            <MFXButton fx:id="suggest_strong_password" styleClass="md-button-outlined"
+                                       text="Generar contraseña"/>
+                            <Region VBox.vgrow="ALWAYS"/>
+                        </VBox>
                     </HBox>
                 </VBox>
 
                 <!-- Información de la Aplicación -->
-                <VBox styleClass="md-section-group">
-                    <Label styleClass="md-section-title" text="Acerca de la Aplicación"/>
+                <VBox spacing="12">
+                    <Label styleClass="md-title-medium" text="Acerca de la Aplicación"/>
+                    <VBox styleClass="md-card" spacing="16">
+                        <padding>
+                            <Insets top="20" right="20" bottom="20" left="20"/>
+                        </padding>
 
-                    <VBox styleClass="md-card">
-
-                        <HBox styleClass="md-content-section">
-
+                        <HBox spacing="24" alignment="CENTER_LEFT">
                             <!-- Logo -->
-                            <VBox alignment="CENTER" minWidth="100.0">
-                                <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true"
-                                           styleClass="app-logo">
-                                    <Image url="@../images/Logo.jpg"/>
-                                </ImageView>
-                            </VBox>
+                            <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true"
+                                       preserveRatio="true">
+                                <Image url="@../images/Logo.jpg"/>
+                            </ImageView>
 
                             <!-- Información -->
-                            <VBox styleClass="md-heading-group">
-                                <Label styleClass="md-page-title" text="La Tercera Barbershop"/>
-                                <Label styleClass="md-page-subtitle"
+                            <VBox spacing="2" HBox.hgrow="ALWAYS">
+                                <Label styleClass="md-headline-medium" text="La Tercera Barbershop"/>
+                                <Label styleClass="md-body-large"
                                        text="Sistema de gestión integral para barberías"/>
                             </VBox>
-
-                            <!-- Información Técnica -->
-                            <GridPane styleClass="md-grid-pane" maxWidth="Infinity">
-                                <Label styleClass="md-list-item-title" text="Versión:"
-                                       GridPane.columnIndex="0" GridPane.rowIndex="0"/>
-                                <Label fx:id="version_number" styleClass="md-list-item-title"
-                                       GridPane.columnIndex="1" GridPane.rowIndex="0"/>
-
-                                <Label styleClass="md-list-item-title" text="Framework:"
-                                       GridPane.columnIndex="0" GridPane.rowIndex="1"/>
-                                <Label fx:id="framework_name" styleClass="md-list-item-title"
-                                       GridPane.columnIndex="1" GridPane.rowIndex="1"/>
-
-                                <Label styleClass="md-list-item-title" text="Base de datos:"
-                                       GridPane.columnIndex="0" GridPane.rowIndex="2"/>
-                                <Label fx:id="database_name" styleClass="md-list-item-title"
-                                       GridPane.columnIndex="1" GridPane.rowIndex="2"/>
-
-                                <Label styleClass="md-list-item-title" text="Fecha de compilación:"
-                                       GridPane.columnIndex="0" GridPane.rowIndex="3"/>
-                                <Label fx:id="compilation_timestamp" styleClass="md-list-item-title"
-                                       GridPane.columnIndex="1" GridPane.rowIndex="3"/>
-
-                                <Label styleClass="md-list-item-title" text="Desarrollado por:"
-                                       GridPane.columnIndex="0" GridPane.rowIndex="4"/>
-                                <Label fx:id="developer_name" styleClass="md-list-item-title"
-                                       GridPane.columnIndex="1" GridPane.rowIndex="4"/>
-                            </GridPane>
                         </HBox>
+
+                        <Separator styleClass="md-nav-divider"/>
+
+                        <!-- Información Técnica -->
+                        <GridPane hgap="16" vgap="8">
+                            <columnConstraints>
+                                <ColumnConstraints hgrow="NEVER"/>
+                                <ColumnConstraints hgrow="ALWAYS"/>
+                            </columnConstraints>
+
+                            <Label styleClass="md-label-medium" text="Versión:"
+                                   GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                            <Label fx:id="version_number" styleClass="md-body-medium"
+                                   GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+                            <Label styleClass="md-label-medium" text="Framework:"
+                                   GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                            <Label fx:id="framework_name" styleClass="md-body-medium"
+                                   GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+                            <Label styleClass="md-label-medium" text="Base de datos:"
+                                   GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                            <Label fx:id="database_name" styleClass="md-body-medium"
+                                   GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+
+                            <Label styleClass="md-label-medium" text="Fecha de compilación:"
+                                   GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+                            <Label fx:id="compilation_timestamp" styleClass="md-body-medium"
+                                   GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+
+                            <Label styleClass="md-label-medium" text="Desarrollado por:"
+                                   GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+                            <Label fx:id="developer_name" styleClass="md-body-medium"
+                                   GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+                        </GridPane>
                     </VBox>
                 </VBox>
 
                 <!-- Botones de Acción -->
-                <HBox styleClass="md-action-button-container">
-                    <MFXButton fx:id="cancel_button" styleClass="md-button-filled-tonal" text="Restaurar datos"/>
+                <HBox spacing="8" alignment="CENTER_RIGHT">
+                    <MFXButton fx:id="cancel_button" styleClass="md-button-text" text="Restaurar datos"/>
                     <MFXButton fx:id="save_button" styleClass="md-button-filled" text="Guardar Cambios"/>
                 </HBox>
+
             </VBox>
         </ScrollPane>
     </VBox>

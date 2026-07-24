@@ -1,0 +1,344 @@
+/* ==========================================================================
+   MATERIAL DESIGN 3 - INPUT COMPONENTS
+   TextFields, ComboBox, DatePicker, CheckBox, RadioButton
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. OUTLINED TEXT FIELD (Campo de texto contorneado estándar)
+   -------------------------------------------------------------------------- */
+.md-text-field,
+.md-text-field-outlined {
+    -fx-background-color: transparent;
+    -fx-border-color: -fx-outline;
+    -fx-border-width: 1px;
+    -fx-border-radius: 4;
+    -fx-background-radius: 4;
+    -fx-padding: 8 12;
+    -fx-font-family: "Roboto", sans-serif;
+    -fx-font-size: 14px;
+    -fx-text-fill: -fx-on-surface;
+    -fx-prompt-text-fill: -fx-on-surface-variant;
+}
+
+.md-text-field:hover,
+.md-text-field-outlined:hover {
+    -fx-border-color: -fx-on-surface;
+}
+
+.md-text-field:focused,
+.md-text-field-outlined:focused {
+    -fx-border-color: -fx-primary;
+    -fx-border-width: 2px;
+    -fx-padding: 7 11; /* Compensación visual por el borde de 2px */
+}
+
+.md-text-field:disabled,
+.md-text-field-outlined:disabled {
+    -fx-border-color: derive(-fx-on-surface, 80%);
+    -fx-text-fill: derive(-fx-on-surface, 62%);
+    -fx-opacity: 0.38;
+}
+
+/* Estado de Error en Outlined TextField */
+.md-text-field.md-input-error,
+.md-text-field-outlined.md-input-error {
+    -fx-border-color: -fx-error;
+}
+
+.md-text-field.md-input-error:focused,
+.md-text-field-outlined.md-input-error:focused {
+    -fx-border-color: -fx-error;
+    -fx-border-width: 2px;
+}
+
+
+/* --------------------------------------------------------------------------
+   2. FILLED TEXT FIELD (Campo de texto con fondo sólido y borde inferior)
+   -------------------------------------------------------------------------- */
+.md-text-field-filled {
+    -fx-background-color: -fx-surface-container-highest;
+    -fx-background-radius: 4 4 0 0;
+    -fx-border-radius: 4 4 0 0;
+    -fx-border-color: transparent transparent -fx-on-surface-variant transparent;
+    -fx-border-width: 0 0 1px 0;
+    -fx-padding: 8 12;
+    -fx-font-family: "Roboto", sans-serif;
+    -fx-font-size: 14px;
+    -fx-text-fill: -fx-on-surface;
+    -fx-prompt-text-fill: -fx-on-surface-variant;
+}
+
+.md-text-field-filled:hover {
+    -fx-background-color: derive(-fx-surface-container-highest, -4%);
+    -fx-border-color: transparent transparent -fx-on-surface transparent;
+}
+
+.md-text-field-filled:focused {
+    -fx-border-color: transparent transparent -fx-primary transparent;
+    -fx-border-width: 0 0 2px 0;
+    -fx-padding: 8 12 7 12; /* Compensación para el borde inferior de 2px */
+}
+
+.md-text-field-filled:disabled {
+    -fx-background-color: derive(-fx-on-surface, 92%);
+    -fx-border-color: transparent transparent derive(-fx-on-surface, 80%) transparent;
+    -fx-opacity: 0.38;
+}
+
+
+/* --------------------------------------------------------------------------
+   3. COMBO BOX (Alineado con el estilo de Outlined Input)
+   -------------------------------------------------------------------------- */
+.md-combo-box {
+    -fx-background-color: transparent;
+    -fx-border-color: -fx-outline;
+    -fx-border-width: 1px;
+    -fx-border-radius: 4;
+    -fx-background-radius: 4;
+    -fx-padding: 5 12;
+    -fx-font-family: "Roboto", sans-serif;
+    -fx-font-size: 14px;
+}
+
+.md-combo-box:hover {
+    -fx-border-color: -fx-on-surface;
+}
+
+.md-combo-box:focused,
+.md-combo-box:showing {
+    -fx-border-color: -fx-primary;
+    -fx-border-width: 2px;
+    -fx-padding: 4 11;
+}
+
+.md-combo-box .list-cell {
+    -fx-text-fill: -fx-on-surface;
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
+.md-combo-box .arrow-button {
+    -fx-background-color: transparent;
+    -fx-padding: 0 0 0 8;
+}
+
+.md-combo-box .arrow {
+    -fx-background-color: -fx-on-surface-variant;
+}
+
+/* Menú desplegable del ComboBox (Elevation 2) */
+.md-combo-box .list-view {
+    -fx-background-color: -fx-surface-container;
+    -fx-background-radius: 4;
+    -fx-border-color: transparent;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.12), 8, 0.0, 0, 2);
+    -fx-padding: 4 0;
+}
+
+.md-combo-box .list-view .list-cell {
+    -fx-padding: 10 12;
+    -fx-background-color: transparent;
+    -fx-text-fill: -fx-on-surface;
+}
+
+.md-combo-box .list-view .list-cell:hover {
+    -fx-background-color: -fx-surface-variant;
+}
+
+.md-combo-box .list-view .list-cell:selected {
+    -fx-background-color: -fx-secondary-container;
+    -fx-text-fill: -fx-on-secondary-container;
+}
+
+
+/* --------------------------------------------------------------------------
+   4. DATE PICKER (Alineado con el estilo de Outlined Input y Popup M3)
+   -------------------------------------------------------------------------- */
+.md-date-picker {
+    -fx-background-color: transparent;
+    -fx-border-color: -fx-outline;
+    -fx-border-width: 1px;
+    -fx-border-radius: 4;
+    -fx-background-radius: 4;
+    -fx-font-family: "Roboto", sans-serif;
+    -fx-font-size: 14px;
+}
+
+.md-date-picker:hover {
+    -fx-border-color: -fx-on-surface;
+}
+
+.md-date-picker:focused,
+.md-date-picker:contains-focus {
+    -fx-border-color: -fx-primary;
+    -fx-border-width: 2px;
+}
+
+.md-date-picker .text-field {
+    -fx-background-color: transparent;
+    -fx-padding: 8 12;
+    -fx-text-fill: -fx-on-surface;
+    -fx-prompt-text-fill: -fx-on-surface-variant;
+}
+
+.md-date-picker .arrow-button {
+    -fx-background-color: transparent;
+    -fx-padding: 0 12 0 0;
+}
+
+.md-date-picker .arrow-button .arrow {
+    -fx-background-color: -fx-on-surface-variant;
+}
+
+/* Calendario Popup (Elevation 3) */
+.date-picker-popup {
+    -fx-background-color: -fx-surface-container-high;
+    -fx-background-radius: 12;
+    -fx-border-color: transparent;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.15), 12, 0.0, 0, 4);
+}
+
+.date-picker-popup .month-year-pane {
+    -fx-background-color: transparent;
+    -fx-padding: 12 8;
+}
+
+.date-picker-popup .month-year-pane .label {
+    -fx-text-fill: -fx-on-surface;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+.date-picker-popup .day-name-cell {
+    -fx-text-fill: -fx-on-surface-variant;
+    -fx-font-size: 12px;
+    -fx-padding: 8 0;
+}
+
+.date-picker-popup .day-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill: -fx-on-surface !important;
+    -fx-padding: 6 8;
+    -fx-background-radius: 50;
+}
+
+.date-picker-popup .day-cell:hover {
+    -fx-background-color: -fx-surface-variant;
+}
+
+.date-picker-popup .day-cell:today {
+    -fx-border-color: -fx-primary;
+    -fx-border-radius: 50;
+    -fx-border-width: 1px;
+}
+
+.date-picker-popup .day-cell:selected {
+    -fx-background-color: -fx-primary;
+    -fx-text-fill: -fx-on-primary !important;
+    -fx-font-weight: bold;
+}
+
+
+/* --------------------------------------------------------------------------
+   5. CHECKBOX (M3 Checkbox Style)
+   -------------------------------------------------------------------------- */
+.md-check-box {
+    -fx-text-fill: -fx-on-surface;
+    -fx-font-family: "Roboto", sans-serif;
+    -fx-font-size: 14px;
+    -fx-label-padding: 0 0 0 8;
+    -fx-cursor: hand;
+}
+
+.md-check-box .box {
+    -fx-background-color: transparent;
+    -fx-border-color: -fx-on-surface-variant;
+    -fx-border-width: 2px;
+    -fx-border-radius: 2;
+    -fx-background-radius: 2;
+    -fx-padding: 2;
+    -fx-pref-width: 18px;
+    -fx-pref-height: 18px;
+}
+
+.md-check-box:hover .box {
+    -fx-border-color: -fx-on-surface;
+    -fx-background-color: derive(-fx-on-surface, 95%);
+}
+
+.md-check-box:selected .box {
+    -fx-background-color: -fx-primary;
+    -fx-border-color: -fx-primary;
+}
+
+.md-check-box:selected:hover .box {
+    -fx-background-color: derive(-fx-primary, -5%);
+    -fx-border-color: derive(-fx-primary, -5%);
+}
+
+.md-check-box .mark {
+    -fx-background-color: transparent;
+}
+
+.md-check-box:selected .mark {
+    -fx-background-color: -fx-on-primary;
+}
+
+.md-check-box:focused .box {
+    -fx-border-color: -fx-primary;
+}
+
+.md-check-box:disabled {
+    -fx-opacity: 0.38;
+}
+
+
+/* --------------------------------------------------------------------------
+   6. RADIO BUTTON (M3 RadioButton Style)
+   -------------------------------------------------------------------------- */
+.md-radio-button {
+    -fx-text-fill: -fx-on-surface;
+    -fx-font-family: "Roboto", sans-serif;
+    -fx-font-size: 14px;
+    -fx-label-padding: 0 0 0 8;
+    -fx-cursor: hand;
+}
+
+.md-radio-button .radio {
+    -fx-background-color: transparent;
+    -fx-border-color: -fx-on-surface-variant;
+    -fx-border-width: 2px;
+    -fx-border-radius: 50;
+    -fx-background-radius: 50;
+    -fx-alignment: center;
+    -fx-padding: 4;
+    -fx-border-insets: 0;
+}
+
+.md-radio-button:hover .radio {
+    -fx-border-color: -fx-on-surface;
+    -fx-background-color: derive(-fx-on-surface, 95%);
+}
+
+.md-radio-button:selected .radio {
+    -fx-border-color: -fx-primary;
+}
+
+.md-radio-button .dot {
+    -fx-background-color: transparent;
+    -fx-background-radius: 50;
+    -fx-padding: 5;
+    -fx-border-insets: 0;
+}
+
+.md-radio-button:selected .dot {
+    -fx-background-color: -fx-primary;
+}
+
+.md-radio-button:focused .radio {
+    -fx-border-color: -fx-primary;
+}
+
+.md-radio-button:disabled {
+    -fx-opacity: 0.38;
+}

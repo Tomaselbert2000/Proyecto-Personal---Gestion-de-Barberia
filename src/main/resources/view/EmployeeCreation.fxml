@@ -1,95 +1,97 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1"
             fx:id="anchor_pane"
-            styleClass="theme-barberia"
             xmlns="http://javafx.com/javafx/17.0.12"
             fx:controller="com.launcher.controller.implementation.employee.EmployeeCreationController">
 
-    <VBox AnchorPane.topAnchor="0.0"
-          AnchorPane.bottomAnchor="0.0"
-          AnchorPane.leftAnchor="0.0"
-          AnchorPane.rightAnchor="0.0">
+    <VBox
+            AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0"
+          AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
 
         <!-- Header del Panel -->
-        <HBox styleClass="md-header-bar">
-            <MFXButton fx:id="back_button" styleClass="md-button-filled-tonal" text="← Volver"/>
-            <VBox styleClass="md-heading-group">
-                <Label styleClass="md-page-title" text="Nuevo Empleado"/>
-                <Label styleClass="md-page-subtitle" text="Registra un nuevo empleado en el sistema"/>
+        <HBox alignment="CENTER_LEFT" spacing="16">
+            <padding>
+                <Insets top="20" right="24" bottom="12" left="24"/>
+            </padding>
+            <MFXButton fx:id="back_button" styleClass="md-button-outlined" text="Volver"/>
+            <VBox spacing="2">
+                <Label styleClass="md-headline-medium" text="Nuevo Empleado"/>
+                <Label styleClass="md-body-large" text="Registra un nuevo empleado en el sistema"/>
             </VBox>
         </HBox>
 
         <!-- Contenido Principal -->
-        <ScrollPane fitToHeight="true"
-                    fitToWidth="true"
-                    styleClass="md-content-scroll"
+        <ScrollPane fitToHeight="true" fitToWidth="true"
+                    style="-fx-background-color: transparent; -fx-background: transparent;"
                     VBox.vgrow="ALWAYS">
-
-            <VBox styleClass="md-content-section">
+            <VBox spacing="24">
+                <padding>
+                    <Insets top="16" right="24" bottom="24" left="24"/>
+                </padding>
 
                 <!-- Formulario de Empleado -->
-                <VBox styleClass="md-card">
-                    <VBox styleClass="md-section-group">
-                        <Label styleClass="md-section-title" text="Datos del Empleado"/>
-                        <GridPane styleClass="md-grid-pane">
-                            <columnConstraints>
-                                <ColumnConstraints hgrow="SOMETIMES" minWidth="300.0"/>
-                                <ColumnConstraints hgrow="SOMETIMES" minWidth="300.0"/>
-                            </columnConstraints>
-                            <rowConstraints>
-                                <RowConstraints vgrow="SOMETIMES"/>
-                                <RowConstraints vgrow="SOMETIMES"/>
-                                <RowConstraints vgrow="SOMETIMES"/>
-                            </rowConstraints>
+                <VBox styleClass="md-card" spacing="16">
+                    <padding>
+                        <Insets top="20" right="20" bottom="20" left="20"/>
+                    </padding>
 
-                            <!-- Nombre -->
-                            <VBox styleClass="md-filter-column" GridPane.columnIndex="0" GridPane.rowIndex="0">
-                                <HBox styleClass="md-filter-spacer">
-                                    <Label styleClass="md-filter-label" text="Nombre"/>
-                                    <Label styleClass="md-filter-label" text="*" style="-fx-text-fill: -fx-error"/>
-                                </HBox>
-                                <TextField fx:id="first_name_field" styleClass="md-text-field" maxWidth="Infinity"/>
-                            </VBox>
+                    <Label styleClass="md-title-medium" text="Datos del Empleado"/>
 
-                            <!-- Apellido -->
-                            <VBox styleClass="md-filter-column" GridPane.columnIndex="1" GridPane.rowIndex="0">
-                                <HBox styleClass="md-filter-spacer">
-                                    <Label styleClass="md-filter-label" text="Apellido"/>
-                                    <Label styleClass="md-filter-label" text="*" style="-fx-text-fill: -fx-error"/>
-                                </HBox>
-                                <TextField fx:id="last_name_field" styleClass="md-text-field" maxWidth="Infinity"/>
-                            </VBox>
+                    <GridPane hgap="16" vgap="16">
+                        <columnConstraints>
+                            <ColumnConstraints hgrow="ALWAYS" percentWidth="50"/>
+                            <ColumnConstraints hgrow="ALWAYS" percentWidth="50"/>
+                        </columnConstraints>
 
-                            <!-- Fecha de Contratación -->
-                            <VBox styleClass="md-filter-column" GridPane.columnIndex="0" GridPane.rowIndex="1">
-                                <HBox styleClass="md-filter-spacer">
-                                    <Label styleClass="md-filter-label" text="Fecha de Contratación"/>
-                                    <Label styleClass="md-filter-label" text="*" style="-fx-text-fill: -fx-error"/>
-                                </HBox>
-                                <DatePicker fx:id="hire_date_picker" styleClass="md-date-picker"/>
-                            </VBox>
+                        <!-- Nombre -->
+                        <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                            <HBox spacing="4">
+                                <Label styleClass="md-label-medium" text="Nombre"/>
+                                <Label styleClass="md-label-medium" text="*" style="-fx-text-fill: -fx-error"/>
+                            </HBox>
+                            <TextField fx:id="first_name_field" styleClass="md-text-field" maxWidth="Infinity"/>
+                        </VBox>
 
-                            <!-- Porcentaje de Comisión -->
-                            <VBox styleClass="md-filter-column" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                                <HBox styleClass="md-filter-spacer">
-                                    <Label styleClass="md-filter-label" text="Comisión (%)"/>
-                                    <Label styleClass="md-filter-label" text="*" style="-fx-text-fill: -fx-error"/>
-                                </HBox>
-                                <TextField fx:id="commission_field" styleClass="md-text-field" maxWidth="Infinity"/>
-                            </VBox>
-                        </GridPane>
-                    </VBox>
+                        <!-- Apellido -->
+                        <VBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                            <HBox spacing="4">
+                                <Label styleClass="md-label-medium" text="Apellido"/>
+                                <Label styleClass="md-label-medium" text="*" style="-fx-text-fill: -fx-error"/>
+                            </HBox>
+                            <TextField fx:id="last_name_field" styleClass="md-text-field" maxWidth="Infinity"/>
+                        </VBox>
+
+                        <!-- Fecha de Contratación -->
+                        <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                            <HBox spacing="4">
+                                <Label styleClass="md-label-medium" text="Fecha de Contratación"/>
+                                <Label styleClass="md-label-medium" text="*" style="-fx-text-fill: -fx-error"/>
+                            </HBox>
+                            <DatePicker fx:id="hire_date_picker" styleClass="md-date-picker"/>
+                        </VBox>
+
+                        <!-- Porcentaje de Comisión -->
+                        <VBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                            <HBox spacing="4">
+                                <Label styleClass="md-label-medium" text="Comisión (%)"/>
+                                <Label styleClass="md-label-medium" text="*" style="-fx-text-fill: -fx-error"/>
+                            </HBox>
+                            <TextField fx:id="commission_field" styleClass="md-text-field" maxWidth="Infinity"/>
+                        </VBox>
+                    </GridPane>
                 </VBox>
 
                 <!-- Botones de Acción -->
-                <HBox styleClass="md-action-button-container">
-                    <MFXButton fx:id="clear_button" styleClass="md-button-filled-tonal" text="Limpiar datos"/>
+                <HBox spacing="8" alignment="CENTER_RIGHT">
+                    <MFXButton fx:id="clear_button" styleClass="md-button-text" text="Limpiar datos"/>
                     <MFXButton fx:id="save_button" styleClass="md-button-filled" text="Registrar Empleado"/>
                 </HBox>
+
             </VBox>
         </ScrollPane>
     </VBox>

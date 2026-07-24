@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.Circle?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.launcher.controller.implementation.login.LoginController"
             fx:id="anchor_pane"
-            xmlns="http://javafx.com/javafx/17.0.12"
-            styleClass="md-main-content">
+            xmlns="http://javafx.com/javafx/17.0.12">
 
     <VBox AnchorPane.topAnchor="0.0"
           AnchorPane.bottomAnchor="0.0"
@@ -16,6 +16,9 @@
           AnchorPane.rightAnchor="0.0"
           alignment="CENTER"
           spacing="24">
+        <padding>
+            <Insets top="40" right="40" bottom="40" left="40"/>
+        </padding>
 
         <!-- Logo Placeholder Circular -->
         <StackPane>
@@ -24,13 +27,13 @@
         </StackPane>
 
         <!-- Título -->
-        <Label styleClass="md-page-title"
+        <Label styleClass="md-headline-medium"
                text="Sistema de Gestión"
                alignment="CENTER"
                maxWidth="1.7976931348623157E308"/>
 
         <!-- Subtítulo -->
-        <Label styleClass="md-page-subtitle"
+        <Label styleClass="md-body-large"
                text="Bienvenido de nuevo"
                alignment="CENTER"
                maxWidth="1.7976931348623157E308"/>
@@ -60,7 +63,7 @@
                    text="Iniciar sesión"/>
 
         <!-- Texto de registro -->
-        <Label styleClass="md-page-subtitle"
+        <Label styleClass="md-body-large"
                text="¿No sos usuario? Registrate"
                alignment="CENTER"
                maxWidth="1.7976931348623157E308"/>

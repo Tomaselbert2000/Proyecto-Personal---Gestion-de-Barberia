@@ -1,38 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.*?>
-<?import java.lang.String?>
 <HBox xmlns:fx="http://javafx.com/fxml/1"
+      alignment="CENTER_LEFT"
+      spacing="16"
       styleClass="md-list-item"
-      xmlns="http://javafx.com/javafx/17.0.12"
+      xmlns="http://javafx.com/javafx/25"
       fx:controller="com.launcher.controller.implementation.barberservice.BarberServiceItemController">
+    <padding>
+        <Insets top="12" right="16" bottom="12" left="16"/>
+    </padding>
 
     <!-- Service Information -->
-    <VBox HBox.hgrow="ALWAYS">
-        <HBox styleClass="md-heading-group">
-            <Label fx:id="service_name" styleClass="md-list-item-title"/>
-            <VBox>
-                <styleClass>
-                    <String fx:value="md-badge"/>
-                    <String fx:value="md-badge-scheduled"/>
-                </styleClass>
-                <Label fx:id="category_text" styleClass="md-list-item-subtitle"/>
+    <VBox spacing="4" HBox.hgrow="ALWAYS">
+        <!-- Name + Category Badge -->
+        <HBox spacing="8" alignment="CENTER_LEFT">
+            <Label fx:id="service_name" styleClass="md-list-item-headline"/>
+            <VBox fx:id="category_badge">
+                <Label fx:id="category_text" styleClass="md-label-small"/>
             </VBox>
         </HBox>
     </VBox>
 
     <!-- Price -->
-    <VBox alignment="CENTER" minWidth="100.0" styleClass="price-container">
-        <Label fx:id="service_price" styleClass="md-section-title"/>
+    <VBox alignment="CENTER" minWidth="100.0">
+        <Label fx:id="service_price" styleClass="md-title-medium"/>
     </VBox>
 
     <!-- Actions -->
-    <HBox styleClass="md-action-button-container">
-
+    <HBox spacing="8" alignment="CENTER_RIGHT">
         <MFXButton fx:id="edit_button" styleClass="md-button-outlined" text="Editar"/>
-
-        <MFXButton fx:id="delete_button" styleClass="md-button-filled-tonal" text="Eliminar"/>
+        <MFXButton fx:id="delete_button" styleClass="md-button-filled" text="Eliminar"/>
     </HBox>
 </HBox>

@@ -1,0 +1,211 @@
+/* ==========================================================================
+   MATERIAL DESIGN 3 - BUTTON COMPONENTS
+   Variants: Filled, Elevated, Tonal, Outlined, Text
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   ESTILOS BASE COMUNES (M3 Button Base)
+   -------------------------------------------------------------------------- */
+.mfx-button.md-button-filled,
+.mfx-button.md-button-elevated,
+.mfx-button.md-button-tonal,
+.mfx-button.md-button-outlined,
+.mfx-button.md-button-text,
+.button.md-button-filled,
+.button.md-button-elevated,
+.button.md-button-tonal,
+.button.md-button-outlined,
+.button.md-button-text {
+    -fx-font-family: "Roboto";
+    -fx-font-size: 14px;
+    -fx-font-weight: 500;
+    -fx-background-radius: 50;
+    -fx-border-radius: 50;
+    -fx-padding: 10 24;
+    -fx-cursor: hand;
+    -fx-alignment: center;
+}
+
+
+/* ==========================================================================
+   1. FILLED BUTTON (Acción principal de alto impacto)
+   ========================================================================== */
+.mfx-button.md-button-filled,
+.button.md-button-filled {
+    -fx-background-color: -fx-primary;
+    -fx-text-fill: -fx-on-primary;
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+}
+
+/* Hover: Capa de estado (5% más oscuro) */
+.mfx-button.md-button-filled:hover,
+.button.md-button-filled:hover {
+    -fx-background-color: derive(-fx-primary, -5%);
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.12), 4, 0.0, 0, 1);
+}
+
+/* Focused: Borde de foco o indicación de teclado */
+.mfx-button.md-button-filled:focused,
+.button.md-button-filled:focused {
+    -fx-border-color: -fx-on-surface;
+    -fx-border-width: 2px;
+}
+
+/* Pressed: Capa de estado al hacer clic (10% más oscuro) */
+.mfx-button.md-button-filled:pressed,
+.button.md-button-filled:pressed {
+    -fx-background-color: derive(-fx-primary, -10%);
+    -fx-effect: none;
+}
+
+/* Disabled */
+.mfx-button.md-button-filled:disabled,
+.button.md-button-filled:disabled {
+    -fx-background-color: derive(-fx-on-surface, 88%);
+    -fx-text-fill: derive(-fx-on-surface, 62%);
+    -fx-opacity: 0.38;
+}
+
+
+/* ==========================================================================
+   2. ELEVATED BUTTON (Acción destacada con elevación sutil)
+   ========================================================================== */
+.mfx-button.md-button-elevated,
+.button.md-button-elevated {
+    -fx-background-color: -fx-surface-container-low;
+    -fx-text-fill: -fx-primary;
+    -fx-border-color: transparent;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.08), 4, 0.0, 0, 1);
+}
+
+.mfx-button.md-button-elevated:hover,
+.button.md-button-elevated:hover {
+    -fx-background-color: derive(-fx-surface-container-low, -3%);
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.12), 8, 0.0, 0, 2);
+}
+
+.mfx-button.md-button-elevated:focused,
+.button.md-button-elevated:focused {
+    -fx-border-color: -fx-primary;
+    -fx-border-width: 2px;
+}
+
+.mfx-button.md-button-elevated:pressed,
+.button.md-button-elevated:pressed {
+    -fx-background-color: derive(-fx-surface-container-low, -6%);
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.08), 4, 0.0, 0, 1);
+}
+
+.mfx-button.md-button-elevated:disabled,
+.button.md-button-elevated:disabled {
+    -fx-background-color: derive(-fx-on-surface, 88%);
+    -fx-text-fill: derive(-fx-on-surface, 62%);
+    -fx-effect: none;
+    -fx-opacity: 0.38;
+}
+
+
+/* ==========================================================================
+   3. FILLED TONAL BUTTON (Acción de jerarquía media)
+   ========================================================================== */
+.mfx-button.md-button-tonal,
+.button.md-button-tonal {
+    -fx-background-color: -fx-secondary-container;
+    -fx-text-fill: -fx-on-secondary-container;
+    -fx-border-color: transparent;
+}
+
+.mfx-button.md-button-tonal:hover,
+.button.md-button-tonal:hover {
+    -fx-background-color: derive(-fx-secondary-container, -5%);
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.08), 4, 0.0, 0, 1);
+}
+
+.mfx-button.md-button-tonal:focused,
+.button.md-button-tonal:focused {
+    -fx-border-color: -fx-on-secondary-container;
+    -fx-border-width: 2px;
+}
+
+.mfx-button.md-button-tonal:pressed,
+.button.md-button-tonal:pressed {
+    -fx-background-color: derive(-fx-secondary-container, -10%);
+    -fx-effect: none;
+}
+
+.mfx-button.md-button-tonal:disabled,
+.button.md-button-tonal:disabled {
+    -fx-background-color: derive(-fx-on-surface, 88%);
+    -fx-text-fill: derive(-fx-on-surface, 62%);
+    -fx-opacity: 0.38;
+}
+
+
+/* ==========================================================================
+   4. OUTLINED BUTTON (Acción secundaria)
+   ========================================================================== */
+.mfx-button.md-button-outlined,
+.button.md-button-outlined {
+    -fx-background-color: transparent;
+    -fx-text-fill: -fx-primary;
+    -fx-border-color: -fx-outline;
+    -fx-border-width: 1px;
+}
+
+.mfx-button.md-button-outlined:hover,
+.button.md-button-outlined:hover {
+    -fx-background-color: derive(-fx-primary, 90%);
+}
+
+.mfx-button.md-button-outlined:focused,
+.button.md-button-outlined:focused {
+    -fx-border-color: -fx-primary;
+    -fx-border-width: 2px;
+    -fx-background-color: derive(-fx-primary, 90%);
+}
+
+.mfx-button.md-button-outlined:pressed,
+.button.md-button-outlined:pressed {
+    -fx-background-color: derive(-fx-primary, 80%);
+}
+
+.mfx-button.md-button-outlined:disabled,
+.button.md-button-outlined:disabled {
+    -fx-border-color: derive(-fx-on-surface, 80%);
+    -fx-text-fill: derive(-fx-on-surface, 62%);
+    -fx-opacity: 0.38;
+}
+
+
+/* ==========================================================================
+   5. TEXT BUTTON (Acciones terciarias o dentro de cards/dialogs)
+   ========================================================================== */
+.mfx-button.md-button-text,
+.button.md-button-text {
+    -fx-background-color: transparent;
+    -fx-text-fill: -fx-primary;
+    -fx-border-color: transparent;
+    -fx-padding: 10 12; /* Padding más estrecho en botones planos */
+}
+
+.mfx-button.md-button-text:hover,
+.button.md-button-text:hover {
+    -fx-background-color: derive(-fx-primary, 92%);
+}
+
+.mfx-button.md-button-text:focused,
+.button.md-button-text:focused {
+    -fx-background-color: derive(-fx-primary, 88%);
+}
+
+.mfx-button.md-button-text:pressed,
+.button.md-button-text:pressed {
+    -fx-background-color: derive(-fx-primary, 82%);
+}
+
+.mfx-button.md-button-text:disabled,
+.button.md-button-text:disabled {
+    -fx-text-fill: derive(-fx-on-surface, 62%);
+    -fx-opacity: 0.38;
+}

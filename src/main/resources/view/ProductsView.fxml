@@ -1,175 +1,156 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import java.lang.*?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1"
             fx:id="anchor_pane"
-            maxHeight="1.7976931348623157E308"
-            maxWidth="1.7976931348623157E308"
             xmlns="http://javafx.com/javafx/17.0.12"
-            stylesheets="@../css/material-icons.css"
             fx:controller="com.launcher.controller.implementation.product.ProductViewController">
 
     <VBox
-            AnchorPane.topAnchor="0.0"
-            AnchorPane.bottomAnchor="0.0"
-            AnchorPane.leftAnchor="0.0"
-            AnchorPane.rightAnchor="0.0">
+            AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0"
+          AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
 
         <!-- Header del Panel -->
-        <HBox styleClass="md-header-bar">
-            <VBox styleClass="md-heading-group">
-                <Label styleClass="md-page-title" text="Stock de Productos"/>
-                <Label styleClass="md-page-subtitle" text="Administra el inventario de productos"/>
+        <HBox alignment="CENTER_LEFT">
+            <padding>
+                <Insets top="20" right="24" bottom="12" left="24"/>
+            </padding>
+            <VBox spacing="2">
+                <Label styleClass="md-headline-medium" text="Stock de Productos"/>
+                <Label styleClass="md-body-large" text="Administra el inventario de productos"/>
             </VBox>
             <Region HBox.hgrow="ALWAYS"/>
         </HBox>
 
         <!-- Contenido Principal -->
-        <ScrollPane fitToHeight="true" fitToWidth="true" styleClass="md-content-scroll" VBox.vgrow="ALWAYS">
-            <VBox styleClass="md-content-section">
+        <ScrollPane fitToHeight="true" fitToWidth="true"
+                    style="-fx-background-color: transparent; -fx-background: transparent;"
+                    VBox.vgrow="ALWAYS">
+            <VBox spacing="24">
+                <padding>
+                    <Insets top="16" right="24" bottom="24" left="24"/>
+                </padding>
 
                 <!-- Tarjetas de Estadísticas de Productos -->
-                <GridPane styleClass="md-grid-pane">
+                <GridPane hgap="16" vgap="16">
                     <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="250.0"/>
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="250.0"/>
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="250.0"/>
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="250.0"/>
+                        <ColumnConstraints hgrow="ALWAYS" percentWidth="25"/>
+                        <ColumnConstraints hgrow="ALWAYS" percentWidth="25"/>
+                        <ColumnConstraints hgrow="ALWAYS" percentWidth="25"/>
+                        <ColumnConstraints hgrow="ALWAYS" percentWidth="25"/>
                     </columnConstraints>
-                    <rowConstraints>
-                        <RowConstraints minHeight="140.0" vgrow="SOMETIMES"/>
-                    </rowConstraints>
 
                     <!-- Tarjeta: Total Productos -->
-                    <VBox styleClass="md-card" GridPane.columnIndex="0">
-                        <HBox styleClass="md-stat-card-container">
-                            <Region HBox.hgrow="ALWAYS"/>
-                            <VBox>
-                                <Region>
-                                    <styleClass>
-                                        <String fx:value="md-action-card-icon"/>
-                                        <String fx:value="warehouse-icon"/>
-                                    </styleClass>
-                                </Region>
+                    <VBox styleClass="md-card" spacing="12" GridPane.columnIndex="0">
+                        <padding>
+                            <Insets top="16" right="16" bottom="16" left="16"/>
+                        </padding>
+                        <HBox alignment="CENTER_LEFT">
+                            <VBox spacing="2" HBox.hgrow="ALWAYS">
+                                <Label fx:id="product_count" styleClass="md-headline-large"/>
+                                <Label styleClass="md-body-medium" text="Total Productos"/>
                             </VBox>
+                            <Region styleClass="warehouse-icon, md-icon-large, md-icon-primary"/>
                         </HBox>
-                        <VBox styleClass="md-action-label-container">
-                            <Label fx:id="product_count" styleClass="md-stat-value"/>
-                            <Label styleClass="md-stat-label" text="Total Productos"/>
-                        </VBox>
-                        <HBox styleClass="md-action-label-container">
-                            <Label fx:id="products_created_this_month" styleClass="md-stat-trend-neutral"/>
-                            <Label styleClass="md-stat-trend-label" text="nuevos este mes"/>
+                        <HBox spacing="4" alignment="CENTER_LEFT">
+                            <Label fx:id="products_created_this_month" styleClass="md-label-medium"/>
+                            <Label styleClass="md-label-small" text="nuevos este mes"/>
                         </HBox>
                     </VBox>
 
                     <!-- Tarjeta: Stock Crítico -->
-                    <VBox styleClass="md-card" GridPane.columnIndex="1">
-                        <HBox styleClass="md-stat-card-container">
-                            <Region HBox.hgrow="ALWAYS"/>
-                            <VBox>
-                                <Region>
-                                    <styleClass>
-                                        <String fx:value="md-action-card-icon"/>
-                                        <String fx:value="exclamation-icon"/>
-                                    </styleClass>
-                                </Region>
+                    <VBox styleClass="md-card" spacing="12" GridPane.columnIndex="1">
+                        <padding>
+                            <Insets top="16" right="16" bottom="16" left="16"/>
+                        </padding>
+                        <HBox alignment="CENTER_LEFT">
+                            <VBox spacing="2" HBox.hgrow="ALWAYS">
+                                <Label fx:id="critical_stock_level_product_count" styleClass="md-headline-large"/>
+                                <Label styleClass="md-body-medium" text="Stock Crítico"/>
                             </VBox>
+                            <Region styleClass="exclamation-icon, md-icon-large, md-icon-primary"/>
                         </HBox>
-                        <VBox styleClass="md-action-label-container">
-                            <Label fx:id="critical_stock_level_product_count" styleClass="md-stat-value"/>
-                            <Label styleClass="md-stat-label" text="Stock Crítico"/>
-                        </VBox>
-                        <HBox styleClass="md-action-label-container">
-                            <Label styleClass="md-stat-trend-neutral" text="Reponer urgentemente"/>
+                        <HBox spacing="4" alignment="CENTER_LEFT">
+                            <Label styleClass="md-label-medium" text="Reponer urgentemente"/>
                         </HBox>
                     </VBox>
 
                     <!-- Tarjeta: Stock Bajo -->
-                    <VBox styleClass="md-card" GridPane.columnIndex="2">
-                        <HBox styleClass="md-stat-card-container">
-                            <Region HBox.hgrow="ALWAYS"/>
-                            <VBox>
-                                <Region>
-                                    <styleClass>
-                                        <String fx:value="md-action-card-icon"/>
-                                        <String fx:value="stat-minus-1-icon"/>
-                                    </styleClass>
-                                </Region>
+                    <VBox styleClass="md-card" spacing="12" GridPane.columnIndex="2">
+                        <padding>
+                            <Insets top="16" right="16" bottom="16" left="16"/>
+                        </padding>
+                        <HBox alignment="CENTER_LEFT">
+                            <VBox spacing="2" HBox.hgrow="ALWAYS">
+                                <Label fx:id="low_stock_level_product_count" styleClass="md-headline-large"/>
+                                <Label styleClass="md-body-medium" text="Stock Bajo"/>
                             </VBox>
+                            <Region styleClass="stat-minus-1-icon, md-icon-large, md-icon-primary"/>
                         </HBox>
-                        <VBox styleClass="md-action-label-container">
-                            <Label fx:id="low_stock_level_product_count" styleClass="md-stat-value"/>
-                            <Label styleClass="md-stat-label" text="Stock Bajo"/>
-                        </VBox>
-                        <HBox styleClass="md-action-label-container">
-                            <Label styleClass="md-stat-trend-neutral" text="Revisar pronto"/>
+                        <HBox spacing="4" alignment="CENTER_LEFT">
+                            <Label styleClass="md-label-medium" text="Revisar pronto"/>
                         </HBox>
                     </VBox>
 
                     <!-- Tarjeta: Valor Total -->
-                    <VBox styleClass="md-card" GridPane.columnIndex="3">
-                        <HBox styleClass="md-stat-card-container">
-                            <Region HBox.hgrow="ALWAYS"/>
-                            <VBox>
-                                <Region>
-                                    <styleClass>
-                                        <String fx:value="md-action-card-icon"/>
-                                        <String fx:value="money-bag-icon"/>
-                                    </styleClass>
-                                </Region>
+                    <VBox styleClass="md-card" spacing="12" GridPane.columnIndex="3">
+                        <padding>
+                            <Insets top="16" right="16" bottom="16" left="16"/>
+                        </padding>
+                        <HBox alignment="CENTER_LEFT">
+                            <VBox spacing="2" HBox.hgrow="ALWAYS">
+                                <Label fx:id="total_stock_value" styleClass="md-headline-large"/>
+                                <Label styleClass="md-body-medium" text="Valor en Stock"/>
                             </VBox>
+                            <Region styleClass="money-bag-icon, md-icon-large, md-icon-primary"/>
                         </HBox>
-                        <VBox styleClass="md-action-label-container">
-                            <Label fx:id="total_stock_value" styleClass="md-stat-value"/>
-                            <Label styleClass="md-stat-label" text="Valor en Stock"/>
-                        </VBox>
-                        <HBox styleClass="md-action-label-container">
-                            <Label fx:id="total_stock_value_vs_last_month" styleClass="md-stat-trend-neutral"/>
-                            <Label styleClass="md-stat-trend-label" text="vs mes anterior"/>
+                        <HBox spacing="4" alignment="CENTER_LEFT">
+                            <Label fx:id="total_stock_value_vs_last_month" styleClass="md-label-medium"/>
+                            <Label styleClass="md-label-small" text="vs mes anterior"/>
                         </HBox>
                     </VBox>
                 </GridPane>
 
                 <!-- Sección de Filtros y Acciones -->
-                <VBox styleClass="md-section-group">
-                    <Label styleClass="md-section-title" text="Filtros y Acciones"/>
-                    <VBox styleClass="md-filter-card">
-                        <HBox styleClass="md-filter-container">
+                <VBox spacing="12">
+                    <Label styleClass="md-title-medium" text="Filtros y Acciones"/>
 
+                    <VBox styleClass="md-card" spacing="16">
+                        <padding>
+                            <Insets top="16" right="16" bottom="16" left="16"/>
+                        </padding>
+                        <HBox spacing="16">
                             <!-- Buscador -->
-                            <VBox styleClass="md-filter-column" HBox.hgrow="ALWAYS">
-                                <Label styleClass="md-filter-label" text="Buscar producto"/>
-                                <TextField fx:id="product_search_field" styleClass="md-text-field" maxWidth="Infinity"/>
+                            <VBox spacing="4" HBox.hgrow="ALWAYS">
+                                <Label styleClass="md-label-medium" text="Buscar producto"/>
+                                <TextField fx:id="product_search_field" styleClass="md-text-field"
+                                           maxWidth="Infinity"/>
                             </VBox>
 
                             <!-- Filtro por Categoría -->
-                            <VBox styleClass="md-filter-column" HBox.hgrow="ALWAYS">
-                                <Label styleClass="md-filter-label" text="Categoría"/>
+                            <VBox spacing="4" HBox.hgrow="ALWAYS">
+                                <Label styleClass="md-label-medium" text="Categoría"/>
                                 <ComboBox fx:id="product_category_selector" styleClass="md-combo-box"
                                           maxWidth="Infinity"/>
                             </VBox>
 
                             <!-- Filtro por Estado de Stock -->
-                            <VBox styleClass="md-filter-column" HBox.hgrow="ALWAYS">
-                                <Label styleClass="md-filter-label" text="Estado de Stock"/>
+                            <VBox spacing="4" HBox.hgrow="ALWAYS">
+                                <Label styleClass="md-label-medium" text="Estado de Stock"/>
                                 <ComboBox fx:id="product_stock_status_selector" styleClass="md-combo-box"
                                           maxWidth="Infinity"/>
                             </VBox>
 
                             <!-- Botones de Acción -->
-                            <VBox styleClass="md-filter-column">
-                                <Label styleClass="md-filter-label" text="Acciones"/>
-                                <HBox styleClass="md-action-button-container">
-                                    <MFXButton fx:id="clean_filters_button"
-                                               styleClass="md-button-outlined"
+                            <VBox spacing="4">
+                                <Label styleClass="md-label-medium" text="Acciones"/>
+                                <HBox spacing="8" alignment="CENTER_LEFT">
+                                    <MFXButton fx:id="clean_filters_button" styleClass="md-button-outlined"
                                                text="Limpiar"/>
-
-                                    <MFXButton fx:id="create_product_button"
-                                               styleClass="md-button-filled"
+                                    <MFXButton fx:id="create_product_button" styleClass="md-button-filled"
                                                text="+ Nuevo Producto"/>
                                 </HBox>
                             </VBox>
@@ -178,16 +159,20 @@
                 </VBox>
 
                 <!-- Lista de Productos -->
-                <VBox styleClass="md-section-group">
-                    <HBox styleClass="md-section-group">
-                        <Label styleClass="md-section-title" text="Inventario de Productos"/>
+                <VBox spacing="12">
+                    <HBox spacing="8" alignment="CENTER_LEFT">
+                        <Label styleClass="md-title-medium" text="Inventario de Productos"/>
                         <Region HBox.hgrow="ALWAYS"/>
-                        <Label fx:id="products_found_count" styleClass="md-action-subtitle"/>
+                        <Label fx:id="products_found_count" styleClass="md-body-small"/>
                     </HBox>
 
-                    <!-- Contenedor de la Lista de Productos -->
-                    <VBox fx:id="product_list_vbox" styleClass="md-recent-activity-card"/>
+                    <VBox fx:id="product_list_vbox" styleClass="md-card">
+                        <padding>
+                            <Insets top="8" right="16" bottom="8" left="16"/>
+                        </padding>
+                    </VBox>
                 </VBox>
+
             </VBox>
         </ScrollPane>
     </VBox>

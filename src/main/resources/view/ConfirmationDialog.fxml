@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.*?>
+<StackPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17.0.12"
+           fx:controller="com.launcher.controller.implementation.dialog.ConfirmationDialogController">
+
+    <VBox alignment="CENTER" maxWidth="-Infinity" maxHeight="-Infinity" spacing="24" styleClass="md-card">
+        <padding>
+            <Insets top="24" right="24" bottom="24" left="24"/>
+        </padding>
+
+        <HBox alignment="CENTER">
+            <Region fx:id="dialog_icon" prefHeight="32.0" prefWidth="32.0"
+                    styleClass="md-icon-large, md-icon-primary"/>
+        </HBox>
+
+        <Label fx:id="confirmation_title"
+               alignment="CENTER"
+               maxWidth="1.7976931348623157E308"
+               styleClass="md-title-large"
+               textAlignment="CENTER"/>
+
+        <Label fx:id="confirmation_message"
+               alignment="CENTER"
+               contentDisplay="CENTER"
+               maxWidth="1.7976931348623157E308"
+               styleClass="md-body-large"
+               textAlignment="CENTER"
+               wrapText="true"/>
+
+        <HBox alignment="CENTER" spacing="16">
+            <MFXButton fx:id="cancel_button" styleClass="md-button-outlined"/>
+            <MFXButton fx:id="confirm_button" styleClass="md-button-filled"/>
+        </HBox>
+
+    </VBox>
+</StackPane>

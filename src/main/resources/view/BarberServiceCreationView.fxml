@@ -1,124 +1,113 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1"
-            xmlns="http://javafx.com/javafx/25"
+            xmlns="http://javafx.com/javafx/17.0.12"
             fx:id="anchor_pane"
             fx:controller="com.launcher.controller.implementation.barberservice.BarberServiceCreationController">
 
     <VBox
-            AnchorPane.topAnchor="0.0"
-            AnchorPane.bottomAnchor="0.0"
-            AnchorPane.leftAnchor="0.0"
-            AnchorPane.rightAnchor="0.0">
+            AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0"
+          AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
 
-        <!-- Header Panel -->
-        <HBox styleClass="md-header-bar">
-
-            <MFXButton fx:id="back_button" styleClass="md-button-filled-tonal" text="← Volver"/>
-
-            <VBox styleClass="md-heading-group">
-                <Label styleClass="md-page-title" text="Nuevo Servicio"/>
-                <Label styleClass="md-page-subtitle" text="Registra un nuevo servicio en el catálogo"/>
+        <!-- Header del Panel -->
+        <HBox alignment="CENTER_LEFT" spacing="12">
+            <padding>
+                <Insets top="20" right="24" bottom="12" left="24"/>
+            </padding>
+            <MFXButton fx:id="back_button" styleClass="md-button-outlined" text="← Volver"/>
+            <VBox spacing="2">
+                <Label styleClass="md-headline-medium" text="Nuevo Servicio"/>
+                <Label styleClass="md-body-large" text="Registra un nuevo servicio en el catálogo"/>
             </VBox>
         </HBox>
 
-        <!-- Main Content -->
-        <ScrollPane fitToHeight="true" fitToWidth="true" styleClass="md-content-scroll" VBox.vgrow="ALWAYS">
+        <!-- Contenido Principal -->
+        <ScrollPane fitToHeight="true" fitToWidth="true"
+                    style="-fx-background-color: transparent; -fx-background: transparent;"
+                    VBox.vgrow="ALWAYS">
+            <VBox spacing="24">
+                <padding>
+                    <Insets top="16" right="24" bottom="24" left="24"/>
+                </padding>
 
-            <VBox styleClass="md-content-section">
-
-                <!-- Service Form -->
-                <VBox styleClass="md-card">
-                    <VBox styleClass="md-section-group">
-                        <Label styleClass="md-section-title" text="Datos del Servicio"/>
-                        <Label styleClass="md-filter-label" text="Ingresa los datos del nuevo servicio"/>
+                <!-- Formulario: Datos del Servicio -->
+                <VBox styleClass="md-card" spacing="16">
+                    <padding>
+                        <Insets top="16" right="16" bottom="16" left="16"/>
+                    </padding>
+                    <VBox spacing="4">
+                        <Label styleClass="md-title-medium" text="Datos del Servicio"/>
+                        <Label styleClass="md-body-small" text="Ingresa los datos del nuevo servicio"/>
                     </VBox>
 
-                    <GridPane styleClass="md-grid-pane">
+                    <GridPane hgap="16" vgap="16">
                         <columnConstraints>
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="300.0"/>
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="300.0"/>
+                            <ColumnConstraints hgrow="ALWAYS" percentWidth="50"/>
+                            <ColumnConstraints hgrow="ALWAYS" percentWidth="50"/>
                         </columnConstraints>
-                        <rowConstraints>
-                            <RowConstraints vgrow="SOMETIMES"/>
-                            <RowConstraints vgrow="SOMETIMES"/>
-                            <RowConstraints vgrow="SOMETIMES"/>
-                        </rowConstraints>
 
-                        <!-- Service Name -->
-                        <VBox styleClass="md-filter-column" GridPane.columnIndex="0" GridPane.rowIndex="0">
-                            <HBox styleClass="md-filter-spacer">
-                                <Label styleClass="md-filter-label" text="Nombre del Servicio"/>
-                                <Label styleClass="md-filter-label" text="*" style="-fx-text-fill: -fx-error"/>
+                        <!-- Nombre del Servicio -->
+                        <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                            <HBox spacing="2">
+                                <Label styleClass="md-label-medium" text="Nombre del Servicio"/>
+                                <Label styleClass="md-label-medium" text="*" style="-fx-text-fill: -fx-error"/>
                             </HBox>
-
                             <TextField fx:id="service_name_field" styleClass="md-text-field" maxWidth="Infinity"/>
-
                         </VBox>
 
-                        <!-- Price -->
-                        <VBox styleClass="md-filter-column" GridPane.columnIndex="1" GridPane.rowIndex="0">
-                            <HBox styleClass="md-filter-spacer">
-                                <Label styleClass="md-filter-label" text="Precio"/>
-                                <Label styleClass="md-filter-label" text="*" style="-fx-text-fill: -fx-error"/>
+                        <!-- Precio -->
+                        <VBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                            <HBox spacing="2">
+                                <Label styleClass="md-label-medium" text="Precio"/>
+                                <Label styleClass="md-label-medium" text="*" style="-fx-text-fill: -fx-error"/>
                             </HBox>
-
                             <TextField fx:id="price_field" styleClass="md-text-field"/>
-
                         </VBox>
 
-                        <!-- Category -->
-                        <VBox styleClass="md-filter-column" GridPane.columnIndex="0" GridPane.rowIndex="1">
-                            <HBox styleClass="md-filter-spacer">
-                                <Label styleClass="md-filter-label" text="Categoría"/>
-                                <Label styleClass="md-filter-label" text="*" style="-fx-text-fill: -fx-error"/>
+                        <!-- Categoría -->
+                        <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                            <HBox spacing="2">
+                                <Label styleClass="md-label-medium" text="Categoría"/>
+                                <Label styleClass="md-label-medium" text="*" style="-fx-text-fill: -fx-error"/>
                             </HBox>
-
                             <ComboBox fx:id="category_combo_box" styleClass="md-combo-box"/>
                         </VBox>
                     </GridPane>
-
                 </VBox>
 
-                <!-- Additional Information -->
-                <VBox styleClass="md-card">
-                    <VBox styleClass="md-section-group">
-
-                        <Label styleClass="md-section-title" text="Información Adicional"/>
-                        <Label styleClass="md-filter-label" text="Datos opcionales del servicio"/>
-
+                <!-- Formulario: Información Adicional -->
+                <VBox styleClass="md-card" spacing="16">
+                    <padding>
+                        <Insets top="16" right="16" bottom="16" left="16"/>
+                    </padding>
+                    <VBox spacing="4">
+                        <Label styleClass="md-title-medium" text="Información Adicional"/>
+                        <Label styleClass="md-body-small" text="Datos opcionales del servicio"/>
                     </VBox>
 
-                    <GridPane styleClass="md-grid-pane">
+                    <GridPane hgap="16" vgap="16">
                         <columnConstraints>
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="300.0"/>
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="300.0"/>
+                            <ColumnConstraints hgrow="ALWAYS" percentWidth="100"/>
                         </columnConstraints>
-                        <rowConstraints>
-                            <RowConstraints vgrow="SOMETIMES"/>
-                        </rowConstraints>
 
-                        <!-- Notes -->
-                        <VBox styleClass="md-filter-column" GridPane.columnIndex="0" GridPane.columnSpan="2">
-
-                            <Label styleClass="md-filter-label" text="Notas Internas"/>
-
-                            <TextField fx:id="internal_notes_field" styleClass="md-text-field" maxWidth="Infinity"
-                                       maxHeight="Infinity"/>
+                        <!-- Notas Internas -->
+                        <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                            <Label styleClass="md-label-medium" text="Notas Internas"/>
+                            <TextField fx:id="internal_notes_field" styleClass="md-text-field" maxWidth="Infinity"/>
                         </VBox>
                     </GridPane>
                 </VBox>
 
-                <!-- Action Buttons -->
-                <HBox styleClass="md-action-button-container">
-
+                <!-- Botones de Acción -->
+                <HBox spacing="8" alignment="CENTER_RIGHT">
                     <MFXButton fx:id="clean_fields_button" styleClass="md-button-outlined" text="Limpiar campos"/>
-
                     <MFXButton fx:id="save_button" styleClass="md-button-filled" text="Crear Servicio"/>
                 </HBox>
+
             </VBox>
         </ScrollPane>
     </VBox>

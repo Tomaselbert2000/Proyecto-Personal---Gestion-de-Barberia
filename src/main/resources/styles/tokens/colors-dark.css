@@ -1,0 +1,42 @@
+/* ==========================================================================
+   MATERIAL DESIGN 3 - DARK COLOR SCHEME
+   ========================================================================== */
+
+.root {
+    -fx-primary: #D0BCFF;
+    -fx-on-primary: #381E72;
+    -fx-primary-container: #4F378B;
+    -fx-on-primary-container: #EADDFF;
+
+    -fx-secondary: #CCC2DC;
+    -fx-on-secondary: #332D41;
+    -fx-secondary-container: #4A4458;
+    -fx-on-secondary-container: #E8DEF8;
+
+    -fx-tertiary: #EFB8C8;
+    -fx-on-tertiary: #492532;
+    -fx-tertiary-container: #633B48;
+    -fx-on-tertiary-container: #FFD8E4;
+
+    -fx-error: #F2B8B5;
+    -fx-on-error: #601410;
+    -fx-error-container: #8C1D18;
+    -fx-on-error-container: #F9DEDC;
+
+    -fx-background: #141218;
+    -fx-on-background: #E6E0E9;
+
+    -fx-surface: #141218;
+    -fx-on-surface: #E6E0E9;
+    -fx-surface-variant: #49454F;
+    -fx-on-surface-variant: #CAC4D0;
+
+    -fx-surface-container-lowest: #0F0D13;
+    -fx-surface-container-low: #1D1B20;
+    -fx-surface-container: #211F26;
+    -fx-surface-container-high: #2B2930;
+    -fx-surface-container-highest: #36343B;
+
+    -fx-outline: #938F96;
+    -fx-outline-variant: #49454F;
+}

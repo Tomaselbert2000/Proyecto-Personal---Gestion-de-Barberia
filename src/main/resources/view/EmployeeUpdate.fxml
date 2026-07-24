@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1"
@@ -9,163 +10,135 @@
             fx:controller="com.launcher.controller.implementation.employee.EmployeeEditionController">
 
     <VBox
-            AnchorPane.topAnchor="0.0"
-            AnchorPane.leftAnchor="0.0"
-            AnchorPane.rightAnchor="0.0"
-            AnchorPane.bottomAnchor="0.0">
+            AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0"
+          AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
 
         <!-- Header del Panel -->
-        <HBox styleClass="md-header-bar">
-            <MFXButton fx:id="back_button" styleClass="md-button-filled-tonal" text="← Volver"/>
-            <VBox styleClass="md-section-group">
-                <Label styleClass="md-page-title" text="Editar Empleado"/>
+        <HBox alignment="CENTER_LEFT" spacing="16">
+            <padding>
+                <Insets top="20" right="24" bottom="12" left="24"/>
+            </padding>
+            <MFXButton fx:id="back_button" styleClass="md-button-outlined" text="Volver"/>
+            <VBox spacing="2">
+                <Label styleClass="md-headline-medium" text="Editar Empleado"/>
             </VBox>
         </HBox>
 
         <!-- Contenido Principal -->
-        <ScrollPane fitToHeight="true"
-                    fitToWidth="true"
-                    styleClass="md-content-scroll"
+        <ScrollPane fitToHeight="true" fitToWidth="true"
+                    style="-fx-background-color: transparent; -fx-background: transparent;"
                     VBox.vgrow="ALWAYS">
-            <VBox styleClass="md-content-section">
+            <VBox spacing="24">
+                <padding>
+                    <Insets top="16" right="24" bottom="24" left="24"/>
+                </padding>
 
                 <!-- Tarjeta de Información Actual -->
-                <VBox styleClass="md-card">
-                    <VBox styleClass="md-section-group">
-                        <Label styleClass="md-section-title" text="Información Actual"/>
+                <VBox styleClass="md-card" spacing="16">
+                    <padding>
+                        <Insets top="20" right="20" bottom="20" left="20"/>
+                    </padding>
 
-                        <GridPane styleClass="md-grid-pane">
-                            <columnConstraints>
-                                <ColumnConstraints hgrow="SOMETIMES" minWidth="250.0"/>
-                                <ColumnConstraints hgrow="SOMETIMES" minWidth="250.0"/>
-                            </columnConstraints>
-                            <rowConstraints>
-                                <RowConstraints minHeight="60.0" vgrow="SOMETIMES"/>
-                                <RowConstraints minHeight="60.0" vgrow="SOMETIMES"/>
-                                <RowConstraints minHeight="60.0" vgrow="SOMETIMES"/>
-                            </rowConstraints>
+                    <Label styleClass="md-title-medium" text="Información Actual"/>
 
-                            <!-- Current Name (Read-only) -->
-                            <VBox styleClass="md-filter-column" GridPane.columnIndex="0" GridPane.rowIndex="0">
-                                <HBox styleClass="md-filter-spacer">
-                                    <Label styleClass="md-filter-label" text="Nombre Actual"/>
-                                </HBox>
-                                <Label fx:id="current_first_name" styleClass="md-filter-label"/>
-                            </VBox>
+                    <GridPane hgap="16" vgap="16">
+                        <columnConstraints>
+                            <ColumnConstraints hgrow="ALWAYS" percentWidth="50"/>
+                            <ColumnConstraints hgrow="ALWAYS" percentWidth="50"/>
+                        </columnConstraints>
 
-                            <!-- Current Last Name (Read-only) -->
-                            <VBox styleClass="md-filter-column" GridPane.columnIndex="1" GridPane.rowIndex="0">
-                                <HBox styleClass="md-filter-spacer">
-                                    <Label styleClass="md-filter-label" text="Apellido Actual"/>
-                                </HBox>
-                                <Label fx:id="current_last_name" styleClass="md-filter-label"/>
-                            </VBox>
+                        <!-- Current Name -->
+                        <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                            <Label styleClass="md-label-medium" text="Nombre Actual"/>
+                            <Label fx:id="current_first_name" styleClass="md-body-medium"/>
+                        </VBox>
 
-                            <!-- Current Hire Date (Read-only) -->
-                            <VBox styleClass="md-filter-column" GridPane.columnIndex="0" GridPane.rowIndex="1">
-                                <HBox styleClass="md-filter-spacer">
-                                    <Label styleClass="md-filter-label" text="Fecha de Contratación"/>
-                                </HBox>
-                                <Label fx:id="current_hire_date" styleClass="md-filter-label"/>
-                            </VBox>
+                        <!-- Current Last Name -->
+                        <VBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                            <Label styleClass="md-label-medium" text="Apellido Actual"/>
+                            <Label fx:id="current_last_name" styleClass="md-body-medium"/>
+                        </VBox>
 
-                            <!-- Current Commission (Read-only) -->
-                            <VBox styleClass="md-filter-column" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                                <HBox styleClass="md-filter-spacer">
-                                    <Label styleClass="md-filter-label" text="Comisión Actual"/>
-                                </HBox>
-                                <Label fx:id="current_commission" styleClass="md-filter-label"/>
-                            </VBox>
+                        <!-- Current Hire Date -->
+                        <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                            <Label styleClass="md-label-medium" text="Fecha de Contratación"/>
+                            <Label fx:id="current_hire_date" styleClass="md-body-medium"/>
+                        </VBox>
 
-                            <!-- Current Status (Read-only) -->
-                            <VBox styleClass="md-filter-column" GridPane.columnIndex="0" GridPane.rowIndex="2">
-                                <HBox styleClass="md-filter-spacer">
-                                    <Label styleClass="md-filter-label" text="Estado Actual"/>
-                                </HBox>
-                                <HBox alignment="CENTER_LEFT">
-                                    <Label fx:id="current_status_label" styleClass="md-filter-label"/>
-                                </HBox>
-                            </VBox>
+                        <!-- Current Commission -->
+                        <VBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                            <Label styleClass="md-label-medium" text="Comisión Actual"/>
+                            <Label fx:id="current_commission" styleClass="md-body-medium"/>
+                        </VBox>
 
-                            <!-- Termination Date (Read-only if exists) -->
-                            <VBox styleClass="md-filter-column" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                                <HBox styleClass="md-filter-spacer">
-                                    <Label styleClass="md-filter-label" text="Fecha de Baja"/>
-                                </HBox>
-                                <Label fx:id="current_termination_date" styleClass="md-filter-label"/>
-                            </VBox>
-                        </GridPane>
-                    </VBox>
+                        <!-- Current Status -->
+                        <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                            <Label styleClass="md-label-medium" text="Estado Actual"/>
+                            <Label fx:id="current_status_label" styleClass="md-body-medium"/>
+                        </VBox>
+
+                        <!-- Termination Date -->
+                        <VBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                            <Label styleClass="md-label-medium" text="Fecha de Baja"/>
+                            <Label fx:id="current_termination_date" styleClass="md-body-medium"/>
+                        </VBox>
+                    </GridPane>
                 </VBox>
 
                 <!-- Tarjeta de Cambiar Datos -->
-                <VBox styleClass="md-card">
-                    <VBox styleClass="md-section-group">
-                        <Label styleClass="md-section-title" text="Cambiar Datos"/>
+                <VBox styleClass="md-card" spacing="16">
+                    <padding>
+                        <Insets top="20" right="20" bottom="20" left="20"/>
+                    </padding>
 
-                        <GridPane styleClass="md-grid-pane">
-                            <columnConstraints>
-                                <ColumnConstraints hgrow="SOMETIMES" minWidth="300.0"/>
-                                <ColumnConstraints hgrow="SOMETIMES" minWidth="300.0"/>
-                            </columnConstraints>
-                            <rowConstraints>
-                                <RowConstraints vgrow="SOMETIMES"/>
-                                <RowConstraints vgrow="SOMETIMES"/>
-                                <RowConstraints vgrow="SOMETIMES"/>
-                            </rowConstraints>
+                    <Label styleClass="md-title-medium" text="Cambiar Datos"/>
 
-                            <!-- New First Name -->
-                            <VBox styleClass="md-filter-column" GridPane.columnIndex="0" GridPane.rowIndex="0">
-                                <HBox styleClass="md-filter-spacer">
-                                    <Label styleClass="md-filter-label" text="Nuevo Nombre"/>
-                                </HBox>
-                                <TextField fx:id="first_name_field" styleClass="md-text-field" maxWidth="Infinity"/>
-                            </VBox>
+                    <GridPane hgap="16" vgap="16">
+                        <columnConstraints>
+                            <ColumnConstraints hgrow="ALWAYS" percentWidth="50"/>
+                            <ColumnConstraints hgrow="ALWAYS" percentWidth="50"/>
+                        </columnConstraints>
 
-                            <!-- New Last Name -->
-                            <VBox styleClass="md-filter-column" GridPane.columnIndex="1" GridPane.rowIndex="0">
-                                <HBox styleClass="md-filter-spacer">
-                                    <Label styleClass="md-filter-label" text="Nuevo Apellido"/>
-                                </HBox>
-                                <TextField fx:id="last_name_field" styleClass="md-text-field" maxWidth="Infinity"/>
-                            </VBox>
+                        <!-- New First Name -->
+                        <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                            <Label styleClass="md-label-medium" text="Nuevo Nombre"/>
+                            <TextField fx:id="first_name_field" styleClass="md-text-field" maxWidth="Infinity"/>
+                        </VBox>
 
-                            <!-- New Commission Percentage -->
-                            <VBox styleClass="md-filter-column" GridPane.columnIndex="0" GridPane.rowIndex="1">
-                                <HBox styleClass="md-filter-spacer">
-                                    <Label styleClass="md-filter-label" text="Nueva Comisión (%)"/>
-                                </HBox>
-                                <TextField fx:id="commission_field" styleClass="md-text-field" maxWidth="Infinity"/>
-                            </VBox>
+                        <!-- New Last Name -->
+                        <VBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                            <Label styleClass="md-label-medium" text="Nuevo Apellido"/>
+                            <TextField fx:id="last_name_field" styleClass="md-text-field" maxWidth="Infinity"/>
+                        </VBox>
 
-                            <!-- Status Toggle -->
-                            <VBox styleClass="md-filter-column" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                                <HBox styleClass="md-filter-spacer">
-                                    <Label styleClass="md-filter-label" text="Cambiar Estado"/>
-                                </HBox>
-                                <HBox styleClass="md-action-button-container">
-                                    <MFXButton fx:id="toggle_status_button" styleClass="md-button-filled-tonal"
-                                               text="Desactivar"/>
-                                </HBox>
-                            </VBox>
+                        <!-- New Commission Percentage -->
+                        <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                            <Label styleClass="md-label-medium" text="Nueva Comisión (%)"/>
+                            <TextField fx:id="commission_field" styleClass="md-text-field" maxWidth="Infinity"/>
+                        </VBox>
 
-                            <!-- Termination Date (Optional) -->
-                            <VBox styleClass="md-filter-column" GridPane.columnIndex="0" GridPane.columnSpan="2"
-                                  GridPane.rowIndex="2">
-                                <HBox styleClass="md-filter-spacer">
-                                    <Label styleClass="md-filter-label" text="Fecha de Baja (Opcional)"/>
-                                </HBox>
-                                <DatePicker fx:id="termination_date_picker" styleClass="md-date-picker"/>
-                            </VBox>
-                        </GridPane>
-                    </VBox>
+                        <!-- Status Toggle -->
+                        <VBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                            <Label styleClass="md-label-medium" text="Cambiar Estado"/>
+                            <MFXButton fx:id="toggle_status_button" styleClass="md-button-outlined"
+                                       maxWidth="Infinity" text="Desactivar"/>
+                        </VBox>
+
+                        <!-- Termination Date -->
+                        <VBox spacing="4" GridPane.columnIndex="0" GridPane.columnSpan="2"
+                              GridPane.rowIndex="2">
+                            <Label styleClass="md-label-medium" text="Fecha de Baja (Opcional)"/>
+                            <DatePicker fx:id="termination_date_picker" styleClass="md-date-picker"/>
+                        </VBox>
+                    </GridPane>
                 </VBox>
 
                 <!-- Botones de Acción -->
-                <HBox styleClass="md-action-button-container">
-                    <MFXButton fx:id="reset_button" styleClass="md-button-filled-tonal" text="Restaurar datos"/>
+                <HBox spacing="8" alignment="CENTER_RIGHT">
+                    <MFXButton fx:id="reset_button" styleClass="md-button-text" text="Restaurar datos"/>
                     <MFXButton fx:id="save_button" styleClass="md-button-filled" text="Actualizar Empleado"/>
                 </HBox>
+
             </VBox>
         </ScrollPane>
     </VBox>

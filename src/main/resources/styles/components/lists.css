@@ -1,0 +1,145 @@
+/* ==========================================================================
+   MATERIAL DESIGN 3 - LIST COMPONENTS
+   ListView, List Items (1-line, 2-line, 3-line), Dividers
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. CONTENEDOR DE LISTA (ListView / VBox Container)
+   -------------------------------------------------------------------------- */
+.list-view.md-list-view,
+.vbox.md-list-container {
+    -fx-background-color: -fx-surface;
+    -fx-background-radius: 12;
+    -fx-border-radius: 12;
+    -fx-border-color: transparent;
+    -fx-padding: 8 0;
+}
+
+/* Remover bordes por defecto de JavaFX ListView */
+.list-view.md-list-view .list-cell {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
+.list-view.md-list-view .scroll-bar:vertical {
+    -fx-background-color: transparent;
+}
+
+
+/* --------------------------------------------------------------------------
+   2. ÍTEM DE LISTA BASE (.md-list-item)
+   -------------------------------------------------------------------------- */
+.md-list-item {
+    -fx-background-color: transparent;
+    -fx-padding: 8 16;
+    -fx-min-height: 56px; /* Altura estándar de 1 línea en M3 */
+    -fx-alignment: center-left;
+    -fx-spacing: 16;
+    -fx-cursor: hand;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+}
+
+/* Estado Hover (Capa de estado sutil) */
+.md-list-item:hover {
+    -fx-background-color: -fx-surface-variant;
+}
+
+/* Estado Focused (Teclado / Selección accesible) */
+.md-list-item:focused {
+    -fx-border-color: -fx-primary;
+    -fx-border-width: 2px;
+    -fx-padding: 6 14; /* Compensación por borde */
+}
+
+/* Estado Selected / Active */
+.md-list-item:selected,
+.md-list-item.active {
+    -fx-background-color: -fx-secondary-container;
+}
+
+.md-list-item:selected .md-list-item-headline,
+.md-list-item.active .md-list-item-headline {
+    -fx-text-fill: -fx-on-secondary-container;
+}
+
+/* Estado Pressed (Al hacer clic) */
+.md-list-item:pressed {
+    -fx-background-color: derive(-fx-surface-variant, -8%);
+}
+
+/* Estado Disabled */
+.md-list-item:disabled {
+    -fx-opacity: 0.38;
+    -fx-cursor: default;
+}
+
+
+/* --------------------------------------------------------------------------
+   3. VARIANTES SEGÚN ALTURA Y CONTENIDO (1, 2 y 3 líneas)
+   -------------------------------------------------------------------------- */
+
+/* Dos líneas (Headline + Supporting text) */
+.md-list-item-two-line {
+    -fx-min-height: 72px;
+    -fx-padding: 12 16;
+}
+
+/* Tres líneas (Headline + Supporting text multilínea) */
+.md-list-item-three-line {
+    -fx-min-height: 88px;
+    -fx-padding: 12 16;
+}
+
+
+/* --------------------------------------------------------------------------
+   4. ELEMENTOS INTERNOS DEL ÍTEM (Tipografía y Medios)
+   -------------------------------------------------------------------------- */
+
+/* Título principal del ítem */
+.md-list-item-headline {
+    -fx-font-family: "Roboto", sans-serif;
+    -fx-font-size: 16px;
+    -fx-font-weight: 400;
+    -fx-text-fill: -fx-on-surface;
+}
+
+/* Subtítulo / Texto de soporte */
+.md-list-item-supporting-text {
+    -fx-font-family: "Roboto", sans-serif;
+    -fx-font-size: 14px;
+    -fx-font-weight: 400;
+    -fx-text-fill: -fx-on-surface-variant;
+}
+
+/* Elementos principales a la izquierda (Iconos, Avatares, Checkboxes) */
+.md-list-item-leading {
+    -fx-alignment: center;
+    -fx-min-width: 24px;
+    -fx-text-fill: -fx-on-surface-variant;
+}
+
+/* Elementos secundarios a la derecha (Metadatos, Fechas, Iconos de acción) */
+.md-list-item-trailing {
+    -fx-alignment: center-right;
+    -fx-font-family: "Roboto", sans-serif;
+    -fx-font-size: 12px;
+    -fx-text-fill: -fx-on-surface-variant;
+}
+
+
+/* --------------------------------------------------------------------------
+   5. DIVISOR DE LISTA (.md-divider)
+   -------------------------------------------------------------------------- */
+.md-divider,
+.separator.md-divider .line {
+    -fx-border-color: -fx-outline-variant;
+    -fx-border-width: 1px 0 0 0;
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
+/* Divisor con sangría para no cortar elementos de la izquierda (Inset Divider) */
+.md-divider-inset {
+    -fx-margin: 0 0 0 56;
+}
