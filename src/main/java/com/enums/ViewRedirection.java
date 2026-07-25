@@ -15,7 +15,9 @@ public enum ViewRedirection {
     PRODUCTS,
     PRODUCT_CREATION,
     PRODUCT_EDITION,
+    PAYMENT_METHODS,
     SETTINGS,
     LOGIN,
-    LOGOUT
+    LOGOUT,
+    REGISTER
 }
