@@ -3,6 +3,8 @@ package com.service.implementation;
 import com.dto.payment.PaymentMethodCreationDTO;
 import com.dto.payment.PaymentMethodInfoDTO;
 import com.dto.payment.PaymentMethodUpdateDTO;
+import com.enums.PaymentMethodModifierType;
+import com.enums.PaymentMethodStatus;
 import com.exceptions.paymentmethod.DuplicatedPaymentMethodNameException;
 import com.exceptions.paymentmethod.PaymentMethodNotFoundException;
 import com.mapper.interfaces.PaymentMethodMapper;
@@ -41,7 +43,7 @@ public class PaymentMethodServiceImpl implements PaymentMethodService {
     @Transactional
     public void deletePaymentMethod(Long paymentMethodID) {
 
-        PaymentMethod paymentMethodOnDB = loadPaymentMethod(paymentMethodID);
+        PaymentMethod paymentMethodOnDB = loadPaymentMethodByID(paymentMethodID);
 
         paymentMethodRepository.delete(paymentMethodOnDB);
     }
@@ -49,7 +51,7 @@ public class PaymentMethodServiceImpl implements PaymentMethodService {
     @Override
     public PaymentMethodInfoDTO getPaymentMethod(Long paymentMethodID) {
 
-        PaymentMethod paymentMethodOnDB = loadPaymentMethod(paymentMethodID);
+        PaymentMethod paymentMethodOnDB = loadPaymentMethodByID(paymentMethodID);
 
         return mapper.mapPaymentMethodToInfoDTO(paymentMethodOnDB);
     }
@@ -66,7 +68,7 @@ public class PaymentMethodServiceImpl implements PaymentMethodService {
     @Transactional
     public void updatePaymentMethod(Long paymentMethodID, PaymentMethodUpdateDTO updateDTO) {
 
-        PaymentMethod paymentMethodOnDB = loadPaymentMethod(paymentMethodID);
+        PaymentMethod paymentMethodOnDB = loadPaymentMethodByID(paymentMethodID);
 
         validator.validateDTO(updateDTO);
 
@@ -75,7 +77,65 @@ public class PaymentMethodServiceImpl implements PaymentMethodService {
         paymentMethodRepository.save(mapper.mapPaymentMethodUpdateDtoToPaymentMethod(paymentMethodOnDB, updateDTO));
     }
 
-    private PaymentMethod loadPaymentMethod(Long paymentMethodID) {
+    @Override
+    public List<PaymentMethodInfoDTO> paymentMethodLiveSearch(String paymentName, PaymentMethodStatus status, PaymentMethodModifierType modifierType) {
+
+        Boolean isActiveValueToSearch = null;
+
+        switch (status) {
+
+            case INACTIVO -> isActiveValueToSearch = false;
+
+            case ACTIVO -> isActiveValueToSearch = true;
+        }
+
+        List<PaymentMethod> filteredList = paymentMethodRepository.paymentMethodLiveSearch(paymentName, isActiveValueToSearch, modifierType);
+
+        return mapper.mapPaymentMethodToInfoDTO(filteredList);
+    }
+
+    @Override
+    public Long getPaymentMethodCount() {
+
+        return paymentMethodRepository.count();
+    }
+
+    @Override
+    public Long getPaymentMethodCountMarkedAsActive() {
+
+        return paymentMethodRepository.getCountMarkedAsActive();
+    }
+
+    @Override
+    public Long getPaymentMethodCountMarkedAsInactive() {
+
+        return paymentMethodRepository.getCountMarkedAsInactive();
+    }
+
+    @Override
+    public Long getpaymentMethodCountMarkedAsOtherThanNINGUNO() {
+        return paymentMethodRepository.countByModifierType(PaymentMethodModifierType.NINGUNO);
+    }
+
+    @Override
+    @Transactional
+    public void togglePaymentMethodStatus(String name) {
+
+        PaymentMethod existingPaymentMethod = loadPaymentMethodByName(name);
+
+        if (existingPaymentMethod != null) {
+
+            existingPaymentMethod.setIsActive(!existingPaymentMethod.getIsActive());
+            paymentMethodRepository.save(existingPaymentMethod);
+        }
+    }
+
+    private PaymentMethod loadPaymentMethodByName(String name) {
+
+        return paymentMethodRepository.findPaymentMethodByName(name);
+    }
+
+    private PaymentMethod loadPaymentMethodByID(Long paymentMethodID) {
 
         return paymentMethodRepository.findById(paymentMethodID).orElseThrow(PaymentMethodNotFoundException::new);
     }
