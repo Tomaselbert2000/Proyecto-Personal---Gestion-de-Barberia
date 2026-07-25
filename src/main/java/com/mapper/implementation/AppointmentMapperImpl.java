@@ -19,8 +19,6 @@ import java.util.stream.Collectors;
 @Component
 public class AppointmentMapperImpl implements AppointmentMapper {
 
-    private final LocalDateTime TIMESTAMP = LocalDateTime.now();
-
     @Override
     public Appointment mapAppointmentCreationDtoToAppointmentEntity(
             AppointmentCreationDTO dto,
@@ -37,10 +35,10 @@ public class AppointmentMapperImpl implements AppointmentMapper {
                 .client(client)
                 .barberservice(service)
                 .employee(employee)
-                .registrationTimestamp(TIMESTAMP)
+                .registrationTimestamp(LocalDateTime.now())
                 .startDateTime(dto.getStartDateTime().withSecond(0))
                 .endDateTime(dto.getEndDateTime().withSecond(0))
-                .modifiedDate(TIMESTAMP)
+                .modifiedDate(LocalDateTime.now())
                 .currentStatus(defaultStatus)
                 .build();
     }
@@ -120,6 +118,6 @@ public class AppointmentMapperImpl implements AppointmentMapper {
 
         if (updateDTO.getNewStatus() != null) appointmentOnDB.setCurrentStatus(updateDTO.getNewStatus());
 
-        appointmentOnDB.setModifiedDate(TIMESTAMP);
+        appointmentOnDB.setModifiedDate(LocalDateTime.now());
     }
 }
