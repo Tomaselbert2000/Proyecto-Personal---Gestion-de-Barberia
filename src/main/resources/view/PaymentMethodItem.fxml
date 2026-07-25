@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<HBox xmlns:fx="http://javafx.com/fxml/1"
+      alignment="CENTER_LEFT"
+      spacing="16"
+      styleClass="md-list-item"
+      xmlns="http://javafx.com/javafx/17.0.12"
+      fx:controller="com.launcher.controller.implementation.payment_method.PaymentMethodItemController">
+    <padding>
+        <Insets top="12" right="16" bottom="12" left="16"/>
+    </padding>
+
+    <!-- Payment Method Information -->
+    <VBox spacing="4" HBox.hgrow="ALWAYS">
+        <!-- Name + Badges -->
+        <HBox spacing="8" alignment="CENTER_LEFT">
+            <Label fx:id="payment_method_name" styleClass="md-list-item-headline"/>
+            <VBox fx:id="status_badge">
+                <Label fx:id="status_label" styleClass="md-nav-badge"/>
+            </VBox>
+            <VBox fx:id="modifier_badge">
+                <Label fx:id="modifier_type_label" styleClass="md-nav-badge"/>
+            </VBox>
+        </HBox>
+        <!-- Details -->
+        <HBox spacing="16" alignment="CENTER_LEFT">
+            <HBox spacing="4">
+                <Label styleClass="md-list-item-supporting-text" text="Descripción:"/>
+                <Label fx:id="payment_method_description" styleClass="md-list-item-supporting-text"/>
+            </HBox>
+            <HBox spacing="4">
+                <Label styleClass="md-list-item-supporting-text" text="Modificador:"/>
+                <Label fx:id="price_modifier_label" styleClass="md-list-item-supporting-text"/>
+            </HBox>
+        </HBox>
+    </VBox>
+
+    <!-- Separator vertical antes de acciones -->
+    <Separator orientation="VERTICAL" styleClass="md-divider"
+               prefHeight="32.0"/>
+
+    <!-- Actions -->
+    <HBox spacing="8" alignment="CENTER_RIGHT">
+        <MFXButton fx:id="edit_button" styleClass="md-button-outlined" text="Editar"/>
+        <MFXButton fx:id="toggle_status_button" styleClass="md-button-tonal" text="Desactivar"/>
+    </HBox>
+</HBox>

@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1"
+            fx:id="anchor_pane"
+            xmlns="http://javafx.com/javafx/17.0.12"
+            fx:controller="com.launcher.controller.implementation.payment_method.PaymentMethodViewController">
+
+    <VBox
+            AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0"
+          AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+
+        <!-- Header del Panel -->
+        <HBox alignment="CENTER_LEFT">
+            <padding>
+                <Insets top="16" right="24" bottom="16" left="24"/>
+            </padding>
+            <VBox spacing="2">
+                <Label styleClass="md-headline-medium" text="Medios de Pago"/>
+                <Label styleClass="md-body-large" text="Gestiona los medios de pago disponibles"/>
+            </VBox>
+            <Region HBox.hgrow="ALWAYS"/>
+        </HBox>
+
+        <!-- Contenido Principal -->
+        <ScrollPane fitToHeight="true" fitToWidth="true"
+                    style="-fx-background-color: transparent; -fx-background: transparent;"
+                    VBox.vgrow="ALWAYS">
+            <VBox spacing="24">
+                <padding>
+                    <Insets top="20" right="24" bottom="24" left="24"/>
+                </padding>
+
+                <!-- Tarjetas de Estadísticas -->
+                <GridPane hgap="16" vgap="16">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="ALWAYS" percentWidth="25"/>
+                        <ColumnConstraints hgrow="ALWAYS" percentWidth="25"/>
+                        <ColumnConstraints hgrow="ALWAYS" percentWidth="25"/>
+                        <ColumnConstraints hgrow="ALWAYS" percentWidth="25"/>
+                    </columnConstraints>
+
+                    <!-- Tarjeta: Total Medios de Pago -->
+                    <VBox styleClass="md-card" spacing="8" GridPane.columnIndex="0">
+                        <padding>
+                            <Insets top="16" right="16" bottom="16" left="16"/>
+                        </padding>
+                        <HBox alignment="CENTER_LEFT">
+                            <Label styleClass="md-label-large" text="Total Medios de Pago"/>
+                            <Region HBox.hgrow="ALWAYS"/>
+                            <Region styleClass="payment-icon, md-icon-medium, md-icon-primary"/>
+                        </HBox>
+                        <Label fx:id="total_payment_methods_count" styleClass="md-display-small" text="0"/>
+                        <HBox spacing="4" alignment="CENTER_LEFT">
+                            <Label fx:id="total_payment_methods_trend" styleClass="md-label-medium" text="0"/>
+                            <Label styleClass="md-label-small" text="registrados"/>
+                        </HBox>
+                    </VBox>
+
+                    <!-- Tarjeta: Activos -->
+                    <VBox styleClass="md-card" spacing="8" GridPane.columnIndex="1">
+                        <padding>
+                            <Insets top="16" right="16" bottom="16" left="16"/>
+                        </padding>
+                        <HBox alignment="CENTER_LEFT">
+                            <Label styleClass="md-label-large" text="Activos"/>
+                            <Region HBox.hgrow="ALWAYS"/>
+                            <Region styleClass="check-circle-icon, md-icon-medium, md-icon-primary"/>
+                        </HBox>
+                        <Label fx:id="active_payment_methods_count" styleClass="md-display-small" text="0"/>
+                        <HBox spacing="4" alignment="CENTER_LEFT">
+                            <Label fx:id="active_payment_methods_percentage" styleClass="md-label-medium" text="0"/>
+                            <Label styleClass="md-label-small" text="disponibles"/>
+                        </HBox>
+                    </VBox>
+
+                    <!-- Tarjeta: Inactivos -->
+                    <VBox styleClass="md-card" spacing="8" GridPane.columnIndex="2">
+                        <padding>
+                            <Insets top="16" right="16" bottom="16" left="16"/>
+                        </padding>
+                        <HBox alignment="CENTER_LEFT">
+                            <Label styleClass="md-label-large" text="Inactivos"/>
+                            <Region HBox.hgrow="ALWAYS"/>
+                            <Region styleClass="cancel-icon, md-icon-medium, md-icon-primary"/>
+                        </HBox>
+                        <Label fx:id="inactive_payment_methods_count" styleClass="md-display-small" text="0"/>
+                        <HBox spacing="4" alignment="CENTER_LEFT">
+                            <Label fx:id="inactive_payment_methods_percentage" styleClass="md-label-medium" text="0"/>
+                            <Label styleClass="md-label-small" text="del total"/>
+                        </HBox>
+                    </VBox>
+
+                    <!-- Tarjeta: Con Modificador de Precio -->
+                    <VBox styleClass="md-card" spacing="8" GridPane.columnIndex="3">
+                        <padding>
+                            <Insets top="16" right="16" bottom="16" left="16"/>
+                        </padding>
+                        <HBox alignment="CENTER_LEFT">
+                            <Label styleClass="md-label-large" text="Con Modificador"/>
+                            <Region HBox.hgrow="ALWAYS"/>
+                            <Region styleClass="percent-icon, md-icon-medium, md-icon-primary"/>
+                        </HBox>
+                        <Label fx:id="with_modifier_count" styleClass="md-display-small" text="0"/>
+                        <HBox spacing="4" alignment="CENTER_LEFT">
+                            <Label fx:id="modifier_types_summary" styleClass="md-label-medium" text="0"/>
+                            <Label styleClass="md-label-small" text="de precio"/>
+                        </HBox>
+                    </VBox>
+                </GridPane>
+
+                <!-- Sección de Filtros -->
+                <VBox spacing="12">
+                    <Label styleClass="md-title-medium" text="Filtros de Búsqueda"/>
+
+                    <VBox styleClass="md-card" spacing="16">
+                        <padding>
+                            <Insets top="16" right="16" bottom="16" left="16"/>
+                        </padding>
+                        <HBox spacing="16">
+                            <!-- Buscador -->
+                            <VBox spacing="4" HBox.hgrow="ALWAYS">
+                                <Label styleClass="md-label-medium" text="Buscar medio de pago"/>
+                                <TextField fx:id="search_field" styleClass="md-text-field" maxWidth="Infinity"/>
+                            </VBox>
+
+                            <!-- Filtro por Estado -->
+                            <VBox spacing="4" HBox.hgrow="ALWAYS">
+                                <Label styleClass="md-label-medium" text="Estado"/>
+                                <ComboBox fx:id="status_filter" styleClass="md-combo-box" maxWidth="Infinity"/>
+                            </VBox>
+
+                            <!-- Filtro por Tipo de Modificador -->
+                            <VBox spacing="4" HBox.hgrow="ALWAYS">
+                                <Label styleClass="md-label-medium" text="Tipo de Modificador"/>
+                                <ComboBox fx:id="modifier_type_filter" styleClass="md-combo-box" maxWidth="Infinity"/>
+                            </VBox>
+
+                            <!-- Botones de Acción -->
+                            <VBox spacing="4" alignment="BOTTOM_LEFT">
+                                <Label styleClass="md-label-medium" text="Acciones"/>
+                                <HBox spacing="8" alignment="CENTER_LEFT">
+                                    <MFXButton fx:id="clear_filters_button"
+                                               styleClass="md-button-outlined"
+                                               text="Limpiar"/>
+                                    <MFXButton fx:id="create_payment_method_button"
+                                               styleClass="md-button-filled"
+                                               text="+ Nuevo Medio de Pago"/>
+                                </HBox>
+                            </VBox>
+                        </HBox>
+                    </VBox>
+                </VBox>
+
+                <!-- Lista de Medios de Pago -->
+                <VBox spacing="12">
+                    <HBox spacing="8" alignment="CENTER_LEFT">
+                        <Label styleClass="md-title-medium" text="Medios de Pago"/>
+                        <Region HBox.hgrow="ALWAYS"/>
+                        <Label fx:id="results_count" styleClass="md-body-small" text="0 medios de pago"/>
+                    </HBox>
+
+                    <VBox fx:id="payment_method_list_container" styleClass="md-card">
+                        <padding>
+                            <Insets top="8" right="16" bottom="8" left="16"/>
+                        </padding>
+                    </VBox>
+                </VBox>
+
+            </VBox>
+        </ScrollPane>
+    </VBox>
+</AnchorPane>
