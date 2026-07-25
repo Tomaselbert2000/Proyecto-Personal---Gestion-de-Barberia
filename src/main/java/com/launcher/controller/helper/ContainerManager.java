@@ -11,7 +11,6 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Window;
 import javafx.util.Duration;
 
-import static com.launcher.constants.CssResourceFilePath.LA_TERCERA_FIXED_COLORS_FILE_PATH;
 import static com.launcher.constants.CssResourceFilePath.MATERIAL_ICONS_FILE_PATH;
 import static com.launcher.constants.HelperConstants.ContainerManagerConstants.*;
 import static com.launcher.constants.ThemeFilePath.LA_TERCERA_DARK_THEME_FILE_PATH;
@@ -95,26 +94,39 @@ public class ContainerManager {
      * Añade las hojas de estilo especificadas a una escena.
      *
      * @param currentScene  La escena a la que se añadirán las hojas de estilo.
-     * @param themeFilePath La ruta del archivo de hoja de estilo a añadir.
+     * @param themeFilePath La ruta del archivo de paleta de color a añadir.
      */
     private static void addStylesheets(Scene currentScene, String themeFilePath) {
-        String designSystemTokenFilePathToExternalForm = getResourceAsExternalForm(ContainerManager.class, com.launcher.constants.CssResourceFilePath.DESIGN_SYSTEM_TOKEN_FILE_PATH);
+        String baseStyleExternalForm = getResourceAsExternalForm(
+                ContainerManager.class,
+                com.launcher.constants.ThemeFilePath.MATERIAL3_BASE_FILE_PATH
+        );
+
         String themeFilePathToExternalForm = getResourceAsExternalForm(ContainerManager.class, themeFilePath);
 
-        if (!designSystemTokenFilePathToExternalForm.isEmpty() && !themeFilePathToExternalForm.isEmpty())
-            currentScene.getStylesheets().addAll(designSystemTokenFilePathToExternalForm, themeFilePathToExternalForm);
+        if (baseStyleExternalForm != null && !baseStyleExternalForm.isEmpty()) {
+            currentScene.getStylesheets().add(baseStyleExternalForm);
+        }
+
+        if (themeFilePathToExternalForm != null && !themeFilePathToExternalForm.isEmpty()) {
+            currentScene.getStylesheets().add(themeFilePathToExternalForm);
+        }
     }
 
     /**
      * Añade la hoja de estilo de colores fijos si el tema seleccionado lo requiere.
-     *
-     * @param currentScene          La escena a la que se añadirá la hoja de estilo de colores fijos si es necesario.
-     * @param selectedThemeFilePath La ruta del archivo de hoja de estilo del tema seleccionado.
      */
     private static void loadFixedColorsCSSIfNeeded(Scene currentScene, String selectedThemeFilePath) {
-        if (selectedThemeFilePath.equals(LA_TERCERA_LIGHT_THEME_FILE_PATH) || selectedThemeFilePath.equals(LA_TERCERA_DARK_THEME_FILE_PATH)) {
-            String fixedColorsFilePathToExternalForm = getResourceAsExternalForm(ContainerManager.class, LA_TERCERA_FIXED_COLORS_FILE_PATH);
-            currentScene.getStylesheets().add(fixedColorsFilePathToExternalForm);
+        if (selectedThemeFilePath.equals(LA_TERCERA_LIGHT_THEME_FILE_PATH) ||
+                selectedThemeFilePath.equals(LA_TERCERA_DARK_THEME_FILE_PATH)) {
+
+            String fixedColorsFilePathToExternalForm = getResourceAsExternalForm(
+                    ContainerManager.class,
+                    com.launcher.constants.ThemeFilePath.LA_TERCERA_FIXED_COLORS_FILE_PATH
+            );
+            if (fixedColorsFilePathToExternalForm != null && !fixedColorsFilePathToExternalForm.isEmpty()) {
+                currentScene.getStylesheets().add(fixedColorsFilePathToExternalForm);
+            }
         }
     }
 
