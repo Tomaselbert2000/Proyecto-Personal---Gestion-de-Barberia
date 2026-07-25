@@ -11,14 +11,18 @@
 
     <VBox
             AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0"
-          AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+            AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
 
         <!-- Header del Panel -->
         <HBox alignment="CENTER_LEFT" spacing="12">
             <padding>
                 <Insets top="20" right="24" bottom="12" left="24"/>
             </padding>
-            <MFXButton fx:id="back_button" styleClass="md-button-outlined" text="← Volver"/>
+            <MFXButton fx:id="back_button" styleClass="md-button-outlined" text="Volver">
+                <graphic>
+                    <Region styleClass="arrow-up-circle-icon, md-icon-small"/>
+                </graphic>
+            </MFXButton>
             <VBox spacing="2">
                 <Label styleClass="md-headline-medium" text="Editar Turno"/>
                 <Label styleClass="md-body-large" text="Modifica los datos del turno"/>
@@ -39,7 +43,10 @@
                     <padding>
                         <Insets top="16" right="16" bottom="16" left="16"/>
                     </padding>
-                    <Label styleClass="md-title-medium" text="Información del Turno"/>
+                    <HBox spacing="8" alignment="CENTER_LEFT">
+                        <Region styleClass="calendar-today-icon, md-icon-medium, md-icon-primary"/>
+                        <Label styleClass="md-title-medium" text="Información del Turno"/>
+                    </HBox>
 
                     <GridPane hgap="16" vgap="16">
                         <columnConstraints>
@@ -66,11 +73,14 @@
                     <padding>
                         <Insets top="16" right="16" bottom="16" left="16"/>
                     </padding>
-                    <VBox spacing="4">
-                        <Label styleClass="md-title-medium" text="Cambiar Servicio y Profesional"/>
-                        <Label styleClass="md-body-small"
-                               text="Deja los campos vacíos para mantener los valores actuales"/>
-                    </VBox>
+                    <HBox spacing="8" alignment="CENTER_LEFT">
+                        <Region styleClass="work-icon, md-icon-medium, md-icon-primary"/>
+                        <VBox spacing="2">
+                            <Label styleClass="md-title-medium" text="Cambiar Servicio y Profesional"/>
+                            <Label styleClass="md-body-small"
+                                   text="Deja los campos vacíos para mantener los valores actuales"/>
+                        </VBox>
+                    </HBox>
 
                     <GridPane hgap="16" vgap="16">
                         <columnConstraints>
@@ -82,13 +92,15 @@
                         <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="0">
                             <Label styleClass="md-label-medium" text="Nuevo Servicio"/>
                             <ComboBox fx:id="barber_service_selector" maxWidth="Infinity"
-                                      styleClass="md-combo-box"/>
+                                      styleClass="md-combo-box"
+                                      promptText="Seleccioná un servicio"/>
                         </VBox>
 
                         <!-- Employee Selection -->
                         <VBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="0">
                             <Label styleClass="md-label-medium" text="Nuevo Profesional"/>
-                            <ComboBox fx:id="employee_selector" maxWidth="Infinity" styleClass="md-combo-box"/>
+                            <ComboBox fx:id="employee_selector" maxWidth="Infinity" styleClass="md-combo-box"
+                                      promptText="Seleccioná un profesional"/>
                         </VBox>
 
                         <!-- Current Service Info (Read-only) -->
@@ -104,12 +116,20 @@
                         </VBox>
                     </GridPane>
 
-                    <!-- Service Duration Info -->
+                    <!-- Service Price Info -->
                     <VBox fx:id="service_selection_container" spacing="4" visible="false">
-                        <HBox spacing="4">
-                            <Label styleClass="md-label-medium" text="Precio:"/>
-                            <Label fx:id="service_price" styleClass="md-label-medium"/>
-                        </HBox>
+                        <Region styleClass="md-card-filled" maxWidth="Infinity" prefHeight="48.0">
+                            <padding>
+                                <Insets top="10" right="16" bottom="10" left="16"/>
+                            </padding>
+                            <graphic>
+                                <HBox spacing="8" alignment="CENTER_LEFT">
+                                    <Region styleClass="money-bag-icon, md-icon-small, md-icon-primary"/>
+                                    <Label styleClass="md-label-medium" text="Precio: "/>
+                                    <Label fx:id="service_price" styleClass="md-title-medium"/>
+                                </HBox>
+                            </graphic>
+                        </Region>
                     </VBox>
                 </VBox>
 
@@ -118,11 +138,14 @@
                     <padding>
                         <Insets top="16" right="16" bottom="16" left="16"/>
                     </padding>
-                    <VBox spacing="4">
-                        <Label styleClass="md-title-medium" text="Cambiar Fecha y Hora"/>
-                        <Label styleClass="md-body-small"
-                               text="Deja los campos vacíos para mantener los valores actuales"/>
-                    </VBox>
+                    <HBox spacing="8" alignment="CENTER_LEFT">
+                        <Region styleClass="calendar-icon, md-icon-medium, md-icon-primary"/>
+                        <VBox spacing="2">
+                            <Label styleClass="md-title-medium" text="Cambiar Fecha y Hora"/>
+                            <Label styleClass="md-body-small"
+                                   text="Deja los campos vacíos para mantener los valores actuales"/>
+                        </VBox>
+                    </HBox>
 
                     <GridPane hgap="16" vgap="16">
                         <columnConstraints>
@@ -135,19 +158,22 @@
                         <!-- Start Date -->
                         <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="0">
                             <Label styleClass="md-label-medium" text="Nueva Fecha de Inicio"/>
-                            <DatePicker fx:id="date_selector" maxWidth="Infinity" styleClass="md-date-picker"/>
+                            <DatePicker fx:id="date_selector" maxWidth="Infinity" styleClass="md-date-picker"
+                                        promptText="Seleccioná una fecha"/>
                         </VBox>
 
                         <!-- Start Time -->
                         <VBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="0">
                             <Label styleClass="md-label-medium" text="Hora de Inicio"/>
-                            <ComboBox fx:id="hour_selector" styleClass="md-combo-box"/>
+                            <ComboBox fx:id="hour_selector" styleClass="md-combo-box" maxWidth="Infinity"
+                                      promptText="Hora"/>
                         </VBox>
 
                         <!-- Start Minutes -->
                         <VBox spacing="4" GridPane.columnIndex="2" GridPane.rowIndex="0">
                             <Label styleClass="md-label-medium" text="Minutos"/>
-                            <ComboBox fx:id="minute_selector" styleClass="md-combo-box"/>
+                            <ComboBox fx:id="minute_selector" styleClass="md-combo-box" maxWidth="Infinity"
+                                      promptText="Min"/>
                         </VBox>
 
                         <!-- Current Start DateTime (Read-only) -->
@@ -160,7 +186,8 @@
                         <VBox spacing="4" GridPane.columnIndex="0" GridPane.columnSpan="4" GridPane.rowIndex="1">
                             <Label styleClass="md-label-medium" text="Notas (opcional)"/>
                             <TextField fx:id="appointment_notes" maxWidth="Infinity"
-                                       styleClass="md-text-field"/>
+                                       styleClass="md-text-field"
+                                       promptText="Observaciones adicionales del turno"/>
                         </VBox>
                     </GridPane>
                 </VBox>
@@ -170,10 +197,13 @@
                     <padding>
                         <Insets top="16" right="16" bottom="16" left="16"/>
                     </padding>
-                    <VBox spacing="4">
-                        <Label styleClass="md-title-medium" text="Cambiar Estado"/>
-                        <Label styleClass="md-body-small" text="Selecciona un nuevo estado para el turno"/>
-                    </VBox>
+                    <HBox spacing="8" alignment="CENTER_LEFT">
+                        <Region styleClass="done-all-icon, md-icon-medium, md-icon-primary"/>
+                        <VBox spacing="2">
+                            <Label styleClass="md-title-medium" text="Cambiar Estado"/>
+                            <Label styleClass="md-body-small" text="Selecciona un nuevo estado para el turno"/>
+                        </VBox>
+                    </HBox>
 
                     <GridPane hgap="16" vgap="16">
                         <columnConstraints>
@@ -184,7 +214,8 @@
                         <!-- Status Selection -->
                         <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="0">
                             <Label styleClass="md-label-medium" text="Nuevo Estado"/>
-                            <ComboBox fx:id="status_selector" maxWidth="Infinity" styleClass="md-combo-box"/>
+                            <ComboBox fx:id="status_selector" maxWidth="Infinity" styleClass="md-combo-box"
+                                      promptText="Seleccioná un estado"/>
                         </VBox>
 
                         <!-- Current Status Info -->
@@ -200,7 +231,10 @@
                     <padding>
                         <Insets top="16" right="16" bottom="16" left="16"/>
                     </padding>
-                    <Label styleClass="md-title-medium" text="Resumen del Turno"/>
+                    <HBox spacing="8" alignment="CENTER_LEFT">
+                        <Region styleClass="info-icon, md-icon-medium, md-icon-primary"/>
+                        <Label styleClass="md-title-medium" text="Resumen del Turno"/>
+                    </HBox>
 
                     <VBox spacing="8">
                         <HBox spacing="4">

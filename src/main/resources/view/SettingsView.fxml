@@ -17,10 +17,10 @@
 
     <VBox
             AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0"
-          AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+            AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
 
         <!-- Header del Panel -->
-        <HBox alignment="CENTER_LEFT">
+        <HBox alignment="CENTER_LEFT" spacing="12">
             <padding>
                 <Insets top="20" right="24" bottom="12" left="24"/>
             </padding>
@@ -28,7 +28,6 @@
                 <Label styleClass="md-headline-medium" text="Configuración"/>
                 <Label styleClass="md-body-large" text="Administra las opciones de la aplicación"/>
             </VBox>
-            <Region HBox.hgrow="ALWAYS"/>
         </HBox>
 
         <!-- Contenido Principal -->
@@ -42,7 +41,10 @@
 
                 <!-- Selector de Tema -->
                 <VBox spacing="12">
-                    <Label styleClass="md-title-medium" text="Apariencia"/>
+                    <HBox spacing="8" alignment="CENTER_LEFT">
+                        <Region styleClass="category-icon, md-icon-medium, md-icon-primary"/>
+                        <Label styleClass="md-title-medium" text="Apariencia"/>
+                    </HBox>
                     <HBox styleClass="md-card" spacing="16" alignment="CENTER_LEFT">
                         <padding>
                             <Insets top="16" right="16" bottom="16" left="16"/>
@@ -59,10 +61,13 @@
 
                 <!-- Configuración del Negocio -->
                 <VBox spacing="12">
-                    <Label styleClass="md-title-medium" text="Datos del Negocio"/>
+                    <HBox spacing="8" alignment="CENTER_LEFT">
+                        <Region styleClass="enterprise-icon, md-icon-medium, md-icon-primary"/>
+                        <Label styleClass="md-title-medium" text="Datos del Negocio"/>
+                    </HBox>
                     <VBox styleClass="md-card" spacing="16">
                         <padding>
-                            <Insets top="20" right="20" bottom="20" left="20"/>
+                            <Insets top="16" right="16" bottom="16" left="16"/>
                         </padding>
                         <GridPane hgap="16" vgap="16">
                             <columnConstraints>
@@ -73,37 +78,43 @@
                             <!-- Nombre del Negocio -->
                             <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="0">
                                 <Label styleClass="md-label-medium" text="Nombre de la Barbería"/>
-                                <TextField fx:id="name" styleClass="md-text-field" maxWidth="Infinity"/>
+                                <TextField fx:id="name" styleClass="md-text-field" maxWidth="Infinity"
+                                           promptText="Ej: La Tercera Barbershop"/>
                             </VBox>
 
                             <!-- Teléfono -->
                             <VBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="0">
                                 <Label styleClass="md-label-medium" text="Teléfono"/>
-                                <TextField fx:id="phone" styleClass="md-text-field" maxWidth="Infinity"/>
+                                <TextField fx:id="phone" styleClass="md-text-field" maxWidth="Infinity"
+                                           promptText="Ej: +54 11 1234-5678"/>
                             </VBox>
 
                             <!-- Email -->
                             <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="1">
                                 <Label styleClass="md-label-medium" text="Email"/>
-                                <TextField fx:id="email" styleClass="md-text-field" maxWidth="Infinity"/>
+                                <TextField fx:id="email" styleClass="md-text-field" maxWidth="Infinity"
+                                           promptText="Ej: info@latercera.com"/>
                             </VBox>
 
                             <!-- Dirección -->
                             <VBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                 <Label styleClass="md-label-medium" text="Dirección"/>
-                                <TextField fx:id="address" styleClass="md-text-field" maxWidth="Infinity"/>
+                                <TextField fx:id="address" styleClass="md-text-field" maxWidth="Infinity"
+                                           promptText="Ej: Av. Corrientes 1234"/>
                             </VBox>
 
                             <!-- Horario de Apertura -->
                             <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="2">
                                 <Label styleClass="md-label-medium" text="Horario de Apertura"/>
-                                <ComboBox fx:id="opening_hours" styleClass="md-combo-box"/>
+                                <ComboBox fx:id="opening_hours" styleClass="md-combo-box" maxWidth="Infinity"
+                                          promptText="Seleccioná hora"/>
                             </VBox>
 
                             <!-- Horario de Cierre -->
                             <VBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="2">
                                 <Label styleClass="md-label-medium" text="Horario de Cierre"/>
-                                <ComboBox fx:id="closing_hours" styleClass="md-combo-box"/>
+                                <ComboBox fx:id="closing_hours" styleClass="md-combo-box" maxWidth="Infinity"
+                                          promptText="Seleccioná hora"/>
                             </VBox>
                         </GridPane>
                     </VBox>
@@ -111,7 +122,10 @@
 
                 <!-- Configuración de Notificaciones -->
                 <VBox spacing="12">
-                    <Label styleClass="md-title-medium" text="Notificaciones"/>
+                    <HBox spacing="8" alignment="CENTER_LEFT">
+                        <Region styleClass="add-alert-icon, md-icon-medium, md-icon-primary"/>
+                        <Label styleClass="md-title-medium" text="Notificaciones"/>
+                    </HBox>
                     <VBox styleClass="md-card">
                         <padding>
                             <Insets top="8" right="16" bottom="8" left="16"/>
@@ -123,7 +137,7 @@
                                 <Insets top="12" bottom="12"/>
                             </padding>
                             <VBox spacing="2" HBox.hgrow="ALWAYS">
-                                <Label styleClass="md-title-medium" text="Notificaciones de Turnos"/>
+                                <Label styleClass="md-body-medium" text="Notificaciones de Turnos"/>
                                 <Label styleClass="md-body-small"
                                        text="Recibir alertas cuando se agende un nuevo turno"/>
                             </VBox>
@@ -131,7 +145,7 @@
                                       styleClass="md-check-box"/>
                         </HBox>
 
-                        <Separator styleClass="md-nav-divider"/>
+                        <Separator styleClass="md-divider"/>
 
                         <!-- Notificación: Recordatorios -->
                         <HBox alignment="CENTER_LEFT" spacing="16">
@@ -139,7 +153,7 @@
                                 <Insets top="12" bottom="12"/>
                             </padding>
                             <VBox spacing="2" HBox.hgrow="ALWAYS">
-                                <Label styleClass="md-title-medium" text="Recordatorios de Turnos"/>
+                                <Label styleClass="md-body-medium" text="Recordatorios de Turnos"/>
                                 <Label styleClass="md-body-small"
                                        text="Enviar recordatorios a los clientes antes de su turno"/>
                             </VBox>
@@ -147,7 +161,7 @@
                                       styleClass="md-check-box"/>
                         </HBox>
 
-                        <Separator styleClass="md-nav-divider"/>
+                        <Separator styleClass="md-divider"/>
 
                         <!-- Notificación: Stock -->
                         <HBox alignment="CENTER_LEFT" spacing="16">
@@ -155,7 +169,7 @@
                                 <Insets top="12" bottom="12"/>
                             </padding>
                             <VBox spacing="2" HBox.hgrow="ALWAYS">
-                                <Label styleClass="md-title-medium" text="Alertas de Stock"/>
+                                <Label styleClass="md-body-medium" text="Alertas de Stock"/>
                                 <Label styleClass="md-body-small"
                                        text="Notificar cuando el stock esté bajo o crítico"/>
                             </VBox>
@@ -163,7 +177,7 @@
                                       styleClass="md-check-box"/>
                         </HBox>
 
-                        <Separator styleClass="md-nav-divider"/>
+                        <Separator styleClass="md-divider"/>
 
                         <!-- Notificación: Empleados -->
                         <HBox alignment="CENTER_LEFT" spacing="16">
@@ -171,7 +185,7 @@
                                 <Insets top="12" bottom="12"/>
                             </padding>
                             <VBox spacing="2" HBox.hgrow="ALWAYS">
-                                <Label styleClass="md-title-medium" text="Notificaciones de Empleados"/>
+                                <Label styleClass="md-body-medium" text="Notificaciones de Empleados"/>
                                 <Label styleClass="md-body-small"
                                        text="Alertas sobre cambios en el equipo de trabajo"/>
                             </VBox>
@@ -183,52 +197,74 @@
 
                 <!-- Configuración de Seguridad -->
                 <VBox spacing="12">
-                    <Label styleClass="md-title-medium" text="Seguridad"/>
-                    <HBox styleClass="md-card" spacing="24" maxWidth="Infinity">
+                    <HBox spacing="8" alignment="CENTER_LEFT">
+                        <Region styleClass="exclamation-icon, md-icon-medium, md-icon-primary"/>
+                        <Label styleClass="md-title-medium" text="Seguridad"/>
+                    </HBox>
+                    <VBox styleClass="md-card" spacing="16">
                         <padding>
-                            <Insets top="20" right="20" bottom="20" left="20"/>
+                            <Insets top="16" right="16" bottom="16" left="16"/>
                         </padding>
 
-                        <!-- Credenciales -->
-                        <VBox spacing="12" HBox.hgrow="ALWAYS">
-                            <Label styleClass="md-title-large" text="Usuario Administrador"/>
-                            <TextField fx:id="user_textfield" styleClass="md-text-field"
-                                       maxWidth="Infinity"/>
+                        <!-- Credenciales de Administrador -->
+                        <GridPane hgap="16" vgap="16">
+                            <columnConstraints>
+                                <ColumnConstraints hgrow="ALWAYS" percentWidth="50"/>
+                                <ColumnConstraints hgrow="ALWAYS" percentWidth="50"/>
+                            </columnConstraints>
 
-                            <Label styleClass="md-title-large" text="Nueva Contraseña"/>
-                            <PasswordField fx:id="password_textfield" styleClass="md-text-field"
-                                           maxWidth="Infinity"/>
+                            <!-- Usuario Administrador -->
+                            <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.columnSpan="2">
+                                <Label styleClass="md-label-medium" text="Usuario Administrador"/>
+                                <TextField fx:id="user_textfield" styleClass="md-text-field" maxWidth="Infinity"
+                                           promptText="Nombre de usuario"/>
+                            </VBox>
 
-                            <Label styleClass="md-title-large" text="Confirmar Contraseña"/>
-                            <PasswordField fx:id="confirm_password_textfield" styleClass="md-text-field"
-                                           maxWidth="Infinity"/>
+                            <!-- Nueva Contraseña -->
+                            <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                                <Label styleClass="md-label-medium" text="Nueva Contraseña"/>
+                                <PasswordField fx:id="password_textfield" styleClass="md-text-field" maxWidth="Infinity"
+                                               promptText="Ingresá la nueva contraseña"/>
+                            </VBox>
 
-                            <Region VBox.vgrow="ALWAYS"/>
-                            <HBox alignment="CENTER_RIGHT">
+                            <!-- Confirmar Contraseña -->
+                            <VBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                <Label styleClass="md-label-medium" text="Confirmar Contraseña"/>
+                                <PasswordField fx:id="confirm_password_textfield" styleClass="md-text-field" maxWidth="Infinity"
+                                               promptText="Repetí la contraseña"/>
+                            </VBox>
+
+                            <!-- Botón Actualizar -->
+                            <HBox GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="2"
+                                  alignment="CENTER_RIGHT">
                                 <MFXButton fx:id="update_password_button" styleClass="md-button-filled"
                                            text="Actualizar datos"/>
                             </HBox>
-                        </VBox>
+                        </GridPane>
 
-                        <Separator orientation="VERTICAL" styleClass="md-nav-divider"/>
+                        <Separator styleClass="md-divider"/>
 
                         <!-- Generador de Contraseña -->
-                        <VBox spacing="12" HBox.hgrow="ALWAYS">
-                            <Label fx:id="password_length_label" styleClass="md-title-large"/>
-                            <Slider fx:id="password_length_slider"/>
-                            <MFXButton fx:id="suggest_strong_password" styleClass="md-button-outlined"
-                                       text="Generar contraseña"/>
-                            <Region VBox.vgrow="ALWAYS"/>
+                        <VBox spacing="12">
+                            <Label fx:id="password_length_label" styleClass="md-label-medium"/>
+                            <Slider fx:id="password_length_slider" maxWidth="Infinity"/>
+                            <HBox alignment="CENTER_RIGHT">
+                                <MFXButton fx:id="suggest_strong_password" styleClass="md-button-outlined"
+                                           text="Generar contraseña"/>
+                            </HBox>
                         </VBox>
-                    </HBox>
+                    </VBox>
                 </VBox>
 
                 <!-- Información de la Aplicación -->
                 <VBox spacing="12">
-                    <Label styleClass="md-title-medium" text="Acerca de la Aplicación"/>
+                    <HBox spacing="8" alignment="CENTER_LEFT">
+                        <Region styleClass="info-icon, md-icon-medium, md-icon-primary"/>
+                        <Label styleClass="md-title-medium" text="Acerca de la Aplicación"/>
+                    </HBox>
                     <VBox styleClass="md-card" spacing="16">
                         <padding>
-                            <Insets top="20" right="20" bottom="20" left="20"/>
+                            <Insets top="16" right="16" bottom="16" left="16"/>
                         </padding>
 
                         <HBox spacing="24" alignment="CENTER_LEFT">
@@ -246,7 +282,7 @@
                             </VBox>
                         </HBox>
 
-                        <Separator styleClass="md-nav-divider"/>
+                        <Separator styleClass="md-divider"/>
 
                         <!-- Información Técnica -->
                         <GridPane hgap="16" vgap="8">
@@ -285,7 +321,7 @@
 
                 <!-- Botones de Acción -->
                 <HBox spacing="8" alignment="CENTER_RIGHT">
-                    <MFXButton fx:id="cancel_button" styleClass="md-button-text" text="Restaurar datos"/>
+                    <MFXButton fx:id="cancel_button" styleClass="md-button-outlined" text="Restaurar datos"/>
                     <MFXButton fx:id="save_button" styleClass="md-button-filled" text="Guardar Cambios"/>
                 </HBox>
 

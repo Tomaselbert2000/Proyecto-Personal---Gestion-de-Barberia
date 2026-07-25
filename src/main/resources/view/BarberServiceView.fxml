@@ -11,12 +11,12 @@
 
     <VBox
             AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0"
-          AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+            AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
 
         <!-- Header del Panel -->
         <HBox alignment="CENTER_LEFT">
             <padding>
-                <Insets top="20" right="24" bottom="12" left="24"/>
+                <Insets top="16" right="24" bottom="16" left="24"/>
             </padding>
             <VBox spacing="2">
                 <Label styleClass="md-headline-medium" text="Servicios de Barbería"/>
@@ -31,7 +31,7 @@
                     VBox.vgrow="ALWAYS">
             <VBox spacing="24">
                 <padding>
-                    <Insets top="16" right="24" bottom="24" left="24"/>
+                    <Insets top="20" right="24" bottom="24" left="24"/>
                 </padding>
 
                 <!-- Tarjetas de Estadísticas -->
@@ -44,70 +44,69 @@
                     </columnConstraints>
 
                     <!-- Tarjeta: Total Servicios -->
-                    <VBox styleClass="md-card" spacing="12" GridPane.columnIndex="0">
+                    <VBox styleClass="md-card" spacing="8" GridPane.columnIndex="0">
                         <padding>
                             <Insets top="16" right="16" bottom="16" left="16"/>
                         </padding>
                         <HBox alignment="CENTER_LEFT">
-                            <VBox spacing="2" HBox.hgrow="ALWAYS">
-                                <Label fx:id="service_count" styleClass="md-headline-large"/>
-                                <Label styleClass="md-body-medium" text="Total Servicios"/>
-                            </VBox>
-                            <Region styleClass="view-list-icon, md-icon-large, md-icon-primary"/>
+                            <Label styleClass="md-label-large" text="Total Servicios"/>
+                            <Region HBox.hgrow="ALWAYS"/>
+                            <Region styleClass="view-list-icon, md-icon-medium, md-icon-primary"/>
                         </HBox>
+                        <Label fx:id="service_count" styleClass="md-display-small" text="0"/>
                         <HBox spacing="4" alignment="CENTER_LEFT">
-                            <Label fx:id="new_services_this_month_count" styleClass="md-label-medium"/>
+                            <Label fx:id="new_services_this_month_count" styleClass="md-label-medium" text="0"/>
                             <Label styleClass="md-label-small" text="nuevos este mes"/>
                         </HBox>
                     </VBox>
 
                     <!-- Tarjeta: Categorías -->
-                    <VBox styleClass="md-card" spacing="12" GridPane.columnIndex="1">
+                    <VBox styleClass="md-card" spacing="8" GridPane.columnIndex="1">
                         <padding>
                             <Insets top="16" right="16" bottom="16" left="16"/>
                         </padding>
                         <HBox alignment="CENTER_LEFT">
-                            <VBox spacing="2" HBox.hgrow="ALWAYS">
-                                <Label fx:id="category_count" styleClass="md-headline-large"/>
-                                <Label styleClass="md-body-medium" text="Categorías"/>
-                            </VBox>
-                            <Region styleClass="category-icon, md-icon-large, md-icon-primary"/>
+                            <Label styleClass="md-label-large" text="Categorías"/>
+                            <Region HBox.hgrow="ALWAYS"/>
+                            <Region styleClass="category-icon, md-icon-medium, md-icon-primary"/>
                         </HBox>
-                        <HBox spacing="4" alignment="CENTER_LEFT"/>
+                        <Label fx:id="category_count" styleClass="md-display-small" text="0"/>
+                        <HBox spacing="4" alignment="CENTER_LEFT">
+                            <Label styleClass="md-label-medium" text="registradas"/>
+                        </HBox>
                     </VBox>
 
                     <!-- Tarjeta: Precio más alto -->
-                    <VBox styleClass="md-card" spacing="12" GridPane.columnIndex="2">
+                    <VBox styleClass="md-card" spacing="8" GridPane.columnIndex="2">
                         <padding>
                             <Insets top="16" right="16" bottom="16" left="16"/>
                         </padding>
                         <HBox alignment="CENTER_LEFT">
-                            <VBox spacing="2" HBox.hgrow="ALWAYS">
-                                <Label fx:id="highest_price" styleClass="md-headline-large"/>
-                                <Label styleClass="md-body-medium" text="Precio más alto"/>
-                            </VBox>
-                            <Region styleClass="arrow-up-circle-icon, md-icon-large, md-icon-primary"/>
+                            <Label styleClass="md-label-large" text="Precio más alto"/>
+                            <Region HBox.hgrow="ALWAYS"/>
+                            <Region styleClass="arrow-up-circle-icon, md-icon-medium, md-icon-primary"/>
                         </HBox>
+                        <Label fx:id="highest_price" styleClass="md-display-small"/>
                         <HBox spacing="4" alignment="CENTER_LEFT">
+                            <Label styleClass="md-label-medium" text="mín: "/>
                             <Label fx:id="lowest_price" styleClass="md-label-medium"/>
-                            <Label styleClass="md-label-small" text="precio más bajo registrado"/>
                         </HBox>
                     </VBox>
 
                     <!-- Tarjeta: Precio Promedio -->
-                    <VBox styleClass="md-card" spacing="12" GridPane.columnIndex="3">
+                    <VBox styleClass="md-card" spacing="8" GridPane.columnIndex="3">
                         <padding>
                             <Insets top="16" right="16" bottom="16" left="16"/>
                         </padding>
                         <HBox alignment="CENTER_LEFT">
-                            <VBox spacing="2" HBox.hgrow="ALWAYS">
-                                <Label fx:id="average_price" styleClass="md-headline-large"/>
-                                <Label styleClass="md-body-medium" text="Precio Promedio"/>
-                            </VBox>
-                            <Region styleClass="avg-pace-icon, md-icon-large, md-icon-primary"/>
+                            <Label styleClass="md-label-large" text="Precio Promedio"/>
+                            <Region HBox.hgrow="ALWAYS"/>
+                            <Region styleClass="avg-pace-icon, md-icon-medium, md-icon-primary"/>
                         </HBox>
+                        <Label fx:id="average_price" styleClass="md-display-small"/>
                         <HBox spacing="4" alignment="CENTER_LEFT">
-                            <Label fx:id="average_price_percentage_vs_last_month" styleClass="md-label-medium"/>
+                            <Label fx:id="average_price_percentage_vs_last_month" styleClass="md-label-medium"
+                                   text="0%"/>
                             <Label styleClass="md-label-small" text="vs mes anterior"/>
                         </HBox>
                     </VBox>
@@ -115,7 +114,7 @@
 
                 <!-- Sección de Filtros -->
                 <VBox spacing="12">
-                    <Label styleClass="md-title-medium" text="Filtros y Acciones"/>
+                    <Label styleClass="md-title-medium" text="Filtros de Búsqueda"/>
 
                     <VBox styleClass="md-card" spacing="16">
                         <padding>
@@ -148,7 +147,7 @@
                             </VBox>
 
                             <!-- Botones de Acción -->
-                            <VBox spacing="4">
+                            <VBox spacing="4" alignment="BOTTOM_LEFT">
                                 <Label styleClass="md-label-medium" text="Acciones"/>
                                 <HBox spacing="8" alignment="CENTER_LEFT">
                                     <MFXButton fx:id="clean_filters_button"
@@ -165,9 +164,9 @@
                 <!-- Lista de Servicios -->
                 <VBox spacing="12">
                     <HBox spacing="8" alignment="CENTER_LEFT">
-                        <Label styleClass="md-title-medium" text="Lista de Servicios"/>
+                        <Label styleClass="md-title-medium" text="Catálogo de Servicios"/>
                         <Region HBox.hgrow="ALWAYS"/>
-                        <Label fx:id="service_list_vbox_service_count" styleClass="md-body-small"/>
+                        <Label fx:id="service_list_vbox_service_count" styleClass="md-body-small" text="0 servicios"/>
                     </HBox>
 
                     <VBox fx:id="services_list_vbox" styleClass="md-card">

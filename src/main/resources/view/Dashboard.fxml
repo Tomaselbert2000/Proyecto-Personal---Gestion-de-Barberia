@@ -14,41 +14,77 @@
     <BorderPane fx:id="borderPane" prefHeight="720.0" prefWidth="1200.0">
 
         <!-- ================================================================= -->
-        <!-- NAVIGATION DRAWER (BARRA LATERAL)                                 -->
+        <!-- NAVIGATION DRAWER (BARRA LATERAL CON ICONOGRAFÍA)                -->
         <!-- ================================================================= -->
         <left>
-            <VBox styleClass="md-navigation-drawer" spacing="16" prefWidth="260.0">
+            <VBox styleClass="md-navigation-drawer" spacing="12" prefWidth="260.0">
                 <padding>
                     <Insets top="16" right="12" bottom="16" left="12"/>
                 </padding>
 
-                <!-- Logo y Nombre -->
+                <!-- Logo e Identidad -->
                 <VBox alignment="CENTER" spacing="8">
-                    <ImageView fitHeight="64.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true">
+                    <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
                         <Image url="@../images/Logo.jpg"/>
                     </ImageView>
-                    <Label styleClass="md-headline-small" text="LA TERCERA"/>
-                    <Label styleClass="md-label-large" text="BARBERSHOP"/>
+                    <VBox alignment="CENTER">
+                        <Label styleClass="md-title-medium" text="LA TERCERA"/>
+                        <Label styleClass="md-label-small" text="BARBERSHOP"/>
+                    </VBox>
                 </VBox>
 
                 <Separator styleClass="md-nav-divider"/>
 
-                <!-- Menú de Navegación -->
+                <!-- Menú de Navegación con Íconos (Doble Código) -->
                 <VBox spacing="4" VBox.vgrow="ALWAYS">
                     <MFXButton fx:id="navbar_dashboard_button" maxWidth="Infinity"
-                               styleClass="md-nav-button, md-nav-button-active" text="Dashboard"/>
+                               styleClass="md-nav-button, md-nav-button-active" text="Dashboard">
+                        <graphic>
+                            <Region styleClass="category-icon, md-icon-small, md-icon-primary"/>
+                        </graphic>
+                    </MFXButton>
+
                     <MFXButton fx:id="navbar_client_button" maxWidth="Infinity" styleClass="md-nav-button"
-                               text="Clientes"/>
+                               text="Clientes">
+                        <graphic>
+                            <Region styleClass="person-1-icon, md-icon-small"/>
+                        </graphic>
+                    </MFXButton>
+
                     <MFXButton fx:id="navbar_employee_button" maxWidth="Infinity" styleClass="md-nav-button"
-                               text="Empleados"/>
+                               text="Empleados">
+                        <graphic>
+                            <Region styleClass="person-apron-icon, md-icon-small"/>
+                        </graphic>
+                    </MFXButton>
+
                     <MFXButton fx:id="navbar_appointment_button" maxWidth="Infinity" styleClass="md-nav-button"
-                               text="Turnos"/>
+                               text="Turnos">
+                        <graphic>
+                            <Region styleClass="calendar-today-icon, md-icon-small"/>
+                        </graphic>
+                    </MFXButton>
+
                     <MFXButton fx:id="navbar_barber_service_button" maxWidth="Infinity" styleClass="md-nav-button"
-                               text="Servicios"/>
+                               text="Servicios">
+                        <graphic>
+                            <Region styleClass="work-icon, md-icon-small"/>
+                        </graphic>
+                    </MFXButton>
+
                     <MFXButton fx:id="navbar_product_button" maxWidth="Infinity" styleClass="md-nav-button"
-                               text="Stock de productos"/>
+                               text="Stock de productos">
+                        <graphic>
+                            <Region styleClass="box-icon, md-icon-small"/>
+                        </graphic>
+                    </MFXButton>
+
                     <MFXButton fx:id="navbar_payment_button" maxWidth="Infinity" styleClass="md-nav-button"
-                               text="Medios de pago"/>
+                               text="Medios de pago">
+                        <graphic>
+                            <Region styleClass="payments-icon, md-icon-small"/>
+                        </graphic>
+                    </MFXButton>
                 </VBox>
 
                 <Separator styleClass="md-nav-divider"/>
@@ -56,9 +92,18 @@
                 <!-- Sección Inferior -->
                 <VBox spacing="4">
                     <MFXButton fx:id="navbar_settings_button" maxWidth="Infinity" styleClass="md-nav-button"
-                               text="Configuración"/>
+                               text="Configuración">
+                        <graphic>
+                            <Region styleClass="enterprise-icon, md-icon-small"/>
+                        </graphic>
+                    </MFXButton>
+
                     <MFXButton fx:id="navbar_logout_button" maxWidth="Infinity" styleClass="md-nav-button"
-                               text="Cerrar Sesión"/>
+                               text="Cerrar Sesión">
+                        <graphic>
+                            <Region styleClass="logout-icon, md-icon-small"/>
+                        </graphic>
+                    </MFXButton>
                 </VBox>
             </VBox>
         </left>
@@ -68,14 +113,14 @@
         <!-- ================================================================= -->
         <center>
             <VBox>
-                <!-- Header Superior -->
-                <HBox alignment="CENTER_LEFT" styleClass="md-surface">
+                <!-- Header Superior Funcional -->
+                <HBox alignment="CENTER_LEFT">
                     <padding>
-                        <Insets top="20" right="24" bottom="12" left="24"/>
+                        <Insets top="16" right="24" bottom="16" left="24"/>
                     </padding>
                     <VBox spacing="2">
                         <Label styleClass="md-headline-medium" text="Dashboard"/>
-                        <Label styleClass="md-body-large" text="Bienvenido de nuevo"/>
+                        <Label styleClass="md-body-medium" text="Resumen del día y accesos directos"/>
                     </VBox>
                     <Region HBox.hgrow="ALWAYS"/>
                 </HBox>
@@ -85,7 +130,7 @@
                             style="-fx-background-color: transparent; -fx-background: transparent;" VBox.vgrow="ALWAYS">
                     <VBox spacing="24">
                         <padding>
-                            <Insets top="16" right="24" bottom="24" left="24"/>
+                            <Insets top="20" right="24" bottom="24" left="24"/>
                         </padding>
 
                         <!-- 1. TARJETAS DE ESTADÍSTICAS RÁPIDAS -->
@@ -98,61 +143,56 @@
                             </columnConstraints>
 
                             <!-- Tarjeta 1: Clientes Registrados -->
-                            <VBox styleClass="md-card" spacing="12" GridPane.columnIndex="0">
+                            <VBox styleClass="md-card" spacing="8" GridPane.columnIndex="0">
                                 <padding>
                                     <Insets top="16" right="16" bottom="16" left="16"/>
                                 </padding>
                                 <HBox alignment="CENTER_LEFT">
-                                    <VBox spacing="2" HBox.hgrow="ALWAYS">
-                                        <Label fx:id="clients_registered_count" styleClass="md-headline-large"
-                                               text="0"/>
-                                        <Label styleClass="md-body-medium" text="Clientes Registrados"/>
-                                    </VBox>
-                                    <!-- Tu clase SVG groups-2-icon -->
-                                    <Region styleClass="groups-2-icon, md-icon-large, md-icon-primary"/>
+                                    <Label styleClass="md-label-large" text="Clientes Registrados"/>
+                                    <!-- Espaciador flexible que empuja el ícono a la esquina derecha -->
+                                    <Region HBox.hgrow="ALWAYS"/>
+                                    <Region styleClass="groups-2-icon, md-icon-medium, md-icon-primary"/>
                                 </HBox>
+                                <Label fx:id="clients_registered_count" styleClass="md-display-small" text="0"/>
                                 <HBox spacing="4" alignment="CENTER_LEFT">
+                                    <Region styleClass="arrow-up-circle-icon, md-icon-small"/>
                                     <Label fx:id="clients_registered_percentage_vs_last_month"
                                            styleClass="md-label-medium" text="0.0%"/>
                                     <Label styleClass="md-label-small" text="vs mes anterior"/>
                                 </HBox>
                             </VBox>
 
-                            <!-- Tarjeta 2: Empleados -->
-                            <VBox styleClass="md-card" spacing="12" GridPane.columnIndex="1">
+                            <!-- Tarjeta 2: Empleados Activos -->
+                            <VBox styleClass="md-card" spacing="8" GridPane.columnIndex="1">
                                 <padding>
                                     <Insets top="16" right="16" bottom="16" left="16"/>
                                 </padding>
                                 <HBox alignment="CENTER_LEFT">
-                                    <VBox spacing="2" HBox.hgrow="ALWAYS">
-                                        <Label fx:id="active_employees_count" styleClass="md-headline-large"
-                                               text="0"/>
-                                        <Label styleClass="md-body-medium" text="Empleados Activos"/>
-                                    </VBox>
-                                    <!-- Tu clase SVG person-apron-icon -->
-                                    <Region styleClass="person-apron-icon, md-icon-large, md-icon-primary"/>
+                                    <Label styleClass="md-label-large" text="Empleados Activos"/>
+                                    <!-- Espaciador flexible -->
+                                    <Region HBox.hgrow="ALWAYS"/>
+                                    <Region styleClass="person-apron-icon, md-icon-medium, md-icon-primary"/>
                                 </HBox>
+                                <Label fx:id="active_employees_count" styleClass="md-display-small" text="0"/>
                                 <HBox spacing="4" alignment="CENTER_LEFT">
                                     <Label fx:id="active_employees_this_month_count" styleClass="md-label-medium"
                                            text="0"/>
-                                    <Label styleClass="md-label-small" text="este mes"/>
+                                    <Label styleClass="md-label-small" text="activos este mes"/>
                                 </HBox>
                             </VBox>
 
                             <!-- Tarjeta 3: Turnos Hoy -->
-                            <VBox styleClass="md-card" spacing="12" GridPane.columnIndex="2">
+                            <VBox styleClass="md-card" spacing="8" GridPane.columnIndex="2">
                                 <padding>
                                     <Insets top="16" right="16" bottom="16" left="16"/>
                                 </padding>
                                 <HBox alignment="CENTER_LEFT">
-                                    <VBox spacing="2" HBox.hgrow="ALWAYS">
-                                        <Label fx:id="appointments_today_count" styleClass="md-headline-large"
-                                               text="0"/>
-                                        <Label styleClass="md-body-medium" text="Turnos Hoy"/>
-                                    </VBox>
-                                    <!-- Tu clase SVG calendar-today-icon -->
-                                    <Region styleClass="calendar-today-icon, md-icon-large, md-icon-primary"/>
+                                    <Label styleClass="md-label-large" text="Turnos para Hoy"/>
+                                    <!-- Espaciador flexible -->
+                                    <Region HBox.hgrow="ALWAYS"/>
+                                    <Region styleClass="calendar-today-icon, md-icon-medium, md-icon-primary"/>
                                 </HBox>
+                                <Label fx:id="appointments_today_count" styleClass="md-display-small" text="0"/>
                                 <HBox spacing="4" alignment="CENTER_LEFT">
                                     <Label fx:id="finished_appointments_today_count" styleClass="md-label-medium"
                                            text="0"/>
@@ -161,27 +201,25 @@
                             </VBox>
 
                             <!-- Tarjeta 4: Productos en Stock -->
-                            <VBox styleClass="md-card" spacing="12" GridPane.columnIndex="3">
+                            <VBox styleClass="md-card" spacing="8" GridPane.columnIndex="3">
                                 <padding>
                                     <Insets top="16" right="16" bottom="16" left="16"/>
                                 </padding>
                                 <HBox alignment="CENTER_LEFT">
-                                    <VBox spacing="2" HBox.hgrow="ALWAYS">
-                                        <Label fx:id="products_on_stock_count" styleClass="md-headline-large"
-                                               text="0"/>
-                                        <Label styleClass="md-body-medium" text="Productos en Stock"/>
-                                    </VBox>
-                                    <!-- Tu clase SVG box-icon -->
-                                    <Region styleClass="box-icon, md-icon-large, md-icon-primary"/>
+                                    <Label styleClass="md-label-large" text="Productos en Stock"/>
+                                    <!-- Espaciador flexible -->
+                                    <Region HBox.hgrow="ALWAYS"/>
+                                    <Region styleClass="box-icon, md-icon-medium, md-icon-primary"/>
                                 </HBox>
+                                <Label fx:id="products_on_stock_count" styleClass="md-display-small" text="0"/>
                                 <HBox spacing="4" alignment="CENTER_LEFT">
                                     <Label fx:id="low_stock_products_count" styleClass="md-label-medium" text="0"/>
-                                    <Label styleClass="md-label-small" text="bajo stock"/>
+                                    <Label styleClass="md-label-small" text="con bajo stock"/>
                                 </HBox>
                             </VBox>
                         </GridPane>
 
-                        <!-- 2. ACCESOS RÁPIDOS -->
+                        <!-- 2. ACCESOS RÁPIDOS (Tarjetas estructuradas con jerarquía de botones) -->
                         <VBox spacing="12">
                             <Label styleClass="md-title-medium" text="Accesos Rápidos"/>
 
@@ -192,67 +230,64 @@
                                 </columnConstraints>
 
                                 <!-- Card: Gestión de Clientes -->
-                                <VBox styleClass="md-action-card" spacing="16" GridPane.columnIndex="0"
+                                <VBox styleClass="md-card" spacing="16" GridPane.columnIndex="0"
                                       GridPane.rowIndex="0">
                                     <padding>
-                                        <Insets top="20" right="20" bottom="20" left="20"/>
+                                        <Insets top="16" right="16" bottom="16" left="16"/>
                                     </padding>
-                                    <HBox>
-                                        <VBox spacing="4" HBox.hgrow="ALWAYS">
-                                            <Label styleClass="md-title-large" text="Gestión de Clientes"/>
+                                    <HBox alignment="CENTER_LEFT">
+                                        <VBox spacing="2" HBox.hgrow="ALWAYS">
+                                            <Label styleClass="md-title-medium" text="Gestión de Clientes"/>
                                             <Label styleClass="md-body-small"
-                                                   text="Administra el registro y datos de clientes"/>
+                                                   text="Administración de altas y padrón de clientes"/>
                                         </VBox>
-                                        <!-- Tu clase SVG person-1-icon -->
                                         <Region styleClass="person-1-icon, md-icon-medium"/>
                                     </HBox>
-                                    <HBox spacing="12" alignment="CENTER_LEFT">
+                                    <HBox spacing="8" alignment="CENTER_LEFT">
                                         <MFXButton fx:id="clients_view_button" styleClass="md-button-outlined"
                                                    text="Ver Clientes"/>
-                                        <MFXButton fx:id="create_client_button" styleClass="md-button-filled"
+                                        <MFXButton fx:id="create_client_button" styleClass="md-button-tonal"
                                                    text="+ Nuevo Cliente"/>
                                     </HBox>
                                 </VBox>
 
                                 <!-- Card: Gestión de Empleados -->
-                                <VBox styleClass="md-action-card" spacing="16" GridPane.columnIndex="1"
+                                <VBox styleClass="md-card" spacing="16" GridPane.columnIndex="1"
                                       GridPane.rowIndex="0">
                                     <padding>
-                                        <Insets top="20" right="20" bottom="20" left="20"/>
+                                        <Insets top="16" right="16" bottom="16" left="16"/>
                                     </padding>
-                                    <HBox>
-                                        <VBox spacing="4" HBox.hgrow="ALWAYS">
-                                            <Label styleClass="md-title-large" text="Gestión de Empleados"/>
+                                    <HBox alignment="CENTER_LEFT">
+                                        <VBox spacing="2" HBox.hgrow="ALWAYS">
+                                            <Label styleClass="md-title-medium" text="Gestión de Empleados"/>
                                             <Label styleClass="md-body-small"
-                                                   text="Controla horarios, servicios y rendimiento"/>
+                                                   text="Control de personal, horarios y comisiones"/>
                                         </VBox>
-                                        <!-- Tu clase SVG groups-icon -->
                                         <Region styleClass="groups-icon, md-icon-medium"/>
                                     </HBox>
-                                    <HBox spacing="12" alignment="CENTER_LEFT">
+                                    <HBox spacing="8" alignment="CENTER_LEFT">
                                         <MFXButton fx:id="employee_view_button" styleClass="md-button-outlined"
                                                    text="Ver Empleados"/>
-                                        <MFXButton fx:id="create_employee_button" styleClass="md-button-filled"
+                                        <MFXButton fx:id="create_employee_button" styleClass="md-button-tonal"
                                                    text="+ Nuevo Empleado"/>
                                     </HBox>
                                 </VBox>
 
                                 <!-- Card: Gestión de Turnos -->
-                                <VBox styleClass="md-action-card" spacing="16" GridPane.columnIndex="0"
+                                <VBox styleClass="md-card" spacing="16" GridPane.columnIndex="0"
                                       GridPane.rowIndex="1">
                                     <padding>
-                                        <Insets top="20" right="20" bottom="20" left="20"/>
+                                        <Insets top="16" right="16" bottom="16" left="16"/>
                                     </padding>
-                                    <HBox>
-                                        <VBox spacing="4" HBox.hgrow="ALWAYS">
-                                            <Label styleClass="md-title-large" text="Gestión de Turnos"/>
+                                    <HBox alignment="CENTER_LEFT">
+                                        <VBox spacing="2" HBox.hgrow="ALWAYS">
+                                            <Label styleClass="md-title-medium" text="Gestión de Turnos"/>
                                             <Label styleClass="md-body-small"
-                                                   text="Organiza y administra los turnos del día"/>
+                                                   text="Agenda del día y reservas de la barbería"/>
                                         </VBox>
-                                        <!-- Tu clase SVG calendar-icon -->
                                         <Region styleClass="calendar-icon, md-icon-medium"/>
                                     </HBox>
-                                    <HBox spacing="12" alignment="CENTER_LEFT">
+                                    <HBox spacing="8" alignment="CENTER_LEFT">
                                         <MFXButton fx:id="appointments_view_button" styleClass="md-button-outlined"
                                                    text="Ver Turnos"/>
                                         <MFXButton fx:id="create_appointment_button" styleClass="md-button-filled"
@@ -261,24 +296,23 @@
                                 </VBox>
 
                                 <!-- Card: Stock de Productos -->
-                                <VBox styleClass="md-action-card" spacing="16" GridPane.columnIndex="1"
+                                <VBox styleClass="md-card" spacing="16" GridPane.columnIndex="1"
                                       GridPane.rowIndex="1">
                                     <padding>
-                                        <Insets top="20" right="20" bottom="20" left="20"/>
+                                        <Insets top="16" right="16" bottom="16" left="16"/>
                                     </padding>
-                                    <HBox>
-                                        <VBox spacing="4" HBox.hgrow="ALWAYS">
-                                            <Label styleClass="md-title-large" text="Stock de Productos"/>
+                                    <HBox alignment="CENTER_LEFT">
+                                        <VBox spacing="2" HBox.hgrow="ALWAYS">
+                                            <Label styleClass="md-title-medium" text="Stock de Productos"/>
                                             <Label styleClass="md-body-small"
-                                                   text="Controla inventario y ventas de productos"/>
+                                                   text="Control de inventario y reposición de insumos"/>
                                         </VBox>
-                                        <!-- Tu clase SVG inventory-1-icon -->
                                         <Region styleClass="inventory-1-icon, md-icon-medium"/>
                                     </HBox>
-                                    <HBox spacing="12" alignment="CENTER_LEFT">
+                                    <HBox spacing="8" alignment="CENTER_LEFT">
                                         <MFXButton fx:id="products_view_button" styleClass="md-button-outlined"
                                                    text="Ver Inventario"/>
-                                        <MFXButton fx:id="create_product_button" styleClass="md-button-filled"
+                                        <MFXButton fx:id="create_product_button" styleClass="md-button-tonal"
                                                    text="+ Nuevo Producto"/>
                                     </HBox>
                                 </VBox>

@@ -11,14 +11,18 @@
 
     <VBox
             AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0"
-          AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+            AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
 
         <!-- Header del Panel -->
         <HBox alignment="CENTER_LEFT" spacing="12">
             <padding>
                 <Insets top="20" right="24" bottom="12" left="24"/>
             </padding>
-            <MFXButton fx:id="back_button" styleClass="md-button-outlined" text="← Volver"/>
+            <MFXButton fx:id="back_button" styleClass="md-button-outlined" text="Volver">
+                <graphic>
+                    <Region styleClass="arrow-up-circle-icon, md-icon-small"/>
+                </graphic>
+            </MFXButton>
             <VBox spacing="2">
                 <Label styleClass="md-headline-medium" text="Nuevo Turno"/>
                 <Label styleClass="md-body-large" text="Registra un nuevo turno en el sistema"/>
@@ -39,7 +43,10 @@
                     <padding>
                         <Insets top="16" right="16" bottom="16" left="16"/>
                     </padding>
-                    <Label styleClass="md-title-medium" text="Datos del Cliente"/>
+                    <HBox spacing="8" alignment="CENTER_LEFT">
+                        <Region styleClass="person-1-icon, md-icon-medium, md-icon-primary"/>
+                        <Label styleClass="md-title-medium" text="Datos del Cliente"/>
+                    </HBox>
 
                     <GridPane hgap="16" vgap="16">
                         <columnConstraints>
@@ -51,16 +58,17 @@
                         <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="0">
                             <HBox spacing="2">
                                 <Label styleClass="md-label-medium" text="Buscar Cliente"/>
-                                <Label styleClass="md-label-medium" text="*" style="-fx-text-fill: -fx-error"/>
+                                <Label styleClass="md-label-medium, md-input-error" text="*"/>
                             </HBox>
-                            <TextField fx:id="client_search_field" styleClass="md-text-field" maxWidth="Infinity"/>
+                            <TextField fx:id="client_search_field" styleClass="md-text-field" maxWidth="Infinity"
+                                       promptText="Escribí nombre o DNI del cliente"/>
                         </VBox>
 
                         <!-- New Client Button -->
                         <VBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="0">
                             <Label styleClass="md-label-medium" text="¿Cliente nuevo?"/>
                             <MFXButton fx:id="create_client_button"
-                                       styleClass="md-button-filled" text="+ Nuevo Cliente"/>
+                                       styleClass="md-button-tonal" text="+ Nuevo Cliente"/>
                         </VBox>
                     </GridPane>
 
@@ -74,7 +82,7 @@
                         </padding>
                         <HBox spacing="12" alignment="CENTER_LEFT">
                             <VBox alignment="CENTER" minWidth="40.0" minHeight="40.0"
-                                  styleClass="client-avatar-container">
+                                  styleClass="md-card-filled">
                                 <Label fx:id="client_initials" styleClass="md-label-large"/>
                             </VBox>
                             <VBox spacing="2" HBox.hgrow="ALWAYS">
@@ -91,7 +99,10 @@
                     <padding>
                         <Insets top="16" right="16" bottom="16" left="16"/>
                     </padding>
-                    <Label styleClass="md-title-medium" text="Servicio y Profesional"/>
+                    <HBox spacing="8" alignment="CENTER_LEFT">
+                        <Region styleClass="work-icon, md-icon-medium, md-icon-primary"/>
+                        <Label styleClass="md-title-medium" text="Servicio y Profesional"/>
+                    </HBox>
 
                     <GridPane hgap="16" vgap="16">
                         <columnConstraints>
@@ -103,26 +114,29 @@
                         <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="0">
                             <HBox spacing="2">
                                 <Label styleClass="md-label-medium" text="Servicio"/>
-                                <Label styleClass="md-label-medium" text="*" style="-fx-text-fill: -fx-error"/>
+                                <Label styleClass="md-label-medium, md-input-error" text="*"/>
                             </HBox>
-                            <ComboBox fx:id="barberservice_selector" styleClass="md-combo-box" maxWidth="Infinity"/>
+                            <ComboBox fx:id="barberservice_selector" styleClass="md-combo-box" maxWidth="Infinity"
+                                      promptText="Seleccioná un servicio"/>
                         </VBox>
 
                         <!-- Employee Selection -->
                         <VBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="0">
                             <HBox spacing="2">
                                 <Label styleClass="md-label-medium" text="Empleado asignado"/>
-                                <Label styleClass="md-label-medium" text="*" style="-fx-text-fill: -fx-error"/>
+                                <Label styleClass="md-label-medium, md-input-error" text="*"/>
                             </HBox>
-                            <ComboBox fx:id="employee_selector" styleClass="md-combo-box" maxWidth="Infinity"/>
+                            <ComboBox fx:id="employee_selector" styleClass="md-combo-box" maxWidth="Infinity"
+                                      promptText="Seleccioná un profesional"/>
                         </VBox>
                     </GridPane>
 
-                    <!-- Service Duration Info -->
+                    <!-- Service Price Info -->
                     <VBox fx:id="service_selection_container" spacing="4" visible="false">
-                        <HBox spacing="4">
-                            <Label styleClass="md-label-medium" text="Precio:"/>
-                            <Label fx:id="service_price" styleClass="md-label-medium"/>
+                        <HBox spacing="8" alignment="CENTER_LEFT">
+                            <Region styleClass="money-bag-icon, md-icon-small, md-icon-primary"/>
+                            <Label styleClass="md-label-medium" text="Precio: "/>
+                            <Label fx:id="service_price" styleClass="md-title-medium"/>
                         </HBox>
                     </VBox>
                 </VBox>
@@ -132,7 +146,10 @@
                     <padding>
                         <Insets top="16" right="16" bottom="16" left="16"/>
                     </padding>
-                    <Label styleClass="md-title-medium" text="Fecha y Hora"/>
+                    <HBox spacing="8" alignment="CENTER_LEFT">
+                        <Region styleClass="calendar-icon, md-icon-medium, md-icon-primary"/>
+                        <Label styleClass="md-title-medium" text="Fecha y Hora"/>
+                    </HBox>
 
                     <GridPane hgap="16" vgap="16">
                         <columnConstraints>
@@ -146,31 +163,35 @@
                         <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="0">
                             <HBox spacing="2">
                                 <Label styleClass="md-label-medium" text="Fecha de Inicio"/>
-                                <Label styleClass="md-label-medium" text="*" style="-fx-text-fill: -fx-error"/>
+                                <Label styleClass="md-label-medium, md-input-error" text="*"/>
                             </HBox>
-                            <DatePicker fx:id="date_selector" styleClass="md-date-picker" maxWidth="Infinity"/>
+                            <DatePicker fx:id="date_selector" styleClass="md-date-picker" maxWidth="Infinity"
+                                        promptText="Seleccioná una fecha"/>
                         </VBox>
 
                         <!-- Start Time -->
                         <VBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="0">
                             <HBox spacing="2">
                                 <Label styleClass="md-label-medium" text="Hora de Inicio"/>
-                                <Label styleClass="md-label-medium" text="*" style="-fx-text-fill: -fx-error"/>
+                                <Label styleClass="md-label-medium, md-input-error" text="*"/>
                             </HBox>
-                            <ComboBox fx:id="hour_selector" styleClass="md-combo-box"/>
+                            <ComboBox fx:id="hour_selector" styleClass="md-combo-box" maxWidth="Infinity"
+                                      promptText="Hora"/>
                         </VBox>
 
                         <!-- Start Minutes -->
                         <VBox spacing="4" GridPane.columnIndex="2" GridPane.rowIndex="0">
                             <Label styleClass="md-label-medium" text="Minutos"/>
-                            <ComboBox fx:id="minute_selector" styleClass="md-combo-box"/>
+                            <ComboBox fx:id="minute_selector" styleClass="md-combo-box" maxWidth="Infinity"
+                                      promptText="Min"/>
                         </VBox>
 
                         <!-- Notes -->
                         <VBox spacing="4" GridPane.columnIndex="0" GridPane.columnSpan="4" GridPane.rowIndex="1">
                             <Label styleClass="md-label-medium" text="Notas (opcional)"/>
                             <TextField fx:id="appointment_notes" styleClass="md-text-field"
-                                       maxWidth="Infinity"/>
+                                       maxWidth="Infinity"
+                                       promptText="Observaciones adicionales del turno"/>
                         </VBox>
                     </GridPane>
                 </VBox>
@@ -180,7 +201,10 @@
                     <padding>
                         <Insets top="16" right="16" bottom="16" left="16"/>
                     </padding>
-                    <Label styleClass="md-title-medium" text="Resumen del Turno"/>
+                    <HBox spacing="8" alignment="CENTER_LEFT">
+                        <Region styleClass="info-icon, md-icon-medium, md-icon-primary"/>
+                        <Label styleClass="md-title-medium" text="Resumen del Turno"/>
+                    </HBox>
 
                     <VBox spacing="8">
                         <HBox spacing="4">

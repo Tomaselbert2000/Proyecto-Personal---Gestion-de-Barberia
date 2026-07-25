@@ -15,20 +15,24 @@
         <Insets top="12" right="16" bottom="12" left="16"/>
     </padding>
 
-    <!-- Employee Avatar -->
-    <StackPane minWidth="40.0" minHeight="40.0">
-        <Circle fx:id="employee_avatar" radius="20"/>
+    <!-- Employee Avatar (envuelto en md-card-filled) -->
+    <StackPane styleClass="md-card-filled" minWidth="40.0" minHeight="40.0"
+               maxWidth="40.0" maxHeight="40.0">
+        <padding>
+            <Insets top="2" right="2" bottom="2" left="2"/>
+        </padding>
+        <Circle fx:id="employee_avatar" radius="18"/>
         <Label fx:id="employee_initials" styleClass="md-label-large"/>
     </StackPane>
 
     <!-- Employee Information -->
     <VBox spacing="4" HBox.hgrow="ALWAYS">
-        <!-- Name + Status -->
+        <!-- Name + Status Badge -->
         <HBox spacing="8" alignment="CENTER_LEFT">
             <Label fx:id="employee_name" styleClass="md-list-item-headline"
                    text="Employee Name"/>
             <VBox fx:id="employee_status_badge">
-                <Label fx:id="status_label" styleClass="md-label-small"/>
+                <Label fx:id="status_label" styleClass="md-nav-badge"/>
             </VBox>
         </HBox>
 
@@ -49,9 +53,13 @@
         </HBox>
     </VBox>
 
+    <!-- Separator vertical antes de acciones -->
+    <Separator orientation="VERTICAL" styleClass="md-divider"
+               prefHeight="32.0"/>
+
     <!-- Actions -->
     <HBox spacing="8" alignment="CENTER_RIGHT">
         <MFXButton fx:id="edit_button" styleClass="md-button-outlined" text="Editar"/>
-        <MFXButton fx:id="toggle_status_button" styleClass="md-button-filled" text="Desactivar"/>
+        <MFXButton fx:id="toggle_status_button" styleClass="md-button-tonal" text="Desactivar"/>
     </HBox>
 </HBox>

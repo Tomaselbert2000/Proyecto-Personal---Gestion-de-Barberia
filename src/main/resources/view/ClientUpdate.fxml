@@ -11,14 +11,18 @@
 
     <VBox
             AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0"
-          AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+            AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
 
         <!-- Header del Panel -->
         <HBox alignment="CENTER_LEFT" spacing="12">
             <padding>
                 <Insets top="20" right="24" bottom="12" left="24"/>
             </padding>
-            <MFXButton fx:id="back_button" styleClass="md-button-outlined" text="← Volver"/>
+            <MFXButton fx:id="back_button" styleClass="md-button-outlined" text="Volver">
+                <graphic>
+                    <Region styleClass="arrow-up-circle-icon, md-icon-small"/>
+                </graphic>
+            </MFXButton>
             <VBox spacing="2">
                 <Label styleClass="md-headline-medium" text="Editar Cliente"/>
                 <Label styleClass="md-body-large" text="Modifica los datos del cliente"/>
@@ -34,12 +38,15 @@
                     <Insets top="16" right="24" bottom="24" left="24"/>
                 </padding>
 
-                <!-- Formulario de Cliente -->
+                <!-- Datos Personales -->
                 <VBox styleClass="md-card" spacing="16">
                     <padding>
                         <Insets top="16" right="16" bottom="16" left="16"/>
                     </padding>
-                    <Label styleClass="md-title-medium" text="Datos Personales"/>
+                    <HBox spacing="8" alignment="CENTER_LEFT">
+                        <Region styleClass="person-1-icon, md-icon-medium, md-icon-primary"/>
+                        <Label styleClass="md-title-medium" text="Datos Personales"/>
+                    </HBox>
 
                     <GridPane hgap="16" vgap="16">
                         <columnConstraints>
@@ -51,43 +58,47 @@
                         <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="0">
                             <HBox spacing="2">
                                 <Label styleClass="md-label-medium" text="DNI"/>
-                                <Label styleClass="md-label-medium" text="*" style="-fx-text-fill: -fx-error"/>
+                                <Label styleClass="md-label-medium, md-input-error" text="*"/>
                             </HBox>
-                            <TextField fx:id="dni_field" styleClass="md-text-field" maxWidth="Infinity"/>
+                            <TextField fx:id="dni_field" styleClass="md-text-field" maxWidth="Infinity"
+                                       promptText="Ej: 40123456"/>
                         </VBox>
 
                         <!-- Nombre -->
                         <VBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="0">
                             <HBox spacing="2">
                                 <Label styleClass="md-label-medium" text="Nombre"/>
-                                <Label styleClass="md-label-medium" text="*" style="-fx-text-fill: -fx-error"/>
+                                <Label styleClass="md-label-medium, md-input-error" text="*"/>
                             </HBox>
-                            <TextField fx:id="first_name_field" styleClass="md-text-field" maxWidth="Infinity"/>
+                            <TextField fx:id="first_name_field" styleClass="md-text-field" maxWidth="Infinity"
+                                       promptText="Ej: Juan"/>
                         </VBox>
 
                         <!-- Apellido -->
                         <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="1">
                             <HBox spacing="2">
                                 <Label styleClass="md-label-medium" text="Apellido"/>
-                                <Label styleClass="md-label-medium" text="*" style="-fx-text-fill: -fx-error"/>
+                                <Label styleClass="md-label-medium, md-input-error" text="*"/>
                             </HBox>
-                            <TextField fx:id="last_name_field" styleClass="md-text-field"/>
+                            <TextField fx:id="last_name_field" styleClass="md-text-field" maxWidth="Infinity"
+                                       promptText="Ej: Pérez"/>
                         </VBox>
 
                         <!-- Email -->
                         <VBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="1">
                             <HBox spacing="2">
                                 <Label styleClass="md-label-medium" text="Email"/>
-                                <Label styleClass="md-label-medium" text="*" style="-fx-text-fill: -fx-error"/>
+                                <Label styleClass="md-label-medium, md-input-error" text="*"/>
                             </HBox>
-                            <TextField fx:id="email_field" styleClass="md-text-field" maxWidth="Infinity"/>
+                            <TextField fx:id="email_field" styleClass="md-text-field" maxWidth="Infinity"
+                                       promptText="Ej: juan@email.com"/>
                         </VBox>
 
                         <!-- Teléfonos -->
                         <VBox spacing="4" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="2">
                             <HBox spacing="8" alignment="CENTER_LEFT">
                                 <Label styleClass="md-label-medium" text="Teléfonos"/>
-                                <MFXButton fx:id="add_phone_button" styleClass="md-button-outlined"
+                                <MFXButton fx:id="add_phone_button" styleClass="md-button-tonal"
                                            text="+ Agregar teléfono"/>
                             </HBox>
                             <VBox fx:id="phones_container" spacing="8"/>
@@ -106,19 +117,17 @@
                     <padding>
                         <Insets top="16" right="16" bottom="16" left="16"/>
                     </padding>
-                    <Label styleClass="md-title-medium" text="Información Adicional"/>
+                    <HBox spacing="8" alignment="CENTER_LEFT">
+                        <Region styleClass="info-icon, md-icon-medium, md-icon-primary"/>
+                        <Label styleClass="md-title-medium" text="Información Adicional"/>
+                    </HBox>
 
-                    <GridPane hgap="16" vgap="16">
-                        <columnConstraints>
-                            <ColumnConstraints hgrow="ALWAYS" percentWidth="100"/>
-                        </columnConstraints>
-
-                        <!-- Notas -->
-                        <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="0">
-                            <Label styleClass="md-label-medium" text="Notas"/>
-                            <TextField fx:id="optional_notes_field" styleClass="md-text-field" maxWidth="Infinity"/>
-                        </VBox>
-                    </GridPane>
+                    <!-- Notas -->
+                    <VBox spacing="4">
+                        <Label styleClass="md-label-medium" text="Notas"/>
+                        <TextField fx:id="optional_notes_field" styleClass="md-text-field" maxWidth="Infinity"
+                                   promptText="Observaciones adicionales sobre el cliente"/>
+                    </VBox>
                 </VBox>
 
                 <!-- Historial del Cliente -->
@@ -126,7 +135,10 @@
                     <padding>
                         <Insets top="16" right="16" bottom="16" left="16"/>
                     </padding>
-                    <Label styleClass="md-title-medium" text="Historial"/>
+                    <HBox spacing="8" alignment="CENTER_LEFT">
+                        <Region styleClass="work-history-icon, md-icon-medium, md-icon-primary"/>
+                        <Label styleClass="md-title-medium" text="Historial"/>
+                    </HBox>
 
                     <GridPane hgap="16" vgap="16">
                         <columnConstraints>
@@ -138,24 +150,28 @@
 
                         <!-- Total de Visitas -->
                         <VBox spacing="4" GridPane.columnIndex="0">
+                            <Region styleClass="calendar-icon, md-icon-small, md-icon-on-surface"/>
                             <Label styleClass="md-headline-medium"/>
                             <Label styleClass="md-label-medium" text="Total Visitas"/>
                         </VBox>
 
                         <!-- Total Gastado -->
                         <VBox spacing="4" GridPane.columnIndex="1">
+                            <Region styleClass="money-bag-icon, md-icon-small, md-icon-on-surface"/>
                             <Label styleClass="md-headline-medium"/>
                             <Label styleClass="md-label-medium" text="Total Gastado"/>
                         </VBox>
 
                         <!-- Última Visita -->
                         <VBox spacing="4" GridPane.columnIndex="2">
+                            <Region styleClass="schedule-icon, md-icon-small, md-icon-on-surface"/>
                             <Label styleClass="md-headline-medium"/>
                             <Label styleClass="md-label-medium" text="Última Visita"/>
                         </VBox>
 
                         <!-- Cliente Desde -->
                         <VBox spacing="4" GridPane.columnIndex="3">
+                            <Region styleClass="person-1-icon, md-icon-small, md-icon-on-surface"/>
                             <Label styleClass="md-headline-medium"/>
                             <Label styleClass="md-label-medium" text="Cliente Desde"/>
                         </VBox>

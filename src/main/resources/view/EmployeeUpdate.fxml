@@ -11,16 +11,21 @@
 
     <VBox
             AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0"
-          AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+            AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
 
         <!-- Header del Panel -->
-        <HBox alignment="CENTER_LEFT" spacing="16">
+        <HBox alignment="CENTER_LEFT" spacing="12">
             <padding>
                 <Insets top="20" right="24" bottom="12" left="24"/>
             </padding>
-            <MFXButton fx:id="back_button" styleClass="md-button-outlined" text="Volver"/>
+            <MFXButton fx:id="back_button" styleClass="md-button-outlined" text="Volver">
+                <graphic>
+                    <Region styleClass="arrow-up-circle-icon, md-icon-small"/>
+                </graphic>
+            </MFXButton>
             <VBox spacing="2">
                 <Label styleClass="md-headline-medium" text="Editar Empleado"/>
+                <Label styleClass="md-body-large" text="Modifica los datos del empleado"/>
             </VBox>
         </HBox>
 
@@ -33,13 +38,15 @@
                     <Insets top="16" right="24" bottom="24" left="24"/>
                 </padding>
 
-                <!-- Tarjeta de Información Actual -->
+                <!-- Información Actual -->
                 <VBox styleClass="md-card" spacing="16">
                     <padding>
-                        <Insets top="20" right="20" bottom="20" left="20"/>
+                        <Insets top="16" right="16" bottom="16" left="16"/>
                     </padding>
-
-                    <Label styleClass="md-title-medium" text="Información Actual"/>
+                    <HBox spacing="8" alignment="CENTER_LEFT">
+                        <Region styleClass="person-1-icon, md-icon-medium, md-icon-primary"/>
+                        <Label styleClass="md-title-medium" text="Información Actual"/>
+                    </HBox>
 
                     <GridPane hgap="16" vgap="16">
                         <columnConstraints>
@@ -85,13 +92,15 @@
                     </GridPane>
                 </VBox>
 
-                <!-- Tarjeta de Cambiar Datos -->
+                <!-- Cambiar Datos -->
                 <VBox styleClass="md-card" spacing="16">
                     <padding>
-                        <Insets top="20" right="20" bottom="20" left="20"/>
+                        <Insets top="16" right="16" bottom="16" left="16"/>
                     </padding>
-
-                    <Label styleClass="md-title-medium" text="Cambiar Datos"/>
+                    <HBox spacing="8" alignment="CENTER_LEFT">
+                        <Region styleClass="work-icon, md-icon-medium, md-icon-primary"/>
+                        <Label styleClass="md-title-medium" text="Cambiar Datos"/>
+                    </HBox>
 
                     <GridPane hgap="16" vgap="16">
                         <columnConstraints>
@@ -102,25 +111,28 @@
                         <!-- New First Name -->
                         <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="0">
                             <Label styleClass="md-label-medium" text="Nuevo Nombre"/>
-                            <TextField fx:id="first_name_field" styleClass="md-text-field" maxWidth="Infinity"/>
+                            <TextField fx:id="first_name_field" styleClass="md-text-field" maxWidth="Infinity"
+                                       promptText="Ej: Juan"/>
                         </VBox>
 
                         <!-- New Last Name -->
                         <VBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="0">
                             <Label styleClass="md-label-medium" text="Nuevo Apellido"/>
-                            <TextField fx:id="last_name_field" styleClass="md-text-field" maxWidth="Infinity"/>
+                            <TextField fx:id="last_name_field" styleClass="md-text-field" maxWidth="Infinity"
+                                       promptText="Ej: Pérez"/>
                         </VBox>
 
                         <!-- New Commission Percentage -->
                         <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="1">
                             <Label styleClass="md-label-medium" text="Nueva Comisión (%)"/>
-                            <TextField fx:id="commission_field" styleClass="md-text-field" maxWidth="Infinity"/>
+                            <TextField fx:id="commission_field" styleClass="md-text-field" maxWidth="Infinity"
+                                       promptText="Ej: 15"/>
                         </VBox>
 
                         <!-- Status Toggle -->
                         <VBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="1">
                             <Label styleClass="md-label-medium" text="Cambiar Estado"/>
-                            <MFXButton fx:id="toggle_status_button" styleClass="md-button-outlined"
+                            <MFXButton fx:id="toggle_status_button" styleClass="md-button-tonal"
                                        maxWidth="Infinity" text="Desactivar"/>
                         </VBox>
 
@@ -128,14 +140,15 @@
                         <VBox spacing="4" GridPane.columnIndex="0" GridPane.columnSpan="2"
                               GridPane.rowIndex="2">
                             <Label styleClass="md-label-medium" text="Fecha de Baja (Opcional)"/>
-                            <DatePicker fx:id="termination_date_picker" styleClass="md-date-picker"/>
+                            <DatePicker fx:id="termination_date_picker" styleClass="md-date-picker" maxWidth="Infinity"
+                                        promptText="Seleccioná una fecha"/>
                         </VBox>
                     </GridPane>
                 </VBox>
 
                 <!-- Botones de Acción -->
                 <HBox spacing="8" alignment="CENTER_RIGHT">
-                    <MFXButton fx:id="reset_button" styleClass="md-button-text" text="Restaurar datos"/>
+                    <MFXButton fx:id="reset_button" styleClass="md-button-outlined" text="Restaurar datos"/>
                     <MFXButton fx:id="save_button" styleClass="md-button-filled" text="Actualizar Empleado"/>
                 </HBox>
 

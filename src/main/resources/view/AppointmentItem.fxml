@@ -20,7 +20,8 @@
         <Label fx:id="end_time" styleClass="md-body-small"/>
     </VBox>
 
-    <Separator orientation="VERTICAL" styleClass="md-nav-divider"/>
+    <Separator orientation="VERTICAL" styleClass="md-divider"
+               prefHeight="32.0"/>
 
     <!-- Appointment Information -->
     <VBox spacing="4" HBox.hgrow="ALWAYS">
@@ -28,7 +29,7 @@
         <HBox spacing="8" alignment="CENTER_LEFT">
             <Label fx:id="client_name" styleClass="md-list-item-headline"/>
             <VBox>
-                <Label fx:id="status_badge" styleClass="md-label-small"/>
+                <Label fx:id="status_badge" styleClass="md-nav-badge"/>
             </VBox>
         </HBox>
 
@@ -41,6 +42,10 @@
             <Label fx:id="employee_name" styleClass="md-list-item-supporting-text"/>
         </HBox>
     </VBox>
+
+    <!-- Separator vertical antes de acciones -->
+    <Separator orientation="VERTICAL" styleClass="md-divider"
+               prefHeight="32.0"/>
 
     <!-- Actions -->
     <HBox spacing="8" alignment="CENTER_RIGHT">

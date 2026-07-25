@@ -2,7 +2,7 @@
 
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <HBox xmlns:fx="http://javafx.com/fxml/1"
       alignment="CENTER_LEFT"
@@ -20,19 +20,23 @@
         <HBox spacing="8" alignment="CENTER_LEFT">
             <Label fx:id="service_name" styleClass="md-list-item-headline"/>
             <VBox fx:id="category_badge">
-                <Label fx:id="category_text" styleClass="md-label-small"/>
+                <Label fx:id="category_text" styleClass="md-nav-badge"/>
             </VBox>
         </HBox>
     </VBox>
 
     <!-- Price -->
     <VBox alignment="CENTER" minWidth="100.0">
-        <Label fx:id="service_price" styleClass="md-title-medium"/>
+        <Label fx:id="service_price" styleClass="md-label-large"/>
     </VBox>
+
+    <!-- Separator vertical antes de acciones -->
+    <Separator orientation="VERTICAL" styleClass="md-divider"
+               prefHeight="32.0"/>
 
     <!-- Actions -->
     <HBox spacing="8" alignment="CENTER_RIGHT">
         <MFXButton fx:id="edit_button" styleClass="md-button-outlined" text="Editar"/>
-        <MFXButton fx:id="delete_button" styleClass="md-button-filled" text="Eliminar"/>
+        <MFXButton fx:id="delete_button" styleClass="md-button-outlined" text="Eliminar"/>
     </HBox>
 </HBox>

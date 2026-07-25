@@ -15,19 +15,25 @@
         <Insets top="12" right="16" bottom="12" left="16"/>
     </padding>
 
-    <!-- Product Image -->
-    <ImageView fx:id="product_image_placeholder"
-               fitWidth="48.0" fitHeight="48.0"
-               preserveRatio="true"/>
+    <!-- Product Image (envuelta en md-card-filled) -->
+    <StackPane styleClass="md-card-filled" minWidth="48.0" minHeight="48.0"
+               maxWidth="48.0" maxHeight="48.0">
+        <padding>
+            <Insets top="2" right="2" bottom="2" left="2"/>
+        </padding>
+        <ImageView fx:id="product_image_placeholder"
+                   fitWidth="44.0" fitHeight="44.0"
+                   preserveRatio="true"/>
+    </StackPane>
 
     <!-- Product Information -->
     <VBox spacing="4" HBox.hgrow="ALWAYS">
-        <!-- Name + Status -->
+        <!-- Name + Status Badge -->
         <HBox spacing="8" alignment="CENTER_LEFT">
             <Label fx:id="product_name" styleClass="md-list-item-headline"
                    text="Product Name"/>
             <VBox fx:id="stock_status_badge_vbox">
-                <Label fx:id="stock_status_text" styleClass="md-label-small"/>
+                <Label fx:id="stock_status_text" styleClass="md-nav-badge"/>
             </VBox>
         </HBox>
 
@@ -50,14 +56,18 @@
 
     <!-- Stock Info -->
     <VBox spacing="2" alignment="CENTER_RIGHT" minWidth="80.0">
-        <Label fx:id="current_stock" styleClass="md-title-medium"/>
-        <Label styleClass="md-body-small" text="en stock"/>
+        <Label fx:id="current_stock" styleClass="md-label-large"/>
+        <Label styleClass="md-label-medium" text="en stock"/>
         <Label fx:id="safety_stock" styleClass="md-label-small"/>
     </VBox>
+
+    <!-- Separator vertical antes de acciones -->
+    <Separator orientation="VERTICAL" styleClass="md-divider"
+               prefHeight="32.0"/>
 
     <!-- Actions -->
     <HBox spacing="8" alignment="CENTER_RIGHT">
         <MFXButton fx:id="edit_button" styleClass="md-button-outlined" text="Editar"/>
-        <MFXButton fx:id="add_stock_button" styleClass="md-button-filled" text="+ Stock"/>
+        <MFXButton fx:id="add_stock_button" styleClass="md-button-tonal" text="+ Stock"/>
     </HBox>
 </HBox>
