@@ -69,6 +69,9 @@ public final class StringResource {
         public static final String PRODUCT_CREATION_TOAST_NOTIFICATION_MESSAGE = "Se ha registrado un nuevo producto en el sistema.";
         public static final String PRODUCT_UPDATE_TOAST_NOTIFICATION_MESSAGE = "El producto se ha actualizado exitosamente.";
 
+        public static final String PAYMENT_METHOD_CREATION_TOAST_NOTIFICATION_MESSAGE = "Se ha registrado un nuevo medio de pago en el sistema.";
+        public static final String PAYMENT_METHOD_UPDATE_TOAST_NOTIFICATION_MESSAGE = "El medio de pago fue actualizado exitosamente.";
+
         public static final String SETTINGS_UPDATE_NOTIFICATION_MESSAGE = "Los ajustes han sido actualizados correctamente.";
     }
 
@@ -97,6 +100,8 @@ public final class StringResource {
 
         public static final String BARBER_SERVICE_CREATION_VALIDATION_FAILED = "No se pudo registrar el servicio en el catálogo. Por favor, revisa lo siguiente: ";
 
+        public static final String PAYMENT_METHID_CREATION_VALIDATION_FAILED = "No se pudo registrar el método de pago. Por favor, revisa lo siguiente:";
+
         public static final String SETTINGS_UPDATE_VALIDATION_FAILED = "Error al actualizar las preferencias del usuario. Por favor, revise lo siguiente: ";
         public static final String CREDENTIALS_UPDATE_VALIDATION_FAILED = "Error al actualizar las credenciales de usuario. Por favor, revise lo siguiente: ";
     }
@@ -122,6 +127,7 @@ public final class StringResource {
         public static final String PRODUCT_EDITION_VIEW_LOADING_FAILED = "Hubo un error al cargar la vista de actualización de productos.";
 
         public static final String PAYMENT_METHOD_VIEW_LOADING_FAILED = "Hubo un error al cargar la vista de métodos de pago.";
+        public static final String PAYMENT_METHOD_CREATION_VIEW_LOADING_FAILED = "Hubo un error al cargar la vista de creación de métodos de pago.";
 
         public static final String SETTINGS_VIEW_LOADING_FAILED = "Hubo un error al cargar la vista de ajustes de la aplicación";
 

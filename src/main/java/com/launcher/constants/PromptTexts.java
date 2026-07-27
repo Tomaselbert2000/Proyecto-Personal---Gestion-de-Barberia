@@ -53,6 +53,13 @@ public final class PromptTexts {
         public static final String STOCK_LEVEL_DEFAULT_VALUE = "0 unidades";
     }
 
+    public static final class PaymentMethodPromptText {
+
+        public static final String PAYMENT_METHOD_NAME = "Ej: Tarjeta de crédito";
+        public static final String PAYMENT_METHOD_DESCRIPTION = "Descripción del método de pago";
+        public static final String PAYMENT_METHOD_PRICE_VALUE = "$0";
+    }
+
     public static final class SettingsPromptText {
 
         public static final String BARBER_SHOP_NAME = "Ej: La Tercera Barbershop";
