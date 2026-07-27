@@ -51,7 +51,7 @@
                         <HBox alignment="CENTER_LEFT">
                             <Label styleClass="md-label-large" text="Total Medios de Pago"/>
                             <Region HBox.hgrow="ALWAYS"/>
-                            <Region styleClass="payment-icon, md-icon-medium, md-icon-primary"/>
+                            <Region styleClass="payments-icon, md-icon-medium, md-icon-primary"/>
                         </HBox>
                         <Label fx:id="total_payment_methods_count" styleClass="md-display-small" text="0"/>
                         <HBox spacing="4" alignment="CENTER_LEFT">
