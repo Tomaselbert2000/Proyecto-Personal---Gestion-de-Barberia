@@ -1,6 +1,6 @@
 package com.launcher.controller.helper;
 
-import com.launcher.controller.implementation.dialog.ConfirmationDialogController;
+import com.launcher.controller.dialog.ConfirmationDialogController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;

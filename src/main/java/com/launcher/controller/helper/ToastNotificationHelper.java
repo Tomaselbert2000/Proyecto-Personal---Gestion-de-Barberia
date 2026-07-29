@@ -1,7 +1,7 @@
 package com.launcher.controller.helper;
 
 import com.enums.ToastNotificationType;
-import com.launcher.controller.implementation.toast_notification.ToastNotificationController;
+import com.launcher.controller.toast_notification.ToastNotificationController;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.PauseTransition;

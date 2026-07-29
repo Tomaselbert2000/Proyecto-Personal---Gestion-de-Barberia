@@ -57,6 +57,10 @@ public class ViewRedirectionHelper {
                     loadViewOnPane(PRODUCT_EDITION_VIEW_PATH, applicationContext, PRODUCT_EDITION_VIEW_LOADING_FAILED, borderPane);
             case PAYMENT_METHODS ->
                     loadViewOnPane(PAYMENT_METHOD_VIEW_PATH, applicationContext, PAYMENT_METHOD_VIEW_LOADING_FAILED, borderPane);
+            case PAYMENT_METHOD_CREATION ->
+                    loadViewOnPane(PAYMENT_METHOD_CREATION_VIEW_PATH, applicationContext, PAYMENT_METHOD_CREATION_VIEW_LOADING_FAILED, borderPane);
+            case PAYMENT_METHOD_EDITION ->
+                    loadViewOnPane(PAYMENT_METHOD_EDITION_VIEW_PATH, applicationContext, PAYMENT_METHOD_EDITION_VIEW_LOADING_FAILED, borderPane);
             case SETTINGS ->
                     loadViewOnPane(SETTINGS_VIEW_PATH, applicationContext, SETTINGS_VIEW_LOADING_FAILED, borderPane);
             case LOGIN -> loadViewOnPane(LOGIN_VIEW_PATH, applicationContext, LOGIN_VIEW_LOADING_FAILED, borderPane);
