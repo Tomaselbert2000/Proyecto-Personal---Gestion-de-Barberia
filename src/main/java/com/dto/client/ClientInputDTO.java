@@ -2,7 +2,7 @@ package com.dto.client;
 
 import java.util.List;
 
-public interface ClientDTOCommonMethods {
+public interface ClientInputDTO {
 
     List<String> getPhoneNumbersList();
 }

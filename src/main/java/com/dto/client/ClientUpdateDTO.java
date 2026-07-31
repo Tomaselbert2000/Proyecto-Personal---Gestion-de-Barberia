@@ -16,7 +16,7 @@ import static com.validation.common.CommonConstants.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ClientUpdateDTO implements ClientDTOCommonMethods {
+public class ClientUpdateDTO implements ClientInputDTO {
 
     @Size(min = MIN_NATIONAL_ID_CARD_NUMBER_LENGTH, max = MAX_NATIONAL_ID_CARD_NUMBER_LENGTH)
     @Pattern(regexp = NATIONAL_ID_CARD_NUMBER_REGEX)

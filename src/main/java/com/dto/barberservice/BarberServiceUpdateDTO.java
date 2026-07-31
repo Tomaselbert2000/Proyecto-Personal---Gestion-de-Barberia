@@ -1,4 +1,4 @@
-package com.dto.barbershopservice;
+package com.dto.barberservice;
 
 import com.enums.BarberServiceCategory;
 import jakarta.validation.constraints.Pattern;
@@ -28,4 +28,6 @@ public class BarberServiceUpdateDTO {
 
     @Size(max = MAX_INTERNAL_NOTES_LENGTH)
     private String internalNotes;
+
+    private Boolean isCurrentlyActive;
 }

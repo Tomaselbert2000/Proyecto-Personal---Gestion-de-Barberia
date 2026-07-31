@@ -1,6 +1,6 @@
 package com.dto.product;
 
-public interface ProductDTOCommonMethods {
+public interface ProductInputDTO {
 
     Double getMinPrice();
 

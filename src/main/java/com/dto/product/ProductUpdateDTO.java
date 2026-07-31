@@ -17,7 +17,7 @@ import static com.validation.product.ProductValidatorConstants.MIN_DISCOUNT_VALU
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ProductUpdateDTO implements ProductDTOCommonMethods {
+public class ProductUpdateDTO implements ProductInputDTO {
 
     @Size(min = MIN_NAME_LENGTH, max = MAX_NAME_LENGTH, message = PRODUCT_NAME + INVALID_NAME_SIZE)
     @Pattern(regexp = NAME_REGEX, message = PRODUCT_NAME + DOES_NOT_MATCH_NAME_REGEX)

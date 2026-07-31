@@ -1,4 +1,4 @@
-package com.dto.payment;
+package com.dto.paymentmethod;
 
 import com.enums.PaymentMethodModifierType;
 import lombok.*;
@@ -10,6 +10,7 @@ import lombok.*;
 @Builder
 public class PaymentMethodInfoDTO {
 
+    private Long id;
     private String name;
     private String description;
     private PaymentMethodModifierType modifierType;

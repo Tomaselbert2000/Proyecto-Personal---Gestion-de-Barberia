@@ -1,4 +1,4 @@
-package com.dto.dashboard;
+package com.dto.activity;
 
 import com.enums.EventType;
 import lombok.*;

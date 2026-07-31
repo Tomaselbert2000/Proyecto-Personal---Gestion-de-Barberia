@@ -1,4 +1,4 @@
-package com.dto.payment;
+package com.dto.paymentmethod;
 
 import com.enums.PaymentMethodModifierType;
 import jakarta.validation.constraints.Pattern;

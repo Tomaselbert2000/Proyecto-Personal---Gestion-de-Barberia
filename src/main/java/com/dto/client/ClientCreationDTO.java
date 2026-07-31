@@ -17,7 +17,7 @@ import static com.validation.common.CommonConstants.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ClientCreationDTO implements ClientDTOCommonMethods {
+public class ClientCreationDTO implements ClientInputDTO {
 
     @NotBlank(message = CLIENT_NATIONAL_ID_CARD_NUMBER + NOT_BLANK)
     @Size(min = MIN_NATIONAL_ID_CARD_NUMBER_LENGTH, max = MAX_NATIONAL_ID_CARD_NUMBER_LENGTH, message = CLIENT_NATIONAL_ID_CARD_NUMBER + INVALID_NAME_SIZE)

@@ -1,4 +1,4 @@
-package com.dto.credentials_management;
+package com.dto.credentials;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;

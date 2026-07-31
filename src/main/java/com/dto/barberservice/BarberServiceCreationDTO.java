@@ -1,4 +1,4 @@
-package com.dto.barbershopservice;
+package com.dto.barberservice;
 
 import com.enums.BarberServiceCategory;
 import jakarta.validation.constraints.*;
