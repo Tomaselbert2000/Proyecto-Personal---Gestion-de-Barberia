@@ -1,6 +1,6 @@
 package com.factory;
 
-import com.dto.credentials_management.CredentialsUpdateDTO;
+import com.dto.credentials.CredentialsUpdateDTO;
 
 import static com.test_constant.CredentialUpdateTestConstants.CreationValidData.*;
 

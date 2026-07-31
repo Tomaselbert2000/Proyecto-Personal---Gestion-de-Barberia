@@ -1,7 +1,7 @@
 package com.validation.barberservice;
 
 import com.abstract_test_class.BaseValidatorTest;
-import com.dto.barbershopservice.BarberServiceUpdateDTO;
+import com.dto.barberservice.BarberServiceUpdateDTO;
 import com.exceptions.common.NullDTOException;
 import jakarta.validation.ConstraintViolationException;
 import org.junit.jupiter.api.DisplayName;
@@ -92,6 +92,7 @@ public class BarberServiceValidatorUpdateTest extends BaseValidatorTest<BarberSe
         inputDTO.setPrice(null);
         inputDTO.setServiceCategory(null);
         inputDTO.setInternalNotes(null);
+        inputDTO.setIsCurrentlyActive(null);
     }
 
     @Override

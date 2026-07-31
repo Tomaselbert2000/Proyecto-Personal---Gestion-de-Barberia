@@ -1,7 +1,7 @@
 package com.validation.paymentmethod;
 
 import com.abstract_test_class.BaseValidatorTest;
-import com.dto.payment.PaymentMethodCreationDTO;
+import com.dto.paymentmethod.PaymentMethodCreationDTO;
 import com.exceptions.common.NullDTOException;
 import com.validation.payment.PaymentMethodValidator;
 import jakarta.validation.ConstraintViolationException;

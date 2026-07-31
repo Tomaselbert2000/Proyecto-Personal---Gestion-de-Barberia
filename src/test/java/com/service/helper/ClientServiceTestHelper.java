@@ -1,7 +1,7 @@
 package com.service.helper;
 
 import com.dto.client.ClientCreationDTO;
-import com.dto.client.ClientDTOCommonMethods;
+import com.dto.client.ClientInputDTO;
 import com.dto.client.ClientUpdateDTO;
 import com.mapper.interfaces.ClientMapper;
 import com.model.Client;
@@ -57,11 +57,6 @@ public class ClientServiceTestHelper {
         verify(mapper).mapClientUpdateDTOtoEntity(client, updateDTO);
     }
 
-    public static void verifyMapperCreationNoInteractions(ClientMapper mapper, ClientCreationDTO creationDTO, LocalDate creationDate) {
-
-        verify(mapper, never()).mapClientCreationDTOtoEntity(creationDTO, creationDate);
-    }
-
     public static void verifyMapperUpdateNoInteractions(ClientMapper mapper, Client client, ClientUpdateDTO updateDTO) {
 
         verify(mapper, never()).mapClientUpdateDTOtoEntity(client, updateDTO);
@@ -97,7 +92,7 @@ public class ClientServiceTestHelper {
         when(clientRepository.findByNationalIdentityCardNumber(client.getNationalIdentityCardNumber())).thenReturn(Optional.of(client));
     }
 
-    public static <T extends ClientDTOCommonMethods> void mockValidatorToThrowException(ClientValidator validator, Exception exception, T dto) {
+    public static <T extends ClientInputDTO> void mockValidatorToThrowException(ClientValidator validator, Exception exception, T dto) {
 
         doThrow(exception).when(validator).validateDTO(dto);
     }

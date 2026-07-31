@@ -1,7 +1,7 @@
 package com.factory;
 
-import com.dto.app_user.AppUserCreationDTO;
-import com.dto.app_user.AppUserUpdateDTO;
+import com.dto.appuser.AppUserCreationDTO;
+import com.dto.appuser.AppUserUpdateDTO;
 import com.model.AppUser;
 
 import static com.test_constant.AppUserTestConstants.CreationValidData.*;

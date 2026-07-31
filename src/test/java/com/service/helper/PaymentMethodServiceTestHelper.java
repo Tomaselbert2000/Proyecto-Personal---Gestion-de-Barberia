@@ -1,7 +1,7 @@
 package com.service.helper;
 
-import com.dto.payment.PaymentMethodCreationDTO;
-import com.dto.payment.PaymentMethodUpdateDTO;
+import com.dto.paymentmethod.PaymentMethodCreationDTO;
+import com.dto.paymentmethod.PaymentMethodUpdateDTO;
 import com.mapper.interfaces.PaymentMethodMapper;
 import com.model.PaymentMethod;
 import com.repository.PaymentMethodRepository;

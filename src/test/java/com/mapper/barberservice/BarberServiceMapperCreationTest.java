@@ -1,6 +1,6 @@
 package com.mapper.barberservice;
 
-import com.dto.barbershopservice.BarberServiceCreationDTO;
+import com.dto.barberservice.BarberServiceCreationDTO;
 import com.mapper.implementation.BarberServiceMapperImpl;
 import com.mapper.interfaces.BarberServiceMapper;
 import com.model.BarberService;

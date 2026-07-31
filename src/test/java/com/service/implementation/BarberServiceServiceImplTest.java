@@ -1,9 +1,9 @@
 package com.service.implementation;
 
 import com.abstract_test_class.BaseServiceTest;
-import com.dto.barbershopservice.BarberServiceCreationDTO;
-import com.dto.barbershopservice.BarberServiceInfoDTO;
-import com.dto.barbershopservice.BarberServiceUpdateDTO;
+import com.dto.barberservice.BarberServiceCreationDTO;
+import com.dto.barberservice.BarberServiceInfoDTO;
+import com.dto.barberservice.BarberServiceUpdateDTO;
 import com.exceptions.barberservice.*;
 import com.mapper.implementation.BarberServiceMapperImpl;
 import com.mapper.interfaces.BarberServiceMapper;

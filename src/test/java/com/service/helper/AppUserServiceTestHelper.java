@@ -1,7 +1,7 @@
 package com.service.helper;
 
-import com.dto.app_user.AppUserCreationDTO;
-import com.dto.app_user.AppUserUpdateDTO;
+import com.dto.appuser.AppUserCreationDTO;
+import com.dto.appuser.AppUserUpdateDTO;
 import com.mapper.interfaces.AppUserMapper;
 import com.model.AppUser;
 import com.repository.AppUserRepository;

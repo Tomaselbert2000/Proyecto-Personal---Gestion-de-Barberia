@@ -1,7 +1,7 @@
 package com.factory;
 
-import com.dto.payment.PaymentMethodCreationDTO;
-import com.dto.payment.PaymentMethodUpdateDTO;
+import com.dto.paymentmethod.PaymentMethodCreationDTO;
+import com.dto.paymentmethod.PaymentMethodUpdateDTO;
 import com.model.PaymentMethod;
 
 import static com.test_constant.PaymentMethodTestConstants.CreationValidData.*;

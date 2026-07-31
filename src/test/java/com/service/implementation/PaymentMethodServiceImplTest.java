@@ -1,9 +1,9 @@
 package com.service.implementation;
 
 import com.abstract_test_class.BaseServiceTest;
-import com.dto.payment.PaymentMethodCreationDTO;
-import com.dto.payment.PaymentMethodInfoDTO;
-import com.dto.payment.PaymentMethodUpdateDTO;
+import com.dto.paymentmethod.PaymentMethodCreationDTO;
+import com.dto.paymentmethod.PaymentMethodInfoDTO;
+import com.dto.paymentmethod.PaymentMethodUpdateDTO;
 import com.exceptions.paymentmethod.*;
 import com.mapper.implementation.PaymentMethodMapperImpl;
 import com.mapper.interfaces.PaymentMethodMapper;

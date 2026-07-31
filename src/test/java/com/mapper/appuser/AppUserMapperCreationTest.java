@@ -1,6 +1,6 @@
 package com.mapper.appuser;
 
-import com.dto.app_user.AppUserCreationDTO;
+import com.dto.appuser.AppUserCreationDTO;
 import com.exceptions.common.NullMapperInputException;
 import com.mapper.implementation.AppUserMapperImpl;
 import com.mapper.interfaces.AppUserMapper;

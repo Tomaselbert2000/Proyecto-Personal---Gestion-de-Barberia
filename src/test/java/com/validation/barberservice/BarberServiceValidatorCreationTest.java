@@ -1,7 +1,7 @@
 package com.validation.barberservice;
 
 import com.abstract_test_class.BaseValidatorTest;
-import com.dto.barbershopservice.BarberServiceCreationDTO;
+import com.dto.barberservice.BarberServiceCreationDTO;
 import com.exceptions.common.NullDTOException;
 import jakarta.validation.ConstraintViolationException;
 import org.junit.jupiter.api.DisplayName;

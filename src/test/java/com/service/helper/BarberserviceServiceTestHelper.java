@@ -1,7 +1,7 @@
 package com.service.helper;
 
-import com.dto.barbershopservice.BarberServiceCreationDTO;
-import com.dto.barbershopservice.BarberServiceUpdateDTO;
+import com.dto.barberservice.BarberServiceCreationDTO;
+import com.dto.barberservice.BarberServiceUpdateDTO;
 import com.mapper.interfaces.BarberServiceMapper;
 import com.model.BarberService;
 import com.repository.BarberServiceRepository;

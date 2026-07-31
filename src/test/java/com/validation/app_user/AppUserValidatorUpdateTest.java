@@ -1,7 +1,7 @@
 package com.validation.app_user;
 
 import com.abstract_test_class.BaseValidatorTest;
-import com.dto.app_user.AppUserUpdateDTO;
+import com.dto.appuser.AppUserUpdateDTO;
 import com.exceptions.common.NullDTOException;
 import jakarta.validation.ConstraintViolationException;
 import org.junit.jupiter.api.DisplayName;

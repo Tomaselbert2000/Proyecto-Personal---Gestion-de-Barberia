@@ -1,7 +1,7 @@
 package com.validation.credentials;
 
 import com.abstract_test_class.BaseValidatorTest;
-import com.dto.credentials_management.CredentialsUpdateDTO;
+import com.dto.credentials.CredentialsUpdateDTO;
 import com.exceptions.common.NullDTOException;
 import com.exceptions.credentials.PasswordMismatchException;
 import jakarta.validation.ConstraintViolationException;

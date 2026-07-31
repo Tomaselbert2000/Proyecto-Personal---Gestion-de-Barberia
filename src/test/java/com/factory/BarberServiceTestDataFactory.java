@@ -1,7 +1,7 @@
 package com.factory;
 
-import com.dto.barbershopservice.BarberServiceCreationDTO;
-import com.dto.barbershopservice.BarberServiceUpdateDTO;
+import com.dto.barberservice.BarberServiceCreationDTO;
+import com.dto.barberservice.BarberServiceUpdateDTO;
 import com.model.BarberService;
 
 import static com.test_constant.AppointmentTestConstants.UpdateValidData.NEW_BARBER_SERVICE_ID;

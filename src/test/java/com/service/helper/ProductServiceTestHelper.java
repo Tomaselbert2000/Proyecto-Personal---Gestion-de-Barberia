@@ -1,7 +1,7 @@
 package com.service.helper;
 
 import com.dto.product.ProductCreationDTO;
-import com.dto.product.ProductDTOCommonMethods;
+import com.dto.product.ProductInputDTO;
 import com.dto.product.ProductUpdateDTO;
 import com.mapper.interfaces.ProductMapper;
 import com.model.Product;
@@ -92,7 +92,7 @@ public class ProductServiceTestHelper {
         when(productRepository.findAll()).thenReturn(products);
     }
 
-    public static <T extends ProductDTOCommonMethods> void mockValidatorToThrowException(ProductValidator validator, Exception exception, T dto) {
+    public static <T extends ProductInputDTO> void mockValidatorToThrowException(ProductValidator validator, Exception exception, T dto) {
 
         doThrow(exception).when(validator).validateDTO(dto);
     }

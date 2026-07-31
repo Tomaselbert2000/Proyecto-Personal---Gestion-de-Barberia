@@ -1,6 +1,6 @@
 package com.mapper.paymentmethod;
 
-import com.dto.payment.PaymentMethodInfoDTO;
+import com.dto.paymentmethod.PaymentMethodInfoDTO;
 import com.mapper.implementation.PaymentMethodMapperImpl;
 import com.mapper.interfaces.PaymentMethodMapper;
 import com.model.PaymentMethod;

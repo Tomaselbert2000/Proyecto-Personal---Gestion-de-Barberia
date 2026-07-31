@@ -1,6 +1,6 @@
 package com.mapper.appuser;
 
-import com.dto.app_user.AppUserInfoDTO;
+import com.dto.appuser.AppUserInfoDTO;
 import com.mapper.implementation.AppUserMapperImpl;
 import com.mapper.interfaces.AppUserMapper;
 import com.model.AppUser;
