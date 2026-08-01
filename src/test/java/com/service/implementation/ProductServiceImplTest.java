@@ -165,7 +165,7 @@ public class ProductServiceImplTest extends BaseServiceTest<Product, ProductRepo
                 () -> assertEquals(product.getProductCost(), returnedDTO.getProductCost()),
                 () -> assertEquals(product.getCurrentPrice(), returnedDTO.getCurrentPrice()),
                 () -> assertNotNull(returnedDTO.getCurrentStockStatus()),
-                () -> assertNotNull(returnedDTO.getCurrentProfitPercentage())
+                () -> assertNotNull(returnedDTO.getCalculatedProfit())
         );
     }
 
@@ -394,7 +394,7 @@ public class ProductServiceImplTest extends BaseServiceTest<Product, ProductRepo
                 () -> assertEquals(product.getProductCost(), infoDTOList.getFirst().getProductCost()),
                 () -> assertEquals(product.getCurrentPrice(), infoDTOList.getFirst().getCurrentPrice()),
                 () -> assertNotNull(infoDTOList.getFirst().getCurrentStockStatus()),
-                () -> assertNotNull(infoDTOList.getFirst().getCurrentProfitPercentage())
+                () -> assertNotNull(infoDTOList.getFirst().getCalculatedProfit())
         );
     }
 

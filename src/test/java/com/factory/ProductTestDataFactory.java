@@ -68,6 +68,7 @@ public class ProductTestDataFactory {
                 .maxDiscountPercentage(PRODUCT_MAX_DISCOUNT_PERCENTAGE_VALUE)
                 .currentStockLevel(PRODUCT_CURRENT_STOCK_LEVEL)
                 .safetyStockLevel(PRODUCT_SAFETY_STOCK_LEVEL)
+                .stockStatus(null)
                 .category(PRODUCT_CATEGORY)
                 .creationDate(PRODUCT_CREATION_DATE)
                 .imageFilePath(PRODUCT_FILE_PATH)
