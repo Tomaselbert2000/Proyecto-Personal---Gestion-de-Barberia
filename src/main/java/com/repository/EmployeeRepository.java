@@ -55,15 +55,6 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     Long getActiveEmployees();
 
     /**
-     * Obtiene el número total de empleados inactivos en el sistema.
-     * Útil para generar reportes de personal no activo o planificar reestructuraciones.
-     *
-     * @return La cantidad de empleados con estado inactivo.
-     */
-    @Query("SELECT COUNT(E.employeeID) FROM Employee AS E WHERE E.isActive = FALSE")
-    Long getInactiveEmployees();
-
-    /**
      * Realiza una búsqueda en vivo (live search) de empleados aplicando múltiples filtros simultáneamente.
      * La consulta utiliza lógica de nulo seguro para permitir que los parámetros opcionales no filtren el resultado.
      *

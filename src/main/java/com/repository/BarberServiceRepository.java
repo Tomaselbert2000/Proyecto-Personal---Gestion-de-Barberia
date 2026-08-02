@@ -1,12 +1,12 @@
 package com.repository;
 
+import com.dto.stats.BarberServiceActiveOnCatalogStatsDTO;
 import com.enums.BarberServiceCategory;
 import com.model.BarberService;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -39,51 +39,6 @@ public interface BarberServiceRepository extends JpaRepository<BarberService, Lo
     Boolean existsByNameAndBarbershopServiceIDNot(String name, Long barbershopServiceID);
 
     /**
-     * Cuenta el número total de servicios registrados dentro de un rango específico de tiempo.
-     * Útil para generar reportes de actividad o estadísticas de uso por periodo.
-     *
-     * @param registrationTimestampAfter  El límite inferior del rango de tiempo (inclusive).
-     * @param registrationTimestampBefore El límite superior del rango de tiempo (exclusive).
-     * @return La cantidad total de servicios encontrados en el rango especificado.
-     */
-    Long countByRegistrationTimestampBetween(LocalDateTime registrationTimestampAfter, LocalDateTime registrationTimestampBefore);
-
-    /**
-     * Cuenta la cantidad de categorías de servicios distintas que tienen al menos un servicio registrado.
-     * Útil para obtener una visión rápida de la diversidad de categorías disponibles en el sistema.
-     *
-     * @return La cantidad de categorías únicas no nulas asociadas a los servicios.
-     */
-    Long countDistinctByServiceCategoryIsNotNull();
-
-    /**
-     * Calcula el precio promedio de todos los servicios registrados en el sistema.
-     * Proporciona una métrica central para análisis de precios o comparativas de mercado.
-     *
-     * @return El valor promedio calculado sobre la columna {@code price}. Si no hay servicios, retorna {@code null}.
-     */
-    @Query("SELECT AVG (b.price) FROM BarberService b")
-    Double getPriceAverage();
-
-    /**
-     * Obtiene el precio más alto registrado entre todos los servicios disponibles.
-     * Útil para identificar el servicio premium o establecer límites superiores de precios.
-     *
-     * @return El valor máximo encontrado en la columna {@code price}. Si no hay servicios, retorna {@code null}.
-     */
-    @Query("SELECT MAX(b.price) FROM BarberService b")
-    Double getHighestPrice();
-
-    /**
-     * Obtiene el precio más bajo registrado entre todos los servicios disponibles.
-     * Útil para identificar el servicio de entrada o establecer límites inferiores de precios.
-     *
-     * @return El valor mínimo encontrado en la columna {@code price}. Si no hay servicios, retorna {@code null}.
-     */
-    @Query("SELECT MIN(b.price) FROM BarberService b")
-    Double getLowestPrice();
-
-    /**
      * Realiza una búsqueda en vivo (live search) de servicios aplicando múltiples filtros simultáneamente.
      * La consulta utiliza lógica de nulo seguro para permitir que los parámetros opcionales no filtren el resultado.
      *
@@ -103,4 +58,21 @@ public interface BarberServiceRepository extends JpaRepository<BarberService, Lo
     @Query("""
             SELECT b FROM BarberService b WHERE (:name IS NULL OR b.name LIKE CONCAT('%', :name, '%')) AND (:category IS NULL OR b.serviceCategory=:category) AND (:minPrice IS NULL OR b.price >=:minPrice) AND (:maxPrice IS NULL OR b.price <=:maxPrice)""")
     List<BarberService> liveSearchWithFilters(@Param("name") String name, @Param("category") BarberServiceCategory category, @Param("minPrice") Double minPrice, @Param("maxPrice") Double maxPrice);
+
+    /**
+     * Obtiene estadísticas sobre los servicios activos del catálogo.
+     * La consulta agrupa los servicios activos (isCurrentlyActive = true) y calcula la cantidad total de servicios activos
+     * junto con la cantidad de categorías distintas representadas en ese conjunto.
+     *
+     * @return Un objeto {@link BarberServiceActiveOnCatalogStatsDTO} conteniendo la cantidad de servicios activos
+     * y la cantidad de categorías diferentes. Retorna {@code null} si no existen servicios activos.
+     */
+    @Query("""
+            SELECT NEW com.dto.stats.BarberServiceActiveOnCatalogStatsDTO(
+                COUNT(b),
+                COUNT(DISTINCT b.serviceCategory)
+            )
+            FROM BarberService b
+            WHERE b.isCurrentlyActive = true""")
+    BarberServiceActiveOnCatalogStatsDTO getActiveBarberServicesStats();
 }

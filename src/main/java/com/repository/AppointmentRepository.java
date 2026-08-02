@@ -1,5 +1,9 @@
 package com.repository;
 
+import com.dto.stats.AppointmentCanceledStatsDTO;
+import com.dto.stats.AppointmentMonthlyComparisonDTO;
+import com.dto.stats.AppointmentTodayStatsDTO;
+import com.dto.stats.AppointmentTomorrowStatsDTO;
 import com.enums.AppointmentStatus;
 import com.model.Appointment;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -91,45 +95,6 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
     Long countByStartDateTimeBetweenAndCurrentStatus(LocalDateTime startDateTime, LocalDateTime startDateTime2, AppointmentStatus currentStatus);
 
     /**
-     * Cuenta el número total de citas que tienen un estado actual específico en el sistema.
-     * Útil para obtener un resumen rápido del estado global de las reservas (ej: cuántas están pendientes).
-     *
-     * @param currentStatus El estado actual a filtrar.
-     * @return La cantidad total de citas con el estado especificado.
-     */
-    Long countByCurrentStatus(AppointmentStatus currentStatus);
-
-    /**
-     * Cuenta las citas registradas después de un timestamp específico.
-     * Útil para analizar la actividad reciente o citas pendientes de registro.
-     *
-     * @param registrationTimestampAfter El límite inferior del rango de tiempo de registro (inclusive).
-     * @return La cantidad de citas registradas después del momento especificado.
-     */
-    Long countByRegistrationTimestampAfter(LocalDateTime registrationTimestampAfter);
-
-    /**
-     * Cuenta las citas registradas dentro de un rango específico de tiempo.
-     * Permite analizar la distribución temporal de los registros de nuevas citas.
-     *
-     * @param registrationTimestampAfter  El límite inferior del rango de tiempo de registro (inclusive).
-     * @param registrationTimestampBefore El límite superior del rango de tiempo de registro (exclusive).
-     * @return La cantidad de citas registradas en el periodo especificado.
-     */
-    Long countByRegistrationTimestampBetween(LocalDateTime registrationTimestampAfter, LocalDateTime registrationTimestampBefore);
-
-    /**
-     * Cuenta las citas que tienen un estado actual específico y fueron registradas dentro de un rango de tiempo dado.
-     * Combina filtros de estado y temporalidad para reportes granulares.
-     *
-     * @param currentStatus               El estado actual que deben tener las citas.
-     * @param registrationTimestampAfter  El límite inferior del rango de tiempo de registro (inclusive).
-     * @param registrationTimestampBefore El límite superior del rango de tiempo de registro (exclusive).
-     * @return La cantidad de citas que cumplen con ambos criterios.
-     */
-    Long countByCurrentStatusAndRegistrationTimestampBetween(AppointmentStatus currentStatus, LocalDateTime registrationTimestampAfter, LocalDateTime registrationTimestampBefore);
-
-    /**
      * Obtiene las 5 citas más recientes ordenadas por fecha y hora de registro descendente.
      * Proporciona una vista rápida de las últimas actividades en el sistema sin necesidad de cargar el historial.
      *
@@ -173,5 +138,53 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
             @Param("employeeName") String employeeName,
             @Param("startDateTime") LocalDateTime startDateTime,
             @Param("endDateTime") LocalDateTime endDateTime
+    );
+
+    @Query("""
+            SELECT new com.dto.stats.AppointmentTodayStatsDTO(
+                COUNT(a),
+                SUM(CASE WHEN a.currentStatus = AppointmentStatus.FINALIZADO THEN 1 ELSE 0 END)
+            )
+            FROM Appointment a
+            WHERE a.startDateTime BETWEEN :todayStart AND :todayEnd
+            """)
+    AppointmentTodayStatsDTO getAppoinmentsTodayStats(@Param("todayStart") LocalDateTime todayStart, @Param("todayEnd") LocalDateTime todayEnd);
+
+    @Query("""
+            SELECT new com.dto.stats.AppointmentTomorrowStatsDTO(
+                COUNT(a),
+                SUM(CASE WHEN a.currentStatus IN (AppointmentStatus.PROGRAMADO, AppointmentStatus.REPROGRAMADO) THEN 1 ELSE 0 END)
+            )
+            FROM Appointment a
+            WHERE a.currentStatus IN (AppointmentStatus.PROGRAMADO, AppointmentStatus.REPROGRAMADO) AND a.startDateTime >= :now
+            """)
+    AppointmentTomorrowStatsDTO getPendingAppointmentsStats(@Param("now") LocalDateTime now, @Param("tomorrowStart") LocalDateTime tomorrowStart, @Param("tomorrowEnd") LocalDateTime tomorrowEnd);
+
+    @Query("""
+            SELECT new com.dto.stats.AppointmentMonthlyComparisonDTO(
+                    SUM(CASE WHEN a.startDateTime BETWEEN :currentMonthStart AND :currentMonthEnd THEN 1 ELSE 0 END),
+                    SUM(CASE WHEN a.startDateTime BETWEEN :previousMonthStart AND :previousMonthEnd THEN 1 ELSE 0 END)
+                )
+                FROM Appointment a
+                WHERE a.startDateTime BETWEEN :previousMonthStart AND :currentMonthEnd
+            """)
+    AppointmentMonthlyComparisonDTO getMonthlyComparisonStats(
+            @Param("currentMonthStart") LocalDateTime currentMonthStart,
+            @Param("currentMonthEnd") LocalDateTime currentMonthEnd,
+            @Param("previousMonthStart") LocalDateTime previousMonthStart,
+            @Param("previousMonthEnd") LocalDateTime previousMonthEnd
+    );
+
+    @Query("""
+            SELECT new com.dto.stats.AppointmentCanceledStatsDTO(
+                SUM(CASE WHEN a.currentStatus = AppointmentStatus.CANCELADO THEN 1 ELSE 0 END),
+                COUNT(a)
+            )
+            FROM Appointment a
+            WHERE a.registrationTimestamp BETWEEN :currentMonthStart AND :currentMonthEnd
+            """)
+    AppointmentCanceledStatsDTO getCanceledAppointmentsStats(
+            @Param("currentMonthStart") LocalDateTime currentMonthStart,
+            @Param("currentMonthEnd") LocalDateTime currentMonthEnd
     );
 }

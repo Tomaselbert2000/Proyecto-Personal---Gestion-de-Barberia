@@ -1,12 +1,13 @@
 package com.repository;
 
+import com.dto.stats.ProductStockValueStatsDTO;
+import com.dto.stats.ProductTotalStockStatsDTO;
 import com.enums.ProductCategory;
 import com.model.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -52,27 +53,12 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
      *
      * @return Una lista de productos con stock bajo (donde {@code currentStockLevel <= safetyStockLevel}).
      */
-    @Query("SELECT p FROM Product p WHERE p.currentStockLevel <= p.safetyStockLevel")
+    @Query("""
+            SELECT p
+            FROM Product p
+            WHERE p.currentStockLevel <= p.safetyStockLevel
+            """)
     List<Product> getLowStockProducts();
-
-    /**
-     * Cuenta el número total de productos registrados dentro de un rango específico de fechas.
-     * Útil para generar reportes de actividad de inventario o estadísticas de uso por periodo.
-     *
-     * @param creationDateAfter  El límite inferior del rango de fechas (inclusive).
-     * @param creationDateBefore El límite superior del rango de fechas (exclusive).
-     * @return La cantidad total de productos registrados en el rango especificado.
-     */
-    Long countByCreationDateBetween(LocalDateTime creationDateAfter, LocalDateTime creationDateBefore);
-
-    /**
-     * Calcula el valor total del inventario multiplicando el costo unitario por el nivel de stock actual de cada producto y sumando los resultados.
-     * Proporciona una métrica financiera clave para evaluar el valor en libros del stock disponible.
-     *
-     * @return El valor total calculado como {@code SUM(productCost * currentStockLevel)}. Si no hay productos, retorna {@code null}.
-     */
-    @Query("SELECT SUM(p.productCost * p.currentStockLevel) FROM Product p")
-    Double getTotalStockValue();
 
     /**
      * Realiza una búsqueda en vivo (live search) de productos aplicando múltiples filtros simultáneamente.
@@ -89,6 +75,25 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
      * @return Una lista de productos que cumplen con todos los criterios de filtro aplicados.
      */
     @Query("""
-            SELECT p FROM Product p WHERE (:name IS NULL OR p.name LIKE CONCAT('%', :name, '%')) AND (:category IS NULL OR p.category=:category)""")
+            SELECT p
+            FROM Product p
+            WHERE (:name IS NULL OR p.name
+            LIKE CONCAT('%', :name, '%'))
+            AND (:category IS NULL OR p.category=:category)
+            """)
     List<Product> liveSearchWithFilters(@Param("name") String productName, @Param("category") ProductCategory selectedCategory);
+
+    /**
+     * Obtiene estadísticas sobre el estado del inventario.
+     * La consulta calcula la cantidad total de productos registrados y la cantidad acumulada de productos que se encuentran en estado de stock bajo o crítico.
+     *
+     * @return Un objeto {@link ProductTotalStockStatsDTO} conteniendo la cantidad total de productos y la cantidad de productos con stock bajo o crítico.
+     */
+    @Query("""
+            SELECT new com.dto.stats.ProductTotalStockStatsDTO(COUNT(p.productID), SUM(CASE WHEN p.stockStatus = StockStatus.BAJO OR p.stockStatus = StockStatus.CRITICO THEN 1 ELSE 0 END)) FROM Product p""")
+    ProductTotalStockStatsDTO getProductCountAndStockLevelStats();
+
+    @Query("""
+            SELECT new com.dto.stats.ProductStockValueStatsDTO(SUM(p.productCost * p.currentStockLevel), SUM(p.currentStockLevel)) FROM Product p""")
+    ProductStockValueStatsDTO getTotalStockValue();
 }
