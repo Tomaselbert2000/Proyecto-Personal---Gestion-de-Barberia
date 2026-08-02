@@ -27,5 +27,4 @@ public class Employee {
     private LocalDate terminationDate;
     private boolean isActive;
     private Double commissionPercentage;
-
 }

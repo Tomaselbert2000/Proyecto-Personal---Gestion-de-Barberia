@@ -43,4 +43,5 @@ public class Sale {
     private ServiceRecord serviceRecord;
 
     private Double total;
+    private Double modifierValue;
 }

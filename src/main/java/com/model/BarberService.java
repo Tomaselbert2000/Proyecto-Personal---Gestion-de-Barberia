@@ -24,6 +24,7 @@ public class BarberService {
     private LocalDateTime registrationTimestamp;
     private LocalDateTime modifiedDate;
     private String internalNotes;
+    private Boolean isCurrentlyActive;
 
     @OneToMany(mappedBy = "barberService", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ServicePriceHistory> servicePriceHistoryList;
