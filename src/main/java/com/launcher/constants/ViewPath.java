@@ -33,6 +33,7 @@ public final class ViewPath {
     public static final String PAYMENT_METHOD_VIEW_PATH = "/view/PaymentmethodView.fxml";
     public static final String PAYMENT_METHOD_ITEM_VIEW_PATH = "/view/PaymentMethodItem.fxml";
     public static final String PAYMENT_METHOD_CREATION_VIEW_PATH = "/view/PaymentMethodCreationView.fxml";
+    public static final String PAYMENT_METHOD_EDITION_VIEW_PATH = "/view/PaymentMethodEditionView.fxml";
 
     public static final String SETTINGS_VIEW_PATH = "/view/SettingsView.fxml";
 
