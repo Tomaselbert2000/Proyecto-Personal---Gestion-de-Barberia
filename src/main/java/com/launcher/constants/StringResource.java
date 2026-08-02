@@ -30,6 +30,7 @@ public final class StringResource {
         public static final String NEW_LINE = "\n• ";
         public static final String ACCEPT_BUTTON_TEXT = "Aceptar";
         public static final String CLIPBOARD_BUTTON_TEXT = "Copiar al portapapeles";
+        public static final String EMPTY_DATA_STAT = "Sin datos";
     }
 
     public static final class StringFormat {
@@ -80,7 +81,6 @@ public final class StringResource {
         public static final String VALIDATION_ERROR_TITLE = "Error de validación";
 
         public static final String LOGIN_ERROR_TITLE = "Error de inicio de sesión";
-        public static final String LOGIN_FIELDS_BLANK = "Campos de ingreso en blanco.";
         public static final String LOGIN_FAILED = "Usuario o contraseña incorrectos";
 
         public static final String REGISTER_ERROR_TITLE = "Error de registro";
@@ -100,7 +100,8 @@ public final class StringResource {
 
         public static final String BARBER_SERVICE_CREATION_VALIDATION_FAILED = "No se pudo registrar el servicio en el catálogo. Por favor, revisa lo siguiente: ";
 
-        public static final String PAYMENT_METHID_CREATION_VALIDATION_FAILED = "No se pudo registrar el método de pago. Por favor, revisa lo siguiente:";
+        public static final String PAYMENT_METHOD_CREATION_VALIDATION_FAILED = "No se pudo registrar el método de pago. Por favor, revisa lo siguiente:";
+        public static final String PAYMENT_METHOD_EDITION_VALIDATION_FAILED = "No se pudo actualizar el método de pago. Por favor, revisa lo siguiente: ";
 
         public static final String SETTINGS_UPDATE_VALIDATION_FAILED = "Error al actualizar las preferencias del usuario. Por favor, revise lo siguiente: ";
         public static final String CREDENTIALS_UPDATE_VALIDATION_FAILED = "Error al actualizar las credenciales de usuario. Por favor, revise lo siguiente: ";
@@ -128,6 +129,7 @@ public final class StringResource {
 
         public static final String PAYMENT_METHOD_VIEW_LOADING_FAILED = "Hubo un error al cargar la vista de métodos de pago.";
         public static final String PAYMENT_METHOD_CREATION_VIEW_LOADING_FAILED = "Hubo un error al cargar la vista de creación de métodos de pago.";
+        public static final String PAYMENT_METHOD_EDITION_VIEW_LOADING_FAILED = "Hubo un error al cargar la lista de actualización de medios de pago.";
 
         public static final String SETTINGS_VIEW_LOADING_FAILED = "Hubo un error al cargar la vista de ajustes de la aplicación";
 
