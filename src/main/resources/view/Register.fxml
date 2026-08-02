@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1"
             fx:id="anchor_pane"
-            fx:controller="com.launcher.controller.implementation.register.RegisterController"
+            fx:controller="com.launcher.controller.register.RegisterController"
             xmlns="http://javafx.com/javafx/17.0.12">
 
     <VBox

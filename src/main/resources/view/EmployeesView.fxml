@@ -7,11 +7,11 @@
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1"
             fx:id="anchor_pane"
             xmlns="http://javafx.com/javafx/17.0.12"
-            fx:controller="com.launcher.controller.implementation.employee.EmployeeViewController">
+            fx:controller="com.launcher.controller.employee.EmployeeViewController">
 
     <VBox
             AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0"
-          AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+            AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
 
         <!-- Header del Panel -->
         <HBox alignment="CENTER_LEFT">
@@ -43,37 +43,37 @@
                         <ColumnConstraints hgrow="ALWAYS" percentWidth="25"/>
                     </columnConstraints>
 
-                    <!-- Tarjeta: Total Empleados -->
+                    <!-- Tarjeta: Total Empleados Activos -->
                     <VBox styleClass="md-card" spacing="8" GridPane.columnIndex="0">
                         <padding>
                             <Insets top="16" right="16" bottom="16" left="16"/>
                         </padding>
                         <HBox alignment="CENTER_LEFT">
-                            <Label styleClass="md-label-large" text="Total Empleados"/>
+                            <Label styleClass="md-label-large" text="Empleados activos"/>
                             <Region HBox.hgrow="ALWAYS"/>
                             <Region styleClass="work-icon, md-icon-medium, md-icon-primary"/>
                         </HBox>
-                        <Label fx:id="total_employees_count" styleClass="md-display-small" text="0"/>
+                        <Label fx:id="currently_active_employees" styleClass="md-display-small"/>
                         <HBox spacing="4" alignment="CENTER_LEFT">
-                            <Label fx:id="total_employees_trend" styleClass="md-label-medium" text="0"/>
-                            <Label styleClass="md-label-small" text="este mes"/>
+                            <Label fx:id="total_registered_employees" styleClass="md-label-medium"/>
+                            <Label styleClass="md-label-small"/>
                         </HBox>
                     </VBox>
 
-                    <!-- Tarjeta: Empleados Activos -->
+                    <!-- Tarjeta: mayor ganancia -->
                     <VBox styleClass="md-card" spacing="8" GridPane.columnIndex="1">
                         <padding>
                             <Insets top="16" right="16" bottom="16" left="16"/>
                         </padding>
                         <HBox alignment="CENTER_LEFT">
-                            <Label styleClass="md-label-large" text="Activos"/>
+                            <Label styleClass="md-label-large" text="Mayor ganancia"/>
                             <Region HBox.hgrow="ALWAYS"/>
-                            <Region styleClass="enterprise-icon, md-icon-medium, md-icon-primary"/>
+                            <Region styleClass="more-up-icon, md-icon-medium, md-icon-primary"/>
                         </HBox>
-                        <Label fx:id="active_employees_count" styleClass="md-display-small" text="0"/>
+                        <Label fx:id="highest_revenue_employee_name" styleClass="md-display-small"/>
                         <HBox spacing="4" alignment="CENTER_LEFT">
-                            <Label fx:id="active_employees_percentage" styleClass="md-label-medium" text="0"/>
-                            <Label styleClass="md-label-small" text="del equipo"/>
+                            <Label fx:id="highest_revenue_value" styleClass="md-label-medium"/>
+                            <Label styleClass="md-label-small" text="Monto total generado"/>
                         </HBox>
                     </VBox>
 
@@ -83,14 +83,14 @@
                             <Insets top="16" right="16" bottom="16" left="16"/>
                         </padding>
                         <HBox alignment="CENTER_LEFT">
-                            <Label styleClass="md-label-large" text="Inactivos"/>
+                            <Label styleClass="md-label-large" text="Más servicios completos"/>
                             <Region HBox.hgrow="ALWAYS"/>
-                            <Region styleClass="enterprise-off-icon, md-icon-medium, md-icon-primary"/>
+                            <Region styleClass="check-circle-icon, md-icon-medium, md-icon-primary"/>
                         </HBox>
-                        <Label fx:id="inactive_employees_count" styleClass="md-display-small" text="0"/>
+                        <Label fx:id="highest_amount_of_services_completed_employee" styleClass="md-display-small"/>
                         <HBox spacing="4" alignment="CENTER_LEFT">
-                            <Label fx:id="inactive_employees_percentage" styleClass="md-label-medium" text="0"/>
-                            <Label styleClass="md-label-small" text="del equipo"/>
+                            <Label fx:id="amount_of_services_completed" styleClass="md-label-medium"/>
+                            <Label styleClass="md-label-small" text="Cantidad total"/>
                         </HBox>
                     </VBox>
 
@@ -100,14 +100,14 @@
                             <Insets top="16" right="16" bottom="16" left="16"/>
                         </padding>
                         <HBox alignment="CENTER_LEFT">
-                            <Label styleClass="md-label-large" text="Promedio Turnos/Mes"/>
+                            <Label styleClass="md-label-large" text="Promedio del Equipo"/>
                             <Region HBox.hgrow="ALWAYS"/>
-                            <Region styleClass="work-history-icon, md-icon-medium, md-icon-primary"/>
+                            <Region styleClass="avg-pace-icon, md-icon-medium, md-icon-primary"/>
                         </HBox>
-                        <Label fx:id="average_productivity_count" styleClass="md-display-small" text="0"/>
+                        <Label fx:id="average_completed_services_by_active_employees" styleClass="md-display-small"/>
                         <HBox spacing="4" alignment="CENTER_LEFT">
-                            <Label fx:id="productivity_trend" styleClass="md-label-medium" text="0"/>
-                            <Label styleClass="md-label-small" text="vs mes anterior"/>
+                            <Label styleClass="md-label-medium"/>
+                            <Label styleClass="md-label-small" text="Servicios por barbero activo"/>
                         </HBox>
                     </VBox>
                 </GridPane>

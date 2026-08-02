@@ -7,7 +7,7 @@
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1"
             fx:id="anchor_pane"
             xmlns="http://javafx.com/javafx/17.0.12"
-            fx:controller="com.launcher.controller.implementation.appointment.AppointmentViewController">
+            fx:controller="com.launcher.controller.appointment.AppointmentViewController">
 
     <VBox
             AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0"
@@ -53,7 +53,7 @@
                             <Region HBox.hgrow="ALWAYS"/>
                             <Region styleClass="calendar-today-icon, md-icon-medium, md-icon-primary"/>
                         </HBox>
-                        <Label fx:id="appointments_today" styleClass="md-display-small" text="0"/>
+                        <Label fx:id="appointments_schedule_for_today" styleClass="md-display-small" text="0"/>
                         <HBox spacing="4" alignment="CENTER_LEFT">
                             <Label fx:id="completed_appointments_today" styleClass="md-label-medium" text="0"/>
                             <Label styleClass="md-label-small" text="completados"/>
@@ -70,9 +70,9 @@
                             <Region HBox.hgrow="ALWAYS"/>
                             <Region styleClass="schedule-icon, md-icon-medium, md-icon-primary"/>
                         </HBox>
-                        <Label fx:id="scheduled_appointments" styleClass="md-display-small" text="0"/>
+                        <Label fx:id="pending_appointments" styleClass="md-display-small" text="0"/>
                         <HBox spacing="4" alignment="CENTER_LEFT">
-                            <Label fx:id="new_appointments_scheduled_today" styleClass="md-label-medium" text="0"/>
+                            <Label fx:id="appointments_scheduled_tomorrow" styleClass="md-label-medium" text="0"/>
                             <Label styleClass="md-label-small" text="nuevos hoy"/>
                         </HBox>
                     </VBox>
@@ -87,9 +87,9 @@
                             <Region HBox.hgrow="ALWAYS"/>
                             <Region styleClass="done-all-icon, md-icon-medium, md-icon-primary"/>
                         </HBox>
-                        <Label fx:id="appointments_this_month" styleClass="md-display-small" text="0"/>
+                        <Label fx:id="current_month_appointment_count" styleClass="md-display-small" text="0"/>
                         <HBox spacing="4" alignment="CENTER_LEFT">
-                            <Label fx:id="percentage_of_appointments_registered_vs_previous_month"
+                            <Label fx:id="previous_month_appointment_count"
                                    styleClass="md-label-medium" text="0%"/>
                             <Label styleClass="md-label-small" text="vs mes anterior"/>
                         </HBox>
@@ -105,9 +105,9 @@
                             <Region HBox.hgrow="ALWAYS"/>
                             <Region styleClass="person-cancel-icon, md-icon-medium, md-icon-primary"/>
                         </HBox>
-                        <Label fx:id="canceled_appointments" styleClass="md-display-small" text="0"/>
+                        <Label fx:id="canceled_appointments_this_month" styleClass="md-display-small" text="0"/>
                         <HBox spacing="4" alignment="CENTER_LEFT">
-                            <Label fx:id="canceled_appointments_vs_past_week" styleClass="md-label-medium" text="0"/>
+                            <Label fx:id="cancelation_percentage" styleClass="md-label-medium" text="0"/>
                             <Label styleClass="md-label-small" text="vs semana anterior"/>
                         </HBox>
                     </VBox>

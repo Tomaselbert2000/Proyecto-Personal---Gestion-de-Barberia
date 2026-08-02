@@ -7,11 +7,11 @@
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1"
             fx:id="anchor_pane"
             xmlns="http://javafx.com/javafx/17.0.12"
-            fx:controller="com.launcher.controller.implementation.payment_method.PaymentMethodViewController">
+            fx:controller="com.launcher.controller.payment_method.PaymentMethodViewController">
 
     <VBox
             AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0"
-          AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+            AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
 
         <!-- Header del Panel -->
         <HBox alignment="CENTER_LEFT">
@@ -49,14 +49,14 @@
                             <Insets top="16" right="16" bottom="16" left="16"/>
                         </padding>
                         <HBox alignment="CENTER_LEFT">
-                            <Label styleClass="md-label-large" text="Total Medios de Pago"/>
+                            <Label styleClass="md-label-large" text="Medio de pago más usado"/>
                             <Region HBox.hgrow="ALWAYS"/>
-                            <Region styleClass="payments-icon, md-icon-medium, md-icon-primary"/>
+                            <Region styleClass="wallet-icon, md-icon-medium, md-icon-primary"/>
                         </HBox>
-                        <Label fx:id="total_payment_methods_count" styleClass="md-display-small" text="0"/>
+                        <Label fx:id="most_used_payment_name" styleClass="md-display-small"/>
                         <HBox spacing="4" alignment="CENTER_LEFT">
-                            <Label fx:id="total_payment_methods_trend" styleClass="md-label-medium" text="0"/>
-                            <Label styleClass="md-label-small" text="registrados"/>
+                            <Label fx:id="most_used_payment_usage" styleClass="md-label-medium"/>
+                            <Label styleClass="md-label-small" text="ventas"/>
                         </HBox>
                     </VBox>
 
@@ -66,14 +66,14 @@
                             <Insets top="16" right="16" bottom="16" left="16"/>
                         </padding>
                         <HBox alignment="CENTER_LEFT">
-                            <Label styleClass="md-label-large" text="Activos"/>
+                            <Label styleClass="md-label-large" text="Mayor recaudación"/>
                             <Region HBox.hgrow="ALWAYS"/>
-                            <Region styleClass="check-circle-icon, md-icon-medium, md-icon-primary"/>
+                            <Region styleClass="more-up-icon, md-icon-medium, md-icon-primary"/>
                         </HBox>
-                        <Label fx:id="active_payment_methods_count" styleClass="md-display-small" text="0"/>
+                        <Label fx:id="highest_revenue_payment_name" styleClass="md-display-small"/>
                         <HBox spacing="4" alignment="CENTER_LEFT">
-                            <Label fx:id="active_payment_methods_percentage" styleClass="md-label-medium" text="0"/>
-                            <Label styleClass="md-label-small" text="disponibles"/>
+                            <Label fx:id="revenue_sum" styleClass="md-label-medium"/>
+                            <Label styleClass="md-label-small" text="total"/>
                         </HBox>
                     </VBox>
 
@@ -83,14 +83,14 @@
                             <Insets top="16" right="16" bottom="16" left="16"/>
                         </padding>
                         <HBox alignment="CENTER_LEFT">
-                            <Label styleClass="md-label-large" text="Inactivos"/>
+                            <Label styleClass="md-label-large" text="Activos"/>
                             <Region HBox.hgrow="ALWAYS"/>
                             <Region styleClass="cancel-icon, md-icon-medium, md-icon-primary"/>
                         </HBox>
-                        <Label fx:id="inactive_payment_methods_count" styleClass="md-display-small" text="0"/>
+                        <Label fx:id="active_payment_methods_count" styleClass="md-display-small"/>
                         <HBox spacing="4" alignment="CENTER_LEFT">
-                            <Label fx:id="inactive_payment_methods_percentage" styleClass="md-label-medium" text="0"/>
-                            <Label styleClass="md-label-small" text="del total"/>
+                            <Label styleClass="md-label-medium"/>
+                            <Label styleClass="md-label-small" text="Listos para cobrar"/>
                         </HBox>
                     </VBox>
 
@@ -100,14 +100,14 @@
                             <Insets top="16" right="16" bottom="16" left="16"/>
                         </padding>
                         <HBox alignment="CENTER_LEFT">
-                            <Label styleClass="md-label-large" text="Con Modificador"/>
+                            <Label styleClass="md-label-large" text="Impacto de ganancias"/>
                             <Region HBox.hgrow="ALWAYS"/>
-                            <Region styleClass="percent-icon, md-icon-medium, md-icon-primary"/>
+                            <Region styleClass="finance-icon, md-icon-medium, md-icon-primary"/>
                         </HBox>
-                        <Label fx:id="with_modifier_count" styleClass="md-display-small" text="0"/>
+                        <Label fx:id="modifier_type_balance" styleClass="md-display-small"/>
                         <HBox spacing="4" alignment="CENTER_LEFT">
-                            <Label fx:id="modifier_types_summary" styleClass="md-label-medium" text="0"/>
-                            <Label styleClass="md-label-small" text="de precio"/>
+                            <Label styleClass="md-label-medium"/>
+                            <Label styleClass="md-label-small" text="Por recargos y descuentos"/>
                         </HBox>
                     </VBox>
                 </GridPane>

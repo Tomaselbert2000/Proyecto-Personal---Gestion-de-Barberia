@@ -7,7 +7,7 @@
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1"
             fx:id="anchor_pane"
             xmlns="http://javafx.com/javafx/17.0.12"
-            fx:controller="com.launcher.controller.implementation.barberservice.BarberServiceViewController">
+            fx:controller="com.launcher.controller.barberservice.BarberServiceViewController">
 
     <VBox
             AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0"
@@ -43,36 +43,36 @@
                         <ColumnConstraints hgrow="ALWAYS" percentWidth="25"/>
                     </columnConstraints>
 
-                    <!-- Tarjeta: Total Servicios -->
+                    <!-- Tarjeta: activos y categorias -->
                     <VBox styleClass="md-card" spacing="8" GridPane.columnIndex="0">
                         <padding>
                             <Insets top="16" right="16" bottom="16" left="16"/>
                         </padding>
                         <HBox alignment="CENTER_LEFT">
-                            <Label styleClass="md-label-large" text="Total Servicios"/>
+                            <Label styleClass="md-label-large" text="Servicios activos"/>
                             <Region HBox.hgrow="ALWAYS"/>
                             <Region styleClass="view-list-icon, md-icon-medium, md-icon-primary"/>
                         </HBox>
-                        <Label fx:id="service_count" styleClass="md-display-small" text="0"/>
+                        <Label fx:id="active_service_count" styleClass="md-display-small"/>
                         <HBox spacing="4" alignment="CENTER_LEFT">
-                            <Label fx:id="new_services_this_month_count" styleClass="md-label-medium" text="0"/>
-                            <Label styleClass="md-label-small" text="nuevos este mes"/>
+                            <Label styleClass="md-label-medium"/>
+                            <Label fx:id="active_category_count" styleClass="md-label-small"/>
                         </HBox>
                     </VBox>
 
-                    <!-- Tarjeta: Categorías -->
+                    <!-- Tarjeta: mas solicitado -->
                     <VBox styleClass="md-card" spacing="8" GridPane.columnIndex="1">
                         <padding>
                             <Insets top="16" right="16" bottom="16" left="16"/>
                         </padding>
                         <HBox alignment="CENTER_LEFT">
-                            <Label styleClass="md-label-large" text="Categorías"/>
+                            <Label styleClass="md-label-large" text="Más solicitado"/>
                             <Region HBox.hgrow="ALWAYS"/>
-                            <Region styleClass="category-icon, md-icon-medium, md-icon-primary"/>
+                            <Region styleClass="leadearboard-icon, md-icon-medium, md-icon-primary"/>
                         </HBox>
-                        <Label fx:id="category_count" styleClass="md-display-small" text="0"/>
+                        <Label fx:id="barber_service_with_most_sales" styleClass="md-display-small"/>
                         <HBox spacing="4" alignment="CENTER_LEFT">
-                            <Label styleClass="md-label-medium" text="registradas"/>
+                            <Label fx:id="amount_of_sales" styleClass="md-label-medium"/>
                         </HBox>
                     </VBox>
 
@@ -82,14 +82,14 @@
                             <Insets top="16" right="16" bottom="16" left="16"/>
                         </padding>
                         <HBox alignment="CENTER_LEFT">
-                            <Label styleClass="md-label-large" text="Precio más alto"/>
+                            <Label styleClass="md-label-large" text="Mayor recaudación"/>
                             <Region HBox.hgrow="ALWAYS"/>
                             <Region styleClass="arrow-up-circle-icon, md-icon-medium, md-icon-primary"/>
                         </HBox>
-                        <Label fx:id="highest_price" styleClass="md-display-small"/>
+                        <Label fx:id="highest_revenue_service" styleClass="md-display-small"/>
                         <HBox spacing="4" alignment="CENTER_LEFT">
-                            <Label styleClass="md-label-medium" text="mín: "/>
-                            <Label fx:id="lowest_price" styleClass="md-label-medium"/>
+                            <Label styleClass="md-label-medium"/>
+                            <Label fx:id="revenue_sum" styleClass="md-label-medium"/>
                         </HBox>
                     </VBox>
 
@@ -99,15 +99,14 @@
                             <Insets top="16" right="16" bottom="16" left="16"/>
                         </padding>
                         <HBox alignment="CENTER_LEFT">
-                            <Label styleClass="md-label-large" text="Precio Promedio"/>
+                            <Label styleClass="md-label-large" text="Menos utilizado"/>
                             <Region HBox.hgrow="ALWAYS"/>
-                            <Region styleClass="avg-pace-icon, md-icon-medium, md-icon-primary"/>
+                            <Region styleClass="arrow-down-circle-icon, md-icon-medium, md-icon-primary"/>
                         </HBox>
-                        <Label fx:id="average_price" styleClass="md-display-small"/>
+                        <Label fx:id="lowest_used_service" styleClass="md-display-small"/>
                         <HBox spacing="4" alignment="CENTER_LEFT">
-                            <Label fx:id="average_price_percentage_vs_last_month" styleClass="md-label-medium"
-                                   text="0%"/>
-                            <Label styleClass="md-label-small" text="vs mes anterior"/>
+                            <Label fx:id="times_used" styleClass="md-label-medium"/>
+                            <Label styleClass="md-label-small"/>
                         </HBox>
                     </VBox>
                 </GridPane>

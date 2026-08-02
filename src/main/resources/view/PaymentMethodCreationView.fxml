@@ -7,7 +7,7 @@
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1"
             xmlns="http://javafx.com/javafx/17.0.12"
             fx:id="anchor_pane"
-            fx:controller="com.launcher.controller.implementation.payment_method.PaymentMethodCreationController">
+            fx:controller="com.launcher.controller.payment_method.PaymentMethodCreationController">
 
     <VBox
             AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0"

@@ -10,7 +10,7 @@
       spacing="16"
       styleClass="md-list-item"
       xmlns="http://javafx.com/javafx/25"
-      fx:controller="com.launcher.controller.implementation.employee.EmployeeItemController">
+      fx:controller="com.launcher.controller.employee.EmployeeItemController">
     <padding>
         <Insets top="12" right="16" bottom="12" left="16"/>
     </padding>

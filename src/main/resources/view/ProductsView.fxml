@@ -7,7 +7,7 @@
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1"
             fx:id="anchor_pane"
             xmlns="http://javafx.com/javafx/17.0.12"
-            fx:controller="com.launcher.controller.implementation.product.ProductViewController">
+            fx:controller="com.launcher.controller.product.ProductViewController">
 
     <VBox
             AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0"
@@ -43,7 +43,7 @@
                         <ColumnConstraints hgrow="ALWAYS" percentWidth="25"/>
                     </columnConstraints>
 
-                    <!-- Tarjeta: Total Productos -->
+                    <!-- Tarjeta: Total Productos y productos en stock bajo o critico -->
                     <VBox styleClass="md-card" spacing="8" GridPane.columnIndex="0">
                         <padding>
                             <Insets top="16" right="16" bottom="16" left="16"/>
@@ -53,10 +53,10 @@
                             <Region HBox.hgrow="ALWAYS"/>
                             <Region styleClass="warehouse-icon, md-icon-medium, md-icon-primary"/>
                         </HBox>
-                        <Label fx:id="product_count" styleClass="md-display-small" text="0"/>
+                        <Label fx:id="product_count" styleClass="md-display-small"/>
                         <HBox spacing="4" alignment="CENTER_LEFT">
-                            <Label fx:id="products_created_this_month" styleClass="md-label-medium" text="0"/>
-                            <Label styleClass="md-label-small" text="nuevos este mes"/>
+                            <Label fx:id="products_on_low_or_critical_stock" styleClass="md-label-medium"/>
+                            <Label styleClass="md-label-small"/>
                         </HBox>
                     </VBox>
 
@@ -66,13 +66,13 @@
                             <Insets top="16" right="16" bottom="16" left="16"/>
                         </padding>
                         <HBox alignment="CENTER_LEFT">
-                            <Label styleClass="md-label-large" text="Stock Crítico"/>
+                            <Label styleClass="md-label-large" text="Más vendido"/>
                             <Region HBox.hgrow="ALWAYS"/>
-                            <Region styleClass="exclamation-icon, md-icon-medium, md-icon-primary"/>
+                            <Region styleClass="analitycs-icon, md-icon-medium, md-icon-primary"/>
                         </HBox>
-                        <Label fx:id="critical_stock_level_product_count" styleClass="md-display-small" text="0"/>
+                        <Label fx:id="most_sold_product_name" styleClass="md-display-small" text="0"/>
                         <HBox spacing="4" alignment="CENTER_LEFT">
-                            <Label styleClass="md-label-medium" text="Reponer urgentemente"/>
+                            <Label fx:id="amount_of_sales" styleClass="md-label-medium"/>
                         </HBox>
                     </VBox>
 
@@ -82,13 +82,13 @@
                             <Insets top="16" right="16" bottom="16" left="16"/>
                         </padding>
                         <HBox alignment="CENTER_LEFT">
-                            <Label styleClass="md-label-large" text="Stock Bajo"/>
+                            <Label styleClass="md-label-large" text="Mayor recaudación"/>
                             <Region HBox.hgrow="ALWAYS"/>
-                            <Region styleClass="stat-minus-1-icon, md-icon-medium, md-icon-primary"/>
+                            <Region styleClass="finance-icon, md-icon-medium, md-icon-primary"/>
                         </HBox>
-                        <Label fx:id="low_stock_level_product_count" styleClass="md-display-small" text="0"/>
+                        <Label fx:id="highest_revenue" styleClass="md-display-small"/>
                         <HBox spacing="4" alignment="CENTER_LEFT">
-                            <Label styleClass="md-label-medium" text="Revisar pronto"/>
+                            <Label fx:id="total_revenue" styleClass="md-label-medium"/>
                         </HBox>
                     </VBox>
 
@@ -100,12 +100,12 @@
                         <HBox alignment="CENTER_LEFT">
                             <Label styleClass="md-label-large" text="Valor en Stock"/>
                             <Region HBox.hgrow="ALWAYS"/>
-                            <Region styleClass="money-bag-icon, md-icon-medium, md-icon-primary"/>
+                            <Region styleClass="attach-money-icon, md-icon-medium, md-icon-primary"/>
                         </HBox>
-                        <Label fx:id="total_stock_value" styleClass="md-display-small" text="0"/>
+                        <Label fx:id="total_stock_value" styleClass="md-display-small"/>
                         <HBox spacing="4" alignment="CENTER_LEFT">
-                            <Label fx:id="total_stock_value_vs_last_month" styleClass="md-label-medium" text="0"/>
-                            <Label styleClass="md-label-small" text="vs mes anterior"/>
+                            <Label styleClass="md-label-medium"/>
+                            <Label fx:id="total_stock_units" styleClass="md-label-small"/>
                         </HBox>
                     </VBox>
                 </GridPane>

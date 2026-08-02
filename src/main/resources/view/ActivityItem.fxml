@@ -10,7 +10,7 @@
       spacing="16"
       styleClass="md-list-item"
       xmlns="http://javafx.com/javafx/25"
-      fx:controller="com.launcher.controller.implementation.dashboard.ActivityItemController">
+      fx:controller="com.launcher.controller.dashboard.ActivityItemController">
     <padding>
         <Insets top="8" right="16" bottom="8" left="16"/>
     </padding>

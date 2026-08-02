@@ -7,7 +7,7 @@
 <?import javafx.scene.shape.Circle?>
 <StackPane xmlns:fx="http://javafx.com/fxml/1"
            xmlns="http://javafx.com/javafx/17.0.12"
-           fx:controller="com.launcher.controller.implementation.toast_notification.ToastNotificationController">
+           fx:controller="com.launcher.controller.toast_notification.ToastNotificationController">
 
     <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="400.0" spacing="12" styleClass="md-card">
         <padding>
