@@ -6,8 +6,8 @@ import lombok.*;
 
 import java.time.LocalTime;
 
-import static com.launcher.constants.ConstraintViolationMessages.MessagePredicates.*;
-import static com.launcher.constants.ConstraintViolationMessages.SettingsConstraintSubject.*;
+import static com.presentation.constants.ConstraintViolationMessages.MessagePredicates.*;
+import static com.presentation.constants.ConstraintViolationMessages.SettingsConstraintSubject.*;
 import static com.utils.strings.RegexPatterns.*;
 import static com.validation.common.CommonConstants.*;
 

@@ -7,7 +7,7 @@
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1"
             fx:id="anchor_pane"
             xmlns="http://javafx.com/javafx/17.0.12"
-            fx:controller="com.launcher.controller.employee.EmployeeCreationController">
+            fx:controller="com.presentation.controller.employee.EmployeeCreationController">
 
     <VBox
             AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0"

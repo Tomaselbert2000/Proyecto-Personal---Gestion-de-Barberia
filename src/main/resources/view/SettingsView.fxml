@@ -9,7 +9,7 @@
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1"
             fx:id="anchor_pane"
             xmlns="http://javafx.com/javafx/25"
-            fx:controller="com.launcher.controller.settings.SettingsController">
+            fx:controller="com.presentation.controller.settings.SettingsController">
 
     <fx:define>
         <ToggleGroup fx:id="themeGroup"/>

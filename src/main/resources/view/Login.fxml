@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.Circle?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.launcher.controller.login.LoginController"
+            fx:controller="com.presentation.controller.login.LoginController"
             fx:id="anchor_pane"
             xmlns="http://javafx.com/javafx/17.0.12">
 

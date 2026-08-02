@@ -2,7 +2,7 @@ package com.enums;
 
 import lombok.Getter;
 
-import static com.launcher.constants.ThemeFilePath.*;
+import static com.presentation.constants.ThemeFilePath.*;
 
 @Getter
 public enum Theme implements DescribableEnum {

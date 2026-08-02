@@ -24,7 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import static com.launcher.constants.StringResource.DisplayString.EMPTY_DATA_STAT;
+import static com.presentation.constants.StringResource.DisplayString.EMPTY_DATA_STAT;
 
 @Service
 @RequiredArgsConstructor

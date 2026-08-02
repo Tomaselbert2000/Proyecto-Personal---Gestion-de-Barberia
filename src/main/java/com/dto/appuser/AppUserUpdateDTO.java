@@ -4,9 +4,9 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
-import static com.launcher.constants.ConstraintViolationMessages.AppUserConstraintSubject.APP_PASSWORD_STRING;
-import static com.launcher.constants.ConstraintViolationMessages.AppUserConstraintSubject.APP_USERNAME_STRING;
-import static com.launcher.constants.ConstraintViolationMessages.MessagePredicates.*;
+import static com.presentation.constants.ConstraintViolationMessages.AppUserConstraintSubject.APP_PASSWORD_STRING;
+import static com.presentation.constants.ConstraintViolationMessages.AppUserConstraintSubject.APP_USERNAME_STRING;
+import static com.presentation.constants.ConstraintViolationMessages.MessagePredicates.*;
 import static com.validation.common.CommonConstants.MAX_NAME_LENGTH;
 
 @Getter

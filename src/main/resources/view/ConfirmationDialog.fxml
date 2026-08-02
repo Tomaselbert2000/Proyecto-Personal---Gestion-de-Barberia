@@ -5,7 +5,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.*?>
 <StackPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17.0.12"
-           fx:controller="com.launcher.controller.dialog.ConfirmationDialogController">
+           fx:controller="com.presentation.component.dialog.ConfirmationDialogController">
 
     <VBox alignment="CENTER" maxWidth="-Infinity" maxHeight="-Infinity" spacing="24" styleClass="md-card">
         <padding>

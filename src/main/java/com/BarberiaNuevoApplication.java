@@ -1,6 +1,6 @@
 package com;
 
-import com.launcher.ui.JavafxApplication;
+import com.presentation.bootstrap.BarberiaJavaFxApplication;
 import javafx.application.Application;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -11,6 +11,6 @@ public class BarberiaNuevoApplication {
 
     static void main(String[] args) {
 
-        Application.launch(JavafxApplication.class, args);
+        Application.launch(BarberiaJavaFxApplication.class, args);
     }
 }
