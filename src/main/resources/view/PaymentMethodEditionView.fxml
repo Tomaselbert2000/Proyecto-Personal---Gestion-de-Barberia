@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1"
+            xmlns="http://javafx.com/javafx/17.0.12"
+            fx:id="anchor_pane"
+            fx:controller="com.launcher.controller.payment_method.PaymentMethodEditionController">
+
+    <VBox
+            AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0"
+            AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+
+        <!-- Header del Panel -->
+        <HBox alignment="CENTER_LEFT" spacing="16">
+            <padding>
+                <Insets top="16" right="24" bottom="16" left="24"/>
+            </padding>
+
+            <MFXButton fx:id="back_button" styleClass="md-button-outlined" text="Volver">
+                <graphic>
+                    <Region styleClass="arrow-up-circle-icon, md-icon-small"/>
+                </graphic>
+            </MFXButton>
+
+            <VBox spacing="2">
+                <Label styleClass="md-headline-medium" text="Editar Medio de Pago"/>
+                <Label styleClass="md-body-medium" text="Modifica la información del medio de pago"/>
+            </VBox>
+        </HBox>
+
+        <!-- Contenido Principal -->
+        <ScrollPane fitToHeight="true" fitToWidth="true"
+                    style="-fx-background-color: transparent; -fx-background: transparent;"
+                    VBox.vgrow="ALWAYS">
+            <VBox spacing="24">
+                <padding>
+                    <Insets top="20" right="24" bottom="24" left="24"/>
+                </padding>
+
+                <!-- Formulario de Medio de Pago -->
+                <VBox styleClass="md-card" spacing="16">
+                    <padding>
+                        <Insets top="20" right="20" bottom="20" left="20"/>
+                    </padding>
+
+                    <!-- Header de Sección con Ícono -->
+                    <HBox alignment="CENTER_LEFT" spacing="8">
+                        <Region styleClass="payments-icon, md-icon-medium, md-icon-primary"/>
+                        <Label styleClass="md-title-medium" text="Datos del Medio de Pago"/>
+                    </HBox>
+
+                    <GridPane hgap="16" vgap="16">
+                        <columnConstraints>
+                            <ColumnConstraints hgrow="ALWAYS" percentWidth="50"/>
+                            <ColumnConstraints hgrow="ALWAYS" percentWidth="50"/>
+                        </columnConstraints>
+
+                        <!-- Nombre -->
+                        <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                            <HBox spacing="4">
+                                <Label styleClass="md-label-medium" text="Nombre"/>
+                                <Label styleClass="md-label-medium, md-input-error" text="*"/>
+                            </HBox>
+                            <TextField fx:id="name_field" promptText="Ej: Tarjeta de crédito"
+                                       styleClass="md-text-field" maxWidth="Infinity"/>
+                        </VBox>
+
+                        <!-- Tipo de Modificador -->
+                        <VBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                            <HBox spacing="4">
+                                <Label styleClass="md-label-medium" text="Tipo de Modificador"/>
+                                <Label styleClass="md-label-medium, md-input-error" text="*"/>
+                            </HBox>
+                            <ComboBox fx:id="modifier_type_combo" promptText="Seleccionar tipo"
+                                      styleClass="md-combo-box" maxWidth="Infinity"/>
+                        </VBox>
+
+                        <!-- Descripción -->
+                        <VBox spacing="4" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="1">
+                            <Label styleClass="md-label-medium" text="Descripción"/>
+                            <TextField fx:id="description_field"
+                                       promptText="Descripción del método de pago"
+                                       styleClass="md-text-field" maxWidth="Infinity"/>
+                        </VBox>
+
+                        <!-- Modificador de Precio -->
+                        <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                            <HBox spacing="4">
+                                <Label styleClass="md-label-medium" text="Modificador de Precio"/>
+                                <Label styleClass="md-label-medium, md-input-error" text="*"/>
+                            </HBox>
+                            <TextField fx:id="price_modifier_field" promptText="Ej: 100"
+                                       styleClass="md-text-field" maxWidth="Infinity"/>
+                        </VBox>
+
+                        <!-- Estado Activo -->
+                        <VBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                            <Label styleClass="md-label-medium" text="Estado"/>
+                            <CheckBox fx:id="is_active_check" text="Activo"
+                                      styleClass="md-check-box"/>
+                        </VBox>
+                    </GridPane>
+                </VBox>
+
+                <!-- Botones de Acción -->
+                <HBox spacing="12" alignment="CENTER_RIGHT">
+                    <MFXButton fx:id="reset_form_button" styleClass="md-button-text" text="Restaurar valores"/>
+                    <MFXButton fx:id="save_button" styleClass="md-button-filled" text="Actualizar medio de pago">
+                        <graphic>
+                            <Region styleClass="done-all-icon, md-icon-small, md-icon-on-surface"/>
+                        </graphic>
+                    </MFXButton>
+                </HBox>
+
+            </VBox>
+        </ScrollPane>
+    </VBox>
+</AnchorPane>
