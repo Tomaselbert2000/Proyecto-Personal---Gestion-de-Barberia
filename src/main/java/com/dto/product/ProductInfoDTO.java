@@ -14,7 +14,7 @@ public class ProductInfoDTO {
     private String name;
     private Double productCost;
     private Double currentPrice;
-    private Double currentProfitPercentage;
+    private Double calculatedProfit;
     private Integer currentStockLevel;
     private Integer safetyStockLevel;
     private StockStatus currentStockStatus;

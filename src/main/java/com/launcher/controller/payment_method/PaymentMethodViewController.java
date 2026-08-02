@@ -1,6 +1,6 @@
 package com.launcher.controller.payment_method;
 
-import com.dto.payment.PaymentMethodInfoDTO;
+import com.dto.paymentmethod.PaymentMethodInfoDTO;
 import com.enums.PaymentMethodModifierType;
 import com.enums.PaymentMethodStatus;
 import com.service.interfaces.PaymentMethodService;

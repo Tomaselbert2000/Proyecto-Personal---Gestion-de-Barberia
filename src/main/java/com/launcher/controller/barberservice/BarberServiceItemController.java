@@ -1,6 +1,6 @@
 package com.launcher.controller.barberservice;
 
-import com.dto.barbershopservice.BarberServiceInfoDTO;
+import com.dto.barberservice.BarberServiceInfoDTO;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;

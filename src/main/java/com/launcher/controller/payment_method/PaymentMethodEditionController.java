@@ -1,7 +1,7 @@
 package com.launcher.controller.payment_method;
 
-import com.dto.payment.PaymentMethodInfoDTO;
-import com.dto.payment.PaymentMethodUpdateDTO;
+import com.dto.paymentmethod.PaymentMethodInfoDTO;
+import com.dto.paymentmethod.PaymentMethodUpdateDTO;
 import com.enums.PaymentMethodModifierType;
 import com.enums.ToastNotificationType;
 import com.exceptions.paymentmethod.DuplicatedPaymentMethodNameException;

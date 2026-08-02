@@ -1,7 +1,7 @@
 package com.launcher.controller.settings;
 
 import com.config.preferences.AppPreferences;
-import com.dto.credentials_management.CredentialsUpdateDTO;
+import com.dto.credentials.CredentialsUpdateDTO;
 import com.dto.settings.SettingsUpdateDTO;
 import com.enums.Theme;
 import com.enums.ToastNotificationType;

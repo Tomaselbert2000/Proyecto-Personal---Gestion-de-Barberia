@@ -33,7 +33,8 @@ import static com.launcher.controller.helper.ComboBoxHelper.loadEnumsOnComboBox;
 import static com.launcher.controller.helper.ContainerManager.*;
 import static com.launcher.controller.helper.FXMLViewLoader.*;
 import static com.launcher.controller.helper.UIBasicComponents.*;
-import static com.launcher.controller.helper.ValidationFormatter.*;
+import static com.launcher.controller.helper.ValidationFormatter.parseNumberValueToText;
+import static com.launcher.controller.helper.ValidationFormatter.setStringConverter;
 
 @Component
 @RequiredArgsConstructor
@@ -48,11 +49,13 @@ public class ProductViewController {
     @FXML
     private Label
             product_count,
-            products_created_this_month,
-            critical_stock_level_product_count,
-            low_stock_level_product_count,
+            products_on_low_or_critical_stock,
+            most_sold_product_name,
+            amount_of_sales,
+            highest_revenue,
+            total_revenue,
             total_stock_value,
-            total_stock_value_vs_last_month,
+            total_stock_units,
             products_found_count;
 
     @FXML
@@ -78,10 +81,9 @@ public class ProductViewController {
         List<ProductInfoDTO> products = productService.getProductsList();
 
         loadTotalProductCountStats();
-
-        loadStockLevelStats();
-
-        loadTotalStockValue();
+        loadMostSoldStats();
+        loadRevenueStats();
+        loadStockValueStats();
 
         loadEnumsOnComboBox(product_category_selector, ProductCategory.values());
         loadEnumsOnComboBox(product_stock_status_selector, StockStatus.values());
@@ -98,54 +100,43 @@ public class ProductViewController {
     private void loadTotalProductCountStats() {
 
         executeUITask(
-                () -> {
-                    Long productCount = productService.getProductsRegisteredCount();
-                    Long productsCreatedThisMonth = productService.getProductsCreatedThisMonth();
-
-                    return List.of(productCount, productsCreatedThisMonth);
-                },
-                uiActionValues -> {
-
-                    Map<Label, String> map = Map.ofEntries(
-                            Map.entry(product_count, parseNumberValueToText(uiActionValues.getFirst())),
-                            Map.entry(products_created_this_month, parseNumberValueToText(uiActionValues.getLast())),
-                            Map.entry(products_found_count, parseNumberValueToText(uiActionValues.getFirst()) + " productos encontrados"));
-
-                    setTextsOnLabelMap(map);
+                productService::getProductCountAndStockStats,
+                productTotalStockStatsDTO -> {
+                    setTextOnLabel(product_count, parseNumberValueToText(productTotalStockStatsDTO.getProductCount()));
+                    setTextOnLabel(products_on_low_or_critical_stock, parseNumberValueToText(productTotalStockStatsDTO.getOnLowOrCriticalStockCount()) + " con stock Bajo o Crítico");
                 }
         );
     }
 
-    private void loadStockLevelStats() {
+    private void loadMostSoldStats() {
 
         executeUITask(
-                () -> {
-                    Long productsWithCriticalStockLevel = productService.getProductsOnCriticalStockCount();
-                    Long productsWithLowStockLevel = productService.getProductsOnLowStock();
-
-                    return List.of(productsWithCriticalStockLevel, productsWithLowStockLevel);
-                },
-                uiActionValues -> {
-
-                    setTextOnLabel(critical_stock_level_product_count, parseNumberValueToText(uiActionValues.getFirst()));
-                    setTextOnLabel(low_stock_level_product_count, parseNumberValueToText(uiActionValues.getLast()));
+                productService::getProductMostSoldStats,
+                productMostSoldStatsDTO -> {
+                    setTextOnLabel(most_sold_product_name, productMostSoldStatsDTO.getProductName());
+                    setTextOnLabel(amount_of_sales, parseNumberValueToText(productMostSoldStatsDTO.getUnitsSold()) + " unidades vendidas");
                 }
         );
     }
 
-    private void loadTotalStockValue() {
+    private void loadRevenueStats() {
 
         executeUITask(
-                () -> {
-                    Double currentTotalStockValue = productService.calculateTotalStockValue();
-                    Double totalStockValuePercentageVariationVsLastMonth = productService.calculateTotalStockValuePercentageVariationVsLastMonth();
+                productService::getProductHighestRevenueStats,
+                productHighestRevenueStatsDTO -> {
+                    setTextOnLabel(highest_revenue, productHighestRevenueStatsDTO.getProductName());
+                    setTextOnLabel(total_revenue, CURRENCY_STRING_ARG + parseNumberValueToText(productHighestRevenueStatsDTO.getRevenue()));
+                }
+        );
+    }
 
-                    return List.of(currentTotalStockValue, totalStockValuePercentageVariationVsLastMonth);
-                },
-                uiActionValues -> {
+    private void loadStockValueStats() {
 
-                    setTextOnLabel(total_stock_value, CURRENCY_STRING_ARG + parseNumberValueToText(uiActionValues.getFirst()));
-                    setTextOnLabel(total_stock_value_vs_last_month, formatAsPercentage(uiActionValues.getLast()) + "%");
+        executeUITask(
+                productService::getProductStockValueStat,
+                productStockValueStatDTO -> {
+                    setTextOnLabel(total_stock_value, CURRENCY_STRING_ARG + parseNumberValueToText(productStockValueStatDTO.getTotalStockValue()));
+                    setTextOnLabel(total_stock_units, "En " + parseNumberValueToText(productStockValueStatDTO.getTotalUnits()) + " unidades físicas");
                 }
         );
     }
@@ -159,6 +150,8 @@ public class ProductViewController {
         } else {
 
             for (int i = 0; i < products.size(); i++) {
+
+                setTextOnLabel(products_found_count, parseNumberValueToText(products.size()));
 
                 ProductInfoDTO infoDTO = products.get(i);
 

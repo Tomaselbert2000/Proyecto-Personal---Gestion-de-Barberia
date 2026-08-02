@@ -1,6 +1,6 @@
 package com.launcher.controller.dashboard;
 
-import com.dto.dashboard.RecentActivityDTO;
+import com.dto.activity.RecentActivityDTO;
 import com.enums.ViewRedirection;
 import com.service.interfaces.*;
 import io.github.palexdev.materialfx.controls.MFXButton;

@@ -65,7 +65,7 @@ public class ProductItemController {
     private static @NonNull List<String> getStrings(ProductInfoDTO infoDTO, String name, String stockStatusText) {
         String productCost = formatAsPrice(infoDTO.getProductCost());
         String productPrice = formatAsPrice(infoDTO.getCurrentPrice());
-        String profit = formatAsPercentage(infoDTO.getCurrentProfitPercentage());
+        String profit = formatAsPercentage(infoDTO.getCalculatedProfit());
         String currentStock = infoDTO.getCurrentStockLevel().toString();
         String safetyStock = "Min: " + infoDTO.getSafetyStockLevel().toString();
 

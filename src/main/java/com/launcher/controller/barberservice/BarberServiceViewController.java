@@ -1,6 +1,6 @@
 package com.launcher.controller.barberservice;
 
-import com.dto.barbershopservice.BarberServiceInfoDTO;
+import com.dto.barberservice.BarberServiceInfoDTO;
 import com.enums.BarberServiceCategory;
 import com.enums.PriceRanges;
 import com.enums.ToastNotificationType;
@@ -45,7 +45,8 @@ import static com.launcher.controller.helper.DialogHelper.showConfirmationDialog
 import static com.launcher.controller.helper.FXMLViewLoader.*;
 import static com.launcher.controller.helper.ToastNotificationHelper.showToastNotification;
 import static com.launcher.controller.helper.UIBasicComponents.*;
-import static com.launcher.controller.helper.ValidationFormatter.*;
+import static com.launcher.controller.helper.ValidationFormatter.parseNumberValueToText;
+import static com.launcher.controller.helper.ValidationFormatter.setStringConverter;
 import static com.launcher.controller.helper.ViewRedirectionHelper.redirectToView;
 
 @Component
@@ -69,8 +70,8 @@ public class BarberServiceViewController {
             amount_of_sales,
             highest_revenue_service,
             revenue_sum,
-            average_price,
-            average_price_percentage_vs_last_month;
+            lowest_used_service,
+            times_used;
 
     @FXML
     private TextField service_search_field;
@@ -104,27 +105,28 @@ public class BarberServiceViewController {
 
     private void loadServicesStats() {
         loadActiveServicesStats();
-        loadServicesCreatedThisMonthVsLastMonth();
-        loadServicesStatsByCategory();
+        loadMostValuableBarberServiceStats();
         loadHighestRevenueStats();
-        loadAveragePriceStats();
+        loadLeastUsedStats();
     }
 
     private void loadActiveServicesStats() {
-        executeUITask(barberService::getServiceCount, uiActionValue -> setTextOnLabel(active_service_count, parseNumberValueToText(uiActionValue)));
-        executeUITask(barberService::calculateServicesCreatedThisMonthVsLastMonth, uiActionValue -> setTextOnLabel(active_category_count, parseNumberValueToText(uiActionValue)));
+
+        executeUITask(
+                barberService::getActiveOnCatalogStats,
+                barberServiceActiveCatalogStatsDTO -> {
+                    setTextOnLabel(active_service_count, parseNumberValueToText(barberServiceActiveCatalogStatsDTO.getAmountOfActiveServices()));
+                    setTextOnLabel(active_category_count, "En " + parseNumberValueToText(barberServiceActiveCatalogStatsDTO.getAmountOfDifferentCategories()) + " categorias distintas");
+                }
+        );
     }
 
-    private void loadServicesCreatedThisMonthVsLastMonth() {
-        executeUITask(barberService::calculateServicesCreatedThisMonthVsLastMonth, uiActionValue -> setTextOnLabel(active_category_count, parseNumberValueToText(uiActionValue)));
-    }
-
-    private void loadServicesStatsByCategory() {
+    private void loadMostValuableBarberServiceStats() {
         executeUITask(
                 saleService::getBarberServiceWithMostSales,
                 barberServiceSalesStatsDTO -> {
                     setTextOnLabel(barber_service_with_most_sales, barberServiceSalesStatsDTO.getBarberServiceName());
-                    setTextOnLabel(amount_of_sales, parseNumberValueToText(barberServiceSalesStatsDTO.getAmountOfSales()));
+                    setTextOnLabel(amount_of_sales, parseNumberValueToText(barberServiceSalesStatsDTO.getAmountOfSales()) + " ventas realizadas");
                 }
         );
     }
@@ -134,16 +136,19 @@ public class BarberServiceViewController {
                 saleService::getBarberServiceWithHighestRevenue,
                 barberServiceRevenueStatsDTO -> {
                     setTextOnLabel(highest_revenue_service, barberServiceRevenueStatsDTO.getBarberServiceName());
-                    setTextOnLabel(revenue_sum, parseNumberValueToText(barberServiceRevenueStatsDTO.getTotalRevenue()));
+                    setTextOnLabel(revenue_sum, "Total recaudado " + CURRENCY_STRING_ARG + parseNumberValueToText(barberServiceRevenueStatsDTO.getTotalRevenue()));
                 }
         );
     }
 
-    private void loadAveragePriceStats() {
-        executeUITask(() -> List.of(barberService.getAveragePrice(), barberService.getAveragePricePercentageVsLastMonth()), uiActionValues -> {
-            setTextOnLabel(average_price, CURRENCY_STRING_ARG + parseNumberValueToText(uiActionValues.getFirst()));
-            setTextOnLabel(average_price_percentage_vs_last_month, formatAsPercentage(uiActionValues.getLast()) + "%");
-        });
+    private void loadLeastUsedStats() {
+        executeUITask(
+                saleService::getBarberServiceWithLowestUsage,
+                barberServiceLeastUsedStatsDTO -> {
+                    setTextOnLabel(lowest_used_service, barberServiceLeastUsedStatsDTO.getBarberServiceName());
+                    setTextOnLabel(times_used, "Solo " + parseNumberValueToText(barberServiceLeastUsedStatsDTO.getTotalUsage()) + " realizados");
+                }
+        );
     }
 
     private void goToBarberServiceEditionView(BarberServiceInfoDTO infoDTO) {
@@ -221,8 +226,3 @@ public class BarberServiceViewController {
         cleanComboBoxes(service_category_selector, service_price_range_selector);
     }
 }
-//TODO: rehacer toda la documentación de esta clase
-// refactorizar estadísticas
-// limpiar métodos sin uso
-// modificar iconos de ser necesario
-// eliminar tags de texto en el FXML

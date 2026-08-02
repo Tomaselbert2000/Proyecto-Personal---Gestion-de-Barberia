@@ -1,6 +1,6 @@
 package com.launcher.controller.payment_method;
 
-import com.dto.payment.PaymentMethodCreationDTO;
+import com.dto.paymentmethod.PaymentMethodCreationDTO;
 import com.enums.PaymentMethodModifierType;
 import com.enums.ToastNotificationType;
 import com.enums.ViewRedirection;

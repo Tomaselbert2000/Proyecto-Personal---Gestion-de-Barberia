@@ -4,7 +4,7 @@
  */
 package com.launcher.controller.barberservice;
 
-import com.dto.barbershopservice.BarberServiceCreationDTO;
+import com.dto.barberservice.BarberServiceCreationDTO;
 import com.enums.BarberServiceCategory;
 import com.enums.ToastNotificationType;
 import com.enums.ViewRedirection;

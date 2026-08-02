@@ -1,7 +1,7 @@
 package com.launcher.controller.barberservice;
 
-import com.dto.barbershopservice.BarberServiceInfoDTO;
-import com.dto.barbershopservice.BarberServiceUpdateDTO;
+import com.dto.barberservice.BarberServiceInfoDTO;
+import com.dto.barberservice.BarberServiceUpdateDTO;
 import com.enums.BarberServiceCategory;
 import com.enums.ToastNotificationType;
 import com.enums.ViewRedirection;

@@ -1,6 +1,6 @@
 package com.launcher.controller.dashboard;
 
-import com.dto.dashboard.RecentActivityDTO;
+import com.dto.activity.RecentActivityDTO;
 import com.enums.EventType;
 import com.utils.time.TimeCalculation;
 import javafx.fxml.FXML;

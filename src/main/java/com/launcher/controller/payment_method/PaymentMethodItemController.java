@@ -1,6 +1,6 @@
 package com.launcher.controller.payment_method;
 
-import com.dto.payment.PaymentMethodInfoDTO;
+import com.dto.paymentmethod.PaymentMethodInfoDTO;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;

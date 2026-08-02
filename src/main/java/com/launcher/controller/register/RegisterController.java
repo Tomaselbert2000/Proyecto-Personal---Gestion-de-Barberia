@@ -1,6 +1,6 @@
 package com.launcher.controller.register;
 
-import com.dto.app_user.AppUserCreationDTO;
+import com.dto.appuser.AppUserCreationDTO;
 import com.enums.ViewRedirection;
 import com.exceptions.appuser.UsernameTakenException;
 import com.service.interfaces.AppUserService;
