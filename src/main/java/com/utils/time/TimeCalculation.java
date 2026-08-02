@@ -3,7 +3,6 @@ package com.utils.time;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.temporal.TemporalAdjusters;
 
 public class TimeCalculation {
 
@@ -48,21 +47,4 @@ public class TimeCalculation {
         return today.withDayOfMonth(today.lengthOfMonth());
     }
 
-    public static LocalDateTime getStartOfLastMonth() {
-
-        LocalDate today = getCurrentDate();
-
-        LocalDate theLastMonth = today.minusMonths(1);
-
-        return theLastMonth.with(TemporalAdjusters.firstDayOfMonth()).atTime(FIRST_SECOND_OF_DAY);
-    }
-
-    public static LocalDateTime getEndOfLastMonth() {
-
-        LocalDate today = getCurrentDate();
-
-        LocalDate theLastMonth = today.minusMonths(1);
-
-        return theLastMonth.with(TemporalAdjusters.lastDayOfMonth()).atTime(LAST_SECOND_OF_DAY);
-    }
 }
