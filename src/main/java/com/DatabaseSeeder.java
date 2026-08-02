@@ -42,6 +42,7 @@ public class DatabaseSeeder implements CommandLineRunner {
     private static final String SERVICE_NAME = "Corte de pelo + barba";
     private static final Double PRICE = 15000.0;
     private static final BarberServiceCategory BARBER_SERVICE_CATEGORY = BarberServiceCategory.CORTE_Y_BARBA;
+    private static final Boolean IS_CURRENTLY_ACTIVE = true;
 
     // ============================================================================
     // APPOINTMENT CONSTANTS
@@ -215,6 +216,7 @@ public class DatabaseSeeder implements CommandLineRunner {
                 .name(SERVICE_NAME)
                 .price(PRICE)
                 .serviceCategory(BARBER_SERVICE_CATEGORY)
+                .isCurrentlyActive(IS_CURRENTLY_ACTIVE)
                 .build();
     }
 
