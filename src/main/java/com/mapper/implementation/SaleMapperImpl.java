@@ -27,7 +27,15 @@ public class SaleMapperImpl implements SaleMapper {
 
         if (creationDTO == null || client == null || paymentMethod == null) throw new NullMapperInputException();
 
-        Double saleTotal = calculateSaleTotal(barberService, saleItemList, paymentMethod);
+        double saleTotal = calculateSaleTotal(barberService, saleItemList);
+        double saleTotalModifierValue = 0.0;
+
+        switch (paymentMethod.getModifierType()) {
+
+            case DESCUENTO -> saleTotalModifierValue = -(saleTotal * paymentMethod.getPriceModifier());
+            case RECARGO -> saleTotalModifierValue = (saleTotal * paymentMethod.getPriceModifier());
+            case NINGUNO -> saleTotalModifierValue = 0.0;
+        }
 
         Sale newSale = Sale.builder()
                 .dateAndTime(creationDTO.getDateAndTime())
@@ -36,7 +44,8 @@ public class SaleMapperImpl implements SaleMapper {
                 .barberService(barberService)
                 .items(saleItemList)
                 .paymentMethodUsed(paymentMethod)
-                .total(saleTotal)
+                .total(saleTotal + saleTotalModifierValue)
+                .modifierValue(saleTotalModifierValue)
                 .build();
 
         if (saleItemList != null) {
@@ -85,7 +94,7 @@ public class SaleMapperImpl implements SaleMapper {
         return saleList.stream().map(this::mapSaleToInfoDTO).collect(Collectors.toList());
     }
 
-    private Double calculateSaleTotal(BarberService barberService, List<SaleItem> saleItemList, PaymentMethod paymentMethod) {
+    private Double calculateSaleTotal(BarberService barberService, List<SaleItem> saleItemList) {
 
         double serviceTotal = (barberService != null) ? barberService.getPrice() : 0.0;
         double itemListTotal = 0.0;
@@ -100,24 +109,7 @@ public class SaleMapperImpl implements SaleMapper {
             }
         }
 
-        Double totalAfterCalculations = serviceTotal + itemListTotal;
-
-        switch (paymentMethod.getModifierType()) {
-
-            case DESCUENTO -> {
-
-                return totalAfterCalculations - (totalAfterCalculations * paymentMethod.getPriceModifier());
-            }
-            case RECARGO -> {
-
-                return totalAfterCalculations + (totalAfterCalculations * paymentMethod.getPriceModifier());
-            }
-            case NINGUNO -> {
-
-                return totalAfterCalculations;
-            }
-        }
-        return null;
+        return serviceTotal + itemListTotal;
     }
 
     private ServiceRecord generateServiceRecord(Client client, Employee employee, BarberService barberService, Sale newSale) {

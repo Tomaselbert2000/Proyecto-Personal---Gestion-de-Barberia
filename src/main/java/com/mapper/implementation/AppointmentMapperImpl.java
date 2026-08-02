@@ -89,21 +89,6 @@ public class AppointmentMapperImpl implements AppointmentMapper {
         return appointmentList.stream().map(this::mapAppointmentToInfoDto).collect(Collectors.toList());
     }
 
-    @Override
-    public AppointmentUpdateDTO mapAppointmentToUpdateDTO(Appointment appointment) {
-
-        if (appointment == null) throw new NullMapperInputException();
-
-        return AppointmentUpdateDTO.builder()
-                .newEmployeeID(appointment.getEmployee().getEmployeeID())
-                .newBarberserviceID(appointment.getBarberservice().getBarbershopServiceID())
-                .newStartDateTime(appointment.getStartDateTime())
-                .newEndDateTime(appointment.getEndDateTime())
-                .newStatus(appointment.getCurrentStatus())
-                .optionalNotes(appointment.getOptionalNotes())
-                .build();
-    }
-
     private void setUpdatedDataOnEntity(AppointmentUpdateDTO updateDTO, Employee employee, BarberService service, Appointment appointmentOnDB) {
 
         if (service != null) appointmentOnDB.setBarberservice(service);

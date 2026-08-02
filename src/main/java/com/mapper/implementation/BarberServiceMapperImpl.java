@@ -1,8 +1,8 @@
 package com.mapper.implementation;
 
-import com.dto.barbershopservice.BarberServiceCreationDTO;
-import com.dto.barbershopservice.BarberServiceInfoDTO;
-import com.dto.barbershopservice.BarberServiceUpdateDTO;
+import com.dto.barberservice.BarberServiceCreationDTO;
+import com.dto.barberservice.BarberServiceInfoDTO;
+import com.dto.barberservice.BarberServiceUpdateDTO;
 import com.exceptions.common.NullMapperInputException;
 import com.mapper.interfaces.BarberServiceMapper;
 import com.model.BarberService;
@@ -42,6 +42,7 @@ public class BarberServiceMapperImpl implements BarberServiceMapper {
                 .serviceCategory(creationDTO.getServiceCategory())
                 .registrationTimestamp(registrationTimestamp)
                 .internalNotes(internalNotes)
+                .isCurrentlyActive(true)
                 .build();
     }
 
@@ -88,6 +89,8 @@ public class BarberServiceMapperImpl implements BarberServiceMapper {
 
         if (updateDTO.getInternalNotes() != null)
             barberService.setInternalNotes(StringCleaner.formatAsSentence(updateDTO.getInternalNotes()));
+
+        if (updateDTO.getIsCurrentlyActive() != null) barberService.setIsCurrentlyActive(updateDTO.getIsCurrentlyActive());
 
         LocalDateTime modificationTimestamp = LocalDateTime.now();
 

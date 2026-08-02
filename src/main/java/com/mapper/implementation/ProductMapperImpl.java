@@ -3,7 +3,6 @@ package com.mapper.implementation;
 import com.dto.product.ProductCreationDTO;
 import com.dto.product.ProductInfoDTO;
 import com.dto.product.ProductUpdateDTO;
-import com.enums.StockStatus;
 import com.exceptions.common.NullMapperInputException;
 import com.mapper.interfaces.ProductMapper;
 import com.model.Product;
@@ -17,11 +16,6 @@ import static com.utils.strings.StringCleaner.formatAsSentence;
 
 @Component
 public class ProductMapperImpl implements ProductMapper {
-
-    private static final Double MIN_COST_NUMERICAL_VALUE = 0.0;
-    private static final Double CRITICAL_STOCK_PERCENTAGE = 0.25;
-    private static final Double ATTENTION_TO_STOCK_PERCENTAGE = 1.5;
-    private static final Double OVERSTOCKED_PERCENTAGE = 2.0;
 
     @Override
     public Product mapProductCreationDTOtoEntity(ProductCreationDTO creationDTO) {
@@ -64,19 +58,17 @@ public class ProductMapperImpl implements ProductMapper {
 
         if (product == null) throw new NullMapperInputException();
 
-        Double profitPercentage = calculateCurrentProfit(product);
-
-        StockStatus currentStatus = retrieveCurrentStatus(product);
+        product.retrieveCurrentStockStatus();
 
         return ProductInfoDTO.builder()
                 .id(product.getProductID())
                 .name(product.getName())
                 .productCost(product.getProductCost())
                 .currentPrice(product.getCurrentPrice())
-                .currentProfitPercentage(profitPercentage)
+                .calculatedProfit(product.calculateCurrentProfit())
                 .currentStockLevel(product.getCurrentStockLevel())
                 .safetyStockLevel(product.getSafetyStockLevel())
-                .currentStockStatus(currentStatus)
+                .currentStockStatus(product.getStockStatus())
                 .imageFilePath(product.getImageFilePath())
                 .build();
     }
@@ -142,41 +134,5 @@ public class ProductMapperImpl implements ProductMapper {
         if (updateDTO.getSafetyStockLevel() != null) product.setSafetyStockLevel(updateDTO.getSafetyStockLevel());
 
         if (updateDTO.getImageFilePath() != null) product.setImageFilePath(updateDTO.getImageFilePath());
-    }
-
-    private Double calculateCurrentProfit(Product product) {
-
-        Double cost = product.getProductCost();
-        Double price = product.getCurrentPrice();
-
-        if (cost > MIN_COST_NUMERICAL_VALUE) {
-
-            return profitResult(cost, price);
-        }
-
-        return 0.0;
-    }
-
-    private Double profitResult(Double cost, Double price) {
-
-        return ((price - cost) / cost) * 100;
-    }
-
-    private StockStatus retrieveCurrentStatus(Product product) {
-
-        Integer currentLevel = product.getCurrentStockLevel();
-        Integer safetyLevel = product.getSafetyStockLevel();
-
-        if (currentLevel == null || safetyLevel == null) return StockStatus.SUFICIENTE;
-
-        if (currentLevel <= (safetyLevel * CRITICAL_STOCK_PERCENTAGE)) return StockStatus.CRITICO;
-
-        if (currentLevel <= safetyLevel) return StockStatus.BAJO;
-
-        if (currentLevel <= (safetyLevel * ATTENTION_TO_STOCK_PERCENTAGE)) return StockStatus.ATENCION;
-
-        if (currentLevel >= (safetyLevel * OVERSTOCKED_PERCENTAGE)) return StockStatus.EXCEDIDO;
-
-        return StockStatus.SUFICIENTE;
     }
 }

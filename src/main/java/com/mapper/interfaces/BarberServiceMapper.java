@@ -1,8 +1,8 @@
 package com.mapper.interfaces;
 
-import com.dto.barbershopservice.BarberServiceCreationDTO;
-import com.dto.barbershopservice.BarberServiceInfoDTO;
-import com.dto.barbershopservice.BarberServiceUpdateDTO;
+import com.dto.barberservice.BarberServiceCreationDTO;
+import com.dto.barberservice.BarberServiceInfoDTO;
+import com.dto.barberservice.BarberServiceUpdateDTO;
 import com.model.BarberService;
 
 import java.util.List;

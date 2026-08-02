@@ -1,8 +1,8 @@
 package com.mapper.implementation;
 
-import com.dto.payment.PaymentMethodCreationDTO;
-import com.dto.payment.PaymentMethodInfoDTO;
-import com.dto.payment.PaymentMethodUpdateDTO;
+import com.dto.paymentmethod.PaymentMethodCreationDTO;
+import com.dto.paymentmethod.PaymentMethodInfoDTO;
+import com.dto.paymentmethod.PaymentMethodUpdateDTO;
 import com.exceptions.common.NullMapperInputException;
 import com.mapper.interfaces.PaymentMethodMapper;
 import com.model.PaymentMethod;
@@ -56,6 +56,7 @@ public class PaymentMethodMapperImpl implements PaymentMethodMapper {
         if (paymentMethod == null) throw new NullMapperInputException();
 
         return PaymentMethodInfoDTO.builder()
+                .id(paymentMethod.getPaymentMethodID())
                 .name(paymentMethod.getName())
                 .description(paymentMethod.getDescription())
                 .modifierType(paymentMethod.getModifierType())
