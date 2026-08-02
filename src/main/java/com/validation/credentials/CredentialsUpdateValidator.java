@@ -1,6 +1,6 @@
 package com.validation.credentials;
 
-import com.dto.credentials_management.CredentialsUpdateDTO;
+import com.dto.credentials.CredentialsUpdateDTO;
 import com.exceptions.credentials.PasswordMismatchException;
 import jakarta.validation.Validator;
 import lombok.RequiredArgsConstructor;

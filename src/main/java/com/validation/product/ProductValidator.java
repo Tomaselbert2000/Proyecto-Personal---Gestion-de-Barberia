@@ -1,6 +1,6 @@
 package com.validation.product;
 
-import com.dto.product.ProductDTOCommonMethods;
+import com.dto.product.ProductInputDTO;
 import com.exceptions.product.InvalidProductCurrentPriceException;
 import jakarta.validation.Validator;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +15,7 @@ public class ProductValidator {
 
     private final Validator validatorEngine;
 
-    public <T extends ProductDTOCommonMethods> void validateDTO(T dto) {
+    public <T extends ProductInputDTO> void validateDTO(T dto) {
 
         checkIfDtoIsNull(dto);
 

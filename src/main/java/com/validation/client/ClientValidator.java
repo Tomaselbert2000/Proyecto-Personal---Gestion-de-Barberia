@@ -1,6 +1,6 @@
 package com.validation.client;
 
-import com.dto.client.ClientDTOCommonMethods;
+import com.dto.client.ClientInputDTO;
 import com.exceptions.client.DuplicatedPhoneInListException;
 import jakarta.validation.Validator;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +15,7 @@ public class ClientValidator {
 
     private final Validator validatorEngine;
 
-    public <T extends ClientDTOCommonMethods> void validateDTO(T dto) {
+    public <T extends ClientInputDTO> void validateDTO(T dto) {
 
         checkIfDtoIsNull(dto);
 
@@ -24,7 +24,7 @@ public class ClientValidator {
         validatePhoneNumberList(dto);
     }
 
-    private <T extends ClientDTOCommonMethods> void validatePhoneNumberList(T dto) {
+    private <T extends ClientInputDTO> void validatePhoneNumberList(T dto) {
 
         if (dto != null && dto.getPhoneNumbersList() != null && dto.getPhoneNumbersList().stream().distinct().count() < dto.getPhoneNumbersList().size()) {
 
