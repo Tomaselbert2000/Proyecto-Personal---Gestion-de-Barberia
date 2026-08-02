@@ -6,7 +6,7 @@ package com.launcher.controller.appointment;
 
 import com.dto.appointment.AppointmentInfoDTO;
 import com.dto.appointment.AppointmentUpdateDTO;
-import com.dto.barbershopservice.BarberServiceInfoDTO;
+import com.dto.barberservice.BarberServiceInfoDTO;
 import com.dto.employee.EmployeeInfoDTO;
 import com.enums.AppointmentStatus;
 import com.enums.ToastNotificationType;

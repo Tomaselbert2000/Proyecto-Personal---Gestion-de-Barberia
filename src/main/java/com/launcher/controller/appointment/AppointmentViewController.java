@@ -1,7 +1,3 @@
-/**
- * Controlador para la vista de citas. Se encarga de gestionar la lógica de negocio relacionada con la visualización y gestión de citas,
- * incluyendo la carga de datos, la interacción con el usuario y la redirección a otras vistas.
- */
 package com.launcher.controller.appointment;
 
 import com.dto.appointment.AppointmentInfoDTO;
@@ -37,7 +33,8 @@ import static com.launcher.controller.helper.ContainerManager.*;
 import static com.launcher.controller.helper.FXMLViewLoader.*;
 import static com.launcher.controller.helper.ToastNotificationHelper.showToastNotification;
 import static com.launcher.controller.helper.UIBasicComponents.*;
-import static com.launcher.controller.helper.ValidationFormatter.*;
+import static com.launcher.controller.helper.ValidationFormatter.parseNumberValueToText;
+import static com.launcher.controller.helper.ValidationFormatter.setStringConverter;
 
 @Component
 @RequiredArgsConstructor
@@ -54,14 +51,14 @@ public class AppointmentViewController {
 
     @FXML
     private Label
-            appointments_today,
+            appointments_schedule_for_today,
             completed_appointments_today,
-            scheduled_appointments,
-            new_appointments_scheduled_today,
-            appointments_this_month,
-            percentage_of_appointments_registered_vs_previous_month,
-            canceled_appointments,
-            canceled_appointments_vs_past_week,
+            pending_appointments,
+            appointments_scheduled_tomorrow,
+            current_month_appointment_count,
+            previous_month_appointment_count,
+            canceled_appointments_this_month,
+            cancelation_percentage,
             total_appointments_count;
 
     @FXML
@@ -89,9 +86,6 @@ public class AppointmentViewController {
         configureButtonActions();
     }
 
-    /**
-     * Carga la lista de citas en la vista.
-     */
     private void loadAppointmentsList() {
         List<AppointmentInfoDTO> appointmentInfoDTOList = appointmentService.getAppointmentsList();
         List<EmployeeInfoDTO> employees = appointmentService.getEmployeesFromServiceInstance();
@@ -102,11 +96,6 @@ public class AppointmentViewController {
         loadGenericTypeListOnComboBox(employee_selector, employees);
     }
 
-    /**
-     * Carga la lista de citas en el contenedor de la vista.
-     *
-     * @param appointmentInfoDTOList La lista de citas a cargar.
-     */
     private void loadAppointmentsListOnView(List<AppointmentInfoDTO> appointmentInfoDTOList) {
         if (appointmentInfoDTOList.isEmpty()) {
             showEmptyListLabel(EMPTY_APPOINTMENTS_LIST_MESSAGE, appointment_list_VBox);
@@ -126,11 +115,6 @@ public class AppointmentViewController {
         }
     }
 
-    /**
-     * Marca una cita como completada.
-     *
-     * @param dto La cita a marcar como completada.
-     */
     private void markAppointmentAsComplete(AppointmentInfoDTO dto) {
         try {
             appointmentService.markAppointmentAsComplete(dto);
@@ -140,11 +124,6 @@ public class AppointmentViewController {
         }
     }
 
-    /**
-     * Marca una cita como cancelada.
-     *
-     * @param dto La cita a marcar como cancelada.
-     */
     private void markAppointmentAsCanceled(AppointmentInfoDTO dto) {
         try {
             appointmentService.markAppointmentAsCanceled(dto);
@@ -154,18 +133,10 @@ public class AppointmentViewController {
         }
     }
 
-    /**
-     * Navega a la vista de creación de citas.
-     */
     private void goToAppointmentCreationView() {
         loadViewOnPane(APPOINTMENT_CREATION_VIEW_PATH, applicationContext, APPOINTMENT_CREATION_VIEW_LOADING_FAILED, anchor_pane);
     }
 
-    /**
-     * Navega a la vista de edición de citas.
-     *
-     * @param infoDTO La cita a editar.
-     */
     private void goToAppointmentEditionView(AppointmentInfoDTO infoDTO) {
         FXMLLoader loader = generateLoaderWithPath(APPOINTMENT_EDITION_VIEW_PATH);
         setControllerOnLoader(loader, applicationContext);
@@ -175,62 +146,61 @@ public class AppointmentViewController {
         setViewOnPaneCenter(anchor_pane, appointmentEditionView);
     }
 
-    /**
-     * Carga las estadísticas de citas en la vista.
-     */
     private void loadAppointmentsStats() {
-        statsOfAppointmentsScheduledForToday();
-        statsOfScheduledAppointmentsInTheFuture();
-        statsOfAppointmentsThisMonth();
-        statsOfCanceledAppointments();
+        loadAppointmentsTodayStats();
+        loadPendingAppointmentsStats();
+        loadMonthlyVolumeStats();
+        loadCanceledAppointmentsStats();
         totalAppointmentsFound();
     }
 
-    /**
-     * Carga las estadísticas de citas programadas para hoy.
-     */
-    private void statsOfAppointmentsScheduledForToday() {
-        executeUITask(() -> List.of(appointmentService.appointmentsToday(), appointmentService.completedAppointmentsToday()), uiActionValues -> {
-            setTextOnLabel(appointments_today, parseNumberValueToText(uiActionValues.getFirst()));
-            setTextOnLabel(completed_appointments_today, parseNumberValueToText(uiActionValues.getLast()));
-        });
+    private void loadAppointmentsTodayStats() {
+        executeUITask(
+                appointmentService::getAppointmentsTodayStats,
+                appointmentTodayStatsDTO -> {
+                    setTextOnLabel(appointments_schedule_for_today, parseNumberValueToText(appointmentTodayStatsDTO.getAppointmentCount()));
+                    setTextOnLabel(completed_appointments_today, parseNumberValueToText(appointmentTodayStatsDTO.getTotalAmountAsFinished()));
+                }
+        );
     }
 
-    /**
-     * Carga las estadísticas de citas programadas en el futuro.
-     */
-    private void statsOfScheduledAppointmentsInTheFuture() {
-        executeUITask(() -> List.of(appointmentService.appointmentsByStatus(AppointmentStatus.PROGRAMADO), appointmentService.appointmentsCreatedToday()), uiActionValues -> {
-            setTextOnLabel(scheduled_appointments, parseNumberValueToText(uiActionValues.getFirst()));
-            setTextOnLabel(new_appointments_scheduled_today, parseNumberValueToText(uiActionValues.getLast()));
-        });
+    private void loadPendingAppointmentsStats() {
+        executeUITask(
+                appointmentService::getPendingAppointmentsStats,
+                appointmentTomorrowStatsDTO -> {
+                    setTextOnLabel(pending_appointments, parseNumberValueToText(appointmentTomorrowStatsDTO.getTotalPendingAppointments()));
+                    setTextOnLabel(appointments_scheduled_tomorrow, parseNumberValueToText(appointmentTomorrowStatsDTO.getScheduledAppointmentsTomorrow()));
+                }
+        );
     }
 
-    /**
-     * Carga las estadísticas de citas este mes.
-     */
-    private void statsOfAppointmentsThisMonth() {
-        executeUITask(() -> List.of(appointmentService.appointmentsDuringThisMonth(), appointmentService.calculatePercentageOfAppointmentsVsPreviousMonth()), uiActionValues -> {
-            setTextOnLabel(appointments_this_month, parseNumberValueToText(uiActionValues.getFirst()));
-            setTextOnLabel(percentage_of_appointments_registered_vs_previous_month, formatAsPercentage(Double.valueOf(uiActionValues.getLast())) + "%");
-        });
+    private void loadMonthlyVolumeStats() {
+        executeUITask(
+                appointmentService::getMonthlyComparisonStats,
+                appointmentMonthlyComparisonDTO -> {
+                    setTextOnLabel(current_month_appointment_count, parseNumberValueToText(appointmentMonthlyComparisonDTO.getCurrentMonthAppointments()));
+                    setTextOnLabel(previous_month_appointment_count, parseNumberValueToText(appointmentMonthlyComparisonDTO.getPreviousMonthAppointments()));
+                }
+        );
     }
 
-    /**
-     * Carga las estadísticas de citas canceladas.
-     */
-    private void statsOfCanceledAppointments() {
-        executeUITask(() -> List.of(appointmentService.canceledAppointments(), appointmentService.canceledAppointmentsVsPastWeek()), uiActionValues -> {
-            setTextOnLabel(canceled_appointments, parseNumberValueToText(uiActionValues.getFirst()));
-            setTextOnLabel(canceled_appointments_vs_past_week, parseNumberValueToText(uiActionValues.getLast()));
-        });
+    private void loadCanceledAppointmentsStats() {
+        executeUITask(
+                appointmentService::getCanceledStats,
+                appointmentCanceledStatsDTO -> {
+                    setTextOnLabel(canceled_appointments_this_month, parseNumberValueToText(appointmentCanceledStatsDTO.getCanceledAppointmentThisMonth()));
+                    setTextOnLabel(
+                            cancelation_percentage,
+                            parseNumberValueToText(appointmentCanceledStatsDTO.getCanceledAppointmentPercentage()) + "%" + " de un total de " + appointmentCanceledStatsDTO.getCanceledAppointmentThisMonth());
+                }
+        );
     }
 
-    /**
-     * Carga el número total de citas encontradas.
-     */
     private void totalAppointmentsFound() {
-        executeUITask(appointmentService::getTotalAppointmentsCount, uiActionValue -> setTextOnLabel(total_appointments_count, parseNumberValueToText(uiActionValue) + " encontrados"));
+        executeUITask(
+                appointmentService::getCount,
+                count -> setTextOnLabel(total_appointments_count, parseNumberValueToText(count) + " encontrados")
+        );
     }
 
     private void configureLiveSearch() {
@@ -240,9 +210,6 @@ public class AppointmentViewController {
         employee_selector.valueProperty().addListener((_, _, _) -> executeLiveSearch());
     }
 
-    /**
-     * Ejecuta la búsqueda en tiempo real basada en los criterios seleccionados.
-     */
     private void executeLiveSearch() {
         String clientName = client_search_field.getText();
         AppointmentStatus selectedAppointmentStatus = appointment_status_selector.getValue();
