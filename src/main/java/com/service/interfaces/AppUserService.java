@@ -1,8 +1,8 @@
 package com.service.interfaces;
 
-import com.dto.app_user.AppUserCreationDTO;
-import com.dto.app_user.AppUserInfoDTO;
-import com.dto.app_user.AppUserUpdateDTO;
+import com.dto.appuser.AppUserCreationDTO;
+import com.dto.appuser.AppUserInfoDTO;
+import com.dto.appuser.AppUserUpdateDTO;
 
 public interface AppUserService {
 

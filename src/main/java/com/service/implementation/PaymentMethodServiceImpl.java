@@ -1,8 +1,8 @@
 package com.service.implementation;
 
-import com.dto.payment.PaymentMethodCreationDTO;
-import com.dto.payment.PaymentMethodInfoDTO;
-import com.dto.payment.PaymentMethodUpdateDTO;
+import com.dto.paymentmethod.PaymentMethodCreationDTO;
+import com.dto.paymentmethod.PaymentMethodInfoDTO;
+import com.dto.paymentmethod.PaymentMethodUpdateDTO;
 import com.enums.PaymentMethodModifierType;
 import com.enums.PaymentMethodStatus;
 import com.exceptions.paymentmethod.DuplicatedPaymentMethodNameException;
@@ -48,7 +48,6 @@ public class PaymentMethodServiceImpl implements PaymentMethodService {
         paymentMethodRepository.delete(paymentMethodOnDB);
     }
 
-    @Override
     public PaymentMethodInfoDTO getPaymentMethod(Long paymentMethodID) {
 
         PaymentMethod paymentMethodOnDB = loadPaymentMethodByID(paymentMethodID);
@@ -95,26 +94,9 @@ public class PaymentMethodServiceImpl implements PaymentMethodService {
     }
 
     @Override
-    public Long getPaymentMethodCount() {
-
-        return paymentMethodRepository.count();
-    }
-
-    @Override
     public Long getPaymentMethodCountMarkedAsActive() {
 
         return paymentMethodRepository.getCountMarkedAsActive();
-    }
-
-    @Override
-    public Long getPaymentMethodCountMarkedAsInactive() {
-
-        return paymentMethodRepository.getCountMarkedAsInactive();
-    }
-
-    @Override
-    public Long getpaymentMethodCountMarkedAsOtherThanNINGUNO() {
-        return paymentMethodRepository.countByModifierType(PaymentMethodModifierType.NINGUNO);
     }
 
     @Override

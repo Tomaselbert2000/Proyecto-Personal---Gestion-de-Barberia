@@ -3,9 +3,13 @@ package com.service.interfaces;
 import com.dto.appointment.AppointmentCreationDTO;
 import com.dto.appointment.AppointmentInfoDTO;
 import com.dto.appointment.AppointmentUpdateDTO;
-import com.dto.barbershopservice.BarberServiceInfoDTO;
+import com.dto.barberservice.BarberServiceInfoDTO;
 import com.dto.client.ClientInfoDTO;
 import com.dto.employee.EmployeeInfoDTO;
+import com.dto.stats.AppointmentCanceledStatsDTO;
+import com.dto.stats.AppointmentMonthlyComparisonDTO;
+import com.dto.stats.AppointmentTodayStatsDTO;
+import com.dto.stats.AppointmentTomorrowStatsDTO;
 import com.enums.AppointmentStatus;
 
 import java.time.LocalDate;
@@ -21,25 +25,11 @@ public interface AppointmentService {
 
     List<AppointmentInfoDTO> getAppointmentsList();
 
-    Long appointmentsByStatus(AppointmentStatus status);
-
     Long appointmentsToday();
 
     Long completedAppointmentsToday();
 
-    Long appointmentsCreatedToday();
-
-    Long appointmentsDuringThisMonth();
-
     void updateAppointment(Long appointmentID, AppointmentUpdateDTO updateDTO);
-
-    Long calculatePercentageOfAppointmentsVsPreviousMonth();
-
-    Long canceledAppointments();
-
-    Long canceledAppointmentsVsPastWeek();
-
-    Long getTotalAppointmentsCount();
 
     List<AppointmentInfoDTO> liveSearch(String clientName, LocalDate date, AppointmentStatus selectedAppointmentStatus, String employeeName);
 
@@ -53,5 +43,13 @@ public interface AppointmentService {
 
     List<ClientInfoDTO> clientLiveSearchByName(String searchName);
 
-    AppointmentUpdateDTO getAppointmentForUpdate(Long id);
+    AppointmentTodayStatsDTO getAppointmentsTodayStats();
+
+    AppointmentTomorrowStatsDTO getPendingAppointmentsStats();
+
+    AppointmentMonthlyComparisonDTO getMonthlyComparisonStats();
+
+    AppointmentCanceledStatsDTO getCanceledStats();
+
+    Long getCount();
 }

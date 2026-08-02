@@ -1,8 +1,9 @@
 package com.service.implementation;
 
-import com.dto.barbershopservice.BarberServiceCreationDTO;
-import com.dto.barbershopservice.BarberServiceInfoDTO;
-import com.dto.barbershopservice.BarberServiceUpdateDTO;
+import com.dto.stats.BarberServiceActiveOnCatalogStatsDTO;
+import com.dto.barberservice.BarberServiceCreationDTO;
+import com.dto.barberservice.BarberServiceInfoDTO;
+import com.dto.barberservice.BarberServiceUpdateDTO;
 import com.enums.BarberServiceCategory;
 import com.exceptions.barberservice.BarberServiceNotFoundException;
 import com.exceptions.barberservice.DuplicatedBarberServiceNameException;
@@ -19,8 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
-
-import static com.utils.time.TimeCalculation.*;
 
 @Service
 @RequiredArgsConstructor
@@ -58,7 +57,6 @@ public class BarberServiceServiceImpl implements BarberserviceService {
         barberServiceRepository.delete(serviceOnDB);
     }
 
-    @Override
     public BarberServiceInfoDTO getBarberServiceInfo(Long barberServiceID) {
 
         BarberService serviceOnDB = loadBarberService(barberServiceID);
@@ -91,66 +89,21 @@ public class BarberServiceServiceImpl implements BarberserviceService {
     }
 
     @Override
-    public Long getServiceCount() {
-
-        return barberServiceRepository.count();
-    }
-
-    @Override
-    public Long calculateServicesCreatedThisMonthVsLastMonth() {
-
-        LocalDateTime creationDateTimeAfter = getStartOfCurrentMonth().atStartOfDay();
-        LocalDateTime creationDateTimeBefore = getEndOfCurrentMonth().atTime(LAST_SECOND_OF_DAY);
-
-        return barberServiceRepository.countByRegistrationTimestampBetween(creationDateTimeAfter, creationDateTimeBefore);
-    }
-
-    @Override
-    public Double getAveragePrice() {
-
-        return barberServiceRepository.getPriceAverage();
-    }
-
-    @Override
-    public Double getAveragePricePercentageVsLastMonth() {
-
-        LocalDateTime endOfLastMonth = getEndOfLastMonth();
-
-        Double currentAveragePrice = getAveragePrice();
-        Double averagePriceLastMonth = servicePriceHistoryRepository.averageBarberServicePriceUntilDate(endOfLastMonth);
-
-        if (averagePriceLastMonth != null && averagePriceLastMonth != 0.0) {
-
-            return ((currentAveragePrice - averagePriceLastMonth) / averagePriceLastMonth) * 100;
-        }
-
-        return 0.0;
-    }
-
-    @Override
-    public Long getCategoryCount() {
-
-        return barberServiceRepository.countDistinctByServiceCategoryIsNotNull();
-    }
-
-    @Override
-    public Double getHighestPrice() {
-
-        return barberServiceRepository.getHighestPrice();
-    }
-
-    @Override
-    public Double getLowestPrice() {
-
-        return barberServiceRepository.getLowestPrice();
-    }
-
-    @Override
     public List<BarberServiceInfoDTO> liveSearch(String name, BarberServiceCategory selectedCategory, Double minPrice, Double maxPrice) {
 
         List<BarberService> barberServices = barberServiceRepository.liveSearchWithFilters(name, selectedCategory, minPrice, maxPrice);
 
         return barberServiceMapper.mapBarberServiceToInfoDto(barberServices);
+    }
+
+    @Override
+    public BarberServiceActiveOnCatalogStatsDTO getActiveOnCatalogStats() {
+
+        BarberServiceActiveOnCatalogStatsDTO activeStats = barberServiceRepository.getActiveBarberServicesStats();
+
+        if (activeStats != null) return activeStats;
+
+        return emptyActiveOnCatalogStatsDTO();
     }
 
     private void checkIfNameIsAlreadyRegisteredWhenCreating(String name) {
@@ -180,5 +133,13 @@ public class BarberServiceServiceImpl implements BarberserviceService {
                 .build();
 
         servicePriceHistoryRepository.save(servicePriceHistory);
+    }
+
+    private BarberServiceActiveOnCatalogStatsDTO emptyActiveOnCatalogStatsDTO() {
+
+        return BarberServiceActiveOnCatalogStatsDTO.builder()
+                .amountOfActiveServices(0L)
+                .amountOfDifferentCategories(0L)
+                .build();
     }
 }

@@ -1,5 +1,12 @@
 package com.service.implementation;
 
+import com.dto.stats.BarberServiceRevenueStatsDTO;
+import com.dto.stats.BarberServiceSalesStatsDTO;
+import com.dto.stats.BarberServiceUsageStatsDTO;
+import com.dto.stats.EmployeeRevenueStatsDTO;
+import com.dto.stats.EmployeeServicesCompletedStatsDTO;
+import com.dto.stats.PaymentMethodRevenueStatsDTO;
+import com.dto.stats.PaymentMethodUsageStatsDTO;
 import com.dto.product.ProductItemDTO;
 import com.dto.sale.SaleCreationDTO;
 import com.dto.sale.SaleInfoDTO;
@@ -24,6 +31,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -38,6 +46,8 @@ public class SaleServiceImpl implements SaleService {
     private final PaymentMethodRepository paymentMethodRepository;
     private final SaleValidator validator;
     private final SaleMapper mapper;
+
+    private final String EMPTY_RESULTS = "Sin datos";
 
     @Override
     @Transactional
@@ -87,7 +97,6 @@ public class SaleServiceImpl implements SaleService {
         saleRepository.delete(saleOnDB);
     }
 
-    @Override
     public SaleInfoDTO getSale(Long saleID) {
 
         Sale saleOnDB = saleRepository.findById(saleID).orElseThrow(SaleNotFoundException::new);
@@ -95,10 +104,138 @@ public class SaleServiceImpl implements SaleService {
         return mapper.mapSaleToInfoDTO(saleOnDB);
     }
 
-    @Override
     public List<SaleInfoDTO> getSaleList() {
 
         return mapper.mapSaleToInfoDTO(saleRepository.findAll());
+    }
+
+    @Override
+    public PaymentMethodUsageStatsDTO getMostUsedPaymentMethod() {
+
+        List<PaymentMethodUsageStatsDTO> paymentMethodUsageStatsDTOList = saleRepository.getpaymentMethodUsageStats();
+
+        if (!paymentMethodUsageStatsDTOList.isEmpty()) {
+
+            return paymentMethodUsageStatsDTOList.getFirst();
+
+        } else {
+
+            return emptyPaymentMethodUsageStatsDTO();
+        }
+    }
+
+    @Override
+    public PaymentMethodRevenueStatsDTO getHighestRevenuePaymentMethod() {
+
+        List<PaymentMethodRevenueStatsDTO> paymentMethodRevenueStatsDTOS = saleRepository.getPaymentMethodRevenueStats();
+
+        if (!paymentMethodRevenueStatsDTOS.isEmpty()) {
+
+            return paymentMethodRevenueStatsDTOS.getFirst();
+
+        } else {
+
+            return emptyPaymentMethodRevenueStatsDTO();
+        }
+    }
+
+    @Override
+    public Double getModifierValueSumAcrossAllSales() {
+
+        Double modifierValueSum = saleRepository.getSumOfModifierValueOfAllSales();
+
+        return Objects.requireNonNullElse(modifierValueSum, 0.0);
+    }
+
+    @Override
+    public EmployeeRevenueStatsDTO getEmployeeWithHighestRevenue() {
+
+        List<EmployeeRevenueStatsDTO> employeeRevenueStatsDTOS = saleRepository.getEmployeeRevenueStats();
+
+        if (!employeeRevenueStatsDTOS.isEmpty()) {
+
+            return employeeRevenueStatsDTOS.getFirst();
+
+        } else {
+
+            return emptyEmployeeRevenueStatsDTO();
+        }
+    }
+
+    @Override
+    public EmployeeServicesCompletedStatsDTO getEmployeeWithMostServicesCompleted() {
+
+        List<EmployeeServicesCompletedStatsDTO> employeeServicesCompletedStatsDTOS = saleRepository.getEmployeeServicesCompletedStats();
+
+        if (!employeeServicesCompletedStatsDTOS.isEmpty()) {
+
+            return employeeServicesCompletedStatsDTOS.getFirst();
+
+        } else {
+
+            return emptyEmployeeServicesCompletedStatsDTO();
+        }
+    }
+
+    @Override
+    public Double getActiveEmployeesAverageServices() {
+
+        Long currentlyActiveEmployees = employeeRepository.getActiveEmployees();
+        long registeredSales = saleRepository.count();
+
+        if (currentlyActiveEmployees != 0L) {
+
+            return ((double) registeredSales / currentlyActiveEmployees);
+
+        } else {
+
+            return 0.0;
+        }
+    }
+
+    @Override
+    public BarberServiceSalesStatsDTO getBarberServiceWithMostSales() {
+
+        List<BarberServiceSalesStatsDTO> barberServiceSalesStatsDTOS = saleRepository.getBarberServiceSaleStats();
+
+        if (!barberServiceSalesStatsDTOS.isEmpty()) {
+
+            return barberServiceSalesStatsDTOS.getFirst();
+
+        } else {
+
+            return emptyBarberServiceSaleStatsDTO();
+        }
+    }
+
+    @Override
+    public BarberServiceRevenueStatsDTO getBarberServiceWithHighestRevenue() {
+
+        List<BarberServiceRevenueStatsDTO> barberServiceRevenueStatsDTOS = saleRepository.getBarberServiceRevenueStats();
+
+        if (!barberServiceRevenueStatsDTOS.isEmpty()) {
+
+            return barberServiceRevenueStatsDTOS.getFirst();
+
+        } else {
+
+            return emptyBarberServiceRevenueStatsDTO();
+        }
+    }
+
+    @Override
+    public BarberServiceUsageStatsDTO getBarberServiceWithLowestUsage() {
+
+        List<BarberServiceUsageStatsDTO> barberServiceUsageStatsDTOS = saleRepository.getBarbarberServiceUsageStats();
+
+        if (!barberServiceUsageStatsDTOS.isEmpty()) {
+
+            return barberServiceUsageStatsDTOS.getFirst();
+
+        } else {
+
+            return emptyBarberServiceUsageStatsDTO();
+        }
     }
 
     private Client loadClient(Long clientID) {
@@ -225,5 +362,63 @@ public class SaleServiceImpl implements SaleService {
             product.setCurrentStockLevel(currentStock - quantity);
 
         }
+    }
+
+    private PaymentMethodUsageStatsDTO emptyPaymentMethodUsageStatsDTO() {
+
+        return PaymentMethodUsageStatsDTO.builder()
+                .paymentMethodName(EMPTY_RESULTS)
+                .amountOfSalesWhereIsUsed(0L)
+                .build();
+    }
+
+    private PaymentMethodRevenueStatsDTO emptyPaymentMethodRevenueStatsDTO() {
+
+        return PaymentMethodRevenueStatsDTO.builder()
+                .paymentMethod(EMPTY_RESULTS)
+                .revenueAmount(0.0)
+                .build();
+    }
+
+    private EmployeeRevenueStatsDTO emptyEmployeeRevenueStatsDTO() {
+
+        return EmployeeRevenueStatsDTO.builder()
+                .employeeFirstname(EMPTY_RESULTS)
+                .employeeLastname("")
+                .totalRevenue(0.0)
+                .build();
+    }
+
+    private EmployeeServicesCompletedStatsDTO emptyEmployeeServicesCompletedStatsDTO() {
+
+        return EmployeeServicesCompletedStatsDTO.builder()
+                .employeFirstName(EMPTY_RESULTS)
+                .employeLastName("")
+                .totalServices(0L)
+                .build();
+    }
+
+    private BarberServiceSalesStatsDTO emptyBarberServiceSaleStatsDTO() {
+
+        return BarberServiceSalesStatsDTO.builder()
+                .barberServiceName(EMPTY_RESULTS)
+                .amountOfSales(0L)
+                .build();
+    }
+
+    private BarberServiceRevenueStatsDTO emptyBarberServiceRevenueStatsDTO() {
+
+        return BarberServiceRevenueStatsDTO.builder()
+                .barberServiceName(EMPTY_RESULTS)
+                .totalRevenue(0.0)
+                .build();
+    }
+
+    private BarberServiceUsageStatsDTO emptyBarberServiceUsageStatsDTO() {
+
+        return BarberServiceUsageStatsDTO.builder()
+                .barberServiceName(EMPTY_RESULTS)
+                .totalUsage(0L)
+                .build();
     }
 }

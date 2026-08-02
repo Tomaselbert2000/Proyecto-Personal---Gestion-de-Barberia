@@ -3,37 +3,35 @@ package com.service.implementation;
 import com.dto.product.ProductCreationDTO;
 import com.dto.product.ProductInfoDTO;
 import com.dto.product.ProductUpdateDTO;
+import com.dto.stats.ProductHighestRevenueStatsDTO;
+import com.dto.stats.ProductMostSoldStatsDTO;
+import com.dto.stats.ProductStockValueStatsDTO;
+import com.dto.stats.ProductTotalStockStatsDTO;
 import com.enums.ProductCategory;
 import com.enums.StockStatus;
 import com.exceptions.product.DuplicatedProductNameException;
 import com.exceptions.product.InvalidProductCurrentPriceException;
 import com.exceptions.product.ProductNotFoundException;
 import com.mapper.interfaces.ProductMapper;
-import com.model.MonthlyStockValueHistory;
 import com.model.Product;
-import com.repository.MonthlyStockValueHistoryRepository;
 import com.repository.ProductRepository;
+import com.repository.SaleItemRepository;
 import com.service.interfaces.ProductService;
 import com.validation.product.ProductValidator;
 import lombok.RequiredArgsConstructor;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
-import static com.utils.time.TimeCalculation.*;
+import static com.launcher.constants.StringResource.DisplayString.EMPTY_DATA_STAT;
 
 @Service
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
 
-    private static final String CRON_SCHEDULE_VALUE = "0 59 23 L * ?";
-
     private final ProductRepository productRepository;
-    private final MonthlyStockValueHistoryRepository monthlyStockValueHistoryRepository;
+    private final SaleItemRepository saleItemRepository;
     private final ProductValidator validator;
     private final ProductMapper mapper;
 
@@ -63,7 +61,6 @@ public class ProductServiceImpl implements ProductService {
         return mapper.mapProductToInfoDTO(productRepository.findAll());
     }
 
-    @Override
     public ProductInfoDTO getProduct(Long productID) {
 
         return mapper.mapProductToInfoDTO(loadProduct(productID));
@@ -91,74 +88,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Long getProductsCreatedThisMonth() {
-
-        LocalDateTime startOfCurrentMonth = getStartOfCurrentMonth().atStartOfDay();
-        LocalDateTime endOfCurrentMonth = getEndOfCurrentMonth().atTime(LAST_SECOND_OF_DAY);
-
-        return productRepository.countByCreationDateBetween(startOfCurrentMonth, endOfCurrentMonth);
-    }
-
-    @Override
-    public Long getProductsOnCriticalStockCount() {
-
-        List<ProductInfoDTO> productInfoDTOList = getProductsList();
-
-        return getCountByStockStatus(productInfoDTOList, StockStatus.CRITICO);
-    }
-
-    @Override
     public Long getProductsOnLowStock() {
 
         List<ProductInfoDTO> productInfoDTOList = getProductsList();
 
-        return getCountByStockStatus(productInfoDTOList, StockStatus.BAJO);
-    }
-
-    @Override
-    public Double calculateTotalStockValue() {
-
-        Double totalStockValue = productRepository.getTotalStockValue();
-
-        if (totalStockValue == null) return 0.0;
-
-        return totalStockValue;
-    }
-
-    @Override
-    @Transactional
-    @Scheduled(cron = CRON_SCHEDULE_VALUE)
-    public void generateMonthlyStockValueHistory() {
-
-        LocalDate date = getCurrentDate();
-        LocalDateTime calculationTimestamp = LocalDateTime.now();
-        Double totalStockValue = calculateTotalStockValue();
-
-        MonthlyStockValueHistory monthlyStockValueHistory = MonthlyStockValueHistory.builder()
-                .localDate(date)
-                .calculationTimestamp(calculationTimestamp)
-                .totalStockValue(totalStockValue)
-                .build();
-
-        monthlyStockValueHistoryRepository.save(monthlyStockValueHistory);
-    }
-
-    @Override
-    public Double calculateTotalStockValuePercentageVariationVsLastMonth() {
-
-        MonthlyStockValueHistory latestRegister = monthlyStockValueHistoryRepository.findTop1ByOrderByLocalDateDesc();
-
-        if (latestRegister != null) {
-
-            Double lastMonthStockValue = latestRegister.getTotalStockValue();
-            Double currentStockValue = calculateTotalStockValue();
-
-            if (lastMonthStockValue == null || lastMonthStockValue == 0.0) return 0.0;
-
-            return ((currentStockValue - lastMonthStockValue) / lastMonthStockValue) * 100;
-        }
-
-        return 0.0;
+        return getCountByStockStatus(productInfoDTOList);
     }
 
     @Override
@@ -180,6 +114,66 @@ public class ProductServiceImpl implements ProductService {
     public ProductUpdateDTO getProductForUpdate(Long productID) {
 
         return mapper.mapProductToUpdateDTO(loadProduct(productID));
+    }
+
+    @Override
+    public ProductTotalStockStatsDTO getProductCountAndStockStats() {
+
+        ProductTotalStockStatsDTO productTotalStockStatsDTO = productRepository.getProductCountAndStockLevelStats();
+
+        if (productTotalStockStatsDTO != null) {
+
+            return productTotalStockStatsDTO;
+
+        } else {
+
+            return emptyProductTotalStockStatsDTO();
+        }
+    }
+
+    @Override
+    public ProductMostSoldStatsDTO getProductMostSoldStats() {
+
+        List<ProductMostSoldStatsDTO> productMostSoldStatsDTOList = saleItemRepository.getProductsSaleStats();
+
+        if (!productMostSoldStatsDTOList.isEmpty()) {
+
+            return productMostSoldStatsDTOList.getFirst();
+
+        } else {
+
+            return emptyProductMostSoldStatsDTO();
+        }
+    }
+
+    @Override
+    public ProductHighestRevenueStatsDTO getProductHighestRevenueStats() {
+
+        List<ProductHighestRevenueStatsDTO> productHighestRevenueStatsDTOS = saleItemRepository.getProductRevenueStats();
+
+        if (!productHighestRevenueStatsDTOS.isEmpty()) {
+
+            return productHighestRevenueStatsDTOS.getFirst();
+
+        } else {
+
+            return emptyProductHighestRevenueStatsDTO();
+        }
+    }
+
+    @Override
+    public ProductStockValueStatsDTO getProductStockValueStat() {
+
+        ProductStockValueStatsDTO productStockValueStatDTO = productRepository.getTotalStockValue();
+
+        if (productStockValueStatDTO != null) {
+
+            return productStockValueStatDTO;
+
+        } else {
+
+            return emptyProductTotalStockValueStatDTO();
+        }
     }
 
     private void checkNameAvailability(String name) {
@@ -205,15 +199,47 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.findById(productID).orElseThrow(ProductNotFoundException::new);
     }
 
-    private Long getCountByStockStatus(List<ProductInfoDTO> productInfoDTOList, StockStatus stockStatus) {
+    private Long getCountByStockStatus(List<ProductInfoDTO> productInfoDTOList) {
 
         Long counter = 0L;
 
         for (ProductInfoDTO infoDTO : productInfoDTOList) {
 
-            if (infoDTO.getCurrentStockStatus() == stockStatus) counter++;
+            if (infoDTO.getCurrentStockStatus() == StockStatus.BAJO) counter++;
         }
 
         return counter;
+    }
+
+    private ProductTotalStockStatsDTO emptyProductTotalStockStatsDTO() {
+
+        return ProductTotalStockStatsDTO.builder()
+                .productCount(0L)
+                .onLowOrCriticalStockCount(0L)
+                .build();
+    }
+
+    private ProductMostSoldStatsDTO emptyProductMostSoldStatsDTO() {
+
+        return ProductMostSoldStatsDTO.builder()
+                .productName(EMPTY_DATA_STAT)
+                .unitsSold(0L)
+                .build();
+    }
+
+    private ProductHighestRevenueStatsDTO emptyProductHighestRevenueStatsDTO() {
+
+        return ProductHighestRevenueStatsDTO.builder()
+                .productName(EMPTY_DATA_STAT)
+                .revenue(0.0)
+                .build();
+    }
+
+    private ProductStockValueStatsDTO emptyProductTotalStockValueStatDTO() {
+
+        return ProductStockValueStatsDTO.builder()
+                .totalStockValue(0.0)
+                .totalUnits(0L)
+                .build();
     }
 }

@@ -1,8 +1,8 @@
 package com.service.implementation;
 
-import com.dto.app_user.AppUserCreationDTO;
-import com.dto.app_user.AppUserInfoDTO;
-import com.dto.app_user.AppUserUpdateDTO;
+import com.dto.appuser.AppUserCreationDTO;
+import com.dto.appuser.AppUserInfoDTO;
+import com.dto.appuser.AppUserUpdateDTO;
 import com.exceptions.appuser.AppUserNotFoundException;
 import com.exceptions.appuser.UsernameTakenException;
 import com.mapper.interfaces.AppUserMapper;

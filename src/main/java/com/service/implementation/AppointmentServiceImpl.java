@@ -3,9 +3,13 @@ package com.service.implementation;
 import com.dto.appointment.AppointmentCreationDTO;
 import com.dto.appointment.AppointmentInfoDTO;
 import com.dto.appointment.AppointmentUpdateDTO;
-import com.dto.barbershopservice.BarberServiceInfoDTO;
+import com.dto.barberservice.BarberServiceInfoDTO;
 import com.dto.client.ClientInfoDTO;
 import com.dto.employee.EmployeeInfoDTO;
+import com.dto.stats.AppointmentCanceledStatsDTO;
+import com.dto.stats.AppointmentMonthlyComparisonDTO;
+import com.dto.stats.AppointmentTodayStatsDTO;
+import com.dto.stats.AppointmentTomorrowStatsDTO;
 import com.enums.AppointmentStatus;
 import com.exceptions.appointment.AppointmentNotFoundException;
 import com.exceptions.barberservice.BarberServiceNotFoundException;
@@ -26,7 +30,6 @@ import com.service.interfaces.AppointmentService;
 import com.service.interfaces.BarberserviceService;
 import com.service.interfaces.ClientService;
 import com.service.interfaces.EmployeeService;
-import com.utils.time.TimeCalculation;
 import com.validation.appointment.AppointmentValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -36,6 +39,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
+
+import static com.utils.time.TimeCalculation.*;
 
 @Service
 @RequiredArgsConstructor
@@ -96,16 +101,10 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public Long appointmentsByStatus(AppointmentStatus status) {
-
-        return appointmentRepository.countByCurrentStatus(status);
-    }
-
-    @Override
     public Long appointmentsToday() {
 
-        LocalDateTime startDateTimeAfter = TimeCalculation.getStartOfToday();
-        LocalDateTime startDateTimeBefore = TimeCalculation.getEndOfToday();
+        LocalDateTime startDateTimeAfter = getStartOfToday();
+        LocalDateTime startDateTimeBefore = getEndOfToday();
 
         return appointmentRepository.countByStartDateTimeBetween(startDateTimeAfter, startDateTimeBefore);
     }
@@ -113,67 +112,10 @@ public class AppointmentServiceImpl implements AppointmentService {
     @Override
     public Long completedAppointmentsToday() {
 
-        LocalDateTime startOfToday = TimeCalculation.getStartOfToday();
-        LocalDateTime endOfToday = TimeCalculation.getEndOfToday();
+        LocalDateTime startOfToday = getStartOfToday();
+        LocalDateTime endOfToday = getEndOfToday();
 
         return appointmentRepository.countByStartDateTimeBetweenAndCurrentStatus(startOfToday, endOfToday, AppointmentStatus.FINALIZADO);
-    }
-
-    @Override
-    public Long appointmentsCreatedToday() {
-
-        LocalDateTime startOfToday = TimeCalculation.getStartOfToday();
-
-        return appointmentRepository.countByRegistrationTimestampAfter(startOfToday);
-    }
-
-    @Override
-    public Long appointmentsDuringThisMonth() {
-
-        LocalDateTime firstDayOfCurrentMonth = TimeCalculation.getStartOfCurrentMonth().atStartOfDay();
-        LocalDateTime lastDayOfCurrentMonth = TimeCalculation.getEndOfCurrentMonth().atTime(LAST_SECOND_OF_DAY);
-
-        return appointmentRepository.countByRegistrationTimestampBetween(firstDayOfCurrentMonth, lastDayOfCurrentMonth);
-    }
-
-    @Override
-    public Long calculatePercentageOfAppointmentsVsPreviousMonth() {
-
-        Long appointmentsThisMonth = appointmentsDuringThisMonth();
-
-        Long appointmentsThePastMonth = appointmentsThePastMonth();
-
-        if (appointmentsThePastMonth == 0 && appointmentsThisMonth == 0) {
-
-            return 0L;
-
-        } else if (appointmentsThePastMonth == 0) {
-
-            return 100L;
-        }
-
-        return ((appointmentsThisMonth - appointmentsThePastMonth) * 100) / appointmentsThePastMonth;
-    }
-
-    @Override
-    public Long canceledAppointments() {
-
-        return appointmentRepository.countByCurrentStatus(AppointmentStatus.CANCELADO);
-    }
-
-    @Override
-    public Long canceledAppointmentsVsPastWeek() {
-
-        LocalDate today = TimeCalculation.getCurrentDate();
-        LocalDate oneWeekAgo = TimeCalculation.getCurrentDate().minusDays(7);
-
-        return appointmentRepository.countByCurrentStatusAndRegistrationTimestampBetween(AppointmentStatus.CANCELADO, today.atStartOfDay(), oneWeekAgo.atTime(LAST_SECOND_OF_DAY));
-    }
-
-    @Override
-    public Long getTotalAppointmentsCount() {
-
-        return appointmentRepository.count();
     }
 
     @Override
@@ -234,9 +176,97 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public AppointmentUpdateDTO getAppointmentForUpdate(Long id) {
+    public AppointmentTodayStatsDTO getAppointmentsTodayStats() {
 
-        return appointmentMapper.mapAppointmentToUpdateDTO(loadAppointment(id));
+        AppointmentTodayStatsDTO appointmentTodayStatsDTO = appointmentRepository.getAppoinmentsTodayStats(getStartOfToday(), getEndOfToday());
+
+        if (appointmentTodayStatsDTO != null) {
+
+            if (appointmentTodayStatsDTO.getTotalAmountAsFinished() == null)
+                appointmentTodayStatsDTO.setTotalAmountAsFinished(0L);
+            if (appointmentTodayStatsDTO.getAppointmentCount() == null)
+                appointmentTodayStatsDTO.setAppointmentCount(0L);
+
+            return appointmentTodayStatsDTO;
+
+        } else {
+
+            return emptyAppointmentTodayStatsDTO();
+        }
+    }
+
+    @Override
+    public AppointmentTomorrowStatsDTO getPendingAppointmentsStats() {
+
+        AppointmentTomorrowStatsDTO appointmentTomorrowStatsDTO = appointmentRepository.getPendingAppointmentsStats(
+                LocalDateTime.now(),
+                getStartOfToday().plusDays(1),
+                getEndOfToday().plusDays(1));
+
+        if (appointmentTomorrowStatsDTO != null) {
+
+            if (appointmentTomorrowStatsDTO.getScheduledAppointmentsTomorrow() == null)
+                appointmentTomorrowStatsDTO.setScheduledAppointmentsTomorrow(0L);
+            if (appointmentTomorrowStatsDTO.getTotalPendingAppointments() == null)
+                appointmentTomorrowStatsDTO.setTotalPendingAppointments(0L);
+
+            return appointmentTomorrowStatsDTO;
+
+        } else {
+
+            return emptyAppointmentTomorrowStatsDTO();
+        }
+    }
+
+    @Override
+    public AppointmentMonthlyComparisonDTO getMonthlyComparisonStats() {
+
+        AppointmentMonthlyComparisonDTO comparisonStats = appointmentRepository.getMonthlyComparisonStats(
+                getStartOfCurrentMonth().atStartOfDay(),
+                getEndOfCurrentMonth().atTime(LAST_SECOND_OF_DAY),
+                getStartOfCurrentMonth().minusMonths(1).atStartOfDay(),
+                getEndOfCurrentMonth().minusMonths(1).atTime(LAST_SECOND_OF_DAY)
+        );
+
+        if (comparisonStats != null) {
+
+            if (comparisonStats.getCurrentMonthAppointments() == null) comparisonStats.setCurrentMonthAppointments(0L);
+            if (comparisonStats.getPreviousMonthAppointments() == null)
+                comparisonStats.setPreviousMonthAppointments(0L);
+
+            return comparisonStats;
+
+        } else {
+
+            return emptyAppointmentMonthlyComparisonDTO();
+        }
+    }
+
+    @Override
+    public AppointmentCanceledStatsDTO getCanceledStats() {
+
+        AppointmentCanceledStatsDTO canceledStatsDTO = appointmentRepository.getCanceledAppointmentsStats(
+                getStartOfCurrentMonth().atStartOfDay(),
+                getEndOfCurrentMonth().atTime(LAST_SECOND_OF_DAY));
+
+        if (canceledStatsDTO != null) {
+
+            Double cancelationPercentage = ((double) canceledStatsDTO.getTotalAppointmentsThisMonth() * canceledStatsDTO.getCanceledAppointmentThisMonth()) / 100;
+
+            canceledStatsDTO.setCanceledAppointmentPercentage(cancelationPercentage);
+
+            return canceledStatsDTO;
+
+        } else {
+
+            return emptyAppointmentCanceledStatsDTO();
+        }
+    }
+
+    @Override
+    public Long getCount() {
+
+        return appointmentRepository.count();
     }
 
     @Override
@@ -341,11 +371,35 @@ public class AppointmentServiceImpl implements AppointmentService {
         return loadBarberService(newBarberserviceID);
     }
 
-    private Long appointmentsThePastMonth() {
+    private AppointmentTodayStatsDTO emptyAppointmentTodayStatsDTO() {
 
-        LocalDate startOfPastMonth = TimeCalculation.getStartOfCurrentMonth().minusMonths(1);
-        LocalDate endOfPastMonth = TimeCalculation.getEndOfCurrentMonth().minusMonths(1);
+        return AppointmentTodayStatsDTO.builder()
+                .appointmentCount(0L)
+                .totalAmountAsFinished(0L)
+                .build();
+    }
 
-        return appointmentRepository.countByRegistrationTimestampBetween(startOfPastMonth.atStartOfDay(), endOfPastMonth.atTime(LAST_SECOND_OF_DAY));
+    private AppointmentTomorrowStatsDTO emptyAppointmentTomorrowStatsDTO() {
+
+        return AppointmentTomorrowStatsDTO.builder()
+                .totalPendingAppointments(0L)
+                .scheduledAppointmentsTomorrow(0L)
+                .build();
+    }
+
+    private AppointmentMonthlyComparisonDTO emptyAppointmentMonthlyComparisonDTO() {
+
+        return AppointmentMonthlyComparisonDTO.builder()
+                .currentMonthAppointments(0L)
+                .previousMonthAppointments(0L)
+                .build();
+    }
+
+    private AppointmentCanceledStatsDTO emptyAppointmentCanceledStatsDTO() {
+
+        return AppointmentCanceledStatsDTO.builder()
+                .canceledAppointmentThisMonth(0L)
+                .totalAppointmentsThisMonth(0L)
+                .build();
     }
 }

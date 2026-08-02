@@ -1,6 +1,6 @@
 package com.service.interfaces;
 
-import com.dto.dashboard.RecentActivityDTO;
+import com.dto.activity.RecentActivityDTO;
 
 import java.util.List;
 

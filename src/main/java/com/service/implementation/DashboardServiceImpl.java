@@ -1,6 +1,6 @@
 package com.service.implementation;
 
-import com.dto.dashboard.RecentActivityDTO;
+import com.dto.activity.RecentActivityDTO;
 import com.enums.AppointmentStatus;
 import com.enums.EventType;
 import com.model.Appointment;

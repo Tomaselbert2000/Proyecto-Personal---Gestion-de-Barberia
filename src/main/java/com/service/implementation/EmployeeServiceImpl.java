@@ -9,7 +9,6 @@ import com.exceptions.employee.EmployeeNotFoundException;
 import com.exceptions.employee.InvalidEmployeeTerminationDateException;
 import com.mapper.interfaces.EmployeeMapper;
 import com.model.Employee;
-import com.repository.AppointmentRepository;
 import com.repository.EmployeeRepository;
 import com.service.interfaces.EmployeeService;
 import com.utils.time.TimeCalculation;
@@ -19,8 +18,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.List;
 
 import static com.utils.time.TimeCalculation.*;
@@ -30,7 +27,6 @@ import static com.utils.time.TimeCalculation.*;
 public class EmployeeServiceImpl implements EmployeeService {
 
     private final EmployeeRepository employeeRepository;
-    private final AppointmentRepository appointmentRepository;
 
     private final EmployeeMapper mapper;
 
@@ -54,7 +50,6 @@ public class EmployeeServiceImpl implements EmployeeService {
         employeeRepository.delete(employeeToDelete);
     }
 
-    @Override
     public EmployeeInfoDTO getEmployeeInfo(Long employeeID) {
 
         Employee employeeOnDB = loadEmployee(employeeID);
@@ -88,12 +83,6 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public Long getInactiveEmployees() {
-
-        return employeeRepository.getInactiveEmployees();
-    }
-
-    @Override
     public Long calculateActiveEmployeesVsLastMonth() {
 
         LocalDate startOfCurrentMonth = getStartOfCurrentMonth();
@@ -112,15 +101,6 @@ public class EmployeeServiceImpl implements EmployeeService {
     public Long getEmployeeCount() {
 
         return employeeRepository.count();
-    }
-
-    @Override
-    public Long getEmployeesTrendThisMonth() {
-
-        LocalDate startDateTimeAfter = getStartOfCurrentMonth();
-        LocalDate startDateTimeBefore = TimeCalculation.getEndOfCurrentMonth();
-
-        return employeeRepository.countEmployeesInRange(startDateTimeAfter, startDateTimeBefore);
     }
 
     @SuppressWarnings("NonAsciiCharacters")
@@ -153,40 +133,6 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
 
         return mapper.mapEmployeeToInfoDTO(employeeRepository.liveSearchWithFilters(employeeName, statusFlag, startDate, endDate));
-    }
-
-    @Override
-    public double calculateAverageMonthlyProductivity() {
-
-        LocalDateTime startDateTime = getStartOfCurrentMonth().atStartOfDay();
-        LocalDateTime endDateTime = getEndOfCurrentMonth().atTime(LocalTime.MAX);
-
-        Long employeeCount = getActiveEmployees();
-        Long appointmentCount = appointmentRepository.countByStartDateTimeBetween(startDateTime, endDateTime);
-
-        if (employeeCount == 0) return 0.0;
-
-        return (double) appointmentCount / employeeCount;
-    }
-
-    @Override
-    public double calculateProductivityTrendVsLastMonth() {
-
-        LocalDate startOfLastMonth = LocalDate.from(TimeCalculation.getStartOfLastMonth());
-        LocalDate endOfLastMonth = LocalDate.from(TimeCalculation.getEndOfLastMonth());
-
-        Long lastMonthActiveEmployees = employeeRepository.countEmployeesInRange(startOfLastMonth, endOfLastMonth);
-        Long lastMonthAppointments = appointmentRepository.countByStartDateTimeBetween(startOfLastMonth.atStartOfDay(), endOfLastMonth.atTime(LAST_SECOND_OF_DAY));
-
-        if (lastMonthActiveEmployees == 0) return 0.0;
-
-        double lastMonthProductivity = (double) lastMonthAppointments / lastMonthActiveEmployees;
-
-        double currentMonthProductivity = calculateAverageMonthlyProductivity();
-
-        if (lastMonthProductivity == 0.0) return currentMonthProductivity > 0 ? 100.0 : 0.0;
-
-        return ((currentMonthProductivity - lastMonthProductivity) / lastMonthProductivity) * 100.0;
     }
 
     @Override

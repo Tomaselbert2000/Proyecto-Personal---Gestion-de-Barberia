@@ -1,9 +1,13 @@
 package com.service.interfaces;
 
+import com.dto.stats.BarberServiceRevenueStatsDTO;
+import com.dto.stats.BarberServiceSalesStatsDTO;
+import com.dto.stats.BarberServiceUsageStatsDTO;
+import com.dto.stats.EmployeeRevenueStatsDTO;
+import com.dto.stats.EmployeeServicesCompletedStatsDTO;
+import com.dto.stats.PaymentMethodRevenueStatsDTO;
+import com.dto.stats.PaymentMethodUsageStatsDTO;
 import com.dto.sale.SaleCreationDTO;
-import com.dto.sale.SaleInfoDTO;
-
-import java.util.List;
 
 public interface SaleService {
 
@@ -11,7 +15,21 @@ public interface SaleService {
 
     void deleteSale(Long saleID);
 
-    SaleInfoDTO getSale(Long saleID);
+    PaymentMethodUsageStatsDTO getMostUsedPaymentMethod();
 
-    List<SaleInfoDTO> getSaleList();
+    PaymentMethodRevenueStatsDTO getHighestRevenuePaymentMethod();
+
+    Double getModifierValueSumAcrossAllSales();
+
+    EmployeeRevenueStatsDTO getEmployeeWithHighestRevenue();
+
+    EmployeeServicesCompletedStatsDTO getEmployeeWithMostServicesCompleted();
+
+    Double getActiveEmployeesAverageServices();
+
+    BarberServiceSalesStatsDTO getBarberServiceWithMostSales();
+
+    BarberServiceRevenueStatsDTO getBarberServiceWithHighestRevenue();
+
+    BarberServiceUsageStatsDTO getBarberServiceWithLowestUsage();
 }
