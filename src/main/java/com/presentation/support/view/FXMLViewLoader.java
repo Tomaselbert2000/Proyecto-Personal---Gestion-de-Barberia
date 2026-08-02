@@ -6,7 +6,6 @@ import javafx.scene.Parent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
 import org.springframework.context.ApplicationContext;
 
 import java.io.IOException;
