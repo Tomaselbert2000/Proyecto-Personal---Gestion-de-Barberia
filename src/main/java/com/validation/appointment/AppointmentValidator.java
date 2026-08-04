@@ -13,8 +13,6 @@ import java.time.Clock;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
-import static com.validation.common.CommonValidationFunctions.checkIfDtoIsNull;
-
 @Component
 public class AppointmentValidator extends BaseDTOValidator {
 

@@ -17,7 +17,6 @@ import java.time.Clock;
 import static com.test_constant.AppointmentTestConstants.InvalidData.*;
 import static com.test_constant.AppointmentTestConstants.TestTimeConfigurationData.INSTANT;
 import static com.test_constant.AppointmentTestConstants.TestTimeConfigurationData.ZONE_ID;
-import static com.validation.common.CommonValidationFunctions.generateClockInstance;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
