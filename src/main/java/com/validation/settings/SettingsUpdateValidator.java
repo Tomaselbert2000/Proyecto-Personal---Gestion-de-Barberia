@@ -2,24 +2,20 @@ package com.validation.settings;
 
 import com.dto.settings.SettingsUpdateDTO;
 import com.exceptions.settings.InvalidServiceHourException;
+import com.validation.common.BaseDTOValidator;
 import jakarta.validation.Validator;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import static com.validation.common.CommonValidationFunctions.checkIfDtoIsNull;
-import static com.validation.common.CommonValidationFunctions.validateAnnotationConstraints;
-
 @Component
-@RequiredArgsConstructor
-public class SettingsUpdateValidator {
+public class SettingsUpdateValidator extends BaseDTOValidator {
 
-    private final Validator validatorEngine;
+    public SettingsUpdateValidator(Validator validatorEngine) {
+        super(validatorEngine);
+    }
 
     public void validateDTO(SettingsUpdateDTO settingsUpdateDTO) {
 
-        checkIfDtoIsNull(settingsUpdateDTO);
-
-        validateAnnotationConstraints(validatorEngine, settingsUpdateDTO);
+        super.validateDTO(settingsUpdateDTO);
 
         checkIfOpeningAndClosingTimeAreValid(settingsUpdateDTO);
     }

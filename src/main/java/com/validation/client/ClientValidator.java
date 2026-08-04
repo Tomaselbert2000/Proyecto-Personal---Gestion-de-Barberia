@@ -2,24 +2,20 @@ package com.validation.client;
 
 import com.dto.client.ClientInputDTO;
 import com.exceptions.client.DuplicatedPhoneInListException;
+import com.validation.common.BaseDTOValidator;
 import jakarta.validation.Validator;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import static com.validation.common.CommonValidationFunctions.checkIfDtoIsNull;
-import static com.validation.common.CommonValidationFunctions.validateAnnotationConstraints;
-
 @Component
-@RequiredArgsConstructor
-public class ClientValidator {
+public class ClientValidator extends BaseDTOValidator {
 
-    private final Validator validatorEngine;
+    public ClientValidator(Validator validatorEngine) {
+        super(validatorEngine);
+    }
 
     public <T extends ClientInputDTO> void validateDTO(T dto) {
 
-        checkIfDtoIsNull(dto);
-
-        validateAnnotationConstraints(validatorEngine, dto);
+        super.validateDTO(dto);
 
         validatePhoneNumberList(dto);
     }

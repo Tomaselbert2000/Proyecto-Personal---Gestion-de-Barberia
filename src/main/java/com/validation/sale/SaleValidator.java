@@ -6,30 +6,29 @@ import com.exceptions.sale.EmptyProductItemListException;
 import com.exceptions.sale.InvalidSaleDateTimeException;
 import com.exceptions.sale.OrphanBarberServiceException;
 import com.exceptions.sale.SaleDateTimeOutOfRangeException;
+import com.validation.common.BaseDTOValidator;
 import jakarta.validation.Validator;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.time.Clock;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static com.validation.common.CommonValidationFunctions.checkIfDtoIsNull;
-import static com.validation.common.CommonValidationFunctions.validateAnnotationConstraints;
 import static com.validation.sale.SaleValidatorConstants.REGISTER_WINDOW_IN_HOURS;
 
 @Component
-@RequiredArgsConstructor
-public class SaleValidator {
+public class SaleValidator extends BaseDTOValidator {
 
     private final Clock clock;
-    private final Validator validatorEngine;
+
+    public SaleValidator(Validator validatorEngine, Clock clock) {
+        super(validatorEngine);
+        this.clock = clock;
+    }
 
     public void validateDTO(SaleCreationDTO creationDTO) {
 
-        checkIfDtoIsNull(creationDTO);
-
-        validateAnnotationConstraints(validatorEngine, creationDTO);
+        super.validateDTO(creationDTO);
 
         checkIfSaleIsEmpty(creationDTO.getBarberServiceID(), creationDTO.getProductsDetail());
 

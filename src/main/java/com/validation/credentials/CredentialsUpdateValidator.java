@@ -2,24 +2,20 @@ package com.validation.credentials;
 
 import com.dto.credentials.CredentialsUpdateDTO;
 import com.exceptions.credentials.PasswordMismatchException;
+import com.validation.common.BaseDTOValidator;
 import jakarta.validation.Validator;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import static com.validation.common.CommonValidationFunctions.checkIfDtoIsNull;
-import static com.validation.common.CommonValidationFunctions.validateAnnotationConstraints;
-
 @Component
-@RequiredArgsConstructor
-public class CredentialsUpdateValidator {
+public class CredentialsUpdateValidator extends BaseDTOValidator {
 
-    private final Validator validatorEngine;
+    public CredentialsUpdateValidator(Validator validatorEngine) {
+        super(validatorEngine);
+    }
 
     public void validateDTO(CredentialsUpdateDTO dto) {
 
-        checkIfDtoIsNull(dto);
-
-        validateAnnotationConstraints(validatorEngine, dto);
+        super.validateDTO(dto);
 
         checkIfPasswordsMatch(dto);
     }

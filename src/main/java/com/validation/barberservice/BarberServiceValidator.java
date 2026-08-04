@@ -1,22 +1,13 @@
 package com.validation.barberservice;
 
+import com.validation.common.BaseDTOValidator;
 import jakarta.validation.Validator;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import static com.validation.common.CommonValidationFunctions.checkIfDtoIsNull;
-import static com.validation.common.CommonValidationFunctions.validateAnnotationConstraints;
-
 @Component
-@RequiredArgsConstructor
-public class BarberServiceValidator {
+public class BarberServiceValidator extends BaseDTOValidator {
 
-    private final Validator validatorEngine;
-
-    public <T> void validateDTO(T dto) {
-
-        checkIfDtoIsNull(dto);
-
-        validateAnnotationConstraints(validatorEngine, dto);
+    public BarberServiceValidator(Validator validatorEngine) {
+        super(validatorEngine);
     }
 }

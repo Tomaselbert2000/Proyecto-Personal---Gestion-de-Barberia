@@ -5,8 +5,8 @@ import com.dto.appointment.AppointmentUpdateDTO;
 import com.exceptions.appointment.DateTimeOutsideServiceHoursException;
 import com.exceptions.appointment.InvalidAppointmentEndDateException;
 import com.exceptions.appointment.InvalidAppointmentStartDateException;
+import com.validation.common.BaseDTOValidator;
 import jakarta.validation.Validator;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.time.Clock;
@@ -14,23 +14,26 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 import static com.validation.common.CommonValidationFunctions.checkIfDtoIsNull;
-import static com.validation.common.CommonValidationFunctions.validateAnnotationConstraints;
 
 @Component
-@RequiredArgsConstructor
-public class AppointmentValidator {
-
-    private static final LocalTime OPENING_TIME = LocalTime.of(8, 0);
-    private static final LocalTime CLOSING_TIME = LocalTime.of(20, 0);
+public class AppointmentValidator extends BaseDTOValidator {
 
     private final Clock clock;
-    private final Validator validatorEngine;
+
+    public AppointmentValidator(Validator validatorEngine, Clock clock) {
+        super(validatorEngine);
+        this.clock = clock;
+    }
+
+    public static final class AppointmentValidatorConstants {
+
+        private static final LocalTime OPENING_TIME = LocalTime.of(8, 0);
+        private static final LocalTime CLOSING_TIME = LocalTime.of(20, 0);
+    }
 
     public void validateForCreation(AppointmentCreationDTO creationDTO) {
 
-        checkIfDtoIsNull(creationDTO);
-
-        validateAnnotationConstraints(validatorEngine, creationDTO);
+        super.validateDTO(creationDTO);
 
         validateDateTimeInterval(creationDTO.getStartDateTime(), creationDTO.getEndDateTime());
     }
@@ -53,7 +56,7 @@ public class AppointmentValidator {
             if (endDateTime.isBefore(now) || endDateTime.isBefore(startDateTime))
                 throw new InvalidAppointmentEndDateException();
 
-            if (startDateTime.toLocalTime().isBefore(OPENING_TIME) || endDateTime.toLocalTime().isAfter(CLOSING_TIME))
+            if (startDateTime.toLocalTime().isBefore(AppointmentValidatorConstants.OPENING_TIME) || endDateTime.toLocalTime().isAfter(AppointmentValidatorConstants.CLOSING_TIME))
                 throw new DateTimeOutsideServiceHoursException();
         }
     }

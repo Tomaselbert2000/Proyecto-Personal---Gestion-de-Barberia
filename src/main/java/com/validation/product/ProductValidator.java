@@ -2,24 +2,20 @@ package com.validation.product;
 
 import com.dto.product.ProductInputDTO;
 import com.exceptions.product.InvalidProductCurrentPriceException;
+import com.validation.common.BaseDTOValidator;
 import jakarta.validation.Validator;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import static com.validation.common.CommonValidationFunctions.checkIfDtoIsNull;
-import static com.validation.common.CommonValidationFunctions.validateAnnotationConstraints;
-
 @Component
-@RequiredArgsConstructor
-public class ProductValidator {
+public class ProductValidator extends BaseDTOValidator {
 
-    private final Validator validatorEngine;
+    public ProductValidator(Validator validatorEngine) {
+        super(validatorEngine);
+    }
 
     public <T extends ProductInputDTO> void validateDTO(T dto) {
 
-        checkIfDtoIsNull(dto);
-
-        validateAnnotationConstraints(validatorEngine, dto);
+        super.validateDTO(dto);
 
         validatePriceCostLogic(
                 dto.getProductCost(),

@@ -31,7 +31,7 @@ public class AppointmentValidatorCreationTest extends BaseValidatorTest<Appointm
     @Override
     protected void setupValidator() {
 
-        validator = new AppointmentValidator(clock, validatorEngine);
+        validator = new AppointmentValidator(validatorEngine, clock);
     }
 
     @Override

@@ -178,7 +178,7 @@ public class SaleValidatorCreationTest extends BaseValidatorTest<SaleValidator, 
     @Override
     protected void setupValidator() {
 
-        validator = new SaleValidator(SALE_TEST_CLOCK, validatorEngine);
+        validator = new SaleValidator(validatorEngine, SALE_TEST_CLOCK);
     }
 
     @Override

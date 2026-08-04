@@ -1,22 +1,13 @@
 package com.validation.employee;
 
+import com.validation.common.BaseDTOValidator;
 import jakarta.validation.Validator;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import static com.validation.common.CommonValidationFunctions.checkIfDtoIsNull;
-import static com.validation.common.CommonValidationFunctions.validateAnnotationConstraints;
-
 @Component
-@RequiredArgsConstructor
-public class EmployeeValidator {
+public class EmployeeValidator extends BaseDTOValidator {
 
-    private final Validator validatorEngine;
-
-    public <T> void validateDTO(T dto) {
-
-        checkIfDtoIsNull(dto);
-
-        validateAnnotationConstraints(validatorEngine, dto);
+    public EmployeeValidator(Validator validatorEngine) {
+        super(validatorEngine);
     }
 }
