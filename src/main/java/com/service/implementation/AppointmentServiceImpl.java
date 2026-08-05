@@ -40,6 +40,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
+import static com.dto.stats.EmptyStatDTOFactory.*;
 import static com.utils.time.TimeCalculation.*;
 
 @Service
@@ -369,37 +370,5 @@ public class AppointmentServiceImpl implements AppointmentService {
         }
 
         return loadBarberService(newBarberserviceID);
-    }
-
-    private AppointmentTodayStatsDTO emptyAppointmentTodayStatsDTO() {
-
-        return AppointmentTodayStatsDTO.builder()
-                .appointmentCount(0L)
-                .totalAmountAsFinished(0L)
-                .build();
-    }
-
-    private AppointmentTomorrowStatsDTO emptyAppointmentTomorrowStatsDTO() {
-
-        return AppointmentTomorrowStatsDTO.builder()
-                .totalPendingAppointments(0L)
-                .scheduledAppointmentsTomorrow(0L)
-                .build();
-    }
-
-    private AppointmentMonthlyComparisonDTO emptyAppointmentMonthlyComparisonDTO() {
-
-        return AppointmentMonthlyComparisonDTO.builder()
-                .currentMonthAppointments(0L)
-                .previousMonthAppointments(0L)
-                .build();
-    }
-
-    private AppointmentCanceledStatsDTO emptyAppointmentCanceledStatsDTO() {
-
-        return AppointmentCanceledStatsDTO.builder()
-                .canceledAppointmentThisMonth(0L)
-                .totalAppointmentsThisMonth(0L)
-                .build();
     }
 }

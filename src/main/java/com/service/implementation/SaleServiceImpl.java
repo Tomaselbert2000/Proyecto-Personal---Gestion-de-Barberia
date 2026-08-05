@@ -34,6 +34,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import static com.dto.stats.EmptyStatDTOFactory.*;
+
 @Service
 @RequiredArgsConstructor
 public class SaleServiceImpl implements SaleService {
@@ -46,8 +48,6 @@ public class SaleServiceImpl implements SaleService {
     private final PaymentMethodRepository paymentMethodRepository;
     private final SaleValidator validator;
     private final SaleMapper mapper;
-
-    private final String EMPTY_RESULTS = "Sin datos";
 
     @Override
     @Transactional
@@ -362,63 +362,5 @@ public class SaleServiceImpl implements SaleService {
             product.setCurrentStockLevel(currentStock - quantity);
 
         }
-    }
-
-    private PaymentMethodUsageStatsDTO emptyPaymentMethodUsageStatsDTO() {
-
-        return PaymentMethodUsageStatsDTO.builder()
-                .paymentMethodName(EMPTY_RESULTS)
-                .amountOfSalesWhereIsUsed(0L)
-                .build();
-    }
-
-    private PaymentMethodRevenueStatsDTO emptyPaymentMethodRevenueStatsDTO() {
-
-        return PaymentMethodRevenueStatsDTO.builder()
-                .paymentMethod(EMPTY_RESULTS)
-                .revenueAmount(0.0)
-                .build();
-    }
-
-    private EmployeeRevenueStatsDTO emptyEmployeeRevenueStatsDTO() {
-
-        return EmployeeRevenueStatsDTO.builder()
-                .employeeFirstname(EMPTY_RESULTS)
-                .employeeLastname("")
-                .totalRevenue(0.0)
-                .build();
-    }
-
-    private EmployeeServicesCompletedStatsDTO emptyEmployeeServicesCompletedStatsDTO() {
-
-        return EmployeeServicesCompletedStatsDTO.builder()
-                .employeFirstName(EMPTY_RESULTS)
-                .employeLastName("")
-                .totalServices(0L)
-                .build();
-    }
-
-    private BarberServiceSalesStatsDTO emptyBarberServiceSaleStatsDTO() {
-
-        return BarberServiceSalesStatsDTO.builder()
-                .barberServiceName(EMPTY_RESULTS)
-                .amountOfSales(0L)
-                .build();
-    }
-
-    private BarberServiceRevenueStatsDTO emptyBarberServiceRevenueStatsDTO() {
-
-        return BarberServiceRevenueStatsDTO.builder()
-                .barberServiceName(EMPTY_RESULTS)
-                .totalRevenue(0.0)
-                .build();
-    }
-
-    private BarberServiceUsageStatsDTO emptyBarberServiceUsageStatsDTO() {
-
-        return BarberServiceUsageStatsDTO.builder()
-                .barberServiceName(EMPTY_RESULTS)
-                .totalUsage(0L)
-                .build();
     }
 }

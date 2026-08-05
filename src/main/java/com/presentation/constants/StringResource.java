@@ -30,7 +30,6 @@ public final class StringResource {
         public static final String NEW_LINE = "\n• ";
         public static final String ACCEPT_BUTTON_TEXT = "Aceptar";
         public static final String CLIPBOARD_BUTTON_TEXT = "Copiar al portapapeles";
-        public static final String EMPTY_DATA_STAT = "Sin datos";
     }
 
     public static final class StringFormat {

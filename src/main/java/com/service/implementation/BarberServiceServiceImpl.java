@@ -21,6 +21,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import static com.dto.stats.EmptyStatDTOFactory.emptyActiveOnCatalogStatsDTO;
+
 @Service
 @RequiredArgsConstructor
 public class BarberServiceServiceImpl implements BarberserviceService {
@@ -133,13 +135,5 @@ public class BarberServiceServiceImpl implements BarberserviceService {
                 .build();
 
         servicePriceHistoryRepository.save(servicePriceHistory);
-    }
-
-    private BarberServiceActiveOnCatalogStatsDTO emptyActiveOnCatalogStatsDTO() {
-
-        return BarberServiceActiveOnCatalogStatsDTO.builder()
-                .amountOfActiveServices(0L)
-                .amountOfDifferentCategories(0L)
-                .build();
     }
 }

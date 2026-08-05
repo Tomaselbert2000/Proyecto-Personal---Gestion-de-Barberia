@@ -24,7 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import static com.presentation.constants.StringResource.DisplayString.EMPTY_DATA_STAT;
+import static com.dto.stats.EmptyStatDTOFactory.*;
 
 @Service
 @RequiredArgsConstructor
@@ -209,37 +209,5 @@ public class ProductServiceImpl implements ProductService {
         }
 
         return counter;
-    }
-
-    private ProductTotalStockStatsDTO emptyProductTotalStockStatsDTO() {
-
-        return ProductTotalStockStatsDTO.builder()
-                .productCount(0L)
-                .onLowOrCriticalStockCount(0L)
-                .build();
-    }
-
-    private ProductMostSoldStatsDTO emptyProductMostSoldStatsDTO() {
-
-        return ProductMostSoldStatsDTO.builder()
-                .productName(EMPTY_DATA_STAT)
-                .unitsSold(0L)
-                .build();
-    }
-
-    private ProductHighestRevenueStatsDTO emptyProductHighestRevenueStatsDTO() {
-
-        return ProductHighestRevenueStatsDTO.builder()
-                .productName(EMPTY_DATA_STAT)
-                .revenue(0.0)
-                .build();
-    }
-
-    private ProductStockValueStatsDTO emptyProductTotalStockValueStatDTO() {
-
-        return ProductStockValueStatsDTO.builder()
-                .totalStockValue(0.0)
-                .totalUnits(0L)
-                .build();
     }
 }
