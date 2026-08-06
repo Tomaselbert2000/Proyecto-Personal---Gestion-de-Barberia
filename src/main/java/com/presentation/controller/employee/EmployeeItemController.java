@@ -1,6 +1,7 @@
 package com.presentation.controller.employee;
 
 import com.dto.employee.EmployeeInfoDTO;
+import com.presentation.controller.item.ItemController;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -23,7 +24,7 @@ import static com.presentation.support.control.UIBasicComponents.*;
 @Component
 @Getter
 @Setter
-public class EmployeeItemController {
+public class EmployeeItemController implements ItemController<EmployeeInfoDTO> {
 
     private EmployeeInfoDTO infoDTOReference;
 
@@ -114,6 +115,7 @@ public class EmployeeItemController {
         if (onStatusChangeCallBack != null) onStatusChangeCallBack.accept(infoDTOReference);
     }
 
+    @Override
     public void setDataOnItem(EmployeeInfoDTO infoDTO) {
 
         infoDTOReference = infoDTO;

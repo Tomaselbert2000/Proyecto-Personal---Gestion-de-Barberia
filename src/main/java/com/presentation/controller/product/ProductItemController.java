@@ -1,6 +1,7 @@
 package com.presentation.controller.product;
 
 import com.dto.product.ProductInfoDTO;
+import com.presentation.controller.item.ItemController;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -28,7 +29,7 @@ import static com.presentation.support.control.ValidationFormatter.formatAsPrice
 @Component
 @Getter
 @Setter
-public class ProductItemController {
+public class ProductItemController implements ItemController<ProductInfoDTO> {
 
     private static final Image IMAGE_PLACEHOLDER;
 
@@ -88,6 +89,7 @@ public class ProductItemController {
         if (onAddStockCallback != null) onAddStockCallback.accept(infoDTOReference);
     }
 
+    @Override
     public void setDataOnItem(ProductInfoDTO infoDTO) {
 
         infoDTOReference = infoDTO;
@@ -126,3 +128,5 @@ public class ProductItemController {
         configureRunnableMaps(map);
     }
 }
+
+//TODO: completar plan de refactor en OpenCode

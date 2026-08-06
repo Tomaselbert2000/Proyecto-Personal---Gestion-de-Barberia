@@ -2,6 +2,7 @@ package com.presentation.controller.dashboard;
 
 import com.dto.activity.RecentActivityDTO;
 import com.enums.EventType;
+import com.presentation.controller.item.ItemController;
 import com.utils.time.TimeCalculation;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -18,7 +19,7 @@ import static com.presentation.support.control.UIBasicComponents.generateMap;
 import static com.presentation.support.control.UIBasicComponents.setTextsOnLabelMap;
 
 @Component
-public class ActivityItemController {
+public class ActivityItemController implements ItemController<RecentActivityDTO> {
 
     @FXML
     private Region activity_icon;
@@ -63,6 +64,7 @@ public class ActivityItemController {
         };
     }
 
+    @Override
     public void setDataOnItem(RecentActivityDTO infoDTO) {
         String timestampAsString = generateTimestampFromString(infoDTO.getTimestamp());
         List<Label> labels = List.of(event_type, text_to_attach, timestamp);
@@ -71,5 +73,4 @@ public class ActivityItemController {
         setTextsOnLabelMap(map);
         activity_icon.getStyleClass().add(selectIconBasedOnEventType(infoDTO.getEventType()));
     }
-
 }

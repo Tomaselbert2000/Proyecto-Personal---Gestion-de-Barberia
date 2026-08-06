@@ -1,6 +1,7 @@
 package com.presentation.controller.paymentmethod;
 
 import com.dto.paymentmethod.PaymentMethodInfoDTO;
+import com.presentation.controller.item.ItemController;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -24,7 +25,7 @@ import static com.presentation.support.control.ValidationFormatter.parseNumberVa
 @Getter
 @Setter
 @RequiredArgsConstructor
-public class PaymentMethodItemController {
+public class PaymentMethodItemController implements ItemController<PaymentMethodInfoDTO> {
 
     private PaymentMethodInfoDTO infoDTOReference;
 
@@ -74,6 +75,7 @@ public class PaymentMethodItemController {
         }
     }
 
+    @Override
     public void setDataOnItem(PaymentMethodInfoDTO infoDTO) {
 
         infoDTOReference = infoDTO;

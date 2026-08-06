@@ -6,6 +6,7 @@ package com.presentation.controller.appointment;
 
 import com.dto.appointment.AppointmentInfoDTO;
 import com.enums.AppointmentStatus;
+import com.presentation.controller.item.ItemController;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.fxml.FXML;
 
@@ -25,7 +26,7 @@ import static com.presentation.support.control.UIBasicComponents.*;
 @Component
 @Getter
 @Setter
-public class AppointmentItemController {
+public class AppointmentItemController implements ItemController<AppointmentInfoDTO> {
 
     private Consumer<AppointmentInfoDTO>
             onCompleteCallback,
@@ -78,17 +79,6 @@ public class AppointmentItemController {
     }
 
     /**
-     * Concatena el nombre y apellido de una persona.
-     *
-     * @param firstName El nombre de la persona.
-     * @param lastName  El apellido de la persona.
-     * @return El nombre completo de la persona.
-     */
-    private String concatNames(String firstName, String lastName) {
-        return firstName + " " + lastName;
-    }
-
-    /**
      * Actualiza el estado de la cita en el badge.
      *
      * @param status El estado de la cita.
@@ -119,8 +109,8 @@ public class AppointmentItemController {
         if (infoDTO.getCurrentStatus() == AppointmentStatus.FINALIZADO || infoDTO.getCurrentStatus() == AppointmentStatus.CANCELADO)
             disableButtons(cancel_button, complete_button);
 
-        String clientFullName = concatNames(infoDTO.getClientFirstName(), infoDTO.getClientLastName());
-        String employeeFullName = concatNames(infoDTO.getEmployeeFirstName(), infoDTO.getEmployeeLastName());
+        String clientFullName = String.join(" ", infoDTO.getClientFirstName(), infoDTO.getClientLastName());
+        String employeeFullName = String.join(" ", infoDTO.getEmployeeFirstName(), infoDTO.getEmployeeLastName());
 
         Map<Label, String> map = Map.ofEntries(
                 Map.entry(client_name, clientFullName),
