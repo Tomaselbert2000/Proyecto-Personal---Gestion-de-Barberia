@@ -6,10 +6,7 @@ import com.dto.appointment.AppointmentUpdateDTO;
 import com.dto.barberservice.BarberServiceInfoDTO;
 import com.dto.client.ClientInfoDTO;
 import com.dto.employee.EmployeeInfoDTO;
-import com.dto.stats.AppointmentCanceledStatsDTO;
-import com.dto.stats.AppointmentMonthlyComparisonDTO;
-import com.dto.stats.AppointmentTodayStatsDTO;
-import com.dto.stats.AppointmentTomorrowStatsDTO;
+import com.dto.stats.*;
 import com.enums.AppointmentStatus;
 
 import java.time.LocalDate;
@@ -24,10 +21,6 @@ public interface AppointmentService {
     AppointmentInfoDTO getAppointmentInfo(Long appointmentID);
 
     List<AppointmentInfoDTO> getAppointmentsList();
-
-    Long appointmentsToday();
-
-    Long completedAppointmentsToday();
 
     void updateAppointment(Long appointmentID, AppointmentUpdateDTO updateDTO);
 
@@ -50,6 +43,8 @@ public interface AppointmentService {
     AppointmentMonthlyComparisonDTO getMonthlyComparisonStats();
 
     AppointmentCanceledStatsDTO getCanceledStats();
+
+    ExpectedIncomeStatDTO getExpectedIncomeToday();
 
     Long getCount();
 }

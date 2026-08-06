@@ -3,10 +3,7 @@ package com.service.interfaces;
 import com.dto.product.ProductCreationDTO;
 import com.dto.product.ProductInfoDTO;
 import com.dto.product.ProductUpdateDTO;
-import com.dto.stats.ProductHighestRevenueStatsDTO;
-import com.dto.stats.ProductMostSoldStatsDTO;
-import com.dto.stats.ProductStockValueStatsDTO;
-import com.dto.stats.ProductTotalStockStatsDTO;
+import com.dto.stats.*;
 import com.enums.ProductCategory;
 import com.enums.StockStatus;
 
@@ -22,10 +19,6 @@ public interface ProductService {
 
     void updateProduct(Long productID, ProductUpdateDTO product);
 
-    Long getProductsRegisteredCount();
-
-    Long getProductsOnLowStock();
-
     List<ProductInfoDTO> liveSearch(String productName, ProductCategory selectedCategory, StockStatus selectedStatus);
 
     ProductUpdateDTO getProductForUpdate(Long productID);
@@ -37,4 +30,6 @@ public interface ProductService {
     ProductHighestRevenueStatsDTO getProductHighestRevenueStats();
 
     ProductStockValueStatsDTO getProductStockValueStat();
+
+    InventoryAlertStatsDTO getInventoryAlertStat();
 }
