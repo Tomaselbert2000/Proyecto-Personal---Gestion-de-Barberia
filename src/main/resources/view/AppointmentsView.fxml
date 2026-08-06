@@ -53,9 +53,9 @@
                             <Region HBox.hgrow="ALWAYS"/>
                             <Region styleClass="calendar-today-icon, md-icon-medium, md-icon-primary"/>
                         </HBox>
-                        <Label fx:id="appointments_schedule_for_today" styleClass="md-display-small" text="0"/>
+                        <Label fx:id="appointments_schedule_for_today" styleClass="md-display-small"/>
                         <HBox spacing="4" alignment="CENTER_LEFT">
-                            <Label fx:id="completed_appointments_today" styleClass="md-label-medium" text="0"/>
+                            <Label fx:id="completed_appointments_today" styleClass="md-label-medium"/>
                             <Label styleClass="md-label-small" text="completados"/>
                         </HBox>
                     </VBox>
@@ -70,9 +70,9 @@
                             <Region HBox.hgrow="ALWAYS"/>
                             <Region styleClass="schedule-icon, md-icon-medium, md-icon-primary"/>
                         </HBox>
-                        <Label fx:id="pending_appointments" styleClass="md-display-small" text="0"/>
+                        <Label fx:id="pending_appointments" styleClass="md-display-small"/>
                         <HBox spacing="4" alignment="CENTER_LEFT">
-                            <Label fx:id="appointments_scheduled_tomorrow" styleClass="md-label-medium" text="0"/>
+                            <Label fx:id="appointments_scheduled_tomorrow" styleClass="md-label-medium"/>
                             <Label styleClass="md-label-small" text="nuevos hoy"/>
                         </HBox>
                     </VBox>
@@ -87,10 +87,10 @@
                             <Region HBox.hgrow="ALWAYS"/>
                             <Region styleClass="done-all-icon, md-icon-medium, md-icon-primary"/>
                         </HBox>
-                        <Label fx:id="current_month_appointment_count" styleClass="md-display-small" text="0"/>
+                        <Label fx:id="current_month_appointment_count" styleClass="md-display-small"/>
                         <HBox spacing="4" alignment="CENTER_LEFT">
                             <Label fx:id="previous_month_appointment_count"
-                                   styleClass="md-label-medium" text="0%"/>
+                                   styleClass="md-label-medium"/>
                             <Label styleClass="md-label-small" text="vs mes anterior"/>
                         </HBox>
                     </VBox>

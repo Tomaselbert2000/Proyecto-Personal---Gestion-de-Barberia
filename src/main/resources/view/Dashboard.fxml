@@ -148,36 +148,36 @@
                                     <Insets top="16" right="16" bottom="16" left="16"/>
                                 </padding>
                                 <HBox alignment="CENTER_LEFT">
-                                    <Label styleClass="md-label-large" text="Clientes Registrados"/>
+                                    <Label styleClass="md-label-large" text="Clientes nuevos"/>
                                     <!-- Espaciador flexible que empuja el ícono a la esquina derecha -->
                                     <Region HBox.hgrow="ALWAYS"/>
                                     <Region styleClass="groups-2-icon, md-icon-medium, md-icon-primary"/>
                                 </HBox>
-                                <Label fx:id="clients_registered_count" styleClass="md-display-small" text="0"/>
+                                <Label fx:id="new_clients_this_month" styleClass="md-display-small"/>
                                 <HBox spacing="4" alignment="CENTER_LEFT">
                                     <Region styleClass="arrow-up-circle-icon, md-icon-small"/>
-                                    <Label fx:id="clients_registered_percentage_vs_last_month"
-                                           styleClass="md-label-medium" text="0.0%"/>
+                                    <Label fx:id="new_clients_percentage_vs_last_month"
+                                           styleClass="md-label-medium"/>
                                     <Label styleClass="md-label-small" text="vs mes anterior"/>
                                 </HBox>
                             </VBox>
 
-                            <!-- Tarjeta 2: Empleados Activos -->
+                            <!-- Tarjeta 2: Porcentaje de ocupacion -->
                             <VBox styleClass="md-card" spacing="8" GridPane.columnIndex="1">
                                 <padding>
                                     <Insets top="16" right="16" bottom="16" left="16"/>
                                 </padding>
                                 <HBox alignment="CENTER_LEFT">
-                                    <Label styleClass="md-label-large" text="Empleados Activos"/>
+                                    <Label styleClass="md-label-large" text="Ganancias hoy"/>
                                     <!-- Espaciador flexible -->
                                     <Region HBox.hgrow="ALWAYS"/>
                                     <Region styleClass="person-apron-icon, md-icon-medium, md-icon-primary"/>
                                 </HBox>
-                                <Label fx:id="active_employees_count" styleClass="md-display-small" text="0"/>
+                                <Label fx:id="expected_income" styleClass="md-display-small"/>
                                 <HBox spacing="4" alignment="CENTER_LEFT">
-                                    <Label fx:id="active_employees_this_month_count" styleClass="md-label-medium"
+                                    <Label fx:id="average_ticket_value" styleClass="md-label-medium"
                                            text="0"/>
-                                    <Label styleClass="md-label-small" text="activos este mes"/>
+                                    <Label styleClass="md-label-small"/>
                                 </HBox>
                             </VBox>
 
@@ -192,7 +192,7 @@
                                     <Region HBox.hgrow="ALWAYS"/>
                                     <Region styleClass="calendar-today-icon, md-icon-medium, md-icon-primary"/>
                                 </HBox>
-                                <Label fx:id="appointments_today_count" styleClass="md-display-small" text="0"/>
+                                <Label fx:id="appointments_today_count" styleClass="md-display-small"/>
                                 <HBox spacing="4" alignment="CENTER_LEFT">
                                     <Label fx:id="finished_appointments_today_count" styleClass="md-label-medium"
                                            text="0"/>
@@ -211,10 +211,10 @@
                                     <Region HBox.hgrow="ALWAYS"/>
                                     <Region styleClass="box-icon, md-icon-medium, md-icon-primary"/>
                                 </HBox>
-                                <Label fx:id="products_on_stock_count" styleClass="md-display-small" text="0"/>
+                                <Label fx:id="low_stock_product_count" styleClass="md-display-small"/>
                                 <HBox spacing="4" alignment="CENTER_LEFT">
-                                    <Label fx:id="low_stock_products_count" styleClass="md-label-medium" text="0"/>
-                                    <Label styleClass="md-label-small" text="con bajo stock"/>
+                                    <Label fx:id="out_of_stock_product_count" styleClass="md-label-medium"/>
+                                    <Label styleClass="md-label-small"/>
                                 </HBox>
                             </VBox>
                         </GridPane>
