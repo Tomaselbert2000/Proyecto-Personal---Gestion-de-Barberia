@@ -25,12 +25,12 @@ import static com.presentation.constants.StringResource.ConfirmationDialog.CONFI
 import static com.presentation.constants.StringResource.ToastNotificationMessage.EMPLOYEE_UPDATE_TOAST_NOTIFICATION_MESSAGE;
 import static com.presentation.constants.StringResource.ValidationErrorMessage.EMPLOYEE_EDITION_VALIDATION_FAILED;
 import static com.presentation.constants.StringResource.ValidationErrorMessage.VALIDATION_ERROR_TITLE;
-import static com.presentation.support.view.ContainerManager.getCurrentWindow;
-import static com.presentation.support.dialog.PopUpWindowHelper.showWindowAlert;
-import static com.presentation.support.notification.ToastNotificationHelper.showToastNotification;
 import static com.presentation.support.control.UIBasicComponents.*;
 import static com.presentation.support.control.ValidationFormatter.formatAsPercentage;
 import static com.presentation.support.control.ValidationFormatter.getConstraintViolationsList;
+import static com.presentation.support.dialog.PopUpWindowHelper.showWindowAlert;
+import static com.presentation.support.notification.ToastNotificationHelper.showToastNotification;
+import static com.presentation.support.view.ContainerManager.getCurrentWindow;
 import static com.presentation.support.view.ViewRedirectionHelper.redirectToView;
 
 @Component
@@ -41,32 +41,32 @@ public class EmployeeEditionController {
     private final EmployeeService employeeService;
 
     @FXML
-    private AnchorPane anchor_pane;
+    private AnchorPane anchorPane;
 
     @FXML
     private MFXButton
-            back_button,
-            toggle_status_button,
-            reset_button,
-            save_button;
+            backButton,
+            toggleStatusButton,
+            resetButton,
+            saveButton;
 
     @FXML
     private Label
-            current_first_name,
-            current_last_name,
-            current_hire_date,
-            current_commission,
-            current_status_label,
-            current_termination_date;
+            currentFirstName,
+            currentLastName,
+            currentHireDate,
+            currentCommission,
+            currentStatusLabel,
+            currentTerminationDate;
 
     @FXML
     private TextField
-            first_name_field,
-            last_name_field,
-            commission_field;
+            firstNameField,
+            lastNameField,
+            commissionField;
 
     @FXML
-    private DatePicker termination_date_picker;
+    private DatePicker terminationDatePicker;
 
     @FXML
     public void initialize(EmployeeInfoDTO infoDTO) {
@@ -77,17 +77,17 @@ public class EmployeeEditionController {
 
         configureToggleStatusButton(infoDTO.getIsActive());
 
-        configureDecimalTextfieldRestrictions(commission_field);
+        configureDecimalTextfieldRestrictions(commissionField);
 
         loadEmployeeDataForEdition(infoDTO);
     }
 
     private void configurePromptTexts() {
 
-        Map<TextField, String> map = Map.ofEntries(
-                Map.entry(first_name_field, EMPLOYEE_FIRST_NAME),
-                Map.entry(last_name_field, EMPLOYEE_LAST_NAME),
-                Map.entry(commission_field, COMMISION_PERCENTAGE)
+        Map<TextField, String> map = Map.of(
+                firstNameField, EMPLOYEE_FIRST_NAME,
+                lastNameField, EMPLOYEE_LAST_NAME,
+                commissionField, COMMISION_PERCENTAGE
         );
 
         setPromptTextOnMap(map);
@@ -97,24 +97,24 @@ public class EmployeeEditionController {
 
         if (isActive) {
 
-            setTextOnButton(toggle_status_button, DEACTIVATE);
+            setTextOnButton(toggleStatusButton, DEACTIVATE);
 
         } else {
 
-            setTextOnButton(toggle_status_button, ACTIVATE);
+            setTextOnButton(toggleStatusButton, ACTIVATE);
 
         }
     }
 
     private void loadEmployeeDataForEdition(EmployeeInfoDTO infoDTO) {
 
-        Map<Label, String> map = Map.ofEntries(
-                Map.entry(current_first_name, infoDTO.getFirstName()),
-                Map.entry(current_last_name, infoDTO.getLastName()),
-                Map.entry(current_status_label, infoDTO.getIsActive() ? "Activo" : "Inactivo"),
-                Map.entry(current_commission, formatAsPercentage(infoDTO.getCommissionPercentage() * 100)),
-                Map.entry(current_hire_date, infoDTO.getHireDateAsString()),
-                Map.entry(current_termination_date, infoDTO.getTerminationDateAsString())
+        Map<Label, String> map = Map.of(
+                currentFirstName, infoDTO.getFirstName(),
+                currentLastName, infoDTO.getLastName(),
+                currentStatusLabel, infoDTO.getIsActive() ? "Activo" : "Inactivo",
+                currentCommission, formatAsPercentage(infoDTO.getCommissionPercentage() * 100),
+                currentHireDate, infoDTO.getHireDateAsString(),
+                currentTerminationDate, infoDTO.getTerminationDateAsString()
         );
 
         setTextsOnLabelMap(map);
@@ -124,43 +124,43 @@ public class EmployeeEditionController {
 
         try {
 
-            String firstName = first_name_field.getText();
-            String lastName = last_name_field.getText();
+            String firstName = firstNameField.getText();
+            String lastName = lastNameField.getText();
 
-            Double commissionPercentage = convertStringPercentageToDoubleValue(commission_field.getText());
+            Double commissionPercentage = convertStringPercentageToDoubleValue(commissionField.getText());
 
             Boolean isActive = getBooleanFlagFromToggleButtonText();
 
-            LocalDate terminationDate = termination_date_picker.getValue();
+            LocalDate terminationDate = terminationDatePicker.getValue();
 
             EmployeeUpdateDTO updateDTO = buildDTOFromAttributes(firstName, lastName, isActive, commissionPercentage, terminationDate);
 
             employeeService.updateEmployee(infoDTO.getId(), updateDTO);
 
-            showToastNotification(anchor_pane, applicationContext, EMPLOYEE_UPDATE_TOAST_NOTIFICATION_MESSAGE, ToastNotificationType.SUCCESSFUL);
+            showToastNotification(anchorPane, applicationContext, EMPLOYEE_UPDATE_TOAST_NOTIFICATION_MESSAGE, ToastNotificationType.SUCCESSFUL);
 
         } catch (ConstraintViolationException exception) {
 
             String errorMessages = getConstraintViolationsList(exception);
 
-            showWindowAlert(VALIDATION_ERROR_TITLE, EMPLOYEE_EDITION_VALIDATION_FAILED, errorMessages, Alert.AlertType.ERROR, CONFIRM_BUTTON_TEXT, getCurrentWindow(anchor_pane));
+            showWindowAlert(VALIDATION_ERROR_TITLE, EMPLOYEE_EDITION_VALIDATION_FAILED, errorMessages, Alert.AlertType.ERROR, CONFIRM_BUTTON_TEXT, getCurrentWindow(anchorPane));
         }
     }
 
     private Boolean getBooleanFlagFromToggleButtonText() {
 
-        return !toggle_status_button.getText().equals(ACTIVATE);
+        return !toggleStatusButton.getText().equals(ACTIVATE);
     }
 
     private void changeTextOnToggleStatusButton() {
 
-        if (toggle_status_button.getText().equals(ACTIVATE)) {
+        if (toggleStatusButton.getText().equals(ACTIVATE)) {
 
-            toggle_status_button.setText(DEACTIVATE);
+            toggleStatusButton.setText(DEACTIVATE);
 
-        } else if (toggle_status_button.getText().equals(DEACTIVATE)) {
+        } else if (toggleStatusButton.getText().equals(DEACTIVATE)) {
 
-            toggle_status_button.setText(ACTIVATE);
+            toggleStatusButton.setText(ACTIVATE);
         }
     }
 
@@ -177,11 +177,11 @@ public class EmployeeEditionController {
 
     private void configureButtonActions(EmployeeInfoDTO infoDTO) {
 
-        Map<Button, Runnable> map = Map.ofEntries(
-                Map.entry(back_button, () -> redirectToView(ViewRedirection.EMPLOYEES, anchor_pane, applicationContext)),
-                Map.entry(save_button, () -> updateEmployee(infoDTO)),
-                Map.entry(reset_button, () -> resetForm(infoDTO)),
-                Map.entry(toggle_status_button, this::changeTextOnToggleStatusButton)
+        Map<Button, Runnable> map = Map.of(
+                backButton, () -> redirectToView(ViewRedirection.EMPLOYEES, anchorPane, applicationContext),
+                saveButton, () -> updateEmployee(infoDTO),
+                resetButton, () -> resetForm(infoDTO),
+                toggleStatusButton, this::changeTextOnToggleStatusButton
         );
 
         configureRunnableMaps(map);
@@ -189,9 +189,9 @@ public class EmployeeEditionController {
 
     private void resetForm(EmployeeInfoDTO infoDTO) {
 
-        cleanTextfields(List.of(first_name_field, last_name_field, commission_field));
+        cleanTextfields(List.of(firstNameField, lastNameField, commissionField));
 
-        cleanDatePicker(termination_date_picker);
+        cleanDatePicker(terminationDatePicker);
 
         loadEmployeeDataForEdition(infoDTO);
     }

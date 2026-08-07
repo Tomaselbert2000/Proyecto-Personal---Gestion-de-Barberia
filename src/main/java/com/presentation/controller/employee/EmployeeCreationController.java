@@ -25,11 +25,11 @@ import static com.presentation.constants.StringResource.ConfirmationDialog.CONFI
 import static com.presentation.constants.StringResource.ToastNotificationMessage.EMPLOYEE_CREATION_TOAST_NOTIFICATION_MESSAGE;
 import static com.presentation.constants.StringResource.ValidationErrorMessage.EMPLOYEE_CREATION_VALIDATION_FAILED;
 import static com.presentation.constants.StringResource.ValidationErrorMessage.VALIDATION_ERROR_TITLE;
-import static com.presentation.support.view.ContainerManager.getCurrentWindow;
-import static com.presentation.support.dialog.PopUpWindowHelper.showWindowAlert;
-import static com.presentation.support.notification.ToastNotificationHelper.showToastNotification;
 import static com.presentation.support.control.UIBasicComponents.*;
 import static com.presentation.support.control.ValidationFormatter.getConstraintViolationsList;
+import static com.presentation.support.dialog.PopUpWindowHelper.showWindowAlert;
+import static com.presentation.support.notification.ToastNotificationHelper.showToastNotification;
+import static com.presentation.support.view.ContainerManager.getCurrentWindow;
 import static com.presentation.support.view.ViewRedirectionHelper.redirectToView;
 
 @Component
@@ -38,23 +38,24 @@ public class EmployeeCreationController {
 
     private final ApplicationContext applicationContext;
     private final EmployeeService employeeService;
+
     @FXML
-    private AnchorPane anchor_pane;
+    private AnchorPane anchorPane;
 
     @FXML
     private MFXButton
-            back_button,
-            clear_button,
-            save_button;
+            backButton,
+            clearButton,
+            saveButton;
 
     @FXML
     private TextField
-            first_name_field,
-            last_name_field,
-            commission_field;
+            firstNameField,
+            lastNameField,
+            commissionField;
 
     @FXML
-    private DatePicker hire_date_picker;
+    private DatePicker hireDatePicker;
 
     @FXML
     public void initialize() {
@@ -63,15 +64,15 @@ public class EmployeeCreationController {
 
         configurePromptTexts();
 
-        configureDecimalTextfieldRestrictions(commission_field);
+        configureDecimalTextfieldRestrictions(commissionField);
     }
 
     private void configurePromptTexts() {
 
         Map<TextField, String> promptTextMap = Map.of(
-                first_name_field, EMPLOYEE_FIRST_NAME,
-                last_name_field, EMPLOYEE_LAST_NAME,
-                commission_field, COMMISION_PERCENTAGE
+                firstNameField, EMPLOYEE_FIRST_NAME,
+                lastNameField, EMPLOYEE_LAST_NAME,
+                commissionField, COMMISION_PERCENTAGE
         );
 
         setPromptTextOnMap(promptTextMap);
@@ -79,17 +80,17 @@ public class EmployeeCreationController {
 
     private void resetForm() {
 
-        setBlankTextfield(first_name_field, last_name_field, commission_field);
+        setBlankTextfield(firstNameField, lastNameField, commissionField);
 
-        cleanDatePicker(hire_date_picker);
+        cleanDatePicker(hireDatePicker);
     }
 
     private void configureButtonActions() {
 
         Map<Button, Runnable> map = Map.of(
-                back_button, () -> redirectToView(ViewRedirection.EMPLOYEES, anchor_pane, applicationContext),
-                clear_button, this::resetForm,
-                save_button, this::registerNewEmployee
+                backButton, () -> redirectToView(ViewRedirection.EMPLOYEES, anchorPane, applicationContext),
+                clearButton, this::resetForm,
+                saveButton, this::registerNewEmployee
         );
 
         configureRunnableMaps(map);
@@ -99,17 +100,17 @@ public class EmployeeCreationController {
 
         try {
 
-            String firstName = first_name_field.getText();
-            String lastName = last_name_field.getText();
-            LocalDate hireDate = hire_date_picker.getValue();
+            String firstName = firstNameField.getText();
+            String lastName = lastNameField.getText();
+            LocalDate hireDate = hireDatePicker.getValue();
 
-            double commissionValueAsDouble = convertStringPercentageToDoubleValue(commission_field.getText());
+            double commissionValueAsDouble = convertStringPercentageToDoubleValue(commissionField.getText());
 
             EmployeeCreationDTO creationDTO = buildDTOFromAttributes(firstName, lastName, hireDate, commissionValueAsDouble);
 
             employeeService.registerNewEmployee(creationDTO);
 
-            showToastNotification(anchor_pane, applicationContext, EMPLOYEE_CREATION_TOAST_NOTIFICATION_MESSAGE, ToastNotificationType.SUCCESSFUL);
+            showToastNotification(anchorPane, applicationContext, EMPLOYEE_CREATION_TOAST_NOTIFICATION_MESSAGE, ToastNotificationType.SUCCESSFUL);
 
             resetForm();
 
@@ -117,7 +118,7 @@ public class EmployeeCreationController {
 
             String errorMessages = getConstraintViolationsList(exception);
 
-            showWindowAlert(VALIDATION_ERROR_TITLE, EMPLOYEE_CREATION_VALIDATION_FAILED, errorMessages, Alert.AlertType.ERROR, CONFIRM_BUTTON_TEXT, getCurrentWindow(anchor_pane));
+            showWindowAlert(VALIDATION_ERROR_TITLE, EMPLOYEE_CREATION_VALIDATION_FAILED, errorMessages, Alert.AlertType.ERROR, CONFIRM_BUTTON_TEXT, getCurrentWindow(anchorPane));
         }
     }
 

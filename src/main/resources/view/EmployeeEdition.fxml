@@ -5,7 +5,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1"
-            fx:id="anchor_pane"
+            fx:id="anchorPane"
             xmlns="http://javafx.com/javafx/17.0.12"
             fx:controller="com.presentation.controller.employee.EmployeeEditionController">
 
@@ -18,7 +18,7 @@
             <padding>
                 <Insets top="20" right="24" bottom="12" left="24"/>
             </padding>
-            <MFXButton fx:id="back_button" styleClass="md-button-outlined" text="Volver">
+            <MFXButton fx:id="backButton" styleClass="md-button-outlined" text="Volver">
                 <graphic>
                     <Region styleClass="arrow-up-circle-icon, md-icon-small"/>
                 </graphic>
@@ -57,37 +57,37 @@
                         <!-- Current Name -->
                         <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="0">
                             <Label styleClass="md-label-medium" text="Nombre Actual"/>
-                            <Label fx:id="current_first_name" styleClass="md-body-medium"/>
+                            <Label fx:id="currentFirstName" styleClass="md-body-medium"/>
                         </VBox>
 
                         <!-- Current Last Name -->
                         <VBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="0">
                             <Label styleClass="md-label-medium" text="Apellido Actual"/>
-                            <Label fx:id="current_last_name" styleClass="md-body-medium"/>
+                            <Label fx:id="currentLastName" styleClass="md-body-medium"/>
                         </VBox>
 
                         <!-- Current Hire Date -->
                         <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="1">
                             <Label styleClass="md-label-medium" text="Fecha de Contratación"/>
-                            <Label fx:id="current_hire_date" styleClass="md-body-medium"/>
+                            <Label fx:id="currentHireDate" styleClass="md-body-medium"/>
                         </VBox>
 
                         <!-- Current Commission -->
                         <VBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="1">
                             <Label styleClass="md-label-medium" text="Comisión Actual"/>
-                            <Label fx:id="current_commission" styleClass="md-body-medium"/>
+                            <Label fx:id="currentCommission" styleClass="md-body-medium"/>
                         </VBox>
 
                         <!-- Current Status -->
                         <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="2">
                             <Label styleClass="md-label-medium" text="Estado Actual"/>
-                            <Label fx:id="current_status_label" styleClass="md-body-medium"/>
+                            <Label fx:id="currentStatusLabel" styleClass="md-body-medium"/>
                         </VBox>
 
                         <!-- Termination Date -->
                         <VBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="2">
                             <Label styleClass="md-label-medium" text="Fecha de Baja"/>
-                            <Label fx:id="current_termination_date" styleClass="md-body-medium"/>
+                            <Label fx:id="currentTerminationDate" styleClass="md-body-medium"/>
                         </VBox>
                     </GridPane>
                 </VBox>
@@ -111,28 +111,28 @@
                         <!-- New First Name -->
                         <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="0">
                             <Label styleClass="md-label-medium" text="Nuevo Nombre"/>
-                            <TextField fx:id="first_name_field" styleClass="md-text-field" maxWidth="Infinity"
+                            <TextField fx:id="firstNameField" styleClass="md-text-field" maxWidth="Infinity"
                                        promptText="Ej: Juan"/>
                         </VBox>
 
                         <!-- New Last Name -->
                         <VBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="0">
                             <Label styleClass="md-label-medium" text="Nuevo Apellido"/>
-                            <TextField fx:id="last_name_field" styleClass="md-text-field" maxWidth="Infinity"
+                            <TextField fx:id="lastNameField" styleClass="md-text-field" maxWidth="Infinity"
                                        promptText="Ej: Pérez"/>
                         </VBox>
 
                         <!-- New Commission Percentage -->
                         <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="1">
                             <Label styleClass="md-label-medium" text="Nueva Comisión (%)"/>
-                            <TextField fx:id="commission_field" styleClass="md-text-field" maxWidth="Infinity"
+                            <TextField fx:id="commissionField" styleClass="md-text-field" maxWidth="Infinity"
                                        promptText="Ej: 15"/>
                         </VBox>
 
                         <!-- Status Toggle -->
                         <VBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="1">
                             <Label styleClass="md-label-medium" text="Cambiar Estado"/>
-                            <MFXButton fx:id="toggle_status_button" styleClass="md-button-tonal"
+                            <MFXButton fx:id="toggleStatusButton" styleClass="md-button-tonal"
                                        maxWidth="Infinity" text="Desactivar"/>
                         </VBox>
 
@@ -140,7 +140,7 @@
                         <VBox spacing="4" GridPane.columnIndex="0" GridPane.columnSpan="2"
                               GridPane.rowIndex="2">
                             <Label styleClass="md-label-medium" text="Fecha de Baja (Opcional)"/>
-                            <DatePicker fx:id="termination_date_picker" styleClass="md-date-picker" maxWidth="Infinity"
+                            <DatePicker fx:id="terminationDatePicker" styleClass="md-date-picker" maxWidth="Infinity"
                                         promptText="Seleccioná una fecha"/>
                         </VBox>
                     </GridPane>
@@ -148,8 +148,8 @@
 
                 <!-- Botones de Acción -->
                 <HBox spacing="8" alignment="CENTER_RIGHT">
-                    <MFXButton fx:id="reset_button" styleClass="md-button-outlined" text="Restaurar datos"/>
-                    <MFXButton fx:id="save_button" styleClass="md-button-filled" text="Actualizar Empleado"/>
+                    <MFXButton fx:id="resetButton" styleClass="md-button-outlined" text="Restaurar datos"/>
+                    <MFXButton fx:id="saveButton" styleClass="md-button-filled" text="Actualizar Empleado"/>
                 </HBox>
 
             </VBox>

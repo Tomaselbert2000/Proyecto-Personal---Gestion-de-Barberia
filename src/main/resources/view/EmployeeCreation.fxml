@@ -5,7 +5,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1"
-            fx:id="anchor_pane"
+            fx:id="anchorPane"
             xmlns="http://javafx.com/javafx/17.0.12"
             fx:controller="com.presentation.controller.employee.EmployeeCreationController">
 
@@ -18,7 +18,7 @@
             <padding>
                 <Insets top="20" right="24" bottom="12" left="24"/>
             </padding>
-            <MFXButton fx:id="back_button" styleClass="md-button-outlined" text="Volver">
+            <MFXButton fx:id="backButton" styleClass="md-button-outlined" text="Volver">
                 <graphic>
                     <Region styleClass="arrow-up-circle-icon, md-icon-small"/>
                 </graphic>
@@ -60,7 +60,7 @@
                                 <Label styleClass="md-label-medium" text="Nombre"/>
                                 <Label styleClass="md-label-medium, md-input-error" text="*"/>
                             </HBox>
-                            <TextField fx:id="first_name_field" styleClass="md-text-field" maxWidth="Infinity"
+                            <TextField fx:id="firstNameField" styleClass="md-text-field" maxWidth="Infinity"
                                        promptText="Ej: Juan"/>
                         </VBox>
 
@@ -70,7 +70,7 @@
                                 <Label styleClass="md-label-medium" text="Apellido"/>
                                 <Label styleClass="md-label-medium, md-input-error" text="*"/>
                             </HBox>
-                            <TextField fx:id="last_name_field" styleClass="md-text-field" maxWidth="Infinity"
+                            <TextField fx:id="lastNameField" styleClass="md-text-field" maxWidth="Infinity"
                                        promptText="Ej: Pérez"/>
                         </VBox>
 
@@ -80,7 +80,7 @@
                                 <Label styleClass="md-label-medium" text="Fecha de Contratación"/>
                                 <Label styleClass="md-label-medium, md-input-error" text="*"/>
                             </HBox>
-                            <DatePicker fx:id="hire_date_picker" styleClass="md-date-picker" maxWidth="Infinity"
+                            <DatePicker fx:id="hireDatePicker" styleClass="md-date-picker" maxWidth="Infinity"
                                         promptText="Seleccioná una fecha"/>
                         </VBox>
 
@@ -90,7 +90,7 @@
                                 <Label styleClass="md-label-medium" text="Comisión (%)"/>
                                 <Label styleClass="md-label-medium, md-input-error" text="*"/>
                             </HBox>
-                            <TextField fx:id="commission_field" styleClass="md-text-field" maxWidth="Infinity"
+                            <TextField fx:id="commissionField" styleClass="md-text-field" maxWidth="Infinity"
                                        promptText="Ej: 15"/>
                         </VBox>
                     </GridPane>
@@ -98,8 +98,8 @@
 
                 <!-- Botones de Acción -->
                 <HBox spacing="8" alignment="CENTER_RIGHT">
-                    <MFXButton fx:id="clear_button" styleClass="md-button-outlined" text="Limpiar datos"/>
-                    <MFXButton fx:id="save_button" styleClass="md-button-filled" text="Registrar Empleado"/>
+                    <MFXButton fx:id="clearButton" styleClass="md-button-outlined" text="Limpiar datos"/>
+                    <MFXButton fx:id="saveButton" styleClass="md-button-filled" text="Registrar Empleado"/>
                 </HBox>
 
             </VBox>
