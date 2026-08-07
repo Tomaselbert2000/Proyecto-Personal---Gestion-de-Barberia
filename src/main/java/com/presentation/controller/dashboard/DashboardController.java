@@ -49,7 +49,7 @@ public class DashboardController {
     private final ApplicationContext applicationContext;
 
     @FXML
-    private StackPane stack_pane;
+    private StackPane stackPane;
 
     @FXML
     private Node dashboardReference;
@@ -58,38 +58,38 @@ public class DashboardController {
     private BorderPane borderPane;
 
     @FXML
-    private VBox activity_log_vbox;
+    private VBox activityLogVbox;
 
     @FXML
     private MFXButton
-            navbar_dashboard_button,
-            navbar_client_button,
-            navbar_employee_button,
-            navbar_appointment_button,
-            navbar_product_button,
-            navbar_barber_service_button,
-            navbar_payment_button,
-            navbar_settings_button,
-            navbar_logout_button,
-            clients_view_button,
-            create_client_button,
-            employee_view_button,
-            create_employee_button,
-            appointments_view_button,
-            create_appointment_button,
-            products_view_button,
-            create_product_button;
+            navbarDashboardButton,
+            navbarClientButton,
+            navbarEmployeeButton,
+            navbarAppointmentButton,
+            navbarBarberServiceButton,
+            navbarProductButton,
+            navbarPaymentButton,
+            navbarSettingsButton,
+            navbarLogoutButton,
+            clientsViewButton,
+            createClientButton,
+            employeeViewButton,
+            createEmployeeButton,
+            appointmentsViewButton,
+            createAppointmentButton,
+            productsViewButton,
+            createProductButton;
 
     @FXML
     private Label
-            new_clients_this_month,
-            new_clients_percentage_vs_last_month,
-            expected_income,
-            average_ticket_value,
-            appointments_today_count,
-            finished_appointments_today_count,
-            low_stock_product_count,
-            out_of_stock_product_count;
+            newClientsThisMonth,
+            newClientsPercentageVsLastMonth,
+            expectedIncome,
+            averageTicketValue,
+            appointmentsTodayCount,
+            finishedAppointmentsTodayCount,
+            lowStockProductCount,
+            outOfStockProductCount;
 
     @FXML
     public void initialize() {
@@ -129,11 +129,11 @@ public class DashboardController {
 
     private void loadRecentActivitiesOnDashboard(List<RecentActivityDTO> recentActivity) {
 
-        cleanContainer(activity_log_vbox);
+        cleanContainer(activityLogVbox);
 
         loadItemsOnController(
                 recentActivity,
-                activity_log_vbox,
+                activityLogVbox,
                 ACTIVITY_LOG_ITEM_VIEW_PATH,
                 EMPTY_ACTIVITY_LOG_MESSAGE,
                 RECENT_ACTIVITY_VIEW_LOADING_FAILED
@@ -156,8 +156,8 @@ public class DashboardController {
         executeAsyncTask(
                 clientService::getClientStatsVsLastMonth,
                 clientAcquisitionStatsDTO -> {
-                    setTextOnLabel(new_clients_this_month, parseNumberValueToText(clientAcquisitionStatsDTO.getNewClientsThisMonth()));
-                    setTextOnLabel(new_clients_percentage_vs_last_month, formatAsPercentage(clientAcquisitionStatsDTO.getPercentageVsLastMonth()) + " vs mes anterior");
+                    setTextOnLabel(newClientsThisMonth, parseNumberValueToText(clientAcquisitionStatsDTO.getNewClientsThisMonth()));
+                    setTextOnLabel(newClientsPercentageVsLastMonth, formatAsPercentage(clientAcquisitionStatsDTO.getPercentageVsLastMonth()) + " vs mes anterior");
                 }
         );
     }
@@ -167,8 +167,8 @@ public class DashboardController {
         executeAsyncTask(
                 appointmentService::getExpectedIncomeToday,
                 expectedIncomeStatDTO -> {
-                    setTextOnLabel(expected_income, formatAsPrice(expectedIncomeStatDTO.getExpectedIncomeSumForToday()));
-                    setTextOnLabel(average_ticket_value, "Promedio por ticket " + formatPriceAsString(expectedIncomeStatDTO.getAverageTicket()));
+                    setTextOnLabel(expectedIncome, formatAsPrice(expectedIncomeStatDTO.getExpectedIncomeSumForToday()));
+                    setTextOnLabel(averageTicketValue, "Promedio por ticket " + formatPriceAsString(expectedIncomeStatDTO.getAverageTicket()));
                 }
         );
     }
@@ -178,8 +178,8 @@ public class DashboardController {
         executeAsyncTask(
                 appointmentService::getAppointmentsTodayStats,
                 appointmentTodayStatsDTO -> {
-                    setTextOnLabel(appointments_today_count, parseNumberValueToText(appointmentTodayStatsDTO.getAppointmentCount()));
-                    setTextOnLabel(finished_appointments_today_count, parseNumberValueToText(appointmentTodayStatsDTO.getTotalAmountAsFinished()));
+                    setTextOnLabel(appointmentsTodayCount, parseNumberValueToText(appointmentTodayStatsDTO.getAppointmentCount()));
+                    setTextOnLabel(finishedAppointmentsTodayCount, parseNumberValueToText(appointmentTodayStatsDTO.getTotalAmountAsFinished()));
                 }
         );
     }
@@ -189,8 +189,8 @@ public class DashboardController {
         executeAsyncTask(
                 productService::getInventoryAlertStat,
                 inventoryAlertStatsDTO -> {
-                    setTextOnLabel(low_stock_product_count, parseNumberValueToText(inventoryAlertStatsDTO.getLowStockProductsCount()));
-                    setTextOnLabel(out_of_stock_product_count, "Agotados: " + parseNumberValueToText(inventoryAlertStatsDTO.getOutOfStockProductsCount()));
+                    setTextOnLabel(lowStockProductCount, parseNumberValueToText(inventoryAlertStatsDTO.getLowStockProductsCount()));
+                    setTextOnLabel(outOfStockProductCount, "Agotados: " + parseNumberValueToText(inventoryAlertStatsDTO.getOutOfStockProductsCount()));
                 }
         );
     }
@@ -198,29 +198,29 @@ public class DashboardController {
     private void configureButtonActions() {
 
         Map<Button, Runnable> navBarButtonsMap = Map.of(
-                navbar_dashboard_button, () -> redirectToView(DASHBOARD, borderPane, applicationContext, this::reloadDashboard),
-                navbar_client_button, () -> redirectToView(CLIENTS, borderPane, applicationContext),
-                navbar_employee_button, () -> redirectToView(EMPLOYEES, borderPane, applicationContext),
-                navbar_appointment_button, () -> redirectToView(APPOINTMENTS, borderPane, applicationContext),
-                navbar_barber_service_button, () -> redirectToView(BARBER_SERVICES, borderPane, applicationContext),
-                navbar_product_button, () -> redirectToView(PRODUCTS, borderPane, applicationContext),
-                navbar_payment_button, () -> redirectToView(PAYMENT_METHODS, borderPane, applicationContext),
-                navbar_settings_button, () -> redirectToView(SETTINGS, borderPane, applicationContext),
-                navbar_logout_button, this::manageLogout
+                navbarDashboardButton, () -> redirectToView(DASHBOARD, borderPane, applicationContext, this::reloadDashboard),
+                navbarClientButton, () -> redirectToView(CLIENTS, borderPane, applicationContext),
+                navbarEmployeeButton, () -> redirectToView(EMPLOYEES, borderPane, applicationContext),
+                navbarAppointmentButton, () -> redirectToView(APPOINTMENTS, borderPane, applicationContext),
+                navbarBarberServiceButton, () -> redirectToView(BARBER_SERVICES, borderPane, applicationContext),
+                navbarProductButton, () -> redirectToView(PRODUCTS, borderPane, applicationContext),
+                navbarPaymentButton, () -> redirectToView(PAYMENT_METHODS, borderPane, applicationContext),
+                navbarSettingsButton, () -> redirectToView(SETTINGS, borderPane, applicationContext),
+                navbarLogoutButton, this::manageLogout
         );
 
         Map<Button, Runnable> quickAccessButtonsMap = Map.of(
-                clients_view_button, () -> redirectToView(CLIENTS, borderPane, applicationContext),
-                employee_view_button, () -> redirectToView(EMPLOYEES, borderPane, applicationContext),
-                appointments_view_button, () -> redirectToView(APPOINTMENTS, borderPane, applicationContext),
-                products_view_button, () -> redirectToView(PRODUCTS, borderPane, applicationContext)
+                clientsViewButton, () -> redirectToView(CLIENTS, borderPane, applicationContext),
+                employeeViewButton, () -> redirectToView(EMPLOYEES, borderPane, applicationContext),
+                appointmentsViewButton, () -> redirectToView(APPOINTMENTS, borderPane, applicationContext),
+                productsViewButton, () -> redirectToView(PRODUCTS, borderPane, applicationContext)
         );
 
         Map<Button, Runnable> quickCreationButtonsMap = Map.of(
-                create_client_button, () -> redirectToView(CLIENT_CREATION, borderPane, applicationContext),
-                create_employee_button, () -> redirectToView(EMPLOYEE_CREATION, borderPane, applicationContext),
-                create_appointment_button, () -> redirectToView(APPOINTMENT_CREATION, borderPane, applicationContext),
-                create_product_button, () -> redirectToView(PRODUCT_CREATION, borderPane, applicationContext)
+                createClientButton, () -> redirectToView(CLIENT_CREATION, borderPane, applicationContext),
+                createEmployeeButton, () -> redirectToView(EMPLOYEE_CREATION, borderPane, applicationContext),
+                createAppointmentButton, () -> redirectToView(APPOINTMENT_CREATION, borderPane, applicationContext),
+                createProductButton, () -> redirectToView(PRODUCT_CREATION, borderPane, applicationContext)
         );
 
         configureRunnableMaps(navBarButtonsMap, quickAccessButtonsMap, quickCreationButtonsMap);
@@ -235,7 +235,7 @@ public class DashboardController {
                 CANCEL_BUTTON_TEXT,
                 CONFIRM_BUTTON_TEXT,
                 LOGOUT_ICON,
-                () -> redirectToView(LOGIN, stack_pane, applicationContext),
+                () -> redirectToView(LOGIN, stackPane, applicationContext),
                 () -> {
                 }
         );

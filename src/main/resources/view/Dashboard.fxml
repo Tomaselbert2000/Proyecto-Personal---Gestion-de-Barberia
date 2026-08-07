@@ -7,7 +7,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
 <StackPane xmlns:fx="http://javafx.com/fxml/1"
-           fx:id="stack_pane"
+           fx:id="stackPane"
            xmlns="http://javafx.com/javafx/17.0.12"
            fx:controller="com.presentation.controller.dashboard.DashboardController">
 
@@ -37,49 +37,49 @@
 
                 <!-- Menú de Navegación con Íconos (Doble Código) -->
                 <VBox spacing="4" VBox.vgrow="ALWAYS">
-                    <MFXButton fx:id="navbar_dashboard_button" maxWidth="Infinity"
+                    <MFXButton fx:id="navbarDashboardButton" maxWidth="Infinity"
                                styleClass="md-nav-button, md-nav-button-active" text="Dashboard">
                         <graphic>
                             <Region styleClass="category-icon, md-icon-small, md-icon-primary"/>
                         </graphic>
                     </MFXButton>
 
-                    <MFXButton fx:id="navbar_client_button" maxWidth="Infinity" styleClass="md-nav-button"
+                    <MFXButton fx:id="navbarClientButton" maxWidth="Infinity" styleClass="md-nav-button"
                                text="Clientes">
                         <graphic>
                             <Region styleClass="person-1-icon, md-icon-small"/>
                         </graphic>
                     </MFXButton>
 
-                    <MFXButton fx:id="navbar_employee_button" maxWidth="Infinity" styleClass="md-nav-button"
+                    <MFXButton fx:id="navbarEmployeeButton" maxWidth="Infinity" styleClass="md-nav-button"
                                text="Empleados">
                         <graphic>
                             <Region styleClass="person-apron-icon, md-icon-small"/>
                         </graphic>
                     </MFXButton>
 
-                    <MFXButton fx:id="navbar_appointment_button" maxWidth="Infinity" styleClass="md-nav-button"
+                    <MFXButton fx:id="navbarAppointmentButton" maxWidth="Infinity" styleClass="md-nav-button"
                                text="Turnos">
                         <graphic>
                             <Region styleClass="calendar-today-icon, md-icon-small"/>
                         </graphic>
                     </MFXButton>
 
-                    <MFXButton fx:id="navbar_barber_service_button" maxWidth="Infinity" styleClass="md-nav-button"
+                    <MFXButton fx:id="navbarBarberServiceButton" maxWidth="Infinity" styleClass="md-nav-button"
                                text="Servicios">
                         <graphic>
                             <Region styleClass="work-icon, md-icon-small"/>
                         </graphic>
                     </MFXButton>
 
-                    <MFXButton fx:id="navbar_product_button" maxWidth="Infinity" styleClass="md-nav-button"
+                    <MFXButton fx:id="navbarProductButton" maxWidth="Infinity" styleClass="md-nav-button"
                                text="Stock de productos">
                         <graphic>
                             <Region styleClass="box-icon, md-icon-small"/>
                         </graphic>
                     </MFXButton>
 
-                    <MFXButton fx:id="navbar_payment_button" maxWidth="Infinity" styleClass="md-nav-button"
+                    <MFXButton fx:id="navbarPaymentButton" maxWidth="Infinity" styleClass="md-nav-button"
                                text="Medios de pago">
                         <graphic>
                             <Region styleClass="payments-icon, md-icon-small"/>
@@ -91,14 +91,14 @@
 
                 <!-- Sección Inferior -->
                 <VBox spacing="4">
-                    <MFXButton fx:id="navbar_settings_button" maxWidth="Infinity" styleClass="md-nav-button"
+                    <MFXButton fx:id="navbarSettingsButton" maxWidth="Infinity" styleClass="md-nav-button"
                                text="Configuración">
                         <graphic>
                             <Region styleClass="enterprise-icon, md-icon-small"/>
                         </graphic>
                     </MFXButton>
 
-                    <MFXButton fx:id="navbar_logout_button" maxWidth="Infinity" styleClass="md-nav-button"
+                    <MFXButton fx:id="navbarLogoutButton" maxWidth="Infinity" styleClass="md-nav-button"
                                text="Cerrar Sesión">
                         <graphic>
                             <Region styleClass="logout-icon, md-icon-small"/>
@@ -153,10 +153,10 @@
                                     <Region HBox.hgrow="ALWAYS"/>
                                     <Region styleClass="groups-2-icon, md-icon-medium, md-icon-primary"/>
                                 </HBox>
-                                <Label fx:id="new_clients_this_month" styleClass="md-display-small"/>
+                                <Label fx:id="newClientsThisMonth" styleClass="md-display-small"/>
                                 <HBox spacing="4" alignment="CENTER_LEFT">
                                     <Region styleClass="arrow-up-circle-icon, md-icon-small"/>
-                                    <Label fx:id="new_clients_percentage_vs_last_month"
+                                    <Label fx:id="newClientsPercentageVsLastMonth"
                                            styleClass="md-label-medium"/>
                                     <Label styleClass="md-label-small" text="vs mes anterior"/>
                                 </HBox>
@@ -173,9 +173,9 @@
                                     <Region HBox.hgrow="ALWAYS"/>
                                     <Region styleClass="person-apron-icon, md-icon-medium, md-icon-primary"/>
                                 </HBox>
-                                <Label fx:id="expected_income" styleClass="md-display-small"/>
+                                <Label fx:id="expectedIncome" styleClass="md-display-small"/>
                                 <HBox spacing="4" alignment="CENTER_LEFT">
-                                    <Label fx:id="average_ticket_value" styleClass="md-label-medium"
+                                    <Label fx:id="averageTicketValue" styleClass="md-label-medium"
                                            text="0"/>
                                     <Label styleClass="md-label-small"/>
                                 </HBox>
@@ -192,9 +192,9 @@
                                     <Region HBox.hgrow="ALWAYS"/>
                                     <Region styleClass="calendar-today-icon, md-icon-medium, md-icon-primary"/>
                                 </HBox>
-                                <Label fx:id="appointments_today_count" styleClass="md-display-small"/>
+                                <Label fx:id="appointmentsTodayCount" styleClass="md-display-small"/>
                                 <HBox spacing="4" alignment="CENTER_LEFT">
-                                    <Label fx:id="finished_appointments_today_count" styleClass="md-label-medium"
+                                    <Label fx:id="finishedAppointmentsTodayCount" styleClass="md-label-medium"
                                            text="0"/>
                                     <Label styleClass="md-label-small" text="completados"/>
                                 </HBox>
@@ -211,9 +211,9 @@
                                     <Region HBox.hgrow="ALWAYS"/>
                                     <Region styleClass="box-icon, md-icon-medium, md-icon-primary"/>
                                 </HBox>
-                                <Label fx:id="low_stock_product_count" styleClass="md-display-small"/>
+                                <Label fx:id="lowStockProductCount" styleClass="md-display-small"/>
                                 <HBox spacing="4" alignment="CENTER_LEFT">
-                                    <Label fx:id="out_of_stock_product_count" styleClass="md-label-medium"/>
+                                    <Label fx:id="outOfStockProductCount" styleClass="md-label-medium"/>
                                     <Label styleClass="md-label-small"/>
                                 </HBox>
                             </VBox>
@@ -244,9 +244,9 @@
                                         <Region styleClass="person-1-icon, md-icon-medium"/>
                                     </HBox>
                                     <HBox spacing="8" alignment="CENTER_LEFT">
-                                        <MFXButton fx:id="clients_view_button" styleClass="md-button-outlined"
+                                        <MFXButton fx:id="clientsViewButton" styleClass="md-button-outlined"
                                                    text="Ver Clientes"/>
-                                        <MFXButton fx:id="create_client_button" styleClass="md-button-tonal"
+                                        <MFXButton fx:id="createClientButton" styleClass="md-button-tonal"
                                                    text="+ Nuevo Cliente"/>
                                     </HBox>
                                 </VBox>
@@ -266,9 +266,9 @@
                                         <Region styleClass="groups-icon, md-icon-medium"/>
                                     </HBox>
                                     <HBox spacing="8" alignment="CENTER_LEFT">
-                                        <MFXButton fx:id="employee_view_button" styleClass="md-button-outlined"
+                                        <MFXButton fx:id="employeeViewButton" styleClass="md-button-outlined"
                                                    text="Ver Empleados"/>
-                                        <MFXButton fx:id="create_employee_button" styleClass="md-button-tonal"
+                                        <MFXButton fx:id="createEmployeeButton" styleClass="md-button-tonal"
                                                    text="+ Nuevo Empleado"/>
                                     </HBox>
                                 </VBox>
@@ -288,9 +288,9 @@
                                         <Region styleClass="calendar-icon, md-icon-medium"/>
                                     </HBox>
                                     <HBox spacing="8" alignment="CENTER_LEFT">
-                                        <MFXButton fx:id="appointments_view_button" styleClass="md-button-outlined"
+                                        <MFXButton fx:id="appointmentsViewButton" styleClass="md-button-outlined"
                                                    text="Ver Turnos"/>
-                                        <MFXButton fx:id="create_appointment_button" styleClass="md-button-filled"
+                                        <MFXButton fx:id="createAppointmentButton" styleClass="md-button-filled"
                                                    text="+ Nuevo Turno"/>
                                     </HBox>
                                 </VBox>
@@ -310,9 +310,9 @@
                                         <Region styleClass="inventory-1-icon, md-icon-medium"/>
                                     </HBox>
                                     <HBox spacing="8" alignment="CENTER_LEFT">
-                                        <MFXButton fx:id="products_view_button" styleClass="md-button-outlined"
+                                        <MFXButton fx:id="productsViewButton" styleClass="md-button-outlined"
                                                    text="Ver Inventario"/>
-                                        <MFXButton fx:id="create_product_button" styleClass="md-button-tonal"
+                                        <MFXButton fx:id="createProductButton" styleClass="md-button-tonal"
                                                    text="+ Nuevo Producto"/>
                                     </HBox>
                                 </VBox>
@@ -322,7 +322,7 @@
                         <!-- 3. ACTIVIDAD RECIENTE -->
                         <VBox spacing="12">
                             <Label styleClass="md-title-medium" text="Actividad Reciente"/>
-                            <VBox fx:id="activity_log_vbox" styleClass="md-card">
+                            <VBox fx:id="activityLogVbox" styleClass="md-card">
                                 <padding>
                                     <Insets top="16" right="16" bottom="16" left="16"/>
                                 </padding>
