@@ -42,12 +42,12 @@ import static com.presentation.constants.StringResource.DisplayString.ACCEPT_BUT
 import static com.presentation.constants.StringResource.DisplayString.CLIPBOARD_BUTTON_TEXT;
 import static com.presentation.constants.StringResource.ToastNotificationMessage.SETTINGS_UPDATE_NOTIFICATION_MESSAGE;
 import static com.presentation.constants.StringResource.ValidationErrorMessage.*;
-import static com.presentation.support.view.ContainerManager.*;
-import static com.presentation.support.dialog.PopUpWindowHelper.showWindowAlert;
-import static com.presentation.support.notification.ToastNotificationHelper.showToastNotification;
 import static com.presentation.support.control.UIBasicComponents.*;
 import static com.presentation.support.control.ValidationFormatter.getConstraintViolationsList;
 import static com.presentation.support.control.ValidationFormatter.parseNumberValueToText;
+import static com.presentation.support.dialog.PopUpWindowHelper.showWindowAlert;
+import static com.presentation.support.notification.ToastNotificationHelper.showToastNotification;
+import static com.presentation.support.view.ContainerManager.*;
 import static com.utils.password_generator.PasswordGenerator.generatePassword;
 
 @Component
@@ -63,49 +63,49 @@ public class SettingsController {
     @FXML
     private final ToggleGroup themeGroup = new ToggleGroup();
     @FXML
-    private AnchorPane anchor_pane;
+    private AnchorPane anchorPane;
     @FXML
-    private HBox theme_container;
+    private HBox themeContainer;
     @FXML
     private TextField
-            name,
-            phone,
-            email,
-            address,
-            user_textfield,
-            password_textfield,
-            confirm_password_textfield;
+            nameField,
+            phoneField,
+            emailField,
+            addressField,
+            adminUsernameField,
+            adminPasswordField,
+            adminConfirmPasswordField;
 
     @FXML
     private ComboBox<LocalTime>
-            opening_hours,
-            closing_hours;
+            openingHours,
+            closingHours;
 
     @FXML
     private CheckBox
-            new_appointment_checkbox,
-            client_reminder_checkbox,
-            low_stock_checkbox,
-            workplace_changes_checkbox;
+            newAppointmentCheckbox,
+            clientReminderCheckbox,
+            lowStockCheckbox,
+            workplaceChangesCheckbox;
 
     @FXML
     private MFXButton
-            update_password_button,
-            suggest_strong_password,
-            cancel_button,
-            save_button;
+            updatePasswordButton,
+            suggestStrongPasswordButton,
+            cancelButton,
+            saveButton;
 
     @FXML
-    private Slider password_length_slider;
+    private Slider passwordLengthSlider;
 
     @FXML
     private Label
-            password_length_label,
-            version_number,
-            framework_name,
-            database_name,
-            compilation_timestamp,
-            developer_name;
+            passwordLengthLabel,
+            versionNumber,
+            frameworkName,
+            databaseName,
+            compilationTimestamp,
+            developerName;
 
     @FXML
     public void initialize() {
@@ -128,10 +128,10 @@ public class SettingsController {
     private void configureButtonActions() {
 
         Map<Button, Runnable> map = Map.ofEntries(
-                Map.entry(update_password_button, this::updateCredentials),
-                Map.entry(suggest_strong_password, this::suggestStrongPassword),
-                Map.entry(cancel_button, this::resetValues),
-                Map.entry(save_button, this::saveChanges)
+                Map.entry(updatePasswordButton, this::updateCredentials),
+                Map.entry(suggestStrongPasswordButton, this::suggestStrongPassword),
+                Map.entry(cancelButton, this::resetValues),
+                Map.entry(saveButton, this::saveChanges)
         );
 
         configureRunnableMaps(map);
@@ -139,13 +139,13 @@ public class SettingsController {
 
     private void configureTimeSelectors() {
 
-        configureServiceHoursSelectors(opening_hours, closing_hours);
+        configureServiceHoursSelectors(openingHours, closingHours);
     }
 
     private void configureThemeSelector() {
 
-        cleanContainer(theme_container);
-        theme_container.setSpacing(THEME_CONTAINER_SPACING);
+        cleanContainer(themeContainer);
+        themeContainer.setSpacing(THEME_CONTAINER_SPACING);
 
         for (Theme theme : Theme.values()) {
 
@@ -159,7 +159,7 @@ public class SettingsController {
             addNodeStyleClass(radioButton, MD_RADIO_BUTTON);
 
             addAllChildrensToPane(themeCard, themeLabel, radioButton);
-            addAllChildrensToPane(theme_container, themeCard);
+            addAllChildrensToPane(themeContainer, themeCard);
 
             setTextOnLabel(themeLabel, theme.getDisplayName());
             addLabelStyle(themeLabel, MD_LIST_ITEM_TITLE);
@@ -179,7 +179,7 @@ public class SettingsController {
                         Theme selectedTheme = (Theme) newValue.getUserData();
                         String cssFilePath = selectedTheme.getThemeFilePath();
 
-                        Scene currentScene = theme_container.getScene();
+                        Scene currentScene = themeContainer.getScene();
 
                         if (currentScene != null) {
 
@@ -203,13 +203,13 @@ public class SettingsController {
     private void configurePromptTexts() {
 
         Map<TextField, String> map = Map.ofEntries(
-                Map.entry(name, BARBER_SHOP_NAME),
-                Map.entry(phone, BARBER_SHOP_PHONE_NUMBER),
-                Map.entry(email, BARBER_SHOP_EMAIL),
-                Map.entry(address, BARBER_SHOP_ADDRESS),
-                Map.entry(user_textfield, USER_ADMIN_NAME),
-                Map.entry(password_textfield, USER_ADMIN_PASSWORD),
-                Map.entry(confirm_password_textfield, USER_ADMIN_CONFIRMATION_PASSWORD)
+                Map.entry(nameField, BARBER_SHOP_NAME),
+                Map.entry(phoneField, BARBER_SHOP_PHONE_NUMBER),
+                Map.entry(emailField, BARBER_SHOP_EMAIL),
+                Map.entry(addressField, BARBER_SHOP_ADDRESS),
+                Map.entry(adminUsernameField, USER_ADMIN_NAME),
+                Map.entry(adminPasswordField, USER_ADMIN_PASSWORD),
+                Map.entry(adminConfirmPasswordField, USER_ADMIN_CONFIRMATION_PASSWORD)
         );
 
         setPromptTextOnMap(map);
@@ -217,16 +217,16 @@ public class SettingsController {
 
     private void configureSlider() {
 
-        setTextOnLabel(password_length_label, "Longitud: " + MIN_PASSWORD_LENGTH + " caracteres");
+        setTextOnLabel(passwordLengthLabel, "Longitud: " + MIN_PASSWORD_LENGTH + " caracteres");
 
-        password_length_slider.setMin(MIN_PASSWORD_LENGTH);
-        password_length_slider.setMax(MAX_PASSWORD_LENGTH);
-        password_length_slider.setValue(MIN_PASSWORD_LENGTH);
+        passwordLengthSlider.setMin(MIN_PASSWORD_LENGTH);
+        passwordLengthSlider.setMax(MAX_PASSWORD_LENGTH);
+        passwordLengthSlider.setValue(MIN_PASSWORD_LENGTH);
 
-        password_length_slider.valueChangingProperty().addListener((_, _, _) -> {
+        passwordLengthSlider.valueChangingProperty().addListener((_, _, _) -> {
 
-                    int value = (int) password_length_slider.getValue();
-                    setTextOnLabel(password_length_label, "Longitud: " + parseNumberValueToText(value) + " caracteres");
+                    int value = (int) passwordLengthSlider.getValue();
+                    setTextOnLabel(passwordLengthLabel, "Longitud: " + parseNumberValueToText(value) + " caracteres");
                 }
         );
     }
@@ -234,19 +234,19 @@ public class SettingsController {
     private void loadPreferences() {
 
         Map<TextField, String> preferencesMap = Map.ofEntries(
-                Map.entry(name, appPreferences.getBarberShopName()),
-                Map.entry(phone, appPreferences.getBarberShopPhoneNumber()),
-                Map.entry(email, appPreferences.getBarberShopEmail()),
-                Map.entry(address, appPreferences.getBarberShopAddress())
+                Map.entry(nameField, appPreferences.getBarberShopName()),
+                Map.entry(phoneField, appPreferences.getBarberShopPhoneNumber()),
+                Map.entry(emailField, appPreferences.getBarberShopEmail()),
+                Map.entry(addressField, appPreferences.getBarberShopAddress())
         );
 
         setTextsOnTextfieldMap(preferencesMap);
 
         Map<CheckBox, Boolean> notificationsPreferencesMap = Map.ofEntries(
-                Map.entry(new_appointment_checkbox, appPreferences.isNewAppointmentNotificationEnabled()),
-                Map.entry(client_reminder_checkbox, appPreferences.isClientReminderNotificationEnabled()),
-                Map.entry(low_stock_checkbox, appPreferences.isLowStockNotificationEnabled()),
-                Map.entry(workplace_changes_checkbox, appPreferences.isWorkplaceChangesNotificationEnabled())
+                Map.entry(newAppointmentCheckbox, appPreferences.isNewAppointmentNotificationEnabled()),
+                Map.entry(clientReminderCheckbox, appPreferences.isClientReminderNotificationEnabled()),
+                Map.entry(lowStockCheckbox, appPreferences.isLowStockNotificationEnabled()),
+                Map.entry(workplaceChangesCheckbox, appPreferences.isWorkplaceChangesNotificationEnabled())
         );
 
         setStatusOnCheckBoxMap(notificationsPreferencesMap);
@@ -254,23 +254,23 @@ public class SettingsController {
         LocalTime parsedOpeningTime = LocalTime.parse(appPreferences.getBarberShopOpeningTime());
         LocalTime parsedClosingTime = LocalTime.parse(appPreferences.getBarberShopClosingTime());
 
-        opening_hours.setValue(parsedOpeningTime);
-        closing_hours.setValue(parsedClosingTime);
+        openingHours.setValue(parsedOpeningTime);
+        closingHours.setValue(parsedClosingTime);
     }
 
     private void loadSoftwareInformation() {
 
-        String versionNumber = appInformation.getVersionNumber();
+        String versionNumberValue = appInformation.getVersionNumber();
         Instant compilationDate = appInformation.getBuildTimestamp();
-        String databaseName = appInformation.getDatabaseName();
-        String developerName = appInformation.getDeveloperName();
+        String databaseNameValue = appInformation.getDatabaseName();
+        String developerNameValue = appInformation.getDeveloperName();
 
         Map<Label, String> map = Map.ofEntries(
-                Map.entry(version_number, versionNumber),
-                Map.entry(framework_name, "Java " + appInformation.getJavaVersion() + ", " + "SpringBoot " + appInformation.getFrameworkVersion()),
-                Map.entry(compilation_timestamp, compilationDate.toString()),
-                Map.entry(database_name, databaseName),
-                Map.entry(developer_name, developerName)
+                Map.entry(versionNumber, versionNumberValue),
+                Map.entry(frameworkName, "Java " + appInformation.getJavaVersion() + ", " + "SpringBoot " + appInformation.getFrameworkVersion()),
+                Map.entry(compilationTimestamp, compilationDate.toString()),
+                Map.entry(databaseName, databaseNameValue),
+                Map.entry(developerName, developerNameValue)
         );
 
         setTextsOnLabelMap(map);
@@ -278,11 +278,11 @@ public class SettingsController {
 
     private void suggestStrongPassword() {
 
-        int length = (int) password_length_slider.getValue();
+        int length = (int) passwordLengthSlider.getValue();
 
         String password = generatePassword(length);
 
-        boolean isClicked = showWindowAlert("", PASSWORD_GENERATED_SUCCESFULLY, password, Alert.AlertType.INFORMATION, CLIPBOARD_BUTTON_TEXT, getCurrentWindow(anchor_pane));
+        boolean isClicked = showWindowAlert("", PASSWORD_GENERATED_SUCCESFULLY, password, Alert.AlertType.INFORMATION, CLIPBOARD_BUTTON_TEXT, getCurrentWindow(anchorPane));
 
         if (isClicked) {
 
@@ -298,15 +298,15 @@ public class SettingsController {
 
         try {
 
-            String username = user_textfield.getText();
-            String password = password_textfield.getText();
-            String confirmPassword = confirm_password_textfield.getText();
+            String username = adminUsernameField.getText();
+            String password = adminPasswordField.getText();
+            String confirmPassword = adminConfirmPasswordField.getText();
 
             CredentialsUpdateDTO credentialsUpdateDTO = buildDTOFromCredentialsFields(username, password, confirmPassword);
 
             credentialsUpdateValidator.validateDTO(credentialsUpdateDTO);
 
-            showToastNotification(anchor_pane, applicationContext, CREDENTIALS_UPDATE_SUCCESSFULLY, ToastNotificationType.SUCCESSFUL);
+            showToastNotification(anchorPane, applicationContext, CREDENTIALS_UPDATE_SUCCESSFULLY, ToastNotificationType.SUCCESSFUL);
 
         } catch (ConstraintViolationException | PasswordMismatchException exception) {
 
@@ -314,11 +314,11 @@ public class SettingsController {
 
                 String errorMessage = getConstraintViolationsList((ConstraintViolationException) exception);
 
-                showWindowAlert(VALIDATION_ERROR_TITLE, CREDENTIALS_UPDATE_VALIDATION_FAILED, errorMessage, Alert.AlertType.ERROR, CONFIRM_BUTTON_TEXT, getCurrentWindow(anchor_pane));
+                showWindowAlert(VALIDATION_ERROR_TITLE, CREDENTIALS_UPDATE_VALIDATION_FAILED, errorMessage, Alert.AlertType.ERROR, CONFIRM_BUTTON_TEXT, getCurrentWindow(anchorPane));
 
             } else {
 
-                showWindowAlert(VALIDATION_ERROR_TITLE, "", exception.getMessage(), Alert.AlertType.ERROR, CONFIRM_BUTTON_TEXT, getCurrentWindow(anchor_pane));
+                showWindowAlert(VALIDATION_ERROR_TITLE, "", exception.getMessage(), Alert.AlertType.ERROR, CONFIRM_BUTTON_TEXT, getCurrentWindow(anchorPane));
             }
         }
     }
@@ -342,29 +342,29 @@ public class SettingsController {
 
             SettingsUpdateDTO settingsUpdateDTO = buildDTOFromSettingsFields(
                     themeName,
-                    name.getText().isBlank() ? null : name.getText(),
-                    phone.getText().isBlank() ? null : phone.getText(),
-                    email.getText().isBlank() ? null : email.getText(),
-                    address.getText().isBlank() ? null : address.getText(),
-                    opening_hours.getValue(),
-                    closing_hours.getValue(),
-                    new_appointment_checkbox.isSelected(),
-                    client_reminder_checkbox.isSelected(),
-                    low_stock_checkbox.isSelected(),
-                    workplace_changes_checkbox.isSelected()
+                    nameField.getText().isBlank() ? null : nameField.getText(),
+                    phoneField.getText().isBlank() ? null : phoneField.getText(),
+                    emailField.getText().isBlank() ? null : emailField.getText(),
+                    addressField.getText().isBlank() ? null : addressField.getText(),
+                    openingHours.getValue(),
+                    closingHours.getValue(),
+                    newAppointmentCheckbox.isSelected(),
+                    clientReminderCheckbox.isSelected(),
+                    lowStockCheckbox.isSelected(),
+                    workplaceChangesCheckbox.isSelected()
             );
 
             settingsUpdateValidator.validateDTO(settingsUpdateDTO);
 
             appPreferences.saveSettings(settingsUpdateDTO);
 
-            showToastNotification(anchor_pane, applicationContext, SETTINGS_UPDATE_NOTIFICATION_MESSAGE, ToastNotificationType.SUCCESSFUL);
+            showToastNotification(anchorPane, applicationContext, SETTINGS_UPDATE_NOTIFICATION_MESSAGE, ToastNotificationType.SUCCESSFUL);
 
         } catch (ConstraintViolationException exception) {
 
             String errorMessage = getConstraintViolationsList(exception);
 
-            showWindowAlert(VALIDATION_ERROR_TITLE, SETTINGS_UPDATE_VALIDATION_FAILED, errorMessage, Alert.AlertType.INFORMATION, ACCEPT_BUTTON_TEXT, getCurrentWindow(anchor_pane));
+            showWindowAlert(VALIDATION_ERROR_TITLE, SETTINGS_UPDATE_VALIDATION_FAILED, errorMessage, Alert.AlertType.INFORMATION, ACCEPT_BUTTON_TEXT, getCurrentWindow(anchorPane));
         }
     }
 
@@ -398,10 +398,10 @@ public class SettingsController {
 
     private void resetValues() {
 
-        setBlankTextfield(name, phone, email, address);
+        setBlankTextfield(nameField, phoneField, emailField, addressField);
 
-        opening_hours.setValue(LocalTime.MIN);
-        closing_hours.setValue(LocalTime.MAX);
+        openingHours.setValue(LocalTime.MIN);
+        closingHours.setValue(LocalTime.MAX);
 
         resetCheckBoxStatus();
     }
@@ -410,10 +410,10 @@ public class SettingsController {
 
         setCheckboxState(
                 DEFAULT_CHECKBOX_STATE,
-                new_appointment_checkbox,
-                client_reminder_checkbox,
-                low_stock_checkbox,
-                workplace_changes_checkbox
+                newAppointmentCheckbox,
+                clientReminderCheckbox,
+                lowStockCheckbox,
+                workplaceChangesCheckbox
         );
     }
 }

@@ -5,7 +5,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1"
-            fx:id="anchor_pane"
+            fx:id="anchorPane"
             fx:controller="com.presentation.controller.register.RegisterController"
             xmlns="http://javafx.com/javafx/17.0.12">
 
@@ -18,7 +18,7 @@
             <padding>
                 <Insets top="20" right="24" bottom="12" left="24"/>
             </padding>
-            <MFXButton fx:id="back_button" styleClass="md-button-outlined" text="← Volver"/>
+            <MFXButton fx:id="backButton" styleClass="md-button-outlined" text="← Volver"/>
             <VBox spacing="2">
                 <Label styleClass="md-headline-medium" text="Crear cuenta"/>
                 <Label styleClass="md-body-large" text="Registra un nuevo usuario en el sistema"/>
@@ -55,7 +55,7 @@
                                 <Label styleClass="md-label-medium" text="Nombre de usuario"/>
                                 <Label styleClass="md-label-medium" text="*" style="-fx-text-fill: -fx-error"/>
                             </HBox>
-                            <TextField fx:id="username_field"
+                            <TextField fx:id="usernameField"
                                        styleClass="md-text-field"
                                        promptText="Ingresá tu nombre de usuario"
                                        maxWidth="1.7976931348623157E308"
@@ -67,7 +67,7 @@
                                 <Label styleClass="md-label-medium" text="Contraseña"/>
                                 <Label styleClass="md-label-medium" text="*" style="-fx-text-fill: -fx-error"/>
                             </HBox>
-                            <PasswordField fx:id="password_field"
+                            <PasswordField fx:id="passwordField"
                                            styleClass="md-text-field"
                                            promptText="Ingresá tu contraseña"
                                            maxWidth="1.7976931348623157E308"
@@ -79,7 +79,7 @@
                                 <Label styleClass="md-label-medium" text="Confirmar contraseña"/>
                                 <Label styleClass="md-label-medium" text="*" style="-fx-text-fill: -fx-error"/>
                             </HBox>
-                            <PasswordField fx:id="confirm_password_field"
+                            <PasswordField fx:id="confirmPasswordField"
                                            styleClass="md-text-field"
                                            promptText="Repetí tu contraseña"
                                            maxWidth="1.7976931348623157E308"
@@ -88,7 +88,7 @@
 
                     </VBox>
 
-                    <MFXButton fx:id="create_user_button"
+                    <MFXButton fx:id="createUserButton"
                                maxWidth="1.7976931348623157E308"
                                minWidth="200"
                                styleClass="md-button-filled"
