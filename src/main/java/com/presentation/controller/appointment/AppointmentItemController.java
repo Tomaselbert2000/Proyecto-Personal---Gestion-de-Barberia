@@ -1,7 +1,3 @@
-/**
- * Controlador para un ítem de cita. Se encarga de gestionar la lógica de negocio relacionada con la visualización y edición de citas,
- * incluyendo la interacción con callbacks para acciones como editar, completar y cancelar citas.
- */
 package com.presentation.controller.appointment;
 
 import com.dto.appointment.AppointmentInfoDTO;
@@ -37,18 +33,18 @@ public class AppointmentItemController implements ItemController<AppointmentInfo
 
     @FXML
     private MFXButton
-            edit_button,
-            complete_button,
-            cancel_button;
+            editButton,
+            completeButton,
+            cancelButton;
 
     @FXML
     private Label
-            start_time,
-            end_time,
-            client_name,
-            service_name,
-            employee_name,
-            status_badge;
+            startTime,
+            endTime,
+            clientName,
+            serviceName,
+            employeeName,
+            statusBadge;
 
     @FXML
     public void initialize() {
@@ -67,7 +63,7 @@ public class AppointmentItemController implements ItemController<AppointmentInfo
      */
     private void setAppointmentAsComplete() {
         if (onCompleteCallback != null) onCompleteCallback.accept(infoDTOReference);
-        disableButtons(cancel_button, complete_button);
+        disableButtons(cancelButton, completeButton);
     }
 
     /**
@@ -75,7 +71,7 @@ public class AppointmentItemController implements ItemController<AppointmentInfo
      */
     private void setAppointmentAsCanceled() {
         if (onCancelCallback != null) onCancelCallback.accept(infoDTOReference);
-        disableButtons(cancel_button, complete_button);
+        disableButtons(cancelButton, completeButton);
     }
 
     /**
@@ -84,21 +80,21 @@ public class AppointmentItemController implements ItemController<AppointmentInfo
      * @param status El estado de la cita.
      */
     private void updateStatusBadge(AppointmentStatus status) {
-        status_badge.getStyleClass().clear();
-        status_badge.getStyleClass().add(BADGE);
+        statusBadge.getStyleClass().clear();
+        statusBadge.getStyleClass().add(BADGE);
 
         switch (status) {
             case PROGRAMADO, REPROGRAMADO:
-                addLabelStyle(status_badge, SCHEDULED_BADGE);
-                setTextOnLabel(status_badge, status == AppointmentStatus.PROGRAMADO ? AppointmentStatus.PROGRAMADO.getDisplayName() : AppointmentStatus.REPROGRAMADO.getDisplayName());
+                addLabelStyle(statusBadge, SCHEDULED_BADGE);
+                setTextOnLabel(statusBadge, status == AppointmentStatus.PROGRAMADO ? AppointmentStatus.PROGRAMADO.getDisplayName() : AppointmentStatus.REPROGRAMADO.getDisplayName());
                 break;
             case FINALIZADO:
-                addLabelStyle(status_badge, COMPLETED_BADGE);
-                setTextOnLabel(status_badge, AppointmentStatus.FINALIZADO.getDisplayName());
+                addLabelStyle(statusBadge, COMPLETED_BADGE);
+                setTextOnLabel(statusBadge, AppointmentStatus.FINALIZADO.getDisplayName());
                 break;
             case CANCELADO:
-                addLabelStyle(status_badge, CANCELED_BADGE);
-                setTextOnLabel(status_badge, AppointmentStatus.CANCELADO.getDisplayName());
+                addLabelStyle(statusBadge, CANCELED_BADGE);
+                setTextOnLabel(statusBadge, AppointmentStatus.CANCELADO.getDisplayName());
                 break;
         }
     }
@@ -107,17 +103,17 @@ public class AppointmentItemController implements ItemController<AppointmentInfo
         infoDTOReference = infoDTO;
 
         if (infoDTO.getCurrentStatus() == AppointmentStatus.FINALIZADO || infoDTO.getCurrentStatus() == AppointmentStatus.CANCELADO)
-            disableButtons(cancel_button, complete_button);
+            disableButtons(cancelButton, completeButton);
 
         String clientFullName = String.join(" ", infoDTO.getClientFirstName(), infoDTO.getClientLastName());
         String employeeFullName = String.join(" ", infoDTO.getEmployeeFirstName(), infoDTO.getEmployeeLastName());
 
         Map<Label, String> map = Map.ofEntries(
-                Map.entry(client_name, clientFullName),
-                Map.entry(employee_name, employeeFullName),
-                Map.entry(service_name, infoDTO.getServiceName()),
-                Map.entry(start_time, infoDTO.getStartDateTime().format(TIME_FORMATTER)),
-                Map.entry(end_time, infoDTO.getEndDateTime().format(TIME_FORMATTER))
+                Map.entry(clientName, clientFullName),
+                Map.entry(employeeName, employeeFullName),
+                Map.entry(serviceName, infoDTO.getServiceName()),
+                Map.entry(startTime, infoDTO.getStartDateTime().format(TIME_FORMATTER)),
+                Map.entry(endTime, infoDTO.getEndDateTime().format(TIME_FORMATTER))
         );
 
         setTextsOnLabelMap(map);
@@ -127,9 +123,9 @@ public class AppointmentItemController implements ItemController<AppointmentInfo
 
     private void configureButtonActions() {
         Map<Button, Runnable> map = Map.of(
-                edit_button, this::goToEditAppointment,
-                complete_button, this::setAppointmentAsComplete,
-                cancel_button, this::setAppointmentAsCanceled
+                editButton, this::goToEditAppointment,
+                completeButton, this::setAppointmentAsComplete,
+                cancelButton, this::setAppointmentAsCanceled
         );
         configureRunnableMaps(map);
     }

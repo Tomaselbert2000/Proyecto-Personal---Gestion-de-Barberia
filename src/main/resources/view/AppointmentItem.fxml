@@ -16,8 +16,8 @@
 
     <!-- Time Column -->
     <VBox alignment="CENTER" minWidth="80.0">
-        <Label fx:id="start_time" styleClass="md-headline-small"/>
-        <Label fx:id="end_time" styleClass="md-body-small"/>
+        <Label fx:id="startTime" styleClass="md-headline-small"/>
+        <Label fx:id="endTime" styleClass="md-body-small"/>
     </VBox>
 
     <Separator orientation="VERTICAL" styleClass="md-divider"
@@ -27,19 +27,19 @@
     <VBox spacing="4" HBox.hgrow="ALWAYS">
         <!-- Client + Status -->
         <HBox spacing="8" alignment="CENTER_LEFT">
-            <Label fx:id="client_name" styleClass="md-list-item-headline"/>
+            <Label fx:id="clientName" styleClass="md-list-item-headline"/>
             <VBox>
-                <Label fx:id="status_badge" styleClass="md-nav-badge"/>
+                <Label fx:id="statusBadge" styleClass="md-nav-badge"/>
             </VBox>
         </HBox>
 
         <!-- Service -->
-        <Label fx:id="service_name" styleClass="md-list-item-supporting-text"/>
+        <Label fx:id="serviceName" styleClass="md-list-item-supporting-text"/>
 
         <!-- Employee -->
         <HBox spacing="4">
             <Label styleClass="md-list-item-supporting-text" text="Barbero:"/>
-            <Label fx:id="employee_name" styleClass="md-list-item-supporting-text"/>
+            <Label fx:id="employeeName" styleClass="md-list-item-supporting-text"/>
         </HBox>
     </VBox>
 
@@ -49,8 +49,8 @@
 
     <!-- Actions -->
     <HBox spacing="8" alignment="CENTER_RIGHT">
-        <MFXButton fx:id="complete_button" styleClass="md-button-filled" text="Completar"/>
-        <MFXButton fx:id="cancel_button" styleClass="md-button-outlined" text="Cancelar"/>
-        <MFXButton fx:id="edit_button" styleClass="md-button-outlined" text="Editar"/>
+        <MFXButton fx:id="completeButton" styleClass="md-button-filled" text="Completar"/>
+        <MFXButton fx:id="cancelButton" styleClass="md-button-outlined" text="Cancelar"/>
+        <MFXButton fx:id="editButton" styleClass="md-button-outlined" text="Editar"/>
     </HBox>
 </HBox>
