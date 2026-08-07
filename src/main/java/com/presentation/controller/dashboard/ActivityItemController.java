@@ -22,12 +22,12 @@ import static com.presentation.support.control.UIBasicComponents.setTextsOnLabel
 public class ActivityItemController implements ItemController<RecentActivityDTO> {
 
     @FXML
-    private Region activity_icon;
+    private Region activityIcon;
 
     @FXML
     private Label
-            event_type,
-            text_to_attach,
+            eventType,
+            textToAttach,
             timestamp;
 
     /**
@@ -67,10 +67,10 @@ public class ActivityItemController implements ItemController<RecentActivityDTO>
     @Override
     public void setDataOnItem(RecentActivityDTO infoDTO) {
         String timestampAsString = generateTimestampFromString(infoDTO.getTimestamp());
-        List<Label> labels = List.of(event_type, text_to_attach, timestamp);
+        List<Label> labels = List.of(eventType, textToAttach, timestamp);
         List<String> texts = List.of(infoDTO.getEventType().getDisplayName(), infoDTO.getText(), timestampAsString);
         Map<Label, String> map = generateMap(labels, texts);
         setTextsOnLabelMap(map);
-        activity_icon.getStyleClass().add(selectIconBasedOnEventType(infoDTO.getEventType()));
+        activityIcon.getStyleClass().add(selectIconBasedOnEventType(infoDTO.getEventType()));
     }
 }

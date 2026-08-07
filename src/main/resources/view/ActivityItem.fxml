@@ -16,13 +16,13 @@
     </padding>
 
     <!-- Icono según tipo de actividad -->
-    <Region fx:id="activity_icon" styleClass="md-icon-small, md-icon-on-surface-variant"/>
+    <Region fx:id="activityIcon" styleClass="md-icon-small, md-icon-on-surface-variant"/>
 
     <!-- Información de la actividad -->
     <VBox spacing="2" HBox.hgrow="ALWAYS">
-        <Label fx:id="event_type" styleClass="md-list-item-headline"
+        <Label fx:id="eventType" styleClass="md-list-item-headline"
                text="Nuevo cliente registrado"/>
-        <Label fx:id="text_to_attach" styleClass="md-list-item-supporting-text"
+        <Label fx:id="textToAttach" styleClass="md-list-item-supporting-text"
                text="Juan Pérez se ha registrado en el sistema"/>
     </VBox>
 
