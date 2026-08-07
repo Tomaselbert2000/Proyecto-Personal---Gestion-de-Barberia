@@ -1,10 +1,11 @@
 package com.exceptions.employee;
 
-public class InvalidEmployeeNameException extends RuntimeException {
+import com.exceptions.BusinessException;
 
-    @Override
-    public String getMessage() {
+public class InvalidEmployeeNameException extends BusinessException {
 
-        return "Los campos de nombre y/o apellido de empleado no pueden contener caractéres númericos o especiales.";
+    public InvalidEmployeeNameException() {
+
+        super("Los campos de nombre y/o apellido de empleado no pueden contener caractéres númericos o especiales.");
     }
 }

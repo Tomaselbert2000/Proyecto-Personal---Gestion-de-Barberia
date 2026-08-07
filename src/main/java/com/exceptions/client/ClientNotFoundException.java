@@ -1,9 +1,10 @@
 package com.exceptions.client;
 
-public class ClientNotFoundException extends RuntimeException {
+import com.exceptions.BusinessException;
 
-    @Override
-    public String getMessage() {
-        return "No se encontraron coincidencias de cliente para el ID proporcionado.";
+public class ClientNotFoundException extends BusinessException {
+
+    public ClientNotFoundException() {
+        super("No se encontraron coincidencias de cliente para el ID proporcionado.");
     }
 }

@@ -1,10 +1,11 @@
 package com.exceptions.paymentmethod;
 
-public class DuplicatedPaymentMethodNameException extends RuntimeException {
+import com.exceptions.BusinessException;
 
-    @Override
-    public String getMessage() {
+public class DuplicatedPaymentMethodNameException extends BusinessException {
 
-        return "El nombre de método de pago ingresado ya fue registrado anteriormente.";
+    public DuplicatedPaymentMethodNameException() {
+
+        super("El nombre de método de pago ingresado ya fue registrado anteriormente.");
     }
 }

@@ -1,9 +1,11 @@
 package com.exceptions.client;
 
-public class InvalidEmailException extends RuntimeException {
+import com.exceptions.BusinessException;
 
-    @Override
-    public String getMessage() {
-        return "El email ingresado no es válido.";
+public class InvalidEmailException extends BusinessException {
+
+    public InvalidEmailException() {
+
+        super("El email ingresado no es válido.");
     }
 }

@@ -1,10 +1,11 @@
 package com.exceptions.settings;
 
-public class InvalidServiceHourException extends RuntimeException {
+import com.exceptions.BusinessException;
 
-    @Override
-    public String getMessage() {
+public class InvalidServiceHourException extends BusinessException {
 
-        return "El horario de cierre especificado es anterior al horario de apertura.";
+    public InvalidServiceHourException() {
+
+        super("El horario de cierre especificado es anterior al horario de apertura.");
     }
 }

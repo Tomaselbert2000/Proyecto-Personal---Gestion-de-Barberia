@@ -1,9 +1,11 @@
 package com.exceptions.product;
 
-public class InvalidProductNameException extends RuntimeException {
+import com.exceptions.BusinessException;
 
-    @Override
-    public String getMessage() {
-        return "El nombre de producto ingresado contiene caractéres inválidos";
+public class InvalidProductNameException extends BusinessException {
+
+    public InvalidProductNameException() {
+
+        super("El nombre de producto ingresado contiene caractéres inválidos");
     }
 }

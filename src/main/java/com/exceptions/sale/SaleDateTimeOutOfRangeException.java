@@ -1,10 +1,11 @@
 package com.exceptions.sale;
 
-public class SaleDateTimeOutOfRangeException extends RuntimeException {
+import com.exceptions.BusinessException;
 
-    @Override
-    public String getMessage() {
+public class SaleDateTimeOutOfRangeException extends BusinessException {
 
-        return "La fecha de venta ingresada supera el márgen de 24 horas para el registro de ventas.";
+    public SaleDateTimeOutOfRangeException() {
+
+        super("La fecha de venta ingresada supera el márgen de 24 horas para el registro de ventas.");
     }
 }

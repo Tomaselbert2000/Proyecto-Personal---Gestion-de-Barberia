@@ -1,10 +1,11 @@
 package com.exceptions.appointment;
 
-public class InvalidAppointmentUpdateException extends RuntimeException {
+import com.exceptions.BusinessException;
 
-    @Override
-    public String getMessage() {
+public class InvalidAppointmentUpdateException extends BusinessException {
 
-        return "No es posible actualizar turnos cancelados y/o finalizados, o bien establecer un turno de estado 'Reprogramado' como 'Programado'.";
+    public InvalidAppointmentUpdateException() {
+
+        super("No es posible actualizar turnos cancelados y/o finalizados, o bien establecer un turno de estado 'Reprogramado' como 'Programado'.");
     }
 }

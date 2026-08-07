@@ -1,10 +1,11 @@
 package com.exceptions.sale;
 
-public class SaleNotFoundException extends RuntimeException {
+import com.exceptions.BusinessException;
 
-    @Override
-    public String getMessage() {
+public class SaleNotFoundException extends BusinessException {
 
-        return "No se encontraron coincidencias de ventas para el ID proporcionado.";
+    public SaleNotFoundException() {
+
+        super("No se encontraron coincidencias de ventas para el ID proporcionado.");
     }
 }

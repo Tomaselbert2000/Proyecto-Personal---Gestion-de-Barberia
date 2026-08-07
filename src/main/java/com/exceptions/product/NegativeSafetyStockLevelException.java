@@ -1,9 +1,11 @@
 package com.exceptions.product;
 
-public class NegativeSafetyStockLevelException extends RuntimeException {
+import com.exceptions.BusinessException;
 
-    @Override
-    public String getMessage() {
-        return "No es posible ingresar un producto nuevo con un valor de stock de seguridad menor a cero.";
+public class NegativeSafetyStockLevelException extends BusinessException {
+
+    public NegativeSafetyStockLevelException() {
+
+        super("No es posible ingresar un producto nuevo con un valor de stock de seguridad menor a cero.");
     }
 }

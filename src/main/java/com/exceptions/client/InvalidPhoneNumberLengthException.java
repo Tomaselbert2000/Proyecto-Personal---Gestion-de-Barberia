@@ -1,9 +1,11 @@
 package com.exceptions.client;
 
-public class InvalidPhoneNumberLengthException extends RuntimeException {
+import com.exceptions.BusinessException;
 
-    @Override
-    public String getMessage() {
-        return "La longitud permitida para números de teléfono es 10 a 15 dígitos";
+public class InvalidPhoneNumberLengthException extends BusinessException {
+
+    public InvalidPhoneNumberLengthException() {
+
+        super("La longitud permitida para números de teléfono es 10 a 15 dígitos");
     }
 }

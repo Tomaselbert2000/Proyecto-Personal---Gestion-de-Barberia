@@ -1,9 +1,11 @@
 package com.exceptions.product;
 
-public class DuplicatedProductNameException extends RuntimeException {
+import com.exceptions.BusinessException;
 
-    @Override
-    public String getMessage() {
-        return "El nombre ingresado para el producto ya fue registrado anteriormente.";
+public class DuplicatedProductNameException extends BusinessException {
+
+    public DuplicatedProductNameException() {
+
+        super("El nombre ingresado para el producto ya fue registrado anteriormente.");
     }
 }

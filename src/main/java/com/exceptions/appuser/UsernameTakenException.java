@@ -1,9 +1,11 @@
 package com.exceptions.appuser;
 
-public class UsernameTakenException extends RuntimeException {
+import com.exceptions.BusinessException;
 
-    @Override
-    public String getMessage() {
-        return "El nombre de usuario especificado ya se encuentra registrado.";
+public class UsernameTakenException extends BusinessException {
+
+    public UsernameTakenException() {
+
+        super("El nombre de usuario especificado ya se encuentra registrado.");
     }
 }

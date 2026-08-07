@@ -1,9 +1,10 @@
 package com.exceptions.client;
 
-public class DuplicatedPhoneInListException extends RuntimeException {
+import com.exceptions.BusinessException;
 
-    @Override
-    public String getMessage() {
-        return "La lista de números de teléfono de cliente contiene duplicados";
+public class DuplicatedPhoneInListException extends BusinessException {
+
+    public DuplicatedPhoneInListException() {
+        super("La lista de números de teléfono de cliente contiene duplicados");
     }
 }

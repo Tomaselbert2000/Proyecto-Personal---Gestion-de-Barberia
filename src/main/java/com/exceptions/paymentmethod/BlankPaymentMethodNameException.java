@@ -1,10 +1,10 @@
 package com.exceptions.paymentmethod;
 
-public class BlankPaymentMethodNameException extends RuntimeException {
+import com.exceptions.BusinessException;
 
-    @Override
-    public String getMessage() {
+public class BlankPaymentMethodNameException extends BusinessException {
 
-        return "El nombre de método de pago no puede quedar en blanco.";
+    public BlankPaymentMethodNameException() {
+        super("El nombre de método de pago no puede quedar en blanco.");
     }
 }

@@ -1,9 +1,11 @@
 package com.exceptions.product;
 
-public class BlankProductNameException extends RuntimeException {
+import com.exceptions.BusinessException;
 
-    @Override
-    public String getMessage() {
-        return "El nombre de producto no puede quedar en blanco.";
+public class BlankProductNameException extends BusinessException {
+
+    public BlankProductNameException() {
+
+        super("El nombre de producto no puede quedar en blanco.");
     }
 }

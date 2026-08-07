@@ -1,9 +1,10 @@
 package com.exceptions.appuser;
 
-public class AppUserNotFoundException extends RuntimeException {
+import com.exceptions.BusinessException;
 
-    @Override
-    public String getMessage() {
-        return "No se encontraron usuarios con el ID proporcionado.";
+public class AppUserNotFoundException extends BusinessException {
+
+    public AppUserNotFoundException() {
+        super("No se encontraron usuarios con el ID proporcionado.");
     }
 }

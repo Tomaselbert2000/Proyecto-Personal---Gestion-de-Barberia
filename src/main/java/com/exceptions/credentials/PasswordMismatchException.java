@@ -1,10 +1,11 @@
 package com.exceptions.credentials;
 
-public class PasswordMismatchException extends RuntimeException {
+import com.exceptions.BusinessException;
 
-    @Override
-    public String getMessage() {
+public class PasswordMismatchException extends BusinessException {
 
-        return "Las contraseñas ingresadas no coinciden.";
+    public PasswordMismatchException() {
+
+        super("Las contraseñas ingresadas no coinciden.");
     }
 }

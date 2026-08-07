@@ -1,10 +1,11 @@
 package com.exceptions.paymentmethod;
 
-public class PaymentMethodNotFoundException extends RuntimeException {
+import com.exceptions.BusinessException;
 
-    @Override
-    public String getMessage() {
+public class PaymentMethodNotFoundException extends BusinessException {
 
-        return "No se encontraron coincidencias de métodos de pago para el ID proporcionado.";
+    public PaymentMethodNotFoundException() {
+
+        super("No se encontraron coincidencias de métodos de pago para el ID proporcionado.");
     }
 }

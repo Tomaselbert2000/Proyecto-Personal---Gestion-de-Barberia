@@ -1,10 +1,11 @@
 package com.exceptions.product;
 
-public class InvalidProductCurrentPriceException extends RuntimeException {
+import com.exceptions.BusinessException;
 
-    @Override
-    public String getMessage() {
+public class InvalidProductCurrentPriceException extends BusinessException {
 
-        return "El precio de venta de producto no puede ser negativo y/o menor al valor de costo del mismo.";
+    public InvalidProductCurrentPriceException() {
+
+        super("El precio de venta de producto no puede ser negativo y/o menor al valor de costo del mismo.");
     }
 }

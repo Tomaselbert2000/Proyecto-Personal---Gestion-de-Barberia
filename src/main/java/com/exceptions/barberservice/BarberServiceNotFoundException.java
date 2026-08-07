@@ -1,9 +1,11 @@
 package com.exceptions.barberservice;
 
-public class BarberServiceNotFoundException extends RuntimeException {
+import com.exceptions.BusinessException;
 
-    @Override
-    public String getMessage() {
-        return "No se encontraron coincidencias de servicios para el ID proporcionado.";
+public class BarberServiceNotFoundException extends BusinessException {
+
+    public BarberServiceNotFoundException() {
+
+        super("No se encontraron coincidencias de servicios para el ID proporcionado.");
     }
 }

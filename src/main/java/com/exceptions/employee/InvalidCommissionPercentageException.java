@@ -1,10 +1,11 @@
 package com.exceptions.employee;
 
-public class InvalidCommissionPercentageException extends RuntimeException {
+import com.exceptions.BusinessException;
 
-    @Override
-    public String getMessage() {
+public class InvalidCommissionPercentageException extends BusinessException {
 
-        return "El valor de comisión de empleado no puede ser un número negativo y/o cero";
+    public InvalidCommissionPercentageException() {
+
+        super("El valor de comisión de empleado no puede ser un número negativo y/o cero");
     }
 }

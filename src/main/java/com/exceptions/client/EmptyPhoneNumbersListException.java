@@ -1,10 +1,11 @@
 package com.exceptions.client;
 
-public class EmptyPhoneNumbersListException extends RuntimeException {
+import com.exceptions.BusinessException;
 
-    @Override
-    public String getMessage() {
+public class EmptyPhoneNumbersListException extends BusinessException {
 
-        return "La lista de teléfonos de contacto de cliente está vacía.";
+    public EmptyPhoneNumbersListException() {
+
+        super("La lista de teléfonos de contacto de cliente está vacía.");
     }
 }

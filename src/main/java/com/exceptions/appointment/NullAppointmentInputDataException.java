@@ -1,9 +1,11 @@
 package com.exceptions.appointment;
 
-public class NullAppointmentInputDataException extends RuntimeException {
+import com.exceptions.BusinessException;
 
-    @Override
-    public String getMessage() {
-        return "Los atributos de turno no pueden ser NULL.";
+public class NullAppointmentInputDataException extends BusinessException {
+
+    public NullAppointmentInputDataException() {
+
+        super("Los atributos de turno no pueden ser NULL.");
     }
 }

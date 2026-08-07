@@ -1,10 +1,11 @@
 package com.exceptions.barberservice;
 
-public class BlankBarberServicePriceException extends RuntimeException {
+import com.exceptions.BusinessException;
 
-    @Override
-    public String getMessage() {
+public class BlankBarberServicePriceException extends BusinessException {
 
-        return "El precio de servicio no puede quedar en blanco.";
+    public BlankBarberServicePriceException() {
+
+        super("El precio de servicio no puede quedar en blanco.");
     }
 }

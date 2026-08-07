@@ -1,9 +1,11 @@
 package com.exceptions.client;
 
-public class BlankClientEmailException extends RuntimeException {
+import com.exceptions.BusinessException;
 
-    @Override
-    public String getMessage() {
-        return "El campo de email de cliente no puede quedar en blanco.";
+public class BlankClientEmailException extends BusinessException {
+
+    public BlankClientEmailException() {
+
+        super("El campo de email de cliente no puede quedar en blanco.");
     }
 }

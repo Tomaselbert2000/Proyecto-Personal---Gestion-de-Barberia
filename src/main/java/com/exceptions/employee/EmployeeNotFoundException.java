@@ -1,10 +1,11 @@
 package com.exceptions.employee;
 
-public class EmployeeNotFoundException extends RuntimeException {
+import com.exceptions.BusinessException;
 
-    @Override
-    public String getMessage() {
+public class EmployeeNotFoundException extends BusinessException {
 
-        return "No se encontraron coincidencias de empleados para el ID proporcionado.";
+    public EmployeeNotFoundException() {
+
+        super("No se encontraron coincidencias de empleados para el ID proporcionado.");
     }
 }

@@ -1,10 +1,11 @@
 package com.exceptions.common;
 
-public class NullMapperInputException extends RuntimeException {
+import com.exceptions.BusinessException;
 
-    @Override
-    public String getMessage() {
+public class NullMapperInputException extends BusinessException {
 
-        return "Uno o más objetos requeridos para el mapeo de nueva entidad son NULL.";
+    public NullMapperInputException() {
+
+        super("Uno o más objetos requeridos para el mapeo de nueva entidad son NULL.");
     }
 }

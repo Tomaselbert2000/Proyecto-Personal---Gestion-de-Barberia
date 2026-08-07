@@ -1,10 +1,11 @@
 package com.exceptions.client;
 
-public class DuplicatedPhoneNumberException extends RuntimeException {
+import com.exceptions.BusinessException;
 
-    @Override
-    public String getMessage() {
+public class DuplicatedPhoneNumberException extends BusinessException {
 
-        return "El número de teléfono ingresado ya fue registrado anteriormente.";
+    public DuplicatedPhoneNumberException() {
+
+        super("El número de teléfono ingresado ya fue registrado anteriormente.");
     }
 }

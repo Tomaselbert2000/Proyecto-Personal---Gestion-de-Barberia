@@ -1,10 +1,11 @@
 package com.exceptions.sale;
 
-public class EmptyProductItemListException extends RuntimeException {
+import com.exceptions.BusinessException;
 
-    @Override
-    public String getMessage() {
+public class EmptyProductItemListException extends BusinessException {
 
-        return "La lista de productos ingresada para la venta está vacía.";
+    public EmptyProductItemListException() {
+
+        super("La lista de productos ingresada para la venta está vacía.");
     }
 }

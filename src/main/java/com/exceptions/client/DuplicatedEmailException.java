@@ -1,9 +1,10 @@
 package com.exceptions.client;
 
-public class DuplicatedEmailException extends RuntimeException {
+import com.exceptions.BusinessException;
 
-    @Override
-    public String getMessage() {
-        return "El email ingresado ya fue registrado anteriormente.";
+public class DuplicatedEmailException extends BusinessException {
+
+    public DuplicatedEmailException() {
+        super("El email ingresado ya fue registrado anteriormente.");
     }
 }

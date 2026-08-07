@@ -1,9 +1,11 @@
 package com.exceptions.client;
 
-public class BlankClientNameException extends RuntimeException {
+import com.exceptions.BusinessException;
 
-    @Override
-    public String getMessage() {
-        return "Los campos de nombre y/o apellido de cliente no pueden quedar en blanco.";
+public class BlankClientNameException extends BusinessException {
+
+    public BlankClientNameException() {
+
+        super("Los campos de nombre y/o apellido de cliente no pueden quedar en blanco.");
     }
 }

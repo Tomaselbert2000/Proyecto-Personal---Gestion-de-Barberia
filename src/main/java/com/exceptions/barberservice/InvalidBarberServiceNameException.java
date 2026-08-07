@@ -1,9 +1,11 @@
 package com.exceptions.barberservice;
 
-public class InvalidBarberServiceNameException extends RuntimeException {
+import com.exceptions.BusinessException;
 
-    @Override
-    public String getMessage() {
-        return "El nombre de servicio de barbería no puede contener caractéres especiales y/o numéricos";
+public class InvalidBarberServiceNameException extends BusinessException {
+
+    public InvalidBarberServiceNameException() {
+
+        super("El nombre de servicio de barbería no puede contener caractéres especiales y/o numéricos");
     }
 }

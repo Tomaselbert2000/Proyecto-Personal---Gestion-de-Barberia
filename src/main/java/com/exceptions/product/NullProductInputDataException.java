@@ -1,9 +1,10 @@
 package com.exceptions.product;
 
-public class NullProductInputDataException extends RuntimeException {
+import com.exceptions.BusinessException;
 
-    @Override
-    public String getMessage() {
-        return "Los atributos de producto no pueden ser NULL.";
+public class NullProductInputDataException extends BusinessException {
+
+    public NullProductInputDataException() {
+        super("Los atributos de producto no pueden ser NULL.");
     }
 }

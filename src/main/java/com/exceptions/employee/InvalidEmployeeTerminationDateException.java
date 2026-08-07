@@ -1,10 +1,11 @@
 package com.exceptions.employee;
 
-public class InvalidEmployeeTerminationDateException extends RuntimeException {
+import com.exceptions.BusinessException;
 
-    @Override
-    public String getMessage() {
+public class InvalidEmployeeTerminationDateException extends BusinessException {
 
-        return "La fecha de fin de relación laboral especificada es anterior a la fecha de contratación del empleado";
+    public InvalidEmployeeTerminationDateException() {
+
+        super("La fecha de fin de relación laboral especificada es anterior a la fecha de contratación del empleado");
     }
 }

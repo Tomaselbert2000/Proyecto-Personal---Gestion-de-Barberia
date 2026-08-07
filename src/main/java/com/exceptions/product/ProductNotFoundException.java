@@ -1,9 +1,10 @@
 package com.exceptions.product;
 
-public class ProductNotFoundException extends RuntimeException {
+import com.exceptions.BusinessException;
 
-    @Override
-    public String getMessage() {
-        return "No se encontraron productos con el ID proporcionado.";
+public class ProductNotFoundException extends BusinessException {
+
+    public ProductNotFoundException() {
+        super("No se encontraron productos con el ID proporcionado.");
     }
 }

@@ -1,10 +1,11 @@
 package com.exceptions.sale;
 
-public class InvalidSaleDateTimeException extends RuntimeException {
+import com.exceptions.BusinessException;
 
-    @Override
-    public String getMessage() {
+public class InvalidSaleDateTimeException extends BusinessException {
 
-        return "La fecha de venta ingresada no es válida.";
+    public InvalidSaleDateTimeException() {
+
+        super("La fecha de venta ingresada no es válida.");
     }
 }

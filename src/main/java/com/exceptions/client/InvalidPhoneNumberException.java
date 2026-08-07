@@ -1,10 +1,11 @@
 package com.exceptions.client;
 
-public class InvalidPhoneNumberException extends RuntimeException {
+import com.exceptions.BusinessException;
 
-    @Override
-    public String getMessage() {
+public class InvalidPhoneNumberException extends BusinessException {
 
-        return "Uno o más números de teléfono ingresados no son válidos.";
+    public InvalidPhoneNumberException() {
+
+        super("Uno o más números de teléfono ingresados no son válidos.");
     }
 }

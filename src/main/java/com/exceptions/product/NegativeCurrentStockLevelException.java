@@ -1,9 +1,11 @@
 package com.exceptions.product;
 
-public class NegativeCurrentStockLevelException extends RuntimeException {
+import com.exceptions.BusinessException;
 
-    @Override
-    public String getMessage() {
-        return "No es posible ingresar un producto nuevo con valor de stock actual menor a cero.";
+public class NegativeCurrentStockLevelException extends BusinessException {
+
+    public NegativeCurrentStockLevelException() {
+
+        super("No es posible ingresar un producto nuevo con valor de stock actual menor a cero.");
     }
 }

@@ -1,10 +1,11 @@
 package com.exceptions.sale;
 
-public class InactiveEmployeeException extends RuntimeException {
+import com.exceptions.BusinessException;
 
-    @Override
-    public String getMessage() {
+public class InactiveEmployeeException extends BusinessException {
 
-        return "El empleado ingresado en el registro de venta no es encuentra activo actualmente.";
+    public InactiveEmployeeException() {
+
+        super("El empleado ingresado en el registro de venta no es encuentra activo actualmente.");
     }
 }

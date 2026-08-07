@@ -1,10 +1,11 @@
 package com.exceptions.common;
 
-public class EmployeeNotAvailableException extends RuntimeException {
+import com.exceptions.BusinessException;
 
-    @Override
-    public String getMessage() {
+public class EmployeeNotAvailableException extends BusinessException {
 
-        return "El empleado seleccionado para el nuevo turno ya posee otro asignado dentro del mismo rango horario.";
+    public EmployeeNotAvailableException() {
+
+        super("El empleado seleccionado para el nuevo turno ya posee otro asignado dentro del mismo rango horario.");
     }
 }

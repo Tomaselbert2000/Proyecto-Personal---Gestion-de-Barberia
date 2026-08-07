@@ -1,10 +1,11 @@
 package com.exceptions.sale;
 
-public class InsufficientProductStockException extends RuntimeException {
+import com.exceptions.BusinessException;
 
-    @Override
-    public String getMessage() {
+public class InsufficientProductStockException extends BusinessException {
 
-        return "Uno o más productos ingresados en el registro de compra no cuentan con stock suficiente para continuar con la misma.";
+    public InsufficientProductStockException() {
+
+        super("Uno o más productos ingresados en el registro de compra no cuentan con stock suficiente para continuar con la misma.");
     }
 }

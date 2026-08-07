@@ -1,9 +1,11 @@
 package com.exceptions.barberservice;
 
-public class DuplicatedBarberServiceNameException extends RuntimeException {
+import com.exceptions.BusinessException;
 
-    @Override
-    public String getMessage() {
-        return "El nombre de servicio de barbería ya fue registrado anteriormente.";
+public class DuplicatedBarberServiceNameException extends BusinessException {
+
+    public DuplicatedBarberServiceNameException() {
+
+        super("El nombre de servicio de barbería ya fue registrado anteriormente.");
     }
 }

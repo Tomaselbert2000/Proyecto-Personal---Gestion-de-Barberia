@@ -1,10 +1,11 @@
 package com.exceptions.sale;
 
-public class OrphanBarberServiceException extends RuntimeException {
+import com.exceptions.BusinessException;
 
-    @Override
-    public String getMessage() {
+public class OrphanBarberServiceException extends BusinessException {
 
-        return "No es posible registrar el servicio de barbería, el ID de empleado ingresado es NULL.";
+    public OrphanBarberServiceException() {
+
+        super("No es posible registrar el servicio de barbería, el ID de empleado ingresado es NULL.");
     }
 }

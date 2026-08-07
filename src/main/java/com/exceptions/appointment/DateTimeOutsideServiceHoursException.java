@@ -1,10 +1,11 @@
 package com.exceptions.appointment;
 
-public class DateTimeOutsideServiceHoursException extends RuntimeException {
+import com.exceptions.BusinessException;
 
-    @Override
-    public String getMessage() {
+public class DateTimeOutsideServiceHoursException extends BusinessException {
 
-        return "El horario de inicio y/o cierre de turno ingresado está fuera del horario de atención al cliente.";
+    public DateTimeOutsideServiceHoursException() {
+
+        super("El horario de inicio y/o cierre de turno ingresado está fuera del horario de atención al cliente.");
     }
 }

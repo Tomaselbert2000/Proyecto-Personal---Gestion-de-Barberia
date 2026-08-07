@@ -1,9 +1,11 @@
 package com.exceptions.barberservice;
 
-public class InvalidBarberServiceNameLengthException extends RuntimeException {
+import com.exceptions.BusinessException;
 
-    @Override
-    public String getMessage() {
-        return "La longitud en caractéres permitida para nombres de servicio es 4-100";
+public class InvalidBarberServiceNameLengthException extends BusinessException {
+
+    public InvalidBarberServiceNameLengthException() {
+
+        super("La longitud en caractéres permitida para nombres de servicio es 4-100");
     }
 }

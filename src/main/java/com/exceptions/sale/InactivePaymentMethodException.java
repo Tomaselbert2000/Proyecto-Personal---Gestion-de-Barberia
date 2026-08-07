@@ -1,10 +1,11 @@
 package com.exceptions.sale;
 
-public class InactivePaymentMethodException extends RuntimeException {
+import com.exceptions.BusinessException;
 
-    @Override
-    public String getMessage() {
+public class InactivePaymentMethodException extends BusinessException {
 
-        return "El medio de pago ingresado en el registro de venta se encuentra configurado como inactivo en el sistema.";
+    public InactivePaymentMethodException() {
+
+        super("El medio de pago ingresado en el registro de venta se encuentra configurado como inactivo en el sistema.");
     }
 }

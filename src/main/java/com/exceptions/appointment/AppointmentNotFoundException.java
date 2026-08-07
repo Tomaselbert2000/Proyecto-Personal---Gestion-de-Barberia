@@ -1,9 +1,11 @@
 package com.exceptions.appointment;
 
-public class AppointmentNotFoundException extends RuntimeException {
+import com.exceptions.BusinessException;
 
-    @Override
-    public String getMessage() {
-        return "No se encontraron coincidencias de turnos con el ID proporcionado.";
+public class AppointmentNotFoundException extends BusinessException {
+
+    public AppointmentNotFoundException() {
+
+        super("No se encontraron coincidencias de turnos con el ID proporcionado.");
     }
 }

@@ -1,9 +1,11 @@
 package com.exceptions.appointment;
 
-public class InvalidAppointmentStartDateException extends RuntimeException {
+import com.exceptions.BusinessException;
 
-    @Override
-    public String getMessage() {
-        return "La fecha u hora de inicio ingresada para el turno es anterior a la fecha actual del sistema.";
+public class InvalidAppointmentStartDateException extends BusinessException {
+
+    public InvalidAppointmentStartDateException() {
+
+        super("La fecha u hora de inicio ingresada para el turno es anterior a la fecha actual del sistema.");
     }
 }

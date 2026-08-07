@@ -1,10 +1,11 @@
 package com.exceptions.paymentmethod;
 
-public class InvalidPaymentMethodNameException extends RuntimeException {
+import com.exceptions.BusinessException;
 
-    @Override
-    public String getMessage() {
+public class InvalidPaymentMethodNameException extends BusinessException {
 
-        return "El campo de nombre de método de pago no puede contener caractéres numéricos y/o especiales.";
+    public InvalidPaymentMethodNameException() {
+
+        super("El campo de nombre de método de pago no puede contener caractéres numéricos y/o especiales.");
     }
 }

@@ -1,9 +1,10 @@
 package com.exceptions.common;
 
-public class NullDTOException extends RuntimeException {
+import com.exceptions.BusinessException;
 
-    @Override
-    public String getMessage() {
-        return "El objeto de transferencia de datos enviado es NULL";
+public class NullDTOException extends BusinessException {
+
+    public NullDTOException() {
+        super("El objeto de transferencia de datos enviado es NULL");
     }
 }

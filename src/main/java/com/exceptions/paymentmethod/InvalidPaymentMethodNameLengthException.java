@@ -1,10 +1,11 @@
 package com.exceptions.paymentmethod;
 
-public class InvalidPaymentMethodNameLengthException extends RuntimeException {
+import com.exceptions.BusinessException;
 
-    @Override
-    public String getMessage() {
+public class InvalidPaymentMethodNameLengthException extends BusinessException {
 
-        return "La longitud permitida para nombres de métodos de pago es de 4 a 100 caractéres.";
+    public InvalidPaymentMethodNameLengthException() {
+
+        super("La longitud permitida para nombres de métodos de pago es de 4 a 100 caractéres.");
     }
 }

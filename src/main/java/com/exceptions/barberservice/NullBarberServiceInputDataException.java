@@ -1,9 +1,11 @@
 package com.exceptions.barberservice;
 
-public class NullBarberServiceInputDataException extends RuntimeException {
+import com.exceptions.BusinessException;
 
-    @Override
-    public String getMessage() {
-        return "Los atributos de servicio de barbería no pueden ser NULL";
+public class NullBarberServiceInputDataException extends BusinessException {
+
+    public NullBarberServiceInputDataException() {
+
+        super("Los atributos de servicio de barbería no pueden ser NULL");
     }
 }

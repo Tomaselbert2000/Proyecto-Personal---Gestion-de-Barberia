@@ -1,9 +1,11 @@
 package com.exceptions.client;
 
-public class InvalidNationalIDCardNumberLengthException extends RuntimeException {
+import com.exceptions.BusinessException;
 
-    @Override
-    public String getMessage() {
-        return "La longitud permitida para el campo DNI es entre 7 y 8 dígitos";
+public class InvalidNationalIDCardNumberLengthException extends BusinessException {
+
+    public InvalidNationalIDCardNumberLengthException() {
+
+        super("La longitud permitida para el campo DNI es entre 7 y 8 dígitos");
     }
 }

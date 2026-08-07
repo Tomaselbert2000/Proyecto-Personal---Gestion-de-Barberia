@@ -1,9 +1,11 @@
 package com.exceptions.product;
 
-public class InvalidProductCostException extends RuntimeException {
+import com.exceptions.BusinessException;
 
-    @Override
-    public String getMessage() {
-        return "El costo de un producto no puede ser menor o igual a cero.";
+public class InvalidProductCostException extends BusinessException {
+
+    public InvalidProductCostException() {
+
+        super("El costo de un producto no puede ser menor o igual a cero.");
     }
 }

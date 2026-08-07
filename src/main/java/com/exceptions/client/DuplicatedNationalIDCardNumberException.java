@@ -1,9 +1,11 @@
 package com.exceptions.client;
 
-public class DuplicatedNationalIDCardNumberException extends RuntimeException {
+import com.exceptions.BusinessException;
 
-    @Override
-    public String getMessage() {
-        return "El número de DNI ingresado ya fue registrado anteriormente.";
+public class DuplicatedNationalIDCardNumberException extends BusinessException {
+
+    public DuplicatedNationalIDCardNumberException() {
+
+        super("El número de DNI ingresado ya fue registrado anteriormente.");
     }
 }

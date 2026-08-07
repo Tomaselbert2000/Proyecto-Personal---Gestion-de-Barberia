@@ -1,9 +1,11 @@
 package com.exceptions.employee;
 
-public class NullEmployeeInputDataException extends RuntimeException {
+import com.exceptions.BusinessException;
 
-    @Override
-    public String getMessage() {
-        return "Los campos de atributo de empleado no pueden ser NULL.";
+public class NullEmployeeInputDataException extends BusinessException {
+
+    public NullEmployeeInputDataException() {
+
+        super("Los campos de atributo de empleado no pueden ser NULL.");
     }
 }

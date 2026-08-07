@@ -1,10 +1,11 @@
 package com.exceptions.client;
 
-public class InvalidClientNameException extends RuntimeException {
+import com.exceptions.BusinessException;
 
-    @Override
-    public String getMessage() {
+public class InvalidClientNameException extends BusinessException {
 
-        return "Los campos de nombre y apellido de cliente no pueden contener caractéres especiales y/o numéricos.";
+    public InvalidClientNameException() {
+
+        super("Los campos de nombre y apellido de cliente no pueden contener caractéres especiales y/o numéricos.");
     }
 }

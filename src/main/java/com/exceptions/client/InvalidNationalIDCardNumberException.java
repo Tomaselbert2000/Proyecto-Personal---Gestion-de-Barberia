@@ -1,10 +1,11 @@
 package com.exceptions.client;
 
-public class InvalidNationalIDCardNumberException extends RuntimeException {
+import com.exceptions.BusinessException;
 
-    @Override
-    public String getMessage() {
+public class InvalidNationalIDCardNumberException extends BusinessException {
 
-        return "El campo DNI solo puede contener caractéres numéricos.";
+    public InvalidNationalIDCardNumberException() {
+
+        super("El campo DNI solo puede contener caractéres numéricos.");
     }
 }

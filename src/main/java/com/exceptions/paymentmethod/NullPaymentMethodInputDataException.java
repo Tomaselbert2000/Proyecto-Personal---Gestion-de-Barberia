@@ -1,10 +1,11 @@
 package com.exceptions.paymentmethod;
 
-public class NullPaymentMethodInputDataException extends RuntimeException {
+import com.exceptions.BusinessException;
 
-    @Override
-    public String getMessage() {
+public class NullPaymentMethodInputDataException extends BusinessException {
 
-        return "Los campos de atributo de método de pago no pueden ser NULL.";
+    public NullPaymentMethodInputDataException() {
+
+        super("Los campos de atributo de método de pago no pueden ser NULL.");
     }
 }

@@ -1,9 +1,11 @@
 package com.exceptions.client;
 
-public class NullClientInputDataException extends RuntimeException {
+import com.exceptions.BusinessException;
 
-    @Override
-    public String getMessage() {
-        return "Los atributos de cliente no pueden ser NULL.";
+public class NullClientInputDataException extends BusinessException {
+
+    public NullClientInputDataException() {
+
+        super("Los atributos de cliente no pueden ser NULL.");
     }
 }
