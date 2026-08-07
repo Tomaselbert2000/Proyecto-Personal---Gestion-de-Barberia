@@ -21,7 +21,7 @@
         <padding>
             <Insets top="2" right="2" bottom="2" left="2"/>
         </padding>
-        <ImageView fx:id="product_image_placeholder"
+        <ImageView fx:id="productImagePlaceholder"
                    fitWidth="44.0" fitHeight="44.0"
                    preserveRatio="true"/>
     </StackPane>
@@ -30,10 +30,10 @@
     <VBox spacing="4" HBox.hgrow="ALWAYS">
         <!-- Name + Status Badge -->
         <HBox spacing="8" alignment="CENTER_LEFT">
-            <Label fx:id="product_name" styleClass="md-list-item-headline"
+            <Label fx:id="productName" styleClass="md-list-item-headline"
                    text="Product Name"/>
-            <VBox fx:id="stock_status_badge_vbox">
-                <Label fx:id="stock_status_text" styleClass="md-nav-badge"/>
+            <VBox fx:id="stockStatusBadgeVbox">
+                <Label fx:id="stockStatusText" styleClass="md-nav-badge"/>
             </VBox>
         </HBox>
 
@@ -41,24 +41,24 @@
         <HBox spacing="16" alignment="CENTER_LEFT">
             <HBox spacing="4">
                 <Label styleClass="md-list-item-supporting-text" text="Costo:"/>
-                <Label fx:id="product_cost" styleClass="md-list-item-supporting-text"/>
+                <Label fx:id="productCost" styleClass="md-list-item-supporting-text"/>
             </HBox>
             <HBox spacing="4">
                 <Label styleClass="md-list-item-supporting-text" text="Precio:"/>
-                <Label fx:id="product_price" styleClass="md-list-item-supporting-text"/>
+                <Label fx:id="productPrice" styleClass="md-list-item-supporting-text"/>
             </HBox>
             <HBox spacing="4">
                 <Label styleClass="md-list-item-supporting-text" text="Ganancia:"/>
-                <Label fx:id="product_profit" styleClass="md-list-item-supporting-text"/>
+                <Label fx:id="productProfit" styleClass="md-list-item-supporting-text"/>
             </HBox>
         </HBox>
     </VBox>
 
     <!-- Stock Info -->
     <VBox spacing="2" alignment="CENTER_RIGHT" minWidth="80.0">
-        <Label fx:id="current_stock" styleClass="md-label-large"/>
+        <Label fx:id="currentStock" styleClass="md-label-large"/>
         <Label styleClass="md-label-medium" text="en stock"/>
-        <Label fx:id="safety_stock" styleClass="md-label-small"/>
+        <Label fx:id="safetyStock" styleClass="md-label-small"/>
     </VBox>
 
     <!-- Separator vertical antes de acciones -->
@@ -67,7 +67,7 @@
 
     <!-- Actions -->
     <HBox spacing="8" alignment="CENTER_RIGHT">
-        <MFXButton fx:id="edit_button" styleClass="md-button-outlined" text="Editar"/>
-        <MFXButton fx:id="add_stock_button" styleClass="md-button-tonal" text="+ Stock"/>
+        <MFXButton fx:id="editButton" styleClass="md-button-outlined" text="Editar"/>
+        <MFXButton fx:id="addStockButton" styleClass="md-button-tonal" text="+ Stock"/>
     </HBox>
 </HBox>

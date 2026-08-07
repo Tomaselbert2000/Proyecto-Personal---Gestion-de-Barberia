@@ -21,10 +21,10 @@ import java.util.Objects;
 import java.util.function.Consumer;
 
 import static com.presentation.constants.ControllerConstants.ProductControllerConstants.PLACEHOLDER_PATH;
-import static com.presentation.support.io.FileImageHelper.loadFileOnImageView;
 import static com.presentation.support.control.UIBasicComponents.*;
 import static com.presentation.support.control.ValidationFormatter.formatAsPercentage;
 import static com.presentation.support.control.ValidationFormatter.formatAsPrice;
+import static com.presentation.support.io.FileImageHelper.loadFileOnImageView;
 
 @Component
 @Getter
@@ -42,26 +42,27 @@ public class ProductItemController implements ItemController<ProductInfoDTO> {
     private Consumer<ProductInfoDTO>
             onEditCallback,
             onAddStockCallback;
-    @FXML
-    private VBox stock_status_badge_vbox;
 
     @FXML
-    private ImageView product_image_placeholder;
+    private VBox stockStatusBadgeVbox;
+
+    @FXML
+    private ImageView productImagePlaceholder;
 
     @FXML
     private Label
-            product_name,
-            stock_status_text,
-            product_cost,
-            product_price,
-            product_profit,
-            current_stock,
-            safety_stock;
+            productName,
+            stockStatusText,
+            productCost,
+            productPrice,
+            productProfit,
+            currentStock,
+            safetyStock;
 
     @FXML
     private MFXButton
-            edit_button,
-            add_stock_button;
+            editButton,
+            addStockButton;
 
     private static @NonNull List<String> getStrings(ProductInfoDTO infoDTO, String name, String stockStatusText) {
         String productCost = formatAsPrice(infoDTO.getProductCost());
@@ -94,11 +95,11 @@ public class ProductItemController implements ItemController<ProductInfoDTO> {
 
         infoDTOReference = infoDTO;
 
-        List<Label> labels = List.of(product_name, stock_status_text, product_cost, product_price, product_profit, current_stock, safety_stock);
+        List<Label> labels = List.of(productName, stockStatusText, productCost, productPrice, productProfit, currentStock, safetyStock);
 
         String name = infoDTO.getName();
-        String stockStatusText = infoDTO.getCurrentStockStatus().getDisplayName();
-        List<String> texts = getStrings(infoDTO, name, stockStatusText);
+        String stockStatusTextValue = infoDTO.getCurrentStockStatus().getDisplayName();
+        List<String> texts = getStrings(infoDTO, name, stockStatusTextValue);
         Map<Label, String> map = generateMap(labels, texts);
 
         setTextsOnLabelMap(map);
@@ -109,24 +110,22 @@ public class ProductItemController implements ItemController<ProductInfoDTO> {
 
             File file = new File(infoDTO.getImageFilePath());
 
-            loadFileOnImageView(file, product_image_placeholder);
+            loadFileOnImageView(file, productImagePlaceholder);
 
         } else {
 
             imageToShow = IMAGE_PLACEHOLDER;
-            product_image_placeholder.setImage(imageToShow);
+            productImagePlaceholder.setImage(imageToShow);
         }
     }
 
     private void configureButtonActions() {
 
         Map<Button, Runnable> map = Map.of(
-                edit_button, this::goToEditProductView,
-                add_stock_button, this::goToAddStockView
+                editButton, this::goToEditProductView,
+                addStockButton, this::goToAddStockView
         );
 
         configureRunnableMaps(map);
     }
 }
-
-//TODO: completar plan de refactor en OpenCode
