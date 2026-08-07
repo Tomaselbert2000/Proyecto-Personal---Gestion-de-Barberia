@@ -25,9 +25,9 @@ import java.util.Map;
 import static com.presentation.constants.StringResource.ToastNotificationMessage.BARBER_SERVICE_UPDATE_TOAST_NOTIFICATION_MESSAGE;
 import static com.presentation.support.control.ComboBoxHelper.loadEnumsOnComboBox;
 import static com.presentation.support.control.ComboBoxHelper.removeFirstItemFromComboBox;
+import static com.presentation.support.control.UIBasicComponents.*;
 import static com.presentation.support.notification.ToastNotificationHelper.showExceptionErrorMessage;
 import static com.presentation.support.notification.ToastNotificationHelper.showToastNotification;
-import static com.presentation.support.control.UIBasicComponents.*;
 import static com.presentation.support.view.ViewRedirectionHelper.redirectToView;
 
 /**
@@ -43,28 +43,28 @@ public class BarberServiceEditionController {
 
     @FXML
     private TextField
-            service_id_field,
-            service_name_field,
-            price_field,
-            internal_notes_field;
+            serviceIdField,
+            serviceNameField,
+            priceField,
+            internalNotesField;
 
     @FXML
-    private AnchorPane anchor_pane;
+    private AnchorPane anchorPane;
 
     @FXML
     private MFXButton
-            back_button,
-            restore_values_button,
-            update_button;
+            backButton,
+            restoreValuesButton,
+            updateButton;
 
     @FXML
-    private ComboBox<BarberServiceCategory> category_combo_box;
+    private ComboBox<BarberServiceCategory> categoryComboBox;
 
     @FXML
-    private VBox error_message_container;
+    private VBox errorMessageContainer;
 
     @FXML
-    private Label error_message_label;
+    private Label errorMessageLabel;
 
     /**
      * Inicializa el controlador con los datos del servicio de barbero a editar.
@@ -82,9 +82,9 @@ public class BarberServiceEditionController {
      * Configura la interfaz de usuario, cargando los valores y configurando las restricciones.
      */
     private void configureUI() {
-        loadEnumsOnComboBox(category_combo_box, BarberServiceCategory.values());
-        removeFirstItemFromComboBox(category_combo_box);
-        configureDecimalTextfieldRestrictions(price_field);
+        loadEnumsOnComboBox(categoryComboBox, BarberServiceCategory.values());
+        removeFirstItemFromComboBox(categoryComboBox);
+        configureDecimalTextfieldRestrictions(priceField);
     }
 
     /**
@@ -94,10 +94,10 @@ public class BarberServiceEditionController {
      */
     private void loadServiceDataForEdition(BarberServiceInfoDTO infoDTO) {
         Map<TextField, String> map = Map.of(
-                service_id_field, infoDTO.getBarberServiceId().toString(),
-                service_name_field, infoDTO.getName(),
-                price_field, infoDTO.getPrice().toString(),
-                internal_notes_field, infoDTO.getInternalNotes()
+                serviceIdField, infoDTO.getBarberServiceId().toString(),
+                serviceNameField, infoDTO.getName(),
+                priceField, infoDTO.getPrice().toString(),
+                internalNotesField, infoDTO.getInternalNotes()
         );
         setTextsOnTextfieldMap(map);
     }
@@ -109,18 +109,18 @@ public class BarberServiceEditionController {
      */
     private void updateBarberService() {
         try {
-            Long id = Long.valueOf(service_id_field.getText());
-            String newName = service_name_field.getText();
-            if (price_field.getText().isBlank())
+            Long id = Long.valueOf(serviceIdField.getText());
+            String newName = serviceNameField.getText();
+            if (priceField.getText().isBlank())
                 throw new BlankBarberServicePriceException();
-            String newPrice = price_field.getText();
-            BarberServiceCategory newCategory = category_combo_box.getValue();
-            String newInternalNotes = internal_notes_field.getText();
+            String newPrice = priceField.getText();
+            BarberServiceCategory newCategory = categoryComboBox.getValue();
+            String newInternalNotes = internalNotesField.getText();
             BarberServiceUpdateDTO updateDTO = buildDTOFromAttributes(newName, newPrice, newCategory, newInternalNotes);
             barberserviceService.updateService(id, updateDTO);
-            showToastNotification(anchor_pane, applicationContext, BARBER_SERVICE_UPDATE_TOAST_NOTIFICATION_MESSAGE, ToastNotificationType.SUCCESSFUL);
+            showToastNotification(anchorPane, applicationContext, BARBER_SERVICE_UPDATE_TOAST_NOTIFICATION_MESSAGE, ToastNotificationType.SUCCESSFUL);
         } catch (RuntimeException exception) {
-            showExceptionErrorMessage(exception, error_message_label, error_message_container);
+            showExceptionErrorMessage(exception, errorMessageLabel, errorMessageContainer);
         }
     }
 
@@ -149,9 +149,9 @@ public class BarberServiceEditionController {
      */
     private void configureButtonActions(BarberServiceInfoDTO infoDTO) {
         Map<Button, Runnable> map = Map.of(
-                back_button, () -> redirectToView(ViewRedirection.BARBER_SERVICES, anchor_pane, applicationContext),
-                restore_values_button, () -> resetForm(infoDTO),
-                update_button, this::updateBarberService
+                backButton, () -> redirectToView(ViewRedirection.BARBER_SERVICES, anchorPane, applicationContext),
+                restoreValuesButton, () -> resetForm(infoDTO),
+                updateButton, this::updateBarberService
         );
         configureRunnableMaps(map);
     }
@@ -162,7 +162,7 @@ public class BarberServiceEditionController {
      * @param infoDTO Datos del servicio de barbero a editar.
      */
     private void resetForm(BarberServiceInfoDTO infoDTO) {
-        cleanTextfields(List.of(service_name_field, price_field, internal_notes_field));
+        cleanTextfields(List.of(serviceNameField, priceField, internalNotesField));
         loadServiceDataForEdition(infoDTO);
         configureUI();
     }

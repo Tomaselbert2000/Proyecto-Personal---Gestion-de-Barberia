@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1"
             xmlns="http://javafx.com/javafx/17.0.12"
-            fx:id="anchor_pane"
+            fx:id="anchorPane"
             fx:controller="com.presentation.controller.barberservice.BarberServiceEditionController">
 
     <VBox
@@ -18,7 +18,7 @@
             <padding>
                 <Insets top="20" right="24" bottom="12" left="24"/>
             </padding>
-            <MFXButton fx:id="back_button" styleClass="md-button-outlined" text="← Volver"/>
+            <MFXButton fx:id="backButton" styleClass="md-button-outlined" text="← Volver"/>
             <VBox spacing="2">
                 <Label styleClass="md-headline-medium" text="Editar Servicio"/>
                 <Label styleClass="md-body-large" text="Actualiza los datos del servicio seleccionado"/>
@@ -50,7 +50,7 @@
                         <!-- ID del Servicio (read-only) -->
                         <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="0">
                             <Label styleClass="md-label-medium" text="ID del Servicio"/>
-                            <TextField fx:id="service_id_field" editable="false" promptText="ID del servicio"
+                            <TextField fx:id="serviceIdField" editable="false" promptText="ID del servicio"
                                        styleClass="md-text-field"/>
                         </VBox>
 
@@ -60,7 +60,7 @@
                                 <Label styleClass="md-label-medium" text="Nombre del Servicio"/>
                                 <Label styleClass="md-label-medium" text="*" style="-fx-text-fill: -fx-error"/>
                             </HBox>
-                            <TextField fx:id="service_name_field" styleClass="md-text-field" maxWidth="Infinity"/>
+                            <TextField fx:id="serviceNameField" styleClass="md-text-field" maxWidth="Infinity"/>
                         </VBox>
 
                         <!-- Precio -->
@@ -69,7 +69,7 @@
                                 <Label styleClass="md-label-medium" text="Precio"/>
                                 <Label styleClass="md-label-medium" text="*" style="-fx-text-fill: -fx-error"/>
                             </HBox>
-                            <TextField fx:id="price_field" styleClass="md-text-field"/>
+                            <TextField fx:id="priceField" styleClass="md-text-field"/>
                         </VBox>
 
                         <!-- Categoría -->
@@ -78,7 +78,7 @@
                                 <Label styleClass="md-label-medium" text="Categoría"/>
                                 <Label styleClass="md-label-medium" text="*" style="-fx-text-fill: -fx-error"/>
                             </HBox>
-                            <ComboBox fx:id="category_combo_box" styleClass="md-combo-box" maxWidth="Infinity"/>
+                            <ComboBox fx:id="categoryComboBox" styleClass="md-combo-box" maxWidth="Infinity"/>
                         </VBox>
                     </GridPane>
                 </VBox>
@@ -98,15 +98,15 @@
                         <!-- Notas Internas -->
                         <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="0">
                             <Label styleClass="md-label-medium" text="Notas Internas"/>
-                            <TextField fx:id="internal_notes_field" styleClass="md-text-field"/>
+                            <TextField fx:id="internalNotesField" styleClass="md-text-field"/>
                         </VBox>
                     </GridPane>
                 </VBox>
 
                 <!-- Botones de Acción -->
                 <HBox spacing="8" alignment="CENTER_RIGHT">
-                    <MFXButton fx:id="restore_values_button" styleClass="md-button-outlined" text="Restaurar valores"/>
-                    <MFXButton fx:id="update_button" styleClass="md-button-filled" text="Actualizar Servicio"/>
+                    <MFXButton fx:id="restoreValuesButton" styleClass="md-button-outlined" text="Restaurar valores"/>
+                    <MFXButton fx:id="updateButton" styleClass="md-button-filled" text="Actualizar Servicio"/>
                 </HBox>
 
             </VBox>
