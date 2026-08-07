@@ -18,16 +18,16 @@
     <VBox spacing="4" HBox.hgrow="ALWAYS">
         <!-- Name + Category Badge -->
         <HBox spacing="8" alignment="CENTER_LEFT">
-            <Label fx:id="service_name" styleClass="md-list-item-headline"/>
-            <VBox fx:id="category_badge">
-                <Label fx:id="category_text" styleClass="md-nav-badge"/>
+            <Label fx:id="serviceName" styleClass="md-list-item-headline"/>
+            <VBox>
+                <Label fx:id="categoryText" styleClass="md-nav-badge"/>
             </VBox>
         </HBox>
     </VBox>
 
     <!-- Price -->
     <VBox alignment="CENTER" minWidth="100.0">
-        <Label fx:id="service_price" styleClass="md-label-large"/>
+        <Label fx:id="servicePrice" styleClass="md-label-large"/>
     </VBox>
 
     <!-- Separator vertical antes de acciones -->
@@ -36,7 +36,7 @@
 
     <!-- Actions -->
     <HBox spacing="8" alignment="CENTER_RIGHT">
-        <MFXButton fx:id="edit_button" styleClass="md-button-outlined" text="Editar"/>
-        <MFXButton fx:id="delete_button" styleClass="md-button-outlined" text="Eliminar"/>
+        <MFXButton fx:id="editButton" styleClass="md-button-outlined" text="Editar"/>
+        <MFXButton fx:id="deleteButton" styleClass="md-button-outlined" text="Eliminar"/>
     </HBox>
 </HBox>

@@ -1,6 +1,7 @@
 package com.presentation.controller.barberservice;
 
 import com.dto.barberservice.BarberServiceInfoDTO;
+import com.presentation.controller.item.ItemController;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -19,7 +20,7 @@ import static com.presentation.support.control.UIBasicComponents.setTextOnLabel;
 @Component
 @Getter
 @Setter
-public class BarberServiceItemController {
+public class BarberServiceItemController implements ItemController<BarberServiceInfoDTO> {
 
     private BarberServiceInfoDTO infoDTOReference;
 
@@ -29,14 +30,14 @@ public class BarberServiceItemController {
 
     @FXML
     private Label
-            service_name,
-            service_price,
-            category_text;
+            serviceName,
+            servicePrice,
+            categoryText;
 
     @FXML
     private MFXButton
-            edit_button,
-            delete_button;
+            editButton,
+            deleteButton;
 
     /**
      * Inicializa el controlador, configurando las acciones de los botones.
@@ -67,11 +68,13 @@ public class BarberServiceItemController {
      *
      * @param infoDTO Datos del servicio de barbero a mostrar.
      */
+
+    @Override
     public void setDataOnItem(BarberServiceInfoDTO infoDTO) {
         infoDTOReference = infoDTO;
-        setTextOnLabel(service_name, infoDTO.getName());
-        setTextOnLabel(service_price, CURRENCY_STRING_ARG + infoDTO.getPrice().toString());
-        setTextOnLabel(category_text, infoDTO.getCategory().getDisplayName());
+        setTextOnLabel(serviceName, infoDTO.getName());
+        setTextOnLabel(servicePrice, CURRENCY_STRING_ARG + infoDTO.getPrice().toString());
+        setTextOnLabel(categoryText, infoDTO.getCategory().getDisplayName());
     }
 
     /**
@@ -79,8 +82,8 @@ public class BarberServiceItemController {
      */
     private void configureButtonActions() {
         Map<Button, Runnable> map = Map.of(
-                edit_button, this::goToEditBarberServiceView,
-                delete_button, this::goToDeleteBarberServiceView
+                editButton, this::goToEditBarberServiceView,
+                deleteButton, this::goToDeleteBarberServiceView
         );
         configureRunnableMaps(map);
     }
