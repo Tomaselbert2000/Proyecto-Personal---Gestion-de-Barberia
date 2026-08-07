@@ -5,7 +5,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
-<AnchorPane fx:id="anchor_pane"
+<AnchorPane fx:id="anchorPane"
             xmlns="http://javafx.com/javafx/17.0.12"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.presentation.controller.product.ProductCreationController">
@@ -21,7 +21,7 @@
                 <Insets top="16" right="24" bottom="16" left="24"/>
             </padding>
 
-            <MFXButton fx:id="back_button" styleClass="md-button-outlined" text="Volver">
+            <MFXButton fx:id="backButton" styleClass="md-button-outlined" text="Volver">
                 <graphic>
                     <Region styleClass="arrow-up-circle-icon, md-icon-small"/>
                 </graphic>
@@ -68,7 +68,8 @@
                                 <Label styleClass="md-label-medium" text="Nombre del Producto"/>
                                 <Label styleClass="md-label-medium, md-input-error" text="*"/>
                             </HBox>
-                            <TextField fx:id="name" promptText="Ej. Shampoo Matizador 250ml" styleClass="md-text-field"
+                            <TextField fx:id="productName" promptText="Ej. Shampoo Matizador 250ml"
+                                       styleClass="md-text-field"
                                        maxWidth="Infinity"/>
                         </VBox>
 
@@ -78,14 +79,14 @@
                                 <Label styleClass="md-label-medium" text="Categoría"/>
                                 <Label styleClass="md-label-medium, md-input-error" text="*"/>
                             </HBox>
-                            <ComboBox fx:id="product_category_selector" promptText="Seleccionar categoría"
+                            <ComboBox fx:id="productCategorySelector" promptText="Seleccionar categoría"
                                       styleClass="md-combo-box" maxWidth="Infinity"/>
                         </VBox>
 
                         <!-- Descripción -->
                         <VBox spacing="4" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="1">
                             <Label styleClass="md-label-medium" text="Descripción detallada (Opcional)"/>
-                            <TextField fx:id="optional_description"
+                            <TextField fx:id="optionalDescription"
                                        promptText="Detalles sobre el uso, fragancia o componentes..."
                                        styleClass="md-text-field" maxWidth="Infinity"/>
                         </VBox>
@@ -93,7 +94,7 @@
                         <!-- Marca -->
                         <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="2">
                             <Label styleClass="md-label-medium" text="Marca / Fabricante"/>
-                            <TextField fx:id="brand_name" promptText="Ej. L'Oréal, Sir Fausto"
+                            <TextField fx:id="brandName" promptText="Ej. L'Oréal, Sir Fausto"
                                        styleClass="md-text-field" maxWidth="Infinity"/>
                         </VBox>
 
@@ -101,12 +102,12 @@
                         <HBox spacing="8" GridPane.columnIndex="1" GridPane.rowIndex="2">
                             <VBox spacing="4" HBox.hgrow="ALWAYS">
                                 <Label styleClass="md-label-medium" text="Presentación"/>
-                                <TextField fx:id="product_presentation_field" promptText="Ej. 250"
+                                <TextField fx:id="productPresentationField" promptText="Ej. 250"
                                            styleClass="md-text-field" maxWidth="Infinity"/>
                             </VBox>
                             <VBox spacing="4" prefWidth="120.0">
                                 <Label styleClass="md-label-medium" text="Unidad"/>
-                                <ComboBox fx:id="presentation_unit_combobox" promptText="ml" styleClass="md-combo-box"
+                                <ComboBox fx:id="presentationUnitComboBox" promptText="ml" styleClass="md-combo-box"
                                           maxWidth="Infinity"/>
                             </VBox>
                         </HBox>
@@ -138,7 +139,7 @@
                                 <Label styleClass="md-label-medium" text="Costo de Compra ($)"/>
                                 <Label styleClass="md-label-medium, md-input-error" text="*"/>
                             </HBox>
-                            <TextField fx:id="cost" promptText="0.00" styleClass="md-text-field"/>
+                            <TextField fx:id="productCost" promptText="0.00" styleClass="md-text-field"/>
                         </VBox>
 
                         <!-- Precio de Venta -->
@@ -147,7 +148,7 @@
                                 <Label styleClass="md-label-medium" text="Precio de Venta al Público ($)"/>
                                 <Label styleClass="md-label-medium, md-input-error" text="*"/>
                             </HBox>
-                            <TextField fx:id="current_price" promptText="0.00" styleClass="md-text-field"/>
+                            <TextField fx:id="currentPrice" promptText="0.00" styleClass="md-text-field"/>
                         </VBox>
 
                         <!-- Margen de Ganancia (Cálculo Destacado) -->
@@ -157,26 +158,26 @@
                                 <padding>
                                     <Insets left="12" right="12"/>
                                 </padding>
-                                <Label fx:id="profit_margin_value" styleClass="md-title-medium" text="0%"/>
+                                <Label fx:id="profitMarginValue" styleClass="md-title-medium" text="0%"/>
                             </HBox>
                         </VBox>
 
                         <!-- Precio Mayoreo -->
                         <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="1">
                             <Label styleClass="md-label-medium" text="Precio de venta por mayor ($)"/>
-                            <TextField fx:id="wholesale_price" promptText="0.00" styleClass="md-text-field"/>
+                            <TextField fx:id="wholesalePrice" promptText="0.00" styleClass="md-text-field"/>
                         </VBox>
 
                         <!-- Precio Mínimo -->
                         <VBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="1">
                             <Label styleClass="md-label-medium" text="Precio de venta mínimo ($)"/>
-                            <TextField fx:id="min_price" promptText="0.00" styleClass="md-text-field"/>
+                            <TextField fx:id="minPrice" promptText="0.00" styleClass="md-text-field"/>
                         </VBox>
 
                         <!-- Descuento Máximo -->
                         <VBox spacing="4" GridPane.columnIndex="2" GridPane.rowIndex="1">
                             <Label styleClass="md-label-medium" text="Descuento Máximo Permitido (%)"/>
-                            <TextField fx:id="max_discount" promptText="0%" styleClass="md-text-field"/>
+                            <TextField fx:id="maxDiscount" promptText="0%" styleClass="md-text-field"/>
                         </VBox>
                     </GridPane>
                 </VBox>
@@ -211,7 +212,7 @@
                                     <Label styleClass="md-label-medium" text="Stock Inicial"/>
                                     <Label styleClass="md-label-medium, md-input-error" text="*"/>
                                 </HBox>
-                                <TextField fx:id="current_stock_level" promptText="0" styleClass="md-text-field"/>
+                                <TextField fx:id="currentStockLevel" promptText="0" styleClass="md-text-field"/>
                             </VBox>
 
                             <!-- Stock Mínimo -->
@@ -220,7 +221,7 @@
                                     <Label styleClass="md-label-medium" text="Stock Mínimo (Alerta)"/>
                                     <Label styleClass="md-label-medium, md-input-error" text="*"/>
                                 </HBox>
-                                <TextField fx:id="safety_stock_level" promptText="5" styleClass="md-text-field"/>
+                                <TextField fx:id="safetyStockLevel" promptText="5" styleClass="md-text-field"/>
                             </VBox>
                         </GridPane>
                     </VBox>
@@ -238,14 +239,14 @@
 
                         <HBox spacing="16" alignment="CENTER_LEFT">
                             <StackPane styleClass="md-card-filled" prefWidth="90.0" prefHeight="90.0">
-                                <ImageView fx:id="product_image_preview" fitHeight="80.0" fitWidth="80.0"
+                                <ImageView fx:id="productImagePreview" fitHeight="80.0" fitWidth="80.0"
                                            pickOnBounds="true" preserveRatio="true"/>
                             </StackPane>
 
                             <VBox spacing="8" alignment="CENTER_LEFT">
-                                <MFXButton fx:id="select_image_button" styleClass="md-button-outlined"
+                                <MFXButton fx:id="selectImageButton" styleClass="md-button-outlined"
                                            text="Seleccionar Imagen"/>
-                                <MFXButton fx:id="remove_image_button" styleClass="md-button-text"
+                                <MFXButton fx:id="removeImageButton" styleClass="md-button-text"
                                            text="Eliminar Imagen"/>
                                 <Label styleClass="md-body-small" text="Formatos permitidos: JPG, PNG"/>
                             </VBox>
@@ -255,8 +256,8 @@
 
                 <!-- 4. BARRA DE ACCIONES PRINCIPAL (GUARDAR / LIMPIAR) -->
                 <HBox spacing="12" alignment="CENTER_RIGHT">
-                    <MFXButton fx:id="reset_form_button" styleClass="md-button-text" text="Limpiar campos"/>
-                    <MFXButton fx:id="save_button" styleClass="md-button-filled" text="Guardar Producto">
+                    <MFXButton fx:id="resetFormButton" styleClass="md-button-text" text="Limpiar campos"/>
+                    <MFXButton fx:id="saveButton" styleClass="md-button-filled" text="Guardar Producto">
                         <graphic>
                             <Region styleClass="done-all-icon, md-icon-small, md-icon-on-surface"/>
                         </graphic>

@@ -21,20 +21,18 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.Map;
 
-import static com.presentation.animation.AnimationEngine.fadeNodeIn;
 import static com.presentation.concurrency.ConcurrencyManager.executeAsyncTask;
-import static com.presentation.animation.AnimationEngineConstants.ANIMATION_DELAY_IN_MS;
 import static com.presentation.constants.StringResource.DisplayString.CURRENCY_STRING_ARG;
 import static com.presentation.constants.StringResource.EmptyListMessage.EMPTY_PRODUCT_LIST_MESSAGE;
 import static com.presentation.constants.StringResource.FxmlViewLoadingErrorMessage.*;
 import static com.presentation.constants.ViewPath.*;
 import static com.presentation.support.control.ComboBoxHelper.cleanComboBoxes;
 import static com.presentation.support.control.ComboBoxHelper.loadEnumsOnComboBox;
-import static com.presentation.support.view.ContainerManager.*;
-import static com.presentation.support.view.FXMLViewLoader.*;
 import static com.presentation.support.control.UIBasicComponents.*;
 import static com.presentation.support.control.ValidationFormatter.parseNumberValueToText;
 import static com.presentation.support.control.ValidationFormatter.setStringConverter;
+import static com.presentation.support.view.ContainerManager.*;
+import static com.presentation.support.view.FXMLViewLoader.*;
 
 @Component
 @RequiredArgsConstructor
@@ -44,36 +42,36 @@ public class ProductViewController {
     private final ApplicationContext applicationContext;
 
     @FXML
-    private AnchorPane anchor_pane;
+    private AnchorPane anchorPane;
 
     @FXML
     private Label
-            product_count,
-            products_on_low_or_critical_stock,
-            most_sold_product_name,
-            amount_of_sales,
-            highest_revenue,
-            total_revenue,
-            total_stock_value,
-            total_stock_units,
-            products_found_count;
+            productCount,
+            productsOnLowOrCriticalStock,
+            mostSoldProductName,
+            amountOfSales,
+            highestRevenue,
+            totalRevenue,
+            totalStockValue,
+            totalStockUnits,
+            productsFoundCount;
 
     @FXML
-    private TextField product_search_field;
+    private TextField productSearchField;
 
     @FXML
-    private ComboBox<ProductCategory> product_category_selector;
+    private ComboBox<ProductCategory> productCategorySelector;
 
     @FXML
-    private ComboBox<StockStatus> product_stock_status_selector;
+    private ComboBox<StockStatus> productStockStatusSelector;
 
     @FXML
     private MFXButton
-            clean_filters_button,
-            create_product_button;
+            cleanFiltersButton,
+            createProductButton;
 
     @FXML
-    private VBox product_list_vbox;
+    private VBox productListVBox;
 
     @FXML
     public void initialize() {
@@ -85,11 +83,11 @@ public class ProductViewController {
         loadRevenueStats();
         loadStockValueStats();
 
-        loadEnumsOnComboBox(product_category_selector, ProductCategory.values());
-        loadEnumsOnComboBox(product_stock_status_selector, StockStatus.values());
+        loadEnumsOnComboBox(productCategorySelector, ProductCategory.values());
+        loadEnumsOnComboBox(productStockStatusSelector, StockStatus.values());
 
-        setStringConverter(product_category_selector, ProductCategory.TODOS);
-        setStringConverter(product_stock_status_selector, StockStatus.TODOS);
+        setStringConverter(productCategorySelector, ProductCategory.TODOS);
+        setStringConverter(productStockStatusSelector, StockStatus.TODOS);
 
         configureLiveSearch();
         configureButtonActions();
@@ -102,8 +100,8 @@ public class ProductViewController {
         executeAsyncTask(
                 productService::getProductCountAndStockStats,
                 productTotalStockStatsDTO -> {
-                    setTextOnLabel(product_count, parseNumberValueToText(productTotalStockStatsDTO.getProductCount()));
-                    setTextOnLabel(products_on_low_or_critical_stock, parseNumberValueToText(productTotalStockStatsDTO.getOnLowOrCriticalStockCount()) + " con stock Bajo o Crítico");
+                    setTextOnLabel(productCount, parseNumberValueToText(productTotalStockStatsDTO.getProductCount()));
+                    setTextOnLabel(productsOnLowOrCriticalStock, parseNumberValueToText(productTotalStockStatsDTO.getOnLowOrCriticalStockCount()) + " con stock Bajo o Crítico");
                 }
         );
     }
@@ -113,8 +111,8 @@ public class ProductViewController {
         executeAsyncTask(
                 productService::getProductMostSoldStats,
                 productMostSoldStatsDTO -> {
-                    setTextOnLabel(most_sold_product_name, productMostSoldStatsDTO.getProductName());
-                    setTextOnLabel(amount_of_sales, parseNumberValueToText(productMostSoldStatsDTO.getUnitsSold()) + " unidades vendidas");
+                    setTextOnLabel(mostSoldProductName, productMostSoldStatsDTO.getProductName());
+                    setTextOnLabel(amountOfSales, parseNumberValueToText(productMostSoldStatsDTO.getUnitsSold()) + " unidades vendidas");
                 }
         );
     }
@@ -124,8 +122,8 @@ public class ProductViewController {
         executeAsyncTask(
                 productService::getProductHighestRevenueStats,
                 productHighestRevenueStatsDTO -> {
-                    setTextOnLabel(highest_revenue, productHighestRevenueStatsDTO.getProductName());
-                    setTextOnLabel(total_revenue, CURRENCY_STRING_ARG + parseNumberValueToText(productHighestRevenueStatsDTO.getRevenue()));
+                    setTextOnLabel(highestRevenue, productHighestRevenueStatsDTO.getProductName());
+                    setTextOnLabel(totalRevenue, CURRENCY_STRING_ARG + parseNumberValueToText(productHighestRevenueStatsDTO.getRevenue()));
                 }
         );
     }
@@ -135,47 +133,33 @@ public class ProductViewController {
         executeAsyncTask(
                 productService::getProductStockValueStat,
                 productStockValueStatDTO -> {
-                    setTextOnLabel(total_stock_value, CURRENCY_STRING_ARG + parseNumberValueToText(productStockValueStatDTO.getTotalStockValue()));
-                    setTextOnLabel(total_stock_units, "En " + parseNumberValueToText(productStockValueStatDTO.getTotalUnits()) + " unidades físicas");
+                    setTextOnLabel(totalStockValue, CURRENCY_STRING_ARG + parseNumberValueToText(productStockValueStatDTO.getTotalStockValue()));
+                    setTextOnLabel(totalStockUnits, "En " + parseNumberValueToText(productStockValueStatDTO.getTotalUnits()) + " unidades físicas");
                 }
         );
     }
 
     private void loadProductListOnView(List<ProductInfoDTO> products) {
 
-        if (products.isEmpty()) {
+        loadItemsOnController(
+                products,
+                productListVBox,
+                PRODUCT_ITEM_VIEW_PATH,
+                EMPTY_PRODUCT_LIST_MESSAGE,
+                PRODUCT_ITEM_VIEW_LOADING_FAILED,
+                itemController -> {
 
-            showEmptyListLabel(EMPTY_PRODUCT_LIST_MESSAGE, product_list_vbox);
+                    ProductItemController productItemController = (ProductItemController) itemController;
 
-        } else {
-
-            for (int i = 0; i < products.size(); i++) {
-
-                setTextOnLabel(products_found_count, parseNumberValueToText(products.size()));
-
-                ProductInfoDTO infoDTO = products.get(i);
-
-                FXMLLoader loader = generateLoaderWithPath(PRODUCT_ITEM_VIEW_PATH);
-
-                Parent productItem = returnParentFromLoader(loader, PRODUCT_ITEM_VIEW_LOADING_FAILED);
-
-                ProductItemController productItemController = loader.getController();
-
-                productItemController.setDataOnItem(infoDTO);
-
-                productItemController.setOnEditCallback(this::goToEditProductView);
-                productItemController.setOnAddStockCallback(this::goToAddStockView);
-
-                loadItemOnVBox(product_list_vbox, productItem);
-
-                fadeNodeIn(product_list_vbox, i * ANIMATION_DELAY_IN_MS);
-            }
-        }
+                    productItemController.setOnEditCallback(this::goToEditProductView);
+                    productItemController.setOnAddStockCallback(this::goToAddStockView);
+                }
+        );
     }
 
     private void goToRegisterNewProductView() {
 
-        loadViewOnPane(PRODUCT_CREATION_VIEW_PATH, applicationContext, PRODUCT_CREATION_VIEW_LOADING_FAILED, anchor_pane);
+        loadViewOnPane(PRODUCT_CREATION_VIEW_PATH, applicationContext, PRODUCT_CREATION_VIEW_LOADING_FAILED, anchorPane);
     }
 
     private void goToEditProductView(ProductInfoDTO productInfoDTO) {
@@ -190,7 +174,7 @@ public class ProductViewController {
 
         productEditionController.initialize(productInfoDTO);
 
-        setViewOnPaneCenter(anchor_pane, productEditionView);
+        setViewOnPaneCenter(anchorPane, productEditionView);
     }
 
     private void goToAddStockView(ProductInfoDTO productInfoDTO) {
@@ -200,8 +184,8 @@ public class ProductViewController {
     private void configureButtonActions() {
 
         Map<Button, Runnable> map = Map.of(
-                create_product_button, this::goToRegisterNewProductView,
-                clean_filters_button, this::cleanFiltersAndLiveSearch
+                createProductButton, this::goToRegisterNewProductView,
+                cleanFiltersButton, this::cleanFiltersAndLiveSearch
         );
 
         configureRunnableMaps(map);
@@ -209,23 +193,23 @@ public class ProductViewController {
 
     private void configureLiveSearch() {
 
-        product_search_field.textProperty().addListener((_, _, _) -> executeLiveSearch());
-        product_category_selector.valueProperty().addListener((_, _, _) -> executeLiveSearch());
-        product_stock_status_selector.valueProperty().addListener((_, _, _) -> executeLiveSearch());
+        productSearchField.textProperty().addListener((_, _, _) -> executeLiveSearch());
+        productCategorySelector.valueProperty().addListener((_, _, _) -> executeLiveSearch());
+        productStockStatusSelector.valueProperty().addListener((_, _, _) -> executeLiveSearch());
     }
 
     private void executeLiveSearch() {
 
-        String productName = product_search_field.getText();
+        String productName = productSearchField.getText();
 
-        ProductCategory selectedCategory = product_category_selector.getValue();
+        ProductCategory selectedCategory = productCategorySelector.getValue();
 
         if (selectedCategory == ProductCategory.TODOS) {
 
             selectedCategory = null;
         }
 
-        StockStatus selectedStatus = product_stock_status_selector.getValue();
+        StockStatus selectedStatus = productStockStatusSelector.getValue();
 
         if (selectedStatus == StockStatus.TODOS) {
 
@@ -234,14 +218,14 @@ public class ProductViewController {
 
         List<ProductInfoDTO> products = productService.liveSearch(productName, selectedCategory, selectedStatus);
 
-        cleanContainer(product_list_vbox);
+        cleanContainer(productListVBox);
 
         loadProductListOnView(products);
     }
 
     private void cleanFiltersAndLiveSearch() {
 
-        setBlankTextfield(product_search_field);
-        cleanComboBoxes(product_category_selector, product_stock_status_selector);
+        setBlankTextfield(productSearchField);
+        cleanComboBoxes(productCategorySelector, productStockStatusSelector);
     }
 }

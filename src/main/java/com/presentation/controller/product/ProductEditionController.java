@@ -26,12 +26,12 @@ import static com.presentation.constants.StringResource.ToastNotificationMessage
 import static com.presentation.constants.StringResource.ValidationErrorMessage.PRODUCT_EDITION_VALIDATION_FAILED;
 import static com.presentation.constants.StringResource.ValidationErrorMessage.VALIDATION_ERROR_TITLE;
 import static com.presentation.support.control.ComboBoxHelper.*;
-import static com.presentation.support.view.ContainerManager.getCurrentWindow;
-import static com.presentation.support.io.FileImageHelper.*;
-import static com.presentation.support.dialog.PopUpWindowHelper.showWindowAlert;
-import static com.presentation.support.notification.ToastNotificationHelper.showToastNotification;
 import static com.presentation.support.control.UIBasicComponents.*;
 import static com.presentation.support.control.ValidationFormatter.*;
+import static com.presentation.support.dialog.PopUpWindowHelper.showWindowAlert;
+import static com.presentation.support.io.FileImageHelper.*;
+import static com.presentation.support.notification.ToastNotificationHelper.showToastNotification;
+import static com.presentation.support.view.ContainerManager.getCurrentWindow;
 import static com.presentation.support.view.ViewRedirectionHelper.redirectToView;
 
 @Component
@@ -44,41 +44,41 @@ public class ProductEditionController {
     private String filePath = "";
 
     @FXML
-    private AnchorPane anchor_pane;
+    private AnchorPane anchorPane;
 
     @FXML
     private MFXButton
-            back_button,
-            select_image_button,
-            remove_image_button,
-            reset_button,
-            save_button;
+            backButton,
+            selectImageButton,
+            removeImageButton,
+            resetButton,
+            saveButton;
 
     @FXML
     private TextField
-            name,
-            optional_description,
-            brand_name,
-            presentation_size,
-            product_cost,
-            current_price,
-            product_wholesale_price,
-            min_price,
-            max_discount_percentage,
-            current_stock_level,
-            safety_stock_level;
+            productName,
+            optionalDescription,
+            brandName,
+            productPresentationField,
+            productCost,
+            currentPrice,
+            productWholeSalePrice,
+            minPrice,
+            maxDiscountPercentage,
+            currentStockLevel,
+            safetyStockLevel;
 
     @FXML
-    private ComboBox<ProductCategory> category;
+    private ComboBox<ProductCategory> productCategorySelector;
 
     @FXML
-    private ComboBox<ProductPresentationUnit> presentation_unit;
+    private ComboBox<ProductPresentationUnit> productPresentationUnitSelector;
 
     @FXML
-    private Label profit_margin_value;
+    private Label profitMarginValue;
 
     @FXML
-    private ImageView product_image_preview;
+    private ImageView productImagePreview;
 
     @FXML
     public void initialize(ProductInfoDTO infoDTO) {
@@ -91,29 +91,29 @@ public class ProductEditionController {
         ProductUpdateDTO updateDTOFromDB = productService.getProductForUpdate(infoDTO.getId());
 
         Map<TextField, String> map = Map.ofEntries(
-                Map.entry(name, updateDTOFromDB.getName()),
-                Map.entry(optional_description, updateDTOFromDB.getOptionalDescription()),
-                Map.entry(brand_name, updateDTOFromDB.getBrandName()),
-                Map.entry(presentation_size, parseNumberValueToText(updateDTOFromDB.getPresentationSize())),
-                Map.entry(product_cost, parseNumberValueToText(updateDTOFromDB.getProductCost())),
-                Map.entry(current_price, parseNumberValueToText(updateDTOFromDB.getCurrentPrice())),
-                Map.entry(product_wholesale_price, parseNumberValueToText(updateDTOFromDB.getProductWholeSalePrice())),
-                Map.entry(min_price, parseNumberValueToText(updateDTOFromDB.getMinPrice())),
-                Map.entry(max_discount_percentage, parseNumberValueToText(updateDTOFromDB.getMaxDiscountPercentage())),
-                Map.entry(current_stock_level, parseNumberValueToText(updateDTOFromDB.getCurrentStockLevel())),
-                Map.entry(safety_stock_level, parseNumberValueToText(updateDTOFromDB.getSafetyStockLevel()))
+                Map.entry(productName, updateDTOFromDB.getName()),
+                Map.entry(optionalDescription, updateDTOFromDB.getOptionalDescription()),
+                Map.entry(brandName, updateDTOFromDB.getBrandName()),
+                Map.entry(productPresentationField, parseNumberValueToText(updateDTOFromDB.getPresentationSize())),
+                Map.entry(productCost, parseNumberValueToText(updateDTOFromDB.getProductCost())),
+                Map.entry(currentPrice, parseNumberValueToText(updateDTOFromDB.getCurrentPrice())),
+                Map.entry(productWholeSalePrice, parseNumberValueToText(updateDTOFromDB.getProductWholeSalePrice())),
+                Map.entry(minPrice, parseNumberValueToText(updateDTOFromDB.getMinPrice())),
+                Map.entry(maxDiscountPercentage, parseNumberValueToText(updateDTOFromDB.getMaxDiscountPercentage())),
+                Map.entry(currentStockLevel, parseNumberValueToText(updateDTOFromDB.getCurrentStockLevel())),
+                Map.entry(safetyStockLevel, parseNumberValueToText(updateDTOFromDB.getSafetyStockLevel()))
         );
 
         setTextsOnTextfieldMap(map);
 
-        loadEnumsOnComboBox(category, ProductCategory.values());
-        removeFirstItemFromComboBox(category);
+        loadEnumsOnComboBox(productCategorySelector, ProductCategory.values());
+        removeFirstItemFromComboBox(productCategorySelector);
 
-        loadEnumsOnComboBox(presentation_unit, ProductPresentationUnit.values());
-        removeFirstItemFromComboBox(presentation_unit);
+        loadEnumsOnComboBox(productPresentationUnitSelector, ProductPresentationUnit.values());
+        removeFirstItemFromComboBox(productPresentationUnitSelector);
 
-        setStringConverter(category, updateDTOFromDB.getCategory());
-        setStringConverter(presentation_unit, updateDTOFromDB.getPresentationUnit());
+        setStringConverter(productCategorySelector, updateDTOFromDB.getCategory());
+        setStringConverter(productPresentationUnitSelector, updateDTOFromDB.getPresentationUnit());
 
         loadCurrentProductImageIfExists(updateDTOFromDB);
 
@@ -126,7 +126,7 @@ public class ProductEditionController {
 
             File file = new File(dto.getImageFilePath());
 
-            loadFileOnImageView(file, product_image_preview);
+            loadFileOnImageView(file, productImagePreview);
         }
     }
 
@@ -134,18 +134,18 @@ public class ProductEditionController {
 
         try {
 
-            String newName = name.getText();
-            ProductCategory newCategory = category.getValue();
-            String newBrandName = brand_name.getText();
-            String newOptionalDescription = optional_description.getText();
-            ProductPresentationUnit newPresentationUnit = presentation_unit.getValue();
-            String newSizeValue = presentation_size.getText();
-            String newCost = product_cost.getText();
-            String newMinPrice = min_price.getText();
-            String newCurrentPrice = current_price.getText();
-            String newWholeSalePrice = product_wholesale_price.getText();
-            String newMaxDiscountPrice = max_discount_percentage.getText();
-            String newSafetyStockLevel = safety_stock_level.getText();
+            String newName = productName.getText();
+            ProductCategory newCategory = productCategorySelector.getValue();
+            String newBrandName = brandName.getText();
+            String newOptionalDescription = optionalDescription.getText();
+            ProductPresentationUnit newPresentationUnit = productPresentationUnitSelector.getValue();
+            String newSizeValue = productPresentationField.getText();
+            String newCost = productCost.getText();
+            String newMinPrice = minPrice.getText();
+            String newCurrentPrice = currentPrice.getText();
+            String newWholeSalePrice = productWholeSalePrice.getText();
+            String newMaxDiscountPrice = maxDiscountPercentage.getText();
+            String newSafetyStockLevel = safetyStockLevel.getText();
 
             ProductUpdateDTO updateDTO = buildDTOFromAttributesAndDTOReference(
                     infoDTOReference,
@@ -165,13 +165,13 @@ public class ProductEditionController {
 
             productService.updateProduct(infoDTOReference.getId(), updateDTO);
 
-            showToastNotification(anchor_pane, applicationContext, PRODUCT_UPDATE_TOAST_NOTIFICATION_MESSAGE, ToastNotificationType.SUCCESSFUL);
+            showToastNotification(anchorPane, applicationContext, PRODUCT_UPDATE_TOAST_NOTIFICATION_MESSAGE, ToastNotificationType.SUCCESSFUL);
 
         } catch (ConstraintViolationException exception) {
 
             String errorMessages = getConstraintViolationsList(exception);
 
-            showWindowAlert(VALIDATION_ERROR_TITLE, PRODUCT_EDITION_VALIDATION_FAILED, errorMessages, Alert.AlertType.ERROR, CONFIRM_BUTTON_TEXT, getCurrentWindow(anchor_pane));
+            showWindowAlert(VALIDATION_ERROR_TITLE, PRODUCT_EDITION_VALIDATION_FAILED, errorMessages, Alert.AlertType.ERROR, CONFIRM_BUTTON_TEXT, getCurrentWindow(anchorPane));
         }
 
     }
@@ -220,11 +220,11 @@ public class ProductEditionController {
     private void configureButtonActions(ProductInfoDTO dto) {
 
         Map<Button, Runnable> map = Map.of(
-                back_button, () -> redirectToView(ViewRedirection.PRODUCTS, anchor_pane, applicationContext),
-                reset_button, () -> resetForm(dto),
-                remove_image_button, () -> cleanImageView(product_image_preview),
-                select_image_button, this::handleImageSelection,
-                save_button, () -> updateProduct(dto)
+                backButton, () -> redirectToView(ViewRedirection.PRODUCTS, anchorPane, applicationContext),
+                resetButton, () -> resetForm(dto),
+                removeImageButton, () -> cleanImageView(productImagePreview),
+                selectImageButton, this::handleImageSelection,
+                saveButton, () -> updateProduct(dto)
         );
 
         configureRunnableMaps(map);
@@ -233,36 +233,36 @@ public class ProductEditionController {
     private void resetForm(ProductInfoDTO infoDTO) {
 
         cleanTextfields(List.of(
-                        name,
-                        optional_description,
-                        brand_name,
-                        presentation_size,
-                        product_cost,
-                        current_price,
-                        product_wholesale_price,
-                        min_price,
-                        max_discount_percentage,
-                        current_stock_level,
-                        safety_stock_level
+                        productName,
+                        optionalDescription,
+                        brandName,
+                        productPresentationField,
+                        productCost,
+                        currentPrice,
+                        productWholeSalePrice,
+                        minPrice,
+                        maxDiscountPercentage,
+                        currentStockLevel,
+                        safetyStockLevel
                 )
         );
 
-        cleanImageView(product_image_preview);
+        cleanImageView(productImagePreview);
 
-        cleanComboBoxes(category, presentation_unit);
+        cleanComboBoxes(productCategorySelector, productPresentationUnitSelector);
 
         loadProductDataForEdition(infoDTO);
     }
 
     private void handleImageSelection() {
 
-        File newFile = getFileFromFileChooser(anchor_pane);
+        File newFile = getFileFromFileChooser(anchorPane);
 
         if (newFile != null) {
 
             filePath = newFile.getAbsolutePath();
 
-            loadFileOnImageView(newFile, product_image_preview);
+            loadFileOnImageView(newFile, productImagePreview);
         }
     }
 }

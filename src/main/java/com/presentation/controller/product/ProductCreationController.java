@@ -46,55 +46,55 @@ public class ProductCreationController {
     private String filePath = "";
 
     @FXML
-    private AnchorPane anchor_pane;
+    private AnchorPane anchorPane;
 
     @FXML
     private MFXButton
-            back_button,
-            select_image_button,
-            remove_image_button,
-            reset_form_button,
-            save_button;
+            backButton,
+            selectImageButton,
+            removeImageButton,
+            resetFormButton,
+            saveButton;
 
     @FXML
     private TextField
-            name,
-            optional_description,
-            brand_name,
-            product_presentation_field,
-            cost,
-            current_price,
-            wholesale_price,
-            min_price,
-            max_discount,
-            current_stock_level,
-            safety_stock_level;
+            productName,
+            optionalDescription,
+            brandName,
+            productPresentationField,
+            productCost,
+            currentPrice,
+            wholesalePrice,
+            minPrice,
+            maxDiscount,
+            currentStockLevel,
+            safetyStockLevel;
 
     @FXML
-    private ComboBox<ProductCategory> product_category_selector;
+    private ComboBox<ProductCategory> productCategorySelector;
 
     @FXML
-    private ComboBox<ProductPresentationUnit> presentation_unit_combobox;
+    private ComboBox<ProductPresentationUnit> presentationUnitComboBox;
 
     @FXML
-    private Label profit_margin_value;
+    private Label profitMarginValue;
 
     @FXML
-    private ImageView product_image_preview;
+    private ImageView productImagePreview;
 
     @FXML
     public void initialize() {
 
         configurePromptTexts();
 
-        loadEnumsOnComboBox(product_category_selector, ProductCategory.values());
-        loadEnumsOnComboBox(presentation_unit_combobox, ProductPresentationUnit.values());
+        loadEnumsOnComboBox(productCategorySelector, ProductCategory.values());
+        loadEnumsOnComboBox(presentationUnitComboBox, ProductPresentationUnit.values());
 
-        setStringConverter(product_category_selector, ProductCategory.TODOS);
-        removeFirstItemFromComboBox(product_category_selector);
+        setStringConverter(productCategorySelector, ProductCategory.TODOS);
+        removeFirstItemFromComboBox(productCategorySelector);
 
-        setStringConverter(presentation_unit_combobox, ProductPresentationUnit.TODOS);
-        removeFirstItemFromComboBox(presentation_unit_combobox);
+        setStringConverter(presentationUnitComboBox, ProductPresentationUnit.TODOS);
+        removeFirstItemFromComboBox(presentationUnitComboBox);
 
         configureButtonActions();
     }
@@ -103,49 +103,56 @@ public class ProductCreationController {
 
         try {
 
-            String productName = name.getText();
-            ProductPresentationUnit presentationUnit = presentation_unit_combobox.getValue();
-            String optionalProductDescription = optional_description.getText();
-            ProductCategory productCategory = product_category_selector.getValue();
-            String brandName = brand_name.getText();
-            String presentationSize = product_presentation_field.getText();
-            String productCost = cost.getText();
-            String minPrice = min_price.getText();
-            String currentPrice = current_price.getText();
-            String wholeSalePrice = wholesale_price.getText();
-            String maxDiscountPercentage = max_discount.getText();
-            String currentStockLevel = current_stock_level.getText();
-            String safetyStockLevel = safety_stock_level.getText();
-
-            ProductCreationDTO creationDTO = buildDTOFromAttributes(productName, presentationUnit, optionalProductDescription, productCategory, brandName, presentationSize, productCost, minPrice, currentPrice, wholeSalePrice, maxDiscountPercentage, currentStockLevel, safetyStockLevel);
+            ProductCreationDTO creationDTO = buildDTOFromAttributes(
+                    productName.getText(),
+                    presentationUnitComboBox.getValue(),
+                    optionalDescription.getText(),
+                    productCategorySelector.getValue(),
+                    brandName.getText(),
+                    productPresentationField.getText(),
+                    productCost.getText(),
+                    minPrice.getText(),
+                    currentPrice.getText(),
+                    wholesalePrice.getText(),
+                    maxDiscount.getText(),
+                    currentStockLevel.getText(),
+                    safetyStockLevel.getText()
+            );
 
             productService.registerNewProduct(creationDTO);
 
-            showToastNotification(anchor_pane, applicationContext, PRODUCT_CREATION_TOAST_NOTIFICATION_MESSAGE, ToastNotificationType.SUCCESSFUL);
+            showToastNotification(anchorPane, applicationContext, PRODUCT_CREATION_TOAST_NOTIFICATION_MESSAGE, ToastNotificationType.SUCCESSFUL);
 
             List<TextField> textfields = List.of(
-                    current_stock_level,
-                    safety_stock_level,
-                    cost,
-                    min_price,
-                    current_price,
-                    wholesale_price,
-                    max_discount,
-                    name,
-                    brand_name,
-                    product_presentation_field,
-                    optional_description
+                    currentStockLevel,
+                    safetyStockLevel,
+                    productCost,
+                    minPrice,
+                    currentPrice,
+                    wholesalePrice,
+                    maxDiscount,
+                    productName,
+                    brandName,
+                    productPresentationField,
+                    optionalDescription
             );
 
             cleanTextfields(textfields);
 
-            cleanImageView(product_image_preview);
+            cleanImageView(productImagePreview);
 
         } catch (ConstraintViolationException exception) {
 
             String errorMessages = getConstraintViolationsList(exception);
 
-            showWindowAlert(VALIDATION_ERROR_TITLE, PRODUCT_CREATION_VALIDATION_FAILED, errorMessages, Alert.AlertType.ERROR, CONFIRM_BUTTON_TEXT, getCurrentWindow(anchor_pane));
+            showWindowAlert(
+                    VALIDATION_ERROR_TITLE,
+                    PRODUCT_CREATION_VALIDATION_FAILED,
+                    errorMessages,
+                    Alert.AlertType.ERROR,
+                    CONFIRM_BUTTON_TEXT,
+                    getCurrentWindow(anchorPane)
+            );
         }
     }
 
@@ -195,53 +202,53 @@ public class ProductCreationController {
 
     private void configurePromptTexts() {
 
-        List<TextField> stockLevels = List.of(current_stock_level, safety_stock_level);
+        List<TextField> stockLevels = List.of(currentStockLevel, safetyStockLevel);
         setPromptTextOnList(stockLevels, STOCK_LEVEL_DEFAULT_VALUE);
 
-        List<TextField> prices = List.of(cost, min_price, current_price, wholesale_price, max_discount);
+        List<TextField> prices = List.of(productCost, minPrice, currentPrice, wholesalePrice, maxDiscount);
         setPromptTextOnList(prices, PRICE_FIELD_DEFAULT_VALUE);
 
         Map<TextField, String> map = Map.of(
-                name, PRODUCT_NAME,
-                brand_name, PRODUCT_BRAND,
-                product_presentation_field, PRODUCT_SIZE_OR_VOLUME,
-                optional_description, PRODUCT_OPTIONAL_DESCRIPTION
+                productName, PRODUCT_NAME,
+                brandName, PRODUCT_BRAND,
+                productPresentationField, PRODUCT_SIZE_OR_VOLUME,
+                optionalDescription, PRODUCT_OPTIONAL_DESCRIPTION
         );
 
         setPromptTextOnMap(map);
 
-        setTextOnLabel(profit_margin_value, DISCOUNT_PERCENTAGE_DEFAULT_VALUE);
+        setTextOnLabel(profitMarginValue, DISCOUNT_PERCENTAGE_DEFAULT_VALUE);
     }
 
     private void resetForm() {
 
         cleanTextfields(
                 List.of(
-                        name,
-                        brand_name,
-                        product_presentation_field,
-                        optional_description,
-                        cost,
-                        min_price,
-                        current_price,
-                        wholesale_price,
-                        max_discount,
-                        current_stock_level,
-                        safety_stock_level
+                        productName,
+                        brandName,
+                        productPresentationField,
+                        optionalDescription,
+                        productCost,
+                        minPrice,
+                        currentPrice,
+                        wholesalePrice,
+                        maxDiscount,
+                        currentStockLevel,
+                        safetyStockLevel
                 )
         );
 
-        cleanImageView(product_image_preview);
+        cleanImageView(productImagePreview);
     }
 
     private void configureButtonActions() {
 
         Map<Button, Runnable> map = Map.of(
-                select_image_button, this::handleImageSelection,
-                remove_image_button, () -> cleanImageView(product_image_preview),
-                back_button, () -> redirectToView(ViewRedirection.PRODUCTS, anchor_pane, applicationContext),
-                reset_form_button, this::resetForm,
-                save_button, this::registerNewProduct
+                selectImageButton, this::handleImageSelection,
+                removeImageButton, () -> cleanImageView(productImagePreview),
+                backButton, () -> redirectToView(ViewRedirection.PRODUCTS, anchorPane, applicationContext),
+                resetFormButton, this::resetForm,
+                saveButton, this::registerNewProduct
         );
 
         configureRunnableMaps(map);
@@ -249,13 +256,13 @@ public class ProductCreationController {
 
     private void handleImageSelection() {
 
-        File file = getFileFromFileChooser(anchor_pane);
+        File file = getFileFromFileChooser(anchorPane);
 
         if (file != null) {
 
             filePath = file.getAbsolutePath();
 
-            loadFileOnImageView(file, product_image_preview);
+            loadFileOnImageView(file, productImagePreview);
         }
     }
 }

@@ -5,7 +5,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1"
-            fx:id="anchor_pane"
+            fx:id="anchorPane"
             xmlns="http://javafx.com/javafx/17.0.12"
             fx:controller="com.presentation.controller.product.ProductViewController">
 
@@ -53,9 +53,9 @@
                             <Region HBox.hgrow="ALWAYS"/>
                             <Region styleClass="warehouse-icon, md-icon-medium, md-icon-primary"/>
                         </HBox>
-                        <Label fx:id="product_count" styleClass="md-display-small"/>
+                        <Label fx:id="productCount" styleClass="md-display-small"/>
                         <HBox spacing="4" alignment="CENTER_LEFT">
-                            <Label fx:id="products_on_low_or_critical_stock" styleClass="md-label-medium"/>
+                            <Label fx:id="productsOnLowOrCriticalStock" styleClass="md-label-medium"/>
                             <Label styleClass="md-label-small"/>
                         </HBox>
                     </VBox>
@@ -70,9 +70,9 @@
                             <Region HBox.hgrow="ALWAYS"/>
                             <Region styleClass="analitycs-icon, md-icon-medium, md-icon-primary"/>
                         </HBox>
-                        <Label fx:id="most_sold_product_name" styleClass="md-display-small" text="0"/>
+                        <Label fx:id="mostSoldProductName" styleClass="md-display-small" text="0"/>
                         <HBox spacing="4" alignment="CENTER_LEFT">
-                            <Label fx:id="amount_of_sales" styleClass="md-label-medium"/>
+                            <Label fx:id="amountOfSales" styleClass="md-label-medium"/>
                         </HBox>
                     </VBox>
 
@@ -86,9 +86,9 @@
                             <Region HBox.hgrow="ALWAYS"/>
                             <Region styleClass="finance-icon, md-icon-medium, md-icon-primary"/>
                         </HBox>
-                        <Label fx:id="highest_revenue" styleClass="md-display-small"/>
+                        <Label fx:id="highestRevenue" styleClass="md-display-small"/>
                         <HBox spacing="4" alignment="CENTER_LEFT">
-                            <Label fx:id="total_revenue" styleClass="md-label-medium"/>
+                            <Label fx:id="totalRevenue" styleClass="md-label-medium"/>
                         </HBox>
                     </VBox>
 
@@ -102,10 +102,10 @@
                             <Region HBox.hgrow="ALWAYS"/>
                             <Region styleClass="attach-money-icon, md-icon-medium, md-icon-primary"/>
                         </HBox>
-                        <Label fx:id="total_stock_value" styleClass="md-display-small"/>
+                        <Label fx:id="totalStockValue" styleClass="md-display-small"/>
                         <HBox spacing="4" alignment="CENTER_LEFT">
                             <Label styleClass="md-label-medium"/>
-                            <Label fx:id="total_stock_units" styleClass="md-label-small"/>
+                            <Label fx:id="totalStockUnits" styleClass="md-label-small"/>
                         </HBox>
                     </VBox>
                 </GridPane>
@@ -122,21 +122,21 @@
                             <!-- Buscador -->
                             <VBox spacing="4" HBox.hgrow="ALWAYS">
                                 <Label styleClass="md-label-medium" text="Buscar producto"/>
-                                <TextField fx:id="product_search_field" styleClass="md-text-field"
+                                <TextField fx:id="productSearchField" styleClass="md-text-field"
                                            maxWidth="Infinity"/>
                             </VBox>
 
                             <!-- Filtro por Categoría -->
                             <VBox spacing="4" HBox.hgrow="ALWAYS">
                                 <Label styleClass="md-label-medium" text="Categoría"/>
-                                <ComboBox fx:id="product_category_selector" styleClass="md-combo-box"
+                                <ComboBox fx:id="productCategorySelector" styleClass="md-combo-box"
                                           maxWidth="Infinity"/>
                             </VBox>
 
                             <!-- Filtro por Estado de Stock -->
                             <VBox spacing="4" HBox.hgrow="ALWAYS">
                                 <Label styleClass="md-label-medium" text="Estado de Stock"/>
-                                <ComboBox fx:id="product_stock_status_selector" styleClass="md-combo-box"
+                                <ComboBox fx:id="productStockStatusSelector" styleClass="md-combo-box"
                                           maxWidth="Infinity"/>
                             </VBox>
 
@@ -144,9 +144,9 @@
                             <VBox spacing="4" alignment="BOTTOM_LEFT">
                                 <Label styleClass="md-label-medium" text="Acciones"/>
                                 <HBox spacing="8" alignment="CENTER_LEFT">
-                                    <MFXButton fx:id="clean_filters_button" styleClass="md-button-outlined"
+                                    <MFXButton fx:id="cleanFiltersButton" styleClass="md-button-outlined"
                                                text="Limpiar"/>
-                                    <MFXButton fx:id="create_product_button" styleClass="md-button-filled"
+                                    <MFXButton fx:id="createProductButton" styleClass="md-button-filled"
                                                text="+ Nuevo Producto"/>
                                 </HBox>
                             </VBox>
@@ -159,10 +159,10 @@
                     <HBox spacing="8" alignment="CENTER_LEFT">
                         <Label styleClass="md-title-medium" text="Inventario de Productos"/>
                         <Region HBox.hgrow="ALWAYS"/>
-                        <Label fx:id="products_found_count" styleClass="md-body-small"/>
+                        <Label fx:id="productsFoundCount" styleClass="md-body-small"/>
                     </HBox>
 
-                    <VBox fx:id="product_list_vbox" styleClass="md-card">
+                    <VBox fx:id="productListVBox" styleClass="md-card">
                         <padding>
                             <Insets top="8" right="16" bottom="8" left="16"/>
                         </padding>

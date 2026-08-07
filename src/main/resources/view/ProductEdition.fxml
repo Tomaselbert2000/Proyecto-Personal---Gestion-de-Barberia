@@ -6,7 +6,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1"
-            fx:id="anchor_pane"
+            fx:id="anchorPane"
             xmlns="http://javafx.com/javafx/25"
             fx:controller="com.presentation.controller.product.ProductEditionController">
 
@@ -19,7 +19,7 @@
             <padding>
                 <Insets top="20" right="24" bottom="12" left="24"/>
             </padding>
-            <MFXButton fx:id="back_button" styleClass="md-button-outlined" text="Volver">
+            <MFXButton fx:id="backButton" styleClass="md-button-outlined" text="Volver">
                 <graphic>
                     <Region styleClass="arrow-up-circle-icon, md-icon-small"/>
                 </graphic>
@@ -62,7 +62,7 @@
                                 <Label styleClass="md-label-medium" text="Nombre del Producto"/>
                                 <Label styleClass="md-label-medium, md-input-error" text="*"/>
                             </HBox>
-                            <TextField fx:id="name" styleClass="md-text-field" maxWidth="Infinity"
+                            <TextField fx:id="productName" styleClass="md-text-field" maxWidth="Infinity"
                                        promptText="Ej. Shampoo Matizador 250ml"/>
                         </VBox>
 
@@ -72,7 +72,7 @@
                                 <Label styleClass="md-label-medium" text="Categoría"/>
                                 <Label styleClass="md-label-medium, md-input-error" text="*"/>
                             </HBox>
-                            <ComboBox fx:id="category" styleClass="md-combo-box" maxWidth="Infinity"
+                            <ComboBox fx:id="productCategorySelector" styleClass="md-combo-box" maxWidth="Infinity"
                                       promptText="Seleccionar categoría"/>
                         </VBox>
 
@@ -80,7 +80,7 @@
                         <VBox spacing="4" GridPane.columnIndex="0" GridPane.columnSpan="2"
                               GridPane.rowIndex="1">
                             <Label styleClass="md-label-medium" text="Descripción"/>
-                            <TextField fx:id="optional_description" styleClass="md-text-field"
+                            <TextField fx:id="optionalDescription" styleClass="md-text-field"
                                        maxWidth="Infinity"
                                        promptText="Detalles sobre el uso, fragancia o componentes..."/>
                         </VBox>
@@ -88,7 +88,7 @@
                         <!-- Marca -->
                         <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="2">
                             <Label styleClass="md-label-medium" text="Marca"/>
-                            <TextField fx:id="brand_name" styleClass="md-text-field" maxWidth="Infinity"
+                            <TextField fx:id="brandName" styleClass="md-text-field" maxWidth="Infinity"
                                        promptText="Ej. L'Oréal, Sir Fausto"/>
                         </VBox>
 
@@ -96,13 +96,14 @@
                         <HBox spacing="8" GridPane.columnIndex="1" GridPane.rowIndex="2">
                             <VBox spacing="4" HBox.hgrow="ALWAYS">
                                 <Label styleClass="md-label-medium" text="Presentación"/>
-                                <TextField fx:id="presentation_size" styleClass="md-text-field"
+                                <TextField fx:id="productPresentationField" styleClass="md-text-field"
                                            maxWidth="Infinity"
                                            promptText="Ej. 250"/>
                             </VBox>
                             <VBox spacing="4" prefWidth="120.0">
                                 <Label styleClass="md-label-medium" text="Unidad"/>
-                                <ComboBox fx:id="presentation_unit" styleClass="md-combo-box" maxWidth="Infinity"
+                                <ComboBox fx:id="productPresentationUnitSelector" styleClass="md-combo-box"
+                                          maxWidth="Infinity"
                                           promptText="ml"/>
                             </VBox>
                         </HBox>
@@ -133,7 +134,7 @@
                                 <Label styleClass="md-label-medium" text="Costo de Compra ($)"/>
                                 <Label styleClass="md-label-medium, md-input-error" text="*"/>
                             </HBox>
-                            <TextField fx:id="product_cost" styleClass="md-text-field" maxWidth="Infinity"
+                            <TextField fx:id="productCost" styleClass="md-text-field" maxWidth="Infinity"
                                        promptText="0.00"/>
                         </VBox>
 
@@ -143,7 +144,7 @@
                                 <Label styleClass="md-label-medium" text="Precio de Venta ($)"/>
                                 <Label styleClass="md-label-medium, md-input-error" text="*"/>
                             </HBox>
-                            <TextField fx:id="current_price" styleClass="md-text-field" maxWidth="Infinity"
+                            <TextField fx:id="currentPrice" styleClass="md-text-field" maxWidth="Infinity"
                                        promptText="0.00"/>
                         </VBox>
 
@@ -154,28 +155,28 @@
                                 <padding>
                                     <Insets left="12" right="12"/>
                                 </padding>
-                                <Label fx:id="profit_margin_value" styleClass="md-title-medium" text="0%"/>
+                                <Label fx:id="profitMarginValue" styleClass="md-title-medium" text="0%"/>
                             </HBox>
                         </VBox>
 
                         <!-- Precio Mayoreo -->
                         <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="1">
                             <Label styleClass="md-label-medium" text="Precio de venta por mayor ($)"/>
-                            <TextField fx:id="product_wholesale_price" styleClass="md-text-field" maxWidth="Infinity"
+                            <TextField fx:id="productWholeSalePrice" styleClass="md-text-field" maxWidth="Infinity"
                                        promptText="0.00"/>
                         </VBox>
 
                         <!-- Precio Mínimo -->
                         <VBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="1">
                             <Label styleClass="md-label-medium" text="Precio de venta mínimo ($)"/>
-                            <TextField fx:id="min_price" styleClass="md-text-field" maxWidth="Infinity"
+                            <TextField fx:id="minPrice" styleClass="md-text-field" maxWidth="Infinity"
                                        promptText="0.00"/>
                         </VBox>
 
                         <!-- Descuento Máximo -->
                         <VBox spacing="4" GridPane.columnIndex="2" GridPane.rowIndex="1">
                             <Label styleClass="md-label-medium" text="Descuento Máximo (%)"/>
-                            <TextField fx:id="max_discount_percentage" styleClass="md-text-field" maxWidth="Infinity"
+                            <TextField fx:id="maxDiscountPercentage" styleClass="md-text-field" maxWidth="Infinity"
                                        promptText="0%"/>
                         </VBox>
                     </GridPane>
@@ -208,7 +209,7 @@
                             <!-- Stock Actual -->
                             <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="0">
                                 <Label styleClass="md-label-medium" text="Stock Actual"/>
-                                <TextField fx:id="current_stock_level" editable="false"
+                                <TextField fx:id="currentStockLevel" editable="false"
                                            styleClass="md-text-field" maxWidth="Infinity"
                                            promptText="Se calcula automáticamente"/>
                             </VBox>
@@ -219,7 +220,7 @@
                                     <Label styleClass="md-label-medium" text="Stock Mínimo"/>
                                     <Label styleClass="md-label-medium, md-input-error" text="*"/>
                                 </HBox>
-                                <TextField fx:id="safety_stock_level" styleClass="md-text-field" maxWidth="Infinity"
+                                <TextField fx:id="safetyStockLevel" styleClass="md-text-field" maxWidth="Infinity"
                                            promptText="5"/>
                             </VBox>
                         </GridPane>
@@ -238,14 +239,14 @@
 
                         <HBox spacing="16" alignment="CENTER_LEFT">
                             <StackPane styleClass="md-card-filled" prefWidth="90.0" prefHeight="90.0">
-                                <ImageView fx:id="product_image_preview" fitHeight="80.0" fitWidth="80.0"
+                                <ImageView fx:id="productImagePreview" fitHeight="80.0" fitWidth="80.0"
                                            pickOnBounds="true" preserveRatio="true"/>
                             </StackPane>
 
                             <VBox spacing="8" alignment="CENTER_LEFT">
-                                <MFXButton fx:id="select_image_button" styleClass="md-button-outlined"
+                                <MFXButton fx:id="selectImageButton" styleClass="md-button-outlined"
                                            text="Seleccionar Imagen"/>
-                                <MFXButton fx:id="remove_image_button" styleClass="md-button-text"
+                                <MFXButton fx:id="removeImageButton" styleClass="md-button-text"
                                            text="Eliminar Imagen"/>
                                 <Label styleClass="md-body-small" text="Formatos permitidos: JPG, PNG"/>
                             </VBox>
@@ -255,8 +256,8 @@
 
                 <!-- 4. BARRA DE ACCIONES PRINCIPAL -->
                 <HBox spacing="8" alignment="CENTER_RIGHT">
-                    <MFXButton fx:id="reset_button" styleClass="md-button-outlined" text="Restaurar valores"/>
-                    <MFXButton fx:id="save_button" styleClass="md-button-filled" text="Actualizar datos">
+                    <MFXButton fx:id="resetButton" styleClass="md-button-outlined" text="Restaurar valores"/>
+                    <MFXButton fx:id="saveButton" styleClass="md-button-filled" text="Actualizar datos">
                         <graphic>
                             <Region styleClass="done-all-icon, md-icon-small, md-icon-on-surface"/>
                         </graphic>
