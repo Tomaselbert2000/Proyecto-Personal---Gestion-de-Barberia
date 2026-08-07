@@ -143,7 +143,7 @@ public class EmployeeViewController {
         loadItemsOnController(
                 employeeList,
                 employee_list_container,
-                APPOINTMENT_ITEM_VIEW_PATH,
+                EMPLOYEE_ITEM_VIEW_PATH,
                 EMPTY_EMPLOYEE_LIST_MESSAGE,
                 EMPLOYEE_ITEM_VIEW_LOADING_FAILED,
                 itemController -> {
