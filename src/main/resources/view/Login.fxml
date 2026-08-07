@@ -7,7 +7,7 @@
 <?import javafx.scene.shape.Circle?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.presentation.controller.login.LoginController"
-            fx:id="anchor_pane"
+            fx:id="anchorPane"
             xmlns="http://javafx.com/javafx/17.0.12">
 
     <VBox AnchorPane.topAnchor="0.0"
@@ -42,23 +42,23 @@
         <VBox spacing="16"
               alignment="CENTER"
               maxWidth="350">
-            <TextField fx:id="username_field"
+            <TextField fx:id="usernameTextField"
                        styleClass="md-text-field"
                        promptText="Nombre de usuario"
                        maxWidth="1.7976931348623157E308"/>
-            <PasswordField fx:id="password_field"
+            <PasswordField fx:id="passwordTextField"
                            styleClass="md-text-field"
                            promptText="Contraseña"
                            maxWidth="1.7976931348623157E308"/>
         </VBox>
 
         <!-- Checkbox mantener sesión -->
-        <CheckBox fx:id="remember_session_checkbox"
+        <CheckBox fx:id="rememberSessionCheckBox"
                   styleClass="md-check-box"
                   text="Mantener sesión iniciada"
                   alignment="CENTER"/>
 
-        <MFXButton fx:id="login_button"
+        <MFXButton fx:id="loginButton"
                    styleClass="md-button-filled"
                    text="Iniciar sesión"/>
 
@@ -69,7 +69,7 @@
                maxWidth="1.7976931348623157E308"/>
 
         <!-- Botón de registro -->
-        <MFXButton fx:id="register_button"
+        <MFXButton fx:id="registerButton"
                    styleClass="md-button-outlined"
                    text="Registrarse"/>
 

@@ -20,9 +20,9 @@ import static com.enums.ViewRedirection.REGISTER;
 import static com.presentation.concurrency.ConcurrencyManager.executeAsyncTask;
 import static com.presentation.constants.StringResource.ValidationErrorMessage.LOGIN_ERROR_TITLE;
 import static com.presentation.constants.StringResource.ValidationErrorMessage.LOGIN_FAILED;
-import static com.presentation.support.view.ContainerManager.getCurrentWindow;
-import static com.presentation.support.dialog.PopUpWindowHelper.showWindowAlert;
 import static com.presentation.support.control.UIBasicComponents.configureRunnableMaps;
+import static com.presentation.support.dialog.PopUpWindowHelper.showWindowAlert;
+import static com.presentation.support.view.ContainerManager.getCurrentWindow;
 import static com.presentation.support.view.ViewRedirectionHelper.redirectToView;
 
 @Component
@@ -34,16 +34,16 @@ public class LoginController {
     private final AppUserService appUserService;
 
     @FXML
-    private AnchorPane anchor_pane;
+    private AnchorPane anchorPane;
 
     @FXML
-    private TextField username_field, password_field;
+    private TextField usernameTextField, passwordTextField;
 
     @FXML
-    private CheckBox remember_session_checkbox;
+    private CheckBox rememberSessionCheckBox;
 
     @FXML
-    private MFXButton login_button, register_button;
+    private MFXButton loginButton, registerButton;
 
     @FXML
     public void initialize() {
@@ -52,8 +52,8 @@ public class LoginController {
 
     private void configureButtonActions() {
         Map<Button, Runnable> actionButtonsMap = Map.of(
-                login_button, this::handleLoginClick,
-                register_button, this::handleRegisterClick
+                loginButton, this::handleLoginClick,
+                registerButton, this::handleRegisterClick
         );
 
         configureRunnableMaps(actionButtonsMap);
@@ -71,15 +71,15 @@ public class LoginController {
     }
 
     private void handleRegisterClick() {
-        redirectToView(REGISTER, anchor_pane, applicationContext);
+        redirectToView(REGISTER, anchorPane, applicationContext);
     }
 
     private String extractUsername() {
-        return username_field.getText();
+        return usernameTextField.getText();
     }
 
     private String extractPassword() {
-        return password_field.getText();
+        return passwordTextField.getText();
     }
 
     private boolean validateInputFields(String username, String password) {
@@ -101,8 +101,8 @@ public class LoginController {
 
     private void handleSuccessfulLogin(String username) {
         appPreferences.setCurrentUser(username);
-        appPreferences.setRememberCredentials(remember_session_checkbox.isSelected());
-        redirectToView(DASHBOARD, anchor_pane, applicationContext);
+        appPreferences.setRememberCredentials(rememberSessionCheckBox.isSelected());
+        redirectToView(DASHBOARD, anchorPane, applicationContext);
     }
 
     private void showLoginError() {
@@ -112,6 +112,6 @@ public class LoginController {
                 LOGIN_FAILED,
                 Alert.AlertType.ERROR,
                 com.presentation.constants.ControllerConstants.LoginControllerConstants.RETRY_LOGIN_BUTTON_TEXT,
-                getCurrentWindow(anchor_pane));
+                getCurrentWindow(anchorPane));
     }
 }

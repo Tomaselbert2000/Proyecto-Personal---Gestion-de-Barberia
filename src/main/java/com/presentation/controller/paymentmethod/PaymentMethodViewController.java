@@ -26,14 +26,15 @@ import static com.enums.ViewRedirection.PAYMENT_METHOD_CREATION;
 import static com.presentation.concurrency.ConcurrencyManager.executeAsyncTask;
 import static com.presentation.constants.StringResource.DisplayString.CURRENCY_STRING_ARG;
 import static com.presentation.constants.StringResource.EmptyListMessage.EMPTY_PAYMENT_LIST_MESSAGE;
-import static com.presentation.constants.StringResource.FxmlViewLoadingErrorMessage.*;
+import static com.presentation.constants.StringResource.FxmlViewLoadingErrorMessage.PAYMENT_METHOD_EDITION_VIEW_LOADING_FAILED;
+import static com.presentation.constants.StringResource.FxmlViewLoadingErrorMessage.PAYMENT_METHOD_ITEM_VIEW_LOADING_FAILED;
 import static com.presentation.constants.ViewPath.PAYMENT_METHOD_EDITION_VIEW_PATH;
 import static com.presentation.constants.ViewPath.PAYMENT_METHOD_ITEM_VIEW_PATH;
 import static com.presentation.support.control.ComboBoxHelper.cleanComboBoxes;
-import static com.presentation.support.view.ContainerManager.*;
-import static com.presentation.support.view.FXMLViewLoader.*;
 import static com.presentation.support.control.UIBasicComponents.*;
 import static com.presentation.support.control.ValidationFormatter.parseNumberValueToText;
+import static com.presentation.support.view.ContainerManager.*;
+import static com.presentation.support.view.FXMLViewLoader.*;
 import static com.presentation.support.view.ViewRedirectionHelper.redirectToView;
 
 @Component
@@ -45,34 +46,34 @@ public class PaymentMethodViewController {
     private final SaleService saleService;
 
     @FXML
-    private AnchorPane anchor_pane;
+    private AnchorPane anchorPane;
 
     @FXML
     private Label
-            most_used_payment_name,
-            most_used_payment_usage,
-            highest_revenue_payment_name,
-            revenue_sum,
-            active_payment_methods_count,
-            modifier_type_balance,
-            results_count;
+            mostUsedPaymentName,
+            mostUsedPaymentUsage,
+            highestRevenuePaymentName,
+            revenueSum,
+            activePaymentMethodsCount,
+            modifierTypeBalance,
+            resultsCount;
 
     @FXML
-    private TextField search_field;
+    private TextField searchField;
 
     @FXML
-    private ComboBox<PaymentMethodModifierType> modifier_type_filter;
+    private ComboBox<PaymentMethodModifierType> modifierTypeFilter;
 
     @FXML
-    private ComboBox<PaymentMethodStatus> status_filter;
+    private ComboBox<PaymentMethodStatus> statusFilter;
 
     @FXML
     private MFXButton
-            clear_filters_button,
-            create_payment_method_button;
+            clearFiltersButton,
+            createPaymentMethodButton;
 
     @FXML
-    private VBox payment_method_list_container;
+    private VBox paymentMethodListContainer;
 
     @FXML
     public void initialize() {
@@ -84,37 +85,37 @@ public class PaymentMethodViewController {
 
     private void configureLiveSearch() {
 
-        search_field.textProperty().addListener((_, _, _) -> executeLiveSearch());
-        status_filter.valueProperty().addListener((_, _, _) -> executeLiveSearch());
-        modifier_type_filter.valueProperty().addListener((_, _, _) -> executeLiveSearch());
+        searchField.textProperty().addListener((_, _, _) -> executeLiveSearch());
+        statusFilter.valueProperty().addListener((_, _, _) -> executeLiveSearch());
+        modifierTypeFilter.valueProperty().addListener((_, _, _) -> executeLiveSearch());
     }
 
     private void executeLiveSearch() {
 
-        String paymentName = search_field.getText();
-        PaymentMethodStatus status = status_filter.getValue();
-        PaymentMethodModifierType modifierType = modifier_type_filter.getValue();
+        String paymentName = searchField.getText();
+        PaymentMethodStatus status = statusFilter.getValue();
+        PaymentMethodModifierType modifierType = modifierTypeFilter.getValue();
 
         List<PaymentMethodInfoDTO> payments = paymentMethodService.paymentMethodLiveSearch(paymentName, status, modifierType);
 
-        cleanContainer(payment_method_list_container);
+        cleanContainer(paymentMethodListContainer);
 
         loadPaymentMethodList(payments);
 
-        setTextOnLabel(results_count, parseNumberValueToText(payments.size()) + " encontrados");
+        setTextOnLabel(resultsCount, parseNumberValueToText(payments.size()) + " encontrados");
     }
 
     private void cleanFiltersAndLiveSearch() {
 
-        setBlankTextfield(search_field);
-        cleanComboBoxes(status_filter, modifier_type_filter);
+        setBlankTextfield(searchField);
+        cleanComboBoxes(statusFilter, modifierTypeFilter);
     }
 
     private void configureButtonActions() {
 
         Map<Button, Runnable> map = Map.of(
-                create_payment_method_button, this::createPaymentMethod,
-                clear_filters_button, this::cleanFiltersAndLiveSearch
+                createPaymentMethodButton, this::createPaymentMethod,
+                clearFiltersButton, this::cleanFiltersAndLiveSearch
         );
 
         configureRunnableMaps(map);
@@ -136,8 +137,8 @@ public class PaymentMethodViewController {
                 saleService::getMostUsedPaymentMethod,
 
                 dto -> {
-                    setTextOnLabel(most_used_payment_name, dto.getPaymentMethodName());
-                    setTextOnLabel(most_used_payment_usage, parseNumberValueToText(dto.getAmountOfSalesWhereIsUsed()));
+                    setTextOnLabel(mostUsedPaymentName, dto.getPaymentMethodName());
+                    setTextOnLabel(mostUsedPaymentUsage, parseNumberValueToText(dto.getAmountOfSalesWhereIsUsed()));
                 }
         );
     }
@@ -148,8 +149,8 @@ public class PaymentMethodViewController {
                 saleService::getHighestRevenuePaymentMethod,
 
                 dto -> {
-                    setTextOnLabel(highest_revenue_payment_name, dto.getPaymentMethod());
-                    setTextOnLabel(revenue_sum, CURRENCY_STRING_ARG + parseNumberValueToText(dto.getRevenueAmount()));
+                    setTextOnLabel(highestRevenuePaymentName, dto.getPaymentMethod());
+                    setTextOnLabel(revenueSum, CURRENCY_STRING_ARG + parseNumberValueToText(dto.getRevenueAmount()));
                 }
         );
     }
@@ -158,7 +159,7 @@ public class PaymentMethodViewController {
 
         executeAsyncTask(
                 paymentMethodService::getPaymentMethodCountMarkedAsActive,
-                activePaymentsAmount -> setTextOnLabel(active_payment_methods_count, parseNumberValueToText(activePaymentsAmount))
+                activePaymentsAmount -> setTextOnLabel(activePaymentMethodsCount, parseNumberValueToText(activePaymentsAmount))
         );
     }
 
@@ -170,10 +171,10 @@ public class PaymentMethodViewController {
 
                     if (modifierValueSum >= 0.0) {
 
-                        setTextOnLabel(modifier_type_balance, "+" + CURRENCY_STRING_ARG + parseNumberValueToText(modifierValueSum));
+                        setTextOnLabel(modifierTypeBalance, "+" + CURRENCY_STRING_ARG + parseNumberValueToText(modifierValueSum));
                     } else {
 
-                        setTextOnLabel(modifier_type_balance, "-" + CURRENCY_STRING_ARG + parseNumberValueToText(modifierValueSum));
+                        setTextOnLabel(modifierTypeBalance, "-" + CURRENCY_STRING_ARG + parseNumberValueToText(modifierValueSum));
                     }
                 }
         );
@@ -183,7 +184,7 @@ public class PaymentMethodViewController {
 
         loadItemsOnController(
                 paymentsList,
-                payment_method_list_container,
+                paymentMethodListContainer,
                 PAYMENT_METHOD_ITEM_VIEW_PATH,
                 EMPTY_PAYMENT_LIST_MESSAGE,
                 PAYMENT_METHOD_ITEM_VIEW_LOADING_FAILED,
@@ -204,7 +205,7 @@ public class PaymentMethodViewController {
 
     private void createPaymentMethod() {
 
-        redirectToView(PAYMENT_METHOD_CREATION, anchor_pane, applicationContext);
+        redirectToView(PAYMENT_METHOD_CREATION, anchorPane, applicationContext);
     }
 
     private void goToPaymentMethodEditView(PaymentMethodInfoDTO paymentMethodInfoDTO) {
@@ -214,6 +215,6 @@ public class PaymentMethodViewController {
         Parent paymentMethodEditionView = returnParentFromLoader(loader, PAYMENT_METHOD_EDITION_VIEW_LOADING_FAILED);
         PaymentMethodEditionController paymentMethodEditionController = loader.getController();
         paymentMethodEditionController.initialize(paymentMethodInfoDTO);
-        setViewOnPaneCenter(anchor_pane, paymentMethodEditionView);
+        setViewOnPaneCenter(anchorPane, paymentMethodEditionView);
     }
 }

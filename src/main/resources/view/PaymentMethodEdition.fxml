@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1"
             xmlns="http://javafx.com/javafx/17.0.12"
-            fx:id="anchor_pane"
+            fx:id="anchorPane"
             fx:controller="com.presentation.controller.paymentmethod.PaymentMethodEditionController">
 
     <VBox
@@ -19,7 +19,7 @@
                 <Insets top="16" right="24" bottom="16" left="24"/>
             </padding>
 
-            <MFXButton fx:id="back_button" styleClass="md-button-outlined" text="Volver">
+            <MFXButton fx:id="backButton" styleClass="md-button-outlined" text="Volver">
                 <graphic>
                     <Region styleClass="arrow-up-circle-icon, md-icon-small"/>
                 </graphic>
@@ -64,7 +64,7 @@
                                 <Label styleClass="md-label-medium" text="Nombre"/>
                                 <Label styleClass="md-label-medium, md-input-error" text="*"/>
                             </HBox>
-                            <TextField fx:id="name_field" promptText="Ej: Tarjeta de crédito"
+                            <TextField fx:id="nameField" promptText="Ej: Tarjeta de crédito"
                                        styleClass="md-text-field" maxWidth="Infinity"/>
                         </VBox>
 
@@ -74,14 +74,14 @@
                                 <Label styleClass="md-label-medium" text="Tipo de Modificador"/>
                                 <Label styleClass="md-label-medium, md-input-error" text="*"/>
                             </HBox>
-                            <ComboBox fx:id="modifier_type_combo" promptText="Seleccionar tipo"
+                            <ComboBox fx:id="modifierTypeCombo" promptText="Seleccionar tipo"
                                       styleClass="md-combo-box" maxWidth="Infinity"/>
                         </VBox>
 
                         <!-- Descripción -->
                         <VBox spacing="4" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="1">
                             <Label styleClass="md-label-medium" text="Descripción"/>
-                            <TextField fx:id="description_field"
+                            <TextField fx:id="descriptionField"
                                        promptText="Descripción del método de pago"
                                        styleClass="md-text-field" maxWidth="Infinity"/>
                         </VBox>
@@ -92,14 +92,14 @@
                                 <Label styleClass="md-label-medium" text="Modificador de Precio"/>
                                 <Label styleClass="md-label-medium, md-input-error" text="*"/>
                             </HBox>
-                            <TextField fx:id="price_modifier_field" promptText="Ej: 100"
+                            <TextField fx:id="priceModifierField" promptText="Ej: 100"
                                        styleClass="md-text-field" maxWidth="Infinity"/>
                         </VBox>
 
                         <!-- Estado Activo -->
                         <VBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="2">
                             <Label styleClass="md-label-medium" text="Estado"/>
-                            <CheckBox fx:id="is_active_check" text="Activo"
+                            <CheckBox fx:id="isActiveCheck" text="Activo"
                                       styleClass="md-check-box"/>
                         </VBox>
                     </GridPane>
@@ -107,8 +107,8 @@
 
                 <!-- Botones de Acción -->
                 <HBox spacing="12" alignment="CENTER_RIGHT">
-                    <MFXButton fx:id="reset_form_button" styleClass="md-button-text" text="Restaurar valores"/>
-                    <MFXButton fx:id="save_button" styleClass="md-button-filled" text="Actualizar medio de pago">
+                    <MFXButton fx:id="resetFormButton" styleClass="md-button-text" text="Restaurar valores"/>
+                    <MFXButton fx:id="saveButton" styleClass="md-button-filled" text="Actualizar medio de pago">
                         <graphic>
                             <Region styleClass="done-all-icon, md-icon-small, md-icon-on-surface"/>
                         </graphic>

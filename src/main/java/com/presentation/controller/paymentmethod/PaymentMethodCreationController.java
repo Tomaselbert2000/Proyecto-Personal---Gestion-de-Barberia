@@ -26,16 +26,16 @@ import static com.presentation.constants.StringResource.DisplayString.ACCEPT_BUT
 import static com.presentation.constants.StringResource.ToastNotificationMessage.PAYMENT_METHOD_CREATION_TOAST_NOTIFICATION_MESSAGE;
 import static com.presentation.constants.StringResource.ValidationErrorMessage.PAYMENT_METHOD_CREATION_VALIDATION_FAILED;
 import static com.presentation.constants.StringResource.ValidationErrorMessage.VALIDATION_ERROR_TITLE;
+import static com.presentation.controller.paymentmethod.PaymentMethodControllerHelper.convertPriceStringToDouble;
 import static com.presentation.support.control.ComboBoxHelper.loadEnumsOnComboBox;
 import static com.presentation.support.control.ComboBoxHelper.removeFirstItemFromComboBox;
-import static com.presentation.support.view.ContainerManager.getCurrentWindow;
-import static com.presentation.support.dialog.PopUpWindowHelper.showWindowAlert;
-import static com.presentation.support.notification.ToastNotificationHelper.showToastNotification;
 import static com.presentation.support.control.UIBasicComponents.*;
 import static com.presentation.support.control.ValidationFormatter.getConstraintViolationsList;
 import static com.presentation.support.control.ValidationFormatter.setStringConverter;
+import static com.presentation.support.dialog.PopUpWindowHelper.showWindowAlert;
+import static com.presentation.support.notification.ToastNotificationHelper.showToastNotification;
+import static com.presentation.support.view.ContainerManager.getCurrentWindow;
 import static com.presentation.support.view.ViewRedirectionHelper.redirectToView;
-import static com.presentation.controller.paymentmethod.PaymentMethodControllerHelper.convertPriceStringToDouble;
 
 @Component
 @RequiredArgsConstructor
@@ -45,22 +45,22 @@ public class PaymentMethodCreationController {
     private final PaymentMethodService paymentMethodService;
 
     @FXML
-    private AnchorPane anchor_pane;
+    private AnchorPane anchorPane;
 
     @FXML
     private MFXButton
-            back_button,
-            reset_form_button,
-            save_button;
+            backButton,
+            resetFormButton,
+            saveButton;
 
     @FXML
     private TextField
-            name_field,
-            description_field,
-            price_modifier_field;
+            nameField,
+            descriptionField,
+            priceModifierField;
 
     @FXML
-    private ComboBox<PaymentMethodModifierType> modifier_type_combo;
+    private ComboBox<PaymentMethodModifierType> modifierTypeCombo;
 
     @FXML
     public void initialize() {
@@ -68,21 +68,21 @@ public class PaymentMethodCreationController {
         configurePromptTexts();
         configureButtonActions();
 
-        loadEnumsOnComboBox(modifier_type_combo, PaymentMethodModifierType.values());
+        loadEnumsOnComboBox(modifierTypeCombo, PaymentMethodModifierType.values());
 
-        setStringConverter(modifier_type_combo, PaymentMethodModifierType.TODOS);
+        setStringConverter(modifierTypeCombo, PaymentMethodModifierType.TODOS);
 
-        removeFirstItemFromComboBox(modifier_type_combo);
+        removeFirstItemFromComboBox(modifierTypeCombo);
 
-        configureDecimalTextfieldRestrictions(price_modifier_field);
+        configureDecimalTextfieldRestrictions(priceModifierField);
     }
 
     private void configurePromptTexts() {
 
         Map<TextField, String> map = Map.of(
-                name_field, PAYMENT_METHOD_NAME,
-                description_field, PAYMENT_METHOD_DESCRIPTION,
-                price_modifier_field, PAYMENT_METHOD_PRICE_VALUE
+                nameField, PAYMENT_METHOD_NAME,
+                descriptionField, PAYMENT_METHOD_DESCRIPTION,
+                priceModifierField, PAYMENT_METHOD_PRICE_VALUE
         );
 
         setPromptTextOnMap(map);
@@ -90,15 +90,15 @@ public class PaymentMethodCreationController {
 
     private void resetForm() {
 
-        cleanTextfields(List.of(name_field, description_field, price_modifier_field));
+        cleanTextfields(List.of(nameField, descriptionField, priceModifierField));
     }
 
     private void configureButtonActions() {
 
         Map<Button, Runnable> map = Map.of(
-                back_button, () -> redirectToView(ViewRedirection.PAYMENT_METHODS, anchor_pane, applicationContext),
-                reset_form_button, this::resetForm,
-                save_button, this::createPaymentMethod
+                backButton, () -> redirectToView(ViewRedirection.PAYMENT_METHODS, anchorPane, applicationContext),
+                resetFormButton, this::resetForm,
+                saveButton, this::createPaymentMethod
         );
 
         configureRunnableMaps(map);
@@ -108,17 +108,17 @@ public class PaymentMethodCreationController {
 
         try {
 
-            String paymentMethodName = name_field.getText();
-            String paymentMethodDescription = description_field.getText();
-            double priceModifierDoubleValue = convertPriceStringToDouble(price_modifier_field.getText());
+            String paymentMethodName = nameField.getText();
+            String paymentMethodDescription = descriptionField.getText();
+            double priceModifierDoubleValue = convertPriceStringToDouble(priceModifierField.getText());
 
-            PaymentMethodModifierType modifierType = modifier_type_combo.getValue();
+            PaymentMethodModifierType modifierType = modifierTypeCombo.getValue();
 
             PaymentMethodCreationDTO creationDTO = buildCreationDTOFromAttributes(paymentMethodName, paymentMethodDescription, priceModifierDoubleValue, modifierType);
 
             paymentMethodService.registerNewPaymentMethod(creationDTO);
 
-            showToastNotification(anchor_pane, applicationContext, PAYMENT_METHOD_CREATION_TOAST_NOTIFICATION_MESSAGE, ToastNotificationType.SUCCESSFUL);
+            showToastNotification(anchorPane, applicationContext, PAYMENT_METHOD_CREATION_TOAST_NOTIFICATION_MESSAGE, ToastNotificationType.SUCCESSFUL);
 
         } catch (ConstraintViolationException | DuplicatedPaymentMethodNameException exception) {
 
@@ -133,7 +133,7 @@ public class PaymentMethodCreationController {
                 errorMessage = exception.getMessage();
             }
 
-            showWindowAlert(VALIDATION_ERROR_TITLE, PAYMENT_METHOD_CREATION_VALIDATION_FAILED, errorMessage, Alert.AlertType.ERROR, ACCEPT_BUTTON_TEXT, getCurrentWindow(anchor_pane));
+            showWindowAlert(VALIDATION_ERROR_TITLE, PAYMENT_METHOD_CREATION_VALIDATION_FAILED, errorMessage, Alert.AlertType.ERROR, ACCEPT_BUTTON_TEXT, getCurrentWindow(anchorPane));
         }
     }
 

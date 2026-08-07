@@ -35,21 +35,21 @@ public class PaymentMethodItemController implements ItemController<PaymentMethod
 
     @FXML
     private Label
-            payment_method_name,
-            status_label,
-            modifier_type_label,
-            payment_method_description,
-            price_modifier_label;
+            paymentMethodName,
+            statusLabel,
+            modifierTypeLabel,
+            paymentMethodDescription,
+            priceModifierLabel;
 
     @FXML
     private VBox
-            status_badge,
-            modifier_badge;
+            statusBadge,
+            modifierBadge;
 
     @FXML
     private MFXButton
-            edit_button,
-            toggle_status_button;
+            editButton,
+            toggleStatusButton;
 
     @FXML
     public void initialize() {
@@ -61,17 +61,17 @@ public class PaymentMethodItemController implements ItemController<PaymentMethod
 
         if (isActive) {
 
-            setTextOnLabel(status_label, "Activo");
-            addNodeStyleClass(status_badge, ITEM_STATUS_ACTIVO);
+            setTextOnLabel(statusLabel, "Activo");
+            addNodeStyleClass(statusBadge, ITEM_STATUS_ACTIVO);
 
-            setTextOnButton(toggle_status_button, "Desactivar");
+            setTextOnButton(toggleStatusButton, "Desactivar");
 
         } else {
 
-            setTextOnLabel(status_label, "Inactivo");
-            addNodeStyleClass(status_badge, ITEM_STATUS_INACTIVO);
+            setTextOnLabel(statusLabel, "Inactivo");
+            addNodeStyleClass(statusBadge, ITEM_STATUS_INACTIVO);
 
-            setTextOnButton(toggle_status_button, "Activar");
+            setTextOnButton(toggleStatusButton, "Activar");
         }
     }
 
@@ -82,16 +82,16 @@ public class PaymentMethodItemController implements ItemController<PaymentMethod
 
         toggleBadgeAndButtonTexts(infoDTO.getIsActive());
 
-        String paymentMethodName = infoDTO.getName();
+        String paymentMethodNameValue = infoDTO.getName();
         String description = infoDTO.getDescription();
         String modifierType = infoDTO.getModifierType().getDisplayName();
         String priceModifierValue = parseNumberValueToText(infoDTO.getPriceModifier());
 
         Map<Label, String> map = Map.of(
-                payment_method_name, paymentMethodName,
-                payment_method_description, description,
-                modifier_type_label, modifierType,
-                price_modifier_label, CURRENCY_STRING_ARG + priceModifierValue
+                paymentMethodName, paymentMethodNameValue,
+                paymentMethodDescription, description,
+                modifierTypeLabel, modifierType,
+                priceModifierLabel, CURRENCY_STRING_ARG + priceModifierValue
         );
 
         setTextsOnLabelMap(map);
@@ -100,8 +100,8 @@ public class PaymentMethodItemController implements ItemController<PaymentMethod
     private void configureButtonActions() {
 
         Map<Button, Runnable> map = Map.of(
-                edit_button, this::goToEditPaymentMethodInfo,
-                toggle_status_button, this::changePaymentMethodActiveValue
+                editButton, this::goToEditPaymentMethodInfo,
+                toggleStatusButton, this::changePaymentMethodActiveValue
         );
 
         configureRunnableMaps(map);

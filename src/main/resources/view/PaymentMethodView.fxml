@@ -5,7 +5,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1"
-            fx:id="anchor_pane"
+            fx:id="anchorPane"
             xmlns="http://javafx.com/javafx/17.0.12"
             fx:controller="com.presentation.controller.paymentmethod.PaymentMethodViewController">
 
@@ -53,9 +53,9 @@
                             <Region HBox.hgrow="ALWAYS"/>
                             <Region styleClass="wallet-icon, md-icon-medium, md-icon-primary"/>
                         </HBox>
-                        <Label fx:id="most_used_payment_name" styleClass="md-display-small"/>
+                        <Label fx:id="mostUsedPaymentName" styleClass="md-display-small"/>
                         <HBox spacing="4" alignment="CENTER_LEFT">
-                            <Label fx:id="most_used_payment_usage" styleClass="md-label-medium"/>
+                            <Label fx:id="mostUsedPaymentUsage" styleClass="md-label-medium"/>
                             <Label styleClass="md-label-small" text="ventas"/>
                         </HBox>
                     </VBox>
@@ -70,9 +70,9 @@
                             <Region HBox.hgrow="ALWAYS"/>
                             <Region styleClass="more-up-icon, md-icon-medium, md-icon-primary"/>
                         </HBox>
-                        <Label fx:id="highest_revenue_payment_name" styleClass="md-display-small"/>
+                        <Label fx:id="highestRevenuePaymentName" styleClass="md-display-small"/>
                         <HBox spacing="4" alignment="CENTER_LEFT">
-                            <Label fx:id="revenue_sum" styleClass="md-label-medium"/>
+                            <Label fx:id="revenueSum" styleClass="md-label-medium"/>
                             <Label styleClass="md-label-small" text="total"/>
                         </HBox>
                     </VBox>
@@ -87,7 +87,7 @@
                             <Region HBox.hgrow="ALWAYS"/>
                             <Region styleClass="cancel-icon, md-icon-medium, md-icon-primary"/>
                         </HBox>
-                        <Label fx:id="active_payment_methods_count" styleClass="md-display-small"/>
+                        <Label fx:id="activePaymentMethodsCount" styleClass="md-display-small"/>
                         <HBox spacing="4" alignment="CENTER_LEFT">
                             <Label styleClass="md-label-medium"/>
                             <Label styleClass="md-label-small" text="Listos para cobrar"/>
@@ -104,7 +104,7 @@
                             <Region HBox.hgrow="ALWAYS"/>
                             <Region styleClass="finance-icon, md-icon-medium, md-icon-primary"/>
                         </HBox>
-                        <Label fx:id="modifier_type_balance" styleClass="md-display-small"/>
+                        <Label fx:id="modifierTypeBalance" styleClass="md-display-small"/>
                         <HBox spacing="4" alignment="CENTER_LEFT">
                             <Label styleClass="md-label-medium"/>
                             <Label styleClass="md-label-small" text="Por recargos y descuentos"/>
@@ -124,29 +124,29 @@
                             <!-- Buscador -->
                             <VBox spacing="4" HBox.hgrow="ALWAYS">
                                 <Label styleClass="md-label-medium" text="Buscar medio de pago"/>
-                                <TextField fx:id="search_field" styleClass="md-text-field" maxWidth="Infinity"/>
+                                <TextField fx:id="searchField" styleClass="md-text-field" maxWidth="Infinity"/>
                             </VBox>
 
                             <!-- Filtro por Estado -->
                             <VBox spacing="4" HBox.hgrow="ALWAYS">
                                 <Label styleClass="md-label-medium" text="Estado"/>
-                                <ComboBox fx:id="status_filter" styleClass="md-combo-box" maxWidth="Infinity"/>
+                                <ComboBox fx:id="statusFilter" styleClass="md-combo-box" maxWidth="Infinity"/>
                             </VBox>
 
                             <!-- Filtro por Tipo de Modificador -->
                             <VBox spacing="4" HBox.hgrow="ALWAYS">
                                 <Label styleClass="md-label-medium" text="Tipo de Modificador"/>
-                                <ComboBox fx:id="modifier_type_filter" styleClass="md-combo-box" maxWidth="Infinity"/>
+                                <ComboBox fx:id="modifierTypeFilter" styleClass="md-combo-box" maxWidth="Infinity"/>
                             </VBox>
 
                             <!-- Botones de Acción -->
                             <VBox spacing="4" alignment="BOTTOM_LEFT">
                                 <Label styleClass="md-label-medium" text="Acciones"/>
                                 <HBox spacing="8" alignment="CENTER_LEFT">
-                                    <MFXButton fx:id="clear_filters_button"
+                                    <MFXButton fx:id="clearFiltersButton"
                                                styleClass="md-button-outlined"
                                                text="Limpiar"/>
-                                    <MFXButton fx:id="create_payment_method_button"
+                                    <MFXButton fx:id="createPaymentMethodButton"
                                                styleClass="md-button-filled"
                                                text="+ Nuevo Medio de Pago"/>
                                 </HBox>
@@ -160,10 +160,10 @@
                     <HBox spacing="8" alignment="CENTER_LEFT">
                         <Label styleClass="md-title-medium" text="Medios de Pago"/>
                         <Region HBox.hgrow="ALWAYS"/>
-                        <Label fx:id="results_count" styleClass="md-body-small" text="0 medios de pago"/>
+                        <Label fx:id="resultsCount" styleClass="md-body-small" text="0 medios de pago"/>
                     </HBox>
 
-                    <VBox fx:id="payment_method_list_container" styleClass="md-card">
+                    <VBox fx:id="paymentMethodListContainer" styleClass="md-card">
                         <padding>
                             <Insets top="8" right="16" bottom="8" left="16"/>
                         </padding>

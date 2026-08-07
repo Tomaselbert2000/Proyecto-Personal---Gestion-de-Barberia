@@ -18,23 +18,23 @@
     <VBox spacing="4" HBox.hgrow="ALWAYS">
         <!-- Name + Badges -->
         <HBox spacing="8" alignment="CENTER_LEFT">
-            <Label fx:id="payment_method_name" styleClass="md-list-item-headline"/>
-            <VBox fx:id="status_badge">
-                <Label fx:id="status_label" styleClass="md-nav-badge"/>
+            <Label fx:id="paymentMethodName" styleClass="md-list-item-headline"/>
+            <VBox fx:id="statusBadge">
+                <Label fx:id="statusLabel" styleClass="md-nav-badge"/>
             </VBox>
-            <VBox fx:id="modifier_badge">
-                <Label fx:id="modifier_type_label" styleClass="md-nav-badge"/>
+            <VBox fx:id="modifierBadge">
+                <Label fx:id="modifierTypeLabel" styleClass="md-nav-badge"/>
             </VBox>
         </HBox>
         <!-- Details -->
         <HBox spacing="16" alignment="CENTER_LEFT">
             <HBox spacing="4">
                 <Label styleClass="md-list-item-supporting-text" text="Descripción:"/>
-                <Label fx:id="payment_method_description" styleClass="md-list-item-supporting-text"/>
+                <Label fx:id="paymentMethodDescription" styleClass="md-list-item-supporting-text"/>
             </HBox>
             <HBox spacing="4">
                 <Label styleClass="md-list-item-supporting-text" text="Modificador:"/>
-                <Label fx:id="price_modifier_label" styleClass="md-list-item-supporting-text"/>
+                <Label fx:id="priceModifierLabel" styleClass="md-list-item-supporting-text"/>
             </HBox>
         </HBox>
     </VBox>
@@ -45,7 +45,7 @@
 
     <!-- Actions -->
     <HBox spacing="8" alignment="CENTER_RIGHT">
-        <MFXButton fx:id="edit_button" styleClass="md-button-outlined" text="Editar"/>
-        <MFXButton fx:id="toggle_status_button" styleClass="md-button-tonal" text="Desactivar"/>
+        <MFXButton fx:id="editButton" styleClass="md-button-outlined" text="Editar"/>
+        <MFXButton fx:id="toggleStatusButton" styleClass="md-button-tonal" text="Desactivar"/>
     </HBox>
 </HBox>
