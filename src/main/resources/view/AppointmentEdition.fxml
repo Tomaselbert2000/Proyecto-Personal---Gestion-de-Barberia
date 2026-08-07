@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1"
             xmlns="http://javafx.com/javafx/17.0.12"
-            fx:id="anchor_pane"
+            fx:id="anchorPane"
             fx:controller="com.presentation.controller.appointment.AppointmentEditionController">
 
     <VBox
@@ -18,7 +18,7 @@
             <padding>
                 <Insets top="20" right="24" bottom="12" left="24"/>
             </padding>
-            <MFXButton fx:id="back_button" styleClass="md-button-outlined" text="Volver">
+            <MFXButton fx:id="backButton" styleClass="md-button-outlined" text="Volver">
                 <graphic>
                     <Region styleClass="arrow-up-circle-icon, md-icon-small"/>
                 </graphic>
@@ -57,13 +57,13 @@
                         <!-- Current Client Info (Read-only) -->
                         <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="0">
                             <Label styleClass="md-label-medium" text="Cliente"/>
-                            <Label fx:id="current_client_name" styleClass="md-body-large"/>
+                            <Label fx:id="currentClientName" styleClass="md-body-large"/>
                         </VBox>
 
                         <!-- Current Status -->
                         <VBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="0">
                             <Label styleClass="md-label-medium" text="Estado Actual"/>
-                            <HBox fx:id="current_status_container" alignment="CENTER_LEFT"/>
+                            <HBox fx:id="currentStatusContainer" alignment="CENTER_LEFT"/>
                         </VBox>
                     </GridPane>
                 </VBox>
@@ -91,7 +91,7 @@
                         <!-- Service Selection -->
                         <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="0">
                             <Label styleClass="md-label-medium" text="Nuevo Servicio"/>
-                            <ComboBox fx:id="barber_service_selector" maxWidth="Infinity"
+                            <ComboBox fx:id="barberServiceSelector" maxWidth="Infinity"
                                       styleClass="md-combo-box"
                                       promptText="Seleccioná un servicio"/>
                         </VBox>
@@ -99,25 +99,25 @@
                         <!-- Employee Selection -->
                         <VBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="0">
                             <Label styleClass="md-label-medium" text="Nuevo Profesional"/>
-                            <ComboBox fx:id="employee_selector" maxWidth="Infinity" styleClass="md-combo-box"
+                            <ComboBox fx:id="employeeSelector" maxWidth="Infinity" styleClass="md-combo-box"
                                       promptText="Seleccioná un profesional"/>
                         </VBox>
 
                         <!-- Current Service Info (Read-only) -->
                         <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="1">
                             <Label styleClass="md-label-medium" text="Servicio Actual"/>
-                            <Label fx:id="current_service_name" styleClass="md-body-large"/>
+                            <Label fx:id="currentServiceName" styleClass="md-body-large"/>
                         </VBox>
 
                         <!-- Current Employee Info (Read-only) -->
                         <VBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="1">
                             <Label styleClass="md-label-medium" text="Empleado asignado actualmente"/>
-                            <Label fx:id="current_employee_name" styleClass="md-body-large"/>
+                            <Label fx:id="currentEmployeeName" styleClass="md-body-large"/>
                         </VBox>
                     </GridPane>
 
                     <!-- Service Price Info -->
-                    <VBox fx:id="service_selection_container" spacing="4" visible="false">
+                    <VBox fx:id="serviceSelectionContainer" spacing="4" visible="false">
                         <Region styleClass="md-card-filled" maxWidth="Infinity" prefHeight="48.0">
                             <padding>
                                 <Insets top="10" right="16" bottom="10" left="16"/>
@@ -126,7 +126,7 @@
                                 <HBox spacing="8" alignment="CENTER_LEFT">
                                     <Region styleClass="money-bag-icon, md-icon-small, md-icon-primary"/>
                                     <Label styleClass="md-label-medium" text="Precio: "/>
-                                    <Label fx:id="service_price" styleClass="md-title-medium"/>
+                                    <Label fx:id="servicePrice" styleClass="md-title-medium"/>
                                 </HBox>
                             </graphic>
                         </Region>
@@ -158,34 +158,34 @@
                         <!-- Start Date -->
                         <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="0">
                             <Label styleClass="md-label-medium" text="Nueva Fecha de Inicio"/>
-                            <DatePicker fx:id="date_selector" maxWidth="Infinity" styleClass="md-date-picker"
+                            <DatePicker fx:id="dateSelector" maxWidth="Infinity" styleClass="md-date-picker"
                                         promptText="Seleccioná una fecha"/>
                         </VBox>
 
                         <!-- Start Time -->
                         <VBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="0">
                             <Label styleClass="md-label-medium" text="Hora de Inicio"/>
-                            <ComboBox fx:id="hour_selector" styleClass="md-combo-box" maxWidth="Infinity"
+                            <ComboBox fx:id="hourSelector" styleClass="md-combo-box" maxWidth="Infinity"
                                       promptText="Hora"/>
                         </VBox>
 
                         <!-- Start Minutes -->
                         <VBox spacing="4" GridPane.columnIndex="2" GridPane.rowIndex="0">
                             <Label styleClass="md-label-medium" text="Minutos"/>
-                            <ComboBox fx:id="minute_selector" styleClass="md-combo-box" maxWidth="Infinity"
+                            <ComboBox fx:id="minuteSelector" styleClass="md-combo-box" maxWidth="Infinity"
                                       promptText="Min"/>
                         </VBox>
 
                         <!-- Current Start DateTime (Read-only) -->
                         <VBox spacing="4" GridPane.columnIndex="3" GridPane.rowIndex="0">
                             <Label styleClass="md-label-medium" text="Fecha Actual"/>
-                            <Label fx:id="current_start_datetime" styleClass="md-body-large"/>
+                            <Label fx:id="currentStartDateTime" styleClass="md-body-large"/>
                         </VBox>
 
                         <!-- Notes -->
                         <VBox spacing="4" GridPane.columnIndex="0" GridPane.columnSpan="4" GridPane.rowIndex="1">
                             <Label styleClass="md-label-medium" text="Notas (opcional)"/>
-                            <TextField fx:id="appointment_notes" maxWidth="Infinity"
+                            <TextField fx:id="appointmentNotes" maxWidth="Infinity"
                                        styleClass="md-text-field"
                                        promptText="Observaciones adicionales del turno"/>
                         </VBox>
@@ -214,20 +214,20 @@
                         <!-- Status Selection -->
                         <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="0">
                             <Label styleClass="md-label-medium" text="Nuevo Estado"/>
-                            <ComboBox fx:id="status_selector" maxWidth="Infinity" styleClass="md-combo-box"
+                            <ComboBox fx:id="statusSelector" maxWidth="Infinity" styleClass="md-combo-box"
                                       promptText="Seleccioná un estado"/>
                         </VBox>
 
                         <!-- Current Status Info -->
                         <VBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="0">
                             <Label styleClass="md-label-medium" text="Estado Actual"/>
-                            <Label fx:id="current_status_label" styleClass="md-body-large"/>
+                            <Label fx:id="currentStatusLabel" styleClass="md-body-large"/>
                         </VBox>
                     </GridPane>
                 </VBox>
 
                 <!-- Tarjeta de Resumen -->
-                <VBox fx:id="appointment_summary_card" styleClass="md-card" spacing="16" visible="false">
+                <VBox fx:id="appointmentSummaryCard" styleClass="md-card" spacing="16" visible="false">
                     <padding>
                         <Insets top="16" right="16" bottom="16" left="16"/>
                     </padding>
@@ -239,31 +239,31 @@
                     <VBox spacing="8">
                         <HBox spacing="4">
                             <Label styleClass="md-list-item-supporting-text" text="Cliente:"/>
-                            <Label fx:id="summary_client" styleClass="md-list-item-headline"/>
+                            <Label fx:id="summaryClient" styleClass="md-list-item-headline"/>
                         </HBox>
                         <HBox spacing="4">
                             <Label styleClass="md-list-item-supporting-text" text="Servicio:"/>
-                            <Label fx:id="summary_service" styleClass="md-list-item-headline"/>
+                            <Label fx:id="summaryService" styleClass="md-list-item-headline"/>
                         </HBox>
                         <HBox spacing="4">
                             <Label styleClass="md-list-item-supporting-text" text="Profesional:"/>
-                            <Label fx:id="summary_employee" styleClass="md-list-item-headline"/>
+                            <Label fx:id="summaryEmployee" styleClass="md-list-item-headline"/>
                         </HBox>
                         <HBox spacing="4">
                             <Label styleClass="md-list-item-supporting-text" text="Fecha y Hora:"/>
-                            <Label fx:id="summary_datetime" styleClass="md-list-item-headline"/>
+                            <Label fx:id="summaryDateTime" styleClass="md-list-item-headline"/>
                         </HBox>
                         <HBox spacing="4">
                             <Label styleClass="md-list-item-supporting-text" text="Precio Total:"/>
-                            <Label fx:id="summary_price" styleClass="md-list-item-headline"/>
+                            <Label fx:id="summaryPrice" styleClass="md-list-item-headline"/>
                         </HBox>
                     </VBox>
                 </VBox>
 
                 <!-- Botones de Acción -->
                 <HBox spacing="8" alignment="CENTER_RIGHT">
-                    <MFXButton fx:id="restore_values_button" styleClass="md-button-outlined" text="Restaurar valores"/>
-                    <MFXButton fx:id="save_button" styleClass="md-button-filled" text="Actualizar Turno"/>
+                    <MFXButton fx:id="restoreValuesButton" styleClass="md-button-outlined" text="Restaurar valores"/>
+                    <MFXButton fx:id="saveButton" styleClass="md-button-filled" text="Actualizar Turno"/>
                 </HBox>
 
             </VBox>
