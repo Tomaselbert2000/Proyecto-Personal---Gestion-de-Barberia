@@ -242,7 +242,7 @@ public class UIBasicComponents {
      * @param comboBox El ComboBox a deshabilitar.
      */
     public static void disableComboBox(ComboBox<AppointmentStatus> comboBox) {
-        comboBox.disableProperty();
+        comboBox.setDisable(true);
     }
 
     // Time and date selectors

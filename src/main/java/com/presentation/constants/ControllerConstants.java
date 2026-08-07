@@ -14,6 +14,8 @@ public final class ControllerConstants {
     private ControllerConstants() {
     }
 
+    public static final Double NULL_NUMERIC_INPUT_VALUE = -1.0;
+
     public static final class DashboardControllerConstants {
 
         public static final String NEW_CLIENT_REGISTERED_STRING = "Nuevo cliente registrado en el sistema";
@@ -38,7 +40,7 @@ public final class ControllerConstants {
 
         public static final String ACTIVATE = "Activar";
         public static final String DEACTIVATE = "Desactivar";
-        public static final Double PERCENTAGE_VALUE_IF_TEXTFIELD_IS_NULL = -1.0;
+        public static final Double PERCENTAGE_VALUE_IF_TEXTFIELD_IS_NULL = NULL_NUMERIC_INPUT_VALUE;
     }
 
     public static final class LoginControllerConstants {
@@ -55,7 +57,6 @@ public final class ControllerConstants {
 
         public static final Integer TOAST_PROGRESS_BAR_WIDTH_VALUE_ON_START = 400;
         public static final Double TOAST_PROGRESS_BAR_WIDTH_VALUE_ON_FINISH = 0.0;
-        public static final Integer TOAST_NOTIFICATION_DURATION_IN_SECONDS = 5;
     }
 
     public static final class SettingsControllerConstants {
@@ -67,7 +68,7 @@ public final class ControllerConstants {
         public static final int THEME_TRANSITION_DURATION_IN_MS = 400;
         public static final int MIN_PASSWORD_LENGTH = 10;
         public static final int MAX_PASSWORD_LENGTH = 32;
-        public static final String PASSWORD_GENERATED_SUCCESFULLY = "Contraseña generada exitosamente";
+        public static final String PASSWORD_GENERATED_SUCCESSFULLY = "Contraseña generada exitosamente";
         public static final String CREDENTIALS_UPDATE_SUCCESSFULLY = "Credenciales actualizadas exitosamente";
     }
 }

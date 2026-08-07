@@ -1,12 +1,12 @@
 package com.presentation.controller.paymentmethod;
 
-public final class PaymentMethodControllerHelper {
+import static com.presentation.constants.ControllerConstants.NULL_NUMERIC_INPUT_VALUE;
 
-    private static final double PRICE_MODIFIER_VALUE_IF_NULL_OR_EMPTY = -1.0;
+public final class PaymentMethodControllerHelper {
 
     public static double convertPriceStringToDouble(String priceString) {
 
-        if (priceString == null || priceString.isBlank()) return PRICE_MODIFIER_VALUE_IF_NULL_OR_EMPTY;
+        if (priceString == null || priceString.isBlank()) return NULL_NUMERIC_INPUT_VALUE;
 
         return Double.parseDouble(priceString);
     }

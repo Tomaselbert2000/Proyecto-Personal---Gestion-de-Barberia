@@ -282,7 +282,7 @@ public class SettingsController {
 
         String password = generatePassword(length);
 
-        boolean isClicked = showWindowAlert("", PASSWORD_GENERATED_SUCCESFULLY, password, Alert.AlertType.INFORMATION, CLIPBOARD_BUTTON_TEXT, getCurrentWindow(anchorPane));
+        boolean isClicked = showWindowAlert("", PASSWORD_GENERATED_SUCCESSFULLY, password, Alert.AlertType.INFORMATION, CLIPBOARD_BUTTON_TEXT, getCurrentWindow(anchorPane));
 
         if (isClicked) {
 

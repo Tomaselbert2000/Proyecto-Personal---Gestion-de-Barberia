@@ -67,7 +67,7 @@ public final class PromptTexts {
         public static final String BARBER_SHOP_EMAIL = "Ej: latercera@barbershop.com";
         public static final String BARBER_SHOP_ADDRESS = "Ej: Calle 123";
         public static final String USER_ADMIN_NAME = "Ej: admin";
-        public static final String USER_ADMIN_PASSWORD = "Mínimo 8 caracteres, al menos una mayúscula y un número.";
+        public static final String USER_ADMIN_PASSWORD = "Mínimo 10 caracteres, al menos una mayúscula y un número.";
         public static final String USER_ADMIN_CONFIRMATION_PASSWORD = "Repetir contraseña";
     }
 }

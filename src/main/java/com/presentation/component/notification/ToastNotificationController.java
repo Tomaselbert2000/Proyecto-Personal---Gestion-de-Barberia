@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 import static com.presentation.constants.ControllerConstants.ToastNotificationControllerConstants.*;
+import static com.presentation.constants.HelperConstants.ToastNotificationHelperConstant.TOAST_NOTIFICATION_DURATION_IN_SECONDS;
 import static com.presentation.constants.CssStylesStrings.*;
 import static com.presentation.constants.StringResource.ToastNotificationMessage.TOAST_NOTIFICATION_TITLE_FAILED;
 import static com.presentation.constants.StringResource.ToastNotificationMessage.TOAST_NOTIFICATION_TITLE_SUCCESSFUL;
@@ -57,7 +58,7 @@ public class ToastNotificationController {
         );
 
         List<Node> nodes = List.of(toast_notification_region_icon, toast_notification_icon_background_circle, toast_progress_bar);
-        List<String> stylesForSuccessfulOperation = List.of(TOAST_NOTIFICATION_SUCCESSFUL_ICON, TOAST_NOTIFICATION_SUCCESFUL_CIRCLE, TOAST_NOTIFICATION_PROGRESS_BAR_SUCCESSFUL);
+        List<String> stylesForSuccessfulOperation = List.of(TOAST_NOTIFICATION_SUCCESSFUL_ICON, TOAST_NOTIFICATION_SUCCESSFUL_CIRCLE, TOAST_NOTIFICATION_PROGRESS_BAR_SUCCESSFUL);
         List<String> stylesForFailedOperation = List.of(TOAST_NOTIFICATION_FAILED_ICON, TOAST_NOTIFICATION_FAILED_CIRCLE, TOAST_NOTIFICATION_PROGRESS_BAR_FAILED);
 
         switch (notificationType) {

@@ -7,7 +7,7 @@ import javafx.stage.Window;
 
 import java.util.Optional;
 
-import static com.presentation.constants.CssResourceFilePath.DESIGN_SYSTEM_TOKEN_FILE_PATH;
+import static com.presentation.constants.ThemeFilePath.MATERIAL3_BASE_FILE_PATH;
 import static com.presentation.constants.StringResource.DisplayString.NEW_LINE;
 import static com.utils.resource_helper.ResourceLocator.getResourceAsExternalForm;
 
@@ -33,7 +33,7 @@ public class PopUpWindowHelper {
             Window windowOwner
     ) {
         Alert alert = new Alert(alertType);
-        setStyleSheetOnWindow(alert, getResourceAsExternalForm(PopUpWindowHelper.class, DESIGN_SYSTEM_TOKEN_FILE_PATH));
+        setStyleSheetOnWindow(alert, getResourceAsExternalForm(PopUpWindowHelper.class, MATERIAL3_BASE_FILE_PATH));
         alert.setTitle(title);
         alert.setHeaderText(headerMessage);
         alert.setContentText(NEW_LINE + contentMessage);
