@@ -21,18 +21,19 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.Map;
 
+import static com.presentation.constants.ControllerConstants.NULL_NUMERIC_INPUT_VALUE;
 import static com.presentation.constants.PromptTexts.PaymentMethodPromptText.*;
 import static com.presentation.constants.StringResource.DisplayString.ACCEPT_BUTTON_TEXT;
 import static com.presentation.constants.StringResource.ToastNotificationMessage.PAYMENT_METHOD_CREATION_TOAST_NOTIFICATION_MESSAGE;
 import static com.presentation.constants.StringResource.ValidationErrorMessage.PAYMENT_METHOD_CREATION_VALIDATION_FAILED;
 import static com.presentation.constants.StringResource.ValidationErrorMessage.VALIDATION_ERROR_TITLE;
-import static com.presentation.controller.paymentmethod.PaymentMethodControllerHelper.convertPriceStringToDouble;
 import static com.presentation.support.control.ComboBoxHelper.loadEnumsOnComboBox;
 import static com.presentation.support.control.ComboBoxHelper.removeFirstItemFromComboBox;
 import static com.presentation.support.control.UIBasicComponents.*;
 import static com.presentation.support.control.ValidationFormatter.getConstraintViolationsList;
 import static com.presentation.support.control.ValidationFormatter.setStringConverter;
 import static com.presentation.support.dialog.PopUpWindowHelper.showWindowAlert;
+import static com.presentation.support.format.NumberParser.parseTextToDouble;
 import static com.presentation.support.notification.ToastNotificationHelper.showToastNotification;
 import static com.presentation.support.view.ContainerManager.getCurrentWindow;
 import static com.presentation.support.view.ViewRedirectionHelper.redirectToView;
@@ -110,7 +111,7 @@ public class PaymentMethodCreationController {
 
             String paymentMethodName = nameField.getText();
             String paymentMethodDescription = descriptionField.getText();
-            double priceModifierDoubleValue = convertPriceStringToDouble(priceModifierField.getText());
+            double priceModifierDoubleValue = parseTextToDouble(priceModifierField.getText(), NULL_NUMERIC_INPUT_VALUE);
 
             PaymentMethodModifierType modifierType = modifierTypeCombo.getValue();
 

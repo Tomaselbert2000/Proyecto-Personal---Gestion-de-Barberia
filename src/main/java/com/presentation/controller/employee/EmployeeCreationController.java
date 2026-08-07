@@ -28,6 +28,7 @@ import static com.presentation.constants.StringResource.ValidationErrorMessage.V
 import static com.presentation.support.control.UIBasicComponents.*;
 import static com.presentation.support.control.ValidationFormatter.getConstraintViolationsList;
 import static com.presentation.support.dialog.PopUpWindowHelper.showWindowAlert;
+import static com.presentation.support.format.NumberParser.parsePercentageFraction;
 import static com.presentation.support.notification.ToastNotificationHelper.showToastNotification;
 import static com.presentation.support.view.ContainerManager.getCurrentWindow;
 import static com.presentation.support.view.ViewRedirectionHelper.redirectToView;
@@ -104,7 +105,7 @@ public class EmployeeCreationController {
             String lastName = lastNameField.getText();
             LocalDate hireDate = hireDatePicker.getValue();
 
-            double commissionValueAsDouble = convertStringPercentageToDoubleValue(commissionField.getText());
+            double commissionValueAsDouble = parsePercentageFraction(commissionField.getText(), PERCENTAGE_VALUE_IF_TEXTFIELD_IS_NULL);
 
             EmployeeCreationDTO creationDTO = buildDTOFromAttributes(firstName, lastName, hireDate, commissionValueAsDouble);
 
@@ -130,14 +131,5 @@ public class EmployeeCreationController {
                 .hireDate(hireDate)
                 .commissionPercentage(commissionValueAsDouble)
                 .build();
-    }
-
-    private Double convertStringPercentageToDoubleValue(String valueAsText) {
-
-        if (valueAsText == null || valueAsText.isEmpty()) return PERCENTAGE_VALUE_IF_TEXTFIELD_IS_NULL;
-
-        double valueAsDouble = Double.parseDouble(valueAsText);
-
-        return valueAsDouble / 100;
     }
 }

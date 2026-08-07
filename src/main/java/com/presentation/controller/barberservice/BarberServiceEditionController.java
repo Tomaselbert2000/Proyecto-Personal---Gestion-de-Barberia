@@ -5,7 +5,6 @@ import com.dto.barberservice.BarberServiceUpdateDTO;
 import com.enums.BarberServiceCategory;
 import com.enums.ToastNotificationType;
 import com.enums.ViewRedirection;
-import com.exceptions.barberservice.BlankBarberServicePriceException;
 import com.service.interfaces.BarberserviceService;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.fxml.FXML;
@@ -26,6 +25,7 @@ import static com.presentation.constants.StringResource.ToastNotificationMessage
 import static com.presentation.support.control.ComboBoxHelper.loadEnumsOnComboBox;
 import static com.presentation.support.control.ComboBoxHelper.removeFirstItemFromComboBox;
 import static com.presentation.support.control.UIBasicComponents.*;
+import static com.presentation.support.format.NumberParser.parsePrice;
 import static com.presentation.support.notification.ToastNotificationHelper.showExceptionErrorMessage;
 import static com.presentation.support.notification.ToastNotificationHelper.showToastNotification;
 import static com.presentation.support.view.ViewRedirectionHelper.redirectToView;
@@ -111,9 +111,7 @@ public class BarberServiceEditionController {
         try {
             Long id = Long.valueOf(serviceIdField.getText());
             String newName = serviceNameField.getText();
-            if (priceField.getText().isBlank())
-                throw new BlankBarberServicePriceException();
-            String newPrice = priceField.getText();
+            Double newPrice = parsePrice(priceField.getText());
             BarberServiceCategory newCategory = categoryComboBox.getValue();
             String newInternalNotes = internalNotesField.getText();
             BarberServiceUpdateDTO updateDTO = buildDTOFromAttributes(newName, newPrice, newCategory, newInternalNotes);
@@ -133,10 +131,10 @@ public class BarberServiceEditionController {
      * @param newInternalNotes Notas internas del servicio.
      * @return DTO de actualización del servicio.
      */
-    private BarberServiceUpdateDTO buildDTOFromAttributes(String newName, String newPrice, BarberServiceCategory newCategory, String newInternalNotes) {
+    private BarberServiceUpdateDTO buildDTOFromAttributes(String newName, Double newPrice, BarberServiceCategory newCategory, String newInternalNotes) {
         return BarberServiceUpdateDTO.builder()
                 .name(newName)
-                .price(Double.valueOf(newPrice))
+                .price(newPrice)
                 .serviceCategory(newCategory)
                 .internalNotes(newInternalNotes)
                 .build();

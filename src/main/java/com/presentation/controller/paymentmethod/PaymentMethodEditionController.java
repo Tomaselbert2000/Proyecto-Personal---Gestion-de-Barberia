@@ -23,7 +23,8 @@ import static com.presentation.constants.StringResource.ConfirmationDialog.CONFI
 import static com.presentation.constants.StringResource.ToastNotificationMessage.PAYMENT_METHOD_UPDATE_TOAST_NOTIFICATION_MESSAGE;
 import static com.presentation.constants.StringResource.ValidationErrorMessage.PAYMENT_METHOD_EDITION_VALIDATION_FAILED;
 import static com.presentation.constants.StringResource.ValidationErrorMessage.VALIDATION_ERROR_TITLE;
-import static com.presentation.controller.paymentmethod.PaymentMethodControllerHelper.convertPriceStringToDouble;
+import static com.presentation.constants.ControllerConstants.NULL_NUMERIC_INPUT_VALUE;
+import static com.presentation.support.format.NumberParser.parseTextToDouble;
 import static com.presentation.support.control.ComboBoxHelper.loadEnumsOnComboBox;
 import static com.presentation.support.control.ComboBoxHelper.removeFirstItemFromComboBox;
 import static com.presentation.support.control.UIBasicComponents.*;
@@ -122,7 +123,7 @@ public class PaymentMethodEditionController {
             String newDescription = descriptionField.getText();
             Boolean isNowActive = isActiveCheck.isSelected();
             PaymentMethodModifierType newModifierType = modifierTypeCombo.getValue();
-            double newPriceModifierValue = convertPriceStringToDouble(priceModifierField.getText());
+            double newPriceModifierValue = parseTextToDouble(priceModifierField.getText(), NULL_NUMERIC_INPUT_VALUE);
 
             PaymentMethodUpdateDTO updateDTO = buildUpdateDTO(newName, newDescription, isNowActive, newModifierType, newPriceModifierValue);
 

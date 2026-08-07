@@ -4,7 +4,6 @@ import com.dto.barberservice.BarberServiceCreationDTO;
 import com.enums.BarberServiceCategory;
 import com.enums.ToastNotificationType;
 import com.enums.ViewRedirection;
-import com.exceptions.barberservice.BlankBarberServicePriceException;
 import com.service.interfaces.BarberserviceService;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import jakarta.validation.ConstraintViolationException;
@@ -32,6 +31,7 @@ import static com.presentation.support.control.UIBasicComponents.*;
 import static com.presentation.support.control.ValidationFormatter.getConstraintViolationsList;
 import static com.presentation.support.control.ValidationFormatter.setStringConverter;
 import static com.presentation.support.dialog.PopUpWindowHelper.showWindowAlert;
+import static com.presentation.support.format.NumberParser.parsePrice;
 import static com.presentation.support.notification.ToastNotificationHelper.showToastNotification;
 import static com.presentation.support.view.ContainerManager.getCurrentWindow;
 import static com.presentation.support.view.ViewRedirectionHelper.redirectToView;
@@ -86,9 +86,7 @@ public class BarberServiceCreationController {
     private void registerNewBarberService() {
         try {
             String serviceName = serviceNameField.getText();
-            if (priceField.getText().isBlank())
-                throw new BlankBarberServicePriceException();
-            Double price = Double.valueOf(priceField.getText());
+            Double price = parsePrice(priceField.getText());
             BarberServiceCategory category = categoryComboBox.getValue();
             String internalNotes = internalNotesField.getText();
             BarberServiceCreationDTO creationDTO = buildDTOFromAttributes(serviceName, price, category, internalNotes);

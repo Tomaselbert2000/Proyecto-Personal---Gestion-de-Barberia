@@ -29,6 +29,7 @@ import static com.presentation.support.control.UIBasicComponents.*;
 import static com.presentation.support.control.ValidationFormatter.formatAsPercentage;
 import static com.presentation.support.control.ValidationFormatter.getConstraintViolationsList;
 import static com.presentation.support.dialog.PopUpWindowHelper.showWindowAlert;
+import static com.presentation.support.format.NumberParser.parsePercentageFraction;
 import static com.presentation.support.notification.ToastNotificationHelper.showToastNotification;
 import static com.presentation.support.view.ContainerManager.getCurrentWindow;
 import static com.presentation.support.view.ViewRedirectionHelper.redirectToView;
@@ -127,7 +128,7 @@ public class EmployeeEditionController {
             String firstName = firstNameField.getText();
             String lastName = lastNameField.getText();
 
-            Double commissionPercentage = convertStringPercentageToDoubleValue(commissionField.getText());
+            Double commissionPercentage = parsePercentageFraction(commissionField.getText(), null);
 
             Boolean isActive = getBooleanFlagFromToggleButtonText();
 
@@ -194,20 +195,5 @@ public class EmployeeEditionController {
         cleanDatePicker(terminationDatePicker);
 
         loadEmployeeDataForEdition(infoDTO);
-    }
-
-    private Double convertStringPercentageToDoubleValue(String valueAsText) {
-
-        if (valueAsText != null) {
-
-            if (valueAsText.isBlank()) return null;
-
-            double valueAsDouble = Double.parseDouble(valueAsText);
-
-            return valueAsDouble / 100;
-
-        }
-
-        return null;
     }
 }
