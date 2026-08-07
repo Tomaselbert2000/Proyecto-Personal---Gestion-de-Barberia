@@ -5,7 +5,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1"
-            fx:id="anchor_pane"
+            fx:id="anchorPane"
             xmlns="http://javafx.com/javafx/17.0.12"
             fx:controller="com.presentation.controller.barberservice.BarberServiceViewController">
 
@@ -53,10 +53,10 @@
                             <Region HBox.hgrow="ALWAYS"/>
                             <Region styleClass="view-list-icon, md-icon-medium, md-icon-primary"/>
                         </HBox>
-                        <Label fx:id="active_service_count" styleClass="md-display-small"/>
+                        <Label fx:id="activeServiceCount" styleClass="md-display-small"/>
                         <HBox spacing="4" alignment="CENTER_LEFT">
                             <Label styleClass="md-label-medium"/>
-                            <Label fx:id="active_category_count" styleClass="md-label-small"/>
+                            <Label fx:id="activeCategoryCount" styleClass="md-label-small"/>
                         </HBox>
                     </VBox>
 
@@ -70,9 +70,9 @@
                             <Region HBox.hgrow="ALWAYS"/>
                             <Region styleClass="leadearboard-icon, md-icon-medium, md-icon-primary"/>
                         </HBox>
-                        <Label fx:id="barber_service_with_most_sales" styleClass="md-display-small"/>
+                        <Label fx:id="barberServiceWithMostSales" styleClass="md-display-small"/>
                         <HBox spacing="4" alignment="CENTER_LEFT">
-                            <Label fx:id="amount_of_sales" styleClass="md-label-medium"/>
+                            <Label fx:id="amountOfSales" styleClass="md-label-medium"/>
                         </HBox>
                     </VBox>
 
@@ -86,10 +86,10 @@
                             <Region HBox.hgrow="ALWAYS"/>
                             <Region styleClass="arrow-up-circle-icon, md-icon-medium, md-icon-primary"/>
                         </HBox>
-                        <Label fx:id="highest_revenue_service" styleClass="md-display-small"/>
+                        <Label fx:id="highestRevenueService" styleClass="md-display-small"/>
                         <HBox spacing="4" alignment="CENTER_LEFT">
                             <Label styleClass="md-label-medium"/>
-                            <Label fx:id="revenue_sum" styleClass="md-label-medium"/>
+                            <Label fx:id="revenueSum" styleClass="md-label-medium"/>
                         </HBox>
                     </VBox>
 
@@ -103,9 +103,9 @@
                             <Region HBox.hgrow="ALWAYS"/>
                             <Region styleClass="arrow-down-circle-icon, md-icon-medium, md-icon-primary"/>
                         </HBox>
-                        <Label fx:id="lowest_used_service" styleClass="md-display-small"/>
+                        <Label fx:id="lowestUsedService" styleClass="md-display-small"/>
                         <HBox spacing="4" alignment="CENTER_LEFT">
-                            <Label fx:id="times_used" styleClass="md-label-medium"/>
+                            <Label fx:id="timesUsed" styleClass="md-label-medium"/>
                             <Label styleClass="md-label-small"/>
                         </HBox>
                     </VBox>
@@ -123,7 +123,7 @@
                             <!-- Buscar servicio -->
                             <VBox spacing="4" HBox.hgrow="ALWAYS">
                                 <Label styleClass="md-label-medium" text="Buscar servicio"/>
-                                <TextField fx:id="service_search_field"
+                                <TextField fx:id="serviceSearchField"
                                            promptText="Nombre del servicio"
                                            maxWidth="Infinity"
                                            styleClass="md-text-field"/>
@@ -132,7 +132,7 @@
                             <!-- Filtro Categoría -->
                             <VBox spacing="4" HBox.hgrow="ALWAYS">
                                 <Label styleClass="md-label-medium" text="Categoría"/>
-                                <ComboBox fx:id="service_category_selector"
+                                <ComboBox fx:id="serviceCategorySelector"
                                           maxWidth="Infinity"
                                           styleClass="md-combo-box"/>
                             </VBox>
@@ -140,7 +140,7 @@
                             <!-- Filtro Rango de Precio -->
                             <VBox spacing="4" HBox.hgrow="ALWAYS">
                                 <Label styleClass="md-label-medium" text="Rango de precio"/>
-                                <ComboBox fx:id="service_price_range_selector"
+                                <ComboBox fx:id="servicePriceRangeSelector"
                                           maxWidth="Infinity"
                                           styleClass="md-combo-box"/>
                             </VBox>
@@ -149,10 +149,10 @@
                             <VBox spacing="4" alignment="BOTTOM_LEFT">
                                 <Label styleClass="md-label-medium" text="Acciones"/>
                                 <HBox spacing="8" alignment="CENTER_LEFT">
-                                    <MFXButton fx:id="clean_filters_button"
+                                    <MFXButton fx:id="cleanFiltersButton"
                                                styleClass="md-button-outlined"
                                                text="Limpiar"/>
-                                    <MFXButton fx:id="create_barber_service_button"
+                                    <MFXButton fx:id="createBarberServiceButton"
                                                styleClass="md-button-filled" text="+ Nuevo Servicio"/>
                                 </HBox>
                             </VBox>
@@ -165,10 +165,10 @@
                     <HBox spacing="8" alignment="CENTER_LEFT">
                         <Label styleClass="md-title-medium" text="Catálogo de Servicios"/>
                         <Region HBox.hgrow="ALWAYS"/>
-                        <Label fx:id="service_list_vbox_service_count" styleClass="md-body-small" text="0 servicios"/>
+                        <Label fx:id="serviceListViewBoxServiceCount" styleClass="md-body-small" text="0 servicios"/>
                     </HBox>
 
-                    <VBox fx:id="services_list_vbox" styleClass="md-card">
+                    <VBox fx:id="servicesListViewBox" styleClass="md-card">
                         <padding>
                             <Insets top="8" right="16" bottom="8" left="16"/>
                         </padding>
