@@ -1,7 +1,3 @@
-/**
- * Controlador para la creación de servicios de barbero. Se encarga de gestionar la lógica de negocio relacionada con la creación de nuevos servicios de barbero,
- * incluyendo la validación de datos, la interacción con el servicio de servicios de barbero y la redirección de vistas.
- */
 package com.presentation.controller.barberservice;
 
 import com.dto.barberservice.BarberServiceCreationDTO;
@@ -32,12 +28,12 @@ import static com.presentation.constants.StringResource.ValidationErrorMessage.B
 import static com.presentation.constants.StringResource.ValidationErrorMessage.VALIDATION_ERROR_TITLE;
 import static com.presentation.support.control.ComboBoxHelper.loadEnumsOnComboBox;
 import static com.presentation.support.control.ComboBoxHelper.removeFirstItemFromComboBox;
-import static com.presentation.support.view.ContainerManager.getCurrentWindow;
-import static com.presentation.support.dialog.PopUpWindowHelper.showWindowAlert;
-import static com.presentation.support.notification.ToastNotificationHelper.showToastNotification;
 import static com.presentation.support.control.UIBasicComponents.*;
 import static com.presentation.support.control.ValidationFormatter.getConstraintViolationsList;
 import static com.presentation.support.control.ValidationFormatter.setStringConverter;
+import static com.presentation.support.dialog.PopUpWindowHelper.showWindowAlert;
+import static com.presentation.support.notification.ToastNotificationHelper.showToastNotification;
+import static com.presentation.support.view.ContainerManager.getCurrentWindow;
 import static com.presentation.support.view.ViewRedirectionHelper.redirectToView;
 
 @Component
@@ -48,24 +44,24 @@ public class BarberServiceCreationController {
     private final ApplicationContext applicationContext;
 
     @FXML
-    private AnchorPane anchor_pane;
+    private AnchorPane anchorPane;
 
     @FXML
-    private TextField service_name_field;
+    private TextField serviceNameField;
     @FXML
-    private TextField price_field;
+    private TextField priceField;
     @FXML
-    private TextField internal_notes_field;
+    private TextField internalNotesField;
 
     @FXML
-    private ComboBox<BarberServiceCategory> category_combo_box;
+    private ComboBox<BarberServiceCategory> categoryComboBox;
 
     @FXML
-    private MFXButton back_button;
+    private MFXButton backButton;
     @FXML
-    private MFXButton clean_fields_button;
+    private MFXButton cleanFieldsButton;
     @FXML
-    private MFXButton save_button;
+    private MFXButton saveButton;
 
     @FXML
     public void initialize() {
@@ -77,10 +73,10 @@ public class BarberServiceCreationController {
      * Configura la interfaz de usuario, incluyendo el formato de texto para los campos de precio y la carga de categorías de servicios.
      */
     private void configureUI() {
-        configureDecimalTextfieldRestrictions(price_field);
-        loadEnumsOnComboBox(category_combo_box, BarberServiceCategory.values());
-        setStringConverter(category_combo_box, BarberServiceCategory.TODOS);
-        removeFirstItemFromComboBox(category_combo_box);
+        configureDecimalTextfieldRestrictions(priceField);
+        loadEnumsOnComboBox(categoryComboBox, BarberServiceCategory.values());
+        setStringConverter(categoryComboBox, BarberServiceCategory.TODOS);
+        removeFirstItemFromComboBox(categoryComboBox);
         configurePromptTexts();
     }
 
@@ -89,18 +85,18 @@ public class BarberServiceCreationController {
      */
     private void registerNewBarberService() {
         try {
-            String serviceName = service_name_field.getText();
-            if (price_field.getText().isBlank())
+            String serviceName = serviceNameField.getText();
+            if (priceField.getText().isBlank())
                 throw new BlankBarberServicePriceException();
-            Double price = Double.valueOf(price_field.getText());
-            BarberServiceCategory category = category_combo_box.getValue();
-            String internalNotes = internal_notes_field.getText();
+            Double price = Double.valueOf(priceField.getText());
+            BarberServiceCategory category = categoryComboBox.getValue();
+            String internalNotes = internalNotesField.getText();
             BarberServiceCreationDTO creationDTO = buildDTOFromAttributes(serviceName, price, category, internalNotes);
             barberserviceService.registerNewBarberService(creationDTO);
-            showToastNotification(anchor_pane, applicationContext, BARBER_SERVICE_CREATION_TOAST_NOTIFICATION_MESSAGE, ToastNotificationType.SUCCESSFUL);
+            showToastNotification(anchorPane, applicationContext, BARBER_SERVICE_CREATION_TOAST_NOTIFICATION_MESSAGE, ToastNotificationType.SUCCESSFUL);
         } catch (ConstraintViolationException exception) {
             String errorMessage = getConstraintViolationsList(exception);
-            showWindowAlert(VALIDATION_ERROR_TITLE, BARBER_SERVICE_CREATION_VALIDATION_FAILED, errorMessage, Alert.AlertType.ERROR, CONFIRM_BUTTON_TEXT, getCurrentWindow(anchor_pane));
+            showWindowAlert(VALIDATION_ERROR_TITLE, BARBER_SERVICE_CREATION_VALIDATION_FAILED, errorMessage, Alert.AlertType.ERROR, CONFIRM_BUTTON_TEXT, getCurrentWindow(anchorPane));
         }
     }
 
@@ -124,22 +120,22 @@ public class BarberServiceCreationController {
 
     private void configurePromptTexts() {
         Map<TextField, String> map = Map.of(
-                service_name_field, BARBER_SERVICE_NAME,
-                price_field, BARBER_SERVICE_PRICE,
-                internal_notes_field, BARBER_SERVICE_INTERNAL_NOTES
+                serviceNameField, BARBER_SERVICE_NAME,
+                priceField, BARBER_SERVICE_PRICE,
+                internalNotesField, BARBER_SERVICE_INTERNAL_NOTES
         );
         setPromptTextOnMap(map);
     }
 
     private void resetForm() {
-        cleanTextfields(List.of(service_name_field, price_field, internal_notes_field));
+        cleanTextfields(List.of(serviceNameField, priceField, internalNotesField));
     }
 
     private void configureButtonActions() {
         Map<Button, Runnable> map = Map.of(
-                back_button, () -> redirectToView(ViewRedirection.BARBER_SERVICES, anchor_pane, applicationContext),
-                clean_fields_button, this::resetForm,
-                save_button, this::registerNewBarberService
+                backButton, () -> redirectToView(ViewRedirection.BARBER_SERVICES, anchorPane, applicationContext),
+                cleanFieldsButton, this::resetForm,
+                saveButton, this::registerNewBarberService
         );
         configureRunnableMaps(map);
     }

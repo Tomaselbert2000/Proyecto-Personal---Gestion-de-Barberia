@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1"
             xmlns="http://javafx.com/javafx/17.0.12"
-            fx:id="anchor_pane"
+            fx:id="anchorPane"
             fx:controller="com.presentation.controller.barberservice.BarberServiceCreationController">
 
     <VBox
@@ -18,7 +18,7 @@
             <padding>
                 <Insets top="20" right="24" bottom="12" left="24"/>
             </padding>
-            <MFXButton fx:id="back_button" styleClass="md-button-outlined" text="Volver">
+            <MFXButton fx:id="backButton" styleClass="md-button-outlined" text="Volver">
                 <graphic>
                     <Region styleClass="arrow-up-circle-icon, md-icon-small"/>
                 </graphic>
@@ -63,7 +63,7 @@
                                 <Label styleClass="md-label-medium" text="Nombre del Servicio"/>
                                 <Label styleClass="md-label-medium, md-input-error" text="*"/>
                             </HBox>
-                            <TextField fx:id="service_name_field" styleClass="md-text-field" maxWidth="Infinity"
+                            <TextField fx:id="serviceNameField" styleClass="md-text-field" maxWidth="Infinity"
                                        promptText="Ej: Corte de cabello"/>
                         </VBox>
 
@@ -73,7 +73,7 @@
                                 <Label styleClass="md-label-medium" text="Precio"/>
                                 <Label styleClass="md-label-medium, md-input-error" text="*"/>
                             </HBox>
-                            <TextField fx:id="price_field" styleClass="md-text-field" maxWidth="Infinity"
+                            <TextField fx:id="priceField" styleClass="md-text-field" maxWidth="Infinity"
                                        promptText="Ej: 2500"/>
                         </VBox>
 
@@ -83,7 +83,7 @@
                                 <Label styleClass="md-label-medium" text="Categoría"/>
                                 <Label styleClass="md-label-medium, md-input-error" text="*"/>
                             </HBox>
-                            <ComboBox fx:id="category_combo_box" styleClass="md-combo-box" maxWidth="Infinity"
+                            <ComboBox fx:id="categoryComboBox" styleClass="md-combo-box" maxWidth="Infinity"
                                       promptText="Seleccioná una categoría"/>
                         </VBox>
                     </GridPane>
@@ -105,15 +105,15 @@
                     <!-- Notas Internas -->
                     <VBox spacing="4">
                         <Label styleClass="md-label-medium" text="Notas Internas"/>
-                        <TextField fx:id="internal_notes_field" styleClass="md-text-field" maxWidth="Infinity"
+                        <TextField fx:id="internalNotesField" styleClass="md-text-field" maxWidth="Infinity"
                                    promptText="Observaciones internas sobre el servicio"/>
                     </VBox>
                 </VBox>
 
                 <!-- Botones de Acción -->
                 <HBox spacing="8" alignment="CENTER_RIGHT">
-                    <MFXButton fx:id="clean_fields_button" styleClass="md-button-outlined" text="Limpiar campos"/>
-                    <MFXButton fx:id="save_button" styleClass="md-button-filled" text="Crear Servicio"/>
+                    <MFXButton fx:id="cleanFieldsButton" styleClass="md-button-outlined" text="Limpiar campos"/>
+                    <MFXButton fx:id="saveButton" styleClass="md-button-filled" text="Crear Servicio"/>
                 </HBox>
 
             </VBox>
