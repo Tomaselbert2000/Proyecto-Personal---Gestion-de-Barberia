@@ -96,6 +96,14 @@ public final class EmptyStatDTOFactory {
                 .build();
     }
 
+    public static ExpectedIncomeStatDTO emptyExpectedIncomeStatDTO() {
+
+        return ExpectedIncomeStatDTO.builder()
+                .appointmentsToday(ZERO_L)
+                .expectedIncomeSumForToday(ZERO_DOT_ZERO)
+                .build();
+    }
+
     public static BarberServiceActiveOnCatalogStatsDTO emptyActiveOnCatalogStatsDTO() {
 
         return BarberServiceActiveOnCatalogStatsDTO.builder()
@@ -133,6 +141,23 @@ public final class EmptyStatDTOFactory {
         return ProductStockValueStatsDTO.builder()
                 .totalStockValue(ZERO_DOT_ZERO)
                 .totalUnits(ZERO_L)
+                .build();
+    }
+
+    public static ClientAcquisitionStatsDTO emptyClientAcquisitionStatsDTO() {
+
+        return ClientAcquisitionStatsDTO.builder()
+                .newClientsThisMonth(ZERO_L)
+                .newClientsLastMonth(ZERO_L)
+                .percentageVsLastMonth(ZERO_DOT_ZERO)
+                .build();
+    }
+
+    public static InventoryAlertStatsDTO emptyInventoryAlertStatsDTO() {
+
+        return InventoryAlertStatsDTO.builder()
+                .lowStockProductsCount(ZERO_L)
+                .outOfStockProductsCount(ZERO_L)
                 .build();
     }
 }

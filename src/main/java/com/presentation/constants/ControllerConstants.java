@@ -14,6 +14,19 @@ public final class ControllerConstants {
     private ControllerConstants() {
     }
 
+    public static final class DashboardControllerConstants {
+
+        public static final String NEW_CLIENT_REGISTERED_STRING = "Nuevo cliente registrado en el sistema";
+        public static final String NEW_EMPLOYEE_REGISTERED_STRING = "Contratación de nuevo empleado";
+        public static final String NEW_PRODUCT_ON_STOCK = "Un nuevo producto fue ingresado en stock";
+        public static final String NEW_APPOINTMENT_REGISTERED_STRING = "Se ha agendado un nuevo turno";
+        public static final String TERMINATED_EMPLOYEE_STRING = "Un empleado fue desvinculado recientemente";
+        public static final String COMPLETED_APPOINTMENT_STRING = "Turno completado recientemente";
+        public static final String CANCELED_APPOINTMENT_STRING = "Turno cancelado recientemente";
+        public static final String LOW_STOCK_PRODUCT_STRING = "Atención requerida - Stock bajo y/o crítico";
+        public static final Long TOP_RESULTS_VALUE = 25L;
+    }
+
     public static final class AppointmentControllerConstants {
 
         public static final String DATETIME_SUMMARY_FORMAT = "%2s a las %02d:%02d";

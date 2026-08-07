@@ -3,6 +3,7 @@ package com.service.implementation;
 import com.dto.client.ClientCreationDTO;
 import com.dto.client.ClientInfoDTO;
 import com.dto.client.ClientUpdateDTO;
+import com.dto.stats.ClientAcquisitionStatsDTO;
 import com.exceptions.client.ClientNotFoundException;
 import com.exceptions.client.DuplicatedEmailException;
 import com.exceptions.client.DuplicatedNationalIDCardNumberException;
@@ -11,7 +12,6 @@ import com.mapper.interfaces.ClientMapper;
 import com.model.Client;
 import com.repository.ClientRepository;
 import com.service.interfaces.ClientService;
-import com.utils.time.TimeCalculation;
 import com.validation.client.ClientValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,6 +20,10 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.Clock;
 import java.time.LocalDate;
 import java.util.List;
+
+import static com.dto.stats.EmptyStatDTOFactory.emptyClientAcquisitionStatsDTO;
+import static com.utils.time.TimeCalculation.getEndOfCurrentMonth;
+import static com.utils.time.TimeCalculation.getStartOfCurrentMonth;
 
 @Service
 @RequiredArgsConstructor
@@ -61,12 +65,6 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public List<ClientInfoDTO> getClientList() {
-
-        return mapper.mapClientToInfoDTO(clientRepository.findAll());
-    }
-
-    @Override
     @Transactional
     public void updateClient(String nationalIDCardNumber, ClientUpdateDTO updateDTO) {
 
@@ -100,8 +98,8 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public Long calculatePercentageOfClientsVsLastMonth() {
 
-        LocalDate startDateTimeAfter = TimeCalculation.getStartOfCurrentMonth();
-        LocalDate startDateTimeBefore = TimeCalculation.getEndOfCurrentMonth();
+        LocalDate startDateTimeAfter = getStartOfCurrentMonth();
+        LocalDate startDateTimeBefore = getEndOfCurrentMonth();
 
         Long clientsRegisteredThisMonth = clientRepository.countByRegistrationDateBetween(startDateTimeAfter, startDateTimeBefore);
         Long clientsTheLastMonth = clientRepository.countByRegistrationDateBetween(startDateTimeAfter.minusMonths(1), startDateTimeBefore.minusMonths(1));
@@ -122,6 +120,31 @@ public class ClientServiceImpl implements ClientService {
     public List<ClientInfoDTO> clientLiveSearchByName(String searchName) {
 
         return mapper.mapClientToInfoDTO(clientRepository.clientLiveSearchByName(searchName));
+    }
+
+    @Override
+    public ClientAcquisitionStatsDTO getClientStatsVsLastMonth() {
+
+        List<ClientAcquisitionStatsDTO> clientAcquisitionStatsDTOS = clientRepository.getClientStats(
+                getStartOfCurrentMonth(),
+                getEndOfCurrentMonth(),
+                getStartOfCurrentMonth().minusMonths(1),
+                getEndOfCurrentMonth().minusMonths(1));
+
+        if (!clientAcquisitionStatsDTOS.isEmpty()) {
+
+            ClientAcquisitionStatsDTO statsDTO = clientAcquisitionStatsDTOS.getFirst();
+
+            Double trendPercentage = ((double) statsDTO.getNewClientsThisMonth() * statsDTO.getPercentageVsLastMonth() / 100);
+
+            statsDTO.setPercentageVsLastMonth(trendPercentage);
+
+            return statsDTO;
+
+        } else {
+
+            return emptyClientAcquisitionStatsDTO();
+        }
     }
 
     private Client loadClient(String nationalIdentityCardNumber) {

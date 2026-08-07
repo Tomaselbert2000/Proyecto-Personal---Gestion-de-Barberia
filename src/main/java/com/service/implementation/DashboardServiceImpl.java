@@ -16,23 +16,16 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Stream;
+
+import static com.presentation.constants.ControllerConstants.DashboardControllerConstants.*;
 
 @Service
 @RequiredArgsConstructor
 public class DashboardServiceImpl implements DashboardService {
 
-    private static final String NEW_CLIENT_REGISTERED_STRING = "Nuevo cliente registrado en el sistema";
-    private static final String NEW_EMPLOYEE_REGISTERED_STRING = "Contratación de nuevo empleado";
-    private static final String NEW_PRODUCT_ON_STOCK = "Un nuevo producto fue ingresado en stock";
-    private static final String NEW_APPOINTMENT_REGISTERED_STRING = "Se ha agendado un nuevo turno";
-    private static final String TERMINATED_EMPLOYEE_STRING = "Un empleado fue desvinculado recientemente";
-    private static final String COMPLETED_APPOINTMENT_STRING = "Turno completado recientemente";
-    private static final String CANCELED_APPOINTMENT_STRING = "Turno cancelado recientemente";
-    private static final String LOW_STOCK_PRODUCT_STRING = "Atención requerida - Stock bajo y/o crítico";
-    private static final Integer TOP_RESULTS_VALUE = 25;
     private final ClientRepository clientRepository;
     private final EmployeeRepository employeeRepository;
     private final ProductRepository productRepository;
@@ -49,24 +42,18 @@ public class DashboardServiceImpl implements DashboardService {
         List<Appointment> latesFivetCompletedAppointments = appointmentRepository.findTop5ByCurrentStatusOrderByRegistrationTimestampDesc(AppointmentStatus.FINALIZADO);
         List<Appointment> latestFiveCanceledAppointments = appointmentRepository.findTop5ByCurrentStatusOrderByRegistrationTimestampDesc(AppointmentStatus.CANCELADO);
 
-        List<RecentActivityDTO> resultList = new ArrayList<>();
-
-        addAllDTOsToResultList(
-                resultList,
-                latestFiveRegisteredClients.stream().map(this::mapNewClientToRecentActivityDTO).toList(),
-                latestFiveHiredEmployees.stream().map(this::mapNewEmployeeToRecentActivityDTO).toList(),
-                latestFiveRegisteredProducts.stream().map(this::mapNewProductToRecentActivityDTO).toList(),
-                latestFiveRegistratedAppointments.stream().map(this::mapNewAppointmentToRecentActivityDTO).toList(),
-                latestFiveTerminatedEmployees.stream().map(this::mapTerminatedEmployeeToRecentActivityDTO).toList(),
-                latesFivetCompletedAppointments.stream().map(this::mapCompletedAppointmentToRecentActivityDTO).toList(),
-                latestFiveCanceledAppointments.stream().map(this::mapCanceledAppointmentToRecentActivityDTO).toList()
-        );
-
-        orderDTOListByTimeStamp(resultList);
-
-        resultList = extractLast10ResultsFromList(resultList);
-
-        return resultList;
+        return Stream.of(
+                        latestFiveRegisteredClients.stream().map(this::mapNewClientToRecentActivityDTO),
+                        latestFiveHiredEmployees.stream().map(this::mapNewEmployeeToRecentActivityDTO),
+                        latestFiveRegisteredProducts.stream().map(this::mapNewProductToRecentActivityDTO),
+                        latestFiveRegistratedAppointments.stream().map(this::mapNewAppointmentToRecentActivityDTO),
+                        latestFiveTerminatedEmployees.stream().map(this::mapTerminatedEmployeeToRecentActivityDTO),
+                        latesFivetCompletedAppointments.stream().map(this::mapCompletedAppointmentToRecentActivityDTO),
+                        latestFiveCanceledAppointments.stream().map(this::mapCanceledAppointmentToRecentActivityDTO)
+                ).flatMap(recentActivityDTOStream -> recentActivityDTOStream)
+                .sorted(Comparator.comparing(RecentActivityDTO::getTimestamp).reversed())
+                .limit(TOP_RESULTS_VALUE)
+                .toList();
     }
 
     @Override
@@ -77,44 +64,11 @@ public class DashboardServiceImpl implements DashboardService {
         return lowStockLevelProducts.stream().map(this::mapLowStockProductToRecentActivityDTO).toList();
     }
 
-    private void addAllDTOsToResultList(
-            List<RecentActivityDTO> resultList,
-            List<RecentActivityDTO> recentClientsActivity,
-            List<RecentActivityDTO> recentEmployeesActivity,
-            List<RecentActivityDTO> recentProductsActivity,
-            List<RecentActivityDTO> recentAppointmentsActivity,
-            List<RecentActivityDTO> recentTerminatedEmployees,
-            List<RecentActivityDTO> recentCompletedAppointments,
-            List<RecentActivityDTO> recentCanceledAppointments) {
-
-        resultList.addAll(recentClientsActivity);
-        resultList.addAll(recentEmployeesActivity);
-        resultList.addAll(recentProductsActivity);
-        resultList.addAll(recentAppointmentsActivity);
-        resultList.addAll(recentTerminatedEmployees);
-        resultList.addAll(recentCompletedAppointments);
-        resultList.addAll(recentCanceledAppointments);
-    }
-
-    private void orderDTOListByTimeStamp(List<RecentActivityDTO> resultList) {
-
-        resultList.sort(Comparator.comparing(RecentActivityDTO::getTimestamp).reversed());
-    }
-
-    private List<RecentActivityDTO> extractLast10ResultsFromList(List<RecentActivityDTO> resultList) {
-
-        int maxValueForSize = Math.min(resultList.size(), TOP_RESULTS_VALUE);
-
-        return resultList.subList(0, maxValueForSize);
-    }
-
     private RecentActivityDTO mapNewClientToRecentActivityDTO(Client clientToMap) {
 
         if (clientToMap == null) return null;
 
-        List<String> stringList = List.of(NEW_CLIENT_REGISTERED_STRING, clientToMap.getFirstName(), clientToMap.getLastName());
-
-        String textToAttach = concatStringsFromList(stringList);
+        String textToAttach = String.join(" ", NEW_CLIENT_REGISTERED_STRING, clientToMap.getFirstName(), clientToMap.getLastName());
         EventType eventType = EventType.NUEVO_CLIENTE;
         LocalDateTime timestamp = clientToMap.getRegistrationDate().atStartOfDay();
 
@@ -125,9 +79,7 @@ public class DashboardServiceImpl implements DashboardService {
 
         if (employeeToMap == null) return null;
 
-        List<String> stringList = List.of(NEW_EMPLOYEE_REGISTERED_STRING, employeeToMap.getFirstName(), employeeToMap.getLastName());
-
-        String textToAttach = concatStringsFromList(stringList);
+        String textToAttach = String.join(" ", NEW_EMPLOYEE_REGISTERED_STRING, employeeToMap.getFirstName(), employeeToMap.getLastName());
         EventType eventType = EventType.NUEVO_EMPLEADO;
         LocalDateTime timestamp = employeeToMap.getHireDate().atStartOfDay();
 
@@ -138,9 +90,7 @@ public class DashboardServiceImpl implements DashboardService {
 
         if (productToMap == null) return null;
 
-        List<String> stringList = List.of(NEW_PRODUCT_ON_STOCK, productToMap.getName());
-
-        String textToAttach = concatStringsFromList(stringList);
+        String textToAttach = String.join(" ", NEW_PRODUCT_ON_STOCK, productToMap.getName());
         EventType eventType = EventType.NUEVO_PRODUCTO;
         LocalDateTime timestamp = productToMap.getCreationDate();
 
@@ -151,9 +101,7 @@ public class DashboardServiceImpl implements DashboardService {
 
         if (appointmentToMap == null) return null;
 
-        List<String> stringList = List.of(NEW_APPOINTMENT_REGISTERED_STRING, appointmentToMap.getClient().getFirstName(), appointmentToMap.getEmployee().getFirstName());
-
-        String textToAttach = concatStringsFromList(stringList);
+        String textToAttach = String.join(" ", NEW_APPOINTMENT_REGISTERED_STRING, appointmentToMap.getClient().getFirstName(), appointmentToMap.getEmployee().getFirstName());
         EventType eventType = EventType.NUEVO_TURNO;
         LocalDateTime timestamp = appointmentToMap.getModifiedDate();
 
@@ -164,9 +112,7 @@ public class DashboardServiceImpl implements DashboardService {
 
         if (terminatedEmployee == null) return null;
 
-        List<String> stringList = List.of(TERMINATED_EMPLOYEE_STRING, terminatedEmployee.getFirstName(), terminatedEmployee.getLastName());
-
-        String textToAttach = concatStringsFromList(stringList);
+        String textToAttach = String.join(" ", TERMINATED_EMPLOYEE_STRING, terminatedEmployee.getFirstName(), terminatedEmployee.getLastName());
         EventType eventType = EventType.EMPLEADO_DESVINCULADO;
         LocalDateTime timestamp = terminatedEmployee.getTerminationDate().atStartOfDay();
 
@@ -177,9 +123,7 @@ public class DashboardServiceImpl implements DashboardService {
 
         if (completedAppointment == null) return null;
 
-        List<String> stringList = List.of(COMPLETED_APPOINTMENT_STRING, completedAppointment.getClient().getFirstName(), completedAppointment.getEmployee().getFirstName());
-
-        String textToAttach = concatStringsFromList(stringList);
+        String textToAttach = String.join(" ", COMPLETED_APPOINTMENT_STRING, completedAppointment.getClient().getFirstName(), completedAppointment.getEmployee().getFirstName());
         EventType eventType = EventType.TURNO_FINALIZADO;
         LocalDateTime timestamp = completedAppointment.getModifiedDate();
 
@@ -190,9 +134,7 @@ public class DashboardServiceImpl implements DashboardService {
 
         if (canceledAppointment == null) return null;
 
-        List<String> stringList = List.of(CANCELED_APPOINTMENT_STRING, canceledAppointment.getClient().getFirstName(), canceledAppointment.getEmployee().getFirstName());
-
-        String textToAttach = concatStringsFromList(stringList);
+        String textToAttach = String.join(" ", CANCELED_APPOINTMENT_STRING, canceledAppointment.getClient().getFirstName(), canceledAppointment.getEmployee().getFirstName());
         EventType eventType = EventType.TURNO_CANCELADO;
         LocalDateTime timestamp = canceledAppointment.getModifiedDate();
 
@@ -203,9 +145,7 @@ public class DashboardServiceImpl implements DashboardService {
 
         if (productWithLowStock == null) return null;
 
-        List<String> stringList = List.of(LOW_STOCK_PRODUCT_STRING, productWithLowStock.getName(), "Stock actual: ", productWithLowStock.getCurrentStockLevel().toString());
-
-        String textToAttach = concatStringsFromList(stringList);
+        String textToAttach = String.join(" ", LOW_STOCK_PRODUCT_STRING, productWithLowStock.getName(), "Stock actual:", productWithLowStock.getCurrentStockLevel().toString());
         EventType eventType = EventType.ALERTA_STOCK_BAJO;
         LocalDateTime timestamp = LocalDateTime.now();
 
@@ -219,18 +159,5 @@ public class DashboardServiceImpl implements DashboardService {
                 .text(textToAttach)
                 .timestamp(timestamp)
                 .build();
-    }
-
-    private String concatStringsFromList(List<String> stringList) {
-
-        StringBuilder concatenatedStringIncludingSpaces = new StringBuilder();
-
-        for (String str : stringList) {
-
-            concatenatedStringIncludingSpaces.append(str);
-            concatenatedStringIncludingSpaces.append(" ");
-        }
-
-        return concatenatedStringIncludingSpaces.toString();
     }
 }

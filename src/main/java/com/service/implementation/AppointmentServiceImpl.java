@@ -6,10 +6,7 @@ import com.dto.appointment.AppointmentUpdateDTO;
 import com.dto.barberservice.BarberServiceInfoDTO;
 import com.dto.client.ClientInfoDTO;
 import com.dto.employee.EmployeeInfoDTO;
-import com.dto.stats.AppointmentCanceledStatsDTO;
-import com.dto.stats.AppointmentMonthlyComparisonDTO;
-import com.dto.stats.AppointmentTodayStatsDTO;
-import com.dto.stats.AppointmentTomorrowStatsDTO;
+import com.dto.stats.*;
 import com.enums.AppointmentStatus;
 import com.exceptions.appointment.AppointmentNotFoundException;
 import com.exceptions.barberservice.BarberServiceNotFoundException;
@@ -37,7 +34,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.List;
 
 import static com.dto.stats.EmptyStatDTOFactory.*;
@@ -47,7 +43,6 @@ import static com.utils.time.TimeCalculation.*;
 @RequiredArgsConstructor
 public class AppointmentServiceImpl implements AppointmentService {
 
-    private static final LocalTime LAST_SECOND_OF_DAY = LocalTime.MAX;
     private static final String EMPLOYEE_SELECTOR_FIRST_ITEM = "Todos los empleados";
     private final ClientRepository clientRepository;
     private final BarberServiceRepository barberServiceRepository;
@@ -99,24 +94,6 @@ public class AppointmentServiceImpl implements AppointmentService {
     public List<AppointmentInfoDTO> getAppointmentsList() {
 
         return appointmentMapper.mapAppointmentToInfoDto(appointmentRepository.findAll());
-    }
-
-    @Override
-    public Long appointmentsToday() {
-
-        LocalDateTime startDateTimeAfter = getStartOfToday();
-        LocalDateTime startDateTimeBefore = getEndOfToday();
-
-        return appointmentRepository.countByStartDateTimeBetween(startDateTimeAfter, startDateTimeBefore);
-    }
-
-    @Override
-    public Long completedAppointmentsToday() {
-
-        LocalDateTime startOfToday = getStartOfToday();
-        LocalDateTime endOfToday = getEndOfToday();
-
-        return appointmentRepository.countByStartDateTimeBetweenAndCurrentStatus(startOfToday, endOfToday, AppointmentStatus.FINALIZADO);
     }
 
     @Override
@@ -261,6 +238,29 @@ public class AppointmentServiceImpl implements AppointmentService {
         } else {
 
             return emptyAppointmentCanceledStatsDTO();
+        }
+    }
+
+    @Override
+    public ExpectedIncomeStatDTO getExpectedIncomeToday() {
+
+        ExpectedIncomeStatDTO expectedIncomeStatDTO = appointmentRepository.getExpectedIncomeForAppointmentsBookedToday(getStartOfToday(), getEndOfToday());
+
+        if (expectedIncomeStatDTO != null) {
+
+            if (expectedIncomeStatDTO.getAppointmentsToday() == null) expectedIncomeStatDTO.setAppointmentsToday(0L);
+            if (expectedIncomeStatDTO.getExpectedIncomeSumForToday() == null)
+                expectedIncomeStatDTO.setExpectedIncomeSumForToday(0.0);
+            if (expectedIncomeStatDTO.getAppointmentsToday() != null && expectedIncomeStatDTO.getExpectedIncomeSumForToday() != null) {
+
+                expectedIncomeStatDTO.setExpectedIncomeSumForToday(expectedIncomeStatDTO.getExpectedIncomeSumForToday() / expectedIncomeStatDTO.getAppointmentsToday());
+            }
+
+            return expectedIncomeStatDTO;
+
+        } else {
+
+            return emptyExpectedIncomeStatDTO();
         }
     }
 

@@ -1,9 +1,6 @@
 package com.repository;
 
-import com.dto.stats.AppointmentCanceledStatsDTO;
-import com.dto.stats.AppointmentMonthlyComparisonDTO;
-import com.dto.stats.AppointmentTodayStatsDTO;
-import com.dto.stats.AppointmentTomorrowStatsDTO;
+import com.dto.stats.*;
 import com.enums.AppointmentStatus;
 import com.model.Appointment;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -74,27 +71,6 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
     );
 
     /**
-     * Cuenta el número total de citas programadas dentro de un rango específico de tiempo.
-     * Útil para generar reportes de ocupación o estadísticas de uso por periodo.
-     *
-     * @param startDateTimeAfter  El límite inferior del rango de tiempo (inclusive).
-     * @param startDateTimeBefore El límite superior del rango de tiempo (exclusive).
-     * @return La cantidad total de citas encontradas en el rango especificado.
-     */
-    Long countByStartDateTimeBetween(LocalDateTime startDateTimeAfter, LocalDateTime startDateTimeBefore);
-
-    /**
-     * Cuenta las citas programadas dentro de un rango de tiempo específico que tengan un estado actual dado.
-     * Permite filtrar estadísticas por estado (ej: confirmadas, pendientes) en un periodo determinado.
-     *
-     * @param startDateTime  El límite inferior del rango de tiempo (inclusive).
-     * @param startDateTime2 El límite superior del rango de tiempo (exclusive).
-     * @param currentStatus  El estado actual que deben tener las citas para ser contadas.
-     * @return La cantidad de citas que cumplen con los criterios de tiempo y estado.
-     */
-    Long countByStartDateTimeBetweenAndCurrentStatus(LocalDateTime startDateTime, LocalDateTime startDateTime2, AppointmentStatus currentStatus);
-
-    /**
      * Obtiene las 5 citas más recientes ordenadas por fecha y hora de registro descendente.
      * Proporciona una vista rápida de las últimas actividades en el sistema sin necesidad de cargar el historial.
      *
@@ -159,7 +135,6 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
             WHERE a.currentStatus IN (AppointmentStatus.PROGRAMADO, AppointmentStatus.REPROGRAMADO) AND a.startDateTime >= :now
             """)
     AppointmentTomorrowStatsDTO getPendingAppointmentsStats(@Param("now") LocalDateTime now, @Param("tomorrowStart") LocalDateTime tomorrowStart, @Param("tomorrowEnd") LocalDateTime tomorrowEnd);
-
     @Query("""
             SELECT new com.dto.stats.AppointmentMonthlyComparisonDTO(
                     SUM(CASE WHEN a.startDateTime BETWEEN :currentMonthStart AND :currentMonthEnd THEN 1 ELSE 0 END),
@@ -187,4 +162,14 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
             @Param("currentMonthStart") LocalDateTime currentMonthStart,
             @Param("currentMonthEnd") LocalDateTime currentMonthEnd
     );
+
+    @Query("""
+            SELECT new com.dto.stats.ExpectedIncomeStatDTO(
+                COUNT(a.appointmentID),
+                SUM(a.barberservice.price)
+            )
+            FROM Appointment a
+            WHERE a.startDateTime BETWEEN :todayStart AND :todayEnd
+            """)
+    ExpectedIncomeStatDTO getExpectedIncomeForAppointmentsBookedToday(@Param("todayStart") LocalDateTime todayStart, @Param("todayEnd") LocalDateTime todayEnd);
 }

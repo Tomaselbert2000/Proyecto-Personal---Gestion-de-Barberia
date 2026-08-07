@@ -129,6 +129,7 @@ public final class StringResource {
         public static final String PAYMENT_METHOD_VIEW_LOADING_FAILED = "Hubo un error al cargar la vista de métodos de pago.";
         public static final String PAYMENT_METHOD_CREATION_VIEW_LOADING_FAILED = "Hubo un error al cargar la vista de creación de métodos de pago.";
         public static final String PAYMENT_METHOD_EDITION_VIEW_LOADING_FAILED = "Hubo un error al cargar la lista de actualización de medios de pago.";
+        public static final String PAYMENT_METHOD_ITEM_VIEW_LOADING_FAILED = "Hubo un error al cargar la lista de medios de pago registrados.";
 
         public static final String SETTINGS_VIEW_LOADING_FAILED = "Hubo un error al cargar la vista de ajustes de la aplicación";
 

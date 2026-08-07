@@ -1,5 +1,6 @@
 package com.repository;
 
+import com.dto.stats.InventoryAlertStatsDTO;
 import com.dto.stats.ProductStockValueStatsDTO;
 import com.dto.stats.ProductTotalStockStatsDTO;
 import com.enums.ProductCategory;
@@ -96,4 +97,13 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query("""
             SELECT new com.dto.stats.ProductStockValueStatsDTO(SUM(p.productCost * p.currentStockLevel), SUM(p.currentStockLevel)) FROM Product p""")
     ProductStockValueStatsDTO getTotalStockValue();
+
+    @Query("""
+            SELECT new com.dto.stats.InventoryAlertStatsDTO(
+            COUNT(p.productID),
+            SUM(CASE WHEN p.stockStatus = StockStatus.BAJO OR p.stockStatus = StockStatus.CRITICO THEN 1 ELSE 0 END))
+            FROM Product p
+            WHERE p.stockStatus IN (StockStatus.BAJO, StockStatus.CRITICO) AND p.currentStockLevel = 0
+            """)
+    List<InventoryAlertStatsDTO> getInventoryAlertStats();
 }

@@ -1,5 +1,6 @@
 package com.repository;
 
+import com.dto.stats.ClientAcquisitionStatsDTO;
 import com.model.Client;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -121,4 +122,21 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
     @Query("""
             SELECT c FROM Client c WHERE (:searchName IS NULL OR LOWER(CONCAT(c.firstName, ' ', c.lastName)) LIKE LOWER(CONCAT('%', :searchName, '%')))""")
     List<Client> clientLiveSearchByName(@Param("searchName") String searchName);
+
+
+    @Query("""
+            SELECT new com.dto.stats.ClientAcquisitionStatsDTO(
+                COUNT(CASE WHEN c.registrationDate >= :currentMonthStart AND c.registrationDate < :currentMonthEnd THEN c ELSE NULL END),
+                COUNT(CASE WHEN c.registrationDate >= :previousMonthStart AND c.registrationDate < :previousMonthEnd THEN c ELSE NULL END)
+            )
+            FROM Client c
+            GROUP BY c.registrationDate
+            ORDER BY c.registrationDate DESC
+            """)
+    List<ClientAcquisitionStatsDTO> getClientStats(
+            @Param("currentMonthStart") LocalDate currentMonthStart,
+            @Param("currentMonthEnd") LocalDate currentMonthEnd,
+            @Param("previousMonthStart") LocalDate previousMonthStart,
+            @Param("previousMonthEnd") LocalDate previousMonthEnd
+    );
 }

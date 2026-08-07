@@ -3,10 +3,7 @@ package com.service.implementation;
 import com.dto.product.ProductCreationDTO;
 import com.dto.product.ProductInfoDTO;
 import com.dto.product.ProductUpdateDTO;
-import com.dto.stats.ProductHighestRevenueStatsDTO;
-import com.dto.stats.ProductMostSoldStatsDTO;
-import com.dto.stats.ProductStockValueStatsDTO;
-import com.dto.stats.ProductTotalStockStatsDTO;
+import com.dto.stats.*;
 import com.enums.ProductCategory;
 import com.enums.StockStatus;
 import com.exceptions.product.DuplicatedProductNameException;
@@ -79,20 +76,6 @@ public class ProductServiceImpl implements ProductService {
         checkIfNewCurrentPriceIsLowerThanCurrentCost(updateDTO.getCurrentPrice(), productOnDB.getProductCost());
 
         productRepository.save(mapper.mapProductUpdateDTOtoEntity(productOnDB, updateDTO));
-    }
-
-    @Override
-    public Long getProductsRegisteredCount() {
-
-        return productRepository.count();
-    }
-
-    @Override
-    public Long getProductsOnLowStock() {
-
-        List<ProductInfoDTO> productInfoDTOList = getProductsList();
-
-        return getCountByStockStatus(productInfoDTOList);
     }
 
     @Override
@@ -173,6 +156,26 @@ public class ProductServiceImpl implements ProductService {
         } else {
 
             return emptyProductTotalStockValueStatDTO();
+        }
+    }
+
+    @Override
+    public InventoryAlertStatsDTO getInventoryAlertStat() {
+
+        List<InventoryAlertStatsDTO> inventoryAlertStatsDTOS = productRepository.getInventoryAlertStats();
+
+        if (!inventoryAlertStatsDTOS.isEmpty()) {
+
+            InventoryAlertStatsDTO statsDTO = inventoryAlertStatsDTOS.getFirst();
+
+            if (statsDTO.getLowStockProductsCount() == null) statsDTO.setLowStockProductsCount(0L);
+            if (statsDTO.getOutOfStockProductsCount() == null) statsDTO.setOutOfStockProductsCount(0L);
+
+            return statsDTO;
+
+        } else {
+
+            return emptyInventoryAlertStatsDTO();
         }
     }
 
