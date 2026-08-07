@@ -22,9 +22,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.Map;
 
-import static com.presentation.animation.AnimationEngine.fadeNodeIn;
-import static com.presentation.concurrency.ConcurrencyManager.executeUITask;
-import static com.presentation.animation.AnimationEngineConstants.ANIMATION_DELAY_IN_MS;
+import static com.presentation.concurrency.ConcurrencyManager.executeAsyncTask;
 import static com.presentation.constants.StringResource.DisplayString.CURRENCY_STRING_ARG;
 import static com.presentation.constants.StringResource.EmptyListMessage.EMPTY_EMPLOYEE_LIST_MESSAGE;
 import static com.presentation.constants.StringResource.FxmlViewLoadingErrorMessage.*;
@@ -101,7 +99,7 @@ public class EmployeeViewController {
 
     private void loadActiveEmployeesStats() {
 
-        executeUITask(
+        executeAsyncTask(
                 employeeService::getActiveEmployees,
                 activeEmployeesAmount -> {
                     setTextOnLabel(currently_active_employees, parseNumberValueToText(activeEmployeesAmount));
@@ -112,7 +110,7 @@ public class EmployeeViewController {
 
     private void loadEmployeeRevenueStats() {
 
-        executeUITask(
+        executeAsyncTask(
                 saleService::getEmployeeWithHighestRevenue,
                 employeeRevenueDTO -> {
                     setTextOnLabel(highest_revenue_employee_name, employeeRevenueDTO.getEmployeeFirstname() + "\n" + employeeRevenueDTO.getEmployeeLastname());
@@ -123,7 +121,7 @@ public class EmployeeViewController {
 
     private void loadEmployeeCompletedServicesStats() {
 
-        executeUITask(
+        executeAsyncTask(
                 saleService::getEmployeeWithMostServicesCompleted,
                 employeeCompletedServicesDTO -> {
                     setTextOnLabel(highest_amount_of_services_completed_employee, employeeCompletedServicesDTO.getEmployeFirstName() + "\n" + employeeCompletedServicesDTO.getEmployeLastName());
@@ -134,40 +132,28 @@ public class EmployeeViewController {
 
     private void loadProductivityStats() {
 
-        executeUITask(
+        executeAsyncTask(
                 saleService::getActiveEmployeesAverageServices,
                 averageValue -> setTextOnLabel(average_completed_services_by_active_employees, formatAsDecimalValue(averageValue))
         );
     }
 
-    private void loadEmployeeListOnView(List<EmployeeInfoDTO> employees) {
+    private void loadEmployeeListOnView(List<EmployeeInfoDTO> employeeList) {
 
-        if (employees.isEmpty()) {
+        loadItemsOnController(
+                employeeList,
+                employee_list_container,
+                APPOINTMENT_ITEM_VIEW_PATH,
+                EMPTY_EMPLOYEE_LIST_MESSAGE,
+                EMPLOYEE_ITEM_VIEW_LOADING_FAILED,
+                itemController -> {
 
-            showEmptyListLabel(EMPTY_EMPLOYEE_LIST_MESSAGE, employee_list_container);
+                    EmployeeItemController employeeItemController = (EmployeeItemController) itemController;
 
-        } else {
-
-            for (int i = 0; i < employees.size(); i++) {
-
-                EmployeeInfoDTO infoDTO = employees.get(i);
-
-                FXMLLoader loader = generateLoaderWithPath(EMPLOYEE_ITEM_VIEW_PATH);
-
-                Parent employeeItem = returnParentFromLoader(loader, EMPLOYEE_ITEM_VIEW_LOADING_FAILED);
-
-                EmployeeItemController employeeItemController = loader.getController();
-
-                employeeItemController.setDataOnItem(infoDTO);
-
-                employeeItemController.setOnEditCallBack(this::goToEditEmployeeView);
-                employeeItemController.setOnStatusChangeCallBack(this::changeEmployeeStatus);
-
-                loadItemOnVBox(employee_list_container, employeeItem);
-
-                fadeNodeIn(employee_list_container, i * ANIMATION_DELAY_IN_MS);
-            }
-        }
+                    employeeItemController.setOnEditCallBack(this::goToEditEmployeeView);
+                    employeeItemController.setOnStatusChangeCallBack(this::changeEmployeeStatus);
+                }
+        );
     }
 
     private void goToEditEmployeeView(EmployeeInfoDTO infoDTO) {

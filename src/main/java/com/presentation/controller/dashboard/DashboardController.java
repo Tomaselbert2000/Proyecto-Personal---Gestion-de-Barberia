@@ -1,13 +1,13 @@
 package com.presentation.controller.dashboard;
 
 import com.dto.activity.RecentActivityDTO;
-import com.enums.ViewRedirection;
-import com.service.interfaces.*;
+import com.service.interfaces.AppointmentService;
+import com.service.interfaces.ClientService;
+import com.service.interfaces.DashboardService;
+import com.service.interfaces.ProductService;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
@@ -21,21 +21,20 @@ import java.util.List;
 import java.util.Map;
 
 import static com.enums.ViewRedirection.*;
-import static com.presentation.animation.AnimationEngine.fadeNodeIn;
-import static com.presentation.concurrency.ConcurrencyManager.executeUITask;
-import static com.presentation.animation.AnimationEngineConstants.ANIMATION_DELAY_IN_MS;
+import static com.presentation.concurrency.ConcurrencyManager.executeAsyncTask;
 import static com.presentation.constants.MaterialDesignResources.MaterialIcon.LOGOUT_ICON;
 import static com.presentation.constants.StringResource.ConfirmationDialog.*;
 import static com.presentation.constants.StringResource.EmptyListMessage.EMPTY_ACTIVITY_LOG_MESSAGE;
 import static com.presentation.constants.StringResource.FxmlViewLoadingErrorMessage.RECENT_ACTIVITY_VIEW_LOADING_FAILED;
 import static com.presentation.constants.ViewPath.ACTIVITY_LOG_ITEM_VIEW_PATH;
-import static com.presentation.support.view.ContainerManager.cleanContainer;
-import static com.presentation.support.view.ContainerManager.loadItemOnVBox;
+import static com.presentation.support.control.UIBasicComponents.configureRunnableMaps;
+import static com.presentation.support.control.UIBasicComponents.setTextOnLabel;
+import static com.presentation.support.control.ValidationFormatter.*;
 import static com.presentation.support.dialog.DialogHelper.showConfirmationDialog;
-import static com.presentation.support.view.FXMLViewLoader.*;
-import static com.presentation.support.control.UIBasicComponents.*;
-import static com.presentation.support.control.ValidationFormatter.formatAsPercentage;
-import static com.presentation.support.control.ValidationFormatter.parseNumberValueToText;
+import static com.presentation.support.format.PriceFormatter.formatPriceAsString;
+import static com.presentation.support.view.ContainerManager.cleanContainer;
+import static com.presentation.support.view.ContainerManager.loadItemsOnController;
+import static com.presentation.support.view.FXMLViewLoader.animateViewChange;
 import static com.presentation.support.view.ViewRedirectionHelper.redirectToView;
 
 @Component
@@ -44,7 +43,6 @@ public class DashboardController {
 
     private final DashboardService dashboardService;
     private final ClientService clientService;
-    private final EmployeeService employeeService;
     private final AppointmentService appointmentService;
     private final ProductService productService;
 
@@ -84,14 +82,14 @@ public class DashboardController {
 
     @FXML
     private Label
-            clients_registered_count,
-            clients_registered_percentage_vs_last_month,
-            active_employees_count,
-            active_employees_this_month_count,
+            new_clients_this_month,
+            new_clients_percentage_vs_last_month,
+            expected_income,
+            average_ticket_value,
             appointments_today_count,
             finished_appointments_today_count,
-            products_on_stock_count,
-            low_stock_products_count;
+            low_stock_product_count,
+            out_of_stock_product_count;
 
     @FXML
     public void initialize() {
@@ -116,7 +114,7 @@ public class DashboardController {
 
     private void loadEventLog() {
 
-        executeUITask(
+        executeAsyncTask(
                 dashboardService::getRecentActivityLog,
                 this::loadRecentActivitiesOnDashboard
         );
@@ -133,108 +131,66 @@ public class DashboardController {
 
         cleanContainer(activity_log_vbox);
 
-        if (recentActivity.isEmpty()) {
-
-            showEmptyListLabel(EMPTY_ACTIVITY_LOG_MESSAGE, activity_log_vbox);
-
-        } else {
-
-            for (int i = 0; i < recentActivity.size(); i++) {
-
-                RecentActivityDTO activityDTO = recentActivity.get(i);
-
-                FXMLLoader loader = generateLoaderWithPath(ACTIVITY_LOG_ITEM_VIEW_PATH);
-
-                Parent activityLog = returnParentFromLoader(loader, RECENT_ACTIVITY_VIEW_LOADING_FAILED);
-
-                ActivityItemController activityItemController = loader.getController();
-
-                activityItemController.setDataOnItem(activityDTO);
-
-                loadItemOnVBox(activity_log_vbox, activityLog);
-
-                fadeNodeIn(activityLog, i * ANIMATION_DELAY_IN_MS);
-            }
-        }
+        loadItemsOnController(
+                recentActivity,
+                activity_log_vbox,
+                ACTIVITY_LOG_ITEM_VIEW_PATH,
+                EMPTY_ACTIVITY_LOG_MESSAGE,
+                RECENT_ACTIVITY_VIEW_LOADING_FAILED
+        );
     }
 
     private void loadDashboardStats() {
 
-        loadClientsStats();
+        loadClientAcquisitionStats();
 
-        loadEmployeesStats();
+        loadExpectedIncomeStats();
 
-        loadAppointmentsStats();
+        loadAppointmentsTodayStats();
 
-        loadProductsStats();
+        loadProductStockStats();
     }
 
-    private void loadClientsStats() {
+    private void loadClientAcquisitionStats() {
 
-        executeUITask(
-                () -> {
-                    Long clientsRegistered = clientService.getClientsRegisteredQuantity();
-                    Long clientsRegisteredPercentageVsPreviousMonth = clientService.calculatePercentageOfClientsVsLastMonth();
-
-                    return List.of(clientsRegistered, clientsRegisteredPercentageVsPreviousMonth);
-                },
-
-                longList -> {
-
-                    setTextOnLabel(clients_registered_count, parseNumberValueToText(longList.getFirst()));
-                    setTextOnLabel(clients_registered_percentage_vs_last_month, formatAsPercentage(Double.valueOf(longList.getLast())));
+        executeAsyncTask(
+                clientService::getClientStatsVsLastMonth,
+                clientAcquisitionStatsDTO -> {
+                    setTextOnLabel(new_clients_this_month, parseNumberValueToText(clientAcquisitionStatsDTO.getNewClientsThisMonth()));
+                    setTextOnLabel(new_clients_percentage_vs_last_month, formatAsPercentage(clientAcquisitionStatsDTO.getPercentageVsLastMonth()) + " vs mes anterior");
                 }
         );
     }
 
-    private void loadEmployeesStats() {
+    private void loadExpectedIncomeStats() {
 
-        executeUITask(
-                () -> {
-                    Long activeEmployees = employeeService.getActiveEmployees();
-                    Long activeEmployeesThisMonthVsLastMonth = employeeService.calculateActiveEmployeesVsLastMonth();
-
-                    return List.of(activeEmployees, activeEmployeesThisMonthVsLastMonth);
-                },
-
-                longList -> {
-
-                    setTextOnLabel(active_employees_count, parseNumberValueToText(longList.getFirst()));
-                    setTextOnLabel(active_employees_this_month_count, parseNumberValueToText(longList.getLast()));
+        executeAsyncTask(
+                appointmentService::getExpectedIncomeToday,
+                expectedIncomeStatDTO -> {
+                    setTextOnLabel(expected_income, formatAsPrice(expectedIncomeStatDTO.getExpectedIncomeSumForToday()));
+                    setTextOnLabel(average_ticket_value, "Promedio por ticket " + formatPriceAsString(expectedIncomeStatDTO.getAverageTicket()));
                 }
         );
     }
 
-    private void loadAppointmentsStats() {
+    private void loadAppointmentsTodayStats() {
 
-        executeUITask(
-                () -> {
-                    Long appointmentsTodayCount = appointmentService.appointmentsToday();
-                    Long finishedAppointmentsToday = appointmentService.completedAppointmentsToday();
-
-                    return List.of(appointmentsTodayCount, finishedAppointmentsToday);
-                },
-                longList -> {
-
-                    setTextOnLabel(appointments_today_count, parseNumberValueToText(longList.getFirst()));
-                    setTextOnLabel(finished_appointments_today_count, parseNumberValueToText(longList.getLast()));
+        executeAsyncTask(
+                appointmentService::getAppointmentsTodayStats,
+                appointmentTodayStatsDTO -> {
+                    setTextOnLabel(appointments_today_count, parseNumberValueToText(appointmentTodayStatsDTO.getAppointmentCount()));
+                    setTextOnLabel(finished_appointments_today_count, parseNumberValueToText(appointmentTodayStatsDTO.getTotalAmountAsFinished()));
                 }
         );
     }
 
-    private void loadProductsStats() {
+    private void loadProductStockStats() {
 
-        executeUITask(
-                () -> {
-                    Long productsOnStockCount = productService.getProductsRegisteredCount();
-                    Long lowStockProductCount = productService.getProductsOnLowStock();
-
-                    return List.of(productsOnStockCount, lowStockProductCount);
-                },
-                longList -> {
-
-                    setTextOnLabel(products_on_stock_count, parseNumberValueToText(longList.getFirst()));
-                    setTextOnLabel(low_stock_products_count, parseNumberValueToText(longList.getLast()));
+        executeAsyncTask(
+                productService::getInventoryAlertStat,
+                inventoryAlertStatsDTO -> {
+                    setTextOnLabel(low_stock_product_count, parseNumberValueToText(inventoryAlertStatsDTO.getLowStockProductsCount()));
+                    setTextOnLabel(out_of_stock_product_count, "Agotados: " + parseNumberValueToText(inventoryAlertStatsDTO.getOutOfStockProductsCount()));
                 }
         );
     }
@@ -261,10 +217,10 @@ public class DashboardController {
         );
 
         Map<Button, Runnable> quickCreationButtonsMap = Map.of(
-                create_client_button, () -> redirectToView(ViewRedirection.CLIENT_CREATION, borderPane, applicationContext),
-                create_employee_button, () -> redirectToView(ViewRedirection.EMPLOYEE_CREATION, borderPane, applicationContext),
-                create_appointment_button, () -> redirectToView(ViewRedirection.APPOINTMENT_CREATION, borderPane, applicationContext),
-                create_product_button, () -> redirectToView(ViewRedirection.PRODUCT_CREATION, borderPane, applicationContext)
+                create_client_button, () -> redirectToView(CLIENT_CREATION, borderPane, applicationContext),
+                create_employee_button, () -> redirectToView(EMPLOYEE_CREATION, borderPane, applicationContext),
+                create_appointment_button, () -> redirectToView(APPOINTMENT_CREATION, borderPane, applicationContext),
+                create_product_button, () -> redirectToView(PRODUCT_CREATION, borderPane, applicationContext)
         );
 
         configureRunnableMaps(navBarButtonsMap, quickAccessButtonsMap, quickCreationButtonsMap);
@@ -279,7 +235,7 @@ public class DashboardController {
                 CANCEL_BUTTON_TEXT,
                 CONFIRM_BUTTON_TEXT,
                 LOGOUT_ICON,
-                () -> redirectToView(ViewRedirection.LOGIN, stack_pane, applicationContext),
+                () -> redirectToView(LOGIN, stack_pane, applicationContext),
                 () -> {
                 }
         );

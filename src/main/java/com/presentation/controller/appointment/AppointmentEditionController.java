@@ -31,7 +31,6 @@ import java.util.Map;
 
 import static com.presentation.constants.ControllerConstants.AppointmentControllerConstants.APPOINTMENT_DEFAULT_DURATION_IN_MINUTES;
 import static com.presentation.constants.ControllerConstants.AppointmentControllerConstants.DATETIME_SUMMARY_FORMAT;
-import static com.presentation.constants.StringResource.DisplayString.CURRENCY_STRING_ARG;
 import static com.presentation.constants.StringResource.ToastNotificationMessage.APPOINTMENT_STATUS_UPDATED_TOAST_NOTIFICATION_MESSAGE;
 import static com.presentation.constants.StringResource.ValidationErrorMessage.APPOINTMENT_EDITION_VALIDATION_FAILED;
 import static com.presentation.constants.StringResource.ValidationErrorMessage.VALIDATION_ERROR_TITLE;
@@ -40,6 +39,7 @@ import static com.presentation.support.control.ComboBoxHelper.loadGenericTypeLis
 import static com.presentation.support.control.UIBasicComponents.*;
 import static com.presentation.support.control.ValidationFormatter.parseNumberValueToText;
 import static com.presentation.support.control.ValidationFormatter.setStringConverter;
+import static com.presentation.support.format.PriceFormatter.formatPriceAsString;
 import static com.presentation.support.notification.ExceptionNotificationHandler.notifyValidationFailure;
 import static com.presentation.support.notification.ToastNotificationHelper.showToastNotification;
 import static com.presentation.support.view.ViewRedirectionHelper.redirectToView;
@@ -222,11 +222,14 @@ public class AppointmentEditionController extends BaseAppointmentFormController 
     }
 
     private void onBarberServiceSelected(BarberServiceInfoDTO barberServiceSelected) {
+
         if (barberServiceSelected == null) return;
+
         barberServiceReference = barberServiceSelected;
-        String price = parseNumberValueToText(barberServiceSelected.getPrice());
+
         setTextOnLabel(summary_service, barberServiceSelected.getName());
-        setTextOnLabel(summary_price, CURRENCY_STRING_ARG + price);
+        setTextOnLabel(summary_price, formatPriceAsString(barberServiceSelected.getPrice()));
+
         setNodeAsVisible(service_selection_container);
         setNodeAsVisible(appointment_summary_card);
     }

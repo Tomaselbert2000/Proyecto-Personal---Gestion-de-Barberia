@@ -1,6 +1,8 @@
 package com.presentation.support.view;
 
+import com.presentation.controller.item.ItemController;
 import javafx.animation.FadeTransition;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -11,10 +13,19 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Window;
 import javafx.util.Duration;
 
+import java.util.List;
+import java.util.function.Consumer;
+import java.util.stream.IntStream;
+
+import static com.presentation.animation.AnimationEngine.fadeNodeIn;
+import static com.presentation.animation.AnimationEngineConstants.ANIMATION_DELAY_IN_MS;
 import static com.presentation.constants.CssResourceFilePath.MATERIAL_ICONS_FILE_PATH;
 import static com.presentation.constants.HelperConstants.ContainerManagerConstants.*;
 import static com.presentation.constants.ThemeFilePath.LA_TERCERA_DARK_THEME_FILE_PATH;
 import static com.presentation.constants.ThemeFilePath.LA_TERCERA_LIGHT_THEME_FILE_PATH;
+import static com.presentation.support.control.UIBasicComponents.showEmptyListLabel;
+import static com.presentation.support.view.FXMLViewLoader.generateLoaderWithPath;
+import static com.presentation.support.view.FXMLViewLoader.returnParentFromLoader;
 import static com.utils.resource_helper.ResourceLocator.getResourceAsExternalForm;
 
 /**
@@ -163,5 +174,66 @@ public class ContainerManager {
      */
     public static Window getCurrentWindow(Pane pane) {
         return pane.getScene().getWindow();
+    }
+
+    public static <T> void loadItemsOnController(
+            List<T> itemList,
+            VBox destinationContainer,
+            String fxmlPathTextConstant,
+            String noElementsMessage,
+            String fxmlLoadingErrorMessage
+    ) {
+
+        if (itemList.isEmpty()) showEmptyListLabel(noElementsMessage, destinationContainer);
+
+        IntStream.range(0, itemList.size()).forEach(
+                i -> {
+                    T item = itemList.get(i);
+
+                    FXMLLoader loader = generateLoaderWithPath(fxmlPathTextConstant);
+
+                    Parent parent = returnParentFromLoader(loader, fxmlLoadingErrorMessage);
+
+                    ItemController<T> controller = loader.getController();
+
+                    controller.setDataOnItem(item);
+
+                    loadItemOnVBox(destinationContainer, parent);
+
+                    fadeNodeIn(parent, i * ANIMATION_DELAY_IN_MS);
+                }
+        );
+    }
+
+    public static <T> void loadItemsOnController(
+            List<T> itemList,
+            VBox destinationContainer,
+            String fxmlPathTextConstant,
+            String noElementsMessage,
+            String fxmlLoadingErrorMessage,
+            Consumer<ItemController<T>> consumer
+    ) {
+
+        if (itemList.isEmpty()) showEmptyListLabel(noElementsMessage, destinationContainer);
+
+        IntStream.range(0, itemList.size()).forEach(
+                i -> {
+                    T item = itemList.get(i);
+
+                    FXMLLoader loader = generateLoaderWithPath(fxmlPathTextConstant);
+
+                    Parent parent = returnParentFromLoader(loader, fxmlLoadingErrorMessage);
+
+                    ItemController<T> controller = loader.getController();
+
+                    controller.setDataOnItem(item);
+
+                    consumer.accept(controller);
+
+                    loadItemOnVBox(destinationContainer, parent);
+
+                    fadeNodeIn(parent, i * ANIMATION_DELAY_IN_MS);
+                }
+        );
     }
 }

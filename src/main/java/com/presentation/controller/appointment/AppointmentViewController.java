@@ -21,20 +21,18 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
-import static com.presentation.animation.AnimationEngine.fadeNodeIn;
-import static com.presentation.concurrency.ConcurrencyManager.executeUITask;
-import static com.presentation.animation.AnimationEngineConstants.ANIMATION_DELAY_IN_MS;
+import static com.presentation.concurrency.ConcurrencyManager.executeAsyncTask;
 import static com.presentation.constants.StringResource.EmptyListMessage.EMPTY_APPOINTMENTS_LIST_MESSAGE;
 import static com.presentation.constants.StringResource.FxmlViewLoadingErrorMessage.*;
 import static com.presentation.constants.StringResource.ToastNotificationMessage.APPOINTMENT_STATUS_UPDATED_TOAST_NOTIFICATION_MESSAGE;
 import static com.presentation.constants.ViewPath.*;
 import static com.presentation.support.control.ComboBoxHelper.*;
-import static com.presentation.support.view.ContainerManager.*;
-import static com.presentation.support.view.FXMLViewLoader.*;
-import static com.presentation.support.notification.ToastNotificationHelper.showToastNotification;
 import static com.presentation.support.control.UIBasicComponents.*;
 import static com.presentation.support.control.ValidationFormatter.parseNumberValueToText;
 import static com.presentation.support.control.ValidationFormatter.setStringConverter;
+import static com.presentation.support.notification.ToastNotificationHelper.showToastNotification;
+import static com.presentation.support.view.ContainerManager.*;
+import static com.presentation.support.view.FXMLViewLoader.*;
 
 @Component
 @RequiredArgsConstructor
@@ -97,22 +95,22 @@ public class AppointmentViewController {
     }
 
     private void loadAppointmentsListOnView(List<AppointmentInfoDTO> appointmentInfoDTOList) {
-        if (appointmentInfoDTOList.isEmpty()) {
-            showEmptyListLabel(EMPTY_APPOINTMENTS_LIST_MESSAGE, appointment_list_VBox);
-        } else {
-            for (int i = 0; i < appointmentInfoDTOList.size(); i++) {
-                AppointmentInfoDTO infoDTO = appointmentInfoDTOList.get(i);
-                FXMLLoader loader = generateLoaderWithPath(APPOINTMENT_ITEM_VIEW_PATH);
-                Parent appointmentView = returnParentFromLoader(loader, APPOINTMENTS_VIEW_LOADING_FAILED);
-                AppointmentItemController appointmentCardItemController = loader.getController();
-                appointmentCardItemController.setDataOnItem(infoDTO);
-                appointmentCardItemController.setOnCompleteCallback(this::markAppointmentAsComplete);
-                appointmentCardItemController.setOnCancelCallback(this::markAppointmentAsCanceled);
-                appointmentCardItemController.setOnEditCallback(this::goToAppointmentEditionView);
-                loadItemOnVBox(appointment_list_VBox, appointmentView);
-                fadeNodeIn(appointment_list_VBox, i * ANIMATION_DELAY_IN_MS);
-            }
-        }
+
+        loadItemsOnController(
+                appointmentInfoDTOList,
+                appointment_list_VBox,
+                APPOINTMENT_ITEM_VIEW_PATH,
+                EMPTY_APPOINTMENTS_LIST_MESSAGE,
+                APPOINTMENTS_VIEW_LOADING_FAILED,
+                itemController -> {
+
+                    AppointmentItemController appointmentItemController = (AppointmentItemController) itemController;
+
+                    appointmentItemController.setOnCompleteCallback(this::markAppointmentAsComplete);
+                    appointmentItemController.setOnCancelCallback(this::markAppointmentAsCanceled);
+                    appointmentItemController.setOnEditCallback(this::goToAppointmentEditionView);
+                }
+        );
     }
 
     private void markAppointmentAsComplete(AppointmentInfoDTO dto) {
@@ -155,7 +153,7 @@ public class AppointmentViewController {
     }
 
     private void loadAppointmentsTodayStats() {
-        executeUITask(
+        executeAsyncTask(
                 appointmentService::getAppointmentsTodayStats,
                 appointmentTodayStatsDTO -> {
                     setTextOnLabel(appointments_schedule_for_today, parseNumberValueToText(appointmentTodayStatsDTO.getAppointmentCount()));
@@ -165,7 +163,7 @@ public class AppointmentViewController {
     }
 
     private void loadPendingAppointmentsStats() {
-        executeUITask(
+        executeAsyncTask(
                 appointmentService::getPendingAppointmentsStats,
                 appointmentTomorrowStatsDTO -> {
                     setTextOnLabel(pending_appointments, parseNumberValueToText(appointmentTomorrowStatsDTO.getTotalPendingAppointments()));
@@ -175,7 +173,7 @@ public class AppointmentViewController {
     }
 
     private void loadMonthlyVolumeStats() {
-        executeUITask(
+        executeAsyncTask(
                 appointmentService::getMonthlyComparisonStats,
                 appointmentMonthlyComparisonDTO -> {
                     setTextOnLabel(current_month_appointment_count, parseNumberValueToText(appointmentMonthlyComparisonDTO.getCurrentMonthAppointments()));
@@ -185,7 +183,7 @@ public class AppointmentViewController {
     }
 
     private void loadCanceledAppointmentsStats() {
-        executeUITask(
+        executeAsyncTask(
                 appointmentService::getCanceledStats,
                 appointmentCanceledStatsDTO -> {
                     setTextOnLabel(canceled_appointments_this_month, parseNumberValueToText(appointmentCanceledStatsDTO.getCanceledAppointmentThisMonth()));
@@ -197,7 +195,7 @@ public class AppointmentViewController {
     }
 
     private void totalAppointmentsFound() {
-        executeUITask(
+        executeAsyncTask(
                 appointmentService::getCount,
                 count -> setTextOnLabel(total_appointments_count, parseNumberValueToText(count) + " encontrados")
         );

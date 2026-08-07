@@ -23,13 +23,10 @@ import java.util.List;
 import java.util.Map;
 
 import static com.enums.ViewRedirection.PAYMENT_METHOD_CREATION;
-import static com.presentation.animation.AnimationEngine.fadeNodeIn;
-import static com.presentation.concurrency.ConcurrencyManager.executeUITask;
-import static com.presentation.animation.AnimationEngineConstants.ANIMATION_DELAY_IN_MS;
+import static com.presentation.concurrency.ConcurrencyManager.executeAsyncTask;
 import static com.presentation.constants.StringResource.DisplayString.CURRENCY_STRING_ARG;
 import static com.presentation.constants.StringResource.EmptyListMessage.EMPTY_PAYMENT_LIST_MESSAGE;
-import static com.presentation.constants.StringResource.FxmlViewLoadingErrorMessage.PAYMENT_METHOD_EDITION_VIEW_LOADING_FAILED;
-import static com.presentation.constants.StringResource.FxmlViewLoadingErrorMessage.PAYMENT_METHOD_VIEW_LOADING_FAILED;
+import static com.presentation.constants.StringResource.FxmlViewLoadingErrorMessage.*;
 import static com.presentation.constants.ViewPath.PAYMENT_METHOD_EDITION_VIEW_PATH;
 import static com.presentation.constants.ViewPath.PAYMENT_METHOD_ITEM_VIEW_PATH;
 import static com.presentation.support.control.ComboBoxHelper.cleanComboBoxes;
@@ -135,7 +132,7 @@ public class PaymentMethodViewController {
 
     private void loadMostUsedPaymentMethodsStats() {
 
-        executeUITask(
+        executeAsyncTask(
                 saleService::getMostUsedPaymentMethod,
 
                 dto -> {
@@ -147,7 +144,7 @@ public class PaymentMethodViewController {
 
     private void loadHighestRevenuePaymentsStats() {
 
-        executeUITask(
+        executeAsyncTask(
                 saleService::getHighestRevenuePaymentMethod,
 
                 dto -> {
@@ -159,7 +156,7 @@ public class PaymentMethodViewController {
 
     private void loadActivePaymentsStats() {
 
-        executeUITask(
+        executeAsyncTask(
                 paymentMethodService::getPaymentMethodCountMarkedAsActive,
                 activePaymentsAmount -> setTextOnLabel(active_payment_methods_count, parseNumberValueToText(activePaymentsAmount))
         );
@@ -167,7 +164,7 @@ public class PaymentMethodViewController {
 
     private void loadModifierValueSumStats() {
 
-        executeUITask(
+        executeAsyncTask(
                 saleService::getModifierValueSumAcrossAllSales,
                 modifierValueSum -> {
 
@@ -182,32 +179,22 @@ public class PaymentMethodViewController {
         );
     }
 
-    private void loadPaymentMethodList(List<PaymentMethodInfoDTO> payments) {
+    private void loadPaymentMethodList(List<PaymentMethodInfoDTO> paymentsList) {
 
-        if (payments.isEmpty()) {
+        loadItemsOnController(
+                paymentsList,
+                payment_method_list_container,
+                PAYMENT_METHOD_ITEM_VIEW_PATH,
+                EMPTY_PAYMENT_LIST_MESSAGE,
+                PAYMENT_METHOD_ITEM_VIEW_LOADING_FAILED,
+                itemController -> {
 
-            showEmptyListLabel(EMPTY_PAYMENT_LIST_MESSAGE, payment_method_list_container);
-        } else {
+                    PaymentMethodItemController paymentMethodItemController = (PaymentMethodItemController) itemController;
 
-            for (int i = 0; i < payments.size(); i++) {
-
-                PaymentMethodInfoDTO infoDTO = payments.get(i);
-
-                FXMLLoader loader = generateLoaderWithPath(PAYMENT_METHOD_ITEM_VIEW_PATH);
-
-                Parent paymentView = returnParentFromLoader(loader, PAYMENT_METHOD_VIEW_LOADING_FAILED);
-
-                PaymentMethodItemController paymentMethodItemController = loader.getController();
-
-                paymentMethodItemController.setDataOnItem(infoDTO);
-                paymentMethodItemController.setOnEditCallback(this::goToPaymentMethodEditView);
-                paymentMethodItemController.setOnActiveToggleCallback(this::togglePaymentMethodStatus);
-
-                loadItemOnVBox(payment_method_list_container, paymentView);
-
-                fadeNodeIn(payment_method_list_container, i * ANIMATION_DELAY_IN_MS);
-            }
-        }
+                    paymentMethodItemController.setOnEditCallback(this::goToPaymentMethodEditView);
+                    paymentMethodItemController.setOnActiveToggleCallback(this::togglePaymentMethodStatus);
+                }
+        );
     }
 
     private void togglePaymentMethodStatus(PaymentMethodInfoDTO paymentMethodInfoDTO) {

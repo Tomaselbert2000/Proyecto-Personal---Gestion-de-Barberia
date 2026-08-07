@@ -27,9 +27,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.Map;
 
-import static com.presentation.animation.AnimationEngine.fadeNodeIn;
-import static com.presentation.concurrency.ConcurrencyManager.executeUITask;
-import static com.presentation.animation.AnimationEngineConstants.ANIMATION_DELAY_IN_MS;
+import static com.presentation.concurrency.ConcurrencyManager.executeAsyncTask;
 import static com.presentation.constants.MaterialDesignResources.MaterialIcon.DELETE_ICON;
 import static com.presentation.constants.StringResource.ConfirmationDialog.*;
 import static com.presentation.constants.StringResource.DisplayString.CURRENCY_STRING_ARG;
@@ -40,13 +38,13 @@ import static com.presentation.constants.ViewPath.BARBER_SERVICE_EDITION_VIEW_PA
 import static com.presentation.constants.ViewPath.BARBER_SERVICE_ITEM_VIEW_PATH;
 import static com.presentation.support.control.ComboBoxHelper.cleanComboBoxes;
 import static com.presentation.support.control.ComboBoxHelper.loadEnumsOnComboBox;
-import static com.presentation.support.view.ContainerManager.*;
-import static com.presentation.support.dialog.DialogHelper.showConfirmationDialog;
-import static com.presentation.support.view.FXMLViewLoader.*;
-import static com.presentation.support.notification.ToastNotificationHelper.showToastNotification;
 import static com.presentation.support.control.UIBasicComponents.*;
 import static com.presentation.support.control.ValidationFormatter.parseNumberValueToText;
 import static com.presentation.support.control.ValidationFormatter.setStringConverter;
+import static com.presentation.support.dialog.DialogHelper.showConfirmationDialog;
+import static com.presentation.support.notification.ToastNotificationHelper.showToastNotification;
+import static com.presentation.support.view.ContainerManager.*;
+import static com.presentation.support.view.FXMLViewLoader.*;
 import static com.presentation.support.view.ViewRedirectionHelper.redirectToView;
 
 @Component
@@ -112,7 +110,7 @@ public class BarberServiceViewController {
 
     private void loadActiveServicesStats() {
 
-        executeUITask(
+        executeAsyncTask(
                 barberService::getActiveOnCatalogStats,
                 barberServiceActiveCatalogStatsDTO -> {
                     setTextOnLabel(active_service_count, parseNumberValueToText(barberServiceActiveCatalogStatsDTO.getAmountOfActiveServices()));
@@ -122,7 +120,7 @@ public class BarberServiceViewController {
     }
 
     private void loadMostValuableBarberServiceStats() {
-        executeUITask(
+        executeAsyncTask(
                 saleService::getBarberServiceWithMostSales,
                 barberServiceSalesStatsDTO -> {
                     setTextOnLabel(barber_service_with_most_sales, barberServiceSalesStatsDTO.getBarberServiceName());
@@ -132,7 +130,7 @@ public class BarberServiceViewController {
     }
 
     private void loadHighestRevenueStats() {
-        executeUITask(
+        executeAsyncTask(
                 saleService::getBarberServiceWithHighestRevenue,
                 barberServiceRevenueStatsDTO -> {
                     setTextOnLabel(highest_revenue_service, barberServiceRevenueStatsDTO.getBarberServiceName());
@@ -142,7 +140,7 @@ public class BarberServiceViewController {
     }
 
     private void loadLeastUsedStats() {
-        executeUITask(
+        executeAsyncTask(
                 saleService::getBarberServiceWithLowestUsage,
                 barberServiceLeastUsedStatsDTO -> {
                     setTextOnLabel(lowest_used_service, barberServiceLeastUsedStatsDTO.getBarberServiceName());
@@ -172,23 +170,34 @@ public class BarberServiceViewController {
         };
         Runnable onCancel = () -> {
         };
-        showConfirmationDialog(anchor_pane, applicationContext, BARBER_SERVICE_DELETE_CONFIRMATION_DIALOG_TITLE, BARBER_SERVICE_DELETE_CONFIRMATION_DIALOG_MESSAGE, CANCEL_BUTTON_TEXT, CONFIRM_BUTTON_TEXT, DELETE_ICON, onConfirm, onCancel);
+        showConfirmationDialog(
+                anchor_pane,
+                applicationContext,
+                BARBER_SERVICE_DELETE_CONFIRMATION_DIALOG_TITLE,
+                BARBER_SERVICE_DELETE_CONFIRMATION_DIALOG_MESSAGE,
+                CANCEL_BUTTON_TEXT,
+                CONFIRM_BUTTON_TEXT,
+                DELETE_ICON,
+                onConfirm,
+                onCancel);
     }
 
     private void loadBarberServiceCatalogOnView(List<BarberServiceInfoDTO> barberServiceInfoDTOS) {
-        if (barberServiceInfoDTOS.isEmpty())
-            showEmptyListLabel(EMPTY_BARBER_SERVICE_CATALOG_LIST_MESSAGE, services_list_vbox);
-        else for (int i = 0; i < barberServiceInfoDTOS.size(); i++) {
-            BarberServiceInfoDTO infoDTO = barberServiceInfoDTOS.get(i);
-            FXMLLoader loader = generateLoaderWithPath(BARBER_SERVICE_ITEM_VIEW_PATH);
-            Parent catalogItem = returnParentFromLoader(loader, BARBER_SERVICE_ITEM_VIEW_LOADING_FAILED);
-            BarberServiceItemController barberServiceItemController = loader.getController();
-            barberServiceItemController.setDataOnItem(infoDTO);
-            barberServiceItemController.setOnEditCallback(this::goToBarberServiceEditionView);
-            barberServiceItemController.setOnDeleteCallback(this::confirmAndDeleteService);
-            loadItemOnVBox(services_list_vbox, catalogItem);
-            fadeNodeIn(services_list_vbox, i * ANIMATION_DELAY_IN_MS);
-        }
+
+        loadItemsOnController(
+                barberServiceInfoDTOS,
+                services_list_vbox,
+                BARBER_SERVICE_ITEM_VIEW_PATH,
+                EMPTY_BARBER_SERVICE_CATALOG_LIST_MESSAGE,
+                BARBER_SERVICE_ITEM_VIEW_LOADING_FAILED,
+                itemController -> {
+
+                    BarberServiceItemController barberServiceItemController = (BarberServiceItemController) itemController;
+
+                    barberServiceItemController.setOnEditCallback(this::goToBarberServiceEditionView);
+                    barberServiceItemController.setOnDeleteCallback(this::confirmAndDeleteService);
+                }
+        );
     }
 
     private void configureButtonActions() {

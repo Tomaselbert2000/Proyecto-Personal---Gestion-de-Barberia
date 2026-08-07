@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 import static com.presentation.animation.AnimationEngine.fadeNodeIn;
-import static com.presentation.concurrency.ConcurrencyManager.executeUITask;
+import static com.presentation.concurrency.ConcurrencyManager.executeAsyncTask;
 import static com.presentation.animation.AnimationEngineConstants.ANIMATION_DELAY_IN_MS;
 import static com.presentation.constants.StringResource.DisplayString.CURRENCY_STRING_ARG;
 import static com.presentation.constants.StringResource.EmptyListMessage.EMPTY_PRODUCT_LIST_MESSAGE;
@@ -99,7 +99,7 @@ public class ProductViewController {
 
     private void loadTotalProductCountStats() {
 
-        executeUITask(
+        executeAsyncTask(
                 productService::getProductCountAndStockStats,
                 productTotalStockStatsDTO -> {
                     setTextOnLabel(product_count, parseNumberValueToText(productTotalStockStatsDTO.getProductCount()));
@@ -110,7 +110,7 @@ public class ProductViewController {
 
     private void loadMostSoldStats() {
 
-        executeUITask(
+        executeAsyncTask(
                 productService::getProductMostSoldStats,
                 productMostSoldStatsDTO -> {
                     setTextOnLabel(most_sold_product_name, productMostSoldStatsDTO.getProductName());
@@ -121,7 +121,7 @@ public class ProductViewController {
 
     private void loadRevenueStats() {
 
-        executeUITask(
+        executeAsyncTask(
                 productService::getProductHighestRevenueStats,
                 productHighestRevenueStatsDTO -> {
                     setTextOnLabel(highest_revenue, productHighestRevenueStatsDTO.getProductName());
@@ -132,7 +132,7 @@ public class ProductViewController {
 
     private void loadStockValueStats() {
 
-        executeUITask(
+        executeAsyncTask(
                 productService::getProductStockValueStat,
                 productStockValueStatDTO -> {
                     setTextOnLabel(total_stock_value, CURRENCY_STRING_ARG + parseNumberValueToText(productStockValueStatDTO.getTotalStockValue()));

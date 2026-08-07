@@ -17,7 +17,7 @@ import java.util.Map;
 
 import static com.enums.ViewRedirection.DASHBOARD;
 import static com.enums.ViewRedirection.REGISTER;
-import static com.presentation.concurrency.ConcurrencyManager.executeUITask;
+import static com.presentation.concurrency.ConcurrencyManager.executeAsyncTask;
 import static com.presentation.constants.StringResource.ValidationErrorMessage.LOGIN_ERROR_TITLE;
 import static com.presentation.constants.StringResource.ValidationErrorMessage.LOGIN_FAILED;
 import static com.presentation.support.view.ContainerManager.getCurrentWindow;
@@ -87,7 +87,7 @@ public class LoginController {
     }
 
     private void verifyCredentialsAndRedirect(String username, String password) {
-        executeUITask(
+        executeAsyncTask(
                 () -> appUserService.signIn(username, password),
                 uiActionValue -> {
                     if (uiActionValue) {
@@ -106,6 +106,12 @@ public class LoginController {
     }
 
     private void showLoginError() {
-        showWindowAlert(LOGIN_ERROR_TITLE, "", LOGIN_FAILED, Alert.AlertType.ERROR, com.presentation.constants.ControllerConstants.LoginControllerConstants.RETRY_LOGIN_BUTTON_TEXT, getCurrentWindow(anchor_pane));
+        showWindowAlert(
+                LOGIN_ERROR_TITLE,
+                "",
+                LOGIN_FAILED,
+                Alert.AlertType.ERROR,
+                com.presentation.constants.ControllerConstants.LoginControllerConstants.RETRY_LOGIN_BUTTON_TEXT,
+                getCurrentWindow(anchor_pane));
     }
 }

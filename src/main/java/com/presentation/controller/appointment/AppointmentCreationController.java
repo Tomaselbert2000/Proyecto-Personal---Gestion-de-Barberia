@@ -28,20 +28,22 @@ import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
 
+import static com.presentation.concurrency.ConcurrencyManager.executeVoidAsyncTask;
 import static com.presentation.constants.ControllerConstants.AppointmentControllerConstants.APPOINTMENT_DEFAULT_DURATION_IN_MINUTES;
 import static com.presentation.constants.PromptTexts.AppointmentPromptText.APPOINTMENT_CLIENT_NAME;
 import static com.presentation.constants.PromptTexts.AppointmentPromptText.APPOINTMENT_NOTES;
-import static com.presentation.constants.StringResource.DisplayString.CURRENCY_STRING_ARG;
 import static com.presentation.constants.StringResource.ToastNotificationMessage.APPOINTMENT_CREATION_NOTIFICATION_MESSAGE;
 import static com.presentation.constants.StringResource.ToastNotificationMessage.APPOINTMENT_DATA_INCOMPLETE_NOTIFICATION_MESSAGE;
 import static com.presentation.constants.StringResource.ValidationErrorMessage.APPOINTMENT_CREATION_VALIDATION_FAILED;
 import static com.presentation.constants.StringResource.ValidationErrorMessage.VALIDATION_ERROR_TITLE;
+import static com.presentation.support.control.AppointmentCatalogLoader.loadCatalog;
 import static com.presentation.support.control.AppointmentDateTimeSummaryHelper.updateDatetimeSummary;
-import static com.presentation.support.control.ComboBoxHelper.loadGenericTypeListOnComboBox;
 import static com.presentation.support.control.ListViewHelper.cleanListView;
 import static com.presentation.support.control.ListViewHelper.loadItemsOnListView;
 import static com.presentation.support.control.UIBasicComponents.*;
-import static com.presentation.support.control.ValidationFormatter.parseNumberValueToText;
+import static com.presentation.support.format.PersonNameFormatter.fullName;
+import static com.presentation.support.format.PersonNameFormatter.initials;
+import static com.presentation.support.format.PriceFormatter.formatPriceAsString;
 import static com.presentation.support.notification.ExceptionNotificationHandler.notifyValidationFailure;
 import static com.presentation.support.notification.ToastNotificationHelper.showToastNotification;
 import static com.presentation.support.view.ViewRedirectionHelper.redirectToView;
@@ -112,10 +114,11 @@ public class AppointmentCreationController extends BaseAppointmentFormController
         configureEmployeeSelection();
         configureTimeSelectors();
 
-        List<BarberServiceInfoDTO> catalog = appointmentService.getBarberServicesFromServiceInstance();
-        List<EmployeeInfoDTO> employees = appointmentService.getEmployeesFromServiceInstance();
-        loadGenericTypeListOnComboBox(barberservice_selector, catalog);
-        loadGenericTypeListOnComboBox(employee_selector, employees);
+        executeVoidAsyncTask(
+                () -> loadCatalog(barberservice_selector, employee_selector, appointmentService),
+                _ -> {
+                }
+        );
 
         setNodeAsNotVisible(client_result_list, selected_client_card_vbox);
     }
@@ -137,24 +140,31 @@ public class AppointmentCreationController extends BaseAppointmentFormController
     }
 
     private void onClientSelected(ClientInfoDTO selectedClient) {
+
         if (selectedClient == null) return;
+
         clientReference = selectedClient;
+
         checkAndToggleSummary();
-        String firstNameInitial = String.valueOf(selectedClient.getFirstName().charAt(0));
-        Map<Label, String> labelMap = getLabelStringMap(selectedClient, firstNameInitial);
+
+        Map<Label, String> labelMap = getLabelStringMap(selectedClient);
+
         setTextsOnLabelMap(labelMap);
+
         setNodeAsVisible(client_name, national_id_card_number, selected_client_card_vbox);
         setNodeAsNotVisible(client_search_field, client_result_list);
     }
 
-    private @NonNull Map<Label, String> getLabelStringMap(ClientInfoDTO selectedClient, String firstNameInitial) {
+    private @NonNull Map<Label, String> getLabelStringMap(ClientInfoDTO selectedClient) {
+
+        String firstNameInitial = String.valueOf(selectedClient.getFirstName().charAt(0));
         String lastNameInitial = String.valueOf(selectedClient.getLastName().charAt(0));
-        String fullClientName = selectedClient.getFirstName() + " " + selectedClient.getLastName();
+
         return Map.ofEntries(
-                Map.entry(client_name, fullClientName),
+                Map.entry(client_name, fullName(selectedClient.getFirstName(), selectedClient.getLastName())),
                 Map.entry(national_id_card_number, selectedClient.getNationalIdentityCardNumber()),
-                Map.entry(client_initials, firstNameInitial + lastNameInitial),
-                Map.entry(summary_client, fullClientName)
+                Map.entry(client_initials, initials(firstNameInitial, lastNameInitial)),
+                Map.entry(summary_client, fullName(selectedClient.getFirstName(), selectedClient.getLastName()))
         );
     }
 
@@ -256,11 +266,11 @@ public class AppointmentCreationController extends BaseAppointmentFormController
 
         checkAndToggleSummary();
 
-        String price = parseNumberValueToText(barberServiceSelected.getPrice());
+        Double priceAsDouble = Double.valueOf(service_price.getText());
 
-        setTextOnLabel(service_price, CURRENCY_STRING_ARG + price);
+        setTextOnLabel(service_price, formatPriceAsString(priceAsDouble));
         setTextOnLabel(summary_service, barberServiceSelected.getName());
-        setTextOnLabel(summary_price, CURRENCY_STRING_ARG + price);
+        setTextOnLabel(summary_price, formatPriceAsString(priceAsDouble));
 
         setNodeAsVisible(service_selection_container);
     }
