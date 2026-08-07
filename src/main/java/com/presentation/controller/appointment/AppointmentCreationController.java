@@ -57,46 +57,46 @@ public class AppointmentCreationController extends BaseAppointmentFormController
     private BarberServiceInfoDTO barberServiceReference;
     private EmployeeInfoDTO employeeReference;
     @FXML
-    private AnchorPane anchor_pane;
+    private AnchorPane anchorPane;
     @FXML
     private MFXButton
-            back_button,
-            create_client_button,
-            change_client_button,
-            reset_form_button,
-            save_button;
+            backButton,
+            createClientButton,
+            changeClientButton,
+            resetFormButton,
+            saveButton;
     @FXML
     private TextField
-            client_search_field,
-            appointment_notes;
+            clientSearchField,
+            appointmentNotes;
     @FXML
     private Label
-            client_initials,
-            client_name,
-            national_id_card_number,
-            service_price,
-            summary_client,
-            summary_service,
-            summary_employee,
-            summary_datetime,
-            summary_price;
+            clientInitials,
+            clientName,
+            nationalIdCardNumber,
+            servicePrice,
+            summaryClient,
+            summaryService,
+            summaryEmployee,
+            summaryDatetime,
+            summaryPrice;
     @FXML
-    private MFXListView<ClientInfoDTO> client_result_list;
+    private MFXListView<ClientInfoDTO> clientResultList;
     @FXML
     private VBox
-            selected_client_card_vbox,
-            service_selection_container,
-            summary_card_vbox;
+            selectedClientCardVbox,
+            serviceSelectionContainer,
+            summaryCardVbox;
     @FXML
-    private ComboBox<BarberServiceInfoDTO> barberservice_selector;
+    private ComboBox<BarberServiceInfoDTO> barberServiceSelector;
     @FXML
-    private ComboBox<EmployeeInfoDTO> employee_selector;
+    private ComboBox<EmployeeInfoDTO> employeeSelector;
     @FXML
-    private DatePicker date_selector;
+    private DatePicker dateSelector;
     @FXML
     private ComboBox<LocalTime>
-            hour_selector,
-            minute_selector;
+            hourSelector,
+            minuteSelector;
 
     public AppointmentCreationController(
             AppointmentService appointmentService,
@@ -115,27 +115,27 @@ public class AppointmentCreationController extends BaseAppointmentFormController
         configureTimeSelectors();
 
         executeVoidAsyncTask(
-                () -> loadCatalog(barberservice_selector, employee_selector, appointmentService),
+                () -> loadCatalog(barberServiceSelector, employeeSelector, appointmentService),
                 _ -> {
                 }
         );
 
-        setNodeAsNotVisible(client_result_list, selected_client_card_vbox);
+        setNodeAsNotVisible(clientResultList, selectedClientCardVbox);
     }
 
     private void configureClientLiveSearch() {
-        client_search_field.textProperty().addListener((_, _, _) -> executeClientLiveSearchByName());
-        client_result_list.getSelectionModel().selectionProperty().addListener((MapChangeListener<? super Integer, ? super ClientInfoDTO>) change -> onClientSelected(change.getValueAdded()));
+        clientSearchField.textProperty().addListener((_, _, _) -> executeClientLiveSearchByName());
+        clientResultList.getSelectionModel().selectionProperty().addListener((MapChangeListener<? super Integer, ? super ClientInfoDTO>) change -> onClientSelected(change.getValueAdded()));
     }
 
     private void executeClientLiveSearchByName() {
-        if (client_search_field.getText().isBlank()) {
-            cleanListView(client_result_list);
-            setNodeAsNotVisible(client_result_list);
+        if (clientSearchField.getText().isBlank()) {
+            cleanListView(clientResultList);
+            setNodeAsNotVisible(clientResultList);
         } else {
-            List<ClientInfoDTO> clients = appointmentService.clientLiveSearchByName(client_search_field.getText());
-            loadItemsOnListView(client_result_list, clients);
-            setNodeAsVisible(client_result_list);
+            List<ClientInfoDTO> clients = appointmentService.clientLiveSearchByName(clientSearchField.getText());
+            loadItemsOnListView(clientResultList, clients);
+            setNodeAsVisible(clientResultList);
         }
     }
 
@@ -151,8 +151,8 @@ public class AppointmentCreationController extends BaseAppointmentFormController
 
         setTextsOnLabelMap(labelMap);
 
-        setNodeAsVisible(client_name, national_id_card_number, selected_client_card_vbox);
-        setNodeAsNotVisible(client_search_field, client_result_list);
+        setNodeAsVisible(clientName, nationalIdCardNumber, selectedClientCardVbox);
+        setNodeAsNotVisible(clientSearchField, clientResultList);
     }
 
     private @NonNull Map<Label, String> getLabelStringMap(ClientInfoDTO selectedClient) {
@@ -161,35 +161,35 @@ public class AppointmentCreationController extends BaseAppointmentFormController
         String lastNameInitial = String.valueOf(selectedClient.getLastName().charAt(0));
 
         return Map.ofEntries(
-                Map.entry(client_name, fullName(selectedClient.getFirstName(), selectedClient.getLastName())),
-                Map.entry(national_id_card_number, selectedClient.getNationalIdentityCardNumber()),
-                Map.entry(client_initials, initials(firstNameInitial, lastNameInitial)),
-                Map.entry(summary_client, fullName(selectedClient.getFirstName(), selectedClient.getLastName()))
+                Map.entry(clientName, fullName(selectedClient.getFirstName(), selectedClient.getLastName())),
+                Map.entry(nationalIdCardNumber, selectedClient.getNationalIdentityCardNumber()),
+                Map.entry(clientInitials, initials(firstNameInitial, lastNameInitial)),
+                Map.entry(summaryClient, fullName(selectedClient.getFirstName(), selectedClient.getLastName()))
         );
     }
 
     private void registerNewAppointment() {
         try {
             if (!isFormComplete()) {
-                showToastNotification(anchor_pane, applicationContext, APPOINTMENT_DATA_INCOMPLETE_NOTIFICATION_MESSAGE, ToastNotificationType.FAILED);
+                showToastNotification(anchorPane, applicationContext, APPOINTMENT_DATA_INCOMPLETE_NOTIFICATION_MESSAGE, ToastNotificationType.FAILED);
                 return;
             }
             Long clientID = clientReference.getId();
             Long employeeID = employeeReference.getId();
             Long barberServiceID = barberServiceReference.getBarberServiceId();
-            LocalDate date = date_selector.getValue();
-            LocalTime exactStartTime = LocalTime.of(hour_selector.getValue().getHour(), minute_selector.getValue().getMinute());
+            LocalDate date = dateSelector.getValue();
+            LocalTime exactStartTime = LocalTime.of(hourSelector.getValue().getHour(), minuteSelector.getValue().getMinute());
             LocalDateTime startDatetime = LocalDateTime.of(date, exactStartTime);
             LocalDateTime endDatetime = startDatetime.plusMinutes(APPOINTMENT_DEFAULT_DURATION_IN_MINUTES);
-            String optionalNotes = appointment_notes.getText();
+            String optionalNotes = appointmentNotes.getText();
             AppointmentCreationDTO creationDTO = buildDTOFromAttributes(clientID, employeeID, barberServiceID, startDatetime, endDatetime, optionalNotes);
             appointmentService.registerNewAppointment(creationDTO);
-            showToastNotification(anchor_pane, applicationContext, APPOINTMENT_CREATION_NOTIFICATION_MESSAGE, ToastNotificationType.SUCCESSFUL);
+            showToastNotification(anchorPane, applicationContext, APPOINTMENT_CREATION_NOTIFICATION_MESSAGE, ToastNotificationType.SUCCESSFUL);
             resetForm();
         } catch (ConstraintViolationException | InvalidAppointmentStartDateException |
                  DateTimeOutsideServiceHoursException | EmployeeNotAvailableException exception) {
 
-            notifyValidationFailure(anchor_pane, exception, VALIDATION_ERROR_TITLE, APPOINTMENT_CREATION_VALIDATION_FAILED);
+            notifyValidationFailure(anchorPane, exception, VALIDATION_ERROR_TITLE, APPOINTMENT_CREATION_VALIDATION_FAILED);
         }
     }
 
@@ -206,56 +206,56 @@ public class AppointmentCreationController extends BaseAppointmentFormController
 
     private void checkAndToggleSummary() {
         if (isFormComplete()) {
-            setNodeAsVisible(summary_card_vbox);
+            setNodeAsVisible(summaryCardVbox);
         } else {
-            setNodeAsNotVisible(summary_card_vbox);
+            setNodeAsNotVisible(summaryCardVbox);
         }
     }
 
     private boolean isFormComplete() {
-        return clientReference != null && employeeReference != null && barberServiceReference != null && date_selector.getValue() != null && hour_selector.getValue() != null && minute_selector.getValue() != null;
+        return clientReference != null && employeeReference != null && barberServiceReference != null && dateSelector.getValue() != null && hourSelector.getValue() != null && minuteSelector.getValue() != null;
     }
 
     private void onDateTimeChanged() {
-        updateDatetimeSummary(summary_datetime, date_selector, hour_selector, minute_selector);
+        updateDatetimeSummary(summaryDatetime, dateSelector, hourSelector, minuteSelector);
         checkAndToggleSummary();
     }
 
     private void resetClientSelection() {
-        setBlankTextfield(client_search_field);
-        cleanListView(client_result_list);
-        setNodeAsNotVisible(selected_client_card_vbox);
-        setNodeAsVisible(client_search_field);
+        setBlankTextfield(clientSearchField);
+        cleanListView(clientResultList);
+        setNodeAsNotVisible(selectedClientCardVbox);
+        setNodeAsVisible(clientSearchField);
         this.clientReference = null;
         checkAndToggleSummary();
     }
 
     private void configureButtonActions() {
         Map<Button, Runnable> map = Map.of(
-                back_button, () -> redirectToView(ViewRedirection.APPOINTMENTS, anchor_pane, applicationContext),
-                create_client_button, () -> redirectToView(ViewRedirection.CLIENT_CREATION, anchor_pane, applicationContext),
-                change_client_button, this::resetClientSelection,
-                reset_form_button, this::resetForm,
-                save_button, this::registerNewAppointment
+                backButton, () -> redirectToView(ViewRedirection.APPOINTMENTS, anchorPane, applicationContext),
+                createClientButton, () -> redirectToView(ViewRedirection.CLIENT_CREATION, anchorPane, applicationContext),
+                changeClientButton, this::resetClientSelection,
+                resetFormButton, this::resetForm,
+                saveButton, this::registerNewAppointment
         );
         configureRunnableMaps(map);
     }
 
     private void configureBarberServiceSelection() {
-        barberservice_selector.valueProperty().addListener((_, _, barberServiceSelected) -> onBarberServiceSelected(barberServiceSelected));
+        barberServiceSelector.valueProperty().addListener((_, _, barberServiceSelected) -> onBarberServiceSelected(barberServiceSelected));
     }
 
     private void configureEmployeeSelection() {
-        employee_selector.valueProperty().addListener((_, _, employeeSelected) -> onEmployeeSelected(employeeSelected));
+        employeeSelector.valueProperty().addListener((_, _, employeeSelected) -> onEmployeeSelected(employeeSelected));
     }
 
     private void configureTimeSelectors() {
 
-        setHourAndMinuteSelectors(hour_selector, minute_selector);
+        setHourAndMinuteSelectors(hourSelector, minuteSelector);
 
-        date_selector.valueProperty().addListener((_, _, _) -> onDateTimeChanged());
-        hour_selector.valueProperty().addListener((_, _, _) -> onDateTimeChanged());
-        minute_selector.valueProperty().addListener((_, _, _) -> onDateTimeChanged());
+        dateSelector.valueProperty().addListener((_, _, _) -> onDateTimeChanged());
+        hourSelector.valueProperty().addListener((_, _, _) -> onDateTimeChanged());
+        minuteSelector.valueProperty().addListener((_, _, _) -> onDateTimeChanged());
     }
 
     private void onBarberServiceSelected(BarberServiceInfoDTO barberServiceSelected) {
@@ -266,13 +266,13 @@ public class AppointmentCreationController extends BaseAppointmentFormController
 
         checkAndToggleSummary();
 
-        Double priceAsDouble = Double.valueOf(service_price.getText());
+        Double priceAsDouble = Double.valueOf(servicePrice.getText());
 
-        setTextOnLabel(service_price, formatPriceAsString(priceAsDouble));
-        setTextOnLabel(summary_service, barberServiceSelected.getName());
-        setTextOnLabel(summary_price, formatPriceAsString(priceAsDouble));
+        setTextOnLabel(servicePrice, formatPriceAsString(priceAsDouble));
+        setTextOnLabel(summaryService, barberServiceSelected.getName());
+        setTextOnLabel(summaryPrice, formatPriceAsString(priceAsDouble));
 
-        setNodeAsVisible(service_selection_container);
+        setNodeAsVisible(serviceSelectionContainer);
     }
 
     private void onEmployeeSelected(EmployeeInfoDTO employeeSelected) {
@@ -285,14 +285,14 @@ public class AppointmentCreationController extends BaseAppointmentFormController
 
         String employeeFullName = employeeSelected.getFirstName() + " " + employeeSelected.getLastName();
 
-        setTextOnLabel(summary_employee, employeeFullName);
+        setTextOnLabel(summaryEmployee, employeeFullName);
     }
 
     private void configurePromptTexts() {
 
         Map<TextField, String> map = Map.of(
-                client_search_field, APPOINTMENT_CLIENT_NAME,
-                appointment_notes, APPOINTMENT_NOTES
+                clientSearchField, APPOINTMENT_CLIENT_NAME,
+                appointmentNotes, APPOINTMENT_NOTES
         );
         setPromptTextOnMap(map);
     }
@@ -309,31 +309,31 @@ public class AppointmentCreationController extends BaseAppointmentFormController
     protected ComboBox<?>[] getComboboxesToReset() {
 
         return new ComboBox<?>[]{
-                barberservice_selector,
-                employee_selector,
-                hour_selector,
-                minute_selector
+                barberServiceSelector,
+                employeeSelector,
+                hourSelector,
+                minuteSelector
         };
     }
 
     @Override
     protected DatePicker getDatePickerToReset() {
 
-        return date_selector;
+        return dateSelector;
     }
 
     @Override
     protected void restoreNotes() {
 
-        setBlankTextfield(appointment_notes);
+        setBlankTextfield(appointmentNotes);
     }
 
     @Override
     protected void toggleContainersVisibility() {
 
-        setBlankTextfield(client_search_field);
-        cleanListView(client_result_list);
-        setNodeAsNotVisible(selected_client_card_vbox, service_selection_container);
-        setNodeAsVisible(client_search_field);
+        setBlankTextfield(clientSearchField);
+        cleanListView(clientResultList);
+        setNodeAsNotVisible(selectedClientCardVbox, serviceSelectionContainer);
+        setNodeAsVisible(clientSearchField);
     }
 }
