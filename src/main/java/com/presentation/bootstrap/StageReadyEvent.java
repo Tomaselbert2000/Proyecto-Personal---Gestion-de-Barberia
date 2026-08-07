@@ -34,7 +34,7 @@ public class StageReadyEvent extends ApplicationEvent {
     /**
      * Obtiene el Stage principal asociado al evento.
      *
-     * <p>Realiza un cast explícito a {@link Stage} para garantizar que el método
+     * <p>Realiza un cast explícito a {@link Stage} para garantizar que el metodo
      * retorne siempre una instancia válida del tipo esperado. Este enfoque centraliza
      * la conversión de tipos y evita errores en los puntos de uso del evento.
      *

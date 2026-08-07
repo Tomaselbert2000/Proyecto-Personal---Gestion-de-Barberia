@@ -35,11 +35,11 @@ public final class ConcurrencyManager {
      *
      * @param backgroundAction acción que se ejecutará en el hilo de fondo. Debe retornar el valor
      *                         del resultado de la operación asíncrona.
-     * @param uiACtion         callback que se ejecuta cuando la tarea completa con éxito, recibiendo
+     * @param action           callback que se ejecuta cuando la tarea completa con éxito, recibiendo
      *                         el valor devuelto por la acción de fondo. Se ejecuta en el hilo principal (UI).
      * @throws java.lang.IllegalStateException si la tarea falla durante la ejecución (call() lanza excepción)
      */
-    public static <T> void executeUITask(Supplier<T> backgroundAction, Consumer<T> uiACtion) {
+    public static <T> void executeAsyncTask(Supplier<T> backgroundAction, Consumer<T> action) {
 
         Task<T> task = new Task<>() {
 
@@ -50,7 +50,42 @@ public final class ConcurrencyManager {
             }
         };
 
-        task.setOnSucceeded(_ -> uiACtion.accept(task.getValue())
+        task.setOnSucceeded(_ -> action.accept(task.getValue())
+        );
+
+        startNewThreadWithTask(task);
+    }
+
+    /**
+     * Ejecuta una tarea de fondo sin retorno (void) en un hilo separado y notifica el resultado en el hilo principal.
+     *
+     * <p>Este metodo encapsula la lógica para:
+     * <ul>
+     *   <li>Crea una {@link Task} con la acción de fondo proporcionada (Runnable)</li>
+     *   <li>Configura un callback que se ejecuta cuando la tarea completa con éxito</li>
+     *   <li>Inicia la ejecución en un nuevo hilo separado del hilo UI</li>
+     * </ul>
+     *
+     * <p>La acción de fondo debe ser una operación que no bloquee el hilo principal,
+     * permitiendo que la interfaz de usuario siga siendo responsiva durante la ejecución.</p>
+     *
+     * @param backgroundAction acción que se ejecutará en el hilo de fondo. No retorna valor (void).
+     * @param uiAction         callback que se ejecuta cuando la tarea completa con éxito, recibiendo
+     *                         null como valor devuelto por la acción de fondo. Se ejecuta en el hilo principal (UI).
+     */
+    public static void executeVoidAsyncTask(Runnable backgroundAction, Consumer<Void> uiAction) {
+
+        Task<Void> task = new Task<>() {
+
+            @Override
+            protected Void call() {
+
+                backgroundAction.run();
+                return null;
+            }
+        };
+
+        task.setOnSucceeded(_ -> uiAction.accept(task.getValue())
         );
 
         startNewThreadWithTask(task);
