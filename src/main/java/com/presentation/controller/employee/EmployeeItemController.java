@@ -33,24 +33,24 @@ public class EmployeeItemController implements ItemController<EmployeeInfoDTO> {
             onStatusChangeCallBack;
 
     @FXML
-    private Circle employee_avatar;
+    private Circle employeeAvatar;
 
     @FXML
     private Label
-            employee_initials,
-            employee_name,
-            status_label,
-            hire_date,
-            commission_percentage,
-            monthly_appointments;
+            employeeInitials,
+            employeeName,
+            statusLabel,
+            hireDate,
+            commissionPercentage,
+            monthlyAppointments;
 
     @FXML
-    private VBox employee_status_badge;
+    private VBox employeeStatusBadge;
 
     @FXML
     private MFXButton
-            edit_button,
-            toggle_status_button;
+            editButton,
+            toggleStatusButton;
 
     private static @NonNull List<String> getStrings(EmployeeInfoDTO infoDTO, String employeeFirstNameInitial, String employeeLastNameInitial) {
         String employeeInitials = employeeFirstNameInitial + employeeLastNameInitial;
@@ -84,17 +84,17 @@ public class EmployeeItemController implements ItemController<EmployeeInfoDTO> {
 
         if (isActive) {
 
-            setTextOnLabel(status_label, "Activo");
-            addNodeStyleClass(employee_status_badge, ITEM_STATUS_ACTIVO);
+            setTextOnLabel(statusLabel, "Activo");
+            addNodeStyleClass(employeeStatusBadge, ITEM_STATUS_ACTIVO);
 
-            setTextOnButton(toggle_status_button, "Desactivar");
+            setTextOnButton(toggleStatusButton, "Desactivar");
 
         } else {
 
-            setTextOnLabel(status_label, "Inactivo");
-            addNodeStyleClass(employee_status_badge, ITEM_STATUS_INACTIVO);
+            setTextOnLabel(statusLabel, "Inactivo");
+            addNodeStyleClass(employeeStatusBadge, ITEM_STATUS_INACTIVO);
 
-            setTextOnButton(toggle_status_button, "Activar");
+            setTextOnButton(toggleStatusButton, "Activar");
 
         }
     }
@@ -122,7 +122,7 @@ public class EmployeeItemController implements ItemController<EmployeeInfoDTO> {
 
         toggleStatusComponents(infoDTO.getIsActive());
 
-        List<Label> labels = List.of(employee_initials, employee_name, status_label, hire_date, commission_percentage, monthly_appointments);
+        List<Label> labels = List.of(employeeInitials, employeeName, statusLabel, hireDate, commissionPercentage, monthlyAppointments);
 
         String employeeFirstNameInitial = String.valueOf(infoDTO.getFirstName().charAt(0));
         String employeeLastNameInitial = String.valueOf(infoDTO.getLastName().charAt(0));
@@ -136,8 +136,8 @@ public class EmployeeItemController implements ItemController<EmployeeInfoDTO> {
     private void configureButtonActions() {
 
         Map<Button, Runnable> map = Map.of(
-                edit_button, this::goToEditEmployeeView,
-                toggle_status_button, this::changeEmployeeActivityStatus
+                editButton, this::goToEditEmployeeView,
+                toggleStatusButton, this::changeEmployeeActivityStatus
         );
 
         configureRunnableMaps(map);
