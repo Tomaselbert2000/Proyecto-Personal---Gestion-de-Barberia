@@ -99,26 +99,40 @@ public class AppointmentViewController {
         loadItemsOnController(
                 appointmentInfoDTOList,
                 appointment_list_VBox,
+                AppointmentItemController.class,
                 APPOINTMENT_ITEM_VIEW_PATH,
                 EMPTY_APPOINTMENTS_LIST_MESSAGE,
                 APPOINTMENTS_VIEW_LOADING_FAILED,
                 itemController -> {
 
-                    AppointmentItemController appointmentItemController = (AppointmentItemController) itemController;
-
-                    appointmentItemController.setOnCompleteCallback(this::markAppointmentAsComplete);
-                    appointmentItemController.setOnCancelCallback(this::markAppointmentAsCanceled);
-                    appointmentItemController.setOnEditCallback(this::goToAppointmentEditionView);
+                    itemController.setOnCompleteCallback(this::markAppointmentAsComplete);
+                    itemController.setOnCancelCallback(this::markAppointmentAsCanceled);
+                    itemController.setOnEditCallback(this::goToAppointmentEditionView);
                 }
         );
     }
 
     private void markAppointmentAsComplete(AppointmentInfoDTO dto) {
+
         try {
+
             appointmentService.markAppointmentAsComplete(dto);
-            showToastNotification(anchor_pane, applicationContext, APPOINTMENT_STATUS_UPDATED_TOAST_NOTIFICATION_MESSAGE, ToastNotificationType.SUCCESSFUL);
+
+            showToastNotification(
+                    anchor_pane,
+                    applicationContext,
+                    APPOINTMENT_STATUS_UPDATED_TOAST_NOTIFICATION_MESSAGE,
+                    ToastNotificationType.SUCCESSFUL
+            );
+
         } catch (InvalidAppointmentUpdateException exception) {
-            showToastNotification(anchor_pane, applicationContext, exception.getMessage(), ToastNotificationType.FAILED);
+
+            showToastNotification(
+                    anchor_pane,
+                    applicationContext,
+                    exception.getMessage(),
+                    ToastNotificationType.FAILED
+            );
         }
     }
 

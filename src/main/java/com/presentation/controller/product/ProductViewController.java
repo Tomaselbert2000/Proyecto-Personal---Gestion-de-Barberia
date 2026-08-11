@@ -144,15 +144,14 @@ public class ProductViewController {
         loadItemsOnController(
                 products,
                 productListVBox,
+                ProductItemController.class,
                 PRODUCT_ITEM_VIEW_PATH,
                 EMPTY_PRODUCT_LIST_MESSAGE,
                 PRODUCT_ITEM_VIEW_LOADING_FAILED,
                 itemController -> {
 
-                    ProductItemController productItemController = (ProductItemController) itemController;
-
-                    productItemController.setOnEditCallback(this::goToEditProductView);
-                    productItemController.setOnAddStockCallback(this::goToAddStockView);
+                    itemController.setOnEditCallback(this::goToEditProductView);
+                    itemController.setOnAddStockCallback(this::goToAddStockView);
                 }
         );
     }

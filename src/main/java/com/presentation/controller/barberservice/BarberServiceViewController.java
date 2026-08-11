@@ -187,15 +187,14 @@ public class BarberServiceViewController {
         loadItemsOnController(
                 barberServiceInfoDTOS,
                 servicesListViewBox,
+                BarberServiceItemController.class,
                 BARBER_SERVICE_ITEM_VIEW_PATH,
                 EMPTY_BARBER_SERVICE_CATALOG_LIST_MESSAGE,
                 BARBER_SERVICE_ITEM_VIEW_LOADING_FAILED,
                 itemController -> {
 
-                    BarberServiceItemController barberServiceItemController = (BarberServiceItemController) itemController;
-
-                    barberServiceItemController.setOnEditCallback(this::goToBarberServiceEditionView);
-                    barberServiceItemController.setOnDeleteCallback(this::confirmAndDeleteService);
+                    itemController.setOnEditCallback(this::goToBarberServiceEditionView);
+                    itemController.setOnDeleteCallback(this::confirmAndDeleteService);
                 }
         );
     }

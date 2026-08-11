@@ -173,6 +173,7 @@ public class ContainerManager {
      * @return La ventana asociada con el contenedor.
      */
     public static Window getCurrentWindow(Pane pane) {
+
         return pane.getScene().getWindow();
     }
 
@@ -232,6 +233,38 @@ public class ContainerManager {
 
                     loadItemOnVBox(destinationContainer, parent);
 
+                    fadeNodeIn(parent, i * ANIMATION_DELAY_IN_MS);
+                }
+        );
+    }
+
+    public static <T, C extends ItemController<T>> void loadItemsOnController(
+            List<T> itemList,
+            VBox destinationContainer,
+            Class<C> controllerType,
+            String fxmlPathTextConstant,
+            String noElementsMessage,
+            String fxmlLoadingErrorMessage,
+            Consumer<C> consumer
+
+    ) {
+
+        if (itemList.isEmpty()) showEmptyListLabel(noElementsMessage, destinationContainer);
+
+        IntStream.range(0, itemList.size()).forEach(
+                i -> {
+                    T item = itemList.get(i);
+
+                    FXMLLoader loader = generateLoaderWithPath(fxmlPathTextConstant);
+
+                    Parent parent = returnParentFromLoader(loader, fxmlLoadingErrorMessage);
+
+                    C controller = controllerType.cast(loader.getController());
+
+                    controller.setDataOnItem(item);
+                    consumer.accept(controller);
+
+                    loadItemOnVBox(destinationContainer, parent);
                     fadeNodeIn(parent, i * ANIMATION_DELAY_IN_MS);
                 }
         );

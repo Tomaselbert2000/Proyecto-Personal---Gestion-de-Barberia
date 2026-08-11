@@ -185,15 +185,14 @@ public class PaymentMethodViewController {
         loadItemsOnController(
                 paymentsList,
                 paymentMethodListContainer,
+                PaymentMethodItemController.class,
                 PAYMENT_METHOD_ITEM_VIEW_PATH,
                 EMPTY_PAYMENT_LIST_MESSAGE,
                 PAYMENT_METHOD_ITEM_VIEW_LOADING_FAILED,
                 itemController -> {
 
-                    PaymentMethodItemController paymentMethodItemController = (PaymentMethodItemController) itemController;
-
-                    paymentMethodItemController.setOnEditCallback(this::goToPaymentMethodEditView);
-                    paymentMethodItemController.setOnActiveToggleCallback(this::togglePaymentMethodStatus);
+                    itemController.setOnEditCallback(this::goToPaymentMethodEditView);
+                    itemController.setOnActiveToggleCallback(this::togglePaymentMethodStatus);
                 }
         );
     }
