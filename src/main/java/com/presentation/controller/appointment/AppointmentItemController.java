@@ -2,10 +2,9 @@ package com.presentation.controller.appointment;
 
 import com.dto.appointment.AppointmentInfoDTO;
 import com.enums.AppointmentStatus;
-import com.presentation.controller.item.ItemController;
+import com.presentation.controller.item.AbstractItemController;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.fxml.FXML;
-
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import lombok.Getter;
@@ -22,14 +21,12 @@ import static com.presentation.support.control.UIBasicComponents.*;
 @Component
 @Getter
 @Setter
-public class AppointmentItemController implements ItemController<AppointmentInfoDTO> {
+public class AppointmentItemController extends AbstractItemController<AppointmentInfoDTO> {
 
     private Consumer<AppointmentInfoDTO>
             onCompleteCallback,
             onCancelCallback,
             onEditCallback;
-
-    private AppointmentInfoDTO infoDTOReference;
 
     @FXML
     private MFXButton
@@ -48,38 +45,29 @@ public class AppointmentItemController implements ItemController<AppointmentInfo
 
     @FXML
     public void initialize() {
+
         configureButtonActions();
     }
 
-    /**
-     * Navega a la edición de la cita.
-     */
     private void goToEditAppointment() {
-        if (onEditCallback != null) onEditCallback.accept(infoDTOReference);
+
+        fire(onEditCallback);
     }
 
-    /**
-     * Marca la cita como completada.
-     */
     private void setAppointmentAsComplete() {
-        if (onCompleteCallback != null) onCompleteCallback.accept(infoDTOReference);
+
+        fire(onCompleteCallback);
         disableButtons(cancelButton, completeButton);
     }
 
-    /**
-     * Marca la cita como cancelada.
-     */
     private void setAppointmentAsCanceled() {
-        if (onCancelCallback != null) onCancelCallback.accept(infoDTOReference);
+
+        fire(onCancelCallback);
         disableButtons(cancelButton, completeButton);
     }
 
-    /**
-     * Actualiza el estado de la cita en el badge.
-     *
-     * @param status El estado de la cita.
-     */
     private void updateStatusBadge(AppointmentStatus status) {
+
         statusBadge.getStyleClass().clear();
         statusBadge.getStyleClass().add(BADGE);
 
@@ -100,6 +88,7 @@ public class AppointmentItemController implements ItemController<AppointmentInfo
     }
 
     public void setDataOnItem(AppointmentInfoDTO infoDTO) {
+
         infoDTOReference = infoDTO;
 
         if (infoDTO.getCurrentStatus() == AppointmentStatus.FINALIZADO || infoDTO.getCurrentStatus() == AppointmentStatus.CANCELADO)

@@ -1,7 +1,7 @@
 package com.presentation.controller.employee;
 
 import com.dto.employee.EmployeeInfoDTO;
-import com.presentation.controller.item.ItemController;
+import com.presentation.controller.item.AbstractItemController;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -24,9 +24,7 @@ import static com.presentation.support.control.UIBasicComponents.*;
 @Component
 @Getter
 @Setter
-public class EmployeeItemController implements ItemController<EmployeeInfoDTO> {
-
-    private EmployeeInfoDTO infoDTOReference;
+public class EmployeeItemController extends AbstractItemController<EmployeeInfoDTO> {
 
     private Consumer<EmployeeInfoDTO>
             onEditCallBack,
@@ -52,7 +50,11 @@ public class EmployeeItemController implements ItemController<EmployeeInfoDTO> {
             editButton,
             toggleStatusButton;
 
-    private static @NonNull List<String> getStrings(EmployeeInfoDTO infoDTO, String employeeFirstNameInitial, String employeeLastNameInitial) {
+    private static @NonNull List<String> getStrings(
+            EmployeeInfoDTO infoDTO,
+            String employeeFirstNameInitial,
+            String employeeLastNameInitial
+    ) {
         String employeeInitials = employeeFirstNameInitial + employeeLastNameInitial;
 
         String currentStatus;
@@ -101,7 +103,7 @@ public class EmployeeItemController implements ItemController<EmployeeInfoDTO> {
 
     private void goToEditEmployeeView() {
 
-        if (onEditCallBack != null) onEditCallBack.accept(infoDTOReference);
+        fire(onEditCallBack);
     }
 
     private void changeEmployeeActivityStatus() {
@@ -115,7 +117,6 @@ public class EmployeeItemController implements ItemController<EmployeeInfoDTO> {
         if (onStatusChangeCallBack != null) onStatusChangeCallBack.accept(infoDTOReference);
     }
 
-    @Override
     public void setDataOnItem(EmployeeInfoDTO infoDTO) {
 
         infoDTOReference = infoDTO;

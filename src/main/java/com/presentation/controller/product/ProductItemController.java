@@ -1,7 +1,7 @@
 package com.presentation.controller.product;
 
 import com.dto.product.ProductInfoDTO;
-import com.presentation.controller.item.ItemController;
+import com.presentation.controller.item.AbstractItemController;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -29,7 +29,7 @@ import static com.presentation.support.io.FileImageHelper.loadFileOnImageView;
 @Component
 @Getter
 @Setter
-public class ProductItemController implements ItemController<ProductInfoDTO> {
+public class ProductItemController extends AbstractItemController<ProductInfoDTO> {
 
     private static final Image IMAGE_PLACEHOLDER;
 
@@ -38,7 +38,6 @@ public class ProductItemController implements ItemController<ProductInfoDTO> {
         IMAGE_PLACEHOLDER = new Image(Objects.requireNonNull(ProductItemController.class.getResource(PLACEHOLDER_PATH)).toExternalForm());
     }
 
-    private ProductInfoDTO infoDTOReference;
     private Consumer<ProductInfoDTO>
             onEditCallback,
             onAddStockCallback;
@@ -82,15 +81,14 @@ public class ProductItemController implements ItemController<ProductInfoDTO> {
 
     private void goToEditProductView() {
 
-        if (onEditCallback != null) onEditCallback.accept(infoDTOReference);
+        fire(onEditCallback);
     }
 
     private void goToAddStockView() {
 
-        if (onAddStockCallback != null) onAddStockCallback.accept(infoDTOReference);
+        fire(onAddStockCallback);
     }
 
-    @Override
     public void setDataOnItem(ProductInfoDTO infoDTO) {
 
         infoDTOReference = infoDTO;

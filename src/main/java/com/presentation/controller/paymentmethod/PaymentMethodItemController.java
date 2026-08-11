@@ -1,7 +1,7 @@
 package com.presentation.controller.paymentmethod;
 
 import com.dto.paymentmethod.PaymentMethodInfoDTO;
-import com.presentation.controller.item.ItemController;
+import com.presentation.controller.item.AbstractItemController;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -25,9 +25,7 @@ import static com.presentation.support.control.ValidationFormatter.parseNumberVa
 @Getter
 @Setter
 @RequiredArgsConstructor
-public class PaymentMethodItemController implements ItemController<PaymentMethodInfoDTO> {
-
-    private PaymentMethodInfoDTO infoDTOReference;
+public class PaymentMethodItemController extends AbstractItemController<PaymentMethodInfoDTO> {
 
     private Consumer<PaymentMethodInfoDTO>
             onEditCallback,
@@ -75,7 +73,6 @@ public class PaymentMethodItemController implements ItemController<PaymentMethod
         }
     }
 
-    @Override
     public void setDataOnItem(PaymentMethodInfoDTO infoDTO) {
 
         infoDTOReference = infoDTO;
@@ -109,7 +106,7 @@ public class PaymentMethodItemController implements ItemController<PaymentMethod
 
     private void goToEditPaymentMethodInfo() {
 
-        if (onEditCallback != null) onEditCallback.accept(infoDTOReference);
+        fire(onEditCallback);
     }
 
     private void changePaymentMethodActiveValue() {
