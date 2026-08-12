@@ -8,8 +8,6 @@ import com.exceptions.appointment.InvalidAppointmentUpdateException;
 import com.service.interfaces.AppointmentService;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
@@ -137,25 +135,43 @@ public class AppointmentViewController {
     }
 
     private void markAppointmentAsCanceled(AppointmentInfoDTO dto) {
+
         try {
+
             appointmentService.markAppointmentAsCanceled(dto);
-            showToastNotification(anchor_pane, applicationContext, APPOINTMENT_STATUS_UPDATED_TOAST_NOTIFICATION_MESSAGE, ToastNotificationType.SUCCESSFUL);
+            showToastNotification(
+                    anchor_pane,
+                    applicationContext,
+                    APPOINTMENT_STATUS_UPDATED_TOAST_NOTIFICATION_MESSAGE,
+                    ToastNotificationType.SUCCESSFUL
+            );
+
         } catch (InvalidAppointmentUpdateException exception) {
+
             showToastNotification(anchor_pane, applicationContext, exception.getMessage(), ToastNotificationType.FAILED);
         }
     }
 
     private void goToAppointmentCreationView() {
-        loadViewOnPane(APPOINTMENT_CREATION_VIEW_PATH, applicationContext, APPOINTMENT_CREATION_VIEW_LOADING_FAILED, anchor_pane);
+
+        loadViewOnPane(
+                APPOINTMENT_CREATION_VIEW_PATH,
+                applicationContext,
+                APPOINTMENT_CREATION_VIEW_LOADING_FAILED,
+                anchor_pane
+        );
     }
 
     private void goToAppointmentEditionView(AppointmentInfoDTO infoDTO) {
-        FXMLLoader loader = generateLoaderWithPath(APPOINTMENT_EDITION_VIEW_PATH);
-        setControllerOnLoader(loader, applicationContext);
-        Parent appointmentEditionView = returnParentFromLoader(loader, APPOINTMENT_EDITION_VIEW_LOADING_FAILED);
-        AppointmentEditionController appointmentEditionController = loader.getController();
-        appointmentEditionController.initialize(infoDTO);
-        setViewOnPaneCenter(anchor_pane, appointmentEditionView);
+
+        loadViewWithControllerPane(
+                APPOINTMENT_EDITION_VIEW_PATH,
+                applicationContext,
+                APPOINTMENT_EDITION_VIEW_LOADING_FAILED,
+                anchor_pane,
+                AppointmentEditionController.class,
+                editionController -> editionController.initialize(infoDTO)
+        );
     }
 
     private void loadAppointmentsStats() {

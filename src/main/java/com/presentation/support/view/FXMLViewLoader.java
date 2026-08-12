@@ -1,5 +1,6 @@
 package com.presentation.support.view;
 
+import com.presentation.support.control.ValidationFormatter;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -9,12 +10,11 @@ import javafx.scene.layout.StackPane;
 import org.springframework.context.ApplicationContext;
 
 import java.io.IOException;
+import java.util.function.Consumer;
 
 import static com.presentation.animation.AnimationEngine.slideAndFadeNodeIn;
 import static com.presentation.animation.AnimationEngine.slideAndFadeNodeOut;
 import static com.presentation.support.view.ContainerManager.setViewOnPaneCenter;
-
-import com.presentation.support.control.ValidationFormatter;
 
 public class FXMLViewLoader {
 
@@ -25,6 +25,7 @@ public class FXMLViewLoader {
      * @return Un FXMLLoader configurado con la ruta especificada.
      */
     public static FXMLLoader generateLoaderWithPath(String path) {
+
         return new FXMLLoader(ValidationFormatter.class.getResource(path));
     }
 
@@ -34,7 +35,11 @@ public class FXMLViewLoader {
      * @param loader             El FXMLLoader al que se establecerá el controlador.
      * @param applicationContext El contexto de la aplicación Spring que se utilizará para obtener el controlador.
      */
-    public static void setControllerOnLoader(FXMLLoader loader, ApplicationContext applicationContext) {
+    public static void setControllerOnLoader(
+            FXMLLoader loader,
+            ApplicationContext applicationContext
+    ) {
+
         loader.setControllerFactory(applicationContext::getBean);
     }
 
@@ -46,9 +51,13 @@ public class FXMLViewLoader {
      * @return El Parent cargado desde el archivo FXML.
      */
     public static Parent returnParentFromLoader(FXMLLoader loader, String optionalErrorMessage) {
+
         try {
+
             return loader.load();
+
         } catch (IOException exception) {
+
             throw new RuntimeException(optionalErrorMessage, exception);
         }
     }
@@ -81,25 +90,36 @@ public class FXMLViewLoader {
      * @param pane    El Pane en el que se realizará la transición.
      */
     public static void animateViewChange(Node newView, Pane pane) {
+
         if (pane instanceof BorderPane borderPane) {
+
             Node currentCenter = borderPane.getCenter();
             StackPane animationContainer;
 
             if (currentCenter instanceof StackPane) {
+
                 animationContainer = (StackPane) currentCenter;
+
             } else {
+
                 animationContainer = new StackPane();
+
                 if (currentCenter != null) {
+
                     animationContainer.getChildren().add(currentCenter);
                 }
+
                 borderPane.setCenter(animationContainer);
             }
 
             Node oldView = animationContainer.getChildren().isEmpty() ? null : animationContainer.getChildren().getLast();
 
             if (oldView != null) {
+
                 animationContainer.getChildren().removeIf(node -> node != oldView);
+
             } else {
+
                 animationContainer.getChildren().clear();
             }
 
@@ -107,8 +127,32 @@ public class FXMLViewLoader {
 
             if (oldView != null) slideAndFadeNodeOut(oldView, 0.0);
             if (newView != null) slideAndFadeNodeIn(newView, 0.0);
+
         } else {
+
             setViewOnPaneCenter(pane, (Parent) newView);
         }
+    }
+
+    public static <C> void loadViewWithControllerPane(
+            String viewPath,
+            ApplicationContext applicationContext,
+            String optionalErrorMessage,
+            Pane pane,
+            Class<C> controllerType,
+            Consumer<C> controllerConfigurer
+    ) {
+
+        FXMLLoader loader = generateLoaderWithPath(viewPath);
+
+        setControllerOnLoader(loader, applicationContext);
+
+        Parent newView = returnParentFromLoader(loader, optionalErrorMessage);
+
+        C controller = controllerType.cast(loader.getController());
+
+        controllerConfigurer.accept(controller);
+
+        setViewOnPaneCenter(pane, newView);
     }
 }

@@ -9,8 +9,6 @@ import com.service.interfaces.BarberserviceService;
 import com.service.interfaces.SaleService;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -150,12 +148,15 @@ public class BarberServiceViewController {
     }
 
     private void goToBarberServiceEditionView(BarberServiceInfoDTO infoDTO) {
-        FXMLLoader loader = generateLoaderWithPath(BARBER_SERVICE_EDITION_VIEW_PATH);
-        setControllerOnLoader(loader, applicationContext);
-        Parent barberServiceEditionView = returnParentFromLoader(loader, BARBER_SERVICE_EDITION_VIEW_LOADING_FAILED);
-        BarberServiceEditionController barberServiceEditionController = loader.getController();
-        barberServiceEditionController.initialize(infoDTO);
-        setViewOnPaneCenter(anchorPane, barberServiceEditionView);
+
+        loadViewWithControllerPane(
+                BARBER_SERVICE_EDITION_VIEW_PATH,
+                applicationContext,
+                BARBER_SERVICE_EDITION_VIEW_LOADING_FAILED,
+                anchorPane,
+                BarberServiceEditionController.class,
+                editionController -> editionController.initialize(infoDTO)
+        );
     }
 
     private void confirmAndDeleteService(BarberServiceInfoDTO barberServiceInfoDTO) {

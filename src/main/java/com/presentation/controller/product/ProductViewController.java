@@ -6,8 +6,6 @@ import com.enums.StockStatus;
 import com.service.interfaces.ProductService;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -31,8 +29,10 @@ import static com.presentation.support.control.ComboBoxHelper.loadEnumsOnComboBo
 import static com.presentation.support.control.UIBasicComponents.*;
 import static com.presentation.support.control.ValidationFormatter.parseNumberValueToText;
 import static com.presentation.support.control.ValidationFormatter.setStringConverter;
-import static com.presentation.support.view.ContainerManager.*;
-import static com.presentation.support.view.FXMLViewLoader.*;
+import static com.presentation.support.view.ContainerManager.cleanContainer;
+import static com.presentation.support.view.ContainerManager.loadItemsOnController;
+import static com.presentation.support.view.FXMLViewLoader.loadViewOnPane;
+import static com.presentation.support.view.FXMLViewLoader.loadViewWithControllerPane;
 
 @Component
 @RequiredArgsConstructor
@@ -161,19 +161,16 @@ public class ProductViewController {
         loadViewOnPane(PRODUCT_CREATION_VIEW_PATH, applicationContext, PRODUCT_CREATION_VIEW_LOADING_FAILED, anchorPane);
     }
 
-    private void goToEditProductView(ProductInfoDTO productInfoDTO) {
+    private void goToEditProductView(ProductInfoDTO infoDTO) {
 
-        FXMLLoader loader = generateLoaderWithPath(PRODUCT_EDITION_VIEW_PATH);
-
-        setControllerOnLoader(loader, applicationContext);
-
-        Parent productEditionView = returnParentFromLoader(loader, PRODUCT_EDITION_VIEW_LOADING_FAILED);
-
-        ProductEditionController productEditionController = loader.getController();
-
-        productEditionController.initialize(productInfoDTO);
-
-        setViewOnPaneCenter(anchorPane, productEditionView);
+        loadViewWithControllerPane(
+                PRODUCT_EDITION_VIEW_PATH,
+                applicationContext,
+                PRODUCT_EDITION_VIEW_LOADING_FAILED,
+                anchorPane,
+                ProductEditionController.class,
+                editionController -> editionController.initialize(infoDTO)
+        );
     }
 
     private void goToAddStockView(ProductInfoDTO productInfoDTO) {

@@ -7,8 +7,6 @@ import com.service.interfaces.EmployeeService;
 import com.service.interfaces.SaleService;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -157,17 +155,14 @@ public class EmployeeViewController {
 
     private void goToEditEmployeeView(EmployeeInfoDTO infoDTO) {
 
-        FXMLLoader loader = generateLoaderWithPath(EMPLOYEE_EDITION_VIEW_PATH);
-
-        setControllerOnLoader(loader, applicationContext);
-
-        Parent employeeUpdateView = returnParentFromLoader(loader, EMPLOYEE_EDITION_VIEW_LOADING_FAILED);
-
-        EmployeeEditionController employeeEditionController = loader.getController();
-
-        employeeEditionController.initialize(infoDTO);
-
-        setViewOnPaneCenter(anchor_pane, employeeUpdateView);
+        loadViewWithControllerPane(
+                EMPLOYEE_EDITION_VIEW_PATH,
+                applicationContext,
+                EMPLOYEE_EDITION_VIEW_LOADING_FAILED,
+                anchor_pane,
+                EmployeeEditionController.class,
+                editionController -> editionController.initialize(infoDTO)
+        );
     }
 
     private void goToRegisterNewEmployeeView() {

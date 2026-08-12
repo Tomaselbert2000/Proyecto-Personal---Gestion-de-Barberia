@@ -7,8 +7,6 @@ import com.service.interfaces.PaymentMethodService;
 import com.service.interfaces.SaleService;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -207,13 +205,15 @@ public class PaymentMethodViewController {
         redirectToView(PAYMENT_METHOD_CREATION, anchorPane, applicationContext);
     }
 
-    private void goToPaymentMethodEditView(PaymentMethodInfoDTO paymentMethodInfoDTO) {
+    private void goToPaymentMethodEditView(PaymentMethodInfoDTO infoDTO) {
 
-        FXMLLoader loader = generateLoaderWithPath(PAYMENT_METHOD_EDITION_VIEW_PATH);
-        setControllerOnLoader(loader, applicationContext);
-        Parent paymentMethodEditionView = returnParentFromLoader(loader, PAYMENT_METHOD_EDITION_VIEW_LOADING_FAILED);
-        PaymentMethodEditionController paymentMethodEditionController = loader.getController();
-        paymentMethodEditionController.initialize(paymentMethodInfoDTO);
-        setViewOnPaneCenter(anchorPane, paymentMethodEditionView);
+        loadViewWithControllerPane(
+                PAYMENT_METHOD_EDITION_VIEW_PATH,
+                applicationContext,
+                PAYMENT_METHOD_EDITION_VIEW_LOADING_FAILED,
+                anchorPane,
+                PaymentMethodEditionController.class,
+                editionController -> editionController.initialize(infoDTO)
+        );
     }
 }
