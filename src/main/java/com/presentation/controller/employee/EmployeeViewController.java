@@ -3,6 +3,7 @@ package com.presentation.controller.employee;
 import com.dto.employee.EmployeeInfoDTO;
 import com.enums.EmployeeStatus;
 import com.enums.HireDateRange;
+import com.presentation.controller.item.BaseCatalogViewController;
 import com.service.interfaces.EmployeeService;
 import com.service.interfaces.SaleService;
 import io.github.palexdev.materialfx.controls.MFXButton;
@@ -27,14 +28,15 @@ import static com.presentation.constants.StringResource.FxmlViewLoadingErrorMess
 import static com.presentation.constants.ViewPath.*;
 import static com.presentation.support.control.ComboBoxHelper.cleanComboBoxes;
 import static com.presentation.support.control.ComboBoxHelper.loadEnumsOnComboBox;
-import static com.presentation.support.view.ContainerManager.*;
-import static com.presentation.support.view.FXMLViewLoader.*;
 import static com.presentation.support.control.UIBasicComponents.*;
 import static com.presentation.support.control.ValidationFormatter.*;
+import static com.presentation.support.view.ContainerManager.loadItemsOnController;
+import static com.presentation.support.view.FXMLViewLoader.loadViewOnPane;
+import static com.presentation.support.view.FXMLViewLoader.loadViewWithControllerPane;
 
 @Component
 @RequiredArgsConstructor
-public class EmployeeViewController {
+public class EmployeeViewController extends BaseCatalogViewController<EmployeeInfoDTO> {
 
     private final ApplicationContext applicationContext;
     private final EmployeeService employeeService;
@@ -92,7 +94,7 @@ public class EmployeeViewController {
         configureLiveSearch();
         configureButtonActions();
 
-        loadEmployeeListOnView(employees);
+        loadItemsOnView(employees);
     }
 
     private void loadActiveEmployeesStats() {
@@ -136,23 +138,6 @@ public class EmployeeViewController {
         );
     }
 
-    private void loadEmployeeListOnView(List<EmployeeInfoDTO> employeeList) {
-
-        loadItemsOnController(
-                employeeList,
-                employee_list_container,
-                EmployeeItemController.class,
-                EMPLOYEE_ITEM_VIEW_PATH,
-                EMPTY_EMPLOYEE_LIST_MESSAGE,
-                EMPLOYEE_ITEM_VIEW_LOADING_FAILED,
-                itemController -> {
-
-                    itemController.setOnEditCallBack(this::goToEditEmployeeView);
-                    itemController.setOnStatusChangeCallBack(this::changeEmployeeStatus);
-                }
-        );
-    }
-
     private void goToEditEmployeeView(EmployeeInfoDTO infoDTO) {
 
         loadViewWithControllerPane(
@@ -178,7 +163,7 @@ public class EmployeeViewController {
     private void configureButtonActions() {
 
         Map<Button, Runnable> map = Map.of(
-                clear_filters_button, this::cleanFiltersAndLiveSearch,
+                clear_filters_button, this::resetSearchFilter,
                 new_employee_button, this::goToRegisterNewEmployeeView
         );
 
@@ -187,12 +172,15 @@ public class EmployeeViewController {
 
     private void configureLiveSearch() {
 
-        search_field.textProperty().addListener((_, _, _) -> executeLiveSearch());
-        status_filter.valueProperty().addListener((_, _, _) -> executeLiveSearch());
-        hire_date_filter.valueProperty().addListener((_, _, _) -> executeLiveSearch());
+        attachLiveSearchListeners(
+                search_field.textProperty(),
+                status_filter.valueProperty(),
+                hire_date_filter.valueProperty()
+        );
     }
 
-    private void executeLiveSearch() {
+    @Override
+    protected List<EmployeeInfoDTO> searchCatalog() {
 
         String employeeName = search_field.getText();
 
@@ -205,17 +193,43 @@ public class EmployeeViewController {
 
         HireDateRange selectedDateRange = hire_date_filter.getValue();
 
-        List<EmployeeInfoDTO> employees = employeeService.liveSearch(employeeName, selectedStatus, selectedDateRange);
-
-        cleanContainer(employee_list_container);
-
-        loadEmployeeListOnView(employees);
+        return employeeService.liveSearch(employeeName, selectedStatus, selectedDateRange);
     }
 
-    private void cleanFiltersAndLiveSearch() {
+    @Override
+    protected VBox getItemListContainer() {
+
+        return employee_list_container;
+    }
+
+    @Override
+    protected void loadItemsOnView(List<EmployeeInfoDTO> items) {
+
+        loadItemsOnController(
+                items,
+                employee_list_container,
+                EmployeeItemController.class,
+                EMPLOYEE_ITEM_VIEW_PATH,
+                EMPTY_EMPLOYEE_LIST_MESSAGE,
+                EMPLOYEE_ITEM_VIEW_LOADING_FAILED,
+                itemController -> {
+
+                    itemController.setOnEditCallBack(this::goToEditEmployeeView);
+                    itemController.setOnStatusChangeCallBack(this::changeEmployeeStatus);
+                }
+        );
+    }
+
+    @Override
+    protected void clearFilterNodes() {
 
         setBlankTextfield(search_field);
-
         cleanComboBoxes(status_filter, hire_date_filter);
+    }
+
+    @Override
+    protected void afterSearch(List<EmployeeInfoDTO> items) {
+
+        setTextOnLabel(results_count, parseNumberValueToText(items.size()) + " encontrados");
     }
 }

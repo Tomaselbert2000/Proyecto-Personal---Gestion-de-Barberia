@@ -5,6 +5,7 @@ import com.dto.employee.EmployeeInfoDTO;
 import com.enums.AppointmentStatus;
 import com.enums.ToastNotificationType;
 import com.exceptions.appointment.InvalidAppointmentUpdateException;
+import com.presentation.controller.item.BaseCatalogViewController;
 import com.service.interfaces.AppointmentService;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.fxml.FXML;
@@ -29,12 +30,13 @@ import static com.presentation.support.control.UIBasicComponents.*;
 import static com.presentation.support.control.ValidationFormatter.parseNumberValueToText;
 import static com.presentation.support.control.ValidationFormatter.setStringConverter;
 import static com.presentation.support.notification.ToastNotificationHelper.showToastNotification;
-import static com.presentation.support.view.ContainerManager.*;
-import static com.presentation.support.view.FXMLViewLoader.*;
+import static com.presentation.support.view.ContainerManager.loadItemsOnController;
+import static com.presentation.support.view.FXMLViewLoader.loadViewOnPane;
+import static com.presentation.support.view.FXMLViewLoader.loadViewWithControllerPane;
 
 @Component
 @RequiredArgsConstructor
-public class AppointmentViewController {
+public class AppointmentViewController extends BaseCatalogViewController<AppointmentInfoDTO> {
 
     private final AppointmentService appointmentService;
     private final ApplicationContext applicationContext;
@@ -86,28 +88,10 @@ public class AppointmentViewController {
         List<AppointmentInfoDTO> appointmentInfoDTOList = appointmentService.getAppointmentsList();
         List<EmployeeInfoDTO> employees = appointmentService.getEmployeesFromServiceInstance();
 
-        loadAppointmentsListOnView(appointmentInfoDTOList);
+        loadItemsOnView(appointmentInfoDTOList);
         loadEnumsOnComboBox(appointment_status_selector, AppointmentStatus.values());
         setStringConverter(appointment_status_selector, AppointmentStatus.TODOS);
         loadGenericTypeListOnComboBox(employee_selector, employees);
-    }
-
-    private void loadAppointmentsListOnView(List<AppointmentInfoDTO> appointmentInfoDTOList) {
-
-        loadItemsOnController(
-                appointmentInfoDTOList,
-                appointment_list_VBox,
-                AppointmentItemController.class,
-                APPOINTMENT_ITEM_VIEW_PATH,
-                EMPTY_APPOINTMENTS_LIST_MESSAGE,
-                APPOINTMENTS_VIEW_LOADING_FAILED,
-                itemController -> {
-
-                    itemController.setOnCompleteCallback(this::markAppointmentAsComplete);
-                    itemController.setOnCancelCallback(this::markAppointmentAsCanceled);
-                    itemController.setOnEditCallback(this::goToAppointmentEditionView);
-                }
-        );
     }
 
     private void markAppointmentAsComplete(AppointmentInfoDTO dto) {
@@ -232,37 +216,79 @@ public class AppointmentViewController {
     }
 
     private void configureLiveSearch() {
-        client_search_field.textProperty().addListener((_, _, _) -> executeLiveSearch());
-        appointment_status_selector.valueProperty().addListener((_, _, _) -> executeLiveSearch());
-        date_selector.valueProperty().addListener((_, _, _) -> executeLiveSearch());
-        employee_selector.valueProperty().addListener((_, _, _) -> executeLiveSearch());
+
+        attachLiveSearchListeners(
+                client_search_field.textProperty(),
+                appointment_status_selector.valueProperty(),
+                date_selector.valueProperty(),
+                employee_selector.valueProperty()
+        );
     }
 
-    private void executeLiveSearch() {
+    @Override
+    protected List<AppointmentInfoDTO> searchCatalog() {
+
         String clientName = client_search_field.getText();
+
         AppointmentStatus selectedAppointmentStatus = appointment_status_selector.getValue();
+
         EmployeeInfoDTO employeeSelected = employee_selector.getValue();
+
         String employeeName = employeeSelected == null ? "" : employeeSelected.getFirstName() + " " + employeeSelected.getLastName();
-        if (selectedAppointmentStatus == AppointmentStatus.TODOS)
-            selectedAppointmentStatus = null;
+
+        if (selectedAppointmentStatus == AppointmentStatus.TODOS) selectedAppointmentStatus = null;
+
         LocalDate date = date_selector.getValue();
-        List<AppointmentInfoDTO> appointments = appointmentService.liveSearch(clientName, date, selectedAppointmentStatus, employeeName);
-        cleanContainer(appointment_list_VBox);
-        loadAppointmentsListOnView(appointments);
-        setTextOnLabel(total_appointments_count, parseNumberValueToText(appointments.size()) + " encontrados");
+
+        return appointmentService.liveSearch(clientName, date, selectedAppointmentStatus, employeeName);
     }
 
-    private void cleanFiltersAndLiveSearch() {
+    @Override
+    protected VBox getItemListContainer() {
+
+        return appointment_list_VBox;
+    }
+
+    @Override
+    protected void loadItemsOnView(List<AppointmentInfoDTO> appointmentInfoDTOList) {
+
+        loadItemsOnController(
+                appointmentInfoDTOList,
+                appointment_list_VBox,
+                AppointmentItemController.class,
+                APPOINTMENT_ITEM_VIEW_PATH,
+                EMPTY_APPOINTMENTS_LIST_MESSAGE,
+                APPOINTMENTS_VIEW_LOADING_FAILED,
+                itemController -> {
+
+                    itemController.setOnCompleteCallback(this::markAppointmentAsComplete);
+                    itemController.setOnCancelCallback(this::markAppointmentAsCanceled);
+                    itemController.setOnEditCallback(this::goToAppointmentEditionView);
+                }
+        );
+    }
+
+    @Override
+    protected void afterSearch(List<AppointmentInfoDTO> items) {
+
+        setTextOnLabel(total_appointments_count, parseNumberValueToText(items.size()) + " encontrados");
+    }
+
+    @Override
+    protected void clearFilterNodes() {
+
         cleanDatePicker(date_selector);
         setBlankTextfield(client_search_field);
         cleanComboBoxes(appointment_status_selector, employee_selector);
     }
 
     private void configureButtonActions() {
+
         Map<Button, Runnable> map = Map.of(
-                clear_filters_button, this::cleanFiltersAndLiveSearch,
+                clear_filters_button, this::resetSearchFilter,
                 register_new_appointment_button, this::goToAppointmentCreationView
         );
+
         configureRunnableMaps(map);
     }
 }

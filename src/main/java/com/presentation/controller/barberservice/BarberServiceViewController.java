@@ -5,6 +5,7 @@ import com.enums.BarberServiceCategory;
 import com.enums.PriceRanges;
 import com.enums.ToastNotificationType;
 import com.enums.ViewRedirection;
+import com.presentation.controller.item.BaseCatalogViewController;
 import com.service.interfaces.BarberserviceService;
 import com.service.interfaces.SaleService;
 import io.github.palexdev.materialfx.controls.MFXButton;
@@ -41,15 +42,15 @@ import static com.presentation.support.control.ValidationFormatter.parseNumberVa
 import static com.presentation.support.control.ValidationFormatter.setStringConverter;
 import static com.presentation.support.dialog.DialogHelper.showConfirmationDialog;
 import static com.presentation.support.notification.ToastNotificationHelper.showToastNotification;
-import static com.presentation.support.view.ContainerManager.*;
-import static com.presentation.support.view.FXMLViewLoader.*;
+import static com.presentation.support.view.ContainerManager.loadItemsOnController;
+import static com.presentation.support.view.FXMLViewLoader.loadViewWithControllerPane;
 import static com.presentation.support.view.ViewRedirectionHelper.redirectToView;
 
 @Component
 @Getter
 @Setter
 @RequiredArgsConstructor
-public class BarberServiceViewController {
+public class BarberServiceViewController extends BaseCatalogViewController<BarberServiceInfoDTO> {
 
     private final BarberserviceService barberService;
     private final SaleService saleService;
@@ -67,7 +68,8 @@ public class BarberServiceViewController {
             highestRevenueService,
             revenueSum,
             lowestUsedService,
-            timesUsed;
+            timesUsed,
+            servicesCount;
 
     @FXML
     private TextField serviceSearchField;
@@ -89,12 +91,16 @@ public class BarberServiceViewController {
     @FXML
     public void initialize() {
         List<BarberServiceInfoDTO> catalog = barberService.getServicesList();
+
         loadServicesStats();
-        loadBarberServiceCatalogOnView(catalog);
+        loadItemsOnView(catalog);
+
         loadEnumsOnComboBox(serviceCategorySelector, BarberServiceCategory.values());
         loadEnumsOnComboBox(servicePriceRangeSelector, PriceRanges.values());
+
         setStringConverter(serviceCategorySelector, BarberServiceCategory.TODOS);
         setStringConverter(servicePriceRangeSelector, PriceRanges.TODOS);
+
         configureLiveSearch();
         configureButtonActions();
     }
@@ -160,17 +166,23 @@ public class BarberServiceViewController {
     }
 
     private void confirmAndDeleteService(BarberServiceInfoDTO barberServiceInfoDTO) {
+
         Runnable onConfirm = () -> {
             try {
+
                 barberService.deleteBarberservice(barberServiceInfoDTO.getBarberServiceId());
                 showToastNotification(anchorPane, applicationContext, BARBER_SERVICE_SUCCESSFULLY_DELETED_MESSAGE, ToastNotificationType.SUCCESSFUL);
                 executeLiveSearch();
+
             } catch (DataIntegrityViolationException exception) {
+
                 showToastNotification(anchorPane, applicationContext, BARBER_SERVICE_DELETION_FAILED_MESSAGE, ToastNotificationType.FAILED);
             }
         };
+
         Runnable onCancel = () -> {
         };
+
         showConfirmationDialog(
                 anchorPane,
                 applicationContext,
@@ -183,10 +195,57 @@ public class BarberServiceViewController {
                 onCancel);
     }
 
-    private void loadBarberServiceCatalogOnView(List<BarberServiceInfoDTO> barberServiceInfoDTOS) {
+    private void configureButtonActions() {
+
+        Map<Button, Runnable> map = Map.of(
+                createBarberServiceButton, () -> redirectToView(ViewRedirection.BARBER_SERVICE_CREATION, anchorPane, applicationContext),
+                cleanFiltersButton, this::resetSearchFilter
+        );
+
+        configureRunnableMaps(map);
+    }
+
+    private void configureLiveSearch() {
+
+        attachLiveSearchListeners(
+                serviceSearchField.textProperty(),
+                serviceCategorySelector.valueProperty(),
+                servicePriceRangeSelector.valueProperty()
+        );
+    }
+
+    @Override
+    protected List<BarberServiceInfoDTO> searchCatalog() {
+
+        Double minPrice = null, maxPrice = null;
+
+        String serviceName = serviceSearchField.getText();
+
+        BarberServiceCategory selectedCategory = serviceCategorySelector.getValue();
+
+        if (selectedCategory == BarberServiceCategory.TODOS) selectedCategory = null;
+
+        PriceRanges selectedPriceRange = servicePriceRangeSelector.getValue();
+
+        if (selectedPriceRange != null) {
+            minPrice = selectedPriceRange.getMinPrice();
+            maxPrice = selectedPriceRange.getMaxPrice();
+        }
+
+        return barberService.liveSearch(serviceName, selectedCategory, minPrice, maxPrice);
+    }
+
+    @Override
+    protected VBox getItemListContainer() {
+
+        return servicesListViewBox;
+    }
+
+    @Override
+    protected void loadItemsOnView(List<BarberServiceInfoDTO> items) {
 
         loadItemsOnController(
-                barberServiceInfoDTOS,
+                items,
                 servicesListViewBox,
                 BarberServiceItemController.class,
                 BARBER_SERVICE_ITEM_VIEW_PATH,
@@ -200,38 +259,16 @@ public class BarberServiceViewController {
         );
     }
 
-    private void configureButtonActions() {
-        Map<Button, Runnable> map = Map.of(
-                createBarberServiceButton, () -> redirectToView(ViewRedirection.BARBER_SERVICE_CREATION, anchorPane, applicationContext),
-                cleanFiltersButton, this::cleanFiltersAndLiveSearch
-        );
-        configureRunnableMaps(map);
-    }
+    @Override
+    protected void clearFilterNodes() {
 
-    private void configureLiveSearch() {
-        serviceSearchField.textProperty().addListener((_, _, _) -> executeLiveSearch());
-        serviceCategorySelector.valueProperty().addListener((_, _, _) -> executeLiveSearch());
-        servicePriceRangeSelector.valueProperty().addListener((_, _, _) -> executeLiveSearch());
-    }
-
-    private void executeLiveSearch() {
-        Double minPrice = null, maxPrice = null;
-        String serviceName = serviceSearchField.getText();
-        BarberServiceCategory selectedCategory = serviceCategorySelector.getValue();
-        if (selectedCategory == BarberServiceCategory.TODOS)
-            selectedCategory = null;
-        PriceRanges selectedPriceRange = servicePriceRangeSelector.getValue();
-        if (selectedPriceRange != null) {
-            minPrice = selectedPriceRange.getMinPrice();
-            maxPrice = selectedPriceRange.getMaxPrice();
-        }
-        List<BarberServiceInfoDTO> barberServices = barberService.liveSearch(serviceName, selectedCategory, minPrice, maxPrice);
-        cleanContainer(servicesListViewBox);
-        loadBarberServiceCatalogOnView(barberServices);
-    }
-
-    private void cleanFiltersAndLiveSearch() {
         setBlankTextfield(serviceSearchField);
         cleanComboBoxes(serviceCategorySelector, servicePriceRangeSelector);
+    }
+
+    @Override
+    protected void afterSearch(List<BarberServiceInfoDTO> items) {
+
+        setTextOnLabel(servicesCount, parseNumberValueToText(items.size()) + " encontrados");
     }
 }

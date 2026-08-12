@@ -3,7 +3,6 @@ package com.presentation.controller.register;
 import com.dto.appuser.AppUserCreationDTO;
 import com.enums.ViewRedirection;
 import com.exceptions.appuser.UsernameTakenException;
-import com.presentation.support.notification.ExceptionNotificationHandler;
 import com.service.interfaces.AppUserService;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import jakarta.validation.ConstraintViolationException;
@@ -24,6 +23,7 @@ import static com.presentation.constants.StringResource.ValidationErrorMessage.*
 import static com.presentation.support.control.UIBasicComponents.configureRunnableMaps;
 import static com.presentation.support.control.UIBasicComponents.setPromptTextOnMap;
 import static com.presentation.support.dialog.PopUpWindowHelper.showWindowAlert;
+import static com.presentation.support.notification.ExceptionNotificationHandler.notifyValidationFailure;
 import static com.presentation.support.view.ContainerManager.getCurrentWindow;
 import static com.presentation.support.view.ViewRedirectionHelper.redirectToView;
 
@@ -97,7 +97,7 @@ public class RegisterController {
             }
         } catch (ConstraintViolationException | UsernameTakenException exception) {
 
-            ExceptionNotificationHandler.notifyValidationFailure(anchorPane, exception, REGISTER_ERROR_TITLE, REGISTER_VALIDATION_FAILED);
+            notifyValidationFailure(anchorPane, exception, REGISTER_ERROR_TITLE, REGISTER_VALIDATION_FAILED);
         }
     }
 }

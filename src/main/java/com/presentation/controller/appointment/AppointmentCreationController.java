@@ -124,17 +124,24 @@ public class AppointmentCreationController extends BaseAppointmentFormController
     }
 
     private void configureClientLiveSearch() {
+
         clientSearchField.textProperty().addListener((_, _, _) -> executeClientLiveSearchByName());
         clientResultList.getSelectionModel().selectionProperty().addListener((MapChangeListener<? super Integer, ? super ClientInfoDTO>) change -> onClientSelected(change.getValueAdded()));
     }
 
     private void executeClientLiveSearchByName() {
+
         if (clientSearchField.getText().isBlank()) {
+
             cleanListView(clientResultList);
             setNodeAsNotVisible(clientResultList);
+
         } else {
+
             List<ClientInfoDTO> clients = appointmentService.clientLiveSearchByName(clientSearchField.getText());
+
             loadItemsOnListView(clientResultList, clients);
+
             setNodeAsVisible(clientResultList);
         }
     }

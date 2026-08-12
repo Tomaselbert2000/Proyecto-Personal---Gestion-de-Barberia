@@ -165,7 +165,7 @@
                     <HBox spacing="8" alignment="CENTER_LEFT">
                         <Label styleClass="md-title-medium" text="Catálogo de Servicios"/>
                         <Region HBox.hgrow="ALWAYS"/>
-                        <Label fx:id="serviceListViewBoxServiceCount" styleClass="md-body-small" text="0 servicios"/>
+                        <Label fx:id="servicesCount" styleClass="md-body-small"/>
                     </HBox>
 
                     <VBox fx:id="servicesListViewBox" styleClass="md-card">

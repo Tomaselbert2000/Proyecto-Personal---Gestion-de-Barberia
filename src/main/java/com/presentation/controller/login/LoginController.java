@@ -51,6 +51,7 @@ public class LoginController {
     }
 
     private void configureButtonActions() {
+
         Map<Button, Runnable> actionButtonsMap = Map.of(
                 loginButton, this::handleLoginClick,
                 registerButton, this::handleRegisterClick
@@ -60,39 +61,52 @@ public class LoginController {
     }
 
     private void handleLoginClick() {
+
         String username = extractUsername();
         String password = extractPassword();
 
         if (validateInputFields(username, password)) {
+
             verifyCredentialsAndRedirect(username, password);
+
         } else {
+
             showLoginError();
         }
     }
 
     private void handleRegisterClick() {
+
         redirectToView(REGISTER, anchorPane, applicationContext);
     }
 
     private String extractUsername() {
+
         return usernameTextField.getText();
     }
 
     private String extractPassword() {
+
         return passwordTextField.getText();
     }
 
     private boolean validateInputFields(String username, String password) {
+
         return !username.isBlank() && !password.isBlank();
     }
 
     private void verifyCredentialsAndRedirect(String username, String password) {
+
         executeAsyncTask(
                 () -> appUserService.signIn(username, password),
                 uiActionValue -> {
+
                     if (uiActionValue) {
+
                         handleSuccessfulLogin(username);
+
                     } else {
+
                         showLoginError();
                     }
                 }
@@ -100,12 +114,15 @@ public class LoginController {
     }
 
     private void handleSuccessfulLogin(String username) {
+
         appPreferences.setCurrentUser(username);
         appPreferences.setRememberCredentials(rememberSessionCheckBox.isSelected());
+
         redirectToView(DASHBOARD, anchorPane, applicationContext);
     }
 
     private void showLoginError() {
+
         showWindowAlert(
                 LOGIN_ERROR_TITLE,
                 "",

@@ -3,6 +3,7 @@ package com.presentation.controller.product;
 import com.dto.product.ProductInfoDTO;
 import com.enums.ProductCategory;
 import com.enums.StockStatus;
+import com.presentation.controller.item.BaseCatalogViewController;
 import com.service.interfaces.ProductService;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.fxml.FXML;
@@ -29,14 +30,13 @@ import static com.presentation.support.control.ComboBoxHelper.loadEnumsOnComboBo
 import static com.presentation.support.control.UIBasicComponents.*;
 import static com.presentation.support.control.ValidationFormatter.parseNumberValueToText;
 import static com.presentation.support.control.ValidationFormatter.setStringConverter;
-import static com.presentation.support.view.ContainerManager.cleanContainer;
 import static com.presentation.support.view.ContainerManager.loadItemsOnController;
 import static com.presentation.support.view.FXMLViewLoader.loadViewOnPane;
 import static com.presentation.support.view.FXMLViewLoader.loadViewWithControllerPane;
 
 @Component
 @RequiredArgsConstructor
-public class ProductViewController {
+public class ProductViewController extends BaseCatalogViewController<ProductInfoDTO> {
 
     private final ProductService productService;
     private final ApplicationContext applicationContext;
@@ -92,7 +92,7 @@ public class ProductViewController {
         configureLiveSearch();
         configureButtonActions();
 
-        loadProductListOnView(products);
+        loadItemsOnView(products);
     }
 
     private void loadTotalProductCountStats() {
@@ -139,23 +139,6 @@ public class ProductViewController {
         );
     }
 
-    private void loadProductListOnView(List<ProductInfoDTO> products) {
-
-        loadItemsOnController(
-                products,
-                productListVBox,
-                ProductItemController.class,
-                PRODUCT_ITEM_VIEW_PATH,
-                EMPTY_PRODUCT_LIST_MESSAGE,
-                PRODUCT_ITEM_VIEW_LOADING_FAILED,
-                itemController -> {
-
-                    itemController.setOnEditCallback(this::goToEditProductView);
-                    itemController.setOnAddStockCallback(this::goToAddStockView);
-                }
-        );
-    }
-
     private void goToRegisterNewProductView() {
 
         loadViewOnPane(PRODUCT_CREATION_VIEW_PATH, applicationContext, PRODUCT_CREATION_VIEW_LOADING_FAILED, anchorPane);
@@ -181,7 +164,7 @@ public class ProductViewController {
 
         Map<Button, Runnable> map = Map.of(
                 createProductButton, this::goToRegisterNewProductView,
-                cleanFiltersButton, this::cleanFiltersAndLiveSearch
+                cleanFiltersButton, this::resetSearchFilter
         );
 
         configureRunnableMaps(map);
@@ -189,12 +172,15 @@ public class ProductViewController {
 
     private void configureLiveSearch() {
 
-        productSearchField.textProperty().addListener((_, _, _) -> executeLiveSearch());
-        productCategorySelector.valueProperty().addListener((_, _, _) -> executeLiveSearch());
-        productStockStatusSelector.valueProperty().addListener((_, _, _) -> executeLiveSearch());
+        attachLiveSearchListeners(
+                productSearchField.textProperty(),
+                productCategorySelector.valueProperty(),
+                productStockStatusSelector.valueProperty()
+        );
     }
 
-    private void executeLiveSearch() {
+    @Override
+    protected List<ProductInfoDTO> searchCatalog() {
 
         String productName = productSearchField.getText();
 
@@ -212,16 +198,43 @@ public class ProductViewController {
             selectedStatus = null;
         }
 
-        List<ProductInfoDTO> products = productService.liveSearch(productName, selectedCategory, selectedStatus);
-
-        cleanContainer(productListVBox);
-
-        loadProductListOnView(products);
+        return productService.liveSearch(productName, selectedCategory, selectedStatus);
     }
 
-    private void cleanFiltersAndLiveSearch() {
+    @Override
+    protected VBox getItemListContainer() {
+
+        return productListVBox;
+    }
+
+    @Override
+    protected void loadItemsOnView(List<ProductInfoDTO> items) {
+
+        loadItemsOnController(
+                items,
+                productListVBox,
+                ProductItemController.class,
+                PRODUCT_ITEM_VIEW_PATH,
+                EMPTY_PRODUCT_LIST_MESSAGE,
+                PRODUCT_ITEM_VIEW_LOADING_FAILED,
+                itemController -> {
+
+                    itemController.setOnEditCallback(this::goToEditProductView);
+                    itemController.setOnAddStockCallback(this::goToAddStockView);
+                }
+        );
+    }
+
+    @Override
+    protected void clearFilterNodes() {
 
         setBlankTextfield(productSearchField);
         cleanComboBoxes(productCategorySelector, productStockStatusSelector);
+    }
+
+    @Override
+    protected void afterSearch(List<ProductInfoDTO> items) {
+
+        setTextOnLabel(productsFoundCount, parseNumberValueToText(items.size()) + " encontrados");
     }
 }

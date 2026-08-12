@@ -3,6 +3,7 @@ package com.presentation.controller.paymentmethod;
 import com.dto.paymentmethod.PaymentMethodInfoDTO;
 import com.enums.PaymentMethodModifierType;
 import com.enums.PaymentMethodStatus;
+import com.presentation.controller.item.BaseCatalogViewController;
 import com.service.interfaces.PaymentMethodService;
 import com.service.interfaces.SaleService;
 import io.github.palexdev.materialfx.controls.MFXButton;
@@ -31,13 +32,13 @@ import static com.presentation.constants.ViewPath.PAYMENT_METHOD_ITEM_VIEW_PATH;
 import static com.presentation.support.control.ComboBoxHelper.cleanComboBoxes;
 import static com.presentation.support.control.UIBasicComponents.*;
 import static com.presentation.support.control.ValidationFormatter.parseNumberValueToText;
-import static com.presentation.support.view.ContainerManager.*;
-import static com.presentation.support.view.FXMLViewLoader.*;
+import static com.presentation.support.view.ContainerManager.loadItemsOnController;
+import static com.presentation.support.view.FXMLViewLoader.loadViewWithControllerPane;
 import static com.presentation.support.view.ViewRedirectionHelper.redirectToView;
 
 @Component
 @RequiredArgsConstructor
-public class PaymentMethodViewController {
+public class PaymentMethodViewController extends BaseCatalogViewController<PaymentMethodInfoDTO> {
 
     private final ApplicationContext applicationContext;
     private final PaymentMethodService paymentMethodService;
@@ -77,43 +78,73 @@ public class PaymentMethodViewController {
     public void initialize() {
 
         loadPaymentMethodStats();
+
         configureButtonActions();
+
         configureLiveSearch();
     }
 
     private void configureLiveSearch() {
 
-        searchField.textProperty().addListener((_, _, _) -> executeLiveSearch());
-        statusFilter.valueProperty().addListener((_, _, _) -> executeLiveSearch());
-        modifierTypeFilter.valueProperty().addListener((_, _, _) -> executeLiveSearch());
+        attachLiveSearchListeners(
+                searchField.textProperty(),
+                statusFilter.valueProperty(),
+                modifierTypeFilter.valueProperty()
+        );
     }
 
-    private void executeLiveSearch() {
+    @Override
+    protected List<PaymentMethodInfoDTO> searchCatalog() {
 
         String paymentName = searchField.getText();
         PaymentMethodStatus status = statusFilter.getValue();
         PaymentMethodModifierType modifierType = modifierTypeFilter.getValue();
 
-        List<PaymentMethodInfoDTO> payments = paymentMethodService.paymentMethodLiveSearch(paymentName, status, modifierType);
-
-        cleanContainer(paymentMethodListContainer);
-
-        loadPaymentMethodList(payments);
-
-        setTextOnLabel(resultsCount, parseNumberValueToText(payments.size()) + " encontrados");
+        return paymentMethodService.paymentMethodLiveSearch(paymentName, status, modifierType);
     }
 
-    private void cleanFiltersAndLiveSearch() {
+    @Override
+    protected VBox getItemListContainer() {
+
+        return paymentMethodListContainer;
+    }
+
+    @Override
+    protected void loadItemsOnView(List<PaymentMethodInfoDTO> items) {
+
+        loadItemsOnController(
+                items,
+                paymentMethodListContainer,
+                PaymentMethodItemController.class,
+                PAYMENT_METHOD_ITEM_VIEW_PATH,
+                EMPTY_PAYMENT_LIST_MESSAGE,
+                PAYMENT_METHOD_ITEM_VIEW_LOADING_FAILED,
+                itemController -> {
+
+                    itemController.setOnEditCallback(this::goToPaymentMethodEditView);
+                    itemController.setOnActiveToggleCallback(this::togglePaymentMethodStatus);
+                }
+        );
+    }
+
+    @Override
+    protected void clearFilterNodes() {
 
         setBlankTextfield(searchField);
         cleanComboBoxes(statusFilter, modifierTypeFilter);
+    }
+
+    @Override
+    protected void afterSearch(List<PaymentMethodInfoDTO> items) {
+
+        setTextOnLabel(resultsCount, parseNumberValueToText(items.size()) + " encontrados");
     }
 
     private void configureButtonActions() {
 
         Map<Button, Runnable> map = Map.of(
                 createPaymentMethodButton, this::createPaymentMethod,
-                clearFiltersButton, this::cleanFiltersAndLiveSearch
+                clearFiltersButton, this::resetSearchFilter
         );
 
         configureRunnableMaps(map);
@@ -126,7 +157,7 @@ public class PaymentMethodViewController {
         loadActivePaymentsStats();
         loadModifierValueSumStats();
 
-        loadPaymentMethodList(paymentMethodService.getPaymentMethodsList());
+        loadItemsOnView(paymentMethodService.getPaymentMethodsList());
     }
 
     private void loadMostUsedPaymentMethodsStats() {
@@ -174,23 +205,6 @@ public class PaymentMethodViewController {
 
                         setTextOnLabel(modifierTypeBalance, "-" + CURRENCY_STRING_ARG + parseNumberValueToText(modifierValueSum));
                     }
-                }
-        );
-    }
-
-    private void loadPaymentMethodList(List<PaymentMethodInfoDTO> paymentsList) {
-
-        loadItemsOnController(
-                paymentsList,
-                paymentMethodListContainer,
-                PaymentMethodItemController.class,
-                PAYMENT_METHOD_ITEM_VIEW_PATH,
-                EMPTY_PAYMENT_LIST_MESSAGE,
-                PAYMENT_METHOD_ITEM_VIEW_LOADING_FAILED,
-                itemController -> {
-
-                    itemController.setOnEditCallback(this::goToPaymentMethodEditView);
-                    itemController.setOnActiveToggleCallback(this::togglePaymentMethodStatus);
                 }
         );
     }
