@@ -114,7 +114,7 @@ public class EmployeeItemController extends AbstractItemController<EmployeeInfoD
 
         toggleStatusComponents(infoDTOReference.getIsActive());
 
-        if (onStatusChangeCallBack != null) onStatusChangeCallBack.accept(infoDTOReference);
+        fire(onStatusChangeCallBack);
     }
 
     public void setDataOnItem(EmployeeInfoDTO infoDTO) {

@@ -8,7 +8,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.stereotype.Component;
 
@@ -24,7 +23,6 @@ import static com.presentation.support.control.ValidationFormatter.parseNumberVa
 @Component
 @Getter
 @Setter
-@RequiredArgsConstructor
 public class PaymentMethodItemController extends AbstractItemController<PaymentMethodInfoDTO> {
 
     private Consumer<PaymentMethodInfoDTO>
@@ -117,6 +115,6 @@ public class PaymentMethodItemController extends AbstractItemController<PaymentM
 
         toggleBadgeAndButtonTexts(infoDTOReference.getIsActive());
 
-        if (onActiveToggleCallback != null) onActiveToggleCallback.accept(infoDTOReference);
+        fire(onActiveToggleCallback);
     }
 }

@@ -206,38 +206,6 @@ public class ContainerManager {
         );
     }
 
-    public static <T> void loadItemsOnController(
-            List<T> itemList,
-            VBox destinationContainer,
-            String fxmlPathTextConstant,
-            String noElementsMessage,
-            String fxmlLoadingErrorMessage,
-            Consumer<ItemController<T>> consumer
-    ) {
-
-        if (itemList.isEmpty()) showEmptyListLabel(noElementsMessage, destinationContainer);
-
-        IntStream.range(0, itemList.size()).forEach(
-                i -> {
-                    T item = itemList.get(i);
-
-                    FXMLLoader loader = generateLoaderWithPath(fxmlPathTextConstant);
-
-                    Parent parent = returnParentFromLoader(loader, fxmlLoadingErrorMessage);
-
-                    ItemController<T> controller = loader.getController();
-
-                    controller.setDataOnItem(item);
-
-                    consumer.accept(controller);
-
-                    loadItemOnVBox(destinationContainer, parent);
-
-                    fadeNodeIn(parent, i * ANIMATION_DELAY_IN_MS);
-                }
-        );
-    }
-
     public static <T, C extends ItemController<T>> void loadItemsOnController(
             List<T> itemList,
             VBox destinationContainer,
