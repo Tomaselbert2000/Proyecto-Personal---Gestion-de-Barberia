@@ -2,44 +2,42 @@ package com.presentation.controller.employee;
 
 import com.dto.employee.EmployeeInfoDTO;
 import com.dto.employee.EmployeeUpdateDTO;
-import com.enums.ToastNotificationType;
-import com.enums.ViewRedirection;
+import com.presentation.controller.BaseCrudFormController;
 import com.service.interfaces.EmployeeService;
 import io.github.palexdev.materialfx.controls.MFXButton;
-import jakarta.validation.ConstraintViolationException;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
-import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Map;
 
+import static com.enums.ViewRedirection.EMPLOYEES;
 import static com.presentation.constants.ControllerConstants.EmployeeControllerConstants.ACTIVATE;
 import static com.presentation.constants.ControllerConstants.EmployeeControllerConstants.DEACTIVATE;
 import static com.presentation.constants.PromptTexts.EmployeePromptText.*;
-import static com.presentation.constants.StringResource.ConfirmationDialog.CONFIRM_BUTTON_TEXT;
 import static com.presentation.constants.StringResource.ToastNotificationMessage.EMPLOYEE_UPDATE_TOAST_NOTIFICATION_MESSAGE;
 import static com.presentation.constants.StringResource.ValidationErrorMessage.EMPLOYEE_EDITION_VALIDATION_FAILED;
-import static com.presentation.constants.StringResource.ValidationErrorMessage.VALIDATION_ERROR_TITLE;
 import static com.presentation.support.control.UIBasicComponents.*;
 import static com.presentation.support.control.ValidationFormatter.formatAsPercentage;
-import static com.presentation.support.control.ValidationFormatter.getConstraintViolationsList;
-import static com.presentation.support.dialog.PopUpWindowHelper.showWindowAlert;
 import static com.presentation.support.format.NumberParser.parsePercentageFraction;
-import static com.presentation.support.notification.ToastNotificationHelper.showToastNotification;
-import static com.presentation.support.view.ContainerManager.getCurrentWindow;
 import static com.presentation.support.view.ViewRedirectionHelper.redirectToView;
 
 @Component
-@RequiredArgsConstructor
-public class EmployeeEditionController {
+public class EmployeeEditionController extends BaseCrudFormController<EmployeeUpdateDTO, EmployeeInfoDTO> {
 
-    private final ApplicationContext applicationContext;
     private final EmployeeService employeeService;
+
+    public EmployeeEditionController(ApplicationContext applicationContext, EmployeeService employeeService) {
+
+        super(applicationContext);
+        this.employeeService = employeeService;
+    }
 
     @FXML
     private AnchorPane anchorPane;
@@ -72,7 +70,9 @@ public class EmployeeEditionController {
     @FXML
     public void initialize(EmployeeInfoDTO infoDTO) {
 
-        configureButtonActions(infoDTO);
+        internalInfoDTOReference = infoDTO;
+
+        configureButtonActions();
 
         configurePromptTexts();
 
@@ -118,34 +118,12 @@ public class EmployeeEditionController {
                 currentTerminationDate, infoDTO.getTerminationDateAsString()
         );
 
-        setTextsOnLabelMap(map);
-    }
+        if (infoDTO.getTerminationDateAsString() != null) {
 
-    private void updateEmployee(EmployeeInfoDTO infoDTO) {
-
-        try {
-
-            String firstName = firstNameField.getText();
-            String lastName = lastNameField.getText();
-
-            Double commissionPercentage = parsePercentageFraction(commissionField.getText(), null);
-
-            Boolean isActive = getBooleanFlagFromToggleButtonText();
-
-            LocalDate terminationDate = terminationDatePicker.getValue();
-
-            EmployeeUpdateDTO updateDTO = buildDTOFromAttributes(firstName, lastName, isActive, commissionPercentage, terminationDate);
-
-            employeeService.updateEmployee(infoDTO.getId(), updateDTO);
-
-            showToastNotification(anchorPane, applicationContext, EMPLOYEE_UPDATE_TOAST_NOTIFICATION_MESSAGE, ToastNotificationType.SUCCESSFUL);
-
-        } catch (ConstraintViolationException exception) {
-
-            String errorMessages = getConstraintViolationsList(exception);
-
-            showWindowAlert(VALIDATION_ERROR_TITLE, EMPLOYEE_EDITION_VALIDATION_FAILED, errorMessages, Alert.AlertType.ERROR, CONFIRM_BUTTON_TEXT, getCurrentWindow(anchorPane));
+            terminationDatePicker.setValue(LocalDate.parse(infoDTO.getTerminationDateAsString()));
         }
+
+        setTextsOnLabelMap(map);
     }
 
     private Boolean getBooleanFlagFromToggleButtonText() {
@@ -165,7 +143,49 @@ public class EmployeeEditionController {
         }
     }
 
-    private EmployeeUpdateDTO buildDTOFromAttributes(String firstName, String lastName, Boolean isActive, Double commissionPercentage, LocalDate terminationDate) {
+    private void configureButtonActions() {
+
+        Map<Button, Runnable> map = Map.of(
+                backButton, () -> redirectToView(EMPLOYEES, anchorPane, getApplicationContext()),
+                saveButton, this::saveEntity,
+                resetButton, this::resetForm,
+                toggleStatusButton, this::changeTextOnToggleStatusButton
+        );
+
+        configureRunnableMaps(map);
+    }
+
+    @Override
+    protected AnchorPane getAnchorPane() {
+
+        return anchorPane;
+    }
+
+    @Override
+    protected void persistEntity(EmployeeUpdateDTO dto) {
+
+        employeeService.updateEmployee(internalInfoDTOReference.getId(), dto);
+    }
+
+    @Override
+    protected String getSuccessMessage() {
+
+        return EMPLOYEE_UPDATE_TOAST_NOTIFICATION_MESSAGE;
+    }
+
+    @Override
+    protected String getErrorMessage() {
+        return EMPLOYEE_EDITION_VALIDATION_FAILED;
+    }
+
+    @Override
+    protected EmployeeUpdateDTO buildDTO() {
+
+        String firstName = firstNameField.getText();
+        String lastName = lastNameField.getText();
+        Double commissionPercentage = parsePercentageFraction(commissionField.getText(), null);
+        Boolean isActive = getBooleanFlagFromToggleButtonText();
+        LocalDate terminationDate = terminationDatePicker.getValue();
 
         return EmployeeUpdateDTO.builder()
                 .firstName(firstName)
@@ -176,24 +196,9 @@ public class EmployeeEditionController {
                 .build();
     }
 
-    private void configureButtonActions(EmployeeInfoDTO infoDTO) {
+    @Override
+    protected void resetForm() {
 
-        Map<Button, Runnable> map = Map.of(
-                backButton, () -> redirectToView(ViewRedirection.EMPLOYEES, anchorPane, applicationContext),
-                saveButton, () -> updateEmployee(infoDTO),
-                resetButton, () -> resetForm(infoDTO),
-                toggleStatusButton, this::changeTextOnToggleStatusButton
-        );
-
-        configureRunnableMaps(map);
-    }
-
-    private void resetForm(EmployeeInfoDTO infoDTO) {
-
-        cleanTextfields(List.of(firstNameField, lastNameField, commissionField));
-
-        cleanDatePicker(terminationDatePicker);
-
-        loadEmployeeDataForEdition(infoDTO);
+        loadEmployeeDataForEdition(internalInfoDTOReference);
     }
 }

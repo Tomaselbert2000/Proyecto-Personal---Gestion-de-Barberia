@@ -1,18 +1,16 @@
 package com.presentation.controller.employee;
 
 import com.dto.employee.EmployeeCreationDTO;
-import com.enums.ToastNotificationType;
+import com.dto.employee.EmployeeInfoDTO;
 import com.enums.ViewRedirection;
+import com.presentation.controller.BaseCrudFormController;
 import com.service.interfaces.EmployeeService;
 import io.github.palexdev.materialfx.controls.MFXButton;
-import jakarta.validation.ConstraintViolationException;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
-import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
@@ -21,24 +19,22 @@ import java.util.Map;
 
 import static com.presentation.constants.ControllerConstants.EmployeeControllerConstants.PERCENTAGE_VALUE_IF_TEXTFIELD_IS_NULL;
 import static com.presentation.constants.PromptTexts.EmployeePromptText.*;
-import static com.presentation.constants.StringResource.ConfirmationDialog.CONFIRM_BUTTON_TEXT;
 import static com.presentation.constants.StringResource.ToastNotificationMessage.EMPLOYEE_CREATION_TOAST_NOTIFICATION_MESSAGE;
 import static com.presentation.constants.StringResource.ValidationErrorMessage.EMPLOYEE_CREATION_VALIDATION_FAILED;
-import static com.presentation.constants.StringResource.ValidationErrorMessage.VALIDATION_ERROR_TITLE;
 import static com.presentation.support.control.UIBasicComponents.*;
-import static com.presentation.support.control.ValidationFormatter.getConstraintViolationsList;
-import static com.presentation.support.dialog.PopUpWindowHelper.showWindowAlert;
 import static com.presentation.support.format.NumberParser.parsePercentageFraction;
-import static com.presentation.support.notification.ToastNotificationHelper.showToastNotification;
-import static com.presentation.support.view.ContainerManager.getCurrentWindow;
 import static com.presentation.support.view.ViewRedirectionHelper.redirectToView;
 
 @Component
-@RequiredArgsConstructor
-public class EmployeeCreationController {
+public class EmployeeCreationController extends BaseCrudFormController<EmployeeCreationDTO, EmployeeInfoDTO> {
 
-    private final ApplicationContext applicationContext;
     private final EmployeeService employeeService;
+
+    public EmployeeCreationController(ApplicationContext applicationContext, EmployeeService employeeService) {
+
+        super(applicationContext);
+        this.employeeService = employeeService;
+    }
 
     @FXML
     private AnchorPane anchorPane;
@@ -79,51 +75,48 @@ public class EmployeeCreationController {
         setPromptTextOnMap(promptTextMap);
     }
 
-    private void resetForm() {
-
-        setBlankTextfield(firstNameField, lastNameField, commissionField);
-
-        cleanDatePicker(hireDatePicker);
-    }
-
     private void configureButtonActions() {
 
         Map<Button, Runnable> map = Map.of(
-                backButton, () -> redirectToView(ViewRedirection.EMPLOYEES, anchorPane, applicationContext),
+                backButton, () -> redirectToView(ViewRedirection.EMPLOYEES, getAnchorPane(), getApplicationContext()),
                 clearButton, this::resetForm,
-                saveButton, this::registerNewEmployee
+                saveButton, this::saveEntity
         );
 
         configureRunnableMaps(map);
     }
 
-    private void registerNewEmployee() {
+    @Override
+    protected AnchorPane getAnchorPane() {
 
-        try {
-
-            String firstName = firstNameField.getText();
-            String lastName = lastNameField.getText();
-            LocalDate hireDate = hireDatePicker.getValue();
-
-            double commissionValueAsDouble = parsePercentageFraction(commissionField.getText(), PERCENTAGE_VALUE_IF_TEXTFIELD_IS_NULL);
-
-            EmployeeCreationDTO creationDTO = buildDTOFromAttributes(firstName, lastName, hireDate, commissionValueAsDouble);
-
-            employeeService.registerNewEmployee(creationDTO);
-
-            showToastNotification(anchorPane, applicationContext, EMPLOYEE_CREATION_TOAST_NOTIFICATION_MESSAGE, ToastNotificationType.SUCCESSFUL);
-
-            resetForm();
-
-        } catch (ConstraintViolationException exception) {
-
-            String errorMessages = getConstraintViolationsList(exception);
-
-            showWindowAlert(VALIDATION_ERROR_TITLE, EMPLOYEE_CREATION_VALIDATION_FAILED, errorMessages, Alert.AlertType.ERROR, CONFIRM_BUTTON_TEXT, getCurrentWindow(anchorPane));
-        }
+        return anchorPane;
     }
 
-    private EmployeeCreationDTO buildDTOFromAttributes(String firstName, String lastName, LocalDate hireDate, double commissionValueAsDouble) {
+    @Override
+    protected void persistEntity(EmployeeCreationDTO dto) {
+
+        employeeService.registerNewEmployee(dto);
+    }
+
+    @Override
+    protected String getSuccessMessage() {
+
+        return EMPLOYEE_CREATION_TOAST_NOTIFICATION_MESSAGE;
+    }
+
+    @Override
+    protected String getErrorMessage() {
+
+        return EMPLOYEE_CREATION_VALIDATION_FAILED;
+    }
+
+    @Override
+    protected EmployeeCreationDTO buildDTO() {
+
+        String firstName = firstNameField.getText();
+        String lastName = lastNameField.getText();
+        LocalDate hireDate = hireDatePicker.getValue();
+        double commissionValueAsDouble = parsePercentageFraction(commissionField.getText(), PERCENTAGE_VALUE_IF_TEXTFIELD_IS_NULL);
 
         return EmployeeCreationDTO.builder()
                 .firstName(firstName)
@@ -131,5 +124,12 @@ public class EmployeeCreationController {
                 .hireDate(hireDate)
                 .commissionPercentage(commissionValueAsDouble)
                 .build();
+    }
+
+    @Override
+    protected void resetForm() {
+
+        setBlankTextfield(firstNameField, lastNameField, commissionField);
+        cleanDatePicker(hireDatePicker);
     }
 }
