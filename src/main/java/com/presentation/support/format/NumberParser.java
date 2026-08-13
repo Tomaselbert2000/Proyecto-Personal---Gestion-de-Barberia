@@ -18,7 +18,7 @@ public final class NumberParser {
 
         if (text == null || text.isBlank()) return defaultValue;
 
-        return Double.valueOf(text) / 100;
+        return Double.parseDouble(text) / 100;
     }
 
     public static Double parsePrice(String text) {
