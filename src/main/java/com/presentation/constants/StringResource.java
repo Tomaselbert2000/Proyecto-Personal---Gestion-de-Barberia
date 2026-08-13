@@ -98,6 +98,7 @@ public final class StringResource {
         public static final String APPOINTMENT_EDITION_VALIDATION_FAILED = "No se pudo actualizar el turno. Por favor, revisa lo siguiente: ";
 
         public static final String BARBER_SERVICE_CREATION_VALIDATION_FAILED = "No se pudo registrar el servicio en el catálogo. Por favor, revisa lo siguiente: ";
+        public static final String BARBER_SERVICE_UPDATE_VALIDATION_FAILED = "No se pudo actualizar el servicio en el catálogo. Por favor, revisa lo siguiente: ";
 
         public static final String PAYMENT_METHOD_CREATION_VALIDATION_FAILED = "No se pudo registrar el método de pago. Por favor, revisa lo siguiente:";
         public static final String PAYMENT_METHOD_EDITION_VALIDATION_FAILED = "No se pudo actualizar el método de pago. Por favor, revisa lo siguiente: ";
