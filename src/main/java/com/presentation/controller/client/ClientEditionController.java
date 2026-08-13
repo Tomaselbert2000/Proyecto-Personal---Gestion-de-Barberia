@@ -1,5 +1,8 @@
 package com.presentation.controller.client;
 
+import com.dto.client.ClientInfoDTO;
+import com.dto.client.ClientUpdateDTO;
+import com.presentation.controller.BaseCrudFormController;
 import com.service.interfaces.ClientService;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.fxml.FXML;
@@ -7,16 +10,19 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
-import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 @Component
-@RequiredArgsConstructor
-public class ClientEditionController {
+public class ClientEditionController extends BaseCrudFormController<ClientUpdateDTO, ClientInfoDTO> {
 
-    private final ApplicationContext applicationContext;
     private final ClientService clientService;
+
+    public ClientEditionController(ApplicationContext applicationContext, ClientService clientService) {
+
+        super(applicationContext);
+        this.clientService = clientService;
+    }
 
     @FXML
     private AnchorPane anchor_pane;
@@ -45,7 +51,37 @@ public class ClientEditionController {
     @FXML
     public void initialize() {
 
-
     }
 
+    @Override
+    protected AnchorPane getAnchorPane() {
+
+        return anchor_pane;
+    }
+
+    @Override
+    protected void persistEntity(ClientUpdateDTO dto) {
+
+        clientService.updateClient(internalInfoDTOReference.getNationalIdentityCardNumber(), dto);
+    }
+
+    @Override
+    protected String getSuccessMessage() {
+        return "";
+    }
+
+    @Override
+    protected String getErrorMessage() {
+        return "";
+    }
+
+    @Override
+    protected ClientUpdateDTO buildDTO() {
+        return null;
+    }
+
+    @Override
+    protected void resetForm() {
+
+    }
 }
