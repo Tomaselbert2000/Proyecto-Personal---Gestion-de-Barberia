@@ -163,7 +163,10 @@ public class ContainerManager {
         transition.setFromValue(THEME_TRANSITION_STARTING_VALUE);
         transition.setToValue(THEME_TRANSITION_ENDING_VALUE);
         transition.play();
-        transition.setOnFinished(_ -> ((Pane) snapshotView.getParent()).getChildren().remove(snapshotView));
+        transition.setOnFinished(_ -> {
+            Parent snapshotParent = snapshotView.getParent();
+            if (snapshotParent instanceof Pane pane) pane.getChildren().remove(snapshotView);
+        });
     }
 
     /**

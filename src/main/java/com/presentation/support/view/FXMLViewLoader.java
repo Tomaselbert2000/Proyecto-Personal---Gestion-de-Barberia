@@ -1,6 +1,5 @@
 package com.presentation.support.view;
 
-import com.presentation.support.control.ValidationFormatter;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -26,7 +25,7 @@ public class FXMLViewLoader {
      */
     public static FXMLLoader generateLoaderWithPath(String path) {
 
-        return new FXMLLoader(ValidationFormatter.class.getResource(path));
+        return new FXMLLoader(FXMLViewLoader.class.getResource(path));
     }
 
     /**
