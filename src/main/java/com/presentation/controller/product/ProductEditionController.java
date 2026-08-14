@@ -84,6 +84,8 @@ public class ProductEditionController extends BaseCrudFormController<ProductUpda
     @FXML
     public void initialize(ProductInfoDTO infoDTO) {
 
+        infoDTOReference = infoDTO;
+
         loadProductDataForEdition(infoDTO);
     }
 
