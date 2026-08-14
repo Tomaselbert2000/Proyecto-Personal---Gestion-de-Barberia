@@ -69,6 +69,8 @@ public class ClientMapperImpl implements ClientMapper {
                     .firstName(client.getFirstName())
                     .lastName(client.getLastName())
                     .registrationDate(client.getRegistrationDate())
+                    .email(client.getEmail())
+                    .phoneNumbersList(client.getPhoneNumbersList())
                     .optionalNotes(client.getOptionalNotes())
                     .build();
         }

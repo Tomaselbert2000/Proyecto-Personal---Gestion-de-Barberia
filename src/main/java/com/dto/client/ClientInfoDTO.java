@@ -3,6 +3,7 @@ package com.dto.client;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter
@@ -16,6 +17,8 @@ public class ClientInfoDTO {
     private String firstName;
     private String lastName;
     private LocalDate registrationDate;
+    private String email;
+    private List<String> phoneNumbersList;
     private String optionalNotes;
 
     @Override
