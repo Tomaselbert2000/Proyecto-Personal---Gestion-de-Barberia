@@ -25,25 +25,25 @@ public class ClientEditionController extends BaseCrudFormController<ClientUpdate
     }
 
     @FXML
-    private AnchorPane anchor_pane;
+    private AnchorPane anchorPane;
 
     @FXML
     private MFXButton
-            back_button,
-            add_phone_button,
-            cancel_button,
-            save_button;
+            backButton,
+            addPhoneButton,
+            cancelButton,
+            saveButton;
 
     @FXML
     private TextField
-            dni_field,
-            first_name_field,
-            last_name_field,
-            email_field,
-            optional_notes_field;
+            dniField,
+            firstNameField,
+            lastNameField,
+            emailField,
+            optionalNotesField;
 
     @FXML
-    private VBox phones_container;
+    private VBox phonesContainer;
 
     @FXML
     private CheckBox client_active_checkbox;
@@ -56,13 +56,13 @@ public class ClientEditionController extends BaseCrudFormController<ClientUpdate
     @Override
     protected AnchorPane getAnchorPane() {
 
-        return anchor_pane;
+        return anchorPane;
     }
 
     @Override
     protected void persistEntity(ClientUpdateDTO dto) {
 
-        clientService.updateClient(internalInfoDTOReference.getNationalIdentityCardNumber(), dto);
+        clientService.updateClient(infoDTOReference.getNationalIdentityCardNumber(), dto);
     }
 
     @Override

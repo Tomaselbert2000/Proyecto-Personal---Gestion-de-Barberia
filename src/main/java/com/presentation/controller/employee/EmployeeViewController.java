@@ -43,35 +43,35 @@ public class EmployeeViewController extends BaseCatalogViewController<EmployeeIn
     private final SaleService saleService;
 
     @FXML
-    private AnchorPane anchor_pane;
+    private AnchorPane anchorPane;
 
     @FXML
     private Label
-            currently_active_employees,
-            total_registered_employees,
-            highest_revenue_employee_name,
-            highest_revenue_value,
-            highest_amount_of_services_completed_employee,
-            amount_of_services_completed,
-            average_completed_services_by_active_employees,
-            results_count;
+            currentlyActiveEmployees,
+            totalRegisteredEmployees,
+            highestRevenueEmployeeName,
+            highestRevenueValue,
+            highestServicesCompletedEmployeeName,
+            completedServicesCount,
+            averageCompletedServicesByActiveEmployees,
+            resultsCount;
 
     @FXML
-    private TextField search_field;
+    private TextField searchField;
 
     @FXML
-    private ComboBox<EmployeeStatus> status_filter;
+    private ComboBox<EmployeeStatus> statusFilter;
 
     @FXML
-    private ComboBox<HireDateRange> hire_date_filter;
+    private ComboBox<HireDateRange> hireDateFilter;
 
     @FXML
     private MFXButton
-            clear_filters_button,
-            new_employee_button;
+            clearFiltersButton,
+            newEmployeeButton;
 
     @FXML
-    private VBox employee_list_container;
+    private VBox employeeListContainer;
 
     @FXML
     public void initialize() {
@@ -83,13 +83,13 @@ public class EmployeeViewController extends BaseCatalogViewController<EmployeeIn
         loadEmployeeCompletedServicesStats();
         loadProductivityStats();
 
-        setTextOnLabel(results_count, parseNumberValueToText(employeeService.getEmployeeCount()));
+        setTextOnLabel(resultsCount, parseNumberValueToText(employeeService.getEmployeeCount()));
 
-        loadEnumsOnComboBox(status_filter, EmployeeStatus.values());
-        loadEnumsOnComboBox(hire_date_filter, HireDateRange.values());
+        loadEnumsOnComboBox(statusFilter, EmployeeStatus.values());
+        loadEnumsOnComboBox(hireDateFilter, HireDateRange.values());
 
-        setStringConverter(status_filter, EmployeeStatus.TODOS);
-        setStringConverter(hire_date_filter, HireDateRange.TODOS);
+        setStringConverter(statusFilter, EmployeeStatus.TODOS);
+        setStringConverter(hireDateFilter, HireDateRange.TODOS);
 
         configureLiveSearch();
         configureButtonActions();
@@ -102,8 +102,8 @@ public class EmployeeViewController extends BaseCatalogViewController<EmployeeIn
         executeAsyncTask(
                 employeeService::getActiveEmployees,
                 activeEmployeesAmount -> {
-                    setTextOnLabel(currently_active_employees, parseNumberValueToText(activeEmployeesAmount));
-                    setTextOnLabel(total_registered_employees, "De " + parseNumberValueToText(employeeService.getEmployeeCount()) + " en total");
+                    setTextOnLabel(currentlyActiveEmployees, parseNumberValueToText(activeEmployeesAmount));
+                    setTextOnLabel(totalRegisteredEmployees, "De " + parseNumberValueToText(employeeService.getEmployeeCount()) + " en total");
                 }
         );
     }
@@ -113,8 +113,8 @@ public class EmployeeViewController extends BaseCatalogViewController<EmployeeIn
         executeAsyncTask(
                 saleService::getEmployeeWithHighestRevenue,
                 employeeRevenueDTO -> {
-                    setTextOnLabel(highest_revenue_employee_name, employeeRevenueDTO.getEmployeeFirstname() + "\n" + employeeRevenueDTO.getEmployeeLastname());
-                    setTextOnLabel(highest_revenue_value, CURRENCY_STRING_ARG + parseNumberValueToText(employeeRevenueDTO.getTotalRevenue()));
+                    setTextOnLabel(highestRevenueEmployeeName, employeeRevenueDTO.getEmployeeFirstname() + "\n" + employeeRevenueDTO.getEmployeeLastname());
+                    setTextOnLabel(highestRevenueValue, CURRENCY_STRING_ARG + parseNumberValueToText(employeeRevenueDTO.getTotalRevenue()));
                 }
         );
     }
@@ -124,8 +124,8 @@ public class EmployeeViewController extends BaseCatalogViewController<EmployeeIn
         executeAsyncTask(
                 saleService::getEmployeeWithMostServicesCompleted,
                 employeeCompletedServicesDTO -> {
-                    setTextOnLabel(highest_amount_of_services_completed_employee, employeeCompletedServicesDTO.getEmployeFirstName() + "\n" + employeeCompletedServicesDTO.getEmployeLastName());
-                    setTextOnLabel(amount_of_services_completed, parseNumberValueToText(employeeCompletedServicesDTO.getTotalServices()));
+                    setTextOnLabel(highestServicesCompletedEmployeeName, employeeCompletedServicesDTO.getEmployeFirstName() + "\n" + employeeCompletedServicesDTO.getEmployeLastName());
+                    setTextOnLabel(completedServicesCount, parseNumberValueToText(employeeCompletedServicesDTO.getTotalServices()));
                 }
         );
     }
@@ -134,7 +134,7 @@ public class EmployeeViewController extends BaseCatalogViewController<EmployeeIn
 
         executeAsyncTask(
                 saleService::getActiveEmployeesAverageServices,
-                averageValue -> setTextOnLabel(average_completed_services_by_active_employees, formatAsDecimalValue(averageValue))
+                averageValue -> setTextOnLabel(averageCompletedServicesByActiveEmployees, formatAsDecimalValue(averageValue))
         );
     }
 
@@ -144,7 +144,7 @@ public class EmployeeViewController extends BaseCatalogViewController<EmployeeIn
                 EMPLOYEE_EDITION_VIEW_PATH,
                 applicationContext,
                 EMPLOYEE_EDITION_VIEW_LOADING_FAILED,
-                anchor_pane,
+                anchorPane,
                 EmployeeEditionController.class,
                 editionController -> editionController.initialize(infoDTO)
         );
@@ -152,7 +152,7 @@ public class EmployeeViewController extends BaseCatalogViewController<EmployeeIn
 
     private void goToRegisterNewEmployeeView() {
 
-        loadViewOnPane(EMPLOYEE_CREATION_VIEW_PATH, applicationContext, EMPLOYEE_CREATION_VIEW_LOADING_FAILED, anchor_pane);
+        loadViewOnPane(EMPLOYEE_CREATION_VIEW_PATH, applicationContext, EMPLOYEE_CREATION_VIEW_LOADING_FAILED, anchorPane);
     }
 
     private void changeEmployeeStatus(EmployeeInfoDTO infoDTO) {
@@ -163,8 +163,8 @@ public class EmployeeViewController extends BaseCatalogViewController<EmployeeIn
     private void configureButtonActions() {
 
         Map<Button, Runnable> map = Map.of(
-                clear_filters_button, this::resetSearchFilter,
-                new_employee_button, this::goToRegisterNewEmployeeView
+                clearFiltersButton, this::resetSearchFilter,
+                newEmployeeButton, this::goToRegisterNewEmployeeView
         );
 
         configureRunnableMaps(map);
@@ -173,31 +173,31 @@ public class EmployeeViewController extends BaseCatalogViewController<EmployeeIn
     private void configureLiveSearch() {
 
         attachLiveSearchListeners(
-                search_field.textProperty(),
-                status_filter.valueProperty(),
-                hire_date_filter.valueProperty()
+                searchField.textProperty(),
+                statusFilter.valueProperty(),
+                hireDateFilter.valueProperty()
         );
     }
 
     @Override
     protected Label getResultsCountLabel() {
 
-        return results_count;
+        return resultsCount;
     }
 
     @Override
     protected List<EmployeeInfoDTO> searchCatalog() {
 
-        String employeeName = search_field.getText();
+        String employeeName = searchField.getText();
 
-        EmployeeStatus selectedStatus = status_filter.getValue();
+        EmployeeStatus selectedStatus = statusFilter.getValue();
 
         if (selectedStatus == EmployeeStatus.TODOS) {
 
             selectedStatus = null;
         }
 
-        HireDateRange selectedDateRange = hire_date_filter.getValue();
+        HireDateRange selectedDateRange = hireDateFilter.getValue();
 
         return employeeService.liveSearch(employeeName, selectedStatus, selectedDateRange);
     }
@@ -205,7 +205,7 @@ public class EmployeeViewController extends BaseCatalogViewController<EmployeeIn
     @Override
     protected VBox getItemListContainer() {
 
-        return employee_list_container;
+        return employeeListContainer;
     }
 
     @Override
@@ -213,15 +213,15 @@ public class EmployeeViewController extends BaseCatalogViewController<EmployeeIn
 
         loadItemsOnController(
                 items,
-                employee_list_container,
+                employeeListContainer,
                 EmployeeItemController.class,
                 EMPLOYEE_ITEM_VIEW_PATH,
                 EMPTY_EMPLOYEE_LIST_MESSAGE,
                 EMPLOYEE_ITEM_VIEW_LOADING_FAILED,
                 itemController -> {
 
-                    itemController.setOnEditCallBack(this::goToEditEmployeeView);
-                    itemController.setOnStatusChangeCallBack(this::changeEmployeeStatus);
+                    itemController.setOnEditCallback(this::goToEditEmployeeView);
+                    itemController.setOnStatusChangeCallback(this::changeEmployeeStatus);
                 }
         );
     }
@@ -229,7 +229,7 @@ public class EmployeeViewController extends BaseCatalogViewController<EmployeeIn
     @Override
     protected void clearFilterNodes() {
 
-        setBlankTextfield(search_field);
-        cleanComboBoxes(status_filter, hire_date_filter);
+        setBlankTextfield(searchField);
+        cleanComboBoxes(statusFilter, hireDateFilter);
     }
 }

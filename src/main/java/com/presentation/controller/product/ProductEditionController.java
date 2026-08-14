@@ -165,7 +165,7 @@ public class ProductEditionController extends BaseCrudFormController<ProductUpda
     @Override
     protected void persistEntity(ProductUpdateDTO updateDTO) {
 
-        productService.updateProduct(internalInfoDTOReference.getId(), updateDTO);
+        productService.updateProduct(infoDTOReference.getId(), updateDTO);
     }
 
     @Override
@@ -204,6 +204,6 @@ public class ProductEditionController extends BaseCrudFormController<ProductUpda
     @Override
     protected void resetForm() {
 
-        loadProductDataForEdition(internalInfoDTOReference);
+        loadProductDataForEdition(infoDTOReference);
     }
 }

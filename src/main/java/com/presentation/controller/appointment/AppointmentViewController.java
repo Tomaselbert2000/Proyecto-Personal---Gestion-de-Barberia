@@ -42,39 +42,39 @@ public class AppointmentViewController extends BaseCatalogViewController<Appoint
     private final ApplicationContext applicationContext;
 
     @FXML
-    private AnchorPane anchor_pane;
+    private AnchorPane anchorPane;
 
     @FXML
-    private VBox appointment_list_VBox;
+    private VBox appointmentListVBox;
 
     @FXML
     private Label
-            appointments_schedule_for_today,
-            completed_appointments_today,
-            pending_appointments,
-            appointments_scheduled_tomorrow,
-            current_month_appointment_count,
-            previous_month_appointment_count,
-            canceled_appointments_this_month,
-            cancelation_percentage,
-            total_appointments_count;
+            appointmentsScheduledToday,
+            completedAppointmentsToday,
+            pendingAppointments,
+            appointmentsScheduledTomorrow,
+            currentMonthAppointmentCount,
+            previousMonthAppointmentCount,
+            canceledAppointmentsThisMonth,
+            cancellationPercentage,
+            totalAppointmentsCount;
 
     @FXML
     private MFXButton
-            clear_filters_button,
-            register_new_appointment_button;
+            clearFiltersButton,
+            registerNewAppointmentButton;
 
     @FXML
-    private ComboBox<AppointmentStatus> appointment_status_selector;
+    private ComboBox<AppointmentStatus> appointmentStatusSelector;
 
     @FXML
-    private ComboBox<EmployeeInfoDTO> employee_selector;
+    private ComboBox<EmployeeInfoDTO> employeeSelector;
 
     @FXML
-    private TextField client_search_field;
+    private TextField clientSearchField;
 
     @FXML
-    private DatePicker date_selector;
+    private DatePicker dateSelector;
 
     @FXML
     public void initialize() {
@@ -85,13 +85,13 @@ public class AppointmentViewController extends BaseCatalogViewController<Appoint
     }
 
     private void loadAppointmentsList() {
-        List<AppointmentInfoDTO> appointmentInfoDTOList = appointmentService.getAppointmentsList();
+        List<AppointmentInfoDTO> appointments = appointmentService.getAppointmentsList();
         List<EmployeeInfoDTO> employees = appointmentService.getEmployeesFromServiceInstance();
 
-        loadItemsOnView(appointmentInfoDTOList);
-        loadEnumsOnComboBox(appointment_status_selector, AppointmentStatus.values());
-        setStringConverter(appointment_status_selector, AppointmentStatus.TODOS);
-        loadGenericTypeListOnComboBox(employee_selector, employees);
+        loadItemsOnView(appointments);
+        loadEnumsOnComboBox(appointmentStatusSelector, AppointmentStatus.values());
+        setStringConverter(appointmentStatusSelector, AppointmentStatus.TODOS);
+        loadGenericTypeListOnComboBox(employeeSelector, employees);
     }
 
     private void markAppointmentAsComplete(AppointmentInfoDTO dto) {
@@ -101,7 +101,7 @@ public class AppointmentViewController extends BaseCatalogViewController<Appoint
             appointmentService.markAppointmentAsComplete(dto);
 
             showToastNotification(
-                    anchor_pane,
+                    anchorPane,
                     applicationContext,
                     APPOINTMENT_STATUS_UPDATED_TOAST_NOTIFICATION_MESSAGE,
                     ToastNotificationType.SUCCESSFUL
@@ -110,7 +110,7 @@ public class AppointmentViewController extends BaseCatalogViewController<Appoint
         } catch (InvalidAppointmentUpdateException exception) {
 
             showToastNotification(
-                    anchor_pane,
+                    anchorPane,
                     applicationContext,
                     exception.getMessage(),
                     ToastNotificationType.FAILED
@@ -124,7 +124,7 @@ public class AppointmentViewController extends BaseCatalogViewController<Appoint
 
             appointmentService.markAppointmentAsCanceled(dto);
             showToastNotification(
-                    anchor_pane,
+                    anchorPane,
                     applicationContext,
                     APPOINTMENT_STATUS_UPDATED_TOAST_NOTIFICATION_MESSAGE,
                     ToastNotificationType.SUCCESSFUL
@@ -132,7 +132,7 @@ public class AppointmentViewController extends BaseCatalogViewController<Appoint
 
         } catch (InvalidAppointmentUpdateException exception) {
 
-            showToastNotification(anchor_pane, applicationContext, exception.getMessage(), ToastNotificationType.FAILED);
+            showToastNotification(anchorPane, applicationContext, exception.getMessage(), ToastNotificationType.FAILED);
         }
     }
 
@@ -142,7 +142,7 @@ public class AppointmentViewController extends BaseCatalogViewController<Appoint
                 APPOINTMENT_CREATION_VIEW_PATH,
                 applicationContext,
                 APPOINTMENT_CREATION_VIEW_LOADING_FAILED,
-                anchor_pane
+                anchorPane
         );
     }
 
@@ -152,7 +152,7 @@ public class AppointmentViewController extends BaseCatalogViewController<Appoint
                 APPOINTMENT_EDITION_VIEW_PATH,
                 applicationContext,
                 APPOINTMENT_EDITION_VIEW_LOADING_FAILED,
-                anchor_pane,
+                anchorPane,
                 AppointmentEditionController.class,
                 editionController -> editionController.initialize(infoDTO)
         );
@@ -170,8 +170,8 @@ public class AppointmentViewController extends BaseCatalogViewController<Appoint
         executeAsyncTask(
                 appointmentService::getAppointmentsTodayStats,
                 appointmentTodayStatsDTO -> {
-                    setTextOnLabel(appointments_schedule_for_today, parseNumberValueToText(appointmentTodayStatsDTO.getAppointmentCount()));
-                    setTextOnLabel(completed_appointments_today, parseNumberValueToText(appointmentTodayStatsDTO.getTotalAmountAsFinished()));
+                    setTextOnLabel(appointmentsScheduledToday, parseNumberValueToText(appointmentTodayStatsDTO.getAppointmentCount()));
+                    setTextOnLabel(completedAppointmentsToday, parseNumberValueToText(appointmentTodayStatsDTO.getTotalAmountAsFinished()));
                 }
         );
     }
@@ -179,9 +179,9 @@ public class AppointmentViewController extends BaseCatalogViewController<Appoint
     private void loadPendingAppointmentsStats() {
         executeAsyncTask(
                 appointmentService::getPendingAppointmentsStats,
-                appointmentTomorrowStatsDTO -> {
-                    setTextOnLabel(pending_appointments, parseNumberValueToText(appointmentTomorrowStatsDTO.getTotalPendingAppointments()));
-                    setTextOnLabel(appointments_scheduled_tomorrow, parseNumberValueToText(appointmentTomorrowStatsDTO.getScheduledAppointmentsTomorrow()));
+                pendingAppointmentsStatsDTO -> {
+                    setTextOnLabel(pendingAppointments, parseNumberValueToText(pendingAppointmentsStatsDTO.getTotalPendingAppointments()));
+                    setTextOnLabel(appointmentsScheduledTomorrow, parseNumberValueToText(pendingAppointmentsStatsDTO.getScheduledAppointmentsTomorrow()));
                 }
         );
     }
@@ -189,9 +189,9 @@ public class AppointmentViewController extends BaseCatalogViewController<Appoint
     private void loadMonthlyVolumeStats() {
         executeAsyncTask(
                 appointmentService::getMonthlyComparisonStats,
-                appointmentMonthlyComparisonDTO -> {
-                    setTextOnLabel(current_month_appointment_count, parseNumberValueToText(appointmentMonthlyComparisonDTO.getCurrentMonthAppointments()));
-                    setTextOnLabel(previous_month_appointment_count, parseNumberValueToText(appointmentMonthlyComparisonDTO.getPreviousMonthAppointments()));
+                monthlyComparisonStatsDTO -> {
+                    setTextOnLabel(currentMonthAppointmentCount, parseNumberValueToText(monthlyComparisonStatsDTO.getCurrentMonthAppointments()));
+                    setTextOnLabel(previousMonthAppointmentCount, parseNumberValueToText(monthlyComparisonStatsDTO.getPreviousMonthAppointments()));
                 }
         );
     }
@@ -199,11 +199,11 @@ public class AppointmentViewController extends BaseCatalogViewController<Appoint
     private void loadCanceledAppointmentsStats() {
         executeAsyncTask(
                 appointmentService::getCanceledStats,
-                appointmentCanceledStatsDTO -> {
-                    setTextOnLabel(canceled_appointments_this_month, parseNumberValueToText(appointmentCanceledStatsDTO.getCanceledAppointmentThisMonth()));
+                canceledStatsDTO -> {
+                    setTextOnLabel(canceledAppointmentsThisMonth, parseNumberValueToText(canceledStatsDTO.getCanceledAppointmentThisMonth()));
                     setTextOnLabel(
-                            cancelation_percentage,
-                            parseNumberValueToText(appointmentCanceledStatsDTO.getCanceledAppointmentPercentage()) + "%" + " de un total de " + appointmentCanceledStatsDTO.getCanceledAppointmentThisMonth());
+                            cancellationPercentage,
+                            parseNumberValueToText(canceledStatsDTO.getCanceledAppointmentPercentage()) + "%" + " de un total de " + canceledStatsDTO.getCanceledAppointmentThisMonth());
                 }
         );
     }
@@ -211,40 +211,40 @@ public class AppointmentViewController extends BaseCatalogViewController<Appoint
     private void totalAppointmentsFound() {
         executeAsyncTask(
                 appointmentService::getCount,
-                count -> setTextOnLabel(total_appointments_count, parseNumberValueToText(count) + " encontrados")
+                count -> setTextOnLabel(totalAppointmentsCount, parseNumberValueToText(count) + " encontrados")
         );
     }
 
     private void configureLiveSearch() {
 
         attachLiveSearchListeners(
-                client_search_field.textProperty(),
-                appointment_status_selector.valueProperty(),
-                date_selector.valueProperty(),
-                employee_selector.valueProperty()
+                clientSearchField.textProperty(),
+                appointmentStatusSelector.valueProperty(),
+                dateSelector.valueProperty(),
+                employeeSelector.valueProperty()
         );
     }
 
     @Override
     protected Label getResultsCountLabel() {
 
-        return total_appointments_count;
+        return totalAppointmentsCount;
     }
 
     @Override
     protected List<AppointmentInfoDTO> searchCatalog() {
 
-        String clientName = client_search_field.getText();
+        String clientName = clientSearchField.getText();
 
-        AppointmentStatus selectedAppointmentStatus = appointment_status_selector.getValue();
+        AppointmentStatus selectedAppointmentStatus = appointmentStatusSelector.getValue();
 
-        EmployeeInfoDTO employeeSelected = employee_selector.getValue();
+        EmployeeInfoDTO employeeSelected = employeeSelector.getValue();
 
         String employeeName = employeeSelected == null ? "" : employeeSelected.getFirstName() + " " + employeeSelected.getLastName();
 
         if (selectedAppointmentStatus == AppointmentStatus.TODOS) selectedAppointmentStatus = null;
 
-        LocalDate date = date_selector.getValue();
+        LocalDate date = dateSelector.getValue();
 
         return appointmentService.liveSearch(clientName, date, selectedAppointmentStatus, employeeName);
     }
@@ -252,7 +252,7 @@ public class AppointmentViewController extends BaseCatalogViewController<Appoint
     @Override
     protected VBox getItemListContainer() {
 
-        return appointment_list_VBox;
+        return appointmentListVBox;
     }
 
     @Override
@@ -260,7 +260,7 @@ public class AppointmentViewController extends BaseCatalogViewController<Appoint
 
         loadItemsOnController(
                 appointmentInfoDTOList,
-                appointment_list_VBox,
+                appointmentListVBox,
                 AppointmentItemController.class,
                 APPOINTMENT_ITEM_VIEW_PATH,
                 EMPTY_APPOINTMENTS_LIST_MESSAGE,
@@ -277,16 +277,16 @@ public class AppointmentViewController extends BaseCatalogViewController<Appoint
     @Override
     protected void clearFilterNodes() {
 
-        cleanDatePicker(date_selector);
-        setBlankTextfield(client_search_field);
-        cleanComboBoxes(appointment_status_selector, employee_selector);
+        cleanDatePicker(dateSelector);
+        setBlankTextfield(clientSearchField);
+        cleanComboBoxes(appointmentStatusSelector, employeeSelector);
     }
 
     private void configureButtonActions() {
 
         Map<Button, Runnable> map = Map.of(
-                clear_filters_button, this::resetSearchFilter,
-                register_new_appointment_button, this::goToAppointmentCreationView
+                clearFiltersButton, this::resetSearchFilter,
+                registerNewAppointmentButton, this::goToAppointmentCreationView
         );
 
         configureRunnableMaps(map);

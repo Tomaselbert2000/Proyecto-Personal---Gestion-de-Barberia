@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1"
             xmlns="http://javafx.com/javafx/17.0.12"
-            fx:id="anchor_pane"
+            fx:id="anchorPane"
             fx:controller="com.presentation.controller.client.ClientEditionController">
 
     <VBox
@@ -18,7 +18,7 @@
             <padding>
                 <Insets top="20" right="24" bottom="12" left="24"/>
             </padding>
-            <MFXButton fx:id="back_button" styleClass="md-button-outlined" text="Volver">
+            <MFXButton fx:id="backButton" styleClass="md-button-outlined" text="Volver">
                 <graphic>
                     <Region styleClass="arrow-up-circle-icon, md-icon-small"/>
                 </graphic>
@@ -60,7 +60,7 @@
                                 <Label styleClass="md-label-medium" text="DNI"/>
                                 <Label styleClass="md-label-medium, md-input-error" text="*"/>
                             </HBox>
-                            <TextField fx:id="dni_field" styleClass="md-text-field" maxWidth="Infinity"
+                            <TextField fx:id="dniField" styleClass="md-text-field" maxWidth="Infinity"
                                        promptText="Ej: 40123456"/>
                         </VBox>
 
@@ -70,7 +70,7 @@
                                 <Label styleClass="md-label-medium" text="Nombre"/>
                                 <Label styleClass="md-label-medium, md-input-error" text="*"/>
                             </HBox>
-                            <TextField fx:id="first_name_field" styleClass="md-text-field" maxWidth="Infinity"
+                            <TextField fx:id="firstNameField" styleClass="md-text-field" maxWidth="Infinity"
                                        promptText="Ej: Juan"/>
                         </VBox>
 
@@ -80,7 +80,7 @@
                                 <Label styleClass="md-label-medium" text="Apellido"/>
                                 <Label styleClass="md-label-medium, md-input-error" text="*"/>
                             </HBox>
-                            <TextField fx:id="last_name_field" styleClass="md-text-field" maxWidth="Infinity"
+                            <TextField fx:id="lastNameField" styleClass="md-text-field" maxWidth="Infinity"
                                        promptText="Ej: Pérez"/>
                         </VBox>
 
@@ -90,7 +90,7 @@
                                 <Label styleClass="md-label-medium" text="Email"/>
                                 <Label styleClass="md-label-medium, md-input-error" text="*"/>
                             </HBox>
-                            <TextField fx:id="email_field" styleClass="md-text-field" maxWidth="Infinity"
+                            <TextField fx:id="emailField" styleClass="md-text-field" maxWidth="Infinity"
                                        promptText="Ej: juan@email.com"/>
                         </VBox>
 
@@ -98,10 +98,10 @@
                         <VBox spacing="4" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="2">
                             <HBox spacing="8" alignment="CENTER_LEFT">
                                 <Label styleClass="md-label-medium" text="Teléfonos"/>
-                                <MFXButton fx:id="add_phone_button" styleClass="md-button-tonal"
+                                <MFXButton fx:id="addPhoneButton" styleClass="md-button-tonal"
                                            text="+ Agregar teléfono"/>
                             </HBox>
-                            <VBox fx:id="phones_container" spacing="8"/>
+                            <VBox fx:id="phonesContainer" spacing="8"/>
                         </VBox>
 
                         <!-- Estado del Cliente -->
@@ -125,7 +125,7 @@
                     <!-- Notas -->
                     <VBox spacing="4">
                         <Label styleClass="md-label-medium" text="Notas"/>
-                        <TextField fx:id="optional_notes_field" styleClass="md-text-field" maxWidth="Infinity"
+                        <TextField fx:id="optionalNotesField" styleClass="md-text-field" maxWidth="Infinity"
                                    promptText="Observaciones adicionales sobre el cliente"/>
                     </VBox>
                 </VBox>
@@ -180,8 +180,8 @@
 
                 <!-- Botones de Acción -->
                 <HBox spacing="8" alignment="CENTER_RIGHT">
-                    <MFXButton fx:id="cancel_button" styleClass="md-button-outlined" text="Cancelar"/>
-                    <MFXButton fx:id="save_button" styleClass="md-button-filled" text="Guardar Cambios"/>
+                    <MFXButton fx:id="cancelButton" styleClass="md-button-outlined" text="Cancelar"/>
+                    <MFXButton fx:id="saveButton" styleClass="md-button-filled" text="Guardar Cambios"/>
                 </HBox>
 
             </VBox>

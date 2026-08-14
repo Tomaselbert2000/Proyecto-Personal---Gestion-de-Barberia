@@ -70,7 +70,7 @@ public class EmployeeEditionController extends BaseCrudFormController<EmployeeUp
     @FXML
     public void initialize(EmployeeInfoDTO infoDTO) {
 
-        internalInfoDTOReference = infoDTO;
+        infoDTOReference = infoDTO;
 
         configureButtonActions();
 
@@ -164,7 +164,7 @@ public class EmployeeEditionController extends BaseCrudFormController<EmployeeUp
     @Override
     protected void persistEntity(EmployeeUpdateDTO dto) {
 
-        employeeService.updateEmployee(internalInfoDTOReference.getId(), dto);
+        employeeService.updateEmployee(infoDTOReference.getId(), dto);
     }
 
     @Override
@@ -199,6 +199,6 @@ public class EmployeeEditionController extends BaseCrudFormController<EmployeeUp
     @Override
     protected void resetForm() {
 
-        loadEmployeeDataForEdition(internalInfoDTOReference);
+        loadEmployeeDataForEdition(infoDTOReference);
     }
 }

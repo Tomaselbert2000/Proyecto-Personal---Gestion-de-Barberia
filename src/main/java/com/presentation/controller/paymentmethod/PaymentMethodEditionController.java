@@ -61,7 +61,7 @@ public class PaymentMethodEditionController extends BaseCrudFormController<Payme
     @FXML
     public void initialize(PaymentMethodInfoDTO infoDTO) {
 
-        internalInfoDTOReference = infoDTO;
+        infoDTOReference = infoDTO;
 
         configureButtonActions();
 
@@ -109,7 +109,7 @@ public class PaymentMethodEditionController extends BaseCrudFormController<Payme
     @Override
     protected void persistEntity(PaymentMethodUpdateDTO updateDTO) {
 
-        paymentMethodService.updatePaymentMethod(internalInfoDTOReference.getId(), updateDTO);
+        paymentMethodService.updatePaymentMethod(infoDTOReference.getId(), updateDTO);
     }
 
     @Override
@@ -145,6 +145,6 @@ public class PaymentMethodEditionController extends BaseCrudFormController<Payme
     @Override
     protected void resetForm() {
 
-        loadPaymentMethodDataForEdition(internalInfoDTOReference);
+        loadPaymentMethodDataForEdition(infoDTOReference);
     }
 }

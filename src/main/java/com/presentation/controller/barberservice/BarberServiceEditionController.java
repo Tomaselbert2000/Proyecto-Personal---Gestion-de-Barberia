@@ -36,7 +36,7 @@ public class BarberServiceEditionController extends BaseCrudFormController<Barbe
         this.barberserviceService = barberserviceService;
     }
 
-    private BarberServiceInfoDTO internalReferenceToInfoDTO;
+    private BarberServiceInfoDTO infoDTOReference;
 
     @FXML
     private TextField
@@ -60,7 +60,7 @@ public class BarberServiceEditionController extends BaseCrudFormController<Barbe
     @FXML
     public void initialize(BarberServiceInfoDTO infoDTO) {
 
-        internalReferenceToInfoDTO = infoDTO;
+        infoDTOReference = infoDTO;
 
         loadServiceDataForEdition(infoDTO);
         configureUI();
@@ -110,7 +110,7 @@ public class BarberServiceEditionController extends BaseCrudFormController<Barbe
     @Override
     protected void persistEntity(BarberServiceUpdateDTO dto) {
 
-        barberserviceService.updateService(internalReferenceToInfoDTO.getBarberServiceId(), dto);
+        barberserviceService.updateService(infoDTOReference.getBarberServiceId(), dto);
     }
 
     @Override
@@ -144,6 +144,6 @@ public class BarberServiceEditionController extends BaseCrudFormController<Barbe
     @Override
     protected void resetForm() {
 
-        loadServiceDataForEdition(internalReferenceToInfoDTO);
+        loadServiceDataForEdition(infoDTOReference);
     }
 }

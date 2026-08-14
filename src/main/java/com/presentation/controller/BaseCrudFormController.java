@@ -12,7 +12,7 @@ public abstract class BaseCrudFormController<InputDTO, InfoDTO> {
 
     private final ApplicationContext applicationContext;
 
-    protected InfoDTO internalInfoDTOReference;
+    protected InfoDTO infoDTOReference;
 
     protected BaseCrudFormController(ApplicationContext applicationContext) {
 

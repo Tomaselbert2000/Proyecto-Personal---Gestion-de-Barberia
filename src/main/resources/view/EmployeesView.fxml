@@ -5,7 +5,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1"
-            fx:id="anchor_pane"
+            fx:id="anchorPane"
             xmlns="http://javafx.com/javafx/17.0.12"
             fx:controller="com.presentation.controller.employee.EmployeeViewController">
 
@@ -53,9 +53,9 @@
                             <Region HBox.hgrow="ALWAYS"/>
                             <Region styleClass="work-icon, md-icon-medium, md-icon-primary"/>
                         </HBox>
-                        <Label fx:id="currently_active_employees" styleClass="md-display-small"/>
+                        <Label fx:id="currentlyActiveEmployees" styleClass="md-display-small"/>
                         <HBox spacing="4" alignment="CENTER_LEFT">
-                            <Label fx:id="total_registered_employees" styleClass="md-label-medium"/>
+                            <Label fx:id="totalRegisteredEmployees" styleClass="md-label-medium"/>
                             <Label styleClass="md-label-small"/>
                         </HBox>
                     </VBox>
@@ -70,9 +70,9 @@
                             <Region HBox.hgrow="ALWAYS"/>
                             <Region styleClass="more-up-icon, md-icon-medium, md-icon-primary"/>
                         </HBox>
-                        <Label fx:id="highest_revenue_employee_name" styleClass="md-display-small"/>
+                        <Label fx:id="highestRevenueEmployeeName" styleClass="md-display-small"/>
                         <HBox spacing="4" alignment="CENTER_LEFT">
-                            <Label fx:id="highest_revenue_value" styleClass="md-label-medium"/>
+                            <Label fx:id="highestRevenueValue" styleClass="md-label-medium"/>
                             <Label styleClass="md-label-small" text="Monto total generado"/>
                         </HBox>
                     </VBox>
@@ -87,9 +87,9 @@
                             <Region HBox.hgrow="ALWAYS"/>
                             <Region styleClass="check-circle-icon, md-icon-medium, md-icon-primary"/>
                         </HBox>
-                        <Label fx:id="highest_amount_of_services_completed_employee" styleClass="md-display-small"/>
+                        <Label fx:id="highestServicesCompletedEmployeeName" styleClass="md-display-small"/>
                         <HBox spacing="4" alignment="CENTER_LEFT">
-                            <Label fx:id="amount_of_services_completed" styleClass="md-label-medium"/>
+                            <Label fx:id="completedServicesCount" styleClass="md-label-medium"/>
                             <Label styleClass="md-label-small" text="Cantidad total"/>
                         </HBox>
                     </VBox>
@@ -104,7 +104,7 @@
                             <Region HBox.hgrow="ALWAYS"/>
                             <Region styleClass="avg-pace-icon, md-icon-medium, md-icon-primary"/>
                         </HBox>
-                        <Label fx:id="average_completed_services_by_active_employees" styleClass="md-display-small"/>
+                        <Label fx:id="averageCompletedServicesByActiveEmployees" styleClass="md-display-small"/>
                         <HBox spacing="4" alignment="CENTER_LEFT">
                             <Label styleClass="md-label-medium"/>
                             <Label styleClass="md-label-small" text="Servicios por barbero activo"/>
@@ -124,28 +124,28 @@
                             <!-- Buscador -->
                             <VBox spacing="4" HBox.hgrow="ALWAYS">
                                 <Label styleClass="md-label-medium" text="Buscar empleado"/>
-                                <TextField fx:id="search_field" styleClass="md-text-field" maxWidth="Infinity"/>
+                                <TextField fx:id="searchField" styleClass="md-text-field" maxWidth="Infinity"/>
                             </VBox>
 
                             <!-- Filtro por Estado -->
                             <VBox spacing="4" HBox.hgrow="ALWAYS">
                                 <Label styleClass="md-label-medium" text="Estado"/>
-                                <ComboBox fx:id="status_filter" styleClass="md-combo-box" maxWidth="Infinity"/>
+                                <ComboBox fx:id="statusFilter" styleClass="md-combo-box" maxWidth="Infinity"/>
                             </VBox>
 
                             <!-- Filtro por Fecha de Contratación -->
                             <VBox spacing="4" HBox.hgrow="ALWAYS">
                                 <Label styleClass="md-label-medium" text="Fecha contratación"/>
-                                <ComboBox fx:id="hire_date_filter" styleClass="md-combo-box" maxWidth="Infinity"/>
+                                <ComboBox fx:id="hireDateFilter" styleClass="md-combo-box" maxWidth="Infinity"/>
                             </VBox>
 
                             <!-- Botones de Acción -->
                             <VBox spacing="4" alignment="BOTTOM_LEFT">
                                 <Label styleClass="md-label-medium" text="Acciones"/>
                                 <HBox spacing="8" alignment="CENTER_LEFT">
-                                    <MFXButton fx:id="clear_filters_button" styleClass="md-button-outlined"
+                                    <MFXButton fx:id="clearFiltersButton" styleClass="md-button-outlined"
                                                text="Limpiar"/>
-                                    <MFXButton fx:id="new_employee_button"
+                                    <MFXButton fx:id="newEmployeeButton"
                                                styleClass="md-button-filled" text="+ Nuevo Empleado"/>
                                 </HBox>
                             </VBox>
@@ -158,10 +158,10 @@
                     <HBox spacing="8" alignment="CENTER_LEFT">
                         <Label styleClass="md-title-medium" text="Empleados Registrados"/>
                         <Region HBox.hgrow="ALWAYS"/>
-                        <Label fx:id="results_count" styleClass="md-body-small" text="0 empleados"/>
+                        <Label fx:id="resultsCount" styleClass="md-body-small" text="0 empleados"/>
                     </HBox>
 
-                    <VBox fx:id="employee_list_container" styleClass="md-card">
+                    <VBox fx:id="employeeListContainer" styleClass="md-card">
                         <padding>
                             <Insets top="8" right="16" bottom="8" left="16"/>
                         </padding>

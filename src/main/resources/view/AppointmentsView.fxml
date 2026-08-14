@@ -5,7 +5,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1"
-            fx:id="anchor_pane"
+            fx:id="anchorPane"
             xmlns="http://javafx.com/javafx/17.0.12"
             fx:controller="com.presentation.controller.appointment.AppointmentViewController">
 
@@ -53,9 +53,9 @@
                             <Region HBox.hgrow="ALWAYS"/>
                             <Region styleClass="calendar-today-icon, md-icon-medium, md-icon-primary"/>
                         </HBox>
-                        <Label fx:id="appointments_schedule_for_today" styleClass="md-display-small"/>
+                        <Label fx:id="appointmentsScheduledToday" styleClass="md-display-small"/>
                         <HBox spacing="4" alignment="CENTER_LEFT">
-                            <Label fx:id="completed_appointments_today" styleClass="md-label-medium"/>
+                            <Label fx:id="completedAppointmentsToday" styleClass="md-label-medium"/>
                             <Label styleClass="md-label-small" text="completados"/>
                         </HBox>
                     </VBox>
@@ -70,9 +70,9 @@
                             <Region HBox.hgrow="ALWAYS"/>
                             <Region styleClass="schedule-icon, md-icon-medium, md-icon-primary"/>
                         </HBox>
-                        <Label fx:id="pending_appointments" styleClass="md-display-small"/>
+                        <Label fx:id="pendingAppointments" styleClass="md-display-small"/>
                         <HBox spacing="4" alignment="CENTER_LEFT">
-                            <Label fx:id="appointments_scheduled_tomorrow" styleClass="md-label-medium"/>
+                            <Label fx:id="appointmentsScheduledTomorrow" styleClass="md-label-medium"/>
                             <Label styleClass="md-label-small" text="nuevos hoy"/>
                         </HBox>
                     </VBox>
@@ -87,9 +87,9 @@
                             <Region HBox.hgrow="ALWAYS"/>
                             <Region styleClass="done-all-icon, md-icon-medium, md-icon-primary"/>
                         </HBox>
-                        <Label fx:id="current_month_appointment_count" styleClass="md-display-small"/>
+                        <Label fx:id="currentMonthAppointmentCount" styleClass="md-display-small"/>
                         <HBox spacing="4" alignment="CENTER_LEFT">
-                            <Label fx:id="previous_month_appointment_count"
+                            <Label fx:id="previousMonthAppointmentCount"
                                    styleClass="md-label-medium"/>
                             <Label styleClass="md-label-small" text="vs mes anterior"/>
                         </HBox>
@@ -105,9 +105,9 @@
                             <Region HBox.hgrow="ALWAYS"/>
                             <Region styleClass="person-cancel-icon, md-icon-medium, md-icon-primary"/>
                         </HBox>
-                        <Label fx:id="canceled_appointments_this_month" styleClass="md-display-small" text="0"/>
+                        <Label fx:id="canceledAppointmentsThisMonth" styleClass="md-display-small" text="0"/>
                         <HBox spacing="4" alignment="CENTER_LEFT">
-                            <Label fx:id="cancelation_percentage" styleClass="md-label-medium" text="0"/>
+                            <Label fx:id="cancellationPercentage" styleClass="md-label-medium" text="0"/>
                             <Label styleClass="md-label-small" text="vs semana anterior"/>
                         </HBox>
                     </VBox>
@@ -125,7 +125,7 @@
                             <!-- Buscar por cliente -->
                             <VBox spacing="4" HBox.hgrow="ALWAYS">
                                 <Label styleClass="md-label-medium" text="Buscar por cliente"/>
-                                <TextField fx:id="client_search_field"
+                                <TextField fx:id="clientSearchField"
                                            promptText="Nombre o apellido del cliente"
                                            maxWidth="Infinity"
                                            styleClass="md-text-field"/>
@@ -134,7 +134,7 @@
                             <!-- Filtro por Fecha -->
                             <VBox spacing="4" HBox.hgrow="ALWAYS">
                                 <Label styleClass="md-label-medium" text="Fecha"/>
-                                <DatePicker fx:id="date_selector"
+                                <DatePicker fx:id="dateSelector"
                                             promptText="Seleccionar fecha"
                                             maxWidth="Infinity"
                                             styleClass="md-date-picker"/>
@@ -143,7 +143,7 @@
                             <!-- Filtro por Estado -->
                             <VBox spacing="4" HBox.hgrow="ALWAYS">
                                 <Label styleClass="md-label-medium" text="Estado"/>
-                                <ComboBox fx:id="appointment_status_selector"
+                                <ComboBox fx:id="appointmentStatusSelector"
                                           maxWidth="Infinity"
                                           styleClass="md-combo-box"/>
                             </VBox>
@@ -151,7 +151,7 @@
                             <!-- Filtro por Empleado -->
                             <VBox spacing="4" HBox.hgrow="ALWAYS">
                                 <Label styleClass="md-label-medium" text="Empleado"/>
-                                <ComboBox fx:id="employee_selector"
+                                <ComboBox fx:id="employeeSelector"
                                           promptText="Todos los empleados"
                                           maxWidth="Infinity"
                                           styleClass="md-combo-box"/>
@@ -161,10 +161,10 @@
                             <VBox spacing="4" alignment="BOTTOM_LEFT">
                                 <Label styleClass="md-label-medium" text="Acciones"/>
                                 <HBox spacing="8" alignment="CENTER_LEFT">
-                                    <MFXButton fx:id="clear_filters_button"
+                                    <MFXButton fx:id="clearFiltersButton"
                                                styleClass="md-button-outlined"
                                                text="Limpiar"/>
-                                    <MFXButton fx:id="register_new_appointment_button"
+                                    <MFXButton fx:id="registerNewAppointmentButton"
                                                styleClass="md-button-filled"
                                                text="+ Nuevo Turno"/>
                                 </HBox>
@@ -178,10 +178,10 @@
                     <HBox spacing="8" alignment="CENTER_LEFT">
                         <Label styleClass="md-title-medium" text="Turnos Registrados"/>
                         <Region HBox.hgrow="ALWAYS"/>
-                        <Label fx:id="total_appointments_count" styleClass="md-body-small" text="0 turnos"/>
+                        <Label fx:id="totalAppointmentsCount" styleClass="md-body-small" text="0 turnos"/>
                     </HBox>
 
-                    <VBox fx:id="appointment_list_VBox" styleClass="md-card">
+                    <VBox fx:id="appointmentListVBox" styleClass="md-card">
                         <padding>
                             <Insets top="8" right="16" bottom="8" left="16"/>
                         </padding>

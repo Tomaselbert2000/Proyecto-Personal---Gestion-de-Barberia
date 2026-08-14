@@ -27,8 +27,8 @@ import static com.presentation.support.control.UIBasicComponents.*;
 public class EmployeeItemController extends AbstractItemController<EmployeeInfoDTO> {
 
     private Consumer<EmployeeInfoDTO>
-            onEditCallBack,
-            onStatusChangeCallBack;
+            onEditCallback,
+            onStatusChangeCallback;
 
     @FXML
     private Circle employeeAvatar;
@@ -103,7 +103,7 @@ public class EmployeeItemController extends AbstractItemController<EmployeeInfoD
 
     private void goToEditEmployeeView() {
 
-        fire(onEditCallBack);
+        fire(onEditCallback);
     }
 
     private void changeEmployeeActivityStatus() {
@@ -114,7 +114,7 @@ public class EmployeeItemController extends AbstractItemController<EmployeeInfoD
 
         toggleStatusComponents(infoDTOReference.getIsActive());
 
-        fire(onStatusChangeCallBack);
+        fire(onStatusChangeCallback);
     }
 
     public void setDataOnItem(EmployeeInfoDTO infoDTO) {
