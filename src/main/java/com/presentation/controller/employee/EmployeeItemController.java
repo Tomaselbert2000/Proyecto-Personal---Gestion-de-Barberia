@@ -19,8 +19,12 @@ import java.util.function.Consumer;
 
 import static com.presentation.constants.CssStylesStrings.ITEM_STATUS_ACTIVO;
 import static com.presentation.constants.CssStylesStrings.ITEM_STATUS_INACTIVO;
+import static com.presentation.constants.StringResource.DisplayString.ACTIVE_STATUS_LABEL;
+import static com.presentation.constants.StringResource.DisplayString.INACTIVE_STATUS_LABEL;
 import static com.presentation.support.control.StatusBadgeHelper.applyBadge;
 import static com.presentation.support.control.UIBasicComponents.*;
+import static com.presentation.support.format.PersonNameFormatter.fullName;
+import static com.presentation.support.format.PersonNameFormatter.initials;
 
 @Component
 @Getter
@@ -56,22 +60,25 @@ public class EmployeeItemController extends AbstractItemController<EmployeeInfoD
             String employeeFirstNameInitial,
             String employeeLastNameInitial
     ) {
-        String employeeInitials = employeeFirstNameInitial + employeeLastNameInitial;
 
         String currentStatus;
 
         if (infoDTO.getIsActive()) {
 
-            currentStatus = "Activo";
+            currentStatus = ACTIVE_STATUS_LABEL;
 
         } else {
 
-            currentStatus = "Inactivo";
+            currentStatus = INACTIVE_STATUS_LABEL;
         }
 
-        String employeeFullName = infoDTO.getFirstName() + " " + infoDTO.getLastName();
+        String employeeFullName = fullName(infoDTO.getFirstName(), infoDTO.getLastName());
+        String employeeInitials = initials(employeeFirstNameInitial, employeeLastNameInitial);
+
         String hireDate = infoDTO.getHireDateAsString();
+
         String commissionPercentage = (infoDTO.getCommissionPercentage() * 100) + "%";
+
         String monthlyAppointments = String.valueOf(10);
 
         return List.of(employeeInitials, employeeFullName, currentStatus, hireDate, commissionPercentage, monthlyAppointments);
