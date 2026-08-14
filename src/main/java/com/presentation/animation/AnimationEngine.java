@@ -235,7 +235,7 @@ public final class AnimationEngine {
 
                     Parent nodeParent = node.getParent();
 
-                    ((Pane) nodeParent).getChildren().remove(node);
+                    if (nodeParent instanceof Pane pane) pane.getChildren().remove(node);
                 }
         );
     }
