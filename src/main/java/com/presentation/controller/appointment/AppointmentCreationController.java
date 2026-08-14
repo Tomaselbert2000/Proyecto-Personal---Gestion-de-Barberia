@@ -124,7 +124,6 @@ public class AppointmentCreationController extends BaseAppointmentFormController
     }
 
     private void configureClientLiveSearch() {
-
         clientSearchField.textProperty().addListener((_, _, _) -> executeClientLiveSearchByName());
         clientResultList.getSelectionModel().selectionProperty().addListener((MapChangeListener<? super Integer, ? super ClientInfoDTO>) change -> onClientSelected(change.getValueAdded()));
     }

@@ -180,6 +180,12 @@ public class ProductViewController extends BaseCatalogViewController<ProductInfo
     }
 
     @Override
+    protected Label getResultsCountLabel() {
+
+        return productsFoundCount;
+    }
+
+    @Override
     protected List<ProductInfoDTO> searchCatalog() {
 
         String productName = productSearchField.getText();
@@ -230,11 +236,5 @@ public class ProductViewController extends BaseCatalogViewController<ProductInfo
 
         setBlankTextfield(productSearchField);
         cleanComboBoxes(productCategorySelector, productStockStatusSelector);
-    }
-
-    @Override
-    protected void afterSearch(List<ProductInfoDTO> items) {
-
-        setTextOnLabel(productsFoundCount, parseNumberValueToText(items.size()) + " encontrados");
     }
 }

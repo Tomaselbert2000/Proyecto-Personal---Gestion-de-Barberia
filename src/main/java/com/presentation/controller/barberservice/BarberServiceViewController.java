@@ -215,6 +215,12 @@ public class BarberServiceViewController extends BaseCatalogViewController<Barbe
     }
 
     @Override
+    protected Label getResultsCountLabel() {
+
+        return servicesCount;
+    }
+
+    @Override
     protected List<BarberServiceInfoDTO> searchCatalog() {
 
         Double minPrice = null, maxPrice = null;
@@ -264,11 +270,5 @@ public class BarberServiceViewController extends BaseCatalogViewController<Barbe
 
         setBlankTextfield(serviceSearchField);
         cleanComboBoxes(serviceCategorySelector, servicePriceRangeSelector);
-    }
-
-    @Override
-    protected void afterSearch(List<BarberServiceInfoDTO> items) {
-
-        setTextOnLabel(servicesCount, parseNumberValueToText(items.size()) + " encontrados");
     }
 }

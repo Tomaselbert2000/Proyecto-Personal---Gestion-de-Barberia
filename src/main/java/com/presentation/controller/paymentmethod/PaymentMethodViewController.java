@@ -94,6 +94,12 @@ public class PaymentMethodViewController extends BaseCatalogViewController<Payme
     }
 
     @Override
+    protected Label getResultsCountLabel() {
+
+        return resultsCount;
+    }
+
+    @Override
     protected List<PaymentMethodInfoDTO> searchCatalog() {
 
         String paymentName = searchField.getText();
@@ -132,12 +138,6 @@ public class PaymentMethodViewController extends BaseCatalogViewController<Payme
 
         setBlankTextfield(searchField);
         cleanComboBoxes(statusFilter, modifierTypeFilter);
-    }
-
-    @Override
-    protected void afterSearch(List<PaymentMethodInfoDTO> items) {
-
-        setTextOnLabel(resultsCount, parseNumberValueToText(items.size()) + " encontrados");
     }
 
     private void configureButtonActions() {

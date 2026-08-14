@@ -180,6 +180,12 @@ public class EmployeeViewController extends BaseCatalogViewController<EmployeeIn
     }
 
     @Override
+    protected Label getResultsCountLabel() {
+
+        return results_count;
+    }
+
+    @Override
     protected List<EmployeeInfoDTO> searchCatalog() {
 
         String employeeName = search_field.getText();
@@ -225,11 +231,5 @@ public class EmployeeViewController extends BaseCatalogViewController<EmployeeIn
 
         setBlankTextfield(search_field);
         cleanComboBoxes(status_filter, hire_date_filter);
-    }
-
-    @Override
-    protected void afterSearch(List<EmployeeInfoDTO> items) {
-
-        setTextOnLabel(results_count, parseNumberValueToText(items.size()) + " encontrados");
     }
 }

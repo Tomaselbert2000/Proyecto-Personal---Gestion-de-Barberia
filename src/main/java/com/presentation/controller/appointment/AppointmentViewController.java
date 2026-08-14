@@ -226,6 +226,12 @@ public class AppointmentViewController extends BaseCatalogViewController<Appoint
     }
 
     @Override
+    protected Label getResultsCountLabel() {
+
+        return total_appointments_count;
+    }
+
+    @Override
     protected List<AppointmentInfoDTO> searchCatalog() {
 
         String clientName = client_search_field.getText();
@@ -266,12 +272,6 @@ public class AppointmentViewController extends BaseCatalogViewController<Appoint
                     itemController.setOnEditCallback(this::goToAppointmentEditionView);
                 }
         );
-    }
-
-    @Override
-    protected void afterSearch(List<AppointmentInfoDTO> items) {
-
-        setTextOnLabel(total_appointments_count, parseNumberValueToText(items.size()) + " encontrados");
     }
 
     @Override
