@@ -17,7 +17,9 @@ import java.util.function.Consumer;
 import static com.presentation.constants.CssStylesStrings.ITEM_STATUS_ACTIVO;
 import static com.presentation.constants.CssStylesStrings.ITEM_STATUS_INACTIVO;
 import static com.presentation.constants.StringResource.DisplayString.CURRENCY_STRING_ARG;
-import static com.presentation.support.control.UIBasicComponents.*;
+import static com.presentation.support.control.StatusBadgeHelper.applyBadge;
+import static com.presentation.support.control.UIBasicComponents.configureRunnableMaps;
+import static com.presentation.support.control.UIBasicComponents.setTextsOnLabelMap;
 import static com.presentation.support.control.ValidationFormatter.parseNumberValueToText;
 
 @Component
@@ -55,20 +57,14 @@ public class PaymentMethodItemController extends AbstractItemController<PaymentM
 
     private void toggleBadgeAndButtonTexts(Boolean isActive) {
 
-        if (isActive) {
-
-            setTextOnLabel(statusLabel, "Activo");
-            addNodeStyleClass(statusBadge, ITEM_STATUS_ACTIVO);
-
-            setTextOnButton(toggleStatusButton, "Desactivar");
-
-        } else {
-
-            setTextOnLabel(statusLabel, "Inactivo");
-            addNodeStyleClass(statusBadge, ITEM_STATUS_INACTIVO);
-
-            setTextOnButton(toggleStatusButton, "Activar");
-        }
+        applyBadge(
+                isActive,
+                statusLabel,
+                statusBadge,
+                toggleStatusButton,
+                ITEM_STATUS_ACTIVO,
+                ITEM_STATUS_INACTIVO
+        );
     }
 
     public void setDataOnItem(PaymentMethodInfoDTO infoDTO) {

@@ -29,7 +29,11 @@ public final class StringResource {
         public static final String FILE_CHOOSER_IMAGE_DESCRIPTION = "Seleccionar una imagen";
         public static final String NEW_LINE = "\n• ";
         public static final String ACCEPT_BUTTON_TEXT = "Aceptar";
+        public static final String ACTIVATE_BUTTON_TEXT = "Activar";
+        public static final String DEACTIVATE_BUTTON_TEXT = "Desactivar";
         public static final String CLIPBOARD_BUTTON_TEXT = "Copiar al portapapeles";
+        public static final String ACTIVE_STATUS_LABEL = "Activo";
+        public static final String INACTIVE_STATUS_LABEL = "Inactivo";
     }
 
     public static final class StringFormat {

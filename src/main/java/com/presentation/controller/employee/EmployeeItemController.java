@@ -19,6 +19,7 @@ import java.util.function.Consumer;
 
 import static com.presentation.constants.CssStylesStrings.ITEM_STATUS_ACTIVO;
 import static com.presentation.constants.CssStylesStrings.ITEM_STATUS_INACTIVO;
+import static com.presentation.support.control.StatusBadgeHelper.applyBadge;
 import static com.presentation.support.control.UIBasicComponents.*;
 
 @Component
@@ -84,21 +85,14 @@ public class EmployeeItemController extends AbstractItemController<EmployeeInfoD
 
     private void toggleStatusComponents(Boolean isActive) {
 
-        if (isActive) {
-
-            setTextOnLabel(statusLabel, "Activo");
-            addNodeStyleClass(employeeStatusBadge, ITEM_STATUS_ACTIVO);
-
-            setTextOnButton(toggleStatusButton, "Desactivar");
-
-        } else {
-
-            setTextOnLabel(statusLabel, "Inactivo");
-            addNodeStyleClass(employeeStatusBadge, ITEM_STATUS_INACTIVO);
-
-            setTextOnButton(toggleStatusButton, "Activar");
-
-        }
+        applyBadge(
+                isActive,
+                statusLabel,
+                employeeStatusBadge,
+                toggleStatusButton,
+                ITEM_STATUS_ACTIVO,
+                ITEM_STATUS_INACTIVO
+        );
     }
 
     private void goToEditEmployeeView() {
