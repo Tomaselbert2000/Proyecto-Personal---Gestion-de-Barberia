@@ -53,6 +53,8 @@ public final class ConcurrencyManager {
         task.setOnSucceeded(_ -> action.accept(task.getValue())
         );
 
+        task.setOnFailed(_ -> handleTaskFailure(task));
+
         startNewThreadWithTask(task);
     }
 
@@ -88,6 +90,8 @@ public final class ConcurrencyManager {
         task.setOnSucceeded(_ -> uiAction.accept(task.getValue())
         );
 
+        task.setOnFailed(_ -> handleTaskFailure(task));
+
         startNewThreadWithTask(task);
     }
 
@@ -105,8 +109,21 @@ public final class ConcurrencyManager {
      */
     public static <T> void startNewThreadWithTask(@UnknownNullability Task<T> task) {
 
-        Thread thread = new Thread(task);
+        Thread thread = new Thread(task, "concurrency-manager-task");
+
+        thread.setDaemon(true);
 
         thread.start();
+    }
+
+    @SuppressWarnings("CallToPrintStackTrace")
+    private static void handleTaskFailure(Task<?> task) {
+
+        Throwable exception = task.getException();
+
+        if (exception != null) {
+
+            exception.printStackTrace();
+        }
     }
 }
