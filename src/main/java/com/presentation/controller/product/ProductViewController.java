@@ -76,18 +76,9 @@ public class ProductViewController extends BaseCatalogViewController<ProductInfo
     @FXML
     public void initialize() {
 
-        List<ProductInfoDTO> products = productService.getProductsList();
+        loadGlobalStats();
 
-        loadTotalProductCountStats();
-        loadMostSoldStats();
-        loadRevenueStats();
-        loadStockValueStats();
-
-        loadEnumsOnComboBox(productCategorySelector, ProductCategory.values());
-        loadEnumsOnComboBox(productStockStatusSelector, StockStatus.values());
-
-        setStringConverter(productCategorySelector, ProductCategory.TODOS);
-        setStringConverter(productStockStatusSelector, StockStatus.TODOS);
+        initializeListContent();
 
         attachLiveSearchListeners(
                 productSearchField.textProperty(),
@@ -96,8 +87,6 @@ public class ProductViewController extends BaseCatalogViewController<ProductInfo
         );
 
         configureButtonActions();
-
-        loadItemsOnView(products);
     }
 
     private void loadTotalProductCountStats() {
@@ -165,7 +154,8 @@ public class ProductViewController extends BaseCatalogViewController<ProductInfo
 
     }
 
-    private void configureButtonActions() {
+    @Override
+    protected void configureButtonActions() {
 
         Map<Button, Runnable> map = Map.of(
                 createProductButton, this::goToRegisterNewProductView,
@@ -173,6 +163,15 @@ public class ProductViewController extends BaseCatalogViewController<ProductInfo
         );
 
         configureRunnableMaps(map);
+    }
+
+    @Override
+    protected void loadGlobalStats() {
+
+        loadTotalProductCountStats();
+        loadMostSoldStats();
+        loadRevenueStats();
+        loadStockValueStats();
     }
 
     @Override
@@ -232,5 +231,19 @@ public class ProductViewController extends BaseCatalogViewController<ProductInfo
 
         setBlankTextfield(productSearchField);
         cleanComboBoxes(productCategorySelector, productStockStatusSelector);
+    }
+
+    @Override
+    protected void initializeListContent() {
+
+        List<ProductInfoDTO> products = productService.getProductsList();
+
+        loadEnumsOnComboBox(productCategorySelector, ProductCategory.values());
+        loadEnumsOnComboBox(productStockStatusSelector, StockStatus.values());
+
+        setStringConverter(productCategorySelector, ProductCategory.TODOS);
+        setStringConverter(productStockStatusSelector, StockStatus.TODOS);
+
+        loadItemsOnView(products);
     }
 }

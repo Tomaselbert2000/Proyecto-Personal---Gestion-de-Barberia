@@ -12,9 +12,13 @@ import static com.presentation.support.view.ContainerManager.cleanContainer;
 
 public abstract class BaseCatalogViewController<T> {
 
-    protected abstract Label getResultsCountLabel();
-
     protected static final String RESULTS_FOUND_SUFFIX = " encontrados";
+
+    protected abstract void configureButtonActions();
+
+    protected abstract void loadGlobalStats();
+
+    protected abstract Label getResultsCountLabel();
 
     protected abstract List<T> searchCatalog();
 
@@ -22,12 +26,14 @@ public abstract class BaseCatalogViewController<T> {
 
     protected abstract void loadItemsOnView(List<T> items);
 
+    protected abstract void clearFilterNodes();
+
+    protected abstract void initializeListContent();
+
     protected void afterSearch(List<T> results) {
 
         setTextOnLabel(getResultsCountLabel(), parseNumberValueToText(results.size()) + RESULTS_FOUND_SUFFIX);
     }
-
-    protected abstract void clearFilterNodes();
 
     protected final void resetSearchFilter() {
 

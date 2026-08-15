@@ -77,15 +77,17 @@ public class PaymentMethodViewController extends BaseCatalogViewController<Payme
     @FXML
     public void initialize() {
 
-        loadPaymentMethodStats();
+        loadGlobalStats();
 
-        configureButtonActions();
+        initializeListContent();
 
         attachLiveSearchListeners(
                 searchField.textProperty(),
                 statusFilter.valueProperty(),
                 modifierTypeFilter.valueProperty()
         );
+
+        configureButtonActions();
     }
 
     @Override
@@ -135,7 +137,14 @@ public class PaymentMethodViewController extends BaseCatalogViewController<Payme
         cleanComboBoxes(statusFilter, modifierTypeFilter);
     }
 
-    private void configureButtonActions() {
+    @Override
+    protected void initializeListContent() {
+
+        loadItemsOnView(paymentMethodService.getPaymentMethodsList());
+    }
+
+    @Override
+    protected void configureButtonActions() {
 
         Map<Button, Runnable> map = Map.of(
                 createPaymentMethodButton, this::createPaymentMethod,
@@ -145,14 +154,13 @@ public class PaymentMethodViewController extends BaseCatalogViewController<Payme
         configureRunnableMaps(map);
     }
 
-    private void loadPaymentMethodStats() {
+    @Override
+    protected void loadGlobalStats() {
 
         loadMostUsedPaymentMethodsStats();
         loadHighestRevenuePaymentsStats();
         loadActivePaymentsStats();
         loadModifierValueSumStats();
-
-        loadItemsOnView(paymentMethodService.getPaymentMethodsList());
     }
 
     private void loadMostUsedPaymentMethodsStats() {

@@ -90,16 +90,10 @@ public class BarberServiceViewController extends BaseCatalogViewController<Barbe
 
     @FXML
     public void initialize() {
-        List<BarberServiceInfoDTO> catalog = barberService.getServicesList();
 
-        loadServicesStats();
-        loadItemsOnView(catalog);
+        loadGlobalStats();
 
-        loadEnumsOnComboBox(serviceCategorySelector, BarberServiceCategory.values());
-        loadEnumsOnComboBox(servicePriceRangeSelector, PriceRanges.values());
-
-        setStringConverter(serviceCategorySelector, BarberServiceCategory.TODOS);
-        setStringConverter(servicePriceRangeSelector, PriceRanges.TODOS);
+        initializeListContent();
 
         attachLiveSearchListeners(
                 serviceSearchField.textProperty(),
@@ -108,13 +102,6 @@ public class BarberServiceViewController extends BaseCatalogViewController<Barbe
         );
 
         configureButtonActions();
-    }
-
-    private void loadServicesStats() {
-        loadActiveServicesStats();
-        loadMostValuableBarberServiceStats();
-        loadHighestRevenueStats();
-        loadLeastUsedStats();
     }
 
     private void loadActiveServicesStats() {
@@ -200,7 +187,8 @@ public class BarberServiceViewController extends BaseCatalogViewController<Barbe
                 onCancel);
     }
 
-    private void configureButtonActions() {
+    @Override
+    protected void configureButtonActions() {
 
         Map<Button, Runnable> map = Map.of(
                 createBarberServiceButton, () -> redirectToView(BARBER_SERVICE_CREATION, getAnchorPane(), getApplicationContext()),
@@ -208,6 +196,15 @@ public class BarberServiceViewController extends BaseCatalogViewController<Barbe
         );
 
         configureRunnableMaps(map);
+    }
+
+    @Override
+    protected void loadGlobalStats() {
+
+        loadActiveServicesStats();
+        loadMostValuableBarberServiceStats();
+        loadHighestRevenueStats();
+        loadLeastUsedStats();
     }
 
     @Override
@@ -266,5 +263,19 @@ public class BarberServiceViewController extends BaseCatalogViewController<Barbe
 
         setBlankTextfield(serviceSearchField);
         cleanComboBoxes(serviceCategorySelector, servicePriceRangeSelector);
+    }
+
+    @Override
+    protected void initializeListContent() {
+
+        List<BarberServiceInfoDTO> catalog = barberService.getServicesList();
+
+        loadItemsOnView(catalog);
+
+        loadEnumsOnComboBox(serviceCategorySelector, BarberServiceCategory.values());
+        loadEnumsOnComboBox(servicePriceRangeSelector, PriceRanges.values());
+
+        setStringConverter(serviceCategorySelector, BarberServiceCategory.TODOS);
+        setStringConverter(servicePriceRangeSelector, PriceRanges.TODOS);
     }
 }

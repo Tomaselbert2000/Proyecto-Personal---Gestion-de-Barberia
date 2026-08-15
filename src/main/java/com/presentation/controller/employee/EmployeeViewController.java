@@ -76,20 +76,9 @@ public class EmployeeViewController extends BaseCatalogViewController<EmployeeIn
     @FXML
     public void initialize() {
 
-        List<EmployeeInfoDTO> employees = employeeService.getEmployeeList();
+        loadGlobalStats();
 
-        loadActiveEmployeesStats();
-        loadEmployeeRevenueStats();
-        loadEmployeeCompletedServicesStats();
-        loadProductivityStats();
-
-        setTextOnLabel(resultsCount, parseNumberValueToText(employeeService.getEmployeeCount()));
-
-        loadEnumsOnComboBox(statusFilter, EmployeeStatus.values());
-        loadEnumsOnComboBox(hireDateFilter, HireDateRange.values());
-
-        setStringConverter(statusFilter, EmployeeStatus.TODOS);
-        setStringConverter(hireDateFilter, HireDateRange.TODOS);
+        initializeListContent();
 
         attachLiveSearchListeners(
                 searchField.textProperty(),
@@ -98,8 +87,6 @@ public class EmployeeViewController extends BaseCatalogViewController<EmployeeIn
         );
 
         configureButtonActions();
-
-        loadItemsOnView(employees);
     }
 
     private void loadActiveEmployeesStats() {
@@ -165,7 +152,8 @@ public class EmployeeViewController extends BaseCatalogViewController<EmployeeIn
         employeeService.changeEmployeeIsActiveValue(infoDTO.getId());
     }
 
-    private void configureButtonActions() {
+    @Override
+    protected void configureButtonActions() {
 
         Map<Button, Runnable> map = Map.of(
                 clearFiltersButton, this::resetSearchFilter,
@@ -173,6 +161,15 @@ public class EmployeeViewController extends BaseCatalogViewController<EmployeeIn
         );
 
         configureRunnableMaps(map);
+    }
+
+    @Override
+    protected void loadGlobalStats() {
+
+        loadActiveEmployeesStats();
+        loadEmployeeRevenueStats();
+        loadEmployeeCompletedServicesStats();
+        loadProductivityStats();
     }
 
     @Override
@@ -227,5 +224,21 @@ public class EmployeeViewController extends BaseCatalogViewController<EmployeeIn
 
         setBlankTextfield(searchField);
         cleanComboBoxes(statusFilter, hireDateFilter);
+    }
+
+    @Override
+    protected void initializeListContent() {
+
+        List<EmployeeInfoDTO> employees = employeeService.getEmployeeList();
+
+        loadItemsOnView(employees);
+
+        setTextOnLabel(resultsCount, parseNumberValueToText(employeeService.getEmployeeCount()));
+
+        loadEnumsOnComboBox(statusFilter, EmployeeStatus.values());
+        loadEnumsOnComboBox(hireDateFilter, HireDateRange.values());
+
+        setStringConverter(statusFilter, EmployeeStatus.TODOS);
+        setStringConverter(hireDateFilter, HireDateRange.TODOS);
     }
 }

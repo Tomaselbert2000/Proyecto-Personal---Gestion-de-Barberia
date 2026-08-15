@@ -78,8 +78,10 @@ public class AppointmentViewController extends BaseCatalogViewController<Appoint
 
     @FXML
     public void initialize() {
-        loadAppointmentsStats();
-        loadAppointmentsList();
+
+        loadGlobalStats();
+
+        initializeListContent();
 
         attachLiveSearchListeners(
                 clientSearchField.textProperty(),
@@ -89,16 +91,6 @@ public class AppointmentViewController extends BaseCatalogViewController<Appoint
         );
 
         configureButtonActions();
-    }
-
-    private void loadAppointmentsList() {
-        List<AppointmentInfoDTO> appointments = appointmentService.getAppointmentsList();
-        List<EmployeeInfoDTO> employees = appointmentService.getEmployeesFromServiceInstance();
-
-        loadItemsOnView(appointments);
-        loadEnumsOnComboBox(appointmentStatusSelector, AppointmentStatus.values());
-        setStringConverter(appointmentStatusSelector, AppointmentStatus.TODOS);
-        loadGenericTypeListOnComboBox(employeeSelector, employees);
     }
 
     private void markAppointmentAsComplete(AppointmentInfoDTO dto) {
@@ -163,14 +155,6 @@ public class AppointmentViewController extends BaseCatalogViewController<Appoint
                 AppointmentEditionController.class,
                 editionController -> editionController.initialize(infoDTO)
         );
-    }
-
-    private void loadAppointmentsStats() {
-        loadAppointmentsTodayStats();
-        loadPendingAppointmentsStats();
-        loadMonthlyVolumeStats();
-        loadCanceledAppointmentsStats();
-        totalAppointmentsFound();
     }
 
     private void loadAppointmentsTodayStats() {
@@ -279,7 +263,23 @@ public class AppointmentViewController extends BaseCatalogViewController<Appoint
         cleanComboBoxes(appointmentStatusSelector, employeeSelector);
     }
 
-    private void configureButtonActions() {
+    @Override
+    protected void initializeListContent() {
+
+        List<AppointmentInfoDTO> appointments = appointmentService.getAppointmentsList();
+        List<EmployeeInfoDTO> employees = appointmentService.getEmployeesFromServiceInstance();
+
+        loadItemsOnView(appointments);
+
+        loadEnumsOnComboBox(appointmentStatusSelector, AppointmentStatus.values());
+
+        setStringConverter(appointmentStatusSelector, AppointmentStatus.TODOS);
+
+        loadGenericTypeListOnComboBox(employeeSelector, employees);
+    }
+
+    @Override
+    protected void configureButtonActions() {
 
         Map<Button, Runnable> map = Map.of(
                 clearFiltersButton, this::resetSearchFilter,
@@ -287,5 +287,15 @@ public class AppointmentViewController extends BaseCatalogViewController<Appoint
         );
 
         configureRunnableMaps(map);
+    }
+
+    @Override
+    protected void loadGlobalStats() {
+
+        loadAppointmentsTodayStats();
+        loadPendingAppointmentsStats();
+        loadMonthlyVolumeStats();
+        loadCanceledAppointmentsStats();
+        totalAppointmentsFound();
     }
 }
