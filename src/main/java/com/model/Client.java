@@ -25,7 +25,7 @@ public class Client {
     private LocalDate registrationDate;
     @Column(unique = true, nullable = false)
     private String email;
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "client_phones", joinColumns = @JoinColumn(name = "client_id"))
     @Column(name = "phone")
     private List<String> phoneNumbersList;
