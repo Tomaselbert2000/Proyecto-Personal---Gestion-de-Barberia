@@ -7,7 +7,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PaymentMethodRevenueStatsDTO {
+public final class PaymentMethodRevenueStatsDTO {
 
     private String paymentMethod;
     private double revenueAmount;

@@ -7,7 +7,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ProductTotalStockStatsDTO {
+public final class ProductTotalStockStatsDTO {
 
     private Long productCount;
     private Long onLowOrCriticalStockCount;

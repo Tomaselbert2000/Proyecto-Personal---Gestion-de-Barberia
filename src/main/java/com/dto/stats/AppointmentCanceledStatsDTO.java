@@ -7,7 +7,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class AppointmentCanceledStatsDTO {
+public final class AppointmentCanceledStatsDTO {
 
     public AppointmentCanceledStatsDTO(Long canceledAppointmentThisMonth, Long totalAppointmentsThisMonth) {
         this.canceledAppointmentThisMonth = canceledAppointmentThisMonth;

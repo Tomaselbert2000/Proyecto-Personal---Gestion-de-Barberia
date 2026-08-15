@@ -7,7 +7,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ProductStockValueStatsDTO {
+public final class ProductStockValueStatsDTO {
 
     private Double totalStockValue;
     private Long totalUnits;

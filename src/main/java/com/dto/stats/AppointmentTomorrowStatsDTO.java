@@ -7,7 +7,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class AppointmentTomorrowStatsDTO {
+public final class AppointmentTomorrowStatsDTO {
 
     private Long totalPendingAppointments;
     private Long scheduledAppointmentsTomorrow;

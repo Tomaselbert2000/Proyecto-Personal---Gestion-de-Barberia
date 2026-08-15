@@ -7,7 +7,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ClientAcquisitionStatsDTO {
+public final class ClientAcquisitionStatsDTO {
 
     public ClientAcquisitionStatsDTO(Long newClientsThisMonth, Long newClientsLastMonth) {
         this.newClientsThisMonth = newClientsThisMonth;

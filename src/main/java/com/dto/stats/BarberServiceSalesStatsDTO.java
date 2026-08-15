@@ -7,7 +7,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class BarberServiceSalesStatsDTO {
+public final class BarberServiceSalesStatsDTO {
 
     private String barberServiceName;
     private Long amountOfSales;

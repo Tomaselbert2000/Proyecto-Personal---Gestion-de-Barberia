@@ -7,7 +7,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ProductHighestRevenueStatsDTO {
+public final class ProductHighestRevenueStatsDTO {
 
     private String productName;
     private Double revenue;

@@ -7,7 +7,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class BarberServiceActiveOnCatalogStatsDTO {
+public final class BarberServiceActiveOnCatalogStatsDTO {
 
     private Long amountOfActiveServices;
     private Long amountOfDifferentCategories;

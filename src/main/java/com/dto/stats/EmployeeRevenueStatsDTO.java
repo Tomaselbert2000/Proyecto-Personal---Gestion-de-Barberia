@@ -7,7 +7,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class EmployeeRevenueStatsDTO {
+public final class EmployeeRevenueStatsDTO {
 
     private String employeeFirstname;
     private String employeeLastname;

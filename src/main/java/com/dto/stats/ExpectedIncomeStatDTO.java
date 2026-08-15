@@ -7,7 +7,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ExpectedIncomeStatDTO {
+public final class ExpectedIncomeStatDTO {
 
     private Long appointmentsToday;
     private Double expectedIncomeSumForToday;
