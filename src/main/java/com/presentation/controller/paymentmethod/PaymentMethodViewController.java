@@ -81,11 +81,6 @@ public class PaymentMethodViewController extends BaseCatalogViewController<Payme
 
         configureButtonActions();
 
-        configureLiveSearch();
-    }
-
-    private void configureLiveSearch() {
-
         attachLiveSearchListeners(
                 searchField.textProperty(),
                 statusFilter.valueProperty(),

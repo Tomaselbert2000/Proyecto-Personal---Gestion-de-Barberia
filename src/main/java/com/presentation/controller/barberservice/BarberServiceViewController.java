@@ -4,7 +4,6 @@ import com.dto.barberservice.BarberServiceInfoDTO;
 import com.enums.BarberServiceCategory;
 import com.enums.PriceRanges;
 import com.enums.ToastNotificationType;
-import com.enums.ViewRedirection;
 import com.presentation.controller.item.BaseCatalogViewController;
 import com.service.interfaces.BarberserviceService;
 import com.service.interfaces.SaleService;
@@ -26,6 +25,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.Map;
 
+import static com.enums.ViewRedirection.BARBER_SERVICE_CREATION;
 import static com.presentation.concurrency.ConcurrencyManager.executeAsyncTask;
 import static com.presentation.constants.MaterialDesignResources.MaterialIcon.DELETE_ICON;
 import static com.presentation.constants.StringResource.ConfirmationDialog.*;
@@ -101,7 +101,12 @@ public class BarberServiceViewController extends BaseCatalogViewController<Barbe
         setStringConverter(serviceCategorySelector, BarberServiceCategory.TODOS);
         setStringConverter(servicePriceRangeSelector, PriceRanges.TODOS);
 
-        configureLiveSearch();
+        attachLiveSearchListeners(
+                serviceSearchField.textProperty(),
+                serviceCategorySelector.valueProperty(),
+                servicePriceRangeSelector.valueProperty()
+        );
+
         configureButtonActions();
     }
 
@@ -198,20 +203,11 @@ public class BarberServiceViewController extends BaseCatalogViewController<Barbe
     private void configureButtonActions() {
 
         Map<Button, Runnable> map = Map.of(
-                createBarberServiceButton, () -> redirectToView(ViewRedirection.BARBER_SERVICE_CREATION, anchorPane, applicationContext),
+                createBarberServiceButton, () -> redirectToView(BARBER_SERVICE_CREATION, getAnchorPane(), getApplicationContext()),
                 cleanFiltersButton, this::resetSearchFilter
         );
 
         configureRunnableMaps(map);
-    }
-
-    private void configureLiveSearch() {
-
-        attachLiveSearchListeners(
-                serviceSearchField.textProperty(),
-                serviceCategorySelector.valueProperty(),
-                servicePriceRangeSelector.valueProperty()
-        );
     }
 
     @Override

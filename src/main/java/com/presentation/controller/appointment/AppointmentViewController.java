@@ -80,7 +80,14 @@ public class AppointmentViewController extends BaseCatalogViewController<Appoint
     public void initialize() {
         loadAppointmentsStats();
         loadAppointmentsList();
-        configureLiveSearch();
+
+        attachLiveSearchListeners(
+                clientSearchField.textProperty(),
+                appointmentStatusSelector.valueProperty(),
+                dateSelector.valueProperty(),
+                employeeSelector.valueProperty()
+        );
+
         configureButtonActions();
     }
 
@@ -212,16 +219,6 @@ public class AppointmentViewController extends BaseCatalogViewController<Appoint
         executeAsyncTask(
                 appointmentService::getCount,
                 count -> setTextOnLabel(totalAppointmentsCount, parseNumberValueToText(count) + " encontrados")
-        );
-    }
-
-    private void configureLiveSearch() {
-
-        attachLiveSearchListeners(
-                clientSearchField.textProperty(),
-                appointmentStatusSelector.valueProperty(),
-                dateSelector.valueProperty(),
-                employeeSelector.valueProperty()
         );
     }
 

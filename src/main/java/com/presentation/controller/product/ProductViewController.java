@@ -89,7 +89,12 @@ public class ProductViewController extends BaseCatalogViewController<ProductInfo
         setStringConverter(productCategorySelector, ProductCategory.TODOS);
         setStringConverter(productStockStatusSelector, StockStatus.TODOS);
 
-        configureLiveSearch();
+        attachLiveSearchListeners(
+                productSearchField.textProperty(),
+                productCategorySelector.valueProperty(),
+                productStockStatusSelector.valueProperty()
+        );
+
         configureButtonActions();
 
         loadItemsOnView(products);
@@ -168,15 +173,6 @@ public class ProductViewController extends BaseCatalogViewController<ProductInfo
         );
 
         configureRunnableMaps(map);
-    }
-
-    private void configureLiveSearch() {
-
-        attachLiveSearchListeners(
-                productSearchField.textProperty(),
-                productCategorySelector.valueProperty(),
-                productStockStatusSelector.valueProperty()
-        );
     }
 
     @Override
