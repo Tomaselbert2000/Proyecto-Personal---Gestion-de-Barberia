@@ -10,7 +10,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ClientInfoDTO {
+public final class ClientInfoDTO {
 
     private Long id;
     private String nationalIdentityCardNumber;

@@ -14,7 +14,7 @@ import static com.validation.common.CommonConstants.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class BarberServiceCreationDTO {
+public final class BarberServiceCreationDTO {
 
     @NotNull(message = BARBER_SERVICE_NAME + NOT_NULL)
     @NotBlank(message = BARBER_SERVICE_NAME + NOT_BLANK)

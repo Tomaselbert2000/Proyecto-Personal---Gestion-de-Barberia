@@ -15,7 +15,7 @@ import static com.validation.common.CommonConstants.MAX_NAME_LENGTH;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class AppUserCreationDTO {
+public final class AppUserCreationDTO {
 
     @NotNull
     @NotBlank(message = APP_USERNAME_STRING + NOT_BLANK)

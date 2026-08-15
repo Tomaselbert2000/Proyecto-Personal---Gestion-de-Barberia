@@ -18,7 +18,7 @@ import static com.validation.employee.EmployeeValidatorConstants.MIN_COMMISION_P
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class EmployeeCreationDTO {
+public final class EmployeeCreationDTO {
 
     @NotNull(message = EMPLOYEE_FIRST_NAME + NOT_NULL)
     @NotBlank(message = EMPLOYEE_FIRST_NAME + NOT_BLANK)

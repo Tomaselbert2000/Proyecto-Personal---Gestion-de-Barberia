@@ -9,7 +9,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ProductItemDTO {
+public final class ProductItemDTO {
 
     @NotNull
     private Long productID;

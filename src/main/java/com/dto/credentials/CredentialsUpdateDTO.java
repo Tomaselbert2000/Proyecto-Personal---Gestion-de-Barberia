@@ -8,7 +8,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CredentialsUpdateDTO {
+public final class CredentialsUpdateDTO {
 
     @NotBlank
     private String username;

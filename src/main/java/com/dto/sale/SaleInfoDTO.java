@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class SaleInfoDTO {
+public final class SaleInfoDTO {
 
     private LocalDateTime dateAndTime;
     private String clientFirstName;

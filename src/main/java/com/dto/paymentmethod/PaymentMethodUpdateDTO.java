@@ -16,7 +16,7 @@ import static com.validation.common.CommonConstants.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PaymentMethodUpdateDTO {
+public final class PaymentMethodUpdateDTO {
 
     @Size(min = MIN_NAME_LENGTH, max = MAX_NAME_LENGTH, message = PAYMENT_METHOD_NAME + INVALID_NAME_SIZE)
     @Pattern(regexp = NAME_REGEX, message = PAYMENT_METHOD_NAME + DOES_NOT_MATCH_NAME_REGEX)

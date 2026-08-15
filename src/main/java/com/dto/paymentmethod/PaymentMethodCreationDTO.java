@@ -14,7 +14,7 @@ import static com.validation.common.CommonConstants.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PaymentMethodCreationDTO {
+public final class PaymentMethodCreationDTO {
 
     @NotNull(message = PAYMENT_METHOD_NAME + NOT_NULL)
     @NotBlank(message = PAYMENT_METHOD_NAME + NOT_BLANK)

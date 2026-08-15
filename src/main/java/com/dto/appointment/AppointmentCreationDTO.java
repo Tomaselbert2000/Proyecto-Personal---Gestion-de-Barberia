@@ -16,7 +16,7 @@ import static com.validation.common.CommonConstants.MAX_OPTIONAL_DESCRIPTION_LEN
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class AppointmentCreationDTO {
+public final class AppointmentCreationDTO {
 
     @NotNull(message = CLIENT_ID + NOT_NULL)
     private Long clientID;

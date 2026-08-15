@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class AppUserInfoDTO {
+public final class AppUserInfoDTO {
 
     private String username;
     private LocalDateTime createdAt;

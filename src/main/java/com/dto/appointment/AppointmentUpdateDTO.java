@@ -14,7 +14,7 @@ import static com.validation.common.CommonConstants.MAX_OPTIONAL_DESCRIPTION_LEN
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class AppointmentUpdateDTO {
+public final class AppointmentUpdateDTO {
 
     private Long newEmployeeID;
 

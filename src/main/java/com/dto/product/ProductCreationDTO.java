@@ -17,7 +17,7 @@ import static com.validation.product.ProductValidatorConstants.MIN_DISCOUNT_VALU
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ProductCreationDTO implements ProductInputDTO {
+public final class ProductCreationDTO implements ProductInputDTO {
 
     @NotBlank(message = PRODUCT_NAME + NOT_BLANK)
     @Size(min = MIN_NAME_LENGTH, max = MAX_NAME_LENGTH, message = PRODUCT_NAME + INVALID_NAME_SIZE)

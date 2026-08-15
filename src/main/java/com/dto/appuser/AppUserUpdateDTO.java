@@ -14,7 +14,7 @@ import static com.validation.common.CommonConstants.MAX_NAME_LENGTH;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class AppUserUpdateDTO {
+public final class AppUserUpdateDTO {
 
     @Size(min = 1, message = APP_USERNAME_STRING + NOT_BLANK)
     @Size(max = MAX_NAME_LENGTH, message = APP_USERNAME_STRING + INVALID_NAME_SIZE)

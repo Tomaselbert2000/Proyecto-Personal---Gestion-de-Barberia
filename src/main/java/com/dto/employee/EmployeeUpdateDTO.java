@@ -21,7 +21,7 @@ import static com.validation.employee.EmployeeValidatorConstants.MIN_COMMISION_P
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class EmployeeUpdateDTO {
+public final class EmployeeUpdateDTO {
 
     @Size(min = MIN_NAME_LENGTH, max = MAX_NAME_LENGTH, message = EMPLOYEE_FIRST_NAME + INVALID_NAME_SIZE)
     @Pattern(regexp = NAME_REGEX, message = EMPLOYEE_FIRST_NAME + DOES_NOT_MATCH_NAME_REGEX)

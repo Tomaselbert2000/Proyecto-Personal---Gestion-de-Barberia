@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class RecentActivityDTO {
+public final class RecentActivityDTO {
 
     private EventType eventType;
     private String text;

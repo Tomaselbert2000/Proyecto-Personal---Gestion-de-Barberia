@@ -16,7 +16,7 @@ import static com.validation.common.CommonConstants.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class SettingsUpdateDTO {
+public final class SettingsUpdateDTO {
 
     private String themeSelected;
 

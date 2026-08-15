@@ -16,7 +16,7 @@ import static com.validation.common.CommonConstants.MIN_NAME_LENGTH;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class BarberServiceUpdateDTO {
+public final class BarberServiceUpdateDTO {
 
     @Size(min = MIN_NAME_LENGTH, max = MAX_NAME_LENGTH)
     @Pattern(regexp = NAME_REGEX)

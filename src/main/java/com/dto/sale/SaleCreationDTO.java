@@ -14,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class SaleCreationDTO {
+public final class SaleCreationDTO {
 
     @NotNull
     private LocalDateTime dateAndTime;
