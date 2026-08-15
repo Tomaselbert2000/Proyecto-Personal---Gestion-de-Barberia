@@ -91,7 +91,12 @@ public class EmployeeViewController extends BaseCatalogViewController<EmployeeIn
         setStringConverter(statusFilter, EmployeeStatus.TODOS);
         setStringConverter(hireDateFilter, HireDateRange.TODOS);
 
-        configureLiveSearch();
+        attachLiveSearchListeners(
+                searchField.textProperty(),
+                statusFilter.valueProperty(),
+                hireDateFilter.valueProperty()
+        );
+
         configureButtonActions();
 
         loadItemsOnView(employees);
@@ -168,15 +173,6 @@ public class EmployeeViewController extends BaseCatalogViewController<EmployeeIn
         );
 
         configureRunnableMaps(map);
-    }
-
-    private void configureLiveSearch() {
-
-        attachLiveSearchListeners(
-                searchField.textProperty(),
-                statusFilter.valueProperty(),
-                hireDateFilter.valueProperty()
-        );
     }
 
     @Override
