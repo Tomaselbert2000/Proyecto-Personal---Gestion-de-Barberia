@@ -14,7 +14,10 @@ public final class ClientAcquisitionStatsDTO {
         this.newClientsLastMonth = newClientsLastMonth;
     }
 
-    private Long newClientsThisMonth;
-    private Long newClientsLastMonth;
+    @Builder.Default
+    private Long newClientsThisMonth = 0L;
+    @Builder.Default
+    private Long newClientsLastMonth = 0L;
+    @Builder.Default
     private Double percentageVsLastMonth = 0.0;
 }

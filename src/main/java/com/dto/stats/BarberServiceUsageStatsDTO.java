@@ -2,6 +2,8 @@ package com.dto.stats;
 
 import lombok.*;
 
+import static com.presentation.constants.StringResource.DisplayString.NO_DATA;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -9,6 +11,8 @@ import lombok.*;
 @Builder
 public final class BarberServiceUsageStatsDTO {
 
-    private String barberServiceName;
-    private Long totalUsage;
+    @Builder.Default
+    private String barberServiceName = NO_DATA;
+    @Builder.Default
+    private Long totalUsage = 0L;
 }

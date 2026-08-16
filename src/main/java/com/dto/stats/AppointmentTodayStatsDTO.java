@@ -9,6 +9,8 @@ import lombok.*;
 @Builder
 public final class AppointmentTodayStatsDTO {
 
-    private Long appointmentCount;
-    private Long totalAmountAsFinished;
+    @Builder.Default
+    private Long appointmentCount = 0L;
+    @Builder.Default
+    private Long totalAmountAsFinished = 0L;
 }

@@ -2,6 +2,8 @@ package com.dto.stats;
 
 import lombok.*;
 
+import static com.presentation.constants.StringResource.DisplayString.NO_DATA;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -9,6 +11,8 @@ import lombok.*;
 @Builder
 public final class ProductMostSoldStatsDTO {
 
-    private String productName;
-    private Long unitsSold;
+    @Builder.Default
+    private String productName = NO_DATA;
+    @Builder.Default
+    private Long unitsSold = 0L;
 }

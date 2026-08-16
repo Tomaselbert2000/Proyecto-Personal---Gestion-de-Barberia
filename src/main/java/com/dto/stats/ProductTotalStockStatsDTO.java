@@ -9,6 +9,8 @@ import lombok.*;
 @Builder
 public final class ProductTotalStockStatsDTO {
 
-    private Long productCount;
-    private Long onLowOrCriticalStockCount;
+    @Builder.Default
+    private Long productCount = 0L;
+    @Builder.Default
+    private Long onLowOrCriticalStockCount = 0L;
 }

@@ -9,8 +9,11 @@ import lombok.*;
 @Builder
 public final class ExpectedIncomeStatDTO {
 
-    private Long appointmentsToday;
-    private Double expectedIncomeSumForToday;
+    @Builder.Default
+    private Long appointmentsToday = 0L;
+    @Builder.Default
+    private Double expectedIncomeSumForToday = 0.0;
+    @Builder.Default
     private Double averageTicket = 0.0;
 
     public ExpectedIncomeStatDTO(Long appointmentsToday, Double expectedIncomeSumForToday) {

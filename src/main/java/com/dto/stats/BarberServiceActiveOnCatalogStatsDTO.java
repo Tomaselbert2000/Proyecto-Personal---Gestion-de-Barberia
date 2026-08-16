@@ -9,6 +9,8 @@ import lombok.*;
 @Builder
 public final class BarberServiceActiveOnCatalogStatsDTO {
 
-    private Long amountOfActiveServices;
-    private Long amountOfDifferentCategories;
+    @Builder.Default
+    private Long amountOfActiveServices = 0L;
+    @Builder.Default
+    private Long amountOfDifferentCategories = 0L;
 }

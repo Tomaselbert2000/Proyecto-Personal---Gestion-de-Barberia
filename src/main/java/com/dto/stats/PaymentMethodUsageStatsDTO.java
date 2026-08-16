@@ -2,6 +2,8 @@ package com.dto.stats;
 
 import lombok.*;
 
+import static com.presentation.constants.StringResource.DisplayString.NO_DATA;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -9,6 +11,8 @@ import lombok.*;
 @Builder
 public final class PaymentMethodUsageStatsDTO {
 
-    private String paymentMethodName;
-    private Long amountOfSalesWhereIsUsed;
+    @Builder.Default
+    private String paymentMethodName = NO_DATA;
+    @Builder.Default
+    private Long amountOfSalesWhereIsUsed = 0L;
 }

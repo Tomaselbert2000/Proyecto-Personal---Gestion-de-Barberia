@@ -9,6 +9,8 @@ import lombok.*;
 @Builder
 public final class AppointmentTomorrowStatsDTO {
 
-    private Long totalPendingAppointments;
-    private Long scheduledAppointmentsTomorrow;
+    @Builder.Default
+    private Long totalPendingAppointments = 0L;
+    @Builder.Default
+    private Long scheduledAppointmentsTomorrow = 0L;
 }

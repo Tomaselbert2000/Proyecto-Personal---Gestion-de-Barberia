@@ -9,6 +9,8 @@ import lombok.*;
 @Builder
 public final class ProductStockValueStatsDTO {
 
-    private Double totalStockValue;
-    private Long totalUnits;
+    @Builder.Default
+    private Double totalStockValue = 0.0;
+    @Builder.Default
+    private Long totalUnits = 0L;
 }

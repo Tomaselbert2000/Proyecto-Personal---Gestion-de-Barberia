@@ -9,6 +9,8 @@ import lombok.*;
 @Builder
 public final class AppointmentMonthlyComparisonDTO {
 
-    private Long currentMonthAppointments;
-    private Long previousMonthAppointments;
+    @Builder.Default
+    private Long currentMonthAppointments = 0L;
+    @Builder.Default
+    private Long previousMonthAppointments = 0L;
 }
