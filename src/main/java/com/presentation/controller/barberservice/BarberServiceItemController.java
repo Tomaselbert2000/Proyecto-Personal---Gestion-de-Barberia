@@ -1,7 +1,7 @@
 package com.presentation.controller.barberservice;
 
 import com.dto.barberservice.BarberServiceInfoDTO;
-import com.presentation.controller.item.AbstractItemController;
+import com.presentation.controller.AbstractItemController;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;

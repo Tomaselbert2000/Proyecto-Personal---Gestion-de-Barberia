@@ -1,4 +1,4 @@
-package com.presentation.controller.item;
+package com.presentation.controller;
 
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.Label;

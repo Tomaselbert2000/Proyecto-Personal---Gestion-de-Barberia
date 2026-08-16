@@ -4,7 +4,7 @@ import com.dto.barberservice.BarberServiceInfoDTO;
 import com.enums.BarberServiceCategory;
 import com.enums.PriceRanges;
 import com.enums.ToastNotificationType;
-import com.presentation.controller.item.BaseCatalogViewController;
+import com.presentation.controller.BaseCatalogViewController;
 import com.service.interfaces.BarberserviceService;
 import com.service.interfaces.SaleService;
 import io.github.palexdev.materialfx.controls.MFXButton;

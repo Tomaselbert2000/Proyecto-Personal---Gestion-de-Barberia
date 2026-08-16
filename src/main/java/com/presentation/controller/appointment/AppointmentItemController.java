@@ -2,7 +2,7 @@ package com.presentation.controller.appointment;
 
 import com.dto.appointment.AppointmentInfoDTO;
 import com.enums.AppointmentStatus;
-import com.presentation.controller.item.AbstractItemController;
+import com.presentation.controller.AbstractItemController;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;

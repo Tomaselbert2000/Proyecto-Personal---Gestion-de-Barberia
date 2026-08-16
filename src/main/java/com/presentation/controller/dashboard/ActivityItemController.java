@@ -2,7 +2,7 @@ package com.presentation.controller.dashboard;
 
 import com.dto.activity.RecentActivityDTO;
 import com.enums.EventType;
-import com.presentation.controller.item.AbstractItemController;
+import com.presentation.controller.AbstractItemController;
 import com.utils.time.TimeCalculation;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;

@@ -5,7 +5,7 @@ import com.dto.employee.EmployeeInfoDTO;
 import com.enums.AppointmentStatus;
 import com.enums.ToastNotificationType;
 import com.exceptions.appointment.InvalidAppointmentUpdateException;
-import com.presentation.controller.item.BaseCatalogViewController;
+import com.presentation.controller.BaseCatalogViewController;
 import com.service.interfaces.AppointmentService;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.fxml.FXML;

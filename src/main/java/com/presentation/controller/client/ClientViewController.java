@@ -4,7 +4,7 @@ import com.dto.client.ClientInfoDTO;
 import com.enums.ClientNotesFilter;
 import com.enums.RegisteredPhoneFilter;
 import com.enums.RegistrationDateRange;
-import com.presentation.controller.item.BaseCatalogViewController;
+import com.presentation.controller.BaseCatalogViewController;
 import com.service.interfaces.ClientService;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.fxml.FXML;

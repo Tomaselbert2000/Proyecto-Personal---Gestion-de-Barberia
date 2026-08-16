@@ -3,7 +3,7 @@ package com.presentation.controller.employee;
 import com.dto.employee.EmployeeInfoDTO;
 import com.enums.EmployeeStatus;
 import com.enums.HireDateRange;
-import com.presentation.controller.item.BaseCatalogViewController;
+import com.presentation.controller.BaseCatalogViewController;
 import com.service.interfaces.EmployeeService;
 import com.service.interfaces.SaleService;
 import io.github.palexdev.materialfx.controls.MFXButton;

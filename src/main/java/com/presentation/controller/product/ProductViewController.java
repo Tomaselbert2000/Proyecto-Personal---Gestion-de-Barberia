@@ -3,7 +3,7 @@ package com.presentation.controller.product;
 import com.dto.product.ProductInfoDTO;
 import com.enums.ProductCategory;
 import com.enums.StockStatus;
-import com.presentation.controller.item.BaseCatalogViewController;
+import com.presentation.controller.BaseCatalogViewController;
 import com.service.interfaces.ProductService;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.fxml.FXML;

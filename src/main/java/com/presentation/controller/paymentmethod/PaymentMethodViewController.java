@@ -3,7 +3,7 @@ package com.presentation.controller.paymentmethod;
 import com.dto.paymentmethod.PaymentMethodInfoDTO;
 import com.enums.PaymentMethodModifierType;
 import com.enums.PaymentMethodStatus;
-import com.presentation.controller.item.BaseCatalogViewController;
+import com.presentation.controller.BaseCatalogViewController;
 import com.service.interfaces.PaymentMethodService;
 import com.service.interfaces.SaleService;
 import io.github.palexdev.materialfx.controls.MFXButton;
