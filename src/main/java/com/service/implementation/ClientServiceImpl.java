@@ -3,7 +3,10 @@ package com.service.implementation;
 import com.dto.client.ClientCreationDTO;
 import com.dto.client.ClientInfoDTO;
 import com.dto.client.ClientUpdateDTO;
-import com.dto.stats.ClientAcquisitionStatsDTO;
+import com.dto.stats.*;
+import com.enums.ClientNotesFilter;
+import com.enums.RegisteredPhoneFilter;
+import com.enums.RegistrationDateRange;
 import com.exceptions.client.ClientNotFoundException;
 import com.exceptions.client.DuplicatedEmailException;
 import com.exceptions.client.DuplicatedNationalIDCardNumberException;
@@ -21,7 +24,7 @@ import java.time.Clock;
 import java.time.LocalDate;
 import java.util.List;
 
-import static com.dto.stats.EmptyStatDTOFactory.emptyClientAcquisitionStatsDTO;
+import static com.dto.stats.EmptyStatDTOFactory.*;
 import static com.utils.time.TimeCalculation.getEndOfCurrentMonth;
 import static com.utils.time.TimeCalculation.getStartOfCurrentMonth;
 
@@ -90,33 +93,6 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public Long getClientsRegisteredQuantity() {
-
-        return clientRepository.count();
-    }
-
-    @Override
-    public Long calculatePercentageOfClientsVsLastMonth() {
-
-        LocalDate startDateTimeAfter = getStartOfCurrentMonth();
-        LocalDate startDateTimeBefore = getEndOfCurrentMonth();
-
-        Long clientsRegisteredThisMonth = clientRepository.countByRegistrationDateBetween(startDateTimeAfter, startDateTimeBefore);
-        Long clientsTheLastMonth = clientRepository.countByRegistrationDateBetween(startDateTimeAfter.minusMonths(1), startDateTimeBefore.minusMonths(1));
-
-        if (clientsRegisteredThisMonth == 0 && clientsTheLastMonth == 0) {
-
-            return 0L;
-
-        } else if (clientsTheLastMonth == 0) {
-
-            return 100L;
-        }
-
-        return ((clientsRegisteredThisMonth - clientsTheLastMonth) * 100) / clientsTheLastMonth;
-    }
-
-    @Override
     public List<ClientInfoDTO> clientLiveSearchByName(String searchName) {
 
         return mapper.mapClientToInfoDTO(clientRepository.clientLiveSearchByName(searchName));
@@ -145,6 +121,144 @@ public class ClientServiceImpl implements ClientService {
 
             return emptyClientAcquisitionStatsDTO();
         }
+    }
+
+    @Override
+    @SuppressWarnings("ALL")
+    public List<ClientInfoDTO> liveSearch(
+            String clientName,
+            RegistrationDateRange registrationDateRange,
+            RegisteredPhoneFilter phoneFilter,
+            ClientNotesFilter notesFilter
+    ) {
+
+        LocalDate limitRegistrationDate = null;
+        Boolean hasPhone = null;
+        Boolean hasNotes = null;
+
+        switch (registrationDateRange) {
+
+            case TODOS -> limitRegistrationDate = null;
+
+            case ULTIMOS_30_DIAS -> limitRegistrationDate = LocalDate.now().minusDays(30);
+
+            case ESTE_MES ->
+                    limitRegistrationDate = LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonthValue(), 1);
+
+            case ESTE_AÑO -> limitRegistrationDate = LocalDate.of(LocalDate.now().getYear(), 1, 1);
+        }
+
+        switch (phoneFilter) {
+
+            case TODOS -> hasPhone = null;
+
+            case CON_TELEFONO_REGISTRADO -> hasPhone = true;
+
+            case SIN_TELEFONO_REGISTRADO -> hasPhone = false;
+        }
+
+        switch (notesFilter) {
+
+            case TODOS -> hasNotes = null;
+
+            case CON_OBSERVACIONES -> hasNotes = true;
+
+            case SIN_OBSERVACIONES -> hasNotes = false;
+        }
+
+        List<Client> clients = clientRepository.liveSearch(clientName, limitRegistrationDate, hasPhone, hasNotes);
+
+        return mapper.mapClientToInfoDTO(clients);
+    }
+
+    @Override
+    public List<ClientInfoDTO> getClientList() {
+
+        List<Client> clients = clientRepository.findAll();
+
+        return mapper.mapClientToInfoDTO(clients);
+    }
+
+    @Override
+    public TotalClientsStatsDTO getTotalClientsStats() {
+
+        TotalClientsStatsDTO totalClientsStatsDTO = clientRepository.getTotalClientsStats(getStartOfCurrentMonth(), getEndOfCurrentMonth());
+
+        if (totalClientsStatsDTO.getTotalClientsCount() == null || totalClientsStatsDTO.getClientsRegisteredThisMonth() == null)
+            return emptyTotalClientsStatsDTO();
+
+        return totalClientsStatsDTO;
+    }
+
+    @Override
+    public ClientPhoneNumberStatsDTO getPhoneNumberRegistrationStats() {
+
+        ClientPhoneNumberStatsDTO clientPhoneNumberStatsDTO = clientRepository.getPhoneNumberRegistrationStats();
+
+        if (clientPhoneNumberStatsDTO == null || clientPhoneNumberStatsDTO.getClientsWithAtLeastOnePhoneNumber() == null)
+            return emptyClientPhoneNumberStatsDTO();
+
+        return clientPhoneNumberStatsDTO;
+    }
+
+    @Override
+    public ClientRegistrationTrendStatDTO getClientRegistrationTrendStats() {
+
+        ClientRegistrationTrendStatDTO clientRegistrationTrendStatDTO = clientRepository.getClientRegistrationTrend(
+                getStartOfCurrentMonth(),
+                getEndOfCurrentMonth(),
+                getStartOfCurrentMonth().minusMonths(1),
+                getEndOfCurrentMonth().minusMonths(1)
+        );
+
+        if (clientRegistrationTrendStatDTO == null || clientRegistrationTrendStatDTO.getClientsRegisteredDuringThisMonth() == null)
+            return emptyClientRegistrationTrendStatDTO();
+
+        Long clientsThisMonth = clientRegistrationTrendStatDTO.getClientsRegisteredDuringThisMonth();
+        Long clientsLastMonth = clientRegistrationTrendStatDTO.getClientsRegisteredDuringTheLastMonth();
+
+        double calculatedPercentage;
+
+        if (clientsLastMonth != 0L) {
+
+            calculatedPercentage = (((double) (clientsThisMonth - clientsLastMonth) / clientsLastMonth) * 100);
+
+        } else {
+
+            calculatedPercentage = 0.0;
+        }
+
+        clientRegistrationTrendStatDTO.setTrendPercentage(calculatedPercentage);
+
+        return clientRegistrationTrendStatDTO;
+    }
+
+    @Override
+    public ClientNotesStatsDTO getClientNotesStats() {
+
+        ClientNotesStatsDTO clientNotesStatsDTO = clientRepository.getClientsNotesStats();
+
+        if (clientNotesStatsDTO == null || clientNotesStatsDTO.getClientsWithNotes() == null)
+            return emptyClientNotesStatsDTO();
+
+        Long notesCount = clientNotesStatsDTO.getClientsWithNotes();
+        Long noNotesCount = clientNotesStatsDTO.getClientsWithoutNotes();
+        long totalCount = notesCount + noNotesCount;
+
+        double notesPercentage;
+
+        if (totalCount != 0L) {
+
+            notesPercentage = ((double) notesCount / totalCount) * 100;
+
+        } else {
+
+            notesPercentage = 0.0;
+        }
+
+        clientNotesStatsDTO.setClientsWithNotesPercentage(notesPercentage);
+
+        return clientNotesStatsDTO;
     }
 
     private Client loadClient(String nationalIdentityCardNumber) {

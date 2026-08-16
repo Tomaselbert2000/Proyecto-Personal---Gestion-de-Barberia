@@ -34,6 +34,7 @@ public final class StringResource {
         public static final String CLIPBOARD_BUTTON_TEXT = "Copiar al portapapeles";
         public static final String ACTIVE_STATUS_LABEL = "Activo";
         public static final String INACTIVE_STATUS_LABEL = "Inactivo";
+        public static final String NO_DATA = "Sin datos";
     }
 
     public static final class StringFormat {
@@ -48,6 +49,7 @@ public final class StringResource {
         public static final String EMPTY_ACTIVITY_LOG_MESSAGE = "No se registra actividad reciente.";
         public static final String EMPTY_APPOINTMENTS_LIST_MESSAGE = "No se registran turnos agendados hasta este momento";
         public static final String EMPTY_BARBER_SERVICE_CATALOG_LIST_MESSAGE = "No se registran servicios en el catálogo.";
+        public static final String EMPTY_CLIENT_LIST_MESSAGE = "No se registran clientes hasta el momento.";
         public static final String EMPTY_PRODUCT_LIST_MESSAGE = "No se registran productos en el sistema.";
         public static final String EMPTY_EMPLOYEE_LIST_MESSAGE = "No se registran empleados en el sistema hasta este momento.";
         public static final String EMPTY_PAYMENT_LIST_MESSAGE = "No se registran medios de pago hasta el momento";
@@ -142,6 +144,8 @@ public final class StringResource {
 
         public static final String CLIENTS_VIEW_LOADING_FAILED = "Hubo un error al cargar la vista de clientes.";
         public static final String CLIENT_CREATION_VIEW_LOADING_FAILED = "Hubo un error al cargar la vista de registro de nuevo cliente.";
+        public static final String CLIENT_EDITION_VIEW_LOADING_FAILED = "Hubo un error al cargar la vista de actualización de cliente.";
+        public static final String CLIENT_ITEM_VIEW_LOADING_FAILED = "Hubo un error al cargar la lista de clientes";
 
         public static final String APPOINTMENTS_VIEW_LOADING_FAILED = "Hubo un error al cargar la lista de turnos recientes.";
         public static final String APPOINTMENT_CREATION_VIEW_LOADING_FAILED = "Hubo un error al cargar la vista de creación de turnos.";

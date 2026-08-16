@@ -1,6 +1,6 @@
 package com.repository;
 
-import com.dto.stats.ClientAcquisitionStatsDTO;
+import com.dto.stats.*;
 import com.model.Client;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -90,16 +90,6 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
     boolean existsByAnyPhoneNumberInListAndClientIDNot(@Param("phones") List<String> phones, @Param("idExclude") Long clientID);
 
     /**
-     * Cuenta el número total de clientes registrados dentro de un rango específico de fechas.
-     * Útil para generar reportes de crecimiento de la base de usuarios por periodo.
-     *
-     * @param registrationDateAfter  El límite inferior del rango de fechas (inclusive).
-     * @param registrationDateBefore El límite superior del rango de fechas (exclusive).
-     * @return La cantidad total de clientes registrados en el rango especificado.
-     */
-    Long countByRegistrationDateBetween(LocalDate registrationDateAfter, LocalDate registrationDateBefore);
-
-    /**
      * Obtiene los 5 clientes más recientes ordenados por fecha y hora de registro descendente.
      * Proporciona una vista rápida de los últimos registros en el sistema sin necesidad de cargar el historial.
      *
@@ -126,8 +116,8 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
 
     @Query("""
             SELECT new com.dto.stats.ClientAcquisitionStatsDTO(
-                COUNT(CASE WHEN c.registrationDate >= :currentMonthStart AND c.registrationDate < :currentMonthEnd THEN c ELSE NULL END),
-                COUNT(CASE WHEN c.registrationDate >= :previousMonthStart AND c.registrationDate < :previousMonthEnd THEN c ELSE NULL END)
+                COUNT(CASE WHEN c.registrationDate >= :currentMonthStart AND c.registrationDate < :currentMonthEnd THEN c.clientID ELSE NULL END),
+                COUNT(CASE WHEN c.registrationDate >= :previousMonthStart AND c.registrationDate < :previousMonthEnd THEN c.clientID ELSE NULL END)
             )
             FROM Client c
             GROUP BY c.registrationDate
@@ -139,4 +129,69 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
             @Param("previousMonthStart") LocalDate previousMonthStart,
             @Param("previousMonthEnd") LocalDate previousMonthEnd
     );
+
+    @Query("""
+        SELECT c FROM Client c
+        WHERE (:clientName IS NULL OR LOWER(CONCAT(c.firstName, ' ', c.lastName)) LIKE LOWER(CONCAT('%', :clientName, '%')))
+          AND (:limitRegistrationDate IS NULL OR (c.registrationDate >= :limitRegistrationDate AND c.registrationDate <= CURRENT_DATE))
+          AND (
+              (:hasPhone IS NULL) OR (:hasPhone = true AND SIZE(c.phoneNumbersList) > 0) OR (:hasPhone = false AND SIZE(c.phoneNumbersList) = 0)
+          )
+          AND (
+              (:hasNotes IS NULL) OR
+              (:hasNotes = true AND c.optionalNotes IS NOT NULL AND TRIM(c.optionalNotes) != '') OR
+              (:hasNotes = false AND (c.optionalNotes IS NULL OR TRIM(c.optionalNotes) = ''))
+          )
+        """)
+    List<Client> liveSearch(
+            @Param("clientName") String clientName,
+            @Param("limitRegistrationDate") LocalDate limitRegistrationDate,
+            @Param("hasPhone") Boolean hasPhone,
+            @Param("hasNotes") Boolean hasNotes
+    );
+
+
+    @Query("""
+            SELECT new com.dto.stats.TotalClientsStatsDTO(
+                COUNT(c.clientID),
+                COUNT(CASE WHEN c.registrationDate >= :currentMonthStart AND c.registrationDate < :currentMonthEnd THEN c.clientID ELSE NULL END)
+            )
+            FROM Client c
+            """)
+    TotalClientsStatsDTO getTotalClientsStats(
+            @Param("currentMonthStart") LocalDate currentMonthStart,
+            @Param("currentMonthEnd") LocalDate currentMonthEnd
+    );
+
+    @Query("""
+            SELECT new com.dto.stats.ClientPhoneNumberStatsDTO(
+                COUNT(CASE WHEN SIZE(c.phoneNumbersList) > 0 THEN c.clientID ELSE NULL END),
+                COUNT(CASE WHEN SIZE(c.phoneNumbersList) = 0 THEN c.clientID ELSE NULL END)
+            )
+            FROM Client c
+            """)
+    ClientPhoneNumberStatsDTO getPhoneNumberRegistrationStats();
+
+    @Query("""
+            SELECT new com.dto.stats.ClientRegistrationTrendStatDTO(
+                COUNT(CASE WHEN c.registrationDate >= :currentMonthStart AND c.registrationDate < :currentMonthEnd THEN c.clientID ELSE NULL END),
+                COUNT(CASE WHEN c.registrationDate >= :previousMonthStart AND c.registrationDate < :previousMonthEnd THEN c.clientID ELSE NULL END)
+            )
+            FROM Client c
+            """)
+    ClientRegistrationTrendStatDTO getClientRegistrationTrend(
+            @Param("currentMonthStart") LocalDate currentMonthStart,
+            @Param("currentMonthEnd") LocalDate currentMonthEnd,
+            @Param("previousMonthStart") LocalDate previousMonthStart,
+            @Param("previousMonthEnd") LocalDate previousMonthEnd
+    );
+
+    @Query("""
+            SELECT new com.dto.stats.ClientNotesStatsDTO(
+                COUNT(CASE WHEN c.optionalNotes IS NOT NULL AND TRIM(c.optionalNotes) != '' THEN c.clientID ELSE NULL END),
+                COUNT(CASE WHEN c.optionalNotes IS NULL OR TRIM(c.optionalNotes) = '' THEN c.clientID ELSE NULL END)
+            )
+            FROM Client c
+            """)
+    ClientNotesStatsDTO getClientsNotesStats();
 }

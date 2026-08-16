@@ -19,6 +19,8 @@ public final class ViewPath {
 
     public static final String CLIENTS_VIEW_PATH = "/view/ClientsView.fxml";
     public static final String CLIENT_CREATION_VIEW_PATH = "/view/ClientCreation.fxml";
+    public static final String CLIENT_EDITION_VIEW_PATH = "/view/ClientEdition.fxml";
+    public static final String CLIENT_ITEM_VIEW_PATH = "/view/ClientItem.fxml";
 
     public static final String PRODUCT_STOCK_VIEW_PATH = "/view/ProductsView.fxml";
     public static final String PRODUCT_ITEM_VIEW_PATH = "/view/ProductItem.fxml";

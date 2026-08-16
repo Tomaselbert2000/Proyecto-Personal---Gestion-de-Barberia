@@ -49,8 +49,11 @@ public class ClientEditionController extends BaseCrudFormController<ClientUpdate
     private CheckBox client_active_checkbox;
 
     @FXML
-    public void initialize() {
+    public void initialize(ClientInfoDTO infoDTO) {
 
+        infoDTOReference = infoDTO;
+
+        loadClientDataForEdition(infoDTO);
     }
 
     @Override
@@ -67,21 +70,27 @@ public class ClientEditionController extends BaseCrudFormController<ClientUpdate
 
     @Override
     protected String getSuccessMessage() {
+
         return "";
     }
 
     @Override
     protected String getErrorMessage() {
+
         return "";
     }
 
     @Override
     protected ClientUpdateDTO buildDTO() {
+
         return null;
     }
 
     @Override
     protected void resetForm() {
 
+    }
+
+    private void loadClientDataForEdition(ClientInfoDTO infoDTO) {
     }
 }

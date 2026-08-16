@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<HBox xmlns:fx="http://javafx.com/fxml/1"
+      alignment="CENTER_LEFT"
+      spacing="16"
+      styleClass="md-list-item"
+      xmlns="http://javafx.com/javafx/25"
+      fx:controller="com.presentation.controller.client.ClientItemController">
+    <padding>
+        <Insets top="12" right="16" bottom="12" left="16"/>
+    </padding>
+
+    <!-- Nombre del Cliente -->
+    <VBox spacing="4" HBox.hgrow="ALWAYS">
+        <Label fx:id="clientFirstName" styleClass="md-list-item-headline"/>
+        <Label fx:id="clientLastName" styleClass="md-list-item-supporting-text"/>
+    </VBox>
+
+    <!-- Documento Nacional de Identidad -->
+    <VBox spacing="4" minWidth="160.0">
+        <HBox spacing="4">
+            <Label styleClass="md-list-item-supporting-text" text="DNI:"/>
+            <Label fx:id="nationalIDCardNumber" styleClass="md-list-item-supporting-text"/>
+        </HBox>
+        <HBox spacing="4">
+            <Label styleClass="md-list-item-supporting-text" text="Tel:"/>
+            <Label fx:id="mainPhoneNumber" styleClass="md-list-item-supporting-text"/>
+        </HBox>
+    </VBox>
+
+    <!-- Separator vertical antes de acciones -->
+    <Separator orientation="VERTICAL" styleClass="md-divider"
+               prefHeight="32.0"/>
+
+    <!-- Acciones -->
+    <HBox spacing="8" alignment="CENTER_RIGHT">
+        <MFXButton fx:id="sendWhatsAppMessageButton" styleClass="md-button-tonal" text="WhatsApp"/>
+        <MFXButton fx:id="editButton" styleClass="md-button-outlined" text="Editar"/>
+    </HBox>
+</HBox>
