@@ -260,7 +260,7 @@ public class AppointmentViewController extends BaseCatalogViewController<Appoint
 
         cleanDatePicker(dateSelector);
         setBlankTextfield(clientSearchField);
-        cleanComboBoxes(appointmentStatusSelector, employeeSelector);
+        resetComboBoxFilter(appointmentStatusSelector, employeeSelector);
     }
 
     @Override

@@ -26,8 +26,7 @@ import static com.presentation.constants.StringResource.DisplayString.CURRENCY_S
 import static com.presentation.constants.StringResource.EmptyListMessage.EMPTY_EMPLOYEE_LIST_MESSAGE;
 import static com.presentation.constants.StringResource.FxmlViewLoadingErrorMessage.*;
 import static com.presentation.constants.ViewPath.*;
-import static com.presentation.support.control.ComboBoxHelper.cleanComboBoxes;
-import static com.presentation.support.control.ComboBoxHelper.loadEnumsOnComboBox;
+import static com.presentation.support.control.ComboBoxHelper.*;
 import static com.presentation.support.control.UIBasicComponents.*;
 import static com.presentation.support.control.ValidationFormatter.*;
 import static com.presentation.support.view.ContainerManager.loadItemsOnController;
@@ -223,7 +222,7 @@ public class EmployeeViewController extends BaseCatalogViewController<EmployeeIn
     protected void clearFilterNodes() {
 
         setBlankTextfield(searchField);
-        cleanComboBoxes(statusFilter, hireDateFilter);
+        resetComboBoxFilter(statusFilter, hireDateFilter);
     }
 
     @Override

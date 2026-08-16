@@ -135,7 +135,8 @@ public class EmployeeItemController extends AbstractItemController<EmployeeInfoD
         setTextsOnLabelMap(map);
     }
 
-    private void configureButtonActions() {
+    @Override
+    protected void configureButtonActions() {
 
         Map<Button, Runnable> map = Map.of(
                 editButton, this::goToEditEmployeeView,

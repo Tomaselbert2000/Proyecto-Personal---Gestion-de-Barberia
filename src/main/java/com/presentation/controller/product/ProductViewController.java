@@ -25,8 +25,8 @@ import static com.presentation.constants.StringResource.DisplayString.CURRENCY_S
 import static com.presentation.constants.StringResource.EmptyListMessage.EMPTY_PRODUCT_LIST_MESSAGE;
 import static com.presentation.constants.StringResource.FxmlViewLoadingErrorMessage.*;
 import static com.presentation.constants.ViewPath.*;
-import static com.presentation.support.control.ComboBoxHelper.cleanComboBoxes;
 import static com.presentation.support.control.ComboBoxHelper.loadEnumsOnComboBox;
+import static com.presentation.support.control.ComboBoxHelper.resetComboBoxFilter;
 import static com.presentation.support.control.UIBasicComponents.*;
 import static com.presentation.support.control.ValidationFormatter.parseNumberValueToText;
 import static com.presentation.support.control.ValidationFormatter.setStringConverter;
@@ -230,7 +230,7 @@ public class ProductViewController extends BaseCatalogViewController<ProductInfo
     protected void clearFilterNodes() {
 
         setBlankTextfield(productSearchField);
-        cleanComboBoxes(productCategorySelector, productStockStatusSelector);
+        resetComboBoxFilter(productCategorySelector, productStockStatusSelector);
     }
 
     @Override

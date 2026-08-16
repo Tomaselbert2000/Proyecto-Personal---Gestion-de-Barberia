@@ -62,7 +62,8 @@ public class BarberServiceItemController extends AbstractItemController<BarberSe
         setTextOnLabel(categoryText, infoDTO.getCategory().getDisplayName());
     }
 
-    private void configureButtonActions() {
+    @Override
+    protected void configureButtonActions() {
 
         Map<Button, Runnable> map = Map.of(
                 editButton, this::goToEditBarberServiceView,

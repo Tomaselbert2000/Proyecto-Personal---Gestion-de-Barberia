@@ -79,6 +79,17 @@ public class ProductItemController extends AbstractItemController<ProductInfoDTO
         configureButtonActions();
     }
 
+    @Override
+    protected void configureButtonActions() {
+
+        Map<Button, Runnable> map = Map.of(
+                editButton, this::goToEditProductView,
+                addStockButton, this::goToAddStockView
+        );
+
+        configureRunnableMaps(map);
+    }
+
     private void goToEditProductView() {
 
         fire(onEditCallback);
@@ -115,15 +126,5 @@ public class ProductItemController extends AbstractItemController<ProductInfoDTO
             imageToShow = IMAGE_PLACEHOLDER;
             productImagePlaceholder.setImage(imageToShow);
         }
-    }
-
-    private void configureButtonActions() {
-
-        Map<Button, Runnable> map = Map.of(
-                editButton, this::goToEditProductView,
-                addStockButton, this::goToAddStockView
-        );
-
-        configureRunnableMaps(map);
     }
 }

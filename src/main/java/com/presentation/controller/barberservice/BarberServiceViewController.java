@@ -35,8 +35,7 @@ import static com.presentation.constants.StringResource.FxmlViewLoadingErrorMess
 import static com.presentation.constants.StringResource.FxmlViewLoadingErrorMessage.BARBER_SERVICE_ITEM_VIEW_LOADING_FAILED;
 import static com.presentation.constants.ViewPath.BARBER_SERVICE_EDITION_VIEW_PATH;
 import static com.presentation.constants.ViewPath.BARBER_SERVICE_ITEM_VIEW_PATH;
-import static com.presentation.support.control.ComboBoxHelper.cleanComboBoxes;
-import static com.presentation.support.control.ComboBoxHelper.loadEnumsOnComboBox;
+import static com.presentation.support.control.ComboBoxHelper.*;
 import static com.presentation.support.control.UIBasicComponents.*;
 import static com.presentation.support.control.ValidationFormatter.parseNumberValueToText;
 import static com.presentation.support.control.ValidationFormatter.setStringConverter;
@@ -262,7 +261,7 @@ public class BarberServiceViewController extends BaseCatalogViewController<Barbe
     protected void clearFilterNodes() {
 
         setBlankTextfield(serviceSearchField);
-        cleanComboBoxes(serviceCategorySelector, servicePriceRangeSelector);
+        resetComboBoxFilter(serviceCategorySelector, servicePriceRangeSelector);
     }
 
     @Override

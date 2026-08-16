@@ -68,4 +68,8 @@ public class ActivityItemController extends AbstractItemController<RecentActivit
         setTextsOnLabelMap(map);
         activityIcon.getStyleClass().add(selectIconBasedOnEventType(infoDTO.getEventType()));
     }
+
+    @Override
+    protected void configureButtonActions() {
+    }
 }

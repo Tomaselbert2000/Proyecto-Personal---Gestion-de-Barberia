@@ -110,7 +110,8 @@ public class AppointmentItemController extends AbstractItemController<Appointmen
         updateStatusBadge(infoDTO.getCurrentStatus());
     }
 
-    private void configureButtonActions() {
+    @Override
+    protected void configureButtonActions() {
         Map<Button, Runnable> map = Map.of(
                 editButton, this::goToEditAppointment,
                 completeButton, this::setAppointmentAsComplete,

@@ -29,7 +29,7 @@ import static com.presentation.constants.StringResource.FxmlViewLoadingErrorMess
 import static com.presentation.constants.StringResource.FxmlViewLoadingErrorMessage.PAYMENT_METHOD_ITEM_VIEW_LOADING_FAILED;
 import static com.presentation.constants.ViewPath.PAYMENT_METHOD_EDITION_VIEW_PATH;
 import static com.presentation.constants.ViewPath.PAYMENT_METHOD_ITEM_VIEW_PATH;
-import static com.presentation.support.control.ComboBoxHelper.cleanComboBoxes;
+import static com.presentation.support.control.ComboBoxHelper.resetComboBoxFilter;
 import static com.presentation.support.control.UIBasicComponents.*;
 import static com.presentation.support.control.ValidationFormatter.parseNumberValueToText;
 import static com.presentation.support.view.ContainerManager.loadItemsOnController;
@@ -134,7 +134,7 @@ public class PaymentMethodViewController extends BaseCatalogViewController<Payme
     protected void clearFilterNodes() {
 
         setBlankTextfield(searchField);
-        cleanComboBoxes(statusFilter, modifierTypeFilter);
+        resetComboBoxFilter(statusFilter, modifierTypeFilter);
     }
 
     @Override
