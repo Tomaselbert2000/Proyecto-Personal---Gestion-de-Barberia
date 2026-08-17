@@ -3,6 +3,7 @@ package com.presentation.controller.employee;
 import com.dto.employee.EmployeeInfoDTO;
 import com.dto.employee.EmployeeUpdateDTO;
 import com.presentation.controller.BaseCrudFormController;
+import com.presentation.support.view.ViewRedirectionHelper;
 import com.service.interfaces.EmployeeService;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.fxml.FXML;
@@ -21,14 +22,12 @@ import static com.enums.ViewRedirection.EMPLOYEES;
 import static com.presentation.constants.ControllerConstants.EmployeeControllerConstants.ACTIVATE;
 import static com.presentation.constants.ControllerConstants.EmployeeControllerConstants.DEACTIVATE;
 import static com.presentation.constants.PromptTexts.EmployeePromptText.*;
-import static com.presentation.constants.StringResource.DisplayString.ACTIVE_STATUS_LABEL;
-import static com.presentation.constants.StringResource.DisplayString.INACTIVE_STATUS_LABEL;
+import static com.presentation.constants.StringResource.DisplayString.*;
 import static com.presentation.constants.StringResource.ToastNotificationMessage.EMPLOYEE_UPDATE_TOAST_NOTIFICATION_MESSAGE;
 import static com.presentation.constants.StringResource.ValidationErrorMessage.EMPLOYEE_EDITION_VALIDATION_FAILED;
 import static com.presentation.support.control.UIBasicComponents.*;
 import static com.presentation.support.control.ValidationFormatter.formatAsPercentage;
 import static com.presentation.support.format.NumberParser.parsePercentageFraction;
-import com.presentation.support.view.ViewRedirectionHelper;
 
 @Component
 public class EmployeeEditionController extends BaseCrudFormController<EmployeeUpdateDTO, EmployeeInfoDTO> {
@@ -118,7 +117,8 @@ public class EmployeeEditionController extends BaseCrudFormController<EmployeeUp
 
         String terminationDateAsString = infoDTO.getTerminationDateAsString();
 
-        if (!terminationDateAsString.isBlank()) {
+        if (!terminationDateAsString.isBlank() && !terminationDateAsString.equals(DEFAULT_TERMINATION_DATE_STRING)) {
+
             terminationDatePicker.setValue(LocalDate.parse(terminationDateAsString));
         }
 

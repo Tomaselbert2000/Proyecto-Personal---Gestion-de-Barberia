@@ -12,11 +12,12 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.presentation.constants.StringResource.DisplayString.DEFAULT_TERMINATION_DATE_STRING;
+
 @Component
 public class EmployeeMapperImpl implements EmployeeMapper {
 
     private static final Boolean DEFAULT_IS_ACTIVE_VALUE = true;
-    private static final String DEFAULT_TERMINATION_DATE_STRING = "-- : --";
 
     @Override
     public Employee mapEmployeeCreationDtoToEntity(EmployeeCreationDTO creationDTO) {
