@@ -189,12 +189,7 @@ public class EmployeeViewController extends BaseCatalogViewController<EmployeeIn
 
         String employeeName = searchField.getText();
 
-        EmployeeStatus selectedStatus = statusFilter.getValue();
-
-        if (selectedStatus == EmployeeStatus.TODOS) {
-
-            selectedStatus = null;
-        }
+        EmployeeStatus selectedStatus = nullIfTodos(statusFilter.getValue(), EmployeeStatus.TODOS);
 
         HireDateRange selectedDateRange = hireDateFilter.getValue();
 

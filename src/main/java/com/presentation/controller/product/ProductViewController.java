@@ -187,17 +187,9 @@ public class ProductViewController extends BaseCatalogViewController<ProductInfo
 
         ProductCategory selectedCategory = productCategorySelector.getValue();
 
-        if (selectedCategory == ProductCategory.TODOS) {
+        selectedCategory = nullIfTodos(selectedCategory, ProductCategory.TODOS);
 
-            selectedCategory = null;
-        }
-
-        StockStatus selectedStatus = productStockStatusSelector.getValue();
-
-        if (selectedStatus == StockStatus.TODOS) {
-
-            selectedStatus = null;
-        }
+        StockStatus selectedStatus = nullIfTodos(productStockStatusSelector.getValue(), StockStatus.TODOS);
 
         return productService.liveSearch(productName, selectedCategory, selectedStatus);
     }

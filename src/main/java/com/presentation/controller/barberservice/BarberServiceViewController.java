@@ -222,7 +222,7 @@ public class BarberServiceViewController extends BaseCatalogViewController<Barbe
 
         BarberServiceCategory selectedCategory = serviceCategorySelector.getValue();
 
-        if (selectedCategory == BarberServiceCategory.TODOS) selectedCategory = null;
+        selectedCategory = nullIfTodos(selectedCategory, BarberServiceCategory.TODOS);
 
         PriceRanges selectedPriceRange = servicePriceRangeSelector.getValue();
 

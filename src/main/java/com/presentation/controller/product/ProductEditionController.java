@@ -166,13 +166,11 @@ public class ProductEditionController extends BaseCrudFormController<ProductUpda
 
     private void handleImageSelection() {
 
-        File newFile = getFileFromFileChooser(anchorPane);
+        String selectedPath = openImageFileChooser(anchorPane, productImagePreview);
 
-        if (newFile != null) {
+        if (selectedPath != null) {
 
-            filePath = newFile.getAbsolutePath();
-
-            loadFileOnImageView(newFile, productImagePreview);
+            filePath = selectedPath;
         }
     }
 

@@ -59,4 +59,22 @@ public class FileImageHelper {
 
         imageView.setImage(null);
     }
+
+    /**
+     * Abre el selector de archivos de imagen y carga la imagen seleccionada en el ImageView indicado.
+     *
+     * @param currentView El contenedor actual donde se mostrará el cuadro de diálogo.
+     * @param imageView   El ImageView donde se cargará la imagen seleccionada.
+     * @return La ruta absoluta del archivo seleccionado, o null si no se seleccionó ninguno.
+     */
+    public static String openImageFileChooser(AnchorPane currentView, ImageView imageView) {
+
+        File file = getFileFromFileChooser(currentView);
+
+        if (file == null) return null;
+
+        loadFileOnImageView(file, imageView);
+
+        return file.getAbsolutePath();
+    }
 }

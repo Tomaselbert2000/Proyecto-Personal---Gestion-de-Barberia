@@ -1,6 +1,5 @@
 package com.presentation.support.control;
 
-import com.enums.AppointmentStatus;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -241,7 +240,7 @@ public class UIBasicComponents {
      *
      * @param comboBox El ComboBox a deshabilitar.
      */
-    public static void disableComboBox(ComboBox<AppointmentStatus> comboBox) {
+    public static void disableComboBox(ComboBox<?> comboBox) {
         comboBox.setDisable(true);
     }
 

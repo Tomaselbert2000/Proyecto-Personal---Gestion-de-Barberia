@@ -55,6 +55,8 @@ public class EmployeeItemController extends AbstractItemController<EmployeeInfoD
             editButton,
             toggleStatusButton;
 
+    private static final int DEFAULT_MONTHLY_APPOINTMENTS_COUNT = 10;
+
     private static @NonNull List<String> getStrings(
             EmployeeInfoDTO infoDTO,
             String employeeFirstNameInitial,
@@ -79,7 +81,7 @@ public class EmployeeItemController extends AbstractItemController<EmployeeInfoD
 
         String commissionPercentage = (infoDTO.getCommissionPercentage() * 100) + "%";
 
-        String monthlyAppointments = String.valueOf(10);
+        String monthlyAppointments = String.valueOf(DEFAULT_MONTHLY_APPOINTMENTS_COUNT);
 
         return List.of(employeeInitials, employeeFullName, currentStatus, hireDate, commissionPercentage, monthlyAppointments);
     }

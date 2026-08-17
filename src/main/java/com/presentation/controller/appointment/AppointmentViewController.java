@@ -212,7 +212,7 @@ public class AppointmentViewController extends BaseCatalogViewController<Appoint
     private void totalAppointmentsFound() {
         executeAsyncTask(
                 appointmentService::getCount,
-                count -> setTextOnLabel(totalAppointmentsCount, parseNumberValueToText(count) + " encontrados")
+                count -> setTextOnLabel(totalAppointmentsCount, parseNumberValueToText(count) + RESULTS_FOUND_SUFFIX)
         );
     }
 
@@ -233,7 +233,7 @@ public class AppointmentViewController extends BaseCatalogViewController<Appoint
 
         String employeeName = employeeSelected == null ? "" : employeeSelected.getFirstName() + " " + employeeSelected.getLastName();
 
-        if (selectedAppointmentStatus == AppointmentStatus.TODOS) selectedAppointmentStatus = null;
+        selectedAppointmentStatus = nullIfTodos(selectedAppointmentStatus, AppointmentStatus.TODOS);
 
         LocalDate date = dateSelector.getValue();
 
