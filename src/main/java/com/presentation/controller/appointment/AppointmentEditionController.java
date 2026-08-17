@@ -49,7 +49,6 @@ public class AppointmentEditionController extends BaseCrudFormController<Appoint
     private EmployeeInfoDTO employeeReference;
 
     private final AppointmentService appointmentService;
-
     private final ViewRedirectionHelper viewRedirectionHelper;
 
     public AppointmentEditionController(ApplicationContext applicationContext, AppointmentService appointmentService, ViewRedirectionHelper viewRedirectionHelper) {
@@ -125,67 +124,6 @@ public class AppointmentEditionController extends BaseCrudFormController<Appoint
         configureTimeSelectors();
     }
 
-    private void loadAppointmentDataForEdition(AppointmentInfoDTO infoDTO) {
-
-        String clientFullName = fullName(infoDTO.getClientFirstName(), infoDTO.getClientLastName());
-        String employeeFullName = fullName(infoDTO.getEmployeeFirstName(), infoDTO.getEmployeeLastName());
-
-        LocalDate appointmentDate = infoDTO.getStartDateTime().toLocalDate();
-
-        int exactStartHour = infoDTO.getStartDateTime().getHour();
-        int exactStartMinute = infoDTO.getStartDateTime().getMinute();
-
-        String appointmentDateAsString = String.format(DATETIME_SUMMARY_FORMAT, appointmentDate, exactStartHour, exactStartMinute);
-
-        List<BarberServiceInfoDTO> barberServices = appointmentService.getBarberServicesFromServiceInstance();
-        List<EmployeeInfoDTO> employees = appointmentService.getEmployeesFromServiceInstance();
-
-        Map<Label, String> map = Map.ofEntries(
-                Map.entry(currentClientName, clientFullName),
-                Map.entry(currentEmployeeName, employeeFullName),
-                Map.entry(currentServiceName, infoDTO.getServiceName()),
-                Map.entry(currentStartDateTime, appointmentDateAsString),
-                Map.entry(currentStatusLabel, infoDTO.getCurrentStatus().getDisplayName()),
-                Map.entry(servicePrice, parseNumberValueToText(infoDTO.getServicePrice()))
-        );
-        setTextsOnLabelMap(map);
-
-        loadGenericTypeListOnComboBox(barberServiceSelector, barberServices);
-        loadGenericTypeListOnComboBox(employeeSelector, employees);
-
-        loadAvailableStatuses(infoDTO.getCurrentStatus());
-
-        setTextOnLabel(summaryClient, clientFullName);
-        setTextOnTextfield(appointmentNotes, infoDTO.getOptionalNotes());
-    }
-
-    private void loadAvailableStatuses(AppointmentStatus currentStatus) {
-
-        List<AppointmentStatus> allowedStatuses = new ArrayList<>();
-
-        if (currentStatus == CANCELADO || currentStatus == FINALIZADO) {
-
-            disableComboBox(statusSelector);
-
-            return;
-        }
-
-        for (AppointmentStatus status : AppointmentStatus.values()) {
-
-            if (status == TODOS) continue;
-
-            if (currentStatus == status) continue;
-
-            if (currentStatus == REPROGRAMADO && status == PROGRAMADO) continue;
-
-            allowedStatuses.add(status);
-        }
-
-        statusSelector.getItems().addAll(allowedStatuses);
-
-        setStringConverter(statusSelector, statusSelector.getItems().getFirst());
-    }
-
     @Override
     protected void configureButtonActions() {
 
@@ -199,62 +137,6 @@ public class AppointmentEditionController extends BaseCrudFormController<Appoint
 
     @Override
     protected void configurePromptTexts() {
-    }
-
-    private void configureBarberServiceSelection() {
-
-        barberServiceSelector.valueProperty().addListener((_, _, barberServiceSelected) -> onBarberServiceSelected(barberServiceSelected));
-    }
-
-    private void configureEmployeeSelection() {
-
-        employeeSelector.valueProperty().addListener((_, _, employeeSelected) -> onEmployeeSelected(employeeSelected));
-    }
-
-    private void configureTimeSelectors() {
-
-        setHourAndMinuteSelectors(hourSelector, minuteSelector);
-
-        dateSelector.valueProperty().addListener((_, _, _) -> updateDateTimeSummary());
-        hourSelector.valueProperty().addListener((_, _, _) -> updateDateTimeSummary());
-        minuteSelector.valueProperty().addListener((_, _, _) -> updateDateTimeSummary());
-    }
-
-    private void onBarberServiceSelected(BarberServiceInfoDTO barberServiceSelected) {
-
-        if (barberServiceSelected == null) return;
-
-        barberServiceReference = barberServiceSelected;
-
-        setTextOnLabel(summaryService, barberServiceSelected.getName());
-        setTextOnLabel(summaryPrice, formatPriceAsString(barberServiceSelected.getPrice()));
-
-        setNodeAsVisible(serviceSelectionContainer);
-        setNodeAsVisible(appointmentSummaryCard);
-    }
-
-    private void onEmployeeSelected(EmployeeInfoDTO employeeSelected) {
-
-        if (employeeSelected == null) return;
-
-        employeeReference = employeeSelected;
-
-        String employeeFullName = employeeSelected.getFirstName() + " " + employeeSelected.getLastName();
-
-        setTextOnLabel(summaryEmployee, employeeFullName);
-
-        setNodeAsVisible(appointmentSummaryCard);
-    }
-
-    private void updateDateTimeSummary() {
-
-        updateDatetimeSummary(summaryDateTime, dateSelector, hourSelector, minuteSelector);
-        setNodeAsVisible(appointmentSummaryCard);
-    }
-
-    private void toggleContainersVisibility() {
-
-        setNodeAsNotVisible(serviceSelectionContainer, appointmentSummaryCard);
     }
 
     @Override
@@ -319,5 +201,122 @@ public class AppointmentEditionController extends BaseCrudFormController<Appoint
         this.barberServiceReference = null;
 
         loadAppointmentDataForEdition(infoDTOReference);
+    }
+
+    private void loadAppointmentDataForEdition(AppointmentInfoDTO infoDTO) {
+
+        String clientFullName = fullName(infoDTO.getClientFirstName(), infoDTO.getClientLastName());
+        String employeeFullName = fullName(infoDTO.getEmployeeFirstName(), infoDTO.getEmployeeLastName());
+
+        LocalDate appointmentDate = infoDTO.getStartDateTime().toLocalDate();
+
+        int exactStartHour = infoDTO.getStartDateTime().getHour();
+        int exactStartMinute = infoDTO.getStartDateTime().getMinute();
+
+        String appointmentDateAsString = String.format(DATETIME_SUMMARY_FORMAT, appointmentDate, exactStartHour, exactStartMinute);
+
+        List<BarberServiceInfoDTO> barberServices = appointmentService.getBarberServicesFromServiceInstance();
+        List<EmployeeInfoDTO> employees = appointmentService.getEmployeesFromServiceInstance();
+
+        Map<Label, String> map = Map.ofEntries(
+                Map.entry(currentClientName, clientFullName),
+                Map.entry(currentEmployeeName, employeeFullName),
+                Map.entry(currentServiceName, infoDTO.getServiceName()),
+                Map.entry(currentStartDateTime, appointmentDateAsString),
+                Map.entry(currentStatusLabel, infoDTO.getCurrentStatus().getDisplayName()),
+                Map.entry(servicePrice, parseNumberValueToText(infoDTO.getServicePrice()))
+        );
+        setTextsOnLabelMap(map);
+
+        loadGenericTypeListOnComboBox(barberServiceSelector, barberServices);
+        loadGenericTypeListOnComboBox(employeeSelector, employees);
+
+        loadAvailableStatuses(infoDTO.getCurrentStatus());
+
+        setTextOnLabel(summaryClient, clientFullName);
+        setTextOnTextfield(appointmentNotes, infoDTO.getOptionalNotes());
+    }
+
+    private void loadAvailableStatuses(AppointmentStatus currentStatus) {
+
+        List<AppointmentStatus> allowedStatuses = new ArrayList<>();
+
+        if (currentStatus == CANCELADO || currentStatus == FINALIZADO) {
+
+            disableComboBox(statusSelector);
+
+            return;
+        }
+
+        for (AppointmentStatus status : AppointmentStatus.values()) {
+
+            if (status == TODOS) continue;
+
+            if (currentStatus == status) continue;
+
+            if (currentStatus == REPROGRAMADO && status == PROGRAMADO) continue;
+
+            allowedStatuses.add(status);
+        }
+
+        statusSelector.getItems().addAll(allowedStatuses);
+
+        setStringConverter(statusSelector, statusSelector.getItems().getFirst());
+    }
+
+    private void configureBarberServiceSelection() {
+
+        barberServiceSelector.valueProperty().addListener((_, _, barberServiceSelected) -> onBarberServiceSelected(barberServiceSelected));
+    }
+
+    private void configureEmployeeSelection() {
+
+        employeeSelector.valueProperty().addListener((_, _, employeeSelected) -> onEmployeeSelected(employeeSelected));
+    }
+
+    private void configureTimeSelectors() {
+
+        setHourAndMinuteSelectors(hourSelector, minuteSelector);
+
+        dateSelector.valueProperty().addListener((_, _, _) -> updateDateTimeSummary());
+        hourSelector.valueProperty().addListener((_, _, _) -> updateDateTimeSummary());
+        minuteSelector.valueProperty().addListener((_, _, _) -> updateDateTimeSummary());
+    }
+
+    private void onBarberServiceSelected(BarberServiceInfoDTO barberServiceSelected) {
+
+        if (barberServiceSelected == null) return;
+
+        barberServiceReference = barberServiceSelected;
+
+        setTextOnLabel(summaryService, barberServiceSelected.getName());
+        setTextOnLabel(summaryPrice, formatPriceAsString(barberServiceSelected.getPrice()));
+
+        setNodeAsVisible(serviceSelectionContainer);
+        setNodeAsVisible(appointmentSummaryCard);
+    }
+
+    private void onEmployeeSelected(EmployeeInfoDTO employeeSelected) {
+
+        if (employeeSelected == null) return;
+
+        employeeReference = employeeSelected;
+
+        String employeeFullName = employeeSelected.getFirstName() + " " + employeeSelected.getLastName();
+
+        setTextOnLabel(summaryEmployee, employeeFullName);
+
+        setNodeAsVisible(appointmentSummaryCard);
+    }
+
+    private void updateDateTimeSummary() {
+
+        updateDatetimeSummary(summaryDateTime, dateSelector, hourSelector, minuteSelector);
+        setNodeAsVisible(appointmentSummaryCard);
+    }
+
+    private void toggleContainersVisibility() {
+
+        setNodeAsNotVisible(serviceSelectionContainer, appointmentSummaryCard);
     }
 }

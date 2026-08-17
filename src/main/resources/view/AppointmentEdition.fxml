@@ -118,18 +118,16 @@
 
                     <!-- Service Price Info -->
                     <VBox fx:id="serviceSelectionContainer" spacing="4" visible="false">
-                        <Region styleClass="md-card-filled" maxWidth="Infinity" prefHeight="48.0">
+                        <StackPane styleClass="md-card-filled" maxWidth="Infinity" prefHeight="48.0">
                             <padding>
                                 <Insets top="10" right="16" bottom="10" left="16"/>
                             </padding>
-                            <graphic>
-                                <HBox spacing="8" alignment="CENTER_LEFT">
-                                    <Region styleClass="money-bag-icon, md-icon-small, md-icon-primary"/>
-                                    <Label styleClass="md-label-medium" text="Precio: "/>
-                                    <Label fx:id="servicePrice" styleClass="md-title-medium"/>
-                                </HBox>
-                            </graphic>
-                        </Region>
+                            <HBox spacing="8" alignment="CENTER_LEFT">
+                                <Region styleClass="money-bag-icon, md-icon-small, md-icon-primary"/>
+                                <Label styleClass="md-label-medium" text="Precio: "/>
+                                <Label fx:id="servicePrice" styleClass="md-title-medium"/>
+                            </HBox>
+                        </StackPane>
                     </VBox>
                 </VBox>
 
