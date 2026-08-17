@@ -214,7 +214,14 @@ public class PaymentMethodViewController extends BaseCatalogViewController<Payme
 
     private void togglePaymentMethodStatus(PaymentMethodInfoDTO paymentMethodInfoDTO) {
 
-        paymentMethodService.togglePaymentMethodStatus(paymentMethodInfoDTO.getName());
+        executeAsyncTask(
+                () -> {
+                    paymentMethodService.togglePaymentMethodStatus(paymentMethodInfoDTO.getName());
+                    return null;
+                },
+                _ -> {
+                }
+        );
     }
 
     private void createPaymentMethod() {

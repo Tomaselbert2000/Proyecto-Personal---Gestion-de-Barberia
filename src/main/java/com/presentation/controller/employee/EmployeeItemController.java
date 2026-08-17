@@ -126,8 +126,10 @@ public class EmployeeItemController extends AbstractItemController<EmployeeInfoD
 
         List<Label> labels = List.of(employeeInitials, employeeName, statusLabel, hireDate, commissionPercentage, monthlyAppointments);
 
-        String employeeFirstNameInitial = String.valueOf(infoDTO.getFirstName().charAt(0));
-        String employeeLastNameInitial = String.valueOf(infoDTO.getLastName().charAt(0));
+        String firstName = infoDTO.getFirstName();
+        String lastName = infoDTO.getLastName();
+        String employeeFirstNameInitial = (firstName != null && !firstName.isEmpty()) ? String.valueOf(firstName.charAt(0)) : "";
+        String employeeLastNameInitial = (lastName != null && !lastName.isEmpty()) ? String.valueOf(lastName.charAt(0)) : "";
         List<String> texts = getStrings(infoDTO, employeeFirstNameInitial, employeeLastNameInitial);
 
         Map<Label, String> map = generateMap(labels, texts);

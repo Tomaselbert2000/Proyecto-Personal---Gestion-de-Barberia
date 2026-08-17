@@ -107,7 +107,11 @@ public class EmployeeEditionController extends BaseCrudFormController<EmployeeUp
                 currentTerminationDate, infoDTO.getTerminationDateAsString()
         );
 
-        terminationDatePicker.setValue(LocalDate.parse(infoDTO.getTerminationDateAsString()));
+        String terminationDateAsString = infoDTO.getTerminationDateAsString();
+
+        if (!terminationDateAsString.isBlank()) {
+            terminationDatePicker.setValue(LocalDate.parse(terminationDateAsString));
+        }
 
         setTextsOnLabelMap(map);
     }

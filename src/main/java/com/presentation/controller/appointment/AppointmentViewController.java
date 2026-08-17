@@ -95,44 +95,54 @@ public class AppointmentViewController extends BaseCatalogViewController<Appoint
 
     private void markAppointmentAsComplete(AppointmentInfoDTO dto) {
 
-        try {
-
-            appointmentService.markAppointmentAsComplete(dto);
-
-            showToastNotification(
-                    anchorPane,
-                    applicationContext,
-                    APPOINTMENT_STATUS_UPDATED_TOAST_NOTIFICATION_MESSAGE,
-                    ToastNotificationType.SUCCESSFUL
-            );
-
-        } catch (InvalidAppointmentUpdateException exception) {
-
-            showToastNotification(
-                    anchorPane,
-                    applicationContext,
-                    exception.getMessage(),
-                    ToastNotificationType.FAILED
-            );
-        }
+        executeAsyncTask(
+                () -> {
+                    try {
+                        appointmentService.markAppointmentAsComplete(dto);
+                        return null;
+                    } catch (InvalidAppointmentUpdateException exception) {
+                        return exception.getMessage();
+                    }
+                },
+                errorMessage -> {
+                    if (errorMessage == null) {
+                        showToastNotification(
+                                anchorPane,
+                                applicationContext,
+                                APPOINTMENT_STATUS_UPDATED_TOAST_NOTIFICATION_MESSAGE,
+                                ToastNotificationType.SUCCESSFUL
+                        );
+                    } else {
+                        showToastNotification(anchorPane, applicationContext, errorMessage, ToastNotificationType.FAILED);
+                    }
+                }
+        );
     }
 
     private void markAppointmentAsCanceled(AppointmentInfoDTO dto) {
 
-        try {
-
-            appointmentService.markAppointmentAsCanceled(dto);
-            showToastNotification(
-                    anchorPane,
-                    applicationContext,
-                    APPOINTMENT_STATUS_UPDATED_TOAST_NOTIFICATION_MESSAGE,
-                    ToastNotificationType.SUCCESSFUL
-            );
-
-        } catch (InvalidAppointmentUpdateException exception) {
-
-            showToastNotification(anchorPane, applicationContext, exception.getMessage(), ToastNotificationType.FAILED);
-        }
+        executeAsyncTask(
+                () -> {
+                    try {
+                        appointmentService.markAppointmentAsCanceled(dto);
+                        return null;
+                    } catch (InvalidAppointmentUpdateException exception) {
+                        return exception.getMessage();
+                    }
+                },
+                errorMessage -> {
+                    if (errorMessage == null) {
+                        showToastNotification(
+                                anchorPane,
+                                applicationContext,
+                                APPOINTMENT_STATUS_UPDATED_TOAST_NOTIFICATION_MESSAGE,
+                                ToastNotificationType.SUCCESSFUL
+                        );
+                    } else {
+                        showToastNotification(anchorPane, applicationContext, errorMessage, ToastNotificationType.FAILED);
+                    }
+                }
+        );
     }
 
     private void goToAppointmentCreationView() {

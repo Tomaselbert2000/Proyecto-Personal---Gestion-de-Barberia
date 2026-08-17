@@ -20,8 +20,11 @@ public class FileImageHelper {
      * @return El archivo seleccionado, o null si no se selecciona ningún archivo.
      */
     public static File getFileFromFileChooser(AnchorPane currentView) {
+
         FileChooser fileChooser = new FileChooser();
+
         fileChooser.getExtensionFilters().add(generateExtensionFilter());
+
         return fileChooser.showOpenDialog(currentView.getScene().getWindow());
     }
 
@@ -31,6 +34,7 @@ public class FileImageHelper {
      * @return El filtro de extensión configurado para permitir solo imágenes.
      */
     private static FileChooser.ExtensionFilter generateExtensionFilter() {
+
         return new FileChooser.ExtensionFilter(FILE_CHOOSER_IMAGE_DESCRIPTION, ALLOWED_IMAGE_EXTENSIONS);
     }
 
@@ -41,6 +45,7 @@ public class FileImageHelper {
      * @param imageView El ImageView donde se cargará la imagen.
      */
     public static void loadFileOnImageView(File file, ImageView imageView) {
+
         URI uriLocation = URI.create(file.toURI().toString());
         imageView.setImage(new Image(String.valueOf(uriLocation)));
     }
@@ -51,6 +56,7 @@ public class FileImageHelper {
      * @param imageView El ImageView a limpiar.
      */
     public static void cleanImageView(ImageView imageView) {
+
         imageView.setImage(null);
     }
 }

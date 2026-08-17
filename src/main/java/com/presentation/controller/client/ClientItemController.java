@@ -10,6 +10,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
@@ -44,7 +45,7 @@ public class ClientItemController extends AbstractItemController<ClientInfoDTO> 
                 clientFirstName, item.getFirstName(),
                 clientLastName, item.getLastName(),
                 nationalIDCardNumber, item.getNationalIdentityCardNumber(),
-                mainPhoneNumber, item.getPhoneNumbersList().getFirst()
+                mainPhoneNumber, getMainPhoneNumber(item)
         );
 
         setTextsOnLabelMap(map);
@@ -69,5 +70,12 @@ public class ClientItemController extends AbstractItemController<ClientInfoDTO> 
     public void sendWhatsAppMessage() {
 
         fire(onSendMessageCallback);
+    }
+
+    private static String getMainPhoneNumber(ClientInfoDTO item) {
+
+        List<String> phones = item.getPhoneNumbersList();
+
+        return (phones != null && !phones.isEmpty()) ? phones.getFirst() : "";
     }
 }

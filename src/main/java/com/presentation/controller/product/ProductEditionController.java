@@ -27,6 +27,7 @@ import static com.presentation.support.control.ComboBoxHelper.loadEnumsOnComboBo
 import static com.presentation.support.control.ComboBoxHelper.removeFirstItemFromComboBox;
 import static com.presentation.support.control.UIBasicComponents.configureRunnableMaps;
 import static com.presentation.support.control.UIBasicComponents.setTextsOnTextfieldMap;
+import static com.presentation.concurrency.ConcurrencyManager.executeAsyncTask;
 import static com.presentation.support.control.ValidationFormatter.*;
 import static com.presentation.support.io.FileImageHelper.*;
 import static com.presentation.support.view.ViewRedirectionHelper.redirectToView;
@@ -86,12 +87,20 @@ public class ProductEditionController extends BaseCrudFormController<ProductUpda
 
         infoDTOReference = infoDTO;
 
+        configureButtonActions();
+
         loadProductDataForEdition(infoDTO);
     }
 
     private void loadProductDataForEdition(ProductInfoDTO infoDTO) {
 
-        ProductUpdateDTO updateDTOFromDB = productService.getProductForUpdate(infoDTO.getId());
+        executeAsyncTask(
+                () -> productService.getProductForUpdate(infoDTO.getId()),
+                this::populateEditionFields
+        );
+    }
+
+    private void populateEditionFields(ProductUpdateDTO updateDTOFromDB) {
 
         Map<TextField, String> map = Map.ofEntries(
                 Map.entry(productName, updateDTOFromDB.getName()),
@@ -118,9 +127,10 @@ public class ProductEditionController extends BaseCrudFormController<ProductUpda
         setStringConverter(productCategorySelector, updateDTOFromDB.getCategory());
         setStringConverter(productPresentationUnitSelector, updateDTOFromDB.getPresentationUnit());
 
-        loadCurrentProductImageIfExists(updateDTOFromDB);
+        productCategorySelector.setValue(updateDTOFromDB.getCategory());
+        productPresentationUnitSelector.setValue(updateDTOFromDB.getPresentationUnit());
 
-        configureButtonActions();
+        loadCurrentProductImageIfExists(updateDTOFromDB);
     }
 
     private void loadCurrentProductImageIfExists(ProductUpdateDTO dto) {

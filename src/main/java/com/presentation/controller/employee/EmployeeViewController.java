@@ -148,7 +148,14 @@ public class EmployeeViewController extends BaseCatalogViewController<EmployeeIn
 
     private void changeEmployeeStatus(EmployeeInfoDTO infoDTO) {
 
-        employeeService.changeEmployeeIsActiveValue(infoDTO.getId());
+        executeAsyncTask(
+                () -> {
+                    employeeService.changeEmployeeIsActiveValue(infoDTO.getId());
+                    return null;
+                },
+                _ -> {
+                }
+        );
     }
 
     @Override

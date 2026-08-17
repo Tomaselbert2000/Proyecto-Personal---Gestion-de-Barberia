@@ -178,8 +178,10 @@ public class AppointmentCreationController extends BaseCrudFormController<Appoin
 
     private @NonNull Map<Label, String> getLabelStringMap(ClientInfoDTO selectedClient) {
 
-        String firstNameInitial = String.valueOf(selectedClient.getFirstName().charAt(0));
-        String lastNameInitial = String.valueOf(selectedClient.getLastName().charAt(0));
+        String firstName = selectedClient.getFirstName();
+        String lastName = selectedClient.getLastName();
+        String firstNameInitial = (firstName != null && !firstName.isEmpty()) ? String.valueOf(firstName.charAt(0)) : "";
+        String lastNameInitial = (lastName != null && !lastName.isEmpty()) ? String.valueOf(lastName.charAt(0)) : "";
 
         return Map.ofEntries(
                 Map.entry(clientName, fullName(selectedClient.getFirstName(), selectedClient.getLastName())),

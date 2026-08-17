@@ -61,6 +61,7 @@ public final class StringResource {
         public static final String TOAST_NOTIFICATION_TITLE_FAILED = "Operación fallida";
 
         public static final String CLIENT_CREATION_TOAST_NOTIFICATION_MESSAGE = "Se ha registrado un nuevo cliente en el sistema.";
+        public static final String CLIENT_EDITION_TOAST_NOTIFICATION_MESSAGE = "El cliente se ha actualizado exitosamente.";
 
         public static final String EMPLOYEE_CREATION_TOAST_NOTIFICATION_MESSAGE = "Se ha registrado un nuevo empleado en el sistema.";
         public static final String EMPLOYEE_UPDATE_TOAST_NOTIFICATION_MESSAGE = "El empleado se ha actualizado exitosamente.";
@@ -93,6 +94,7 @@ public final class StringResource {
         public static final String PASSWORDS_DOES_NOT_MATCH = "Las contraseñas ingresadas no coinciden.";
 
         public static final String CLIENT_CREATION_VALIDATION_FAILED = "No se pudo registrar el cliente. Por favor, revisa lo siguiente: ";
+        public static final String CLIENT_EDITION_VALIDATION_FAILED = "No se pudo actualizar el cliente. Por favor, revisa lo siguiente: ";
 
         public static final String PRODUCT_CREATION_VALIDATION_FAILED = "No se pudo registrar el producto. Por favor, revisa lo siguiente: ";
         public static final String PRODUCT_EDITION_VALIDATION_FAILED = "No se pudo actualizar el producto. Por favor, revisa lo siguiente: ";
