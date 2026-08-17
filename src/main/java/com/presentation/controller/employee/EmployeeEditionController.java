@@ -21,22 +21,29 @@ import static com.enums.ViewRedirection.EMPLOYEES;
 import static com.presentation.constants.ControllerConstants.EmployeeControllerConstants.ACTIVATE;
 import static com.presentation.constants.ControllerConstants.EmployeeControllerConstants.DEACTIVATE;
 import static com.presentation.constants.PromptTexts.EmployeePromptText.*;
+import static com.presentation.constants.StringResource.DisplayString.ACTIVE_STATUS_LABEL;
+import static com.presentation.constants.StringResource.DisplayString.INACTIVE_STATUS_LABEL;
 import static com.presentation.constants.StringResource.ToastNotificationMessage.EMPLOYEE_UPDATE_TOAST_NOTIFICATION_MESSAGE;
 import static com.presentation.constants.StringResource.ValidationErrorMessage.EMPLOYEE_EDITION_VALIDATION_FAILED;
 import static com.presentation.support.control.UIBasicComponents.*;
 import static com.presentation.support.control.ValidationFormatter.formatAsPercentage;
 import static com.presentation.support.format.NumberParser.parsePercentageFraction;
-import static com.presentation.support.view.ViewRedirectionHelper.redirectToView;
+import com.presentation.support.view.ViewRedirectionHelper;
 
 @Component
 public class EmployeeEditionController extends BaseCrudFormController<EmployeeUpdateDTO, EmployeeInfoDTO> {
 
     private final EmployeeService employeeService;
 
-    public EmployeeEditionController(ApplicationContext applicationContext, EmployeeService employeeService) {
+    private Boolean isActive;
+
+    private final ViewRedirectionHelper viewRedirectionHelper;
+
+    public EmployeeEditionController(ApplicationContext applicationContext, EmployeeService employeeService, ViewRedirectionHelper viewRedirectionHelper) {
 
         super(applicationContext);
         this.employeeService = employeeService;
+        this.viewRedirectionHelper = viewRedirectionHelper;
     }
 
     @FXML
@@ -98,10 +105,12 @@ public class EmployeeEditionController extends BaseCrudFormController<EmployeeUp
 
     private void loadEmployeeDataForEdition(EmployeeInfoDTO infoDTO) {
 
+        isActive = infoDTO.getIsActive();
+
         Map<Label, String> map = Map.of(
                 currentFirstName, infoDTO.getFirstName(),
                 currentLastName, infoDTO.getLastName(),
-                currentStatusLabel, infoDTO.getIsActive() ? "Activo" : "Inactivo",
+                currentStatusLabel, infoDTO.getIsActive() ? ACTIVE_STATUS_LABEL : INACTIVE_STATUS_LABEL,
                 currentCommission, formatAsPercentage(infoDTO.getCommissionPercentage() * 100),
                 currentHireDate, infoDTO.getHireDateAsString(),
                 currentTerminationDate, infoDTO.getTerminationDateAsString()
@@ -116,21 +125,11 @@ public class EmployeeEditionController extends BaseCrudFormController<EmployeeUp
         setTextsOnLabelMap(map);
     }
 
-    private Boolean getBooleanFlagFromToggleButtonText() {
-
-        return !toggleStatusButton.getText().equals(ACTIVATE);
-    }
-
     private void changeTextOnToggleStatusButton() {
 
-        if (toggleStatusButton.getText().equals(ACTIVATE)) {
+        isActive = !isActive;
 
-            toggleStatusButton.setText(DEACTIVATE);
-
-        } else if (toggleStatusButton.getText().equals(DEACTIVATE)) {
-
-            toggleStatusButton.setText(ACTIVATE);
-        }
+        setTextOnButton(toggleStatusButton, isActive ? DEACTIVATE : ACTIVATE);
     }
 
     @Override
@@ -162,7 +161,7 @@ public class EmployeeEditionController extends BaseCrudFormController<EmployeeUp
         String firstName = firstNameField.getText();
         String lastName = lastNameField.getText();
         Double commissionPercentage = parsePercentageFraction(commissionField.getText(), null);
-        Boolean isActive = getBooleanFlagFromToggleButtonText();
+        Boolean isActive = this.isActive;
         LocalDate terminationDate = terminationDatePicker.getValue();
 
         return EmployeeUpdateDTO.builder()
@@ -184,7 +183,7 @@ public class EmployeeEditionController extends BaseCrudFormController<EmployeeUp
     protected void configureButtonActions() {
 
         Map<Button, Runnable> map = Map.of(
-                backButton, () -> redirectToView(EMPLOYEES, anchorPane, getApplicationContext()),
+                backButton, () -> viewRedirectionHelper.redirectToView(EMPLOYEES, anchorPane, getApplicationContext()),
                 saveButton, this::saveEntity,
                 resetButton, this::resetForm,
                 toggleStatusButton, this::changeTextOnToggleStatusButton

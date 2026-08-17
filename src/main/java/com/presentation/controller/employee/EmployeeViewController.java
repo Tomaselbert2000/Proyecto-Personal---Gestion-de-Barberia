@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 import static com.presentation.concurrency.ConcurrencyManager.executeAsyncTask;
-import static com.presentation.constants.StringResource.DisplayString.CURRENCY_STRING_ARG;
+import static com.presentation.support.format.PriceFormatter.format;
 import static com.presentation.constants.StringResource.EmptyListMessage.EMPTY_EMPLOYEE_LIST_MESSAGE;
 import static com.presentation.constants.StringResource.FxmlViewLoadingErrorMessage.*;
 import static com.presentation.constants.ViewPath.*;
@@ -105,7 +105,7 @@ public class EmployeeViewController extends BaseCatalogViewController<EmployeeIn
                 saleService::getEmployeeWithHighestRevenue,
                 employeeRevenueDTO -> {
                     setTextOnLabel(highestRevenueEmployeeName, employeeRevenueDTO.getEmployeeFirstname() + "\n" + employeeRevenueDTO.getEmployeeLastname());
-                    setTextOnLabel(highestRevenueValue, CURRENCY_STRING_ARG + parseNumberValueToText(employeeRevenueDTO.getTotalRevenue()));
+                    setTextOnLabel(highestRevenueValue, format(employeeRevenueDTO.getTotalRevenue()));
                 }
         );
     }

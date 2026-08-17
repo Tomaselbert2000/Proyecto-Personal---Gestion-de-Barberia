@@ -61,7 +61,7 @@ public class SettingsController {
     private final ApplicationContext applicationContext;
 
     @FXML
-    private final ToggleGroup themeGroup = new ToggleGroup();
+    private ToggleGroup themeGroup = new ToggleGroup();
     @FXML
     private AnchorPane anchorPane;
     @FXML

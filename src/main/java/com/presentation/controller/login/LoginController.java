@@ -23,13 +23,14 @@ import static com.presentation.constants.StringResource.ValidationErrorMessage.L
 import static com.presentation.support.control.UIBasicComponents.configureRunnableMaps;
 import static com.presentation.support.dialog.PopUpWindowHelper.showWindowAlert;
 import static com.presentation.support.view.ContainerManager.getCurrentWindow;
-import static com.presentation.support.view.ViewRedirectionHelper.redirectToView;
+import com.presentation.support.view.ViewRedirectionHelper;
 
 @Component
 @RequiredArgsConstructor
 public class LoginController {
 
     private final ApplicationContext applicationContext;
+    private final ViewRedirectionHelper viewRedirectionHelper;
     private final AppPreferences appPreferences;
     private final AppUserService appUserService;
 
@@ -77,7 +78,7 @@ public class LoginController {
 
     private void handleRegisterClick() {
 
-        redirectToView(REGISTER, anchorPane, applicationContext);
+        viewRedirectionHelper.redirectToView(REGISTER, anchorPane, applicationContext);
     }
 
     private String extractUsername() {
@@ -118,7 +119,7 @@ public class LoginController {
         appPreferences.setCurrentUser(username);
         appPreferences.setRememberCredentials(rememberSessionCheckBox.isSelected());
 
-        redirectToView(DASHBOARD, anchorPane, applicationContext);
+        viewRedirectionHelper.redirectToView(DASHBOARD, anchorPane, applicationContext);
     }
 
     private void showLoginError() {

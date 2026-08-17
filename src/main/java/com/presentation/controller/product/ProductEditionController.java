@@ -30,17 +30,20 @@ import static com.presentation.support.control.UIBasicComponents.setTextsOnTextf
 import static com.presentation.concurrency.ConcurrencyManager.executeAsyncTask;
 import static com.presentation.support.control.ValidationFormatter.*;
 import static com.presentation.support.io.FileImageHelper.*;
-import static com.presentation.support.view.ViewRedirectionHelper.redirectToView;
+import com.presentation.support.view.ViewRedirectionHelper;
 
 @Component
 public class ProductEditionController extends BaseCrudFormController<ProductUpdateDTO, ProductInfoDTO> {
 
     private final ProductService productService;
 
-    public ProductEditionController(ApplicationContext applicationContext, ProductService productService) {
+    private final ViewRedirectionHelper viewRedirectionHelper;
+
+    public ProductEditionController(ApplicationContext applicationContext, ProductService productService, ViewRedirectionHelper viewRedirectionHelper) {
 
         super(applicationContext);
         this.productService = productService;
+        this.viewRedirectionHelper = viewRedirectionHelper;
     }
 
     private String filePath = "";
@@ -147,7 +150,7 @@ public class ProductEditionController extends BaseCrudFormController<ProductUpda
     protected void configureButtonActions() {
 
         Map<Button, Runnable> map = Map.of(
-                backButton, () -> redirectToView(PRODUCTS, getAnchorPane(), getApplicationContext()),
+                backButton, () -> viewRedirectionHelper.redirectToView(PRODUCTS, getAnchorPane(), getApplicationContext()),
                 resetButton, this::resetForm,
                 removeImageButton, () -> cleanImageView(productImagePreview),
                 selectImageButton, this::handleImageSelection,

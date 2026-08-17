@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 
 import static com.presentation.constants.StringResource.DisplayString.NEW_LINE;
 import static com.presentation.constants.StringResource.StringFormat.*;
+import static com.presentation.support.format.PriceFormatter.format;
 
 public class ValidationFormatter {
 
@@ -43,7 +44,7 @@ public class ValidationFormatter {
      * @return La cadena de texto formateada como precio.
      */
     public static String formatAsPrice(Double value) {
-        return String.format(PRICE_FORMAT, value);
+        return format(value);
     }
 
     /**

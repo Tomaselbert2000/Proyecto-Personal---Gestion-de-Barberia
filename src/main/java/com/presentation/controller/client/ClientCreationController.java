@@ -29,17 +29,20 @@ import static com.presentation.constants.StringResource.ToastNotificationMessage
 import static com.presentation.constants.StringResource.ValidationErrorMessage.CLIENT_CREATION_VALIDATION_FAILED;
 import static com.presentation.support.control.UIBasicComponents.*;
 import static com.presentation.support.view.ContainerManager.*;
-import static com.presentation.support.view.ViewRedirectionHelper.redirectToView;
+import com.presentation.support.view.ViewRedirectionHelper;
 
 @Component
 public class ClientCreationController extends BaseCrudFormController<ClientCreationDTO, ClientInfoDTO> {
 
     private final ClientService clientService;
 
-    public ClientCreationController(ApplicationContext applicationContext, ClientService clientService) {
+    private final ViewRedirectionHelper viewRedirectionHelper;
+
+    public ClientCreationController(ApplicationContext applicationContext, ClientService clientService, ViewRedirectionHelper viewRedirectionHelper) {
 
         super(applicationContext);
         this.clientService = clientService;
+        this.viewRedirectionHelper = viewRedirectionHelper;
     }
 
     @FXML
@@ -199,7 +202,7 @@ public class ClientCreationController extends BaseCrudFormController<ClientCreat
     protected void configureButtonActions() {
 
         Map<Button, Runnable> map = Map.of(
-                backButton, () -> redirectToView(CLIENTS, getAnchorPane(), getApplicationContext()),
+                backButton, () -> viewRedirectionHelper.redirectToView(CLIENTS, getAnchorPane(), getApplicationContext()),
                 cleanAllFieldsButton, this::resetForm,
                 addPhoneButton, this::addPhoneToList,
                 saveButton, this::saveEntity

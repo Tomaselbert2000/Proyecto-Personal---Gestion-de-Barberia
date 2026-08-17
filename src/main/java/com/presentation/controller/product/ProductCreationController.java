@@ -30,17 +30,20 @@ import static com.presentation.support.control.ComboBoxHelper.removeFirstItemFro
 import static com.presentation.support.control.UIBasicComponents.*;
 import static com.presentation.support.control.ValidationFormatter.*;
 import static com.presentation.support.io.FileImageHelper.*;
-import static com.presentation.support.view.ViewRedirectionHelper.redirectToView;
+import com.presentation.support.view.ViewRedirectionHelper;
 
 @Component
 public class ProductCreationController extends BaseCrudFormController<ProductCreationDTO, ProductInfoDTO> {
 
     private final ProductService productService;
 
-    public ProductCreationController(ApplicationContext applicationContext, ProductService productService) {
+    private final ViewRedirectionHelper viewRedirectionHelper;
+
+    public ProductCreationController(ApplicationContext applicationContext, ProductService productService, ViewRedirectionHelper viewRedirectionHelper) {
 
         super(applicationContext);
         this.productService = productService;
+        this.viewRedirectionHelper = viewRedirectionHelper;
     }
 
     private String filePath = "";
@@ -172,7 +175,7 @@ public class ProductCreationController extends BaseCrudFormController<ProductCre
         Map<Button, Runnable> map = Map.of(
                 selectImageButton, this::handleImageSelection,
                 removeImageButton, () -> cleanImageView(productImagePreview),
-                backButton, () -> redirectToView(PRODUCTS, getAnchorPane(), getApplicationContext()),
+                backButton, () -> viewRedirectionHelper.redirectToView(PRODUCTS, getAnchorPane(), getApplicationContext()),
                 resetFormButton, this::resetForm,
                 saveButton, this::saveEntity
         );

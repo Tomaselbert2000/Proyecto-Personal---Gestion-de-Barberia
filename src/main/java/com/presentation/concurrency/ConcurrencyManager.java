@@ -2,7 +2,11 @@ package com.presentation.concurrency;
 
 import javafx.concurrent.Task;
 import org.jetbrains.annotations.UnknownNullability;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -19,6 +23,14 @@ import java.util.function.Supplier;
  * en aplicaciones con interfaz gráfica.</p>
  */
 public final class ConcurrencyManager {
+
+    private static final Logger log = LoggerFactory.getLogger(ConcurrencyManager.class);
+
+    private static final ExecutorService EXECUTOR = Executors.newCachedThreadPool(runnable -> {
+        Thread thread = new Thread(runnable, "concurrency-manager-task");
+        thread.setDaemon(true);
+        return thread;
+    });
 
     /**
      * Ejecuta una tarea de fondo en un hilo separado y notifica el resultado en el hilo principal.
@@ -109,21 +121,16 @@ public final class ConcurrencyManager {
      */
     public static <T> void startNewThreadWithTask(@UnknownNullability Task<T> task) {
 
-        Thread thread = new Thread(task, "concurrency-manager-task");
-
-        thread.setDaemon(true);
-
-        thread.start();
+        EXECUTOR.execute(task);
     }
 
-    @SuppressWarnings("CallToPrintStackTrace")
     private static void handleTaskFailure(Task<?> task) {
 
         Throwable exception = task.getException();
 
         if (exception != null) {
 
-            exception.printStackTrace();
+            log.error("La tarea asíncrona falló durante su ejecución", exception);
         }
     }
 }

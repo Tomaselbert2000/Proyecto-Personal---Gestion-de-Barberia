@@ -27,17 +27,20 @@ import static com.presentation.support.control.UIBasicComponents.setTextsOnTextf
 import static com.presentation.support.control.ValidationFormatter.parseNumberValueToText;
 import static com.presentation.support.control.ValidationFormatter.setStringConverter;
 import static com.presentation.support.format.NumberParser.parseTextToDouble;
-import static com.presentation.support.view.ViewRedirectionHelper.redirectToView;
+import com.presentation.support.view.ViewRedirectionHelper;
 
 @Component
 public class PaymentMethodEditionController extends BaseCrudFormController<PaymentMethodUpdateDTO, PaymentMethodInfoDTO> {
 
     private final PaymentMethodService paymentMethodService;
 
-    public PaymentMethodEditionController(ApplicationContext applicationContext, PaymentMethodService paymentMethodService) {
+    private final ViewRedirectionHelper viewRedirectionHelper;
+
+    public PaymentMethodEditionController(ApplicationContext applicationContext, PaymentMethodService paymentMethodService, ViewRedirectionHelper viewRedirectionHelper) {
 
         super(applicationContext);
         this.paymentMethodService = paymentMethodService;
+        this.viewRedirectionHelper = viewRedirectionHelper;
     }
 
     @FXML
@@ -94,7 +97,7 @@ public class PaymentMethodEditionController extends BaseCrudFormController<Payme
 
         Map<Button, Runnable> map = Map.of(
                 saveButton, this::saveEntity,
-                backButton, () -> redirectToView(PAYMENT_METHODS, getAnchorPane(), getApplicationContext()),
+                backButton, () -> viewRedirectionHelper.redirectToView(PAYMENT_METHODS, getAnchorPane(), getApplicationContext()),
                 resetFormButton, this::resetForm
         );
 

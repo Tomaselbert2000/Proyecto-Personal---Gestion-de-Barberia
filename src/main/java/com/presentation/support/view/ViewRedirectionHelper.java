@@ -25,7 +25,7 @@ public class ViewRedirectionHelper {
      * @param borderPane         El Pane donde se cargará la vista.
      * @param applicationContext El contexto de la aplicación Spring.
      */
-    public static void redirectToView(ViewRedirection destination, Pane borderPane, ApplicationContext applicationContext) {
+    public void redirectToView(ViewRedirection destination, Pane borderPane, ApplicationContext applicationContext) {
         switch (destination) {
             case DASHBOARD -> {
                 SceneManager sceneManager = applicationContext.getBean(SceneManager.class);
@@ -80,7 +80,7 @@ public class ViewRedirectionHelper {
      * @param applicationContext El contexto de la aplicación Spring.
      * @param dashboardCallback  La acción adicional a ejecutar cuando se redirija a la vista del panel.
      */
-    public static void redirectToView(ViewRedirection destination, Pane borderPane, ApplicationContext applicationContext, Runnable dashboardCallback) {
+    public void redirectToView(ViewRedirection destination, Pane borderPane, ApplicationContext applicationContext, Runnable dashboardCallback) {
         if (destination == ViewRedirection.DASHBOARD) {
             if (dashboardCallback != null) {
                 dashboardCallback.run();

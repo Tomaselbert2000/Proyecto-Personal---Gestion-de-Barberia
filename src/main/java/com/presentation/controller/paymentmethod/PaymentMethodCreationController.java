@@ -27,17 +27,20 @@ import static com.presentation.support.control.ComboBoxHelper.removeFirstItemFro
 import static com.presentation.support.control.UIBasicComponents.*;
 import static com.presentation.support.control.ValidationFormatter.setStringConverter;
 import static com.presentation.support.format.NumberParser.parseTextToDouble;
-import static com.presentation.support.view.ViewRedirectionHelper.redirectToView;
+import com.presentation.support.view.ViewRedirectionHelper;
 
 @Component
 public class PaymentMethodCreationController extends BaseCrudFormController<PaymentMethodCreationDTO, PaymentMethodInfoDTO> {
 
     private final PaymentMethodService paymentMethodService;
 
-    public PaymentMethodCreationController(ApplicationContext applicationContext, PaymentMethodService paymentMethodService) {
+    private final ViewRedirectionHelper viewRedirectionHelper;
+
+    public PaymentMethodCreationController(ApplicationContext applicationContext, PaymentMethodService paymentMethodService, ViewRedirectionHelper viewRedirectionHelper) {
 
         super(applicationContext);
         this.paymentMethodService = paymentMethodService;
+        this.viewRedirectionHelper = viewRedirectionHelper;
     }
 
     @FXML
@@ -123,7 +126,7 @@ public class PaymentMethodCreationController extends BaseCrudFormController<Paym
     protected void configureButtonActions() {
 
         Map<Button, Runnable> map = Map.of(
-                backButton, () -> redirectToView(PAYMENT_METHODS, getAnchorPane(), getApplicationContext()),
+                backButton, () -> viewRedirectionHelper.redirectToView(PAYMENT_METHODS, getAnchorPane(), getApplicationContext()),
                 resetFormButton, this::resetForm,
                 saveButton, this::saveEntity
         );

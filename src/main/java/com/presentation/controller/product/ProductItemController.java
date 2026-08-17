@@ -21,6 +21,7 @@ import java.util.Objects;
 import java.util.function.Consumer;
 
 import static com.presentation.constants.ControllerConstants.ProductControllerConstants.PLACEHOLDER_PATH;
+import static com.presentation.constants.StringResource.DisplayString.MIN_STOCK_LABEL_PREFIX;
 import static com.presentation.support.control.UIBasicComponents.*;
 import static com.presentation.support.control.ValidationFormatter.formatAsPercentage;
 import static com.presentation.support.control.ValidationFormatter.formatAsPrice;
@@ -68,7 +69,7 @@ public class ProductItemController extends AbstractItemController<ProductInfoDTO
         String productPrice = formatAsPrice(infoDTO.getCurrentPrice());
         String profit = formatAsPercentage(infoDTO.getCalculatedProfit());
         String currentStock = infoDTO.getCurrentStockLevel().toString();
-        String safetyStock = "Min: " + infoDTO.getSafetyStockLevel().toString();
+        String safetyStock = MIN_STOCK_LABEL_PREFIX + infoDTO.getSafetyStockLevel().toString();
 
         return List.of(name, stockStatusText, productCost, productPrice, profit, currentStock, safetyStock);
     }

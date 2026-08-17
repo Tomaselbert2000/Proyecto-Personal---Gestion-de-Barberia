@@ -23,17 +23,20 @@ import static com.presentation.constants.StringResource.ToastNotificationMessage
 import static com.presentation.constants.StringResource.ValidationErrorMessage.EMPLOYEE_CREATION_VALIDATION_FAILED;
 import static com.presentation.support.control.UIBasicComponents.*;
 import static com.presentation.support.format.NumberParser.parsePercentageFraction;
-import static com.presentation.support.view.ViewRedirectionHelper.redirectToView;
+import com.presentation.support.view.ViewRedirectionHelper;
 
 @Component
 public class EmployeeCreationController extends BaseCrudFormController<EmployeeCreationDTO, EmployeeInfoDTO> {
 
     private final EmployeeService employeeService;
 
-    public EmployeeCreationController(ApplicationContext applicationContext, EmployeeService employeeService) {
+    private final ViewRedirectionHelper viewRedirectionHelper;
+
+    public EmployeeCreationController(ApplicationContext applicationContext, EmployeeService employeeService, ViewRedirectionHelper viewRedirectionHelper) {
 
         super(applicationContext);
         this.employeeService = employeeService;
+        this.viewRedirectionHelper = viewRedirectionHelper;
     }
 
     @FXML
@@ -127,7 +130,7 @@ public class EmployeeCreationController extends BaseCrudFormController<EmployeeC
     protected void configureButtonActions() {
 
         Map<Button, Runnable> map = Map.of(
-                backButton, () -> redirectToView(ViewRedirection.EMPLOYEES, getAnchorPane(), getApplicationContext()),
+                backButton, () -> viewRedirectionHelper.redirectToView(ViewRedirection.EMPLOYEES, getAnchorPane(), getApplicationContext()),
                 clearButton, this::resetForm,
                 saveButton, this::saveEntity
         );

@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import static com.presentation.concurrency.ConcurrencyManager.executeAsyncTask;
-import static com.presentation.constants.StringResource.DisplayString.CURRENCY_STRING_ARG;
+import static com.presentation.support.format.PriceFormatter.format;
 import static com.presentation.constants.StringResource.EmptyListMessage.EMPTY_PRODUCT_LIST_MESSAGE;
 import static com.presentation.constants.StringResource.FxmlViewLoadingErrorMessage.*;
 import static com.presentation.constants.ViewPath.*;
@@ -117,7 +117,7 @@ public class ProductViewController extends BaseCatalogViewController<ProductInfo
                 productService::getProductHighestRevenueStats,
                 productHighestRevenueStatsDTO -> {
                     setTextOnLabel(highestRevenue, productHighestRevenueStatsDTO.getProductName());
-                    setTextOnLabel(totalRevenue, CURRENCY_STRING_ARG + parseNumberValueToText(productHighestRevenueStatsDTO.getRevenue()));
+                    setTextOnLabel(totalRevenue, format(productHighestRevenueStatsDTO.getRevenue()));
                 }
         );
     }
@@ -127,7 +127,7 @@ public class ProductViewController extends BaseCatalogViewController<ProductInfo
         executeAsyncTask(
                 productService::getProductStockValueStat,
                 productStockValueStatDTO -> {
-                    setTextOnLabel(totalStockValue, CURRENCY_STRING_ARG + parseNumberValueToText(productStockValueStatDTO.getTotalStockValue()));
+                    setTextOnLabel(totalStockValue, format(productStockValueStatDTO.getTotalStockValue()));
                     setTextOnLabel(totalStockUnits, "En " + parseNumberValueToText(productStockValueStatDTO.getTotalUnits()) + " unidades físicas");
                 }
         );

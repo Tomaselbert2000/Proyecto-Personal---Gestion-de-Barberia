@@ -23,17 +23,20 @@ import static com.presentation.support.control.ComboBoxHelper.loadEnumsOnComboBo
 import static com.presentation.support.control.ComboBoxHelper.removeFirstItemFromComboBox;
 import static com.presentation.support.control.UIBasicComponents.*;
 import static com.presentation.support.format.NumberParser.parsePrice;
-import static com.presentation.support.view.ViewRedirectionHelper.redirectToView;
+import com.presentation.support.view.ViewRedirectionHelper;
 
 @Component
 public class BarberServiceEditionController extends BaseCrudFormController<BarberServiceUpdateDTO, BarberServiceInfoDTO> {
 
     private final BarberserviceService barberserviceService;
 
-    public BarberServiceEditionController(ApplicationContext applicationContext, BarberserviceService barberserviceService) {
+    private final ViewRedirectionHelper viewRedirectionHelper;
+
+    public BarberServiceEditionController(ApplicationContext applicationContext, BarberserviceService barberserviceService, ViewRedirectionHelper viewRedirectionHelper) {
 
         super(applicationContext);
         this.barberserviceService = barberserviceService;
+        this.viewRedirectionHelper = viewRedirectionHelper;
     }
 
     private BarberServiceInfoDTO infoDTOReference;
@@ -94,7 +97,7 @@ public class BarberServiceEditionController extends BaseCrudFormController<Barbe
     protected void configureButtonActions() {
 
         Map<Button, Runnable> map = Map.of(
-                backButton, () -> redirectToView(BARBER_SERVICES, anchorPane, getApplicationContext()),
+                backButton, () -> viewRedirectionHelper.redirectToView(BARBER_SERVICES, anchorPane, getApplicationContext()),
                 restoreValuesButton, this::resetForm,
                 updateButton, this::saveEntity
         );

@@ -40,7 +40,7 @@ import static com.presentation.support.control.UIBasicComponents.*;
 import static com.presentation.support.format.PersonNameFormatter.fullName;
 import static com.presentation.support.format.PersonNameFormatter.initials;
 import static com.presentation.support.format.PriceFormatter.formatPriceAsString;
-import static com.presentation.support.view.ViewRedirectionHelper.redirectToView;
+import com.presentation.support.view.ViewRedirectionHelper;
 import static com.presentation.support.view.VisibilityHelper.setNodeAsNotVisible;
 import static com.presentation.support.view.VisibilityHelper.setNodeAsVisible;
 
@@ -52,6 +52,8 @@ public class AppointmentCreationController extends BaseCrudFormController<Appoin
     private EmployeeInfoDTO employeeReference;
 
     private final AppointmentService appointmentService;
+
+    private final ViewRedirectionHelper viewRedirectionHelper;
 
     @FXML
     private AnchorPane anchorPane;
@@ -106,11 +108,13 @@ public class AppointmentCreationController extends BaseCrudFormController<Appoin
 
     public AppointmentCreationController(
             AppointmentService appointmentService,
-            ApplicationContext applicationContext
+            ApplicationContext applicationContext,
+            ViewRedirectionHelper viewRedirectionHelper
     ) {
 
         super(applicationContext);
         this.appointmentService = appointmentService;
+        this.viewRedirectionHelper = viewRedirectionHelper;
     }
 
     @FXML
@@ -313,8 +317,8 @@ public class AppointmentCreationController extends BaseCrudFormController<Appoin
 
         Map<Button, Runnable> map = Map.of(
 
-                backButton, () -> redirectToView(APPOINTMENTS, getAnchorPane(), getApplicationContext()),
-                createClientButton, () -> redirectToView(CLIENT_CREATION, getAnchorPane(), getApplicationContext()),
+                backButton, () -> viewRedirectionHelper.redirectToView(APPOINTMENTS, getAnchorPane(), getApplicationContext()),
+                createClientButton, () -> viewRedirectionHelper.redirectToView(CLIENT_CREATION, getAnchorPane(), getApplicationContext()),
                 changeClientButton, this::resetClientSelection,
                 resetFormButton, this::resetForm,
                 saveButton, this::saveEntity

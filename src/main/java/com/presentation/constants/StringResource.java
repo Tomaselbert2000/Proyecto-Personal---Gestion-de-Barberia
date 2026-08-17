@@ -35,6 +35,7 @@ public final class StringResource {
         public static final String ACTIVE_STATUS_LABEL = "Activo";
         public static final String INACTIVE_STATUS_LABEL = "Inactivo";
         public static final String NO_DATA = "Sin datos";
+        public static final String MIN_STOCK_LABEL_PREFIX = "Min: ";
     }
 
     public static final class StringFormat {

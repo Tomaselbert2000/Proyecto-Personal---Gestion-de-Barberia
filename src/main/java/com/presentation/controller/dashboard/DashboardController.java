@@ -35,7 +35,7 @@ import static com.presentation.support.format.PriceFormatter.formatPriceAsString
 import static com.presentation.support.view.ContainerManager.cleanContainer;
 import static com.presentation.support.view.ContainerManager.loadItemsOnController;
 import static com.presentation.support.view.FXMLViewLoader.animateViewChange;
-import static com.presentation.support.view.ViewRedirectionHelper.redirectToView;
+import com.presentation.support.view.ViewRedirectionHelper;
 
 @Component
 @RequiredArgsConstructor
@@ -47,6 +47,7 @@ public class DashboardController {
     private final ProductService productService;
 
     private final ApplicationContext applicationContext;
+    private final ViewRedirectionHelper viewRedirectionHelper;
 
     @FXML
     private StackPane stackPane;
@@ -198,29 +199,29 @@ public class DashboardController {
     private void configureButtonActions() {
 
         Map<Button, Runnable> navBarButtonsMap = Map.of(
-                navbarDashboardButton, () -> redirectToView(DASHBOARD, borderPane, applicationContext, this::reloadDashboard),
-                navbarClientButton, () -> redirectToView(CLIENTS, borderPane, applicationContext),
-                navbarEmployeeButton, () -> redirectToView(EMPLOYEES, borderPane, applicationContext),
-                navbarAppointmentButton, () -> redirectToView(APPOINTMENTS, borderPane, applicationContext),
-                navbarBarberServiceButton, () -> redirectToView(BARBER_SERVICES, borderPane, applicationContext),
-                navbarProductButton, () -> redirectToView(PRODUCTS, borderPane, applicationContext),
-                navbarPaymentButton, () -> redirectToView(PAYMENT_METHODS, borderPane, applicationContext),
-                navbarSettingsButton, () -> redirectToView(SETTINGS, borderPane, applicationContext),
+                navbarDashboardButton, () -> viewRedirectionHelper.redirectToView(DASHBOARD, borderPane, applicationContext, this::reloadDashboard),
+                navbarClientButton, () -> viewRedirectionHelper.redirectToView(CLIENTS, borderPane, applicationContext),
+                navbarEmployeeButton, () -> viewRedirectionHelper.redirectToView(EMPLOYEES, borderPane, applicationContext),
+                navbarAppointmentButton, () -> viewRedirectionHelper.redirectToView(APPOINTMENTS, borderPane, applicationContext),
+                navbarBarberServiceButton, () -> viewRedirectionHelper.redirectToView(BARBER_SERVICES, borderPane, applicationContext),
+                navbarProductButton, () -> viewRedirectionHelper.redirectToView(PRODUCTS, borderPane, applicationContext),
+                navbarPaymentButton, () -> viewRedirectionHelper.redirectToView(PAYMENT_METHODS, borderPane, applicationContext),
+                navbarSettingsButton, () -> viewRedirectionHelper.redirectToView(SETTINGS, borderPane, applicationContext),
                 navbarLogoutButton, this::manageLogout
         );
 
         Map<Button, Runnable> quickAccessButtonsMap = Map.of(
-                clientsViewButton, () -> redirectToView(CLIENTS, borderPane, applicationContext),
-                employeeViewButton, () -> redirectToView(EMPLOYEES, borderPane, applicationContext),
-                appointmentsViewButton, () -> redirectToView(APPOINTMENTS, borderPane, applicationContext),
-                productsViewButton, () -> redirectToView(PRODUCTS, borderPane, applicationContext)
+                clientsViewButton, () -> viewRedirectionHelper.redirectToView(CLIENTS, borderPane, applicationContext),
+                employeeViewButton, () -> viewRedirectionHelper.redirectToView(EMPLOYEES, borderPane, applicationContext),
+                appointmentsViewButton, () -> viewRedirectionHelper.redirectToView(APPOINTMENTS, borderPane, applicationContext),
+                productsViewButton, () -> viewRedirectionHelper.redirectToView(PRODUCTS, borderPane, applicationContext)
         );
 
         Map<Button, Runnable> quickCreationButtonsMap = Map.of(
-                createClientButton, () -> redirectToView(CLIENT_CREATION, borderPane, applicationContext),
-                createEmployeeButton, () -> redirectToView(EMPLOYEE_CREATION, borderPane, applicationContext),
-                createAppointmentButton, () -> redirectToView(APPOINTMENT_CREATION, borderPane, applicationContext),
-                createProductButton, () -> redirectToView(PRODUCT_CREATION, borderPane, applicationContext)
+                createClientButton, () -> viewRedirectionHelper.redirectToView(CLIENT_CREATION, borderPane, applicationContext),
+                createEmployeeButton, () -> viewRedirectionHelper.redirectToView(EMPLOYEE_CREATION, borderPane, applicationContext),
+                createAppointmentButton, () -> viewRedirectionHelper.redirectToView(APPOINTMENT_CREATION, borderPane, applicationContext),
+                createProductButton, () -> viewRedirectionHelper.redirectToView(PRODUCT_CREATION, borderPane, applicationContext)
         );
 
         configureRunnableMaps(navBarButtonsMap, quickAccessButtonsMap, quickCreationButtonsMap);
@@ -235,7 +236,7 @@ public class DashboardController {
                 CANCEL_BUTTON_TEXT,
                 CONFIRM_BUTTON_TEXT,
                 LOGOUT_ICON,
-                () -> redirectToView(LOGIN, stackPane, applicationContext),
+                () -> viewRedirectionHelper.redirectToView(LOGIN, stackPane, applicationContext),
                 () -> {
                 }
         );

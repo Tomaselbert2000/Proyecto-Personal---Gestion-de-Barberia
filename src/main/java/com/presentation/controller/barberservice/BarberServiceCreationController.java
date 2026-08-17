@@ -26,17 +26,20 @@ import static com.presentation.support.control.ComboBoxHelper.removeFirstItemFro
 import static com.presentation.support.control.UIBasicComponents.*;
 import static com.presentation.support.control.ValidationFormatter.setStringConverter;
 import static com.presentation.support.format.NumberParser.parsePrice;
-import static com.presentation.support.view.ViewRedirectionHelper.redirectToView;
+import com.presentation.support.view.ViewRedirectionHelper;
 
 @Component
 public class BarberServiceCreationController extends BaseCrudFormController<BarberServiceCreationDTO, BarberServiceInfoDTO> {
 
     private final BarberserviceService barberserviceService;
 
-    public BarberServiceCreationController(ApplicationContext applicationContext, BarberserviceService barberserviceService) {
+    private final ViewRedirectionHelper viewRedirectionHelper;
+
+    public BarberServiceCreationController(ApplicationContext applicationContext, BarberserviceService barberserviceService, ViewRedirectionHelper viewRedirectionHelper) {
 
         super(applicationContext);
         this.barberserviceService = barberserviceService;
+        this.viewRedirectionHelper = viewRedirectionHelper;
     }
 
     @FXML
@@ -138,7 +141,7 @@ public class BarberServiceCreationController extends BaseCrudFormController<Barb
     protected void configureButtonActions() {
 
         Map<Button, Runnable> map = Map.of(
-                backButton, () -> redirectToView(BARBER_SERVICES, getAnchorPane(), getApplicationContext()),
+                backButton, () -> viewRedirectionHelper.redirectToView(BARBER_SERVICES, getAnchorPane(), getApplicationContext()),
                 cleanFieldsButton, this::resetForm,
                 saveButton, this::saveEntity
         );

@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 import java.util.Map;
 import java.util.function.Consumer;
 
-import static com.presentation.constants.StringResource.DisplayString.CURRENCY_STRING_ARG;
+import static com.presentation.support.format.PriceFormatter.format;
 import static com.presentation.support.control.UIBasicComponents.configureRunnableMaps;
 import static com.presentation.support.control.UIBasicComponents.setTextOnLabel;
 
@@ -58,7 +58,7 @@ public class BarberServiceItemController extends AbstractItemController<BarberSe
         infoDTOReference = infoDTO;
 
         setTextOnLabel(serviceName, infoDTO.getName());
-        setTextOnLabel(servicePrice, CURRENCY_STRING_ARG + infoDTO.getPrice().toString());
+        setTextOnLabel(servicePrice, format(infoDTO.getPrice()));
         setTextOnLabel(categoryText, infoDTO.getCategory().getDisplayName());
     }
 

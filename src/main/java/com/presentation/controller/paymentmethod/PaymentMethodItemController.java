@@ -16,11 +16,10 @@ import java.util.function.Consumer;
 
 import static com.presentation.constants.CssStylesStrings.ITEM_STATUS_ACTIVO;
 import static com.presentation.constants.CssStylesStrings.ITEM_STATUS_INACTIVO;
-import static com.presentation.constants.StringResource.DisplayString.CURRENCY_STRING_ARG;
+import static com.presentation.support.format.PriceFormatter.format;
 import static com.presentation.support.control.StatusBadgeHelper.applyBadge;
 import static com.presentation.support.control.UIBasicComponents.configureRunnableMaps;
 import static com.presentation.support.control.UIBasicComponents.setTextsOnLabelMap;
-import static com.presentation.support.control.ValidationFormatter.parseNumberValueToText;
 
 @Component
 @Getter
@@ -76,13 +75,12 @@ public class PaymentMethodItemController extends AbstractItemController<PaymentM
         String paymentMethodNameValue = infoDTO.getName();
         String description = infoDTO.getDescription();
         String modifierType = infoDTO.getModifierType().getDisplayName();
-        String priceModifierValue = parseNumberValueToText(infoDTO.getPriceModifier());
 
         Map<Label, String> map = Map.of(
                 paymentMethodName, paymentMethodNameValue,
                 paymentMethodDescription, description,
                 modifierTypeLabel, modifierType,
-                priceModifierLabel, CURRENCY_STRING_ARG + priceModifierValue
+                priceModifierLabel, format(infoDTO.getPriceModifier())
         );
 
         setTextsOnLabelMap(map);

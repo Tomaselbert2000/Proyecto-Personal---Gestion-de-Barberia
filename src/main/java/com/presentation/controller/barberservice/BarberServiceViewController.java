@@ -29,7 +29,7 @@ import static com.enums.ViewRedirection.BARBER_SERVICE_CREATION;
 import static com.presentation.concurrency.ConcurrencyManager.executeAsyncTask;
 import static com.presentation.constants.MaterialDesignResources.MaterialIcon.DELETE_ICON;
 import static com.presentation.constants.StringResource.ConfirmationDialog.*;
-import static com.presentation.constants.StringResource.DisplayString.CURRENCY_STRING_ARG;
+import static com.presentation.support.format.PriceFormatter.format;
 import static com.presentation.constants.StringResource.EmptyListMessage.EMPTY_BARBER_SERVICE_CATALOG_LIST_MESSAGE;
 import static com.presentation.constants.StringResource.FxmlViewLoadingErrorMessage.BARBER_SERVICE_EDITION_VIEW_LOADING_FAILED;
 import static com.presentation.constants.StringResource.FxmlViewLoadingErrorMessage.BARBER_SERVICE_ITEM_VIEW_LOADING_FAILED;
@@ -43,7 +43,7 @@ import static com.presentation.support.dialog.DialogHelper.showConfirmationDialo
 import static com.presentation.support.notification.ToastNotificationHelper.showToastNotification;
 import static com.presentation.support.view.ContainerManager.loadItemsOnController;
 import static com.presentation.support.view.FXMLViewLoader.loadViewWithControllerPane;
-import static com.presentation.support.view.ViewRedirectionHelper.redirectToView;
+import com.presentation.support.view.ViewRedirectionHelper;
 
 @Component
 @Getter
@@ -54,6 +54,7 @@ public class BarberServiceViewController extends BaseCatalogViewController<Barbe
     private final BarberserviceService barberService;
     private final SaleService saleService;
     private final ApplicationContext applicationContext;
+    private final ViewRedirectionHelper viewRedirectionHelper;
 
     @FXML
     private AnchorPane anchorPane;
@@ -129,7 +130,7 @@ public class BarberServiceViewController extends BaseCatalogViewController<Barbe
                 saleService::getBarberServiceWithHighestRevenue,
                 barberServiceRevenueStatsDTO -> {
                     setTextOnLabel(highestRevenueService, barberServiceRevenueStatsDTO.getBarberServiceName());
-                    setTextOnLabel(revenueSum, "Total recaudado " + CURRENCY_STRING_ARG + parseNumberValueToText(barberServiceRevenueStatsDTO.getTotalRevenue()));
+                    setTextOnLabel(revenueSum, "Total recaudado " + format(barberServiceRevenueStatsDTO.getTotalRevenue()));
                 }
         );
     }
@@ -190,7 +191,7 @@ public class BarberServiceViewController extends BaseCatalogViewController<Barbe
     protected void configureButtonActions() {
 
         Map<Button, Runnable> map = Map.of(
-                createBarberServiceButton, () -> redirectToView(BARBER_SERVICE_CREATION, getAnchorPane(), getApplicationContext()),
+                createBarberServiceButton, () -> viewRedirectionHelper.redirectToView(BARBER_SERVICE_CREATION, getAnchorPane(), getApplicationContext()),
                 cleanFiltersButton, this::resetSearchFilter
         );
 

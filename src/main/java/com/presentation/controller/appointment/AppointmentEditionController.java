@@ -37,7 +37,7 @@ import static com.presentation.support.control.ValidationFormatter.parseNumberVa
 import static com.presentation.support.control.ValidationFormatter.setStringConverter;
 import static com.presentation.support.format.PersonNameFormatter.fullName;
 import static com.presentation.support.format.PriceFormatter.formatPriceAsString;
-import static com.presentation.support.view.ViewRedirectionHelper.redirectToView;
+import com.presentation.support.view.ViewRedirectionHelper;
 import static com.presentation.support.view.VisibilityHelper.setNodeAsNotVisible;
 import static com.presentation.support.view.VisibilityHelper.setNodeAsVisible;
 
@@ -50,9 +50,12 @@ public class AppointmentEditionController extends BaseCrudFormController<Appoint
 
     private final AppointmentService appointmentService;
 
-    public AppointmentEditionController(ApplicationContext applicationContext, AppointmentService appointmentService) {
+    private final ViewRedirectionHelper viewRedirectionHelper;
+
+    public AppointmentEditionController(ApplicationContext applicationContext, AppointmentService appointmentService, ViewRedirectionHelper viewRedirectionHelper) {
         super(applicationContext);
         this.appointmentService = appointmentService;
+        this.viewRedirectionHelper = viewRedirectionHelper;
     }
 
     @FXML
@@ -187,7 +190,7 @@ public class AppointmentEditionController extends BaseCrudFormController<Appoint
     protected void configureButtonActions() {
 
         Map<Button, Runnable> map = Map.of(
-                backButton, () -> redirectToView(APPOINTMENTS, getAnchorPane(), getApplicationContext()),
+                backButton, () -> viewRedirectionHelper.redirectToView(APPOINTMENTS, getAnchorPane(), getApplicationContext()),
                 restoreValuesButton, this::resetForm,
                 saveButton, this::saveEntity
         );

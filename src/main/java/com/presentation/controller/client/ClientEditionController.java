@@ -29,17 +29,20 @@ import static com.presentation.constants.StringResource.ToastNotificationMessage
 import static com.presentation.constants.StringResource.ValidationErrorMessage.CLIENT_EDITION_VALIDATION_FAILED;
 import static com.presentation.support.control.UIBasicComponents.*;
 import static com.presentation.support.view.ContainerManager.*;
-import static com.presentation.support.view.ViewRedirectionHelper.redirectToView;
+import com.presentation.support.view.ViewRedirectionHelper;
 
 @Component
 public class ClientEditionController extends BaseCrudFormController<ClientUpdateDTO, ClientInfoDTO> {
 
     private final ClientService clientService;
 
-    public ClientEditionController(ApplicationContext applicationContext, ClientService clientService) {
+    private final ViewRedirectionHelper viewRedirectionHelper;
+
+    public ClientEditionController(ApplicationContext applicationContext, ClientService clientService, ViewRedirectionHelper viewRedirectionHelper) {
 
         super(applicationContext);
         this.clientService = clientService;
+        this.viewRedirectionHelper = viewRedirectionHelper;
     }
 
     @FXML
@@ -228,7 +231,7 @@ public class ClientEditionController extends BaseCrudFormController<ClientUpdate
     protected void configureButtonActions() {
 
         Map<Button, Runnable> map = Map.of(
-                backButton, () -> redirectToView(CLIENTS, getAnchorPane(), getApplicationContext()),
+                backButton, () -> viewRedirectionHelper.redirectToView(CLIENTS, getAnchorPane(), getApplicationContext()),
                 cancelButton, this::resetForm,
                 addPhoneButton, () -> addPhoneToList(""),
                 saveButton, this::saveEntity

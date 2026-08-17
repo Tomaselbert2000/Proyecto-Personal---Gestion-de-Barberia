@@ -23,7 +23,7 @@ import java.util.Map;
 
 import static com.enums.ViewRedirection.PAYMENT_METHOD_CREATION;
 import static com.presentation.concurrency.ConcurrencyManager.executeAsyncTask;
-import static com.presentation.constants.StringResource.DisplayString.CURRENCY_STRING_ARG;
+import static com.presentation.support.format.PriceFormatter.format;
 import static com.presentation.constants.StringResource.EmptyListMessage.EMPTY_PAYMENT_LIST_MESSAGE;
 import static com.presentation.constants.StringResource.FxmlViewLoadingErrorMessage.PAYMENT_METHOD_EDITION_VIEW_LOADING_FAILED;
 import static com.presentation.constants.StringResource.FxmlViewLoadingErrorMessage.PAYMENT_METHOD_ITEM_VIEW_LOADING_FAILED;
@@ -34,7 +34,7 @@ import static com.presentation.support.control.UIBasicComponents.*;
 import static com.presentation.support.control.ValidationFormatter.parseNumberValueToText;
 import static com.presentation.support.view.ContainerManager.loadItemsOnController;
 import static com.presentation.support.view.FXMLViewLoader.loadViewWithControllerPane;
-import static com.presentation.support.view.ViewRedirectionHelper.redirectToView;
+import com.presentation.support.view.ViewRedirectionHelper;
 
 @Component
 @RequiredArgsConstructor
@@ -43,6 +43,7 @@ public class PaymentMethodViewController extends BaseCatalogViewController<Payme
     private final ApplicationContext applicationContext;
     private final PaymentMethodService paymentMethodService;
     private final SaleService saleService;
+    private final ViewRedirectionHelper viewRedirectionHelper;
 
     @FXML
     private AnchorPane anchorPane;
@@ -182,7 +183,7 @@ public class PaymentMethodViewController extends BaseCatalogViewController<Payme
 
                 dto -> {
                     setTextOnLabel(highestRevenuePaymentName, dto.getPaymentMethod());
-                    setTextOnLabel(revenueSum, CURRENCY_STRING_ARG + parseNumberValueToText(dto.getRevenueAmount()));
+                    setTextOnLabel(revenueSum, format(dto.getRevenueAmount()));
                 }
         );
     }
@@ -203,10 +204,10 @@ public class PaymentMethodViewController extends BaseCatalogViewController<Payme
 
                     if (modifierValueSum >= 0.0) {
 
-                        setTextOnLabel(modifierTypeBalance, "+" + CURRENCY_STRING_ARG + parseNumberValueToText(modifierValueSum));
+                        setTextOnLabel(modifierTypeBalance, "+" + format(modifierValueSum));
                     } else {
 
-                        setTextOnLabel(modifierTypeBalance, "-" + CURRENCY_STRING_ARG + parseNumberValueToText(modifierValueSum));
+                        setTextOnLabel(modifierTypeBalance, "-" + format(modifierValueSum));
                     }
                 }
         );
@@ -226,7 +227,7 @@ public class PaymentMethodViewController extends BaseCatalogViewController<Payme
 
     private void createPaymentMethod() {
 
-        redirectToView(PAYMENT_METHOD_CREATION, anchorPane, applicationContext);
+        viewRedirectionHelper.redirectToView(PAYMENT_METHOD_CREATION, anchorPane, applicationContext);
     }
 
     private void goToPaymentMethodEditView(PaymentMethodInfoDTO infoDTO) {

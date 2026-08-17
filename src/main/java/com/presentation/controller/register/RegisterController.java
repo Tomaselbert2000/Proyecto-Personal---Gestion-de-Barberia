@@ -25,13 +25,14 @@ import static com.presentation.support.control.UIBasicComponents.setPromptTextOn
 import static com.presentation.support.dialog.PopUpWindowHelper.showWindowAlert;
 import static com.presentation.support.notification.ExceptionNotificationHandler.notifyValidationFailure;
 import static com.presentation.support.view.ContainerManager.getCurrentWindow;
-import static com.presentation.support.view.ViewRedirectionHelper.redirectToView;
+import com.presentation.support.view.ViewRedirectionHelper;
 
 @Component
 @RequiredArgsConstructor
 public class RegisterController {
 
     private final ApplicationContext applicationContext;
+    private final ViewRedirectionHelper viewRedirectionHelper;
     private final AppUserService appUserService;
 
     @FXML
@@ -53,7 +54,7 @@ public class RegisterController {
     private void configureButtonActions() {
 
         Map<Button, Runnable> map = Map.of(
-                backButton, () -> redirectToView(ViewRedirection.LOGIN, anchorPane, applicationContext),
+                backButton, () -> viewRedirectionHelper.redirectToView(ViewRedirection.LOGIN, anchorPane, applicationContext),
                 createUserButton, this::createNewUser
         );
 
@@ -89,7 +90,7 @@ public class RegisterController {
 
                 appUserService.createAppUser(creationDTO);
 
-                redirectToView(ViewRedirection.DASHBOARD, anchorPane, applicationContext);
+                viewRedirectionHelper.redirectToView(ViewRedirection.DASHBOARD, anchorPane, applicationContext);
 
             } else {
 
