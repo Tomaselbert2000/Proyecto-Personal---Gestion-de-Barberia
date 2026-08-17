@@ -77,28 +77,6 @@ public class BarberServiceCreationController extends BaseCrudFormController<Barb
         configurePromptTexts();
     }
 
-    private void configurePromptTexts() {
-
-        Map<TextField, String> map = Map.of(
-                serviceNameField, BARBER_SERVICE_NAME,
-                priceField, BARBER_SERVICE_PRICE,
-                internalNotesField, BARBER_SERVICE_INTERNAL_NOTES
-        );
-
-        setPromptTextOnMap(map);
-    }
-
-    private void configureButtonActions() {
-
-        Map<Button, Runnable> map = Map.of(
-                backButton, () -> redirectToView(BARBER_SERVICES, getAnchorPane(), getApplicationContext()),
-                cleanFieldsButton, this::resetForm,
-                saveButton, this::saveEntity
-        );
-
-        configureRunnableMaps(map);
-    }
-
     @Override
     protected AnchorPane getAnchorPane() {
 
@@ -142,5 +120,29 @@ public class BarberServiceCreationController extends BaseCrudFormController<Barb
     protected void resetForm() {
 
         cleanTextfields(List.of(serviceNameField, priceField, internalNotesField));
+    }
+
+    @Override
+    protected void configurePromptTexts() {
+
+        Map<TextField, String> map = Map.of(
+                serviceNameField, BARBER_SERVICE_NAME,
+                priceField, BARBER_SERVICE_PRICE,
+                internalNotesField, BARBER_SERVICE_INTERNAL_NOTES
+        );
+
+        setPromptTextOnMap(map);
+    }
+
+    @Override
+    protected void configureButtonActions() {
+
+        Map<Button, Runnable> map = Map.of(
+                backButton, () -> redirectToView(BARBER_SERVICES, getAnchorPane(), getApplicationContext()),
+                cleanFieldsButton, this::resetForm,
+                saveButton, this::saveEntity
+        );
+
+        configureRunnableMaps(map);
     }
 }

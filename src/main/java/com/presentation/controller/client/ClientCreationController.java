@@ -132,31 +132,6 @@ public class ClientCreationController extends BaseCrudFormController<ClientCreat
         return phones;
     }
 
-    private void configurePromptTexts() {
-
-        Map<TextField, String> map = Map.of(
-                dniField, CLIENT_NATIONAL_ID_CARD_NUMBER,
-                firstNameField, CLIENT_NAME,
-                lastNameField, CLIENT_SURNAME,
-                emailField, CLIENT_EMAIL,
-                optionalNotesField, CLIENT_OPTIONAL_NOTES
-        );
-
-        setPromptTextOnMap(map);
-    }
-
-    private void configureButtonActions() {
-
-        Map<Button, Runnable> map = Map.of(
-                backButton, () -> redirectToView(CLIENTS, getAnchorPane(), getApplicationContext()),
-                cleanAllFieldsButton, this::resetForm,
-                addPhoneButton, this::addPhoneToList,
-                saveButton, this::saveEntity
-        );
-
-        configureRunnableMaps(map);
-    }
-
     @Override
     protected AnchorPane getAnchorPane() {
 
@@ -204,5 +179,32 @@ public class ClientCreationController extends BaseCrudFormController<ClientCreat
 
         cleanTextfields(List.of(dniField, firstNameField, lastNameField, emailField, optionalNotesField));
         cleanPhoneNumbersList();
+    }
+
+    @Override
+    protected void configurePromptTexts() {
+
+        Map<TextField, String> map = Map.of(
+                dniField, CLIENT_NATIONAL_ID_CARD_NUMBER,
+                firstNameField, CLIENT_NAME,
+                lastNameField, CLIENT_SURNAME,
+                emailField, CLIENT_EMAIL,
+                optionalNotesField, CLIENT_OPTIONAL_NOTES
+        );
+
+        setPromptTextOnMap(map);
+    }
+
+    @Override
+    protected void configureButtonActions() {
+
+        Map<Button, Runnable> map = Map.of(
+                backButton, () -> redirectToView(CLIENTS, getAnchorPane(), getApplicationContext()),
+                cleanAllFieldsButton, this::resetForm,
+                addPhoneButton, this::addPhoneToList,
+                saveButton, this::saveEntity
+        );
+
+        configureRunnableMaps(map);
     }
 }

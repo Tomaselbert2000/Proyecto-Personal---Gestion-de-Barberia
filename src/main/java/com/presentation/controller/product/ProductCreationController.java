@@ -99,26 +99,6 @@ public class ProductCreationController extends BaseCrudFormController<ProductCre
         configureButtonActions();
     }
 
-    private void configurePromptTexts() {
-
-        List<TextField> stockLevels = List.of(currentStockLevel, safetyStockLevel);
-        setPromptTextOnList(stockLevels, STOCK_LEVEL_DEFAULT_VALUE);
-
-        List<TextField> prices = List.of(productCost, minPrice, currentPrice, wholesalePrice, maxDiscount);
-        setPromptTextOnList(prices, PRICE_FIELD_DEFAULT_VALUE);
-
-        Map<TextField, String> map = Map.of(
-                productName, PRODUCT_NAME,
-                brandName, PRODUCT_BRAND,
-                productPresentationField, PRODUCT_SIZE_OR_VOLUME,
-                optionalDescription, PRODUCT_OPTIONAL_DESCRIPTION
-        );
-
-        setPromptTextOnMap(map);
-
-        setTextOnLabel(profitMarginValue, DISCOUNT_PERCENTAGE_DEFAULT_VALUE);
-    }
-
     @Override
     protected AnchorPane getAnchorPane() {
 
@@ -186,7 +166,8 @@ public class ProductCreationController extends BaseCrudFormController<ProductCre
         cleanImageView(productImagePreview);
     }
 
-    private void configureButtonActions() {
+    @Override
+    protected void configureButtonActions() {
 
         Map<Button, Runnable> map = Map.of(
                 selectImageButton, this::handleImageSelection,
@@ -197,6 +178,27 @@ public class ProductCreationController extends BaseCrudFormController<ProductCre
         );
 
         configureRunnableMaps(map);
+    }
+
+    @Override
+    protected void configurePromptTexts() {
+
+        List<TextField> stockLevels = List.of(currentStockLevel, safetyStockLevel);
+        setPromptTextOnList(stockLevels, STOCK_LEVEL_DEFAULT_VALUE);
+
+        List<TextField> prices = List.of(productCost, minPrice, currentPrice, wholesalePrice, maxDiscount);
+        setPromptTextOnList(prices, PRICE_FIELD_DEFAULT_VALUE);
+
+        Map<TextField, String> map = Map.of(
+                productName, PRODUCT_NAME,
+                brandName, PRODUCT_BRAND,
+                productPresentationField, PRODUCT_SIZE_OR_VOLUME,
+                optionalDescription, PRODUCT_OPTIONAL_DESCRIPTION
+        );
+
+        setPromptTextOnMap(map);
+
+        setTextOnLabel(profitMarginValue, DISCOUNT_PERCENTAGE_DEFAULT_VALUE);
     }
 
     private void handleImageSelection() {

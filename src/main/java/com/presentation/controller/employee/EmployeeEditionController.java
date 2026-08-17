@@ -83,17 +83,6 @@ public class EmployeeEditionController extends BaseCrudFormController<EmployeeUp
         loadEmployeeDataForEdition(infoDTO);
     }
 
-    private void configurePromptTexts() {
-
-        Map<TextField, String> map = Map.of(
-                firstNameField, EMPLOYEE_FIRST_NAME,
-                lastNameField, EMPLOYEE_LAST_NAME,
-                commissionField, COMMISION_PERCENTAGE
-        );
-
-        setPromptTextOnMap(map);
-    }
-
     private void configureToggleStatusButton(Boolean isActive) {
 
         if (isActive) {
@@ -118,10 +107,7 @@ public class EmployeeEditionController extends BaseCrudFormController<EmployeeUp
                 currentTerminationDate, infoDTO.getTerminationDateAsString()
         );
 
-        if (infoDTO.getTerminationDateAsString() != null) {
-
-            terminationDatePicker.setValue(LocalDate.parse(infoDTO.getTerminationDateAsString()));
-        }
+        terminationDatePicker.setValue(LocalDate.parse(infoDTO.getTerminationDateAsString()));
 
         setTextsOnLabelMap(map);
     }
@@ -141,18 +127,6 @@ public class EmployeeEditionController extends BaseCrudFormController<EmployeeUp
 
             toggleStatusButton.setText(ACTIVATE);
         }
-    }
-
-    private void configureButtonActions() {
-
-        Map<Button, Runnable> map = Map.of(
-                backButton, () -> redirectToView(EMPLOYEES, anchorPane, getApplicationContext()),
-                saveButton, this::saveEntity,
-                resetButton, this::resetForm,
-                toggleStatusButton, this::changeTextOnToggleStatusButton
-        );
-
-        configureRunnableMaps(map);
     }
 
     @Override
@@ -200,5 +174,30 @@ public class EmployeeEditionController extends BaseCrudFormController<EmployeeUp
     protected void resetForm() {
 
         loadEmployeeDataForEdition(infoDTOReference);
+    }
+
+    @Override
+    protected void configureButtonActions() {
+
+        Map<Button, Runnable> map = Map.of(
+                backButton, () -> redirectToView(EMPLOYEES, anchorPane, getApplicationContext()),
+                saveButton, this::saveEntity,
+                resetButton, this::resetForm,
+                toggleStatusButton, this::changeTextOnToggleStatusButton
+        );
+
+        configureRunnableMaps(map);
+    }
+
+    @Override
+    protected void configurePromptTexts() {
+
+        Map<TextField, String> map = Map.of(
+                firstNameField, EMPLOYEE_FIRST_NAME,
+                lastNameField, EMPLOYEE_LAST_NAME,
+                commissionField, COMMISION_PERCENTAGE
+        );
+
+        setPromptTextOnMap(map);
     }
 }

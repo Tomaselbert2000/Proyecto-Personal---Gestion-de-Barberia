@@ -73,17 +73,6 @@ public class PaymentMethodCreationController extends BaseCrudFormController<Paym
         configureDecimalTextfieldRestrictions(priceModifierField);
     }
 
-    private void configurePromptTexts() {
-
-        Map<TextField, String> map = Map.of(
-                nameField, PAYMENT_METHOD_NAME,
-                descriptionField, PAYMENT_METHOD_DESCRIPTION,
-                priceModifierField, PAYMENT_METHOD_PRICE_VALUE
-        );
-
-        setPromptTextOnMap(map);
-    }
-
     @Override
     protected AnchorPane getAnchorPane() {
 
@@ -130,7 +119,8 @@ public class PaymentMethodCreationController extends BaseCrudFormController<Paym
         cleanTextfields(List.of(nameField, descriptionField, priceModifierField));
     }
 
-    private void configureButtonActions() {
+    @Override
+    protected void configureButtonActions() {
 
         Map<Button, Runnable> map = Map.of(
                 backButton, () -> redirectToView(PAYMENT_METHODS, getAnchorPane(), getApplicationContext()),
@@ -139,5 +129,17 @@ public class PaymentMethodCreationController extends BaseCrudFormController<Paym
         );
 
         configureRunnableMaps(map);
+    }
+
+    @Override
+    protected void configurePromptTexts() {
+
+        Map<TextField, String> map = Map.of(
+                nameField, PAYMENT_METHOD_NAME,
+                descriptionField, PAYMENT_METHOD_DESCRIPTION,
+                priceModifierField, PAYMENT_METHOD_PRICE_VALUE
+        );
+
+        setPromptTextOnMap(map);
     }
 }

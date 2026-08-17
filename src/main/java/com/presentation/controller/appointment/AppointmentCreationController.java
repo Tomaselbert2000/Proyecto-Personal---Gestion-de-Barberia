@@ -227,20 +227,6 @@ public class AppointmentCreationController extends BaseCrudFormController<Appoin
         checkAndToggleSummary();
     }
 
-    private void configureButtonActions() {
-
-        Map<Button, Runnable> map = Map.of(
-
-                backButton, () -> redirectToView(APPOINTMENTS, getAnchorPane(), getApplicationContext()),
-                createClientButton, () -> redirectToView(CLIENT_CREATION, getAnchorPane(), getApplicationContext()),
-                changeClientButton, this::resetClientSelection,
-                resetFormButton, this::resetForm,
-                saveButton, this::saveEntity
-        );
-
-        configureRunnableMaps(map);
-    }
-
     private void configureBarberServiceSelection() {
         barberServiceSelector.valueProperty().addListener((_, _, barberServiceSelected) -> onBarberServiceSelected(barberServiceSelected));
     }
@@ -288,15 +274,6 @@ public class AppointmentCreationController extends BaseCrudFormController<Appoin
         setTextOnLabel(summaryEmployee, employeeFullName);
     }
 
-    private void configurePromptTexts() {
-
-        Map<TextField, String> map = Map.of(
-                clientSearchField, APPOINTMENT_CLIENT_NAME,
-                appointmentNotes, APPOINTMENT_NOTES
-        );
-        setPromptTextOnMap(map);
-    }
-
     protected void toggleContainersVisibility() {
 
         setBlankTextfield(clientSearchField);
@@ -325,7 +302,33 @@ public class AppointmentCreationController extends BaseCrudFormController<Appoin
 
     @Override
     protected String getErrorMessage() {
+
         return APPOINTMENT_CREATION_VALIDATION_FAILED;
+    }
+
+    @Override
+    protected void configureButtonActions() {
+
+        Map<Button, Runnable> map = Map.of(
+
+                backButton, () -> redirectToView(APPOINTMENTS, getAnchorPane(), getApplicationContext()),
+                createClientButton, () -> redirectToView(CLIENT_CREATION, getAnchorPane(), getApplicationContext()),
+                changeClientButton, this::resetClientSelection,
+                resetFormButton, this::resetForm,
+                saveButton, this::saveEntity
+        );
+
+        configureRunnableMaps(map);
+    }
+
+    @Override
+    protected void configurePromptTexts() {
+
+        Map<TextField, String> map = Map.of(
+                clientSearchField, APPOINTMENT_CLIENT_NAME,
+                appointmentNotes, APPOINTMENT_NOTES
+        );
+        setPromptTextOnMap(map);
     }
 
     @Override

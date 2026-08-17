@@ -183,7 +183,8 @@ public class AppointmentEditionController extends BaseCrudFormController<Appoint
         setStringConverter(statusSelector, statusSelector.getItems().getFirst());
     }
 
-    public void configureButtonActions() {
+    @Override
+    protected void configureButtonActions() {
 
         Map<Button, Runnable> map = Map.of(
                 backButton, () -> redirectToView(APPOINTMENTS, getAnchorPane(), getApplicationContext()),
@@ -191,6 +192,10 @@ public class AppointmentEditionController extends BaseCrudFormController<Appoint
                 saveButton, this::saveEntity
         );
         configureRunnableMaps(map);
+    }
+
+    @Override
+    protected void configurePromptTexts() {
     }
 
     private void configureBarberServiceSelection() {

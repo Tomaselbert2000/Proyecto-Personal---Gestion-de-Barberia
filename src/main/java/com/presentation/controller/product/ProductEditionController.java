@@ -133,7 +133,8 @@ public class ProductEditionController extends BaseCrudFormController<ProductUpda
         }
     }
 
-    private void configureButtonActions() {
+    @Override
+    protected void configureButtonActions() {
 
         Map<Button, Runnable> map = Map.of(
                 backButton, () -> redirectToView(PRODUCTS, getAnchorPane(), getApplicationContext()),
@@ -144,6 +145,10 @@ public class ProductEditionController extends BaseCrudFormController<ProductUpda
         );
 
         configureRunnableMaps(map);
+    }
+
+    @Override
+    protected void configurePromptTexts() {
     }
 
     private void handleImageSelection() {

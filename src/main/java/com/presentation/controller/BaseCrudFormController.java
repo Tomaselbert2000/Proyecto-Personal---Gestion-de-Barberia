@@ -32,6 +32,10 @@ public abstract class BaseCrudFormController<InputDTO, InfoDTO> {
 
     protected abstract String getErrorMessage();
 
+    protected abstract void configureButtonActions();
+
+    protected abstract void configurePromptTexts();
+
     protected final void saveEntity() {
 
         try {

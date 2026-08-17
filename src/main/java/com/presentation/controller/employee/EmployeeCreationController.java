@@ -64,28 +64,6 @@ public class EmployeeCreationController extends BaseCrudFormController<EmployeeC
         configureDecimalTextfieldRestrictions(commissionField);
     }
 
-    private void configurePromptTexts() {
-
-        Map<TextField, String> promptTextMap = Map.of(
-                firstNameField, EMPLOYEE_FIRST_NAME,
-                lastNameField, EMPLOYEE_LAST_NAME,
-                commissionField, COMMISION_PERCENTAGE
-        );
-
-        setPromptTextOnMap(promptTextMap);
-    }
-
-    private void configureButtonActions() {
-
-        Map<Button, Runnable> map = Map.of(
-                backButton, () -> redirectToView(ViewRedirection.EMPLOYEES, getAnchorPane(), getApplicationContext()),
-                clearButton, this::resetForm,
-                saveButton, this::saveEntity
-        );
-
-        configureRunnableMaps(map);
-    }
-
     @Override
     protected AnchorPane getAnchorPane() {
 
@@ -131,5 +109,29 @@ public class EmployeeCreationController extends BaseCrudFormController<EmployeeC
 
         setBlankTextfield(firstNameField, lastNameField, commissionField);
         cleanDatePicker(hireDatePicker);
+    }
+
+    @Override
+    protected void configurePromptTexts() {
+
+        Map<TextField, String> promptTextMap = Map.of(
+                firstNameField, EMPLOYEE_FIRST_NAME,
+                lastNameField, EMPLOYEE_LAST_NAME,
+                commissionField, COMMISION_PERCENTAGE
+        );
+
+        setPromptTextOnMap(promptTextMap);
+    }
+
+    @Override
+    protected void configureButtonActions() {
+
+        Map<Button, Runnable> map = Map.of(
+                backButton, () -> redirectToView(ViewRedirection.EMPLOYEES, getAnchorPane(), getApplicationContext()),
+                clearButton, this::resetForm,
+                saveButton, this::saveEntity
+        );
+
+        configureRunnableMaps(map);
     }
 }

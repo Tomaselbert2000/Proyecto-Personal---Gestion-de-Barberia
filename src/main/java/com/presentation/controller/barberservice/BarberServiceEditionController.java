@@ -90,7 +90,8 @@ public class BarberServiceEditionController extends BaseCrudFormController<Barbe
         setTextsOnTextfieldMap(map);
     }
 
-    private void configureButtonActions() {
+    @Override
+    protected void configureButtonActions() {
 
         Map<Button, Runnable> map = Map.of(
                 backButton, () -> redirectToView(BARBER_SERVICES, anchorPane, getApplicationContext()),
@@ -99,6 +100,10 @@ public class BarberServiceEditionController extends BaseCrudFormController<Barbe
         );
 
         configureRunnableMaps(map);
+    }
+
+    @Override
+    protected void configurePromptTexts() {
     }
 
     @Override

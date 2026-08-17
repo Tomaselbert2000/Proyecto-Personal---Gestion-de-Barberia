@@ -81,6 +81,16 @@ public class ClientEditionController extends BaseCrudFormController<ClientUpdate
     }
 
     @Override
+    protected void configureButtonActions() {
+
+    }
+
+    @Override
+    protected void configurePromptTexts() {
+
+    }
+
+    @Override
     protected ClientUpdateDTO buildDTO() {
 
         return null;

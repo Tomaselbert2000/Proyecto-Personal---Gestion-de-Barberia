@@ -89,7 +89,8 @@ public class PaymentMethodEditionController extends BaseCrudFormController<Payme
         removeFirstItemFromComboBox(modifierTypeCombo);
     }
 
-    private void configureButtonActions() {
+    @Override
+    protected void configureButtonActions() {
 
         Map<Button, Runnable> map = Map.of(
                 saveButton, this::saveEntity,
@@ -98,6 +99,10 @@ public class PaymentMethodEditionController extends BaseCrudFormController<Payme
         );
 
         configureRunnableMaps(map);
+    }
+
+    @Override
+    protected void configurePromptTexts() {
     }
 
     @Override
