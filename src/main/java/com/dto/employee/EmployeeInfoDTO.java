@@ -16,6 +16,7 @@ public final class EmployeeInfoDTO {
     private String terminationDateAsString;
     private Double commissionPercentage;
     private Boolean isActive;
+    private Long monthlyAppointmentsCount;
 
     @Override
     public String toString() {

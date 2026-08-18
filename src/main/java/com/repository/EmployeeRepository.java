@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -16,18 +17,6 @@ import java.util.List;
  * <p>Extiende {@link JpaRepository} para heredar las funcionalidades básicas de CRUD.</p>
  */
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
-
-    /**
-     * Cuenta el número total de empleados que se encuentran dentro de un rango específico de fechas de contratación.
-     * La lógica incluye a los empleados activos (sin fecha de terminación) y a aquellos cuya fecha de terminación cae dentro del rango.
-     *
-     * @param startDateTime El límite inferior del rango temporal (inclusive).
-     * @param endDateTime   El límite superior del rango temporal (inclusive).
-     * @return La cantidad total de empleados contratados en el periodo especificado.
-     */
-    @Query("""
-            SELECT COUNT(E.employeeID) FROM Employee AS E WHERE E.hireDate <=:endDateTime AND (E.terminationDate >=:startDateTime OR E.terminationDate IS NULL)""")
-    Long countEmployeesInRange(@Param("startDateTime") LocalDate startDateTime, @Param("endDateTime") LocalDate endDateTime);
 
     /**
      * Obtiene los 5 empleados más recientes ordenados por fecha de contratación descendente.
@@ -78,5 +67,12 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
             @Param("selectedStatus") Boolean selectedStatus,
             @Param("startDate") LocalDate startDate,
             @Param("endDate") LocalDate endDate
+    );
+
+    @Query("SELECT COUNT(a.appointmentID) FROM Appointment a WHERE a.employee.employeeID =:employeeID AND a.startDateTime BETWEEN :startDate AND :endDate")
+    Long getMonthlyAppointmentsByEmployee(
+            @Param("employeeID") Long employeeID,
+            @Param("startDate") LocalDateTime startDate,
+            @Param("endDate") LocalDateTime endDate
     );
 }

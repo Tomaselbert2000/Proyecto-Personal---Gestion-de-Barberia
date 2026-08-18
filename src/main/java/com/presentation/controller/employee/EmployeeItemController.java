@@ -23,6 +23,8 @@ import static com.presentation.constants.StringResource.DisplayString.ACTIVE_STA
 import static com.presentation.constants.StringResource.DisplayString.INACTIVE_STATUS_LABEL;
 import static com.presentation.support.control.StatusBadgeHelper.applyBadge;
 import static com.presentation.support.control.UIBasicComponents.*;
+import static com.presentation.support.control.ValidationFormatter.formatAsPercentage;
+import static com.presentation.support.control.ValidationFormatter.parseNumberValueToText;
 import static com.presentation.support.format.PersonNameFormatter.fullName;
 import static com.presentation.support.format.PersonNameFormatter.initials;
 
@@ -55,8 +57,6 @@ public class EmployeeItemController extends AbstractItemController<EmployeeInfoD
             editButton,
             toggleStatusButton;
 
-    private static final int DEFAULT_MONTHLY_APPOINTMENTS_COUNT = 10;
-
     private static @NonNull List<String> getStrings(
             EmployeeInfoDTO infoDTO,
             String employeeFirstNameInitial,
@@ -79,9 +79,9 @@ public class EmployeeItemController extends AbstractItemController<EmployeeInfoD
 
         String hireDate = infoDTO.getHireDateAsString();
 
-        String commissionPercentage = (infoDTO.getCommissionPercentage() * 100) + "%";
+        String commissionPercentage = formatAsPercentage(infoDTO.getCommissionPercentage());
 
-        String monthlyAppointments = String.valueOf(DEFAULT_MONTHLY_APPOINTMENTS_COUNT);
+        String monthlyAppointments = parseNumberValueToText(infoDTO.getMonthlyAppointmentsCount());
 
         return List.of(employeeInitials, employeeFullName, currentStatus, hireDate, commissionPercentage, monthlyAppointments);
     }

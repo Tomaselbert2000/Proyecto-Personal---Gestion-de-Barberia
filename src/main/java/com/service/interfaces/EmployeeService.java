@@ -16,11 +16,11 @@ public interface EmployeeService {
 
     List<EmployeeInfoDTO> getEmployeeList();
 
+    EmployeeInfoDTO getEmployeeInfo(Long employeeID);
+
     void updateEmployee(Long employeeID, EmployeeUpdateDTO updateDTO);
 
     Long getActiveEmployees();
-
-    Long calculateActiveEmployeesVsLastMonth();
 
     Long getEmployeeCount();
 

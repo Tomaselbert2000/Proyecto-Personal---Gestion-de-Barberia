@@ -50,17 +50,33 @@ public class EmployeeServiceImpl implements EmployeeService {
         employeeRepository.delete(employeeToDelete);
     }
 
+    @Override
     public EmployeeInfoDTO getEmployeeInfo(Long employeeID) {
 
         Employee employeeOnDB = loadEmployee(employeeID);
 
-        return mapper.mapEmployeeToInfoDTO(employeeOnDB);
+        Long monthlyAppointmentsCount = getMonthlyAppointmentsCountByEmployeeID(employeeID);
+
+        EmployeeInfoDTO dto = mapper.mapEmployeeToInfoDTO(employeeOnDB);
+
+        dto.setMonthlyAppointmentsCount(monthlyAppointmentsCount);
+
+        return dto;
     }
 
     @Override
     public List<EmployeeInfoDTO> getEmployeeList() {
 
-        return mapper.mapEmployeeToInfoDTO(employeeRepository.findAll());
+        List<EmployeeInfoDTO> dtos = mapper.mapEmployeeToInfoDTO(employeeRepository.findAll());
+
+        for (EmployeeInfoDTO dto : dtos) {
+
+            Long monthlyAppointmentsCount = getMonthlyAppointmentsCountByEmployeeID(dto.getId());
+
+            dto.setMonthlyAppointmentsCount(monthlyAppointmentsCount);
+        }
+
+        return dtos;
     }
 
     @Override
@@ -80,21 +96,6 @@ public class EmployeeServiceImpl implements EmployeeService {
     public Long getActiveEmployees() {
 
         return employeeRepository.getActiveEmployees();
-    }
-
-    @Override
-    public Long calculateActiveEmployeesVsLastMonth() {
-
-        LocalDate startOfCurrentMonth = getStartOfCurrentMonth();
-        LocalDate endOfCurrentMonth = TimeCalculation.getEndOfCurrentMonth();
-
-        LocalDate startOfLastMonth = startOfCurrentMonth.minusMonths(1);
-        LocalDate endOfLastMonth = endOfCurrentMonth.minusMonths(1);
-
-        Long employeesActiveThisMonth = employeeRepository.countEmployeesInRange(startOfCurrentMonth, endOfCurrentMonth);
-        Long employeesActiveTheLastMonth = employeeRepository.countEmployeesInRange(startOfLastMonth, endOfLastMonth);
-
-        return employeesActiveThisMonth - employeesActiveTheLastMonth;
     }
 
     @Override
@@ -178,5 +179,14 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
 
         return statusFlag;
+    }
+
+    private Long getMonthlyAppointmentsCountByEmployeeID(Long employeeID) {
+
+        return employeeRepository.getMonthlyAppointmentsByEmployee(
+                employeeID,
+                getStartOfCurrentMonth().atStartOfDay(),
+                getEndOfCurrentMonth().atTime(LAST_SECOND_OF_DAY)
+        );
     }
 }
