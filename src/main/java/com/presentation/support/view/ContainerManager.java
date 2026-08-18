@@ -21,8 +21,7 @@ import static com.presentation.animation.AnimationEngine.fadeNodeIn;
 import static com.presentation.animation.AnimationEngineConstants.ANIMATION_DELAY_IN_MS;
 import static com.presentation.constants.CssResourceFilePath.MATERIAL_ICONS_FILE_PATH;
 import static com.presentation.constants.HelperConstants.ContainerManagerConstants.*;
-import static com.presentation.constants.ThemeFilePath.LA_TERCERA_DARK_THEME_FILE_PATH;
-import static com.presentation.constants.ThemeFilePath.LA_TERCERA_LIGHT_THEME_FILE_PATH;
+import static com.presentation.constants.ThemeFilePath.*;
 import static com.presentation.support.control.UIBasicComponents.showEmptyListLabel;
 import static com.presentation.support.view.FXMLViewLoader.generateLoaderWithPath;
 import static com.presentation.support.view.FXMLViewLoader.returnParentFromLoader;
@@ -52,8 +51,11 @@ public class ContainerManager {
      * @param parent La vista a establecer en el centro del contenedor.
      */
     public static void setViewOnPaneCenter(Pane pane, Parent parent) {
+
         pane.getChildren().clear();
+
         configureAnchorMarginOnParent(parent);
+
         pane.getChildren().add(parent);
     }
 
@@ -63,9 +65,13 @@ public class ContainerManager {
      * @param parent El elemento a configurar con márgenes de anclaje.
      */
     public static void configureAnchorMarginOnParent(Parent parent) {
+
         AnchorPane.setTopAnchor(parent, ANCHOR_PANE_TOP_ANCHOR_MARGIN_VALUE);
+
         AnchorPane.setBottomAnchor(parent, ANCHOR_PANE_BOTTOM_ANCHOR_MARGIN_VALUE);
+
         AnchorPane.setLeftAnchor(parent, ANCHOR_PANE_LEFT_ANCHOR_MARGIN_VALUE);
+
         AnchorPane.setRightAnchor(parent, ANCHOR_PANE_RIGHT_ANCHOR_MARGIN_VALUE);
     }
 
@@ -75,6 +81,7 @@ public class ContainerManager {
      * @param container El contenedor a limpiar.
      */
     public static void cleanContainer(Pane container) {
+
         container.getChildren().clear();
     }
 
@@ -85,6 +92,7 @@ public class ContainerManager {
      * @param nodes Los nodos a añadir al contenedor.
      */
     public static void addAllChildrensToPane(Pane pane, Node... nodes) {
+
         pane.getChildren().addAll(nodes);
     }
 
@@ -95,9 +103,13 @@ public class ContainerManager {
      * @param selectedThemeFilePath La ruta del archivo de hoja de estilo del nuevo tema seleccionado.
      */
     public static void changeSceneTheme(Scene currentScene, String selectedThemeFilePath) {
+
         currentScene.getStylesheets().clear();
+
         addStylesheets(currentScene, selectedThemeFilePath);
+
         loadMaterialIconsCSS(currentScene);
+
         loadFixedColorsCSSIfNeeded(currentScene, selectedThemeFilePath);
     }
 
@@ -108,18 +120,18 @@ public class ContainerManager {
      * @param themeFilePath La ruta del archivo de paleta de color a añadir.
      */
     private static void addStylesheets(Scene currentScene, String themeFilePath) {
-        String baseStyleExternalForm = getResourceAsExternalForm(
-                ContainerManager.class,
-                com.presentation.constants.ThemeFilePath.MATERIAL3_BASE_FILE_PATH
-        );
+
+        String baseStyleExternalForm = getResourceAsExternalForm(ContainerManager.class, MATERIAL3_BASE_FILE_PATH);
 
         String themeFilePathToExternalForm = getResourceAsExternalForm(ContainerManager.class, themeFilePath);
 
         if (baseStyleExternalForm != null && !baseStyleExternalForm.isEmpty()) {
+
             currentScene.getStylesheets().add(baseStyleExternalForm);
         }
 
         if (themeFilePathToExternalForm != null && !themeFilePathToExternalForm.isEmpty()) {
+
             currentScene.getStylesheets().add(themeFilePathToExternalForm);
         }
     }
@@ -128,14 +140,13 @@ public class ContainerManager {
      * Añade la hoja de estilo de colores fijos si el tema seleccionado lo requiere.
      */
     private static void loadFixedColorsCSSIfNeeded(Scene currentScene, String selectedThemeFilePath) {
-        if (selectedThemeFilePath.equals(LA_TERCERA_LIGHT_THEME_FILE_PATH) ||
-                selectedThemeFilePath.equals(LA_TERCERA_DARK_THEME_FILE_PATH)) {
 
-            String fixedColorsFilePathToExternalForm = getResourceAsExternalForm(
-                    ContainerManager.class,
-                    com.presentation.constants.ThemeFilePath.LA_TERCERA_FIXED_COLORS_FILE_PATH
-            );
+        if (selectedThemeFilePath.equals(LA_TERCERA_LIGHT_THEME_FILE_PATH) || selectedThemeFilePath.equals(LA_TERCERA_DARK_THEME_FILE_PATH)) {
+
+            String fixedColorsFilePathToExternalForm = getResourceAsExternalForm(ContainerManager.class, LA_TERCERA_FIXED_COLORS_FILE_PATH);
+
             if (fixedColorsFilePathToExternalForm != null && !fixedColorsFilePathToExternalForm.isEmpty()) {
+
                 currentScene.getStylesheets().add(fixedColorsFilePathToExternalForm);
             }
         }
@@ -147,8 +158,11 @@ public class ContainerManager {
      * @param newScene La nueva escena a la que se añadirá la hoja de estilo de iconos de Material.
      */
     public static void loadMaterialIconsCSS(Scene newScene) {
+
         String materialIconsFilePathToExternalForm = getResourceAsExternalForm(ContainerManager.class, MATERIAL_ICONS_FILE_PATH);
-        if (!materialIconsFilePathToExternalForm.isEmpty())
+
+        if (materialIconsFilePathToExternalForm != null && !materialIconsFilePathToExternalForm.isEmpty())
+
             newScene.getStylesheets().add(materialIconsFilePathToExternalForm);
     }
 
@@ -159,14 +173,21 @@ public class ContainerManager {
      * @param themeTransitionDurationInMs La duración de la transición en milisegundos.
      */
     public static void playThemeTransitionAnimation(ImageView snapshotView, int themeTransitionDurationInMs) {
+
         FadeTransition transition = new FadeTransition(Duration.millis(themeTransitionDurationInMs), snapshotView);
+
         transition.setFromValue(THEME_TRANSITION_STARTING_VALUE);
         transition.setToValue(THEME_TRANSITION_ENDING_VALUE);
+
         transition.play();
+
         transition.setOnFinished(_ -> {
-            Parent snapshotParent = snapshotView.getParent();
-            if (snapshotParent instanceof Pane pane) pane.getChildren().remove(snapshotView);
-        });
+
+                    Parent snapshotParent = snapshotView.getParent();
+
+                    if (snapshotParent instanceof Pane pane) pane.getChildren().remove(snapshotView);
+                }
+        );
     }
 
     /**
