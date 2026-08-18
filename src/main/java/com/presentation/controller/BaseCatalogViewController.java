@@ -1,6 +1,7 @@
 package com.presentation.controller;
 
 import javafx.beans.value.ObservableValue;
+import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 
@@ -12,21 +13,23 @@ import static com.presentation.support.view.ContainerManager.cleanContainer;
 
 public abstract class BaseCatalogViewController<T> {
 
+    @FXML
+    public final void initialize(){
+
+        loadGlobalStats();
+        initializeListContent();
+        attachLiveSearchListeners(getSearchProperties());
+        configureButtonActions();
+    }
+
     protected static final String RESULTS_FOUND_SUFFIX = " encontrados";
 
-    /**
-     * Devuelve null cuando el valor de filtro coincide con la opción "TODOS" del enumerado,
-     * para que el servicio interprete la búsqueda como "sin filtro" en ese campo.
-     *
-     * @param value El valor seleccionado en el filtro.
-     * @param todos La constante "TODOS" del enumerado correspondiente.
-     * @param <E>   El tipo del valor de filtro.
-     * @return null si value es igual a todos, o value en caso contrario.
-     */
     protected static <E> E nullIfTodos(E value, E todos) {
 
         return value == todos ? null : value;
     }
+
+    protected abstract ObservableValue<?>[] getSearchProperties();
 
     protected abstract void configureButtonActions();
 

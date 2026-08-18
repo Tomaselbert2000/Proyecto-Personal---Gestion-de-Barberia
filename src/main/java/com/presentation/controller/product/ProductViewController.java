@@ -6,6 +6,7 @@ import com.enums.StockStatus;
 import com.presentation.controller.BaseCatalogViewController;
 import com.service.interfaces.ProductService;
 import io.github.palexdev.materialfx.controls.MFXButton;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -73,20 +74,15 @@ public class ProductViewController extends BaseCatalogViewController<ProductInfo
     @FXML
     private VBox productListVBox;
 
-    @FXML
-    public void initialize() {
+    @Override
+    protected ObservableValue<?>[] getSearchProperties() {
 
-        loadGlobalStats();
+        return new ObservableValue<?>[]{
 
-        initializeListContent();
-
-        attachLiveSearchListeners(
                 productSearchField.textProperty(),
                 productCategorySelector.valueProperty(),
                 productStockStatusSelector.valueProperty()
-        );
-
-        configureButtonActions();
+        };
     }
 
     private void loadTotalProductCountStats() {

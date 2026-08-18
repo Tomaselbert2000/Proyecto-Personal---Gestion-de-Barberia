@@ -7,6 +7,7 @@ import com.presentation.controller.BaseCatalogViewController;
 import com.service.interfaces.EmployeeService;
 import com.service.interfaces.SaleService;
 import io.github.palexdev.materialfx.controls.MFXButton;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -22,13 +23,14 @@ import java.util.List;
 import java.util.Map;
 
 import static com.presentation.concurrency.ConcurrencyManager.executeAsyncTask;
-import static com.presentation.support.format.PriceFormatter.format;
 import static com.presentation.constants.StringResource.EmptyListMessage.EMPTY_EMPLOYEE_LIST_MESSAGE;
 import static com.presentation.constants.StringResource.FxmlViewLoadingErrorMessage.*;
 import static com.presentation.constants.ViewPath.*;
-import static com.presentation.support.control.ComboBoxHelper.*;
+import static com.presentation.support.control.ComboBoxHelper.loadEnumsOnComboBox;
+import static com.presentation.support.control.ComboBoxHelper.resetComboBoxFilter;
 import static com.presentation.support.control.UIBasicComponents.*;
 import static com.presentation.support.control.ValidationFormatter.*;
+import static com.presentation.support.format.PriceFormatter.format;
 import static com.presentation.support.view.ContainerManager.loadItemsOnController;
 import static com.presentation.support.view.FXMLViewLoader.loadViewOnPane;
 import static com.presentation.support.view.FXMLViewLoader.loadViewWithControllerPane;
@@ -72,20 +74,14 @@ public class EmployeeViewController extends BaseCatalogViewController<EmployeeIn
     @FXML
     private VBox employeeListContainer;
 
-    @FXML
-    public void initialize() {
+    @Override
+    protected ObservableValue<?>[] getSearchProperties() {
 
-        loadGlobalStats();
-
-        initializeListContent();
-
-        attachLiveSearchListeners(
+        return new ObservableValue<?>[]{
                 searchField.textProperty(),
                 statusFilter.valueProperty(),
                 hireDateFilter.valueProperty()
-        );
-
-        configureButtonActions();
+        };
     }
 
     private void loadActiveEmployeesStats() {

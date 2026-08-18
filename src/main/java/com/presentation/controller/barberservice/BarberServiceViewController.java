@@ -5,9 +5,11 @@ import com.enums.BarberServiceCategory;
 import com.enums.PriceRanges;
 import com.enums.ToastNotificationType;
 import com.presentation.controller.BaseCatalogViewController;
+import com.presentation.support.view.ViewRedirectionHelper;
 import com.service.interfaces.BarberserviceService;
 import com.service.interfaces.SaleService;
 import io.github.palexdev.materialfx.controls.MFXButton;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -29,21 +31,21 @@ import static com.enums.ViewRedirection.BARBER_SERVICE_CREATION;
 import static com.presentation.concurrency.ConcurrencyManager.executeAsyncTask;
 import static com.presentation.constants.MaterialDesignResources.MaterialIcon.DELETE_ICON;
 import static com.presentation.constants.StringResource.ConfirmationDialog.*;
-import static com.presentation.support.format.PriceFormatter.format;
 import static com.presentation.constants.StringResource.EmptyListMessage.EMPTY_BARBER_SERVICE_CATALOG_LIST_MESSAGE;
 import static com.presentation.constants.StringResource.FxmlViewLoadingErrorMessage.BARBER_SERVICE_EDITION_VIEW_LOADING_FAILED;
 import static com.presentation.constants.StringResource.FxmlViewLoadingErrorMessage.BARBER_SERVICE_ITEM_VIEW_LOADING_FAILED;
 import static com.presentation.constants.ViewPath.BARBER_SERVICE_EDITION_VIEW_PATH;
 import static com.presentation.constants.ViewPath.BARBER_SERVICE_ITEM_VIEW_PATH;
-import static com.presentation.support.control.ComboBoxHelper.*;
+import static com.presentation.support.control.ComboBoxHelper.loadEnumsOnComboBox;
+import static com.presentation.support.control.ComboBoxHelper.resetComboBoxFilter;
 import static com.presentation.support.control.UIBasicComponents.*;
 import static com.presentation.support.control.ValidationFormatter.parseNumberValueToText;
 import static com.presentation.support.control.ValidationFormatter.setStringConverter;
 import static com.presentation.support.dialog.DialogHelper.showConfirmationDialog;
+import static com.presentation.support.format.PriceFormatter.format;
 import static com.presentation.support.notification.ToastNotificationHelper.showToastNotification;
 import static com.presentation.support.view.ContainerManager.loadItemsOnController;
 import static com.presentation.support.view.FXMLViewLoader.loadViewWithControllerPane;
-import com.presentation.support.view.ViewRedirectionHelper;
 
 @Component
 @Getter
@@ -88,20 +90,14 @@ public class BarberServiceViewController extends BaseCatalogViewController<Barbe
     @FXML
     private VBox servicesListViewBox;
 
-    @FXML
-    public void initialize() {
+    @Override
+    protected ObservableValue<?>[] getSearchProperties() {
 
-        loadGlobalStats();
-
-        initializeListContent();
-
-        attachLiveSearchListeners(
+        return new ObservableValue<?>[]{
                 serviceSearchField.textProperty(),
                 serviceCategorySelector.valueProperty(),
                 servicePriceRangeSelector.valueProperty()
-        );
-
-        configureButtonActions();
+        };
     }
 
     private void loadActiveServicesStats() {

@@ -7,6 +7,7 @@ import com.presentation.controller.BaseCatalogViewController;
 import com.service.interfaces.PaymentMethodService;
 import com.service.interfaces.SaleService;
 import io.github.palexdev.materialfx.controls.MFXButton;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -75,20 +76,15 @@ public class PaymentMethodViewController extends BaseCatalogViewController<Payme
     @FXML
     private VBox paymentMethodListContainer;
 
-    @FXML
-    public void initialize() {
+    @Override
+    protected ObservableValue<?>[] getSearchProperties() {
 
-        loadGlobalStats();
+        return new ObservableValue<?>[]{
 
-        initializeListContent();
-
-        attachLiveSearchListeners(
                 searchField.textProperty(),
                 statusFilter.valueProperty(),
                 modifierTypeFilter.valueProperty()
-        );
-
-        configureButtonActions();
+        };
     }
 
     @Override

@@ -7,6 +7,7 @@ import com.enums.RegistrationDateRange;
 import com.presentation.controller.BaseCatalogViewController;
 import com.service.interfaces.ClientService;
 import io.github.palexdev.materialfx.controls.MFXButton;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -78,21 +79,15 @@ public class ClientViewController extends BaseCatalogViewController<ClientInfoDT
     @FXML
     private VBox clientsListVBox;
 
-    @FXML
-    public void initialize() {
+    @Override
+    protected ObservableValue<?>[] getSearchProperties() {
 
-        loadGlobalStats();
-
-        initializeListContent();
-
-        attachLiveSearchListeners(
+        return new ObservableValue<?>[]{
                 searchField.textProperty(),
                 registrationDateFilter.valueProperty(),
                 registeredPhoneFilter.valueProperty(),
                 clientNotesFilter.valueProperty()
-        );
-
-        configureButtonActions();
+        };
     }
 
     @Override

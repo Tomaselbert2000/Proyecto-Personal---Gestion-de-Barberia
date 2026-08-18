@@ -8,6 +8,7 @@ import com.exceptions.appointment.InvalidAppointmentUpdateException;
 import com.presentation.controller.BaseCatalogViewController;
 import com.service.interfaces.AppointmentService;
 import io.github.palexdev.materialfx.controls.MFXButton;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
@@ -76,23 +77,6 @@ public class AppointmentViewController extends BaseCatalogViewController<Appoint
     @FXML
     private DatePicker dateSelector;
 
-    @FXML
-    public void initialize() {
-
-        loadGlobalStats();
-
-        initializeListContent();
-
-        attachLiveSearchListeners(
-                clientSearchField.textProperty(),
-                appointmentStatusSelector.valueProperty(),
-                dateSelector.valueProperty(),
-                employeeSelector.valueProperty()
-        );
-
-        configureButtonActions();
-    }
-
     private void markAppointmentAsComplete(AppointmentInfoDTO dto) {
 
         executeAsyncTask(
@@ -122,23 +106,32 @@ public class AppointmentViewController extends BaseCatalogViewController<Appoint
     private void markAppointmentAsCanceled(AppointmentInfoDTO dto) {
 
         executeAsyncTask(
+
                 () -> {
                     try {
+
                         appointmentService.markAppointmentAsCanceled(dto);
+
                         return null;
+
                     } catch (InvalidAppointmentUpdateException exception) {
+
                         return exception.getMessage();
                     }
                 },
+
                 errorMessage -> {
                     if (errorMessage == null) {
+
                         showToastNotification(
                                 anchorPane,
                                 applicationContext,
                                 APPOINTMENT_STATUS_UPDATED_TOAST_NOTIFICATION_MESSAGE,
                                 ToastNotificationType.SUCCESSFUL
                         );
+
                     } else {
+
                         showToastNotification(anchorPane, applicationContext, errorMessage, ToastNotificationType.FAILED);
                     }
                 }
@@ -286,6 +279,17 @@ public class AppointmentViewController extends BaseCatalogViewController<Appoint
         setStringConverter(appointmentStatusSelector, AppointmentStatus.TODOS);
 
         loadGenericTypeListOnComboBox(employeeSelector, employees);
+    }
+
+    @Override
+    protected ObservableValue<?>[] getSearchProperties() {
+
+        return new ObservableValue<?>[]{
+                appointmentStatusSelector.valueProperty(),
+                employeeSelector.valueProperty(),
+                clientSearchField.textProperty(),
+                dateSelector.valueProperty()
+        };
     }
 
     @Override
