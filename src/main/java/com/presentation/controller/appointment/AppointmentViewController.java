@@ -24,6 +24,7 @@ import java.util.Map;
 import static com.presentation.concurrency.ConcurrencyManager.executeAsyncTask;
 import static com.presentation.constants.StringResource.EmptyListMessage.EMPTY_APPOINTMENTS_LIST_MESSAGE;
 import static com.presentation.constants.StringResource.FxmlViewLoadingErrorMessage.*;
+import static com.presentation.constants.StringResource.StatMessageSuffix.*;
 import static com.presentation.constants.StringResource.ToastNotificationMessage.APPOINTMENT_STATUS_UPDATED_TOAST_NOTIFICATION_MESSAGE;
 import static com.presentation.constants.ViewPath.*;
 import static com.presentation.support.control.ComboBoxHelper.*;
@@ -165,7 +166,7 @@ public class AppointmentViewController extends BaseCatalogViewController<Appoint
                 appointmentService::getAppointmentsTodayStats,
                 appointmentTodayStatsDTO -> {
                     setTextOnLabel(appointmentsScheduledToday, parseNumberValueToText(appointmentTodayStatsDTO.getAppointmentCount()));
-                    setTextOnLabel(completedAppointmentsToday, parseNumberValueToText(appointmentTodayStatsDTO.getTotalAmountAsFinished()));
+                    setTextOnLabel(completedAppointmentsToday, parseNumberValueToText(appointmentTodayStatsDTO.getTotalAmountAsFinished()) + COMPLETED);
                 }
         );
     }
@@ -175,7 +176,7 @@ public class AppointmentViewController extends BaseCatalogViewController<Appoint
                 appointmentService::getPendingAppointmentsStats,
                 pendingAppointmentsStatsDTO -> {
                     setTextOnLabel(pendingAppointments, parseNumberValueToText(pendingAppointmentsStatsDTO.getTotalPendingAppointments()));
-                    setTextOnLabel(appointmentsScheduledTomorrow, parseNumberValueToText(pendingAppointmentsStatsDTO.getScheduledAppointmentsTomorrow()));
+                    setTextOnLabel(appointmentsScheduledTomorrow, parseNumberValueToText(pendingAppointmentsStatsDTO.getScheduledAppointmentsTomorrow()) + SCHEDULED_TOMORROW);
                 }
         );
     }
@@ -185,7 +186,7 @@ public class AppointmentViewController extends BaseCatalogViewController<Appoint
                 appointmentService::getMonthlyComparisonStats,
                 monthlyComparisonStatsDTO -> {
                     setTextOnLabel(currentMonthAppointmentCount, parseNumberValueToText(monthlyComparisonStatsDTO.getCurrentMonthAppointments()));
-                    setTextOnLabel(previousMonthAppointmentCount, parseNumberValueToText(monthlyComparisonStatsDTO.getPreviousMonthAppointments()));
+                    setTextOnLabel(previousMonthAppointmentCount, parseNumberValueToText(monthlyComparisonStatsDTO.getPreviousMonthAppointments()) + VS_LAST_MONTH);
                 }
         );
     }
@@ -197,7 +198,7 @@ public class AppointmentViewController extends BaseCatalogViewController<Appoint
                     setTextOnLabel(canceledAppointmentsThisMonth, parseNumberValueToText(canceledStatsDTO.getCanceledAppointmentThisMonth()));
                     setTextOnLabel(
                             cancellationPercentage,
-                            parseNumberValueToText(canceledStatsDTO.getCanceledAppointmentPercentage()) + "%" + " de un total de " + canceledStatsDTO.getCanceledAppointmentThisMonth());
+                            parseNumberValueToText(canceledStatsDTO.getCanceledAppointmentPercentage()) + "%" + OUT_OF_A_TOTAL_OF + canceledStatsDTO.getCanceledAppointmentThisMonth());
                 }
         );
     }

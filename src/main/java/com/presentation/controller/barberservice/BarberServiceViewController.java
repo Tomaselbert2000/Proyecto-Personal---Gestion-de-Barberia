@@ -34,6 +34,7 @@ import static com.presentation.constants.StringResource.ConfirmationDialog.*;
 import static com.presentation.constants.StringResource.EmptyListMessage.EMPTY_BARBER_SERVICE_CATALOG_LIST_MESSAGE;
 import static com.presentation.constants.StringResource.FxmlViewLoadingErrorMessage.BARBER_SERVICE_EDITION_VIEW_LOADING_FAILED;
 import static com.presentation.constants.StringResource.FxmlViewLoadingErrorMessage.BARBER_SERVICE_ITEM_VIEW_LOADING_FAILED;
+import static com.presentation.constants.StringResource.StatMessageSuffix.*;
 import static com.presentation.constants.ViewPath.BARBER_SERVICE_EDITION_VIEW_PATH;
 import static com.presentation.constants.ViewPath.BARBER_SERVICE_ITEM_VIEW_PATH;
 import static com.presentation.support.control.ComboBoxHelper.loadEnumsOnComboBox;
@@ -106,7 +107,7 @@ public class BarberServiceViewController extends BaseCatalogViewController<Barbe
                 barberService::getActiveOnCatalogStats,
                 barberServiceActiveCatalogStatsDTO -> {
                     setTextOnLabel(activeServiceCount, parseNumberValueToText(barberServiceActiveCatalogStatsDTO.getAmountOfActiveServices()));
-                    setTextOnLabel(activeCategoryCount, "En " + parseNumberValueToText(barberServiceActiveCatalogStatsDTO.getAmountOfDifferentCategories()) + " categorias distintas");
+                    setTextOnLabel(activeCategoryCount, parseNumberValueToText(barberServiceActiveCatalogStatsDTO.getAmountOfDifferentCategories()) + CATEGORIES);
                 }
         );
     }
@@ -116,7 +117,7 @@ public class BarberServiceViewController extends BaseCatalogViewController<Barbe
                 saleService::getBarberServiceWithMostSales,
                 barberServiceSalesStatsDTO -> {
                     setTextOnLabel(barberServiceWithMostSales, barberServiceSalesStatsDTO.getBarberServiceName());
-                    setTextOnLabel(amountOfSales, parseNumberValueToText(barberServiceSalesStatsDTO.getAmountOfSales()) + " ventas realizadas");
+                    setTextOnLabel(amountOfSales, parseNumberValueToText(barberServiceSalesStatsDTO.getAmountOfSales()) + REGISTERED_SALES);
                 }
         );
     }
@@ -126,7 +127,7 @@ public class BarberServiceViewController extends BaseCatalogViewController<Barbe
                 saleService::getBarberServiceWithHighestRevenue,
                 barberServiceRevenueStatsDTO -> {
                     setTextOnLabel(highestRevenueService, barberServiceRevenueStatsDTO.getBarberServiceName());
-                    setTextOnLabel(revenueSum, "Total recaudado " + format(barberServiceRevenueStatsDTO.getTotalRevenue()));
+                    setTextOnLabel(revenueSum, format(barberServiceRevenueStatsDTO.getTotalRevenue()) + TOTAL_REVENUE);
                 }
         );
     }
@@ -136,7 +137,7 @@ public class BarberServiceViewController extends BaseCatalogViewController<Barbe
                 saleService::getBarberServiceWithLowestUsage,
                 barberServiceLeastUsedStatsDTO -> {
                     setTextOnLabel(lowestUsedService, barberServiceLeastUsedStatsDTO.getBarberServiceName());
-                    setTextOnLabel(timesUsed, "Solo " + parseNumberValueToText(barberServiceLeastUsedStatsDTO.getTotalUsage()) + " realizados");
+                    setTextOnLabel(timesUsed, parseNumberValueToText(barberServiceLeastUsedStatsDTO.getTotalUsage()) + TIMES_USED);
                 }
         );
     }

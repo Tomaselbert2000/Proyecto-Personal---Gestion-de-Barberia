@@ -27,6 +27,7 @@ import java.util.Map;
 import static com.presentation.concurrency.ConcurrencyManager.executeAsyncTask;
 import static com.presentation.constants.StringResource.EmptyListMessage.EMPTY_CLIENT_LIST_MESSAGE;
 import static com.presentation.constants.StringResource.FxmlViewLoadingErrorMessage.*;
+import static com.presentation.constants.StringResource.StatMessageSuffix.*;
 import static com.presentation.constants.ViewPath.*;
 import static com.presentation.support.control.ComboBoxHelper.*;
 import static com.presentation.support.control.UIBasicComponents.*;
@@ -180,7 +181,7 @@ public class ClientViewController extends BaseCatalogViewController<ClientInfoDT
                 clientService::getTotalClientsStats,
                 totalClientsStatsDTO -> {
                     setTextOnLabel(totalClientsCount, parseNumberValueToText(totalClientsStatsDTO.getTotalClientsCount()));
-                    setTextOnLabel(newClientsThisMonth, parseNumberValueToText(totalClientsStatsDTO.getClientsRegisteredThisMonth()));
+                    setTextOnLabel(newClientsThisMonth, parseNumberValueToText(totalClientsStatsDTO.getClientsRegisteredThisMonth()) + NEW_THIS_MONTH);
                 }
         );
     }
@@ -191,7 +192,7 @@ public class ClientViewController extends BaseCatalogViewController<ClientInfoDT
                 clientService::getPhoneNumberRegistrationStats,
                 clientPhoneNumberStatsDTO -> {
                     setTextOnLabel(clientsWithAtLeastOnePhoneNumber, parseNumberValueToText(clientPhoneNumberStatsDTO.getClientsWithAtLeastOnePhoneNumber()));
-                    setTextOnLabel(clientsWithNoPhoneNumber, parseNumberValueToText(clientPhoneNumberStatsDTO.getClientsWithoutPhoneNumber()));
+                    setTextOnLabel(clientsWithNoPhoneNumber, parseNumberValueToText(clientPhoneNumberStatsDTO.getClientsWithoutPhoneNumber()) + NO_PHONE_REGISTERED);
                 }
         );
     }
@@ -202,7 +203,7 @@ public class ClientViewController extends BaseCatalogViewController<ClientInfoDT
                 clientService::getClientRegistrationTrendStats,
                 clientRegistrationTrendStatDTO -> {
                     setTextOnLabel(newClientsVsLastMonthPercentage, formatAsPercentage(clientRegistrationTrendStatDTO.getTrendPercentage()));
-                    setTextOnLabel(totalClientsRegisteredLastMonth, parseNumberValueToText(clientRegistrationTrendStatDTO.getClientsRegisteredDuringTheLastMonth()));
+                    setTextOnLabel(totalClientsRegisteredLastMonth, parseNumberValueToText(clientRegistrationTrendStatDTO.getClientsRegisteredDuringTheLastMonth()) + IN_THE_LAST_MONTH);
                 }
         );
     }
@@ -213,13 +214,14 @@ public class ClientViewController extends BaseCatalogViewController<ClientInfoDT
                 clientService::getClientNotesStats,
                 clientNotesStatsDTO -> {
                     setTextOnLabel(totalClientsWithNotes, parseNumberValueToText(clientNotesStatsDTO.getClientsWithNotes()));
-                    setTextOnLabel(clientsWithNotesPercentage, formatAsPercentage(clientNotesStatsDTO.getClientsWithNotesPercentage()));
+                    setTextOnLabel(clientsWithNotesPercentage, formatAsPercentage(clientNotesStatsDTO.getClientsWithNotesPercentage()) + OUT_OF_TOTAL);
                 }
         );
     }
 
     private void sendWhatsAppMessage(ClientInfoDTO clientInfoDTO) {
 
+        //TODO: pendiente de diseño e implementación
     }
 
     private void goToRegisterNewClientView() {

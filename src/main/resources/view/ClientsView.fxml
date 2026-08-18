@@ -56,7 +56,7 @@
                         <Label fx:id="totalClientsCount" styleClass="md-display-small"/>
                         <HBox spacing="4" alignment="CENTER_LEFT">
                             <Label fx:id="newClientsThisMonth" styleClass="md-label-medium"/>
-                            <Label styleClass="md-label-small" text="nuevos este mes"/>
+                            <Label styleClass="md-label-small"/>
                         </HBox>
                     </VBox>
 
@@ -73,7 +73,7 @@
                         <Label fx:id="clientsWithAtLeastOnePhoneNumber" styleClass="md-display-small"/>
                         <HBox spacing="4" alignment="CENTER_LEFT">
                             <Label fx:id="clientsWithNoPhoneNumber" styleClass="md-label-medium"/>
-                            <Label styleClass="md-label-small" text="sin teléfono"/>
+                            <Label styleClass="md-label-small"/>
                         </HBox>
                     </VBox>
 
@@ -90,7 +90,7 @@
                         <Label fx:id="newClientsVsLastMonthPercentage" styleClass="md-display-small"/>
                         <HBox spacing="4" alignment="CENTER_LEFT">
                             <Label fx:id="totalClientsRegisteredLastMonth" styleClass="md-label-medium"/>
-                            <Label styleClass="md-label-small" text="mes anterior"/>
+                            <Label styleClass="md-label-small"/>
                         </HBox>
                     </VBox>
 
@@ -107,7 +107,7 @@
                         <Label fx:id="totalClientsWithNotes" styleClass="md-display-small"/>
                         <HBox spacing="4" alignment="CENTER_LEFT">
                             <Label fx:id="clientsWithNotesPercentage" styleClass="md-label-medium"/>
-                            <Label styleClass="md-label-small" text="del total"/>
+                            <Label styleClass="md-label-small"/>
                         </HBox>
                     </VBox>
                 </GridPane>

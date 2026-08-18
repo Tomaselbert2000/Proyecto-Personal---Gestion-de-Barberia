@@ -11,7 +11,7 @@
 
     <VBox
             AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0"
-          AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+            AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
 
         <!-- Header del Panel -->
         <HBox alignment="CENTER_LEFT">
@@ -56,7 +56,7 @@
                         <Label fx:id="appointmentsScheduledToday" styleClass="md-display-small"/>
                         <HBox spacing="4" alignment="CENTER_LEFT">
                             <Label fx:id="completedAppointmentsToday" styleClass="md-label-medium"/>
-                            <Label styleClass="md-label-small" text="completados"/>
+                            <Label styleClass="md-label-small"/>
                         </HBox>
                     </VBox>
 
@@ -73,7 +73,7 @@
                         <Label fx:id="pendingAppointments" styleClass="md-display-small"/>
                         <HBox spacing="4" alignment="CENTER_LEFT">
                             <Label fx:id="appointmentsScheduledTomorrow" styleClass="md-label-medium"/>
-                            <Label styleClass="md-label-small" text="nuevos hoy"/>
+                            <Label styleClass="md-label-small"/>
                         </HBox>
                     </VBox>
 
@@ -91,7 +91,7 @@
                         <HBox spacing="4" alignment="CENTER_LEFT">
                             <Label fx:id="previousMonthAppointmentCount"
                                    styleClass="md-label-medium"/>
-                            <Label styleClass="md-label-small" text="vs mes anterior"/>
+                            <Label styleClass="md-label-small"/>
                         </HBox>
                     </VBox>
 
@@ -105,10 +105,10 @@
                             <Region HBox.hgrow="ALWAYS"/>
                             <Region styleClass="person-cancel-icon, md-icon-medium, md-icon-primary"/>
                         </HBox>
-                        <Label fx:id="canceledAppointmentsThisMonth" styleClass="md-display-small" text="0"/>
+                        <Label fx:id="canceledAppointmentsThisMonth" styleClass="md-display-small"/>
                         <HBox spacing="4" alignment="CENTER_LEFT">
-                            <Label fx:id="cancellationPercentage" styleClass="md-label-medium" text="0"/>
-                            <Label styleClass="md-label-small" text="vs semana anterior"/>
+                            <Label fx:id="cancellationPercentage" styleClass="md-label-medium"/>
+                            <Label styleClass="md-label-small"/>
                         </HBox>
                     </VBox>
                 </GridPane>
