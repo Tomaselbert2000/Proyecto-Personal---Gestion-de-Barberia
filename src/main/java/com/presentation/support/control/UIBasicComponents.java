@@ -34,9 +34,12 @@ public class UIBasicComponents {
      * @return El HBox creado.
      */
     public static HBox createPhoneHBox(int spacing, Pos alignment) {
+
         HBox hbox = new HBox();
+
         hbox.setAlignment(alignment);
         hbox.setSpacing(spacing);
+
         return hbox;
     }
 
@@ -56,7 +59,9 @@ public class UIBasicComponents {
      * @param labelTextsMap El mapa que contiene las etiquetas y sus respectivos valores de texto.
      */
     public static void setTextsOnLabelMap(Map<Label, String> labelTextsMap) {
+
         for (Label label : labelTextsMap.keySet()) {
+
             setTextOnLabel(label, labelTextsMap.get(label));
         }
     }
@@ -68,10 +73,15 @@ public class UIBasicComponents {
      * @param vBox    El VBox donde se añadirá la etiqueta vacía.
      */
     public static void showEmptyListLabel(String message, VBox vBox) {
+
         Label emptyListLabel = new Label();
+
         setTextOnLabel(emptyListLabel, message);
+
         addLabelStyle(emptyListLabel, MD_PAGE_SUBTITLE);
+
         setMaxLabelWidth(emptyListLabel);
+
         vBox.getChildren().add(emptyListLabel);
     }
 
@@ -81,6 +91,7 @@ public class UIBasicComponents {
      * @param label La etiqueta a la que se establecerá el ancho máximo.
      */
     public static void setMaxLabelWidth(Label label) {
+
         label.setMaxWidth(Double.MAX_VALUE);
     }
 
@@ -91,6 +102,7 @@ public class UIBasicComponents {
      * @param style El estilo a añadir a la etiqueta.
      */
     public static void addLabelStyle(Label label, String style) {
+
         label.getStyleClass().add(style);
     }
 
@@ -102,7 +114,9 @@ public class UIBasicComponents {
      * @param textfields Los campos de texto a establecer en blanco.
      */
     public static void setBlankTextfield(TextField... textfields) {
+
         for (TextField textfield : textfields) {
+
             textfield.setText("");
         }
     }
@@ -114,6 +128,7 @@ public class UIBasicComponents {
      * @param text      El texto a establecer en el campo de texto.
      */
     public static void setTextOnTextfield(TextField textfield, String text) {
+
         textfield.setText(text);
     }
 
@@ -123,7 +138,9 @@ public class UIBasicComponents {
      * @param map El mapa que contiene los campos de texto y sus respectivos valores de texto.
      */
     public static void setTextsOnTextfieldMap(Map<TextField, String> map) {
+
         for (TextField textField : map.keySet()) {
+
             setTextOnTextfield(textField, map.get(textField));
         }
     }
@@ -137,6 +154,7 @@ public class UIBasicComponents {
      * @param text   El texto a establecer en el botón.
      */
     public static void setTextOnButton(Button button, String text) {
+
         button.setText(text);
     }
 
@@ -147,7 +165,9 @@ public class UIBasicComponents {
      * @param styleClass La clase de estilo a añadir al nodo.
      */
     public static void addNodeStyleClass(Node node, String styleClass) {
+
         if (!node.getStyleClass().contains(styleClass)) {
+
             node.getStyleClass().add(styleClass);
         }
     }
@@ -158,7 +178,9 @@ public class UIBasicComponents {
      * @param map El mapa que contiene los nodos y sus respectivas clases de estilo.
      */
     public static void setStylesOnNodeMap(Map<Node, String> map) {
+
         for (Node node : map.keySet()) {
+
             addNodeStyleClass(node, map.get(node));
         }
     }
@@ -171,7 +193,9 @@ public class UIBasicComponents {
      * @param textfields La lista de campos de texto a limpiar.
      */
     public static void cleanTextfields(List<TextField> textfields) {
+
         for (TextField textField : textfields) {
+
             textField.setText("");
         }
     }
@@ -185,10 +209,14 @@ public class UIBasicComponents {
      * @return El mapa generado a partir de las listas de claves y valores.
      */
     public static <T> Map<T, String> generateMap(List<T> keys, List<String> values) {
+
         Map<T, String> map = new HashMap<>();
+
         for (int i = 0; i < keys.size(); i++) {
+
             map.put(keys.get(i), values.get(i));
         }
+
         return map;
     }
 
@@ -198,7 +226,9 @@ public class UIBasicComponents {
      * @param textfieldMap El mapa que contiene los campos de texto y sus respectivos textos de sugerencia.
      */
     public static void setPromptTextOnMap(Map<TextField, String> textfieldMap) {
+
         for (TextField textfield : textfieldMap.keySet()) {
+
             textfield.setPromptText(textfieldMap.get(textfield));
         }
     }
@@ -210,7 +240,9 @@ public class UIBasicComponents {
      * @param value      El texto de sugerencia a establecer en todos los campos de texto.
      */
     public static void setPromptTextOnList(List<TextField> textfields, String value) {
+
         for (TextField textField : textfields) {
+
             textField.setPromptText(value);
         }
     }
@@ -221,6 +253,7 @@ public class UIBasicComponents {
      * @param dateSelector El DatePicker a limpiar.
      */
     public static void cleanDatePicker(DatePicker dateSelector) {
+
         dateSelector.valueProperty().setValue(null);
     }
 
@@ -230,7 +263,9 @@ public class UIBasicComponents {
      * @param buttons Los botones a deshabilitar.
      */
     public static void disableButtons(Button... buttons) {
+
         for (Button button : buttons) {
+
             button.setDisable(true);
         }
     }
@@ -241,6 +276,7 @@ public class UIBasicComponents {
      * @param comboBox El ComboBox a deshabilitar.
      */
     public static void disableComboBox(ComboBox<?> comboBox) {
+
         comboBox.setDisable(true);
     }
 
@@ -253,16 +289,23 @@ public class UIBasicComponents {
      * @param minuteSelector El selector de minutos a configurar.
      */
     public static void setHourAndMinuteSelectors(ComboBox<LocalTime> hourSelector, ComboBox<LocalTime> minuteSelector) {
+
         List<LocalTime> hours = new ArrayList<>();
         List<LocalTime> minutes = new ArrayList<>();
+
         for (int i = 8; i <= 20; i++) {
+
             hours.add(LocalTime.of(i, 0));
         }
+
         for (int i = 0; i < 60; i += 15) {
+
             minutes.add(LocalTime.of(0, i));
         }
+
         loadGenericTypeListOnComboBox(hourSelector, hours);
         loadGenericTypeListOnComboBox(minuteSelector, minutes);
+
         setLocalTimeHourConverter(hourSelector);
         setLocalTimeMinuteConverter(minuteSelector);
     }
@@ -274,12 +317,18 @@ public class UIBasicComponents {
      */
     @SafeVarargs
     public static void configureServiceHoursSelectors(ComboBox<LocalTime>... selectors) {
+
         List<LocalTime> hours = new ArrayList<>();
+
         for (int i = 0; i <= 23; i++) {
+
             hours.add(LocalTime.of(i, 0));
         }
+
         for (ComboBox<LocalTime> comboBox : selectors) {
+
             loadGenericTypeListOnComboBox(comboBox, hours);
+
             setLocalTimeHourConverter(comboBox);
         }
     }
@@ -292,8 +341,11 @@ public class UIBasicComponents {
      * @param textfield El campo de texto al que se aplicarán las restricciones de texto decimal.
      */
     public static void configureDecimalTextfieldRestrictions(TextField textfield) {
+
         UnaryOperator<TextFormatter.Change> unaryOperatorFilter = generateUnaryOperatorFilterForTextFormatterWith(DECIMAL_REGEX);
+
         TextFormatter<String> stringTextFormatter = generateTextFormatterWithFilter(unaryOperatorFilter);
+
         textfield.setTextFormatter(stringTextFormatter);
     }
 
@@ -304,9 +356,13 @@ public class UIBasicComponents {
      */
     @SafeVarargs
     public static void configureRunnableMaps(Map<Button, Runnable>... maps) {
+
         for (Map<Button, Runnable> runnableMap : maps) {
+
             for (Button button : runnableMap.keySet()) {
+
                 Runnable action = runnableMap.get(button);
+
                 button.setOnAction(_ -> action.run());
             }
         }
@@ -320,7 +376,9 @@ public class UIBasicComponents {
      * @param checkboxMap El mapa que contiene los checkboxes y sus respectivos estados.
      */
     public static void setStatusOnCheckBoxMap(Map<CheckBox, Boolean> checkboxMap) {
+
         for (CheckBox checkBox : checkboxMap.keySet()) {
+
             checkBox.setSelected(checkboxMap.get(checkBox));
         }
     }
@@ -332,7 +390,9 @@ public class UIBasicComponents {
      * @param checkBoxes Los checkboxes a establecer.
      */
     public static void setCheckboxState(Boolean state, CheckBox... checkBoxes) {
+
         for (CheckBox checkBox : checkBoxes) {
+
             checkBox.setSelected(state);
         }
     }

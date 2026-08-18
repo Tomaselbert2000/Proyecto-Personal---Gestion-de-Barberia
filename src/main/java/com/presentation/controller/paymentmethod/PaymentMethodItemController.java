@@ -17,7 +17,7 @@ import java.util.function.Consumer;
 import static com.presentation.constants.CssStylesStrings.ITEM_STATUS_ACTIVO;
 import static com.presentation.constants.CssStylesStrings.ITEM_STATUS_INACTIVO;
 import static com.presentation.support.format.PriceFormatter.format;
-import static com.presentation.support.control.StatusBadgeHelper.applyBadge;
+import static com.presentation.support.control.StatusBadgeHelper.applyIsActiveBadge;
 import static com.presentation.support.control.UIBasicComponents.configureRunnableMaps;
 import static com.presentation.support.control.UIBasicComponents.setTextsOnLabelMap;
 
@@ -56,7 +56,7 @@ public class PaymentMethodItemController extends AbstractItemController<PaymentM
 
     private void toggleBadgeAndButtonTexts(Boolean isActive) {
 
-        applyBadge(
+        applyIsActiveBadge(
                 isActive,
                 statusLabel,
                 statusBadge,

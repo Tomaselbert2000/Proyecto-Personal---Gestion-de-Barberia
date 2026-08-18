@@ -1,7 +1,6 @@
 package com.presentation.controller.appointment;
 
 import com.dto.appointment.AppointmentInfoDTO;
-import com.enums.AppointmentStatus;
 import com.presentation.controller.AbstractItemController;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.fxml.FXML;
@@ -14,9 +13,11 @@ import org.springframework.stereotype.Component;
 import java.util.Map;
 import java.util.function.Consumer;
 
+import static com.enums.AppointmentStatus.*;
 import static com.presentation.constants.ControllerConstants.AppointmentControllerConstants.TIME_FORMATTER;
-import static com.presentation.constants.MaterialDesignResources.MaterialIcon.MaterialDesignStyles.MaterialDesignStyleClass.*;
+import static com.presentation.support.control.StatusBadgeHelper.applyAppointmentStatusBadge;
 import static com.presentation.support.control.UIBasicComponents.*;
+import static com.presentation.support.format.PersonNameFormatter.fullName;
 
 @Component
 @Getter
@@ -66,36 +67,15 @@ public class AppointmentItemController extends AbstractItemController<Appointmen
         disableButtons(cancelButton, completeButton);
     }
 
-    private void updateStatusBadge(AppointmentStatus status) {
-
-        statusBadge.getStyleClass().clear();
-        statusBadge.getStyleClass().add(BADGE);
-
-        switch (status) {
-            case PROGRAMADO, REPROGRAMADO:
-                addLabelStyle(statusBadge, SCHEDULED_BADGE);
-                setTextOnLabel(statusBadge, status == AppointmentStatus.PROGRAMADO ? AppointmentStatus.PROGRAMADO.getDisplayName() : AppointmentStatus.REPROGRAMADO.getDisplayName());
-                break;
-            case FINALIZADO:
-                addLabelStyle(statusBadge, COMPLETED_BADGE);
-                setTextOnLabel(statusBadge, AppointmentStatus.FINALIZADO.getDisplayName());
-                break;
-            case CANCELADO:
-                addLabelStyle(statusBadge, CANCELED_BADGE);
-                setTextOnLabel(statusBadge, AppointmentStatus.CANCELADO.getDisplayName());
-                break;
-        }
-    }
-
     public void setDataOnItem(AppointmentInfoDTO infoDTO) {
 
         infoDTOReference = infoDTO;
 
-        if (infoDTO.getCurrentStatus() == AppointmentStatus.FINALIZADO || infoDTO.getCurrentStatus() == AppointmentStatus.CANCELADO)
+        if (infoDTO.getCurrentStatus() == FINALIZADO || infoDTO.getCurrentStatus() == CANCELADO)
             disableButtons(cancelButton, completeButton);
 
-        String clientFullName = String.join(" ", infoDTO.getClientFirstName(), infoDTO.getClientLastName());
-        String employeeFullName = String.join(" ", infoDTO.getEmployeeFirstName(), infoDTO.getEmployeeLastName());
+        String clientFullName = fullName(infoDTO.getClientFirstName(), infoDTO.getClientLastName());
+        String employeeFullName = fullName(infoDTO.getEmployeeFirstName(), infoDTO.getEmployeeLastName());
 
         Map<Label, String> map = Map.ofEntries(
                 Map.entry(clientName, clientFullName),
@@ -107,16 +87,18 @@ public class AppointmentItemController extends AbstractItemController<Appointmen
 
         setTextsOnLabelMap(map);
 
-        updateStatusBadge(infoDTO.getCurrentStatus());
+        applyAppointmentStatusBadge(infoDTO.getCurrentStatus(), statusBadge);
     }
 
     @Override
     protected void configureButtonActions() {
+
         Map<Button, Runnable> map = Map.of(
                 editButton, this::goToEditAppointment,
                 completeButton, this::setAppointmentAsComplete,
                 cancelButton, this::setAppointmentAsCanceled
         );
+
         configureRunnableMaps(map);
     }
 }

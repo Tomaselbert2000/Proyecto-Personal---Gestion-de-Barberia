@@ -21,7 +21,7 @@ import static com.presentation.constants.CssStylesStrings.ITEM_STATUS_ACTIVO;
 import static com.presentation.constants.CssStylesStrings.ITEM_STATUS_INACTIVO;
 import static com.presentation.constants.StringResource.DisplayString.ACTIVE_STATUS_LABEL;
 import static com.presentation.constants.StringResource.DisplayString.INACTIVE_STATUS_LABEL;
-import static com.presentation.support.control.StatusBadgeHelper.applyBadge;
+import static com.presentation.support.control.StatusBadgeHelper.applyIsActiveBadge;
 import static com.presentation.support.control.UIBasicComponents.*;
 import static com.presentation.support.control.ValidationFormatter.formatAsPercentage;
 import static com.presentation.support.control.ValidationFormatter.parseNumberValueToText;
@@ -94,7 +94,7 @@ public class EmployeeItemController extends AbstractItemController<EmployeeInfoD
 
     private void toggleStatusComponents(Boolean isActive) {
 
-        applyBadge(
+        applyIsActiveBadge(
                 isActive,
                 statusLabel,
                 employeeStatusBadge,
