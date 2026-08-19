@@ -48,6 +48,7 @@ public class PaymentMethodServiceImpl implements PaymentMethodService {
         paymentMethodRepository.delete(paymentMethodOnDB);
     }
 
+    @Override
     public PaymentMethodInfoDTO getPaymentMethod(Long paymentMethodID) {
 
         PaymentMethod paymentMethodOnDB = loadPaymentMethodByID(paymentMethodID);

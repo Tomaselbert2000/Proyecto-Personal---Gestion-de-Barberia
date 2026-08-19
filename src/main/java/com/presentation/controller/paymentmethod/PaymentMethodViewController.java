@@ -4,6 +4,7 @@ import com.dto.paymentmethod.PaymentMethodInfoDTO;
 import com.enums.PaymentMethodModifierType;
 import com.enums.PaymentMethodStatus;
 import com.presentation.controller.BaseCatalogViewController;
+import com.presentation.support.view.ViewRedirectionHelper;
 import com.service.interfaces.PaymentMethodService;
 import com.service.interfaces.SaleService;
 import io.github.palexdev.materialfx.controls.MFXButton;
@@ -24,18 +25,19 @@ import java.util.Map;
 
 import static com.enums.ViewRedirection.PAYMENT_METHOD_CREATION;
 import static com.presentation.concurrency.ConcurrencyManager.executeAsyncTask;
-import static com.presentation.support.format.PriceFormatter.format;
 import static com.presentation.constants.StringResource.EmptyListMessage.EMPTY_PAYMENT_LIST_MESSAGE;
 import static com.presentation.constants.StringResource.FxmlViewLoadingErrorMessage.PAYMENT_METHOD_EDITION_VIEW_LOADING_FAILED;
 import static com.presentation.constants.StringResource.FxmlViewLoadingErrorMessage.PAYMENT_METHOD_ITEM_VIEW_LOADING_FAILED;
 import static com.presentation.constants.ViewPath.PAYMENT_METHOD_EDITION_VIEW_PATH;
 import static com.presentation.constants.ViewPath.PAYMENT_METHOD_ITEM_VIEW_PATH;
+import static com.presentation.support.control.ComboBoxHelper.loadEnumsOnComboBox;
 import static com.presentation.support.control.ComboBoxHelper.resetComboBoxFilter;
 import static com.presentation.support.control.UIBasicComponents.*;
 import static com.presentation.support.control.ValidationFormatter.parseNumberValueToText;
+import static com.presentation.support.control.ValidationFormatter.setStringConverter;
+import static com.presentation.support.format.PriceFormatter.format;
 import static com.presentation.support.view.ContainerManager.loadItemsOnController;
 import static com.presentation.support.view.FXMLViewLoader.loadViewWithControllerPane;
-import com.presentation.support.view.ViewRedirectionHelper;
 
 @Component
 @RequiredArgsConstructor
@@ -97,8 +99,8 @@ public class PaymentMethodViewController extends BaseCatalogViewController<Payme
     protected List<PaymentMethodInfoDTO> searchCatalog() {
 
         String paymentName = searchField.getText();
-        PaymentMethodStatus status = statusFilter.getValue();
-        PaymentMethodModifierType modifierType = modifierTypeFilter.getValue();
+        PaymentMethodStatus status = nullIfTodos(statusFilter.getValue(), PaymentMethodStatus.TODOS);
+        PaymentMethodModifierType modifierType = nullIfTodos(modifierTypeFilter.getValue(), PaymentMethodModifierType.TODOS);
 
         return paymentMethodService.paymentMethodLiveSearch(paymentName, status, modifierType);
     }
@@ -137,7 +139,17 @@ public class PaymentMethodViewController extends BaseCatalogViewController<Payme
     @Override
     protected void initializeListContent() {
 
-        loadItemsOnView(paymentMethodService.getPaymentMethodsList());
+        List<PaymentMethodInfoDTO> paymentMethodInfoDTOS = paymentMethodService.getPaymentMethodsList();
+
+        loadItemsOnView(paymentMethodInfoDTOS);
+
+        setTextOnLabel(resultsCount, parseNumberValueToText(paymentMethodInfoDTOS.size()));
+
+        loadEnumsOnComboBox(statusFilter, PaymentMethodStatus.values());
+        loadEnumsOnComboBox(modifierTypeFilter, PaymentMethodModifierType.values());
+
+        setStringConverter(statusFilter, PaymentMethodStatus.TODOS);
+        setStringConverter(modifierTypeFilter, PaymentMethodModifierType.TODOS);
     }
 
     @Override
