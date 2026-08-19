@@ -32,6 +32,7 @@ public final class StringResource {
     }
 
     public static final class ConfirmationDialog {
+
         public static final String CANCEL_BUTTON_TEXT = "Cancelar";
         public static final String CONFIRM_BUTTON_TEXT = "Confirmar";
 
@@ -45,6 +46,7 @@ public final class StringResource {
     }
 
     public static final class DisplayString {
+
         public static final String APP_TITLE = "Sistema de gestión - La Tercera Barbershop";
         public static final String CURRENCY_STRING_ARG = "ARS $ ";
         public static final List<String> ALLOWED_IMAGE_EXTENSIONS = List.of("*.png", "*.jpg");
@@ -62,6 +64,7 @@ public final class StringResource {
     }
 
     public static final class StatMessageSuffix {
+
         public static final String COMPLETED = " completados";
         public static final String SCHEDULED_TOMORROW = " para mañana";
         public static final String VS_LAST_MONTH = " vs mes anterior";
@@ -76,15 +79,20 @@ public final class StringResource {
         public static final String NO_PHONE_REGISTERED = " sin teléfono";
         public static final String AVERAGE_PER_TICKET = "Promedio por ticket ";
         public static final String OUT_OF_STOCK_PREFFIX = "Agotados: ";
+        public static final String LOW_OR_CRITICAL_STOCK = " con stock Bajo o Crítico";
+        public static final String UNITS_SOLD = " unidades vendidas";
+        public static final String PHYSICAL_UNITS = " unidades físicas";
     }
 
     public static final class StringFormat {
+
         public static final String PRICE_FORMAT = "%.2f";
         public static final String ONE_DECIMAL_FORMAT = "%.1f";
         public static final String PERCENTAGE_FORMAT = "%.1f%%";
     }
 
     public static final class EmptyListMessage {
+
         public static final String EMPTY_ACTIVITY_LOG_MESSAGE = "No se registra actividad reciente.";
         public static final String EMPTY_APPOINTMENTS_LIST_MESSAGE = "No se registran turnos agendados hasta este momento";
         public static final String EMPTY_BARBER_SERVICE_CATALOG_LIST_MESSAGE = "No se registran servicios en el catálogo.";
@@ -121,6 +129,7 @@ public final class StringResource {
     }
 
     public static final class ValidationErrorMessage {
+
         public static final String VALIDATION_ERROR_TITLE = "Error de validación";
 
         public static final String LOGIN_ERROR_TITLE = "Error de inicio de sesión";

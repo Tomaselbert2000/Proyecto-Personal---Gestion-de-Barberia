@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 import static com.presentation.concurrency.ConcurrencyManager.executeAsyncTask;
+import static com.presentation.constants.StringResource.StatMessageSuffix.*;
 import static com.presentation.support.format.PriceFormatter.format;
 import static com.presentation.constants.StringResource.EmptyListMessage.EMPTY_PRODUCT_LIST_MESSAGE;
 import static com.presentation.constants.StringResource.FxmlViewLoadingErrorMessage.*;
@@ -91,7 +92,7 @@ public class ProductViewController extends BaseCatalogViewController<ProductInfo
                 productService::getProductCountAndStockStats,
                 productTotalStockStatsDTO -> {
                     setTextOnLabel(productCount, parseNumberValueToText(productTotalStockStatsDTO.getProductCount()));
-                    setTextOnLabel(productsOnLowOrCriticalStock, parseNumberValueToText(productTotalStockStatsDTO.getOnLowOrCriticalStockCount()) + " con stock Bajo o Crítico");
+                    setTextOnLabel(productsOnLowOrCriticalStock, parseNumberValueToText(productTotalStockStatsDTO.getOnLowOrCriticalStockCount()) + LOW_OR_CRITICAL_STOCK);
                 }
         );
     }
@@ -102,7 +103,7 @@ public class ProductViewController extends BaseCatalogViewController<ProductInfo
                 productService::getProductMostSoldStats,
                 productMostSoldStatsDTO -> {
                     setTextOnLabel(mostSoldProductName, productMostSoldStatsDTO.getProductName());
-                    setTextOnLabel(amountOfSales, parseNumberValueToText(productMostSoldStatsDTO.getUnitsSold()) + " unidades vendidas");
+                    setTextOnLabel(amountOfSales, parseNumberValueToText(productMostSoldStatsDTO.getUnitsSold()) + UNITS_SOLD);
                 }
         );
     }
@@ -124,7 +125,7 @@ public class ProductViewController extends BaseCatalogViewController<ProductInfo
                 productService::getProductStockValueStat,
                 productStockValueStatDTO -> {
                     setTextOnLabel(totalStockValue, format(productStockValueStatDTO.getTotalStockValue()));
-                    setTextOnLabel(totalStockUnits, "En " + parseNumberValueToText(productStockValueStatDTO.getTotalUnits()) + " unidades físicas");
+                    setTextOnLabel(totalStockUnits, parseNumberValueToText(productStockValueStatDTO.getTotalUnits()) + PHYSICAL_UNITS);
                 }
         );
     }
