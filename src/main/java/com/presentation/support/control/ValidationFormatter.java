@@ -12,7 +12,8 @@ import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
 
 import static com.presentation.constants.StringResource.DisplayString.NEW_LINE;
-import static com.presentation.constants.StringResource.StringFormat.*;
+import static com.presentation.constants.StringResource.StringFormat.ONE_DECIMAL_FORMAT;
+import static com.presentation.constants.StringResource.StringFormat.PERCENTAGE_FORMAT;
 import static com.presentation.support.format.PriceFormatter.format;
 
 public class ValidationFormatter {
@@ -24,6 +25,7 @@ public class ValidationFormatter {
      * @return El filtro de TextFormatter generado.
      */
     public static UnaryOperator<TextFormatter.Change> generateUnaryOperatorFilterForTextFormatterWith(String regex) {
+
         return change -> change.getControlNewText().matches(regex) ? change : null;
     }
 
@@ -34,6 +36,7 @@ public class ValidationFormatter {
      * @return El TextFormatter generado.
      */
     public static TextFormatter<String> generateTextFormatterWithFilter(UnaryOperator<TextFormatter.Change> unaryOperatorFilter) {
+
         return new TextFormatter<>(unaryOperatorFilter);
     }
 
@@ -44,6 +47,7 @@ public class ValidationFormatter {
      * @return La cadena de texto formateada como precio.
      */
     public static String formatAsPrice(Double value) {
+
         return format(value);
     }
 
@@ -54,6 +58,7 @@ public class ValidationFormatter {
      * @return La cadena de texto formateada con un solo decimal.
      */
     public static String formatAsDecimalValue(Double percentage) {
+
         return String.format(ONE_DECIMAL_FORMAT, percentage);
     }
 
@@ -64,6 +69,7 @@ public class ValidationFormatter {
      * @return La cadena de texto formateada como porcentaje.
      */
     public static String formatAsPercentage(Double percentage) {
+
         return String.format(PERCENTAGE_FORMAT, percentage);
     }
 
@@ -76,36 +82,19 @@ public class ValidationFormatter {
      */
     public static <T extends DescribableEnum> void setStringConverter(ComboBox<T> comboBox, T defaultValue) {
         comboBox.setConverter(new StringConverter<>() {
-            @Override
-            public String toString(T item) {
-                return Objects.requireNonNullElse(item, defaultValue).getDisplayName();
-            }
+                                  @Override
+                                  public String toString(T item) {
 
-            @Override
-            public T fromString(String string) {
-                return null;
-            }
-        });
-    }
+                                      return Objects.requireNonNullElse(item, defaultValue).getDisplayName();
+                                  }
 
-    /**
-     * Parsea un texto a un valor de tipo Integer.
-     *
-     * @param text El texto a parsear.
-     * @return El valor de tipo Integer parseado, o null si el texto es nulo o vacío.
-     */
-    public static Integer parseTextToInteger(String text) {
-        return text == null || text.trim().isEmpty() ? null : Integer.valueOf(text);
-    }
+                                  @Override
+                                  public T fromString(String string) {
 
-    /**
-     * Parsea un texto a un valor de tipo Double.
-     *
-     * @param text El texto a parsear.
-     * @return El valor de tipo Double parseado, o null si el texto es nulo o vacío.
-     */
-    public static Double parseTextToDouble(String text) {
-        return text == null || text.trim().isEmpty() ? null : Double.valueOf(text);
+                                      return null;
+                                  }
+                              }
+        );
     }
 
     /**
@@ -115,6 +104,7 @@ public class ValidationFormatter {
      * @return La cadena de texto resultante.
      */
     public static String parseNumberValueToText(Integer value) {
+
         return String.valueOf(value);
     }
 
@@ -125,6 +115,7 @@ public class ValidationFormatter {
      * @return La cadena de texto resultante.
      */
     public static String parseNumberValueToText(Double value) {
+
         return String.valueOf(value);
     }
 
@@ -135,6 +126,7 @@ public class ValidationFormatter {
      * @return La cadena de texto resultante.
      */
     public static String parseNumberValueToText(Long value) {
+
         return String.valueOf(value);
     }
 
@@ -145,6 +137,7 @@ public class ValidationFormatter {
      * @return La lista de mensajes de violación de restricción concatenados con saltos de línea.
      */
     public static String getConstraintViolationsList(ConstraintViolationException exception) {
+
         return exception.getConstraintViolations().stream()
                 .map(ConstraintViolation::getMessage)
                 .collect(Collectors.joining(NEW_LINE));

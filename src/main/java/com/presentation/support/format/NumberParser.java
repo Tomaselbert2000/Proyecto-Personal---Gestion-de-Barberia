@@ -14,6 +14,13 @@ public final class NumberParser {
         return Double.valueOf(text);
     }
 
+    public static Integer parseTextToInteger(String text, Integer defaultValue) {
+
+        if (text == null || text.isBlank()) return defaultValue;
+
+        return Integer.valueOf(text);
+    }
+
     public static Double parsePercentageFraction(String text, Double defaultValue) {
 
         if (text == null || text.isBlank()) return defaultValue;

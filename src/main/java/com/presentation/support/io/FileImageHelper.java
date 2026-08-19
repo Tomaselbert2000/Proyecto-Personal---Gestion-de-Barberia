@@ -46,7 +46,7 @@ public class FileImageHelper {
      */
     public static void loadFileOnImageView(File file, ImageView imageView) {
 
-        URI uriLocation = URI.create(file.toURI().toString());
+        URI uriLocation = URI.create(String.valueOf(file.toURI()));
         imageView.setImage(new Image(String.valueOf(uriLocation)));
     }
 
