@@ -56,14 +56,6 @@ public class DashboardServiceImpl implements DashboardService {
                 .toList();
     }
 
-    @Override
-    public List<RecentActivityDTO> getLowStockProductsLog() {
-
-        List<Product> lowStockLevelProducts = productRepository.getLowStockProducts();
-
-        return lowStockLevelProducts.stream().map(this::mapLowStockProductToRecentActivityDTO).toList();
-    }
-
     private RecentActivityDTO mapNewClientToRecentActivityDTO(Client clientToMap) {
 
         if (clientToMap == null) return null;
@@ -137,17 +129,6 @@ public class DashboardServiceImpl implements DashboardService {
         String textToAttach = String.join(" ", CANCELED_APPOINTMENT_STRING, canceledAppointment.getClient().getFirstName(), canceledAppointment.getEmployee().getFirstName());
         EventType eventType = EventType.TURNO_CANCELADO;
         LocalDateTime timestamp = canceledAppointment.getModifiedDate();
-
-        return buildDTOFromParameters(textToAttach, eventType, timestamp);
-    }
-
-    private RecentActivityDTO mapLowStockProductToRecentActivityDTO(Product productWithLowStock) {
-
-        if (productWithLowStock == null) return null;
-
-        String textToAttach = String.join(" ", LOW_STOCK_PRODUCT_STRING, productWithLowStock.getName(), "Stock actual:", productWithLowStock.getCurrentStockLevel().toString());
-        EventType eventType = EventType.ALERTA_STOCK_BAJO;
-        LocalDateTime timestamp = LocalDateTime.now();
 
         return buildDTOFromParameters(textToAttach, eventType, timestamp);
     }

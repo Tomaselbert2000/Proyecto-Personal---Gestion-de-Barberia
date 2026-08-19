@@ -8,5 +8,4 @@ public interface DashboardService {
 
     List<RecentActivityDTO> getRecentActivityLog();
 
-    List<RecentActivityDTO> getLowStockProductsLog();
 }
