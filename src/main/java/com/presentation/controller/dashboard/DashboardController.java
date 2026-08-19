@@ -1,6 +1,7 @@
 package com.presentation.controller.dashboard;
 
 import com.dto.activity.RecentActivityDTO;
+import com.presentation.support.view.ViewRedirectionHelper;
 import com.service.interfaces.AppointmentService;
 import com.service.interfaces.ClientService;
 import com.service.interfaces.DashboardService;
@@ -26,6 +27,7 @@ import static com.presentation.constants.MaterialDesignResources.MaterialIcon.LO
 import static com.presentation.constants.StringResource.ConfirmationDialog.*;
 import static com.presentation.constants.StringResource.EmptyListMessage.EMPTY_ACTIVITY_LOG_MESSAGE;
 import static com.presentation.constants.StringResource.FxmlViewLoadingErrorMessage.RECENT_ACTIVITY_VIEW_LOADING_FAILED;
+import static com.presentation.constants.StringResource.StatMessageSuffix.*;
 import static com.presentation.constants.ViewPath.ACTIVITY_LOG_ITEM_VIEW_PATH;
 import static com.presentation.support.control.UIBasicComponents.configureRunnableMaps;
 import static com.presentation.support.control.UIBasicComponents.setTextOnLabel;
@@ -35,7 +37,6 @@ import static com.presentation.support.format.PriceFormatter.formatPriceAsString
 import static com.presentation.support.view.ContainerManager.cleanContainer;
 import static com.presentation.support.view.ContainerManager.loadItemsOnController;
 import static com.presentation.support.view.FXMLViewLoader.animateViewChange;
-import com.presentation.support.view.ViewRedirectionHelper;
 
 @Component
 @RequiredArgsConstructor
@@ -135,9 +136,12 @@ public class DashboardController {
         loadItemsOnController(
                 recentActivity,
                 activityLogVbox,
+                ActivityItemController.class,
                 ACTIVITY_LOG_ITEM_VIEW_PATH,
                 EMPTY_ACTIVITY_LOG_MESSAGE,
-                RECENT_ACTIVITY_VIEW_LOADING_FAILED
+                RECENT_ACTIVITY_VIEW_LOADING_FAILED,
+                _ -> {
+                }
         );
     }
 
@@ -158,7 +162,7 @@ public class DashboardController {
                 clientService::getClientStatsVsLastMonth,
                 clientAcquisitionStatsDTO -> {
                     setTextOnLabel(newClientsThisMonth, parseNumberValueToText(clientAcquisitionStatsDTO.getNewClientsThisMonth()));
-                    setTextOnLabel(newClientsPercentageVsLastMonth, formatAsPercentage(clientAcquisitionStatsDTO.getPercentageVsLastMonth()) + " vs mes anterior");
+                    setTextOnLabel(newClientsPercentageVsLastMonth, formatAsPercentage(clientAcquisitionStatsDTO.getPercentageVsLastMonth()) + VS_LAST_MONTH);
                 }
         );
     }
@@ -169,7 +173,7 @@ public class DashboardController {
                 appointmentService::getExpectedIncomeToday,
                 expectedIncomeStatDTO -> {
                     setTextOnLabel(expectedIncome, formatAsPrice(expectedIncomeStatDTO.getExpectedIncomeSumForToday()));
-                    setTextOnLabel(averageTicketValue, "Promedio por ticket " + formatPriceAsString(expectedIncomeStatDTO.getAverageTicket()));
+                    setTextOnLabel(averageTicketValue, AVERAGE_PER_TICKET + formatPriceAsString(expectedIncomeStatDTO.getAverageTicket()));
                 }
         );
     }
@@ -191,37 +195,37 @@ public class DashboardController {
                 productService::getInventoryAlertStat,
                 inventoryAlertStatsDTO -> {
                     setTextOnLabel(lowStockProductCount, parseNumberValueToText(inventoryAlertStatsDTO.getLowStockProductsCount()));
-                    setTextOnLabel(outOfStockProductCount, "Agotados: " + parseNumberValueToText(inventoryAlertStatsDTO.getOutOfStockProductsCount()));
+                    setTextOnLabel(outOfStockProductCount, OUT_OF_STOCK_PREFFIX + parseNumberValueToText(inventoryAlertStatsDTO.getOutOfStockProductsCount()));
                 }
         );
     }
 
     private void configureButtonActions() {
 
-        Map<Button, Runnable> navBarButtonsMap = Map.of(
-                navbarDashboardButton, () -> viewRedirectionHelper.redirectToView(DASHBOARD, borderPane, applicationContext, this::reloadDashboard),
-                navbarClientButton, () -> viewRedirectionHelper.redirectToView(CLIENTS, borderPane, applicationContext),
-                navbarEmployeeButton, () -> viewRedirectionHelper.redirectToView(EMPLOYEES, borderPane, applicationContext),
-                navbarAppointmentButton, () -> viewRedirectionHelper.redirectToView(APPOINTMENTS, borderPane, applicationContext),
-                navbarBarberServiceButton, () -> viewRedirectionHelper.redirectToView(BARBER_SERVICES, borderPane, applicationContext),
-                navbarProductButton, () -> viewRedirectionHelper.redirectToView(PRODUCTS, borderPane, applicationContext),
-                navbarPaymentButton, () -> viewRedirectionHelper.redirectToView(PAYMENT_METHODS, borderPane, applicationContext),
-                navbarSettingsButton, () -> viewRedirectionHelper.redirectToView(SETTINGS, borderPane, applicationContext),
-                navbarLogoutButton, this::manageLogout
+        Map<Button, Runnable> navBarButtonsMap = Map.ofEntries(
+                Map.entry(navbarDashboardButton, () -> viewRedirectionHelper.redirectToView(DASHBOARD, borderPane, applicationContext, this::reloadDashboard)),
+                Map.entry(navbarClientButton, () -> viewRedirectionHelper.redirectToView(CLIENTS, borderPane, applicationContext)),
+                Map.entry(navbarEmployeeButton, () -> viewRedirectionHelper.redirectToView(EMPLOYEES, borderPane, applicationContext)),
+                Map.entry(navbarAppointmentButton, () -> viewRedirectionHelper.redirectToView(APPOINTMENTS, borderPane, applicationContext)),
+                Map.entry(navbarBarberServiceButton, () -> viewRedirectionHelper.redirectToView(BARBER_SERVICES, borderPane, applicationContext)),
+                Map.entry(navbarProductButton, () -> viewRedirectionHelper.redirectToView(PRODUCTS, borderPane, applicationContext)),
+                Map.entry(navbarPaymentButton, () -> viewRedirectionHelper.redirectToView(PAYMENT_METHODS, borderPane, applicationContext)),
+                Map.entry(navbarSettingsButton, () -> viewRedirectionHelper.redirectToView(SETTINGS, borderPane, applicationContext)),
+                Map.entry(navbarLogoutButton, this::manageLogout)
         );
 
-        Map<Button, Runnable> quickAccessButtonsMap = Map.of(
-                clientsViewButton, () -> viewRedirectionHelper.redirectToView(CLIENTS, borderPane, applicationContext),
-                employeeViewButton, () -> viewRedirectionHelper.redirectToView(EMPLOYEES, borderPane, applicationContext),
-                appointmentsViewButton, () -> viewRedirectionHelper.redirectToView(APPOINTMENTS, borderPane, applicationContext),
-                productsViewButton, () -> viewRedirectionHelper.redirectToView(PRODUCTS, borderPane, applicationContext)
+        Map<Button, Runnable> quickAccessButtonsMap = Map.ofEntries(
+                Map.entry(clientsViewButton, () -> viewRedirectionHelper.redirectToView(CLIENTS, borderPane, applicationContext)),
+                Map.entry(employeeViewButton, () -> viewRedirectionHelper.redirectToView(EMPLOYEES, borderPane, applicationContext)),
+                Map.entry(appointmentsViewButton, () -> viewRedirectionHelper.redirectToView(APPOINTMENTS, borderPane, applicationContext)),
+                Map.entry(productsViewButton, () -> viewRedirectionHelper.redirectToView(PRODUCTS, borderPane, applicationContext))
         );
 
-        Map<Button, Runnable> quickCreationButtonsMap = Map.of(
-                createClientButton, () -> viewRedirectionHelper.redirectToView(CLIENT_CREATION, borderPane, applicationContext),
-                createEmployeeButton, () -> viewRedirectionHelper.redirectToView(EMPLOYEE_CREATION, borderPane, applicationContext),
-                createAppointmentButton, () -> viewRedirectionHelper.redirectToView(APPOINTMENT_CREATION, borderPane, applicationContext),
-                createProductButton, () -> viewRedirectionHelper.redirectToView(PRODUCT_CREATION, borderPane, applicationContext)
+        Map<Button, Runnable> quickCreationButtonsMap = Map.ofEntries(
+                Map.entry(createClientButton, () -> viewRedirectionHelper.redirectToView(CLIENT_CREATION, borderPane, applicationContext)),
+                Map.entry(createEmployeeButton, () -> viewRedirectionHelper.redirectToView(EMPLOYEE_CREATION, borderPane, applicationContext)),
+                Map.entry(createAppointmentButton, () -> viewRedirectionHelper.redirectToView(APPOINTMENT_CREATION, borderPane, applicationContext)),
+                Map.entry(createProductButton, () -> viewRedirectionHelper.redirectToView(PRODUCT_CREATION, borderPane, applicationContext))
         );
 
         configureRunnableMaps(navBarButtonsMap, quickAccessButtonsMap, quickCreationButtonsMap);

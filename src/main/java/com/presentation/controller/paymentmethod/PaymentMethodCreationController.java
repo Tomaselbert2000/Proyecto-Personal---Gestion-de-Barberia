@@ -125,10 +125,10 @@ public class PaymentMethodCreationController extends BaseCrudFormController<Paym
     @Override
     protected void configureButtonActions() {
 
-        Map<Button, Runnable> map = Map.of(
-                backButton, () -> viewRedirectionHelper.redirectToView(PAYMENT_METHODS, getAnchorPane(), getApplicationContext()),
-                resetFormButton, this::resetForm,
-                saveButton, this::saveEntity
+        Map<Button, Runnable> map = Map.ofEntries(
+                Map.entry(backButton, () -> viewRedirectionHelper.redirectToView(PAYMENT_METHODS, getAnchorPane(), getApplicationContext())),
+                Map.entry(resetFormButton, this::resetForm),
+                Map.entry(saveButton, this::saveEntity)
         );
 
         configureRunnableMaps(map);

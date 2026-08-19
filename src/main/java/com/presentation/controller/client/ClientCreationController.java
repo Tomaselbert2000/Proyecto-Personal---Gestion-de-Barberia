@@ -201,13 +201,15 @@ public class ClientCreationController extends BaseCrudFormController<ClientCreat
     @Override
     protected void configureButtonActions() {
 
-        Map<Button, Runnable> map = Map.of(
-                backButton, () -> viewRedirectionHelper.redirectToView(CLIENTS, getAnchorPane(), getApplicationContext()),
-                cleanAllFieldsButton, this::resetForm,
-                addPhoneButton, this::addPhoneToList,
-                saveButton, this::saveEntity
+        Map<Button, Runnable> map = Map.ofEntries(
+                Map.entry(backButton, () -> viewRedirectionHelper.redirectToView(CLIENTS, getAnchorPane(), getApplicationContext())),
+                Map.entry(cleanAllFieldsButton, this::resetForm),
+                Map.entry(addPhoneButton, this::addPhoneToList),
+                Map.entry(saveButton, this::saveEntity)
         );
 
         configureRunnableMaps(map);
     }
+
+    //TODO: revisar por que no aparece ventana de dialogo al fallar validación en registro de cliente
 }

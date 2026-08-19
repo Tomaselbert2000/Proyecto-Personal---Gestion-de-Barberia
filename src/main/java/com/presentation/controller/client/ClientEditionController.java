@@ -230,11 +230,11 @@ public class ClientEditionController extends BaseCrudFormController<ClientUpdate
     @Override
     protected void configureButtonActions() {
 
-        Map<Button, Runnable> map = Map.of(
-                backButton, () -> viewRedirectionHelper.redirectToView(CLIENTS, getAnchorPane(), getApplicationContext()),
-                cancelButton, this::resetForm,
-                addPhoneButton, () -> addPhoneToList(""),
-                saveButton, this::saveEntity
+        Map<Button, Runnable> map = Map.ofEntries(
+                Map.entry(backButton, () -> viewRedirectionHelper.redirectToView(CLIENTS, getAnchorPane(), getApplicationContext())),
+                Map.entry(cancelButton, this::resetForm),
+                Map.entry(addPhoneButton, () -> addPhoneToList("")),
+                Map.entry(saveButton, this::saveEntity)
         );
 
         configureRunnableMaps(map);

@@ -142,9 +142,9 @@ public class EmployeeItemController extends AbstractItemController<EmployeeInfoD
     @Override
     protected void configureButtonActions() {
 
-        Map<Button, Runnable> map = Map.of(
-                editButton, this::goToEditEmployeeView,
-                toggleStatusButton, this::changeEmployeeActivityStatus
+        Map<Button, Runnable> map = Map.ofEntries(
+                Map.entry(editButton, this::goToEditEmployeeView),
+                Map.entry(toggleStatusButton, this::changeEmployeeActivityStatus)
         );
 
         configureRunnableMaps(map);

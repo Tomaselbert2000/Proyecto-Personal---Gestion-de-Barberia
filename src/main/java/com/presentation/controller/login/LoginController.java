@@ -53,9 +53,9 @@ public class LoginController {
 
     private void configureButtonActions() {
 
-        Map<Button, Runnable> actionButtonsMap = Map.of(
-                loginButton, this::handleLoginClick,
-                registerButton, this::handleRegisterClick
+        Map<Button, Runnable> actionButtonsMap = Map.ofEntries(
+                Map.entry(loginButton, this::handleLoginClick),
+                Map.entry(registerButton, this::handleRegisterClick)
         );
 
         configureRunnableMaps(actionButtonsMap);

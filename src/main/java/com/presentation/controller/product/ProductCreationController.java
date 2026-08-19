@@ -17,7 +17,6 @@ import javafx.scene.layout.AnchorPane;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
-import java.io.File;
 import java.util.List;
 import java.util.Map;
 
@@ -29,6 +28,8 @@ import static com.presentation.support.control.ComboBoxHelper.loadEnumsOnComboBo
 import static com.presentation.support.control.ComboBoxHelper.removeFirstItemFromComboBox;
 import static com.presentation.support.control.UIBasicComponents.*;
 import static com.presentation.support.control.ValidationFormatter.*;
+import static com.presentation.support.format.NumberParser.parseTextToDouble;
+import static com.presentation.support.format.NumberParser.parseTextToInteger;
 import static com.presentation.support.io.FileImageHelper.*;
 import com.presentation.support.view.ViewRedirectionHelper;
 
@@ -134,15 +135,15 @@ public class ProductCreationController extends BaseCrudFormController<ProductCre
                 .optionalDescription(optionalDescription.getText())
                 .brandName(brandName.getText())
                 .presentationUnit(presentationUnitComboBox.getValue())
-                .presentationSize(parseTextToInteger(productPresentationField.getText()))
-                .productCost(parseTextToDouble(productCost.getText()))
-                .minPrice(parseTextToDouble(minPrice.getText()))
-                .currentPrice(parseTextToDouble(currentPrice.getText()))
-                .productWholeSalePrice(parseTextToDouble(wholesalePrice.getText()))
-                .maxDiscountPercentage(parseTextToDouble(maxDiscount.getText()))
+                .presentationSize(parseTextToInteger(productPresentationField.getText(), 0))
+                .productCost(parseTextToDouble(productCost.getText(), 0.0))
+                .minPrice(parseTextToDouble(minPrice.getText(), 0.0))
+                .currentPrice(parseTextToDouble(currentPrice.getText(), 0.0))
+                .productWholeSalePrice(parseTextToDouble(wholesalePrice.getText(), 0.0))
+                .maxDiscountPercentage(parseTextToDouble(maxDiscount.getText(), 0.0))
                 .category(productCategorySelector.getValue())
-                .currentStockLevel(parseTextToInteger(currentStockLevel.getText()))
-                .safetyStockLevel(parseTextToInteger(safetyStockLevel.getText()))
+                .currentStockLevel(parseTextToInteger(currentStockLevel.getText(), 0))
+                .safetyStockLevel(parseTextToInteger(safetyStockLevel.getText(), 0))
                 .imageFilePath(filePath)
                 .build();
     }
@@ -172,12 +173,12 @@ public class ProductCreationController extends BaseCrudFormController<ProductCre
     @Override
     protected void configureButtonActions() {
 
-        Map<Button, Runnable> map = Map.of(
-                selectImageButton, this::handleImageSelection,
-                removeImageButton, () -> cleanImageView(productImagePreview),
-                backButton, () -> viewRedirectionHelper.redirectToView(PRODUCTS, getAnchorPane(), getApplicationContext()),
-                resetFormButton, this::resetForm,
-                saveButton, this::saveEntity
+        Map<Button, Runnable> map = Map.ofEntries(
+                Map.entry(selectImageButton, this::handleImageSelection),
+                Map.entry(removeImageButton, () -> cleanImageView(productImagePreview)),
+                Map.entry(backButton, () -> viewRedirectionHelper.redirectToView(PRODUCTS, getAnchorPane(), getApplicationContext())),
+                Map.entry(resetFormButton, this::resetForm),
+                Map.entry(saveButton, this::saveEntity)
         );
 
         configureRunnableMaps(map);

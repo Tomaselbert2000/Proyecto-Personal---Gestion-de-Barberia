@@ -89,9 +89,9 @@ public class PaymentMethodItemController extends AbstractItemController<PaymentM
     @Override
     protected void configureButtonActions() {
 
-        Map<Button, Runnable> map = Map.of(
-                editButton, this::goToEditPaymentMethodInfo,
-                toggleStatusButton, this::changePaymentMethodActiveValue
+        Map<Button, Runnable> map = Map.ofEntries(
+                Map.entry(editButton, this::goToEditPaymentMethodInfo),
+                Map.entry(toggleStatusButton, this::changePaymentMethodActiveValue)
         );
 
         configureRunnableMaps(map);

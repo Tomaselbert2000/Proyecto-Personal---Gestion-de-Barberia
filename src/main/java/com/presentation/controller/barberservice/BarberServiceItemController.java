@@ -65,9 +65,9 @@ public class BarberServiceItemController extends AbstractItemController<BarberSe
     @Override
     protected void configureButtonActions() {
 
-        Map<Button, Runnable> map = Map.of(
-                editButton, this::goToEditBarberServiceView,
-                deleteButton, this::goToDeleteBarberServiceView
+        Map<Button, Runnable> map = Map.ofEntries(
+                Map.entry(editButton, this::goToEditBarberServiceView),
+                Map.entry(deleteButton, this::goToDeleteBarberServiceView)
         );
 
         configureRunnableMaps(map);

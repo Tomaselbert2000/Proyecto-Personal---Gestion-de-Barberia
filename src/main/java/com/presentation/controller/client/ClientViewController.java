@@ -15,9 +15,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
@@ -37,8 +35,6 @@ import static com.presentation.support.view.FXMLViewLoader.loadViewOnPane;
 import static com.presentation.support.view.FXMLViewLoader.loadViewWithControllerPane;
 
 @Component
-@Getter
-@Setter
 @RequiredArgsConstructor
 public class ClientViewController extends BaseCatalogViewController<ClientInfoDTO> {
 
@@ -94,9 +90,9 @@ public class ClientViewController extends BaseCatalogViewController<ClientInfoDT
     @Override
     protected void configureButtonActions() {
 
-        Map<Button, Runnable> map = Map.of(
-                cleanFiltersButton, this::resetSearchFilter,
-                createClientButton, this::goToRegisterNewClientView
+        Map<Button, Runnable> map = Map.ofEntries(
+                Map.entry(cleanFiltersButton, this::resetSearchFilter),
+                Map.entry(createClientButton, this::goToRegisterNewClientView)
         );
 
         configureRunnableMaps(map);
@@ -226,7 +222,7 @@ public class ClientViewController extends BaseCatalogViewController<ClientInfoDT
 
     private void goToRegisterNewClientView() {
 
-        loadViewOnPane(CLIENT_CREATION_VIEW_PATH, getApplicationContext(), CLIENT_CREATION_VIEW_LOADING_FAILED, getAnchorPane());
+        loadViewOnPane(CLIENT_CREATION_VIEW_PATH, applicationContext, CLIENT_CREATION_VIEW_LOADING_FAILED, anchorPane);
     }
 
     private void goToClientEditionView(ClientInfoDTO infoDTO) {

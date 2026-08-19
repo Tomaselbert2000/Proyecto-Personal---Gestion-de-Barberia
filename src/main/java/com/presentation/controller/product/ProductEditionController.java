@@ -5,6 +5,7 @@ import com.dto.product.ProductUpdateDTO;
 import com.enums.ProductCategory;
 import com.enums.ProductPresentationUnit;
 import com.presentation.controller.BaseCrudFormController;
+import com.presentation.support.view.ViewRedirectionHelper;
 import com.service.interfaces.ProductService;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.fxml.FXML;
@@ -21,16 +22,18 @@ import java.io.File;
 import java.util.Map;
 
 import static com.enums.ViewRedirection.PRODUCTS;
+import static com.presentation.concurrency.ConcurrencyManager.executeAsyncTask;
 import static com.presentation.constants.StringResource.ToastNotificationMessage.PRODUCT_UPDATE_TOAST_NOTIFICATION_MESSAGE;
 import static com.presentation.constants.StringResource.ValidationErrorMessage.PRODUCT_EDITION_VALIDATION_FAILED;
 import static com.presentation.support.control.ComboBoxHelper.loadEnumsOnComboBox;
 import static com.presentation.support.control.ComboBoxHelper.removeFirstItemFromComboBox;
 import static com.presentation.support.control.UIBasicComponents.configureRunnableMaps;
 import static com.presentation.support.control.UIBasicComponents.setTextsOnTextfieldMap;
-import static com.presentation.concurrency.ConcurrencyManager.executeAsyncTask;
-import static com.presentation.support.control.ValidationFormatter.*;
+import static com.presentation.support.control.ValidationFormatter.parseNumberValueToText;
+import static com.presentation.support.control.ValidationFormatter.setStringConverter;
+import static com.presentation.support.format.NumberParser.parseTextToDouble;
+import static com.presentation.support.format.NumberParser.parseTextToInteger;
 import static com.presentation.support.io.FileImageHelper.*;
-import com.presentation.support.view.ViewRedirectionHelper;
 
 @Component
 public class ProductEditionController extends BaseCrudFormController<ProductUpdateDTO, ProductInfoDTO> {
@@ -149,12 +152,12 @@ public class ProductEditionController extends BaseCrudFormController<ProductUpda
     @Override
     protected void configureButtonActions() {
 
-        Map<Button, Runnable> map = Map.of(
-                backButton, () -> viewRedirectionHelper.redirectToView(PRODUCTS, getAnchorPane(), getApplicationContext()),
-                resetButton, this::resetForm,
-                removeImageButton, () -> cleanImageView(productImagePreview),
-                selectImageButton, this::handleImageSelection,
-                saveButton, this::saveEntity
+        Map<Button, Runnable> map = Map.ofEntries(
+                Map.entry(backButton, () -> viewRedirectionHelper.redirectToView(PRODUCTS, getAnchorPane(), getApplicationContext())),
+                Map.entry(resetButton, this::resetForm),
+                Map.entry(removeImageButton, () -> cleanImageView(productImagePreview)),
+                Map.entry(selectImageButton, this::handleImageSelection),
+                Map.entry(saveButton, this::saveEntity)
         );
 
         configureRunnableMaps(map);
@@ -206,15 +209,15 @@ public class ProductEditionController extends BaseCrudFormController<ProductUpda
                 .optionalDescription(optionalDescription.getText())
                 .brandName(brandName.getText())
                 .presentationUnit(productPresentationUnitSelector.getValue())
-                .presentationSize(parseTextToInteger(productPresentationField.getText()))
-                .productCost(parseTextToDouble(productCost.getText()))
-                .minPrice(parseTextToDouble(minPrice.getText()))
-                .currentPrice(parseTextToDouble(currentPrice.getText()))
-                .productWholeSalePrice(parseTextToDouble(productWholeSalePrice.getText()))
-                .maxDiscountPercentage(parseTextToDouble(maxDiscountPercentage.getText()))
+                .presentationSize(parseTextToInteger(productPresentationField.getText(), 0))
+                .productCost(parseTextToDouble(productCost.getText(), 0.0))
+                .minPrice(parseTextToDouble(minPrice.getText(), 0.0))
+                .currentPrice(parseTextToDouble(currentPrice.getText(), 0.0))
+                .productWholeSalePrice(parseTextToDouble(productWholeSalePrice.getText(), 0.0))
+                .maxDiscountPercentage(parseTextToDouble(maxDiscountPercentage.getText(), 0.0))
                 .category(productCategorySelector.getValue())
-                .currentStockLevel(parseTextToInteger(currentStockLevel.getText()))
-                .safetyStockLevel(parseTextToInteger(safetyStockLevel.getText()))
+                .currentStockLevel(parseTextToInteger(currentStockLevel.getText(), 0))
+                .safetyStockLevel(parseTextToInteger(safetyStockLevel.getText(), 0))
                 .imageFilePath(filePath)
                 .build();
     }

@@ -127,10 +127,10 @@ public class AppointmentEditionController extends BaseCrudFormController<Appoint
     @Override
     protected void configureButtonActions() {
 
-        Map<Button, Runnable> map = Map.of(
-                backButton, () -> viewRedirectionHelper.redirectToView(APPOINTMENTS, getAnchorPane(), getApplicationContext()),
-                restoreValuesButton, this::resetForm,
-                saveButton, this::saveEntity
+        Map<Button, Runnable> map = Map.ofEntries(
+                Map.entry(backButton, () -> viewRedirectionHelper.redirectToView(APPOINTMENTS, getAnchorPane(), getApplicationContext())),
+                Map.entry(restoreValuesButton, this::resetForm),
+                Map.entry(saveButton, this::saveEntity)
         );
         configureRunnableMaps(map);
     }

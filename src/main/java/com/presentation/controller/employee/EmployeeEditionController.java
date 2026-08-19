@@ -182,11 +182,11 @@ public class EmployeeEditionController extends BaseCrudFormController<EmployeeUp
     @Override
     protected void configureButtonActions() {
 
-        Map<Button, Runnable> map = Map.of(
-                backButton, () -> viewRedirectionHelper.redirectToView(EMPLOYEES, anchorPane, getApplicationContext()),
-                saveButton, this::saveEntity,
-                resetButton, this::resetForm,
-                toggleStatusButton, this::changeTextOnToggleStatusButton
+        Map<Button, Runnable> map = Map.ofEntries(
+                Map.entry(backButton, () -> viewRedirectionHelper.redirectToView(EMPLOYEES, anchorPane, getApplicationContext())),
+                Map.entry(saveButton, this::saveEntity),
+                Map.entry(resetButton, this::resetForm),
+                Map.entry(toggleStatusButton, this::changeTextOnToggleStatusButton)
         );
 
         configureRunnableMaps(map);

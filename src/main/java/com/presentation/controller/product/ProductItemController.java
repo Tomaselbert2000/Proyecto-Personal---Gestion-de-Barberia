@@ -83,9 +83,9 @@ public class ProductItemController extends AbstractItemController<ProductInfoDTO
     @Override
     protected void configureButtonActions() {
 
-        Map<Button, Runnable> map = Map.of(
-                editButton, this::goToEditProductView,
-                addStockButton, this::goToAddStockView
+        Map<Button, Runnable> map = Map.ofEntries(
+                Map.entry(editButton, this::goToEditProductView),
+                Map.entry(addStockButton, this::goToAddStockView)
         );
 
         configureRunnableMaps(map);

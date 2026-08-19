@@ -54,9 +54,9 @@ public class ClientItemController extends AbstractItemController<ClientInfoDTO> 
     @Override
     protected void configureButtonActions() {
 
-        Map<Button, Runnable> map = Map.of(
-                editButton, this::goToEditClient,
-                sendWhatsAppMessageButton, this::sendWhatsAppMessage
+        Map<Button, Runnable> map = Map.ofEntries(
+                Map.entry(editButton, this::goToEditClient),
+                Map.entry(sendWhatsAppMessageButton, this::sendWhatsAppMessage)
         );
 
         configureRunnableMaps(map);

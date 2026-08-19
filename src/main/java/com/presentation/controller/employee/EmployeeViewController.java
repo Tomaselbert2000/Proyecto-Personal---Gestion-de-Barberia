@@ -157,9 +157,9 @@ public class EmployeeViewController extends BaseCatalogViewController<EmployeeIn
     @Override
     protected void configureButtonActions() {
 
-        Map<Button, Runnable> map = Map.of(
-                clearFiltersButton, this::resetSearchFilter,
-                newEmployeeButton, this::goToRegisterNewEmployeeView
+        Map<Button, Runnable> map = Map.ofEntries(
+                Map.entry(clearFiltersButton, this::resetSearchFilter),
+                Map.entry(newEmployeeButton, this::goToRegisterNewEmployeeView)
         );
 
         configureRunnableMaps(map);

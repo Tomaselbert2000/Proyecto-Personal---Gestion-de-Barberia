@@ -315,13 +315,13 @@ public class AppointmentCreationController extends BaseCrudFormController<Appoin
     @Override
     protected void configureButtonActions() {
 
-        Map<Button, Runnable> map = Map.of(
+        Map<Button, Runnable> map = Map.ofEntries(
 
-                backButton, () -> viewRedirectionHelper.redirectToView(APPOINTMENTS, getAnchorPane(), getApplicationContext()),
-                createClientButton, () -> viewRedirectionHelper.redirectToView(CLIENT_CREATION, getAnchorPane(), getApplicationContext()),
-                changeClientButton, this::resetClientSelection,
-                resetFormButton, this::resetForm,
-                saveButton, this::saveEntity
+                Map.entry(backButton, () -> viewRedirectionHelper.redirectToView(APPOINTMENTS, getAnchorPane(), getApplicationContext())),
+                Map.entry(createClientButton, () -> viewRedirectionHelper.redirectToView(CLIENT_CREATION, getAnchorPane(), getApplicationContext())),
+                Map.entry(changeClientButton, this::resetClientSelection),
+                Map.entry(resetFormButton, this::resetForm),
+                Map.entry(saveButton, this::saveEntity)
         );
 
         configureRunnableMaps(map);

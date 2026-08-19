@@ -93,10 +93,10 @@ public class AppointmentItemController extends AbstractItemController<Appointmen
     @Override
     protected void configureButtonActions() {
 
-        Map<Button, Runnable> map = Map.of(
-                editButton, this::goToEditAppointment,
-                completeButton, this::setAppointmentAsComplete,
-                cancelButton, this::setAppointmentAsCanceled
+        Map<Button, Runnable> map = Map.ofEntries(
+                Map.entry(editButton, this::goToEditAppointment),
+                Map.entry(completeButton, this::setAppointmentAsComplete),
+                Map.entry(cancelButton, this::setAppointmentAsCanceled)
         );
 
         configureRunnableMaps(map);

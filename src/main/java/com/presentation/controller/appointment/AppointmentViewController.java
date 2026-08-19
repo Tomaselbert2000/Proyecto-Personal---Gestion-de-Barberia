@@ -280,6 +280,8 @@ public class AppointmentViewController extends BaseCatalogViewController<Appoint
         setStringConverter(appointmentStatusSelector, AppointmentStatus.TODOS);
 
         loadGenericTypeListOnComboBox(employeeSelector, employees);
+
+        employeeSelector.getSelectionModel().selectFirst();
     }
 
     @Override
@@ -296,9 +298,9 @@ public class AppointmentViewController extends BaseCatalogViewController<Appoint
     @Override
     protected void configureButtonActions() {
 
-        Map<Button, Runnable> map = Map.of(
-                clearFiltersButton, this::resetSearchFilter,
-                registerNewAppointmentButton, this::goToAppointmentCreationView
+        Map<Button, Runnable> map = Map.ofEntries(
+                Map.entry(clearFiltersButton, this::resetSearchFilter),
+                Map.entry(registerNewAppointmentButton, this::goToAppointmentCreationView)
         );
 
         configureRunnableMaps(map);

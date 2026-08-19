@@ -96,10 +96,10 @@ public class BarberServiceEditionController extends BaseCrudFormController<Barbe
     @Override
     protected void configureButtonActions() {
 
-        Map<Button, Runnable> map = Map.of(
-                backButton, () -> viewRedirectionHelper.redirectToView(BARBER_SERVICES, anchorPane, getApplicationContext()),
-                restoreValuesButton, this::resetForm,
-                updateButton, this::saveEntity
+        Map<Button, Runnable> map = Map.ofEntries(
+                Map.entry(backButton, () -> viewRedirectionHelper.redirectToView(BARBER_SERVICES, anchorPane, getApplicationContext())),
+                Map.entry(restoreValuesButton, this::resetForm),
+                Map.entry(updateButton, this::saveEntity)
         );
 
         configureRunnableMaps(map);

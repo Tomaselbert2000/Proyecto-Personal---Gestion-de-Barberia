@@ -17,9 +17,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import org.springframework.context.ApplicationContext;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
@@ -49,8 +47,6 @@ import static com.presentation.support.view.ContainerManager.loadItemsOnControll
 import static com.presentation.support.view.FXMLViewLoader.loadViewWithControllerPane;
 
 @Component
-@Getter
-@Setter
 @RequiredArgsConstructor
 public class BarberServiceViewController extends BaseCatalogViewController<BarberServiceInfoDTO> {
 
@@ -187,9 +183,9 @@ public class BarberServiceViewController extends BaseCatalogViewController<Barbe
     @Override
     protected void configureButtonActions() {
 
-        Map<Button, Runnable> map = Map.of(
-                createBarberServiceButton, () -> viewRedirectionHelper.redirectToView(BARBER_SERVICE_CREATION, getAnchorPane(), getApplicationContext()),
-                cleanFiltersButton, this::resetSearchFilter
+        Map<Button, Runnable> map = Map.ofEntries(
+                Map.entry(createBarberServiceButton, () -> viewRedirectionHelper.redirectToView(BARBER_SERVICE_CREATION, anchorPane, applicationContext)),
+                Map.entry(cleanFiltersButton, this::resetSearchFilter)
         );
 
         configureRunnableMaps(map);

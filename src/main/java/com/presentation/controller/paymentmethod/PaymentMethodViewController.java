@@ -143,9 +143,9 @@ public class PaymentMethodViewController extends BaseCatalogViewController<Payme
     @Override
     protected void configureButtonActions() {
 
-        Map<Button, Runnable> map = Map.of(
-                createPaymentMethodButton, this::createPaymentMethod,
-                clearFiltersButton, this::resetSearchFilter
+        Map<Button, Runnable> map = Map.ofEntries(
+                Map.entry(createPaymentMethodButton, this::createPaymentMethod),
+                Map.entry(clearFiltersButton, this::resetSearchFilter)
         );
 
         configureRunnableMaps(map);

@@ -53,9 +53,9 @@ public class RegisterController {
 
     private void configureButtonActions() {
 
-        Map<Button, Runnable> map = Map.of(
-                backButton, () -> viewRedirectionHelper.redirectToView(ViewRedirection.LOGIN, anchorPane, applicationContext),
-                createUserButton, this::createNewUser
+        Map<Button, Runnable> map = Map.ofEntries(
+                Map.entry(backButton, () -> viewRedirectionHelper.redirectToView(ViewRedirection.LOGIN, anchorPane, applicationContext)),
+                Map.entry(createUserButton, this::createNewUser)
         );
 
         configureRunnableMaps(map);

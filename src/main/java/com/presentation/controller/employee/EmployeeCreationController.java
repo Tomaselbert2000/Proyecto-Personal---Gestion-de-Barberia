@@ -129,10 +129,10 @@ public class EmployeeCreationController extends BaseCrudFormController<EmployeeC
     @Override
     protected void configureButtonActions() {
 
-        Map<Button, Runnable> map = Map.of(
-                backButton, () -> viewRedirectionHelper.redirectToView(ViewRedirection.EMPLOYEES, getAnchorPane(), getApplicationContext()),
-                clearButton, this::resetForm,
-                saveButton, this::saveEntity
+        Map<Button, Runnable> map = Map.ofEntries(
+                Map.entry(backButton, () -> viewRedirectionHelper.redirectToView(ViewRedirection.EMPLOYEES, getAnchorPane(), getApplicationContext())),
+                Map.entry(clearButton, this::resetForm),
+                Map.entry(saveButton, this::saveEntity)
         );
 
         configureRunnableMaps(map);

@@ -153,9 +153,9 @@ public class ProductViewController extends BaseCatalogViewController<ProductInfo
     @Override
     protected void configureButtonActions() {
 
-        Map<Button, Runnable> map = Map.of(
-                createProductButton, this::goToRegisterNewProductView,
-                cleanFiltersButton, this::resetSearchFilter
+        Map<Button, Runnable> map = Map.ofEntries(
+                Map.entry(createProductButton, this::goToRegisterNewProductView),
+                Map.entry(cleanFiltersButton, this::resetSearchFilter)
         );
 
         configureRunnableMaps(map);
