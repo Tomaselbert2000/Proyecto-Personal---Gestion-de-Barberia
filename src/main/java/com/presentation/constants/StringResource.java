@@ -74,6 +74,8 @@ public final class StringResource {
         public static final String TIMES_USED = " veces usado";
         public static final String NEW_THIS_MONTH = " nuevos este mes";
         public static final String NO_PHONE_REGISTERED = " sin teléfono";
+        public static final String AVERAGE_PER_TICKET = "Promedio por ticket ";
+        public static final String OUT_OF_STOCK_PREFFIX = "Agotados: ";
     }
 
     public static final class StringFormat {
