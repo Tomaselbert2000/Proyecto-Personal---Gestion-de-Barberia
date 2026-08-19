@@ -196,4 +196,9 @@ public final class StringResource {
 
         public static final String CONFIRMATION_DIALOG_VIEW_LOADING_FAILED = ERROR_PREFIX + "diálogo de confirmación.";
     }
+
+    public static final class URLs {
+
+        public static final String WHATSPAPP_API_URL = "https://wa.me/";
+    }
 }

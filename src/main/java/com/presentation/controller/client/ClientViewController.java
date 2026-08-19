@@ -7,6 +7,7 @@ import com.enums.RegistrationDateRange;
 import com.presentation.controller.BaseCatalogViewController;
 import com.service.interfaces.ClientService;
 import io.github.palexdev.materialfx.controls.MFXButton;
+import javafx.application.HostServices;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -26,8 +27,10 @@ import static com.presentation.concurrency.ConcurrencyManager.executeAsyncTask;
 import static com.presentation.constants.StringResource.EmptyListMessage.EMPTY_CLIENT_LIST_MESSAGE;
 import static com.presentation.constants.StringResource.FxmlViewLoadingErrorMessage.*;
 import static com.presentation.constants.StringResource.StatMessageSuffix.*;
+import static com.presentation.constants.StringResource.URLs.WHATSPAPP_API_URL;
 import static com.presentation.constants.ViewPath.*;
-import static com.presentation.support.control.ComboBoxHelper.*;
+import static com.presentation.support.control.ComboBoxHelper.loadEnumsOnComboBox;
+import static com.presentation.support.control.ComboBoxHelper.resetComboBoxFilter;
 import static com.presentation.support.control.UIBasicComponents.*;
 import static com.presentation.support.control.ValidationFormatter.*;
 import static com.presentation.support.view.ContainerManager.loadItemsOnController;
@@ -40,6 +43,7 @@ public class ClientViewController extends BaseCatalogViewController<ClientInfoDT
 
     private final ApplicationContext applicationContext;
     private final ClientService clientService;
+    private final HostServices hostServices;
 
     @FXML
     private AnchorPane anchorPane;
@@ -217,7 +221,9 @@ public class ClientViewController extends BaseCatalogViewController<ClientInfoDT
 
     private void sendWhatsAppMessage(ClientInfoDTO clientInfoDTO) {
 
-        //TODO: pendiente de diseño e implementación
+        String mainPhone = clientInfoDTO.getPhoneNumbersList().getFirst();
+
+        hostServices.showDocument(WHATSPAPP_API_URL + mainPhone);
     }
 
     private void goToRegisterNewClientView() {

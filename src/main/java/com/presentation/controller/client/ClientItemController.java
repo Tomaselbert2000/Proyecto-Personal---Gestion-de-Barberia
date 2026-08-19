@@ -41,6 +41,8 @@ public class ClientItemController extends AbstractItemController<ClientInfoDTO> 
     @Override
     public void setDataOnItem(ClientInfoDTO item) {
 
+        infoDTOReference = item;
+
         Map<Label, String> map = Map.of(
                 clientFirstName, item.getFirstName(),
                 clientLastName, item.getLastName(),
