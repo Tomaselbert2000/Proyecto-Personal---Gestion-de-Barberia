@@ -114,18 +114,15 @@ public class ProductItemController extends AbstractItemController<ProductInfoDTO
 
         setTextsOnLabelMap(map);
 
-        Image imageToShow;
-
-        if (infoDTO.getImageFilePath() != null && !infoDTO.getImageFilePath().isBlank()) {
+        try {
 
             File file = new File(infoDTO.getImageFilePath());
 
             loadFileOnImageView(file, productImagePlaceholder);
 
-        } else {
+        } catch (Exception e) {
 
-            imageToShow = IMAGE_PLACEHOLDER;
-            productImagePlaceholder.setImage(imageToShow);
+            productImagePlaceholder.setImage(IMAGE_PLACEHOLDER);
         }
     }
 }
