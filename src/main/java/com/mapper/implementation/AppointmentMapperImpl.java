@@ -4,7 +4,6 @@ import com.dto.appointment.AppointmentCreationDTO;
 import com.dto.appointment.AppointmentInfoDTO;
 import com.dto.appointment.AppointmentUpdateDTO;
 import com.enums.AppointmentStatus;
-import com.exceptions.common.NullMapperInputException;
 import com.mapper.interfaces.AppointmentMapper;
 import com.model.Appointment;
 import com.model.BarberService;
@@ -15,6 +14,8 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.mapper.helper.MapperHelper.checkIfMapperInputIsNull;
 
 @Component
 public class AppointmentMapperImpl implements AppointmentMapper {
@@ -27,7 +28,7 @@ public class AppointmentMapperImpl implements AppointmentMapper {
             BarberService service
     ) {
 
-        if (dto == null || client == null || service == null || employee == null) throw new NullMapperInputException();
+        checkIfMapperInputIsNull(dto, client, service, employee);
 
         AppointmentStatus defaultStatus = AppointmentStatus.PROGRAMADO;
 
@@ -51,7 +52,7 @@ public class AppointmentMapperImpl implements AppointmentMapper {
             Appointment appointmentOnDB
     ) {
 
-        if (updateDTO == null || appointmentOnDB == null) throw new NullMapperInputException();
+        checkIfMapperInputIsNull(updateDTO, appointmentOnDB);
 
         setUpdatedDataOnEntity(updateDTO, employee, service, appointmentOnDB);
 
@@ -61,7 +62,7 @@ public class AppointmentMapperImpl implements AppointmentMapper {
     @Override
     public AppointmentInfoDTO mapAppointmentToInfoDto(Appointment appointment) {
 
-        if (appointment == null) throw new NullMapperInputException();
+        checkIfMapperInputIsNull(appointment);
 
         return AppointmentInfoDTO.builder()
                 .id(appointment.getAppointmentID())
@@ -84,12 +85,19 @@ public class AppointmentMapperImpl implements AppointmentMapper {
     @Override
     public List<AppointmentInfoDTO> mapAppointmentToInfoDto(List<Appointment> appointmentList) {
 
-        if (appointmentList == null) throw new NullMapperInputException();
+        checkIfMapperInputIsNull(appointmentList);
 
         return appointmentList.stream().map(this::mapAppointmentToInfoDto).collect(Collectors.toList());
     }
 
-    private void setUpdatedDataOnEntity(AppointmentUpdateDTO updateDTO, Employee employee, BarberService service, Appointment appointmentOnDB) {
+    private void setUpdatedDataOnEntity(
+            AppointmentUpdateDTO updateDTO,
+            Employee employee,
+            BarberService service,
+            Appointment appointmentOnDB
+    ) {
+
+        checkIfMapperInputIsNull(updateDTO, employee, service, appointmentOnDB);
 
         if (service != null) appointmentOnDB.setBarberservice(service);
 

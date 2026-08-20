@@ -3,7 +3,6 @@ package com.mapper.implementation;
 import com.dto.product.ProductCreationDTO;
 import com.dto.product.ProductInfoDTO;
 import com.dto.product.ProductUpdateDTO;
-import com.exceptions.common.NullMapperInputException;
 import com.mapper.interfaces.ProductMapper;
 import com.model.Product;
 import org.springframework.stereotype.Component;
@@ -12,41 +11,42 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.mapper.helper.MapperHelper.checkIfMapperInputIsNull;
 import static com.utils.strings.StringCleaner.formatAsSentence;
 
 @Component
 public class ProductMapperImpl implements ProductMapper {
 
     @Override
-    public Product mapProductCreationDTOtoEntity(ProductCreationDTO creationDTO) {
+    public Product mapProductCreationDTOtoEntity(ProductCreationDTO dto) {
 
-        if (creationDTO == null) throw new NullMapperInputException();
+        checkIfMapperInputIsNull(dto);
 
         LocalDateTime creationDate = LocalDateTime.now();
 
         return Product.builder()
-                .name(formatAsSentence(creationDTO.getName()).trim())
-                .optionalDescription(creationDTO.getOptionalDescription().trim())
-                .brandName(formatAsSentence(creationDTO.getBrandName()).trim())
-                .presentationUnit(creationDTO.getPresentationUnit())
-                .presentationSize(creationDTO.getPresentationSize())
-                .productCost(creationDTO.getProductCost())
-                .minPrice(creationDTO.getMinPrice())
-                .currentPrice(creationDTO.getCurrentPrice())
-                .productWholeSalePrice(creationDTO.getProductWholeSalePrice())
-                .maxDiscountPercentage(creationDTO.getMaxDiscountPercentage())
-                .currentStockLevel(creationDTO.getCurrentStockLevel())
-                .safetyStockLevel(creationDTO.getSafetyStockLevel())
-                .category(creationDTO.getCategory())
+                .name(formatAsSentence(dto.getName()).trim())
+                .optionalDescription(dto.getOptionalDescription().trim())
+                .brandName(formatAsSentence(dto.getBrandName()).trim())
+                .presentationUnit(dto.getPresentationUnit())
+                .presentationSize(dto.getPresentationSize())
+                .productCost(dto.getProductCost())
+                .minPrice(dto.getMinPrice())
+                .currentPrice(dto.getCurrentPrice())
+                .productWholeSalePrice(dto.getProductWholeSalePrice())
+                .maxDiscountPercentage(dto.getMaxDiscountPercentage())
+                .currentStockLevel(dto.getCurrentStockLevel())
+                .safetyStockLevel(dto.getSafetyStockLevel())
+                .category(dto.getCategory())
                 .creationDate(creationDate)
-                .imageFilePath(creationDTO.getImageFilePath())
+                .imageFilePath(dto.getImageFilePath())
                 .build();
     }
 
     @Override
     public Product mapProductUpdateDTOtoEntity(Product product, ProductUpdateDTO updateDTO) {
 
-        if (product == null || updateDTO == null) throw new NullMapperInputException();
+        checkIfMapperInputIsNull(product, updateDTO);
 
         setUpdatedDataOnEntity(product, updateDTO);
 
@@ -56,7 +56,7 @@ public class ProductMapperImpl implements ProductMapper {
     @Override
     public ProductInfoDTO mapProductToInfoDTO(Product product) {
 
-        if (product == null) throw new NullMapperInputException();
+        checkIfMapperInputIsNull(product);
 
         product.retrieveCurrentStockStatus();
 
@@ -76,7 +76,7 @@ public class ProductMapperImpl implements ProductMapper {
     @Override
     public List<ProductInfoDTO> mapProductToInfoDTO(List<Product> productList) {
 
-        if (productList == null) throw new NullMapperInputException();
+        checkIfMapperInputIsNull(productList);
 
         return productList.stream().map(this::mapProductToInfoDTO).collect(Collectors.toList());
     }
@@ -84,7 +84,7 @@ public class ProductMapperImpl implements ProductMapper {
     @Override
     public ProductUpdateDTO mapProductToUpdateDTO(Product product) {
 
-        if (product == null) throw new NullMapperInputException();
+        checkIfMapperInputIsNull(product);
 
         return ProductUpdateDTO.builder()
                 .name(product.getName())

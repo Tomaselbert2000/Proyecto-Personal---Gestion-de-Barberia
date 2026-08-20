@@ -13,33 +13,26 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.mapper.helper.MapperHelper.checkIfMapperInputIsNull;
+
 @Component
 public class BarberServiceMapperImpl implements BarberServiceMapper {
 
-    private static final String INTERNAL_NOTES_DEFAULT_VALUE = "";
-
     @Override
-    public BarberService mapBarberServiceCreationDtoToEntity(BarberServiceCreationDTO creationDTO) {
+    public BarberService mapBarberServiceCreationDtoToEntity(BarberServiceCreationDTO dto) {
 
-        if (creationDTO == null) throw new NullMapperInputException();
+        checkIfMapperInputIsNull(dto);
 
         LocalDateTime registrationTimestamp = LocalDateTime.now();
 
-        String internalNotes;
+        String internalNotes = "";
 
-        if (creationDTO.getInternalNotes() != null) {
-
-            internalNotes = StringCleaner.formatAsSentence(creationDTO.getInternalNotes());
-
-        } else {
-
-            internalNotes = INTERNAL_NOTES_DEFAULT_VALUE;
-        }
+        if (dto.getInternalNotes() != null) internalNotes = StringCleaner.formatAsSentence(dto.getInternalNotes());
 
         return BarberService.builder()
-                .name(StringCleaner.formatAsSentence(creationDTO.getName()))
-                .price(creationDTO.getPrice())
-                .serviceCategory(creationDTO.getServiceCategory())
+                .name(StringCleaner.formatAsSentence(dto.getName()))
+                .price(dto.getPrice())
+                .serviceCategory(dto.getServiceCategory())
                 .registrationTimestamp(registrationTimestamp)
                 .internalNotes(internalNotes)
                 .isCurrentlyActive(true)
@@ -49,7 +42,7 @@ public class BarberServiceMapperImpl implements BarberServiceMapper {
     @Override
     public BarberService mapBarberServiceUpdateDtoToEntity(BarberService barberService, BarberServiceUpdateDTO updateDTO) {
 
-        if (updateDTO == null || barberService == null) throw new NullMapperInputException();
+        checkIfMapperInputIsNull(updateDTO, barberService);
 
         setUpdatedDataOnBarberService(updateDTO, barberService);
 
@@ -59,21 +52,21 @@ public class BarberServiceMapperImpl implements BarberServiceMapper {
     @Override
     public BarberServiceInfoDTO mapBarberServiceToInfoDto(BarberService barberService) {
 
-        if (barberService == null) throw new NullMapperInputException();
+        checkIfMapperInputIsNull(barberService);
 
         return BarberServiceInfoDTO.builder()
                 .barberServiceId(barberService.getBarbershopServiceID())
                 .name(barberService.getName())
                 .price(barberService.getPrice())
                 .category(barberService.getServiceCategory())
-                .internalNotes(barberService.getInternalNotes() == null ? INTERNAL_NOTES_DEFAULT_VALUE : barberService.getInternalNotes())
+                .internalNotes(barberService.getInternalNotes() == null ? "" : barberService.getInternalNotes())
                 .build();
     }
 
     @Override
     public List<BarberServiceInfoDTO> mapBarberServiceToInfoDto(List<BarberService> serviceList) {
 
-        if (serviceList == null) throw new NullMapperInputException();
+        checkIfMapperInputIsNull(serviceList);
 
         return serviceList.stream().map(this::mapBarberServiceToInfoDto).collect(Collectors.toList());
 
@@ -90,7 +83,8 @@ public class BarberServiceMapperImpl implements BarberServiceMapper {
         if (updateDTO.getInternalNotes() != null)
             barberService.setInternalNotes(StringCleaner.formatAsSentence(updateDTO.getInternalNotes()));
 
-        if (updateDTO.getIsCurrentlyActive() != null) barberService.setIsCurrentlyActive(updateDTO.getIsCurrentlyActive());
+        if (updateDTO.getIsCurrentlyActive() != null)
+            barberService.setIsCurrentlyActive(updateDTO.getIsCurrentlyActive());
 
         LocalDateTime modificationTimestamp = LocalDateTime.now();
 

@@ -3,7 +3,6 @@ package com.mapper.implementation;
 import com.dto.paymentmethod.PaymentMethodCreationDTO;
 import com.dto.paymentmethod.PaymentMethodInfoDTO;
 import com.dto.paymentmethod.PaymentMethodUpdateDTO;
-import com.exceptions.common.NullMapperInputException;
 import com.mapper.interfaces.PaymentMethodMapper;
 import com.model.PaymentMethod;
 import com.utils.strings.StringCleaner;
@@ -15,6 +14,8 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.mapper.helper.MapperHelper.checkIfMapperInputIsNull;
+
 @Component
 @RequiredArgsConstructor
 public class PaymentMethodMapperImpl implements PaymentMethodMapper {
@@ -24,26 +25,26 @@ public class PaymentMethodMapperImpl implements PaymentMethodMapper {
     private final Clock clock;
 
     @Override
-    public PaymentMethod mapPaymentMethodCreationDtoToPaymentMethod(PaymentMethodCreationDTO creationDTO) {
+    public PaymentMethod mapPaymentMethodCreationDtoToPaymentMethod(PaymentMethodCreationDTO dto) {
 
-        if (creationDTO == null) throw new NullMapperInputException();
+        checkIfMapperInputIsNull(dto);
 
-        if (creationDTO.getDescription().isBlank()) creationDTO.setDescription(DEFAULT_DESCRIPTION);
+        if (dto.getDescription().isBlank()) dto.setDescription(DEFAULT_DESCRIPTION);
 
         return PaymentMethod.builder()
-                .name(StringCleaner.formatAsProperName(creationDTO.getName()))
-                .description(creationDTO.getDescription())
+                .name(StringCleaner.formatAsProperName(dto.getName()))
+                .description(dto.getDescription())
                 .isActive(DEFAULT_IS_ACTIVE_VALUE)
                 .createdAt(LocalDate.now(clock))
-                .modifierType(creationDTO.getPriceModifierType())
-                .priceModifier(creationDTO.getPriceModifier())
+                .modifierType(dto.getPriceModifierType())
+                .priceModifier(dto.getPriceModifier())
                 .build();
     }
 
     @Override
     public PaymentMethod mapPaymentMethodUpdateDtoToPaymentMethod(PaymentMethod paymentMethod, PaymentMethodUpdateDTO updateDTO) {
 
-        if (paymentMethod == null || updateDTO == null) throw new NullMapperInputException();
+        checkIfMapperInputIsNull(paymentMethod, updateDTO);
 
         setUpdatedDataOnEntity(paymentMethod, updateDTO);
 
@@ -53,7 +54,7 @@ public class PaymentMethodMapperImpl implements PaymentMethodMapper {
     @Override
     public PaymentMethodInfoDTO mapPaymentMethodToInfoDTO(PaymentMethod paymentMethod) {
 
-        if (paymentMethod == null) throw new NullMapperInputException();
+        checkIfMapperInputIsNull(paymentMethod);
 
         return PaymentMethodInfoDTO.builder()
                 .id(paymentMethod.getPaymentMethodID())
@@ -68,7 +69,7 @@ public class PaymentMethodMapperImpl implements PaymentMethodMapper {
     @Override
     public List<PaymentMethodInfoDTO> mapPaymentMethodToInfoDTO(List<PaymentMethod> paymentMethodList) {
 
-        if (paymentMethodList == null) throw new NullMapperInputException();
+        checkIfMapperInputIsNull(paymentMethodList);
 
         return paymentMethodList.stream().map(this::mapPaymentMethodToInfoDTO).collect(Collectors.toList());
     }
@@ -82,6 +83,7 @@ public class PaymentMethodMapperImpl implements PaymentMethodMapper {
             if (updateDTO.getNewDescription().isBlank()) {
 
                 paymentMethod.setDescription(DEFAULT_DESCRIPTION);
+
             } else {
 
                 paymentMethod.setDescription(updateDTO.getNewDescription());

@@ -3,7 +3,6 @@ package com.mapper.implementation;
 import com.dto.employee.EmployeeCreationDTO;
 import com.dto.employee.EmployeeInfoDTO;
 import com.dto.employee.EmployeeUpdateDTO;
-import com.exceptions.common.NullMapperInputException;
 import com.mapper.interfaces.EmployeeMapper;
 import com.model.Employee;
 import com.utils.strings.StringCleaner;
@@ -12,6 +11,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.mapper.helper.MapperHelper.checkIfMapperInputIsNull;
 import static com.presentation.constants.StringResource.DisplayString.DEFAULT_TERMINATION_DATE_STRING;
 
 @Component
@@ -20,23 +20,23 @@ public class EmployeeMapperImpl implements EmployeeMapper {
     private static final Boolean DEFAULT_IS_ACTIVE_VALUE = true;
 
     @Override
-    public Employee mapEmployeeCreationDtoToEntity(EmployeeCreationDTO creationDTO) {
+    public Employee mapEmployeeCreationDtoToEntity(EmployeeCreationDTO dto) {
 
-        if (creationDTO == null) throw new NullMapperInputException();
+        checkIfMapperInputIsNull(dto);
 
         return Employee.builder()
-                .firstName(StringCleaner.formatAsProperName(creationDTO.getFirstName()))
-                .lastName(StringCleaner.formatAsProperName(creationDTO.getLastName()))
-                .hireDate(creationDTO.getHireDate())
+                .firstName(StringCleaner.formatAsProperName(dto.getFirstName()))
+                .lastName(StringCleaner.formatAsProperName(dto.getLastName()))
+                .hireDate(dto.getHireDate())
                 .isActive(DEFAULT_IS_ACTIVE_VALUE)
-                .commissionPercentage(creationDTO.getCommissionPercentage())
+                .commissionPercentage(dto.getCommissionPercentage())
                 .build();
     }
 
     @Override
     public Employee mapEmployeeUpdateDtoToEntity(Employee entity, EmployeeUpdateDTO updateDTO) {
 
-        if (entity == null || updateDTO == null) throw new NullMapperInputException();
+        checkIfMapperInputIsNull(entity, updateDTO);
 
         setUpdatedDataOnEntity(entity, updateDTO);
 
@@ -46,19 +46,11 @@ public class EmployeeMapperImpl implements EmployeeMapper {
     @Override
     public EmployeeInfoDTO mapEmployeeToInfoDTO(Employee employee) {
 
-        if (employee == null) throw new NullMapperInputException();
+        checkIfMapperInputIsNull(employee);
 
-        String terminationDateAsString;
+        String terminationDateAsString = DEFAULT_TERMINATION_DATE_STRING;
 
-        if (employee.getTerminationDate() == null) {
-
-            terminationDateAsString = DEFAULT_TERMINATION_DATE_STRING;
-
-        } else {
-
-            terminationDateAsString = employee.getTerminationDate().toString();
-
-        }
+        if (employee.getTerminationDate() != null) terminationDateAsString = employee.getTerminationDate().toString();
 
         return EmployeeInfoDTO.builder()
                 .id(employee.getEmployeeID())
@@ -74,7 +66,7 @@ public class EmployeeMapperImpl implements EmployeeMapper {
     @Override
     public List<EmployeeInfoDTO> mapEmployeeToInfoDTO(List<Employee> employeeList) {
 
-        if (employeeList == null) throw new NullMapperInputException();
+        checkIfMapperInputIsNull(employeeList);
 
         return employeeList.stream().map(this::mapEmployeeToInfoDTO).collect(Collectors.toList());
     }

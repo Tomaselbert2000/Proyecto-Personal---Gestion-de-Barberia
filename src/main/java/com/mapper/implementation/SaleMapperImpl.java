@@ -2,13 +2,15 @@ package com.mapper.implementation;
 
 import com.dto.sale.SaleCreationDTO;
 import com.dto.sale.SaleInfoDTO;
-import com.exceptions.common.NullMapperInputException;
 import com.mapper.interfaces.SaleMapper;
 import com.model.*;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.mapper.helper.MapperHelper.checkIfMapperInputIsNull;
 
 @Component
 public class SaleMapperImpl implements SaleMapper {
@@ -24,8 +26,7 @@ public class SaleMapperImpl implements SaleMapper {
             PaymentMethod paymentMethod,
             List<SaleItem> saleItemList
     ) {
-
-        if (creationDTO == null || client == null || paymentMethod == null) throw new NullMapperInputException();
+        checkIfMapperInputIsNull(creationDTO, client, paymentMethod);
 
         double saleTotal = calculateSaleTotal(barberService, saleItemList);
         double saleTotalModifierValue = 0.0;
@@ -63,7 +64,7 @@ public class SaleMapperImpl implements SaleMapper {
     @Override
     public SaleInfoDTO mapSaleToInfoDTO(Sale sale) {
 
-        if (sale == null) throw new NullMapperInputException();
+        checkIfMapperInputIsNull(sale);
 
         String barberServiceName;
 
@@ -76,11 +77,17 @@ public class SaleMapperImpl implements SaleMapper {
             barberServiceName = sale.getBarberService().getName();
         }
 
+        List<String> productNames = createListWithProductNames(sale);
+
         return SaleInfoDTO.builder()
+                .saleID(sale.getSaleID())
                 .dateAndTime(sale.getDateAndTime())
                 .clientFirstName(sale.getClient().getFirstName())
                 .clientLastName(sale.getClient().getLastName())
                 .barberServiceName(barberServiceName)
+                .employeeFirstName(sale.getEmployee().getFirstName())
+                .employeeLastName(sale.getEmployee().getLastName())
+                .productNames(productNames)
                 .total(sale.getTotal())
                 .paymentMethodName(sale.getPaymentMethodUsed().getName())
                 .build();
@@ -89,12 +96,14 @@ public class SaleMapperImpl implements SaleMapper {
     @Override
     public List<SaleInfoDTO> mapSaleToInfoDTO(List<Sale> saleList) {
 
-        if (saleList == null) throw new NullMapperInputException();
+        checkIfMapperInputIsNull(saleList);
 
         return saleList.stream().map(this::mapSaleToInfoDTO).collect(Collectors.toList());
     }
 
     private Double calculateSaleTotal(BarberService barberService, List<SaleItem> saleItemList) {
+
+        checkIfMapperInputIsNull(saleItemList);
 
         double serviceTotal = (barberService != null) ? barberService.getPrice() : 0.0;
         double itemListTotal = 0.0;
@@ -112,9 +121,14 @@ public class SaleMapperImpl implements SaleMapper {
         return serviceTotal + itemListTotal;
     }
 
-    private ServiceRecord generateServiceRecord(Client client, Employee employee, BarberService barberService, Sale newSale) {
+    private ServiceRecord generateServiceRecord(
+            Client client,
+            Employee employee,
+            BarberService barberService,
+            Sale newSale
+    ) {
 
-        if (employee == null || barberService == null) return null;
+        checkIfMapperInputIsNull(employee, barberService);
 
         return ServiceRecord.builder()
                 .employee(employee)
@@ -124,5 +138,21 @@ public class SaleMapperImpl implements SaleMapper {
                 .serviceName(barberService.getName())
                 .priceAtMoment(barberService.getPrice())
                 .build();
+    }
+
+    private List<String> createListWithProductNames(Sale sale) {
+
+        checkIfMapperInputIsNull(sale);
+
+        List<String> productNames = new ArrayList<>();
+
+        for (SaleItem saleItem : sale.getItems()) {
+
+            String productName = saleItem.getProduct().getName();
+
+            productNames.add(productName);
+        }
+
+        return productNames;
     }
 }
