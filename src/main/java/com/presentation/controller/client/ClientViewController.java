@@ -223,7 +223,7 @@ public class ClientViewController extends BaseCatalogViewController<ClientInfoDT
 
         String mainPhone = clientInfoDTO.getPhoneNumbersList().getFirst();
 
-        hostServices.showDocument(WHATSPAPP_API_URL + mainPhone);
+        hostServices.showDocument(WHATSPAPP_API_URL + mainPhone.replaceAll( "\\D", ""));
     }
 
     private void goToRegisterNewClientView() {
