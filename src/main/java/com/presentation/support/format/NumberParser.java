@@ -2,6 +2,8 @@ package com.presentation.support.format;
 
 import com.exceptions.barberservice.BlankBarberServicePriceException;
 
+import java.math.BigDecimal;
+
 public final class NumberParser {
 
     private NumberParser() {
@@ -33,5 +35,12 @@ public final class NumberParser {
         if (text == null || text.isBlank()) throw new BlankBarberServicePriceException();
 
         return Double.valueOf(text);
+    }
+
+    public static BigDecimal parseTextToBigDecimal(String text, BigDecimal defaultValue) {
+
+        if (text == null || text.isBlank()) return defaultValue;
+
+        return BigDecimal.valueOf(Double.parseDouble(text));
     }
 }

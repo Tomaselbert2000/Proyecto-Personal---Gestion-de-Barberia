@@ -7,6 +7,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextFormatter;
 import javafx.util.StringConverter;
 
+import java.math.BigDecimal;
 import java.util.Objects;
 import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
@@ -126,6 +127,11 @@ public class ValidationFormatter {
      * @return La cadena de texto resultante.
      */
     public static String parseNumberValueToText(Long value) {
+
+        return String.valueOf(value);
+    }
+
+    public static String parseNumberValueToText(BigDecimal value) {
 
         return String.valueOf(value);
     }
