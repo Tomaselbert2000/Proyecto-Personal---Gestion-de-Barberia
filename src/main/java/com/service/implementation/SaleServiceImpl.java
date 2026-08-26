@@ -1,15 +1,10 @@
 package com.service.implementation;
 
-import com.dto.stats.BarberServiceRevenueStatsDTO;
-import com.dto.stats.BarberServiceSalesStatsDTO;
-import com.dto.stats.BarberServiceUsageStatsDTO;
-import com.dto.stats.EmployeeRevenueStatsDTO;
-import com.dto.stats.EmployeeServicesCompletedStatsDTO;
-import com.dto.stats.PaymentMethodRevenueStatsDTO;
-import com.dto.stats.PaymentMethodUsageStatsDTO;
 import com.dto.product.ProductItemDTO;
 import com.dto.sale.SaleCreationDTO;
 import com.dto.sale.SaleInfoDTO;
+import com.dto.stats.*;
+import com.enums.SaleCompositionFilter;
 import com.exceptions.barberservice.BarberServiceNotFoundException;
 import com.exceptions.client.ClientNotFoundException;
 import com.exceptions.employee.EmployeeNotFoundException;
@@ -25,9 +20,13 @@ import com.repository.*;
 import com.service.interfaces.SaleService;
 import com.validation.sale.SaleValidator;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -35,6 +34,8 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static com.dto.stats.EmptyStatDTOFactory.*;
+import static com.presentation.constants.StringResource.DisplayString.NO_DATA;
+import static com.utils.time.TimeCalculation.*;
 
 @Service
 @RequiredArgsConstructor
@@ -236,6 +237,105 @@ public class SaleServiceImpl implements SaleService {
 
             return emptyBarberServiceUsageStatsDTO();
         }
+    }
+
+    @Override
+    public List<SaleInfoDTO> getSales() {
+
+        List<Sale> sales = saleRepository.findAll();
+
+        if (!sales.isEmpty()) return mapper.mapSaleToInfoDTO(sales);
+
+        return List.of();
+    }
+
+    @Override
+    public MonthlyIncomeStatsDTO getMonthlyIncomeStats() {
+
+        LocalDateTime startOfCurrentMonth = getStartOfCurrentMonth().atStartOfDay();
+        LocalDateTime endOfCurrentMonth = getEndOfCurrentMonth().atTime(LAST_SECOND_OF_DAY);
+
+        LocalDateTime startOfLastMonth = startOfCurrentMonth.minusMonths(1);
+        LocalDateTime endOfLastMonth = endOfCurrentMonth.minusMonths(1);
+
+        Double saleTotalThisMonth = saleRepository.getSaleTotalByDateRange(startOfCurrentMonth, endOfCurrentMonth);
+        Double saleTotalTheLastMonth = saleRepository.getSaleTotalByDateRange(startOfLastMonth, endOfLastMonth);
+
+        double percentageTrend;
+
+        if (saleTotalTheLastMonth != 0.0) {
+
+            percentageTrend = (((double) saleTotalThisMonth - saleTotalTheLastMonth) / saleTotalTheLastMonth) * 100;
+
+        } else {
+
+            percentageTrend = 0.0;
+        }
+
+        return MonthlyIncomeStatsDTO.builder()
+                .currentMonthTotal(BigDecimal.valueOf(saleTotalThisMonth))
+                .lastMonthTotal(BigDecimal.valueOf(saleTotalTheLastMonth))
+                .percentageTrendVsLastMonth(percentageTrend)
+                .build();
+    }
+
+    @Override
+    public AverageSaleTicketStatDTO getAverageTicketStats() {
+
+        Double averageSaleTotal = saleRepository.getSaleTotalAverage();
+        Long extraSoldUnits = saleRepository.getSaleItemsTotalUnits();
+
+        if (averageSaleTotal == 0.0) return emptyAverageSaleTicketStatDTO();
+
+        return AverageSaleTicketStatDTO.builder()
+                .averageTicket(BigDecimal.valueOf(averageSaleTotal))
+                .extraSoldUnits(extraSoldUnits)
+                .build();
+    }
+
+    @Override
+    public SalesTodayStatDTO getSalesTodayStats() {
+
+        LocalDateTime startOfToday = getStartOfToday();
+        LocalDateTime startOfTomorrow = startOfToday.plusDays(1);
+        Pageable firstResult = PageRequest.of(0, 1);
+
+        Long salesTodayCount = saleRepository.countByDateAndTimeBetween(startOfToday, startOfTomorrow);
+        List<String> popularServices = saleRepository.findMostPopularBarberServiceToday(startOfToday, startOfTomorrow, firstResult);
+
+        return SalesTodayStatDTO.builder()
+                .salesRegisteredToday(salesTodayCount)
+                .mostPopularBarberService(popularServices.isEmpty() ? NO_DATA : popularServices.getFirst())
+                .build();
+    }
+
+    @Override
+    public ProductOnlyIncomeDTO getProductIncomeStats() {
+
+        Pageable firstResult = PageRequest.of(0, 1);
+
+        BigDecimal productIncome = BigDecimal.valueOf(saleRepository.getSaleItemsTotalUnits());
+
+        List<String> popularProducts = saleRepository.findMostPopularProductToday(firstResult);
+
+        return ProductOnlyIncomeDTO.builder()
+                .productTotalIncome(productIncome)
+                .mostSoldProductName(popularProducts.isEmpty() ? NO_DATA : popularProducts.getFirst())
+                .build();
+    }
+
+    @Override
+    public List<SaleInfoDTO> liveSearch(
+            BigDecimal minPrice,
+            BigDecimal maxPrice,
+            String paymentMethodSelected,
+            String employeeSelected,
+            SaleCompositionFilter saleComposition
+    ) {
+
+        List<Sale> sales = saleRepository.liveSearch(minPrice, maxPrice, paymentMethodSelected, employeeSelected, saleComposition);
+
+        return mapper.mapSaleToInfoDTO(sales);
     }
 
     private Client loadClient(Long clientID) {

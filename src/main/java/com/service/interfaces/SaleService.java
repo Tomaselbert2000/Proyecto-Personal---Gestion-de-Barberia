@@ -1,13 +1,12 @@
 package com.service.interfaces;
 
-import com.dto.stats.BarberServiceRevenueStatsDTO;
-import com.dto.stats.BarberServiceSalesStatsDTO;
-import com.dto.stats.BarberServiceUsageStatsDTO;
-import com.dto.stats.EmployeeRevenueStatsDTO;
-import com.dto.stats.EmployeeServicesCompletedStatsDTO;
-import com.dto.stats.PaymentMethodRevenueStatsDTO;
-import com.dto.stats.PaymentMethodUsageStatsDTO;
 import com.dto.sale.SaleCreationDTO;
+import com.dto.sale.SaleInfoDTO;
+import com.dto.stats.*;
+import com.enums.SaleCompositionFilter;
+
+import java.math.BigDecimal;
+import java.util.List;
 
 public interface SaleService {
 
@@ -32,4 +31,22 @@ public interface SaleService {
     BarberServiceRevenueStatsDTO getBarberServiceWithHighestRevenue();
 
     BarberServiceUsageStatsDTO getBarberServiceWithLowestUsage();
+
+    List<SaleInfoDTO> getSales();
+
+    MonthlyIncomeStatsDTO getMonthlyIncomeStats();
+
+    AverageSaleTicketStatDTO getAverageTicketStats();
+
+    SalesTodayStatDTO getSalesTodayStats();
+
+    ProductOnlyIncomeDTO getProductIncomeStats();
+
+    List<SaleInfoDTO> liveSearch(
+            BigDecimal minPrice,
+            BigDecimal maxPrice,
+            String paymentMethodSelected,
+            String employeeSelected,
+            SaleCompositionFilter saleComposition
+    );
 }

@@ -85,6 +85,13 @@
                             <Region styleClass="payments-icon, md-icon-small"/>
                         </graphic>
                     </MFXButton>
+
+                    <MFXButton fx:id="navbarSalesButton" maxWidth="Infinity" styleClass="md-nav-button"
+                               text="Ventas">
+                        <graphic>
+                            <Region styleClass="point-of-sale-icon, md-icon-small"/>
+                        </graphic>
+                    </MFXButton>
                 </VBox>
 
                 <Separator styleClass="md-nav-divider"/>

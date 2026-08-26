@@ -71,6 +71,7 @@ public class DashboardController {
             navbarBarberServiceButton,
             navbarProductButton,
             navbarPaymentButton,
+            navbarSalesButton,
             navbarSettingsButton,
             navbarLogoutButton,
             clientsViewButton,
@@ -210,6 +211,7 @@ public class DashboardController {
                 Map.entry(navbarBarberServiceButton, () -> viewRedirectionHelper.redirectToView(BARBER_SERVICES, borderPane, applicationContext)),
                 Map.entry(navbarProductButton, () -> viewRedirectionHelper.redirectToView(PRODUCTS, borderPane, applicationContext)),
                 Map.entry(navbarPaymentButton, () -> viewRedirectionHelper.redirectToView(PAYMENT_METHODS, borderPane, applicationContext)),
+                Map.entry(navbarSalesButton, () -> viewRedirectionHelper.redirectToView(SALES, borderPane, applicationContext)),
                 Map.entry(navbarSettingsButton, () -> viewRedirectionHelper.redirectToView(SETTINGS, borderPane, applicationContext)),
                 Map.entry(navbarLogoutButton, this::manageLogout)
         );
