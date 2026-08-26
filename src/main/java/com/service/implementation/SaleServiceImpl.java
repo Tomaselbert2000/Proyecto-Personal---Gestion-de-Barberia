@@ -98,6 +98,7 @@ public class SaleServiceImpl implements SaleService {
         saleRepository.delete(saleOnDB);
     }
 
+    @Override
     public SaleInfoDTO getSale(Long saleID) {
 
         Sale saleOnDB = saleRepository.findById(saleID).orElseThrow(SaleNotFoundException::new);
@@ -105,6 +106,7 @@ public class SaleServiceImpl implements SaleService {
         return mapper.mapSaleToInfoDTO(saleOnDB);
     }
 
+    @Override
     public List<SaleInfoDTO> getSaleList() {
 
         return mapper.mapSaleToInfoDTO(saleRepository.findAll());
@@ -237,16 +239,6 @@ public class SaleServiceImpl implements SaleService {
 
             return emptyBarberServiceUsageStatsDTO();
         }
-    }
-
-    @Override
-    public List<SaleInfoDTO> getSales() {
-
-        List<Sale> sales = saleRepository.findAll();
-
-        if (!sales.isEmpty()) return mapper.mapSaleToInfoDTO(sales);
-
-        return List.of();
     }
 
     @Override

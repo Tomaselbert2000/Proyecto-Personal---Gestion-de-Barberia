@@ -47,24 +47,34 @@ public class SaleServiceImplTest extends BaseServiceTest<Sale, SaleRepository> {
     private final Sale saleOnDB = buildValidSale();
     private final SaleCreationDTO creationDTO = buildValidSaleCreationDTO();
     private final List<ProductItemDTO> emptyList = List.of();
+
     @Spy
     private final SaleMapper mapper = new SaleMapperImpl();
+
     @Captor
     ArgumentCaptor<Sale> saleCaptor;
+
     @Mock
     private SaleRepository saleRepository;
+
     @Mock
     private ClientRepository clientRepository;
+
     @Mock
     private EmployeeRepository employeeRepository;
+
     @Mock
     private BarberServiceRepository barberServiceRepository;
+
     @Mock
     private ProductRepository productRepository;
+
     @Mock
     private PaymentMethodRepository paymentMethodRepository;
+
     @Mock
     private SaleValidator validator;
+
     @InjectMocks
     private SaleServiceImpl saleService;
 

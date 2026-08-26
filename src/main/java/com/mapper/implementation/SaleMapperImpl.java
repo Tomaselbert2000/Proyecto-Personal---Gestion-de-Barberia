@@ -54,9 +54,12 @@ public class SaleMapperImpl implements SaleMapper {
             saleItemList.forEach(item -> item.setSale(newSale));
         }
 
-        ServiceRecord record = generateServiceRecord(client, employee, barberService, newSale);
+        if(barberService != null){
 
-        newSale.setServiceRecord(record);
+            ServiceRecord record = generateServiceRecord(client, employee, barberService, newSale);
+
+            newSale.setServiceRecord(record);
+        }
 
         return newSale;
     }
@@ -135,7 +138,7 @@ public class SaleMapperImpl implements SaleMapper {
                 .client(client)
                 .sale(newSale)
                 .timestamp(newSale.getDateAndTime())
-                .serviceName(barberService.getName())
+                .serviceName(barberService.getName() == null ? EMPTY_SERVICE_DEFAULT_STRING : barberService.getName())
                 .priceAtMoment(barberService.getPrice())
                 .build();
     }

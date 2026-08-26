@@ -14,6 +14,10 @@ public interface SaleService {
 
     void deleteSale(Long saleID);
 
+    SaleInfoDTO getSale(Long saleID);
+
+    List<SaleInfoDTO> getSaleList();
+
     PaymentMethodUsageStatsDTO getMostUsedPaymentMethod();
 
     PaymentMethodRevenueStatsDTO getHighestRevenuePaymentMethod();
@@ -31,8 +35,6 @@ public interface SaleService {
     BarberServiceRevenueStatsDTO getBarberServiceWithHighestRevenue();
 
     BarberServiceUsageStatsDTO getBarberServiceWithLowestUsage();
-
-    List<SaleInfoDTO> getSales();
 
     MonthlyIncomeStatsDTO getMonthlyIncomeStats();
 
