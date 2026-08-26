@@ -171,7 +171,7 @@ public class SalesViewController extends BaseCatalogViewController<SaleInfoDTO> 
     @Override
     protected void initializeListContent() {
 
-        List<SaleInfoDTO> sales = saleService.getSales();
+        List<SaleInfoDTO> sales = saleService.getSaleList();
         List<String> paymentMethodNames = paymentMethodService.getNames();
         List<String> employeeNames = employeeService.getNames();
 
