@@ -119,4 +119,14 @@ public final class EmptyStatDTOFactory {
 
         return ClientNotesStatsDTO.builder().build();
     }
+
+    public static MonthlyIncomeStatsDTO emptyMonthlyIncomeStatsDTO() {
+
+        return MonthlyIncomeStatsDTO.builder().build();
+    }
+
+    public static AverageSaleTicketStatDTO emptyAverageSaleTicketStatDTO() {
+
+        return AverageSaleTicketStatDTO.builder().build();
+    }
 }
