@@ -3,6 +3,7 @@ package com.dto.sale;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -11,10 +12,14 @@ import java.time.LocalDateTime;
 @Builder
 public final class SaleInfoDTO {
 
+    private Long saleID;
     private LocalDateTime dateAndTime;
     private String clientFirstName;
     private String clientLastName;
+    private String employeeFirstName;
+    private String employeeLastName;
     private String barberServiceName;
+    private List<String> productNames;
     private Double total;
     private String paymentMethodName;
 }
