@@ -100,6 +100,7 @@ public final class StringResource {
         public static final String EMPTY_PRODUCT_LIST_MESSAGE = "No se registran productos en el sistema.";
         public static final String EMPTY_EMPLOYEE_LIST_MESSAGE = "No se registran empleados en el sistema hasta este momento.";
         public static final String EMPTY_PAYMENT_LIST_MESSAGE = "No se registran medios de pago hasta el momento";
+        public static final String EMPTY_SALE_LIST_MESSAGE = "No se registran ventas hasta el momento";
     }
 
     public static final class ToastNotificationMessage {
@@ -204,6 +205,9 @@ public final class StringResource {
         public static final String TOAST_NOTIFICATION_VIEW_LOADING_FAILED = ERROR_PREFIX + "notificación emergente.";
 
         public static final String CONFIRMATION_DIALOG_VIEW_LOADING_FAILED = ERROR_PREFIX + "diálogo de confirmación.";
+
+        public static final String SALE_VIEW_PATH_LOADING_FAILED = ERROR_PREFIX + "registro de ventas";
+        public static final String SALE_ITEM_VIEW_LOADING_FAILED = ERROR_PREFIX + "lista de ventas";
     }
 
     public static final class URLs {
