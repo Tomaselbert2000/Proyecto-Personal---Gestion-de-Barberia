@@ -18,8 +18,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
+import static com.presentation.support.format.PersonNameFormatter.fullName;
 import static com.utils.time.TimeCalculation.*;
 
 @Service
@@ -147,6 +149,19 @@ public class EmployeeServiceImpl implements EmployeeService {
         employee.setActive(!value);
 
         employeeRepository.save(employee);
+    }
+
+    @Override
+    public List<String> getNames() {
+
+        List<String> names = new ArrayList<>();
+
+        for (Employee employee : employeeRepository.findAll()) {
+
+            names.add(fullName(employee.getFirstName(), employee.getLastName()));
+        }
+
+        return names;
     }
 
     private Employee loadEmployee(Long employeeID) {

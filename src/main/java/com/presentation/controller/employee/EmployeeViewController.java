@@ -230,7 +230,7 @@ public class EmployeeViewController extends BaseCatalogViewController<EmployeeIn
 
         loadItemsOnView(employees);
 
-        setTextOnLabel(resultsCount, parseNumberValueToText(employeeService.getEmployeeCount()));
+        setTextOnLabel(resultsCount, parseNumberValueToText(employees.size()));
 
         loadEnumsOnComboBox(statusFilter, EmployeeStatus.values());
         loadEnumsOnComboBox(hireDateFilter, HireDateRange.values());

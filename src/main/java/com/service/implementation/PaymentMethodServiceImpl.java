@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -111,6 +112,19 @@ public class PaymentMethodServiceImpl implements PaymentMethodService {
             existingPaymentMethod.setIsActive(!existingPaymentMethod.getIsActive());
             paymentMethodRepository.save(existingPaymentMethod);
         }
+    }
+
+    @Override
+    public List<String> getNames() {
+
+        List<String> names = new ArrayList<>();
+
+        for (PaymentMethod paymentMethod : paymentMethodRepository.findAll()) {
+
+            names.add(paymentMethod.getName());
+        }
+
+        return names;
     }
 
     private PaymentMethod loadPaymentMethodByName(String name) {

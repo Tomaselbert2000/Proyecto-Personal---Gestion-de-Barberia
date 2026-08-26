@@ -25,4 +25,6 @@ public interface PaymentMethodService {
     Long getPaymentMethodCountMarkedAsActive();
 
     void togglePaymentMethodStatus(String name);
+
+    List<String> getNames();
 }

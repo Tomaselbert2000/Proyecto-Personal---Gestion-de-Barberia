@@ -27,4 +27,6 @@ public interface EmployeeService {
     List<EmployeeInfoDTO> liveSearch(String employeeName, EmployeeStatus selectedStatus, HireDateRange dateRange);
 
     void changeEmployeeIsActiveValue(Long id);
+
+    List<String> getNames();
 }
