@@ -1,5 +1,6 @@
 package com.model;
 
+import com.enums.SaleCompositionFilter;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -44,4 +45,17 @@ public class Sale {
 
     private Double total;
     private Double modifierValue;
+
+    @Enumerated(EnumType.STRING)
+    private SaleCompositionFilter saleComposition;
+
+    @PrePersist
+    private void setSaleCompositionType() {
+
+        if (barberService != null && !items.isEmpty()) this.saleComposition = SaleCompositionFilter.VENTA_MIXTA;
+
+        if (barberService != null && items.isEmpty()) this.saleComposition = SaleCompositionFilter.SOLO_SERVICIO;
+
+        if (barberService == null && !items.isEmpty()) this.saleComposition = SaleCompositionFilter.SOLO_PRODUCTOS;
+    }
 }
