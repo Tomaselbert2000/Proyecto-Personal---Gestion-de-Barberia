@@ -21,6 +21,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.presentation.constants.StringResource.DisplayString.EMPLOYEE_COMBOBOX_NO_FILTER;
 import static com.presentation.support.format.PersonNameFormatter.fullName;
 import static com.utils.time.TimeCalculation.*;
 
@@ -155,6 +156,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     public List<String> getNames() {
 
         List<String> names = new ArrayList<>();
+
+        names.addFirst(EMPLOYEE_COMBOBOX_NO_FILTER);
 
         for (Employee employee : employeeRepository.findAll()) {
 

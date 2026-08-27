@@ -19,6 +19,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.presentation.constants.StringResource.DisplayString.PAYMENT_METHOD_COMBOBOX_NO_FILTER;
+
 @Service
 @RequiredArgsConstructor
 public class PaymentMethodServiceImpl implements PaymentMethodService {
@@ -118,6 +120,8 @@ public class PaymentMethodServiceImpl implements PaymentMethodService {
     public List<String> getNames() {
 
         List<String> names = new ArrayList<>();
+
+        names.addFirst(PAYMENT_METHOD_COMBOBOX_NO_FILTER);
 
         for (PaymentMethod paymentMethod : paymentMethodRepository.findAll()) {
 
