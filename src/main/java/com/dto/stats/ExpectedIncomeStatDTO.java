@@ -16,9 +16,4 @@ public final class ExpectedIncomeStatDTO {
     @Builder.Default
     private Double averageTicket = 0.0;
 
-    public ExpectedIncomeStatDTO(Long appointmentsToday, Double expectedIncomeSumForToday) {
-
-        this.appointmentsToday = appointmentsToday;
-        this.expectedIncomeSumForToday = expectedIncomeSumForToday;
-    }
 }

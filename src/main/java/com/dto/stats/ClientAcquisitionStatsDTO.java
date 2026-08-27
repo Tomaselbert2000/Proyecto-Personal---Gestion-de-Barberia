@@ -9,11 +9,6 @@ import lombok.*;
 @Builder
 public final class ClientAcquisitionStatsDTO {
 
-    public ClientAcquisitionStatsDTO(Long newClientsThisMonth, Long newClientsLastMonth) {
-        this.newClientsThisMonth = newClientsThisMonth;
-        this.newClientsLastMonth = newClientsLastMonth;
-    }
-
     @Builder.Default
     private Long newClientsThisMonth = 0L;
     @Builder.Default

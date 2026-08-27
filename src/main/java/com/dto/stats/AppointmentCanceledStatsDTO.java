@@ -9,11 +9,6 @@ import lombok.*;
 @Builder
 public final class AppointmentCanceledStatsDTO {
 
-    public AppointmentCanceledStatsDTO(Long canceledAppointmentThisMonth, Long totalAppointmentsThisMonth) {
-        this.canceledAppointmentThisMonth = canceledAppointmentThisMonth;
-        this.totalAppointmentsThisMonth = totalAppointmentsThisMonth;
-    }
-
     @Builder.Default
     private Long canceledAppointmentThisMonth = 0L;
     @Builder.Default
