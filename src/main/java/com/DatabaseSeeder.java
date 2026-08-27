@@ -101,6 +101,7 @@ public class DatabaseSeeder implements CommandLineRunner {
     private final BarberServiceRepository barberServiceRepository;
     private final AppointmentRepository appointmentRepository;
     private final ProductRepository productRepository;
+    private final SaleRepository saleRepository;
     private final AppUserRepository appUserRepository;
     private final PaymentMethodRepository paymentMethodRepository;
 
@@ -145,6 +146,8 @@ public class DatabaseSeeder implements CommandLineRunner {
     // ============================================================================
     private PaymentMethod paymentMethod;
 
+    private Sale sale;
+
     @Override
     public void run(String @NonNull ... args) {
 
@@ -171,6 +174,25 @@ public class DatabaseSeeder implements CommandLineRunner {
 
         setupPaymentMethod();
         savePaymentMethod();
+
+        setupSale();
+        saveSale();
+    }
+
+    private void setupSale() {
+
+        sale = Sale.builder()
+                .dateAndTime(LocalDateTime.now())
+                .client(client)
+                .barberService(barberService)
+                .employee(employee)
+                .items(List.of())
+                .paymentMethodUsed(paymentMethod)
+                .serviceRecord(new ServiceRecord())
+                .total(9999.0)
+                .modifierValue(0.3)
+                .saleComposition(SaleCompositionFilter.VENTA_MIXTA)
+                .build();
     }
 
     private void saveAppUser() {
@@ -313,5 +335,10 @@ public class DatabaseSeeder implements CommandLineRunner {
     private void savePaymentMethod() {
 
         paymentMethodRepository.save(paymentMethod);
+    }
+
+    private void saveSale(){
+
+        saleRepository.save(sale);
     }
 }
