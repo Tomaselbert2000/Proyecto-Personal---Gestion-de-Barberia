@@ -26,7 +26,7 @@ public abstract class BaseCatalogViewController<T> {
 
     protected static <E> E nullIfTodos(E value, E todos) {
 
-        return value == todos ? null : value;
+        return java.util.Objects.equals(value, todos) ? null : value;
     }
 
     protected abstract ObservableValue<?>[] getSearchProperties();
