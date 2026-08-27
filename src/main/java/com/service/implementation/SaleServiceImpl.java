@@ -319,6 +319,7 @@ public class SaleServiceImpl implements SaleService {
     }
 
     @Override
+    @Transactional
     public List<SaleInfoDTO> liveSearch(
             BigDecimal minPrice,
             BigDecimal maxPrice,
