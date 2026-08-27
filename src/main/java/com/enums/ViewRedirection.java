@@ -19,6 +19,7 @@ public enum ViewRedirection {
     PAYMENT_METHOD_CREATION,
     PAYMENT_METHOD_EDITION,
     SALES,
+    SALE_DETAIL,
     SETTINGS,
     LOGIN,
     LOGOUT,
