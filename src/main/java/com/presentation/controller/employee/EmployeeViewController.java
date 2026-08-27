@@ -30,6 +30,7 @@ import static com.presentation.support.control.ComboBoxHelper.loadEnumsOnComboBo
 import static com.presentation.support.control.ComboBoxHelper.resetComboBoxFilter;
 import static com.presentation.support.control.UIBasicComponents.*;
 import static com.presentation.support.control.ValidationFormatter.*;
+import static com.presentation.support.format.PersonNameFormatter.fullName;
 import static com.presentation.support.format.PriceFormatter.format;
 import static com.presentation.support.view.ContainerManager.loadItemsOnController;
 import static com.presentation.support.view.FXMLViewLoader.loadViewOnPane;
@@ -111,7 +112,7 @@ public class EmployeeViewController extends BaseCatalogViewController<EmployeeIn
         executeAsyncTask(
                 saleService::getEmployeeWithMostServicesCompleted,
                 employeeCompletedServicesDTO -> {
-                    setTextOnLabel(highestServicesCompletedEmployeeName, employeeCompletedServicesDTO.getEmployeFirstName() + "\n" + employeeCompletedServicesDTO.getEmployeLastName());
+                    setTextOnLabel(highestServicesCompletedEmployeeName, fullName(employeeCompletedServicesDTO.getEmployeFirstName(), employeeCompletedServicesDTO.getEmployeLastName()));
                     setTextOnLabel(completedServicesCount, parseNumberValueToText(employeeCompletedServicesDTO.getTotalServices()));
                 }
         );
