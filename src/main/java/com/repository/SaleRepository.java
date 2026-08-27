@@ -32,10 +32,11 @@ public interface SaleRepository extends JpaRepository<Sale, Long> {
 
 
     @Query("""
-            SELECT NEW com.dto.stats.EmployeeServicesCompletedStatsDTO(e.firstName, e.lastName, COUNT(s)) \
-            FROM Employee e JOIN Sale s ON s.employee = e \
-            GROUP BY e.firstName, e.lastName \
-            ORDER BY COUNT(s) DESC""")
+            SELECT NEW com.dto.stats.EmployeeServicesCompletedStatsDTO(e.firstName, e.lastName, COUNT(s))
+            FROM Employee e JOIN Sale s ON s.employee = e
+            GROUP BY e.firstName, e.lastName
+            ORDER BY COUNT(s) DESC
+            """)
     List<EmployeeServicesCompletedStatsDTO> getEmployeeServicesCompletedStats();
 
     @Query("""
@@ -83,7 +84,7 @@ public interface SaleRepository extends JpaRepository<Sale, Long> {
                       AND (:maxPrice IS NULL OR s.total <= :maxPrice)
                       AND (:paymentMethodSelected IS NULL OR UPPER(s.paymentMethodUsed.name) LIKE '%' || UPPER(:paymentMethodSelected) || '%')
                       AND (:employeeName IS NULL OR UPPER(s.employee.firstName || ' ' || s.employee.lastName) LIKE '%' || UPPER(:employeeName) || '%')
-                      AND (s.saleComposition = :saleCompositionType)
+                      AND (:saleCompositionType IS NULL OR s.saleComposition = :saleCompositionType)
                 ORDER BY s.dateAndTime DESC
             """)
     List<Sale> liveSearch(

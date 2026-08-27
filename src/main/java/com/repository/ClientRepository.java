@@ -114,21 +114,8 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
     List<Client> clientLiveSearchByName(@Param("searchName") String searchName);
 
 
-    @Query("""
-            SELECT new com.dto.stats.ClientAcquisitionStatsDTO(
-                COUNT(CASE WHEN c.registrationDate >= :currentMonthStart AND c.registrationDate < :currentMonthEnd THEN c.clientID ELSE NULL END),
-                COUNT(CASE WHEN c.registrationDate >= :previousMonthStart AND c.registrationDate < :previousMonthEnd THEN c.clientID ELSE NULL END)
-            )
-            FROM Client c
-            GROUP BY c.registrationDate
-            ORDER BY c.registrationDate DESC
-            """)
-    List<ClientAcquisitionStatsDTO> getClientStats(
-            @Param("currentMonthStart") LocalDate currentMonthStart,
-            @Param("currentMonthEnd") LocalDate currentMonthEnd,
-            @Param("previousMonthStart") LocalDate previousMonthStart,
-            @Param("previousMonthEnd") LocalDate previousMonthEnd
-    );
+    @Query("SELECT COALESCE(COUNT(c.clientID), 0.0) FROM Client c WHERE c.registrationDate BETWEEN :minRange AND :maxRange")
+    Long getClientCountByRegistrationDateRange(@Param("minRange")LocalDate minRange, @Param("maxRange") LocalDate maxRange);
 
     @Query("""
         SELECT c FROM Client c

@@ -1,6 +1,8 @@
 package com.repository;
 
-import com.dto.stats.*;
+import com.dto.stats.AppointmentMonthlyComparisonDTO;
+import com.dto.stats.AppointmentTodayStatsDTO;
+import com.dto.stats.AppointmentTomorrowStatsDTO;
 import com.enums.AppointmentStatus;
 import com.model.Appointment;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -135,6 +137,7 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
             WHERE a.currentStatus IN (AppointmentStatus.PROGRAMADO, AppointmentStatus.REPROGRAMADO) AND a.startDateTime >= :now
             """)
     AppointmentTomorrowStatsDTO getPendingAppointmentsStats(@Param("now") LocalDateTime now, @Param("tomorrowStart") LocalDateTime tomorrowStart, @Param("tomorrowEnd") LocalDateTime tomorrowEnd);
+
     @Query("""
             SELECT new com.dto.stats.AppointmentMonthlyComparisonDTO(
                     SUM(CASE WHEN a.startDateTime BETWEEN :currentMonthStart AND :currentMonthEnd THEN 1 ELSE 0 END),
@@ -150,26 +153,15 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
             @Param("previousMonthEnd") LocalDateTime previousMonthEnd
     );
 
-    @Query("""
-            SELECT new com.dto.stats.AppointmentCanceledStatsDTO(
-                SUM(CASE WHEN a.currentStatus = AppointmentStatus.CANCELADO THEN 1 ELSE 0 END),
-                COUNT(a)
-            )
-            FROM Appointment a
-            WHERE a.registrationTimestamp BETWEEN :currentMonthStart AND :currentMonthEnd
-            """)
-    AppointmentCanceledStatsDTO getCanceledAppointmentsStats(
-            @Param("currentMonthStart") LocalDateTime currentMonthStart,
-            @Param("currentMonthEnd") LocalDateTime currentMonthEnd
-    );
+    @Query("SELECT COALESCE(COUNT(a.appointmentID), 0.0) FROM Appointment a WHERE a.currentStatus = AppointmentStatus.CANCELADO AND a.startDateTime BETWEEN :startDateTime AND :endDateTime")
+    Long getAppointmentsMarkedAsCanceledDuringThisMonth(@Param("startDateTime") LocalDateTime startDateTime, @Param("endDateTime") LocalDateTime endDateTime);
 
-    @Query("""
-            SELECT new com.dto.stats.ExpectedIncomeStatDTO(
-                COUNT(a.appointmentID),
-                SUM(a.barberservice.price)
-            )
-            FROM Appointment a
-            WHERE a.startDateTime BETWEEN :todayStart AND :todayEnd
-            """)
-    ExpectedIncomeStatDTO getExpectedIncomeForAppointmentsBookedToday(@Param("todayStart") LocalDateTime todayStart, @Param("todayEnd") LocalDateTime todayEnd);
+    @Query("SELECT COALESCE(COUNT(a.appointmentID), 0.0) FROM Appointment a WHERE a.startDateTime BETWEEN :startDateTime AND :endDateTime")
+    Long getTotalAppointmentsRegisteredDuringThisMonth(@Param("startDateTime") LocalDateTime startDateTime, @Param("endDateTime") LocalDateTime endDateTime);
+
+    @Query("SELECT COALESCE(COUNT(a.appointmentID), 0.0) FROM Appointment a WHERE a.startDateTime BETWEEN :startDateTime AND :endDateTime")
+    Long getTotalAppointmentsTodayCount(@Param("startDateTime") LocalDateTime startDateTime, @Param("endDateTime") LocalDateTime endDateTime);
+
+    @Query("SELECT COALESCE(SUM(a.barberservice.price), 0.0) FROM Appointment a WHERE a.startDateTime BETWEEN :startDateTime AND :endDateTime")
+    Double getBarberServicePriceSumAcrossAppointments(@Param("startDateTime") LocalDateTime startDateTime, @Param("endDateTime") LocalDateTime endDateTime);
 }

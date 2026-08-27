@@ -101,26 +101,34 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public ClientAcquisitionStatsDTO getClientStatsVsLastMonth() {
 
-        List<ClientAcquisitionStatsDTO> clientAcquisitionStatsDTOS = clientRepository.getClientStats(
+        Long clientsRegisteredDuringThisMonth = clientRepository.getClientCountByRegistrationDateRange(
                 getStartOfCurrentMonth(),
-                getEndOfCurrentMonth(),
+                getEndOfCurrentMonth());
+
+        Long clientsRegisteredTheLastMonth = clientRepository.getClientCountByRegistrationDateRange(
                 getStartOfCurrentMonth().minusMonths(1),
-                getEndOfCurrentMonth().minusMonths(1));
+                getEndOfCurrentMonth().minusMonths(1)
+        );
 
-        if (!clientAcquisitionStatsDTOS.isEmpty()) {
+        ClientAcquisitionStatsDTO clientAcquisitionStatsDTO = ClientAcquisitionStatsDTO.builder()
+                .newClientsThisMonth(clientsRegisteredDuringThisMonth)
+                .newClientsLastMonth(clientsRegisteredTheLastMonth)
+                .build();
 
-            ClientAcquisitionStatsDTO statsDTO = clientAcquisitionStatsDTOS.getFirst();
+        double trendPercentage;
 
-            Double trendPercentage = ((double) statsDTO.getNewClientsThisMonth() * statsDTO.getPercentageVsLastMonth() / 100);
+        if (clientAcquisitionStatsDTO.getNewClientsLastMonth() == 0L) {
 
-            statsDTO.setPercentageVsLastMonth(trendPercentage);
-
-            return statsDTO;
+            trendPercentage = 0.0;
 
         } else {
 
-            return emptyClientAcquisitionStatsDTO();
+            trendPercentage = ((double) clientAcquisitionStatsDTO.getNewClientsThisMonth() * clientAcquisitionStatsDTO.getPercentageVsLastMonth() / 100);
         }
+
+        clientAcquisitionStatsDTO.setPercentageVsLastMonth(trendPercentage);
+
+        return clientAcquisitionStatsDTO;
     }
 
     @Override

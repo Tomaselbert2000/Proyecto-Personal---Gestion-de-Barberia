@@ -223,9 +223,20 @@ public class AppointmentServiceImpl implements AppointmentService {
     @Override
     public AppointmentCanceledStatsDTO getCanceledStats() {
 
-        AppointmentCanceledStatsDTO canceledStatsDTO = appointmentRepository.getCanceledAppointmentsStats(
+        Long canceledAppointmentsThisMonth = appointmentRepository.getAppointmentsMarkedAsCanceledDuringThisMonth(
                 getStartOfCurrentMonth().atStartOfDay(),
-                getEndOfCurrentMonth().atTime(LAST_SECOND_OF_DAY));
+                getEndOfCurrentMonth().atTime(LAST_SECOND_OF_DAY)
+        );
+
+        Long totalAppointmentsThisMonth = appointmentRepository.getTotalAppointmentsRegisteredDuringThisMonth(
+                getStartOfCurrentMonth().atStartOfDay(),
+                getEndOfCurrentMonth().atTime(LAST_SECOND_OF_DAY)
+        );
+
+        AppointmentCanceledStatsDTO canceledStatsDTO = AppointmentCanceledStatsDTO.builder()
+                .canceledAppointmentThisMonth(canceledAppointmentsThisMonth)
+                .totalAppointmentsThisMonth(totalAppointmentsThisMonth)
+                .build();
 
         if (canceledStatsDTO != null) {
 
@@ -244,24 +255,28 @@ public class AppointmentServiceImpl implements AppointmentService {
     @Override
     public ExpectedIncomeStatDTO getExpectedIncomeToday() {
 
-        ExpectedIncomeStatDTO expectedIncomeStatDTO = appointmentRepository.getExpectedIncomeForAppointmentsBookedToday(getStartOfToday(), getEndOfToday());
+        Long appointmentsTodayCount = appointmentRepository.getTotalAppointmentsTodayCount(getStartOfToday(), getEndOfToday());
+        Double expectedIncomeByBarberServicePricesToday = appointmentRepository.getBarberServicePriceSumAcrossAppointments(getStartOfToday(), getEndOfToday());
 
-        if (expectedIncomeStatDTO != null) {
+        ExpectedIncomeStatDTO expectedIncomeStatDTO = ExpectedIncomeStatDTO.builder()
+                .appointmentsToday(appointmentsTodayCount)
+                .expectedIncomeSumForToday(expectedIncomeByBarberServicePricesToday)
+                .build();
 
-            if (expectedIncomeStatDTO.getAppointmentsToday() == null) expectedIncomeStatDTO.setAppointmentsToday(0L);
-            if (expectedIncomeStatDTO.getExpectedIncomeSumForToday() == null)
-                expectedIncomeStatDTO.setExpectedIncomeSumForToday(0.0);
-            if (expectedIncomeStatDTO.getAppointmentsToday() != null && expectedIncomeStatDTO.getExpectedIncomeSumForToday() != null) {
+        double average;
 
-                expectedIncomeStatDTO.setExpectedIncomeSumForToday(expectedIncomeStatDTO.getExpectedIncomeSumForToday() / expectedIncomeStatDTO.getAppointmentsToday());
-            }
+        if (appointmentsTodayCount == 0) {
 
-            return expectedIncomeStatDTO;
+            average = 0.0;
 
         } else {
 
-            return emptyExpectedIncomeStatDTO();
+            average = expectedIncomeByBarberServicePricesToday / appointmentsTodayCount;
         }
+
+        expectedIncomeStatDTO.setAverageTicket(average);
+
+        return expectedIncomeStatDTO;
     }
 
     @Override
