@@ -19,7 +19,7 @@ public final class SaleInfoDTO {
     private String employeeFirstName;
     private String employeeLastName;
     private String barberServiceName;
-    private List<String> productNames;
+    private List<ReceiptItemDTO> receiptItems;
     private Double total;
     private String paymentMethodName;
 }

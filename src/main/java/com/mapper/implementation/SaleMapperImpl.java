@@ -1,11 +1,13 @@
 package com.mapper.implementation;
 
+import com.dto.sale.ReceiptItemDTO;
 import com.dto.sale.SaleCreationDTO;
 import com.dto.sale.SaleInfoDTO;
 import com.mapper.interfaces.SaleMapper;
 import com.model.*;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -80,7 +82,7 @@ public class SaleMapperImpl implements SaleMapper {
             barberServiceName = sale.getBarberService().getName();
         }
 
-        List<String> productNames = createListWithProductNames(sale);
+        List<ReceiptItemDTO> receiptItems = createReceiptList(sale);
 
         return SaleInfoDTO.builder()
                 .saleID(sale.getSaleID())
@@ -90,7 +92,7 @@ public class SaleMapperImpl implements SaleMapper {
                 .barberServiceName(barberServiceName)
                 .employeeFirstName(sale.getEmployee().getFirstName())
                 .employeeLastName(sale.getEmployee().getLastName())
-                .productNames(productNames)
+                .receiptItems(receiptItems)
                 .total(sale.getTotal())
                 .paymentMethodName(sale.getPaymentMethodUsed().getName())
                 .build();
@@ -143,19 +145,19 @@ public class SaleMapperImpl implements SaleMapper {
                 .build();
     }
 
-    private List<String> createListWithProductNames(Sale sale) {
+    private List<ReceiptItemDTO> createReceiptList(Sale sale) {
 
-        checkIfMapperInputIsNull(sale);
+        List<ReceiptItemDTO> receiptList = new ArrayList<>();
 
-        List<String> productNames = new ArrayList<>();
+        for(SaleItem saleItem : sale.getItems()){
 
-        for (SaleItem saleItem : sale.getItems()) {
-
-            String productName = saleItem.getProduct().getName();
-
-            productNames.add(productName);
+            receiptList.add(ReceiptItemDTO.builder()
+                    .productName(saleItem.getProduct().getName())
+                    .quantity(saleItem.getQuantity())
+                    .unitPrice(BigDecimal.valueOf(saleItem.getUnitPrice()))
+                    .build());
         }
 
-        return productNames;
+        return receiptList;
     }
 }
