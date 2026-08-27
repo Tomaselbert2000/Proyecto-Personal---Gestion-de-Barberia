@@ -64,6 +64,8 @@ public class SaleItemController extends AbstractItemController<SaleInfoDTO> {
     @Override
     public void setDataOnItem(SaleInfoDTO item) {
 
+        this.infoDTOReference = item;
+
         LocalDate day = item.getDateAndTime().toLocalDate();
         int hour = item.getDateAndTime().getHour();
         int minute = item.getDateAndTime().getMinute();
@@ -75,7 +77,7 @@ public class SaleItemController extends AbstractItemController<SaleInfoDTO> {
                 Map.entry(saleDate, String.format(DATETIME_SUMMARY_FORMAT, day, hour, minute)),
                 Map.entry(employeeFullName, fullName(item.getEmployeeFirstName(), item.getEmployeeLastName())),
                 Map.entry(paymentMethodName, item.getPaymentMethodName()),
-                Map.entry(productsSoldCount, parseNumberValueToText(item.getProductNames().size()))
+                Map.entry(productsSoldCount, parseNumberValueToText(item.getReceiptItems().size()))
         );
 
         setTextsOnLabelMap(map);

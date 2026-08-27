@@ -151,14 +151,12 @@
                             <VBox spacing="4" HBox.hgrow="ALWAYS">
                                 <Label styleClass="md-label-medium" text="Empleado"/>
                                 <ComboBox fx:id="employeeFilter"
-                                          promptText="Todos los empleados"
                                           maxWidth="Infinity"
                                           styleClass="md-combo-box"/>
                             </VBox>
                             <VBox spacing="4" HBox.hgrow="ALWAYS">
                                 <Label styleClass="md-label-medium" text="Método de Pago"/>
                                 <ComboBox fx:id="paymentMethodFilter"
-                                          promptText="Todos los métodos"
                                           maxWidth="Infinity"
                                           styleClass="md-combo-box"/>
                             </VBox>

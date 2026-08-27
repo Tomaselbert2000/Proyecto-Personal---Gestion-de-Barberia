@@ -4,7 +4,6 @@ import com.dto.sale.SaleInfoDTO;
 import com.enums.SaleCompositionFilter;
 import com.presentation.controller.BaseCatalogViewController;
 import com.presentation.support.format.NumberParser;
-import com.presentation.support.view.ViewRedirectionHelper;
 import com.service.interfaces.EmployeeService;
 import com.service.interfaces.PaymentMethodService;
 import com.service.interfaces.SaleService;
@@ -15,6 +14,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -22,13 +22,18 @@ import java.util.List;
 import java.util.Map;
 
 import static com.presentation.concurrency.ConcurrencyManager.executeAsyncTask;
+import static com.presentation.constants.StringResource.DisplayString.EMPLOYEE_COMBOBOX_NO_FILTER;
+import static com.presentation.constants.StringResource.DisplayString.PAYMENT_METHOD_COMBOBOX_NO_FILTER;
 import static com.presentation.constants.StringResource.EmptyListMessage.EMPTY_SALE_LIST_MESSAGE;
+import static com.presentation.constants.StringResource.FxmlViewLoadingErrorMessage.SALE_DETAIL_VIEW_LOADING_FAILED;
 import static com.presentation.constants.StringResource.FxmlViewLoadingErrorMessage.SALE_ITEM_VIEW_LOADING_FAILED;
+import static com.presentation.constants.ViewPath.SALE_DETAIL_VIEW_PATH;
 import static com.presentation.constants.ViewPath.SALE_ITEM_VIEW_PATH;
 import static com.presentation.support.control.ComboBoxHelper.*;
 import static com.presentation.support.control.UIBasicComponents.*;
 import static com.presentation.support.control.ValidationFormatter.*;
 import static com.presentation.support.view.ContainerManager.loadItemsOnController;
+import static com.presentation.support.view.FXMLViewLoader.loadViewWithControllerPane;
 
 @Component
 @RequiredArgsConstructor
@@ -37,9 +42,10 @@ public class SalesViewController extends BaseCatalogViewController<SaleInfoDTO> 
     private final SaleService saleService;
     private final PaymentMethodService paymentMethodService;
     private final EmployeeService employeeService;
-    private final ViewRedirectionHelper viewRedirectionHelper;
 
-    private static final BigDecimal DEFAULT_DECIMAL = BigDecimal.valueOf(0.0);
+    private final ApplicationContext applicationContext;
+
+    private static final BigDecimal DEFAULT_DECIMAL = null;
 
     @FXML
     private AnchorPane anchorPane;
@@ -74,11 +80,7 @@ public class SalesViewController extends BaseCatalogViewController<SaleInfoDTO> 
     private ComboBox<SaleCompositionFilter> saleCompositionFilter;
 
     @FXML
-    private MFXButton
-            cleanFilterButton,
-            cancelSaleButton,
-            viewSaleDetailsButton,
-            registerNewSale;
+    private MFXButton cleanFilterButton, registerNewSale;
 
     @FXML
     private VBox saleListContainer;
@@ -129,8 +131,8 @@ public class SalesViewController extends BaseCatalogViewController<SaleInfoDTO> 
         BigDecimal minPrice = NumberParser.parseTextToBigDecimal(minPriceTextfield.getText(), DEFAULT_DECIMAL);
         BigDecimal maxPrice = NumberParser.parseTextToBigDecimal(maxPriceTextfield.getText(), DEFAULT_DECIMAL);
 
-        String paymentMethodSelected = paymentMethodFilter.getValue();
-        String employeeSelected = employeeFilter.getValue();
+        String paymentMethodSelected = nullIfTodos(paymentMethodFilter.getValue(), PAYMENT_METHOD_COMBOBOX_NO_FILTER);
+        String employeeSelected = nullIfTodos(employeeFilter.getValue(), EMPLOYEE_COMBOBOX_NO_FILTER);
 
         SaleCompositionFilter saleComposition = nullIfTodos(saleCompositionFilter.getValue(), SaleCompositionFilter.TODOS);
 
@@ -189,7 +191,14 @@ public class SalesViewController extends BaseCatalogViewController<SaleInfoDTO> 
 
     private void viewSaleDetails(SaleInfoDTO saleInfoDTO) {
 
-        //TODO: pendiente de diseño e implementación
+        loadViewWithControllerPane(
+                SALE_DETAIL_VIEW_PATH,
+                applicationContext,
+                SALE_DETAIL_VIEW_LOADING_FAILED,
+                anchorPane,
+                SaleDetailViewController.class,
+                saleDetailViewController -> saleDetailViewController.loadSaleData(saleInfoDTO)
+        );
     }
 
     private void cancelSale(SaleInfoDTO saleInfoDTO) {

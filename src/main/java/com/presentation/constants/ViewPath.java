@@ -38,7 +38,9 @@ public final class ViewPath {
     public static final String PAYMENT_METHOD_EDITION_VIEW_PATH = "/view/PaymentMethodEdition.fxml";
 
     public static final String SALE_VIEW_PATH = "/view/SalesView.fxml";
+    public static final String SALE_DETAIL_VIEW_PATH = "/view/SaleDetailView.fxml";
     public static final String SALE_ITEM_VIEW_PATH = "/view/SaleItem.fxml";
+    public static final String RECEIPT_ITEM_VIEW_PATH = "/view/ReceiptItem.fxml";
 
     public static final String SETTINGS_VIEW_PATH = "/view/SettingsView.fxml";
 

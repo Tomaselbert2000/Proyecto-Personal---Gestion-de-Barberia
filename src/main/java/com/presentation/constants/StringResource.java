@@ -61,6 +61,8 @@ public final class StringResource {
         public static final String NO_DATA = "Sin datos";
         public static final String MIN_STOCK_LABEL_PREFIX = "Min: ";
         public static final String DEFAULT_TERMINATION_DATE_STRING = "-- : --";
+        public static final String EMPLOYEE_COMBOBOX_NO_FILTER = "Todos los empleados";
+        public static final String PAYMENT_METHOD_COMBOBOX_NO_FILTER = "Todos los medios de pago";
     }
 
     public static final class StatMessageSuffix {
@@ -101,6 +103,7 @@ public final class StringResource {
         public static final String EMPTY_EMPLOYEE_LIST_MESSAGE = "No se registran empleados en el sistema hasta este momento.";
         public static final String EMPTY_PAYMENT_LIST_MESSAGE = "No se registran medios de pago hasta el momento";
         public static final String EMPTY_SALE_LIST_MESSAGE = "No se registran ventas hasta el momento";
+        public static final String EMPTY_RECEIPT_LIST_MESSAGE = "La venta registrada corresponde a la prestación de un servicio únicamente";
     }
 
     public static final class ToastNotificationMessage {
@@ -208,6 +211,8 @@ public final class StringResource {
 
         public static final String SALE_VIEW_PATH_LOADING_FAILED = ERROR_PREFIX + "registro de ventas";
         public static final String SALE_ITEM_VIEW_LOADING_FAILED = ERROR_PREFIX + "lista de ventas";
+        public static final String SALE_DETAIL_VIEW_LOADING_FAILED = ERROR_PREFIX + "detalle de venta";
+        public static final String RECEIPT_ITEM_VIEW_LOADING_FAILED = ERROR_PREFIX + "items facturados en la venta";
     }
 
     public static final class URLs {

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1"
+            fx:id="anchorPane"
+            xmlns="http://javafx.com/javafx/17.0.12"
+            fx:controller="com.presentation.controller.sale.SaleDetailViewController">
+
+    <VBox
+            AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0"
+            AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+
+        <!-- Header -->
+        <HBox alignment="CENTER_LEFT">
+            <padding>
+                <Insets top="16" right="24" bottom="16" left="24"/>
+            </padding>
+            <VBox spacing="2">
+                <Label styleClass="md-headline-medium" text="Detalle de Venta"/>
+                <Label styleClass="md-body-large" text="Información y productos de la venta seleccionada"/>
+            </VBox>
+            <Region HBox.hgrow="ALWAYS"/>
+            <MFXButton fx:id="backButton" styleClass="md-button-outlined" text="Volver"/>
+        </HBox>
+
+        <!-- Contenido -->
+        <ScrollPane fitToHeight="true" fitToWidth="true"
+                    style="-fx-background-color: transparent; -fx-background: transparent;"
+                    VBox.vgrow="ALWAYS">
+            <VBox spacing="24">
+                <padding>
+                    <Insets top="20" right="24" bottom="24" left="24"/>
+                </padding>
+
+                <!-- Resumen de la Venta -->
+                <VBox spacing="12">
+                    <Label styleClass="md-title-medium" text="Resumen"/>
+
+                    <VBox styleClass="md-card" spacing="16">
+                        <padding>
+                            <Insets top="16" right="16" bottom="16" left="16"/>
+                        </padding>
+                        <Label fx:id="datetime" styleClass="md-title-small"/>
+
+                        <GridPane hgap="16" vgap="12">
+                            <columnConstraints>
+                                <ColumnConstraints hgrow="ALWAYS" percentWidth="50"/>
+                                <ColumnConstraints hgrow="ALWAYS" percentWidth="50"/>
+                            </columnConstraints>
+
+                            <HBox spacing="4" alignment="CENTER_LEFT" GridPane.columnIndex="0">
+                                <Label styleClass="md-label-medium" style="-fx-text-fill: -fx-on-surface-variant;"
+                                       text="Cliente:"/>
+                                <Label fx:id="clientFullName" styleClass="md-label-medium"/>
+                            </HBox>
+
+                            <HBox spacing="4" alignment="CENTER_LEFT" GridPane.columnIndex="1">
+                                <Label styleClass="md-label-medium" style="-fx-text-fill: -fx-on-surface-variant;"
+                                       text="Empleado:"/>
+                                <Label fx:id="employeeFullName" styleClass="md-label-medium"/>
+                            </HBox>
+
+                            <HBox spacing="4" alignment="CENTER_LEFT" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                                <Label styleClass="md-label-medium" style="-fx-text-fill: -fx-on-surface-variant;"
+                                       text="Servicio:"/>
+                                <Label fx:id="barberServiceName" styleClass="md-label-medium"/>
+                            </HBox>
+
+                            <HBox spacing="4" alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                <Label styleClass="md-label-medium" style="-fx-text-fill: -fx-on-surface-variant;"
+                                       text="Método de Pago:"/>
+                                <Label fx:id="paymentMethodName" styleClass="md-label-medium"/>
+                            </HBox>
+                        </GridPane>
+
+                        <HBox alignment="CENTER_LEFT">
+                            <VBox spacing="2">
+                                <Label styleClass="md-label-large" style="-fx-text-fill: -fx-on-surface-variant;"
+                                       text="Total"/>
+                                <Label fx:id="saleTotal" styleClass="md-display-small"/>
+                            </VBox>
+                            <Region HBox.hgrow="ALWAYS"/>
+                            <MFXButton fx:id="downloadPdfButton" styleClass="md-button-filled"
+                                       text="Descargar PDF"/>
+                        </HBox>
+                    </VBox>
+                </VBox>
+
+                <!-- Detalle del Recibo -->
+                <TitledPane fx:id="titledPane" text="Productos del Recibo">
+                    <VBox fx:id="receiptListContainer" styleClass="md-card">
+                        <padding>
+                            <Insets top="8" right="16" bottom="8" left="16"/>
+                        </padding>
+                    </VBox>
+                </TitledPane>
+
+            </VBox>
+        </ScrollPane>
+    </VBox>
+</AnchorPane>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.*?>
+<HBox xmlns:fx="http://javafx.com/fxml/1"
+      alignment="CENTER_LEFT"
+      spacing="16"
+      styleClass="md-list-item"
+      xmlns="http://javafx.com/javafx/25"
+      fx:controller="com.presentation.controller.sale.ReceiptItemController">
+    <padding>
+        <Insets top="12" right="16" bottom="12" left="16"/>
+    </padding>
+
+    <!-- Nombre del Producto -->
+    <Label fx:id="productName" styleClass="md-list-item-headline" HBox.hgrow="ALWAYS"/>
+
+    <!-- Espacio en blanco -->
+    <Region HBox.hgrow="ALWAYS"/>
+
+    <!-- Cantidad y Precio Unitario -->
+    <HBox alignment="CENTER_RIGHT" spacing="24" HBox.hgrow="NEVER">
+        <Label fx:id="quantity" styleClass="md-label-large"/>
+        <Label fx:id="unitPrice" styleClass="md-label-large"/>
+    </HBox>
+</HBox>

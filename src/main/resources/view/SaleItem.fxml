@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<HBox xmlns:fx="http://javafx.com/fxml/1"
+      alignment="CENTER_LEFT"
+      spacing="16"
+      styleClass="md-list-item"
+      xmlns="http://javafx.com/javafx/25"
+      fx:controller="com.presentation.controller.sale.SaleItemController">
+    <padding>
+        <Insets top="12" right="16" bottom="12" left="16"/>
+    </padding>
+
+    <!-- Icono de Recibo -->
+    <StackPane styleClass="md-card-filled" minWidth="48.0" minHeight="48.0"
+               maxWidth="48.0" maxHeight="48.0">
+        <padding>
+            <Insets top="2" right="2" bottom="2" left="2"/>
+        </padding>
+        <Region styleClass="receipt-icon, md-icon-medium, md-icon-primary"/>
+    </StackPane>
+
+    <!-- Información de la Venta -->
+    <VBox spacing="4" HBox.hgrow="ALWAYS">
+        <Label fx:id="clientFullName" styleClass="md-list-item-headline"/>
+        <HBox spacing="16" alignment="CENTER_LEFT">
+            <HBox spacing="4">
+                <Label styleClass="md-list-item-supporting-text" text="Fecha:"/>
+                <Label fx:id="saleDate" styleClass="md-list-item-supporting-text"/>
+            </HBox>
+            <HBox spacing="4">
+                <Label styleClass="md-list-item-supporting-text" text="Empleado:"/>
+                <Label fx:id="employeeFullName" styleClass="md-list-item-supporting-text"/>
+            </HBox>
+            <HBox spacing="4">
+                <Label styleClass="md-list-item-supporting-text" text="Servicio:"/>
+                <Label fx:id="barberServiceName" styleClass="md-list-item-supporting-text"/>
+            </HBox>
+            <HBox spacing="4">
+                <Label styleClass="md-list-item-supporting-text" text="Pago:"/>
+                <Label fx:id="paymentMethodName" styleClass="md-list-item-supporting-text"/>
+            </HBox>
+        </HBox>
+    </VBox>
+
+    <!-- Monto y Cantidad de Productos -->
+    <VBox spacing="2" alignment="CENTER_RIGHT" minWidth="110.0">
+        <Label fx:id="saleTotal" styleClass="md-label-large"/>
+        <Label fx:id="productsSoldCount" styleClass="md-label-small" style="-fx-text-fill: -fx-on-surface-variant;"/>
+    </VBox>
+
+    <!-- Separador -->
+    <Separator orientation="VERTICAL" styleClass="md-divider" prefHeight="32.0"/>
+
+    <!-- Acciones -->
+    <HBox spacing="8" alignment="CENTER_RIGHT">
+        <MFXButton fx:id="viewSaleDetailButton" styleClass="md-button-outlined" text="Detalles"/>
+        <MFXButton fx:id="cancelSaleButton" styleClass="md-button-tonal" text="Cancelar"/>
+    </HBox>
+</HBox>
