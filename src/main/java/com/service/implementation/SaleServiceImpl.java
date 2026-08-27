@@ -99,6 +99,7 @@ public class SaleServiceImpl implements SaleService {
     }
 
     @Override
+    @Transactional
     public SaleInfoDTO getSale(Long saleID) {
 
         Sale saleOnDB = saleRepository.findById(saleID).orElseThrow(SaleNotFoundException::new);
@@ -107,6 +108,7 @@ public class SaleServiceImpl implements SaleService {
     }
 
     @Override
+    @Transactional
     public List<SaleInfoDTO> getSaleList() {
 
         return mapper.mapSaleToInfoDTO(saleRepository.findAll());
