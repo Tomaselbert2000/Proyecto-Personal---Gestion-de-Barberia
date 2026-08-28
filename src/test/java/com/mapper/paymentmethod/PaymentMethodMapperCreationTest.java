@@ -76,6 +76,6 @@ public class PaymentMethodMapperCreationTest {
 
     private PaymentMethod mapEntity(PaymentMethodCreationDTO creationDTO) {
 
-        return mapper.mapPaymentMethodCreationDtoToPaymentMethod(creationDTO);
+        return mapper.mapPaymentMethodCreationDtoToEntity(creationDTO);
     }
 }

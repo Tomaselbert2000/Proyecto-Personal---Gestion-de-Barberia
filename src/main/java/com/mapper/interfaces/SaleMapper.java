@@ -8,15 +8,15 @@ import java.util.List;
 
 public interface SaleMapper {
 
-    Sale mapSaleCreationDtoToSale(
-            SaleCreationDTO creationDTO,
+    Sale mapSaleCreationDtoToEntity(
+            SaleCreationDTO dto,
             Client client, Employee employee,
             BarberService barberService,
             PaymentMethod paymentMethod,
             List<SaleItem> saleItemList
     );
 
-    SaleInfoDTO mapSaleToInfoDTO(Sale sale);
+    SaleInfoDTO mapSaleToInfoDTO(Sale entity);
 
-    List<SaleInfoDTO> mapSaleToInfoDTO(List<Sale> saleList);
+    List<SaleInfoDTO> mapSaleToInfoDTO(List<Sale> entityList);
 }

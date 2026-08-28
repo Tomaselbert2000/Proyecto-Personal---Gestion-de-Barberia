@@ -49,7 +49,7 @@ public class AppointmentMapperCreationTest {
 
     private Appointment mapAppointment() {
 
-        return appointmentMapperImpl.mapAppointmentCreationDtoToAppointmentEntity(inputDTO, new Client(), new Employee(), new BarberService());
+        return appointmentMapperImpl.mapAppointmentCreationDtoToEntity(inputDTO, new Client(), new Employee(), new BarberService());
     }
 }
 

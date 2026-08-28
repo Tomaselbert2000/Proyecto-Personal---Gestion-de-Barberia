@@ -1,13 +1,10 @@
-/**
- * Utility class for string manipulation and formatting within the Barber Shop application.
- * This class provides methods to format names as proper nouns, sentences, and trim a list of strings.
- */
 package com.utils.strings;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.WordUtils;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class StringCleaner {
@@ -19,11 +16,9 @@ public class StringCleaner {
         return null;
     }
 
-    public static String formatAsSentence(String sentence) {
+    public static String formatAsSentence(String value){
 
-        if (sentence != null) return StringUtils.capitalize(sentence.trim());
-
-        return null;
+        return Optional.ofNullable(value).map(s -> StringUtils.capitalize(s.trim())).orElse("");
     }
 
     public static List<String> trimList(List<String> stringList) {

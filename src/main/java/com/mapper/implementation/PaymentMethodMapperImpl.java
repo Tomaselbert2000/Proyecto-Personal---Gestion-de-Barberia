@@ -3,6 +3,7 @@ package com.mapper.implementation;
 import com.dto.paymentmethod.PaymentMethodCreationDTO;
 import com.dto.paymentmethod.PaymentMethodInfoDTO;
 import com.dto.paymentmethod.PaymentMethodUpdateDTO;
+import com.mapper.helper.MapperHelper;
 import com.mapper.interfaces.PaymentMethodMapper;
 import com.model.PaymentMethod;
 import com.utils.strings.StringCleaner;
@@ -12,7 +13,6 @@ import org.springframework.stereotype.Component;
 import java.time.Clock;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.mapper.helper.MapperHelper.checkIfMapperInputIsNull;
 
@@ -25,7 +25,7 @@ public class PaymentMethodMapperImpl implements PaymentMethodMapper {
     private final Clock clock;
 
     @Override
-    public PaymentMethod mapPaymentMethodCreationDtoToPaymentMethod(PaymentMethodCreationDTO dto) {
+    public PaymentMethod mapPaymentMethodCreationDtoToEntity(PaymentMethodCreationDTO dto) {
 
         checkIfMapperInputIsNull(dto);
 
@@ -42,36 +42,34 @@ public class PaymentMethodMapperImpl implements PaymentMethodMapper {
     }
 
     @Override
-    public PaymentMethod mapPaymentMethodUpdateDtoToPaymentMethod(PaymentMethod paymentMethod, PaymentMethodUpdateDTO updateDTO) {
+    public PaymentMethod mapPaymentMethodUpdateDtoToEntity(PaymentMethod entity, PaymentMethodUpdateDTO dto) {
 
-        checkIfMapperInputIsNull(paymentMethod, updateDTO);
+        checkIfMapperInputIsNull(entity, dto);
 
-        setUpdatedDataOnEntity(paymentMethod, updateDTO);
+        setUpdatedDataOnEntity(entity, dto);
 
-        return paymentMethod;
+        return entity;
     }
 
     @Override
-    public PaymentMethodInfoDTO mapPaymentMethodToInfoDTO(PaymentMethod paymentMethod) {
+    public PaymentMethodInfoDTO mapPaymentMethodToInfoDTO(PaymentMethod entity) {
 
-        checkIfMapperInputIsNull(paymentMethod);
+        checkIfMapperInputIsNull(entity);
 
         return PaymentMethodInfoDTO.builder()
-                .id(paymentMethod.getPaymentMethodID())
-                .name(paymentMethod.getName())
-                .description(paymentMethod.getDescription())
-                .modifierType(paymentMethod.getModifierType())
-                .priceModifier(paymentMethod.getPriceModifier())
-                .isActive(paymentMethod.getIsActive())
+                .id(entity.getPaymentMethodID())
+                .name(entity.getName())
+                .description(entity.getDescription())
+                .modifierType(entity.getModifierType())
+                .priceModifier(entity.getPriceModifier())
+                .isActive(entity.getIsActive())
                 .build();
     }
 
     @Override
-    public List<PaymentMethodInfoDTO> mapPaymentMethodToInfoDTO(List<PaymentMethod> paymentMethodList) {
+    public List<PaymentMethodInfoDTO> mapPaymentMethodToInfoDTO(List<PaymentMethod> entityList) {
 
-        checkIfMapperInputIsNull(paymentMethodList);
-
-        return paymentMethodList.stream().map(this::mapPaymentMethodToInfoDTO).collect(Collectors.toList());
+        return MapperHelper.mapList(entityList, this::mapPaymentMethodToInfoDTO);
     }
 
     private void setUpdatedDataOnEntity(PaymentMethod paymentMethod, PaymentMethodUpdateDTO updateDTO) {

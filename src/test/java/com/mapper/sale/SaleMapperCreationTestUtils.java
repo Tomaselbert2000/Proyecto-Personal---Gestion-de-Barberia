@@ -11,7 +11,7 @@ public class SaleMapperCreationTestUtils {
 
     public static Sale mapEntity(SaleCreationDTO creationDTO, SaleMapper mapper, Client client, Employee employee, BarberService barberService, PaymentMethod paymentMethod, List<SaleItem> saleItemList) {
 
-        return mapper.mapSaleCreationDtoToSale(
+        return mapper.mapSaleCreationDtoToEntity(
                 creationDTO, client, employee, barberService, paymentMethod, saleItemList
         );
     }

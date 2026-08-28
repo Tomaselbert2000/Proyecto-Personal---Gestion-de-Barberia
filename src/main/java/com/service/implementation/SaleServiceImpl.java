@@ -425,7 +425,7 @@ public class SaleServiceImpl implements SaleService {
             List<SaleItem> saleItemList
     ) {
 
-        return mapper.mapSaleCreationDtoToSale(saleDto, client, employee, barberService, paymentMethod, saleItemList);
+        return mapper.mapSaleCreationDtoToEntity(saleDto, client, employee, barberService, paymentMethod, saleItemList);
 
     }
 

@@ -68,7 +68,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 
         checkEmployeeAvailabilityForCreation(employee, creationDTO.getStartDateTime(), creationDTO.getEndDateTime());
 
-        Appointment newAppointment = appointmentMapper.mapAppointmentCreationDtoToAppointmentEntity(creationDTO, client, employee, service);
+        Appointment newAppointment = appointmentMapper.mapAppointmentCreationDtoToEntity(creationDTO, client, employee, service);
 
         appointmentRepository.save(newAppointment);
     }
@@ -87,13 +87,13 @@ public class AppointmentServiceImpl implements AppointmentService {
 
         Appointment appointmentOnDB = loadAppointment(appointmentID);
 
-        return appointmentMapper.mapAppointmentToInfoDto(appointmentOnDB);
+        return appointmentMapper.mapEntityToInfoDto(appointmentOnDB);
     }
 
     @Override
     public List<AppointmentInfoDTO> getAppointmentsList() {
 
-        return appointmentMapper.mapAppointmentToInfoDto(appointmentRepository.findAll());
+        return appointmentMapper.mapEntityToInfoDto(appointmentRepository.findAll());
     }
 
     @Override
@@ -110,7 +110,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 
         if (employeeName.equals(EMPLOYEE_SELECTOR_FIRST_ITEM)) employeeName = null;
 
-        return appointmentMapper.mapAppointmentToInfoDto(appointmentRepository.liveSearchWithFilters(clientName, selectedAppointmentStatus, employeeName, startDateTime, endDateTime));
+        return appointmentMapper.mapEntityToInfoDto(appointmentRepository.liveSearchWithFilters(clientName, selectedAppointmentStatus, employeeName, startDateTime, endDateTime));
     }
 
     @Override
@@ -300,7 +300,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 
         applyStatusChangeIfPresent(appointmentToUpdate, updateDTO.getNewStatus());
 
-        appointmentRepository.save(appointmentMapper.mapAppointmentUpdateDtoToAppointmentEntity(updateDTO, employee, service, appointmentToUpdate));
+        appointmentRepository.save(appointmentMapper.mapAppointmentUpdateDtoToEntity(updateDTO, employee, service, appointmentToUpdate));
     }
 
     private Client loadClient(Long clientID) {

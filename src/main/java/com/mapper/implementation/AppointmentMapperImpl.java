@@ -4,6 +4,7 @@ import com.dto.appointment.AppointmentCreationDTO;
 import com.dto.appointment.AppointmentInfoDTO;
 import com.dto.appointment.AppointmentUpdateDTO;
 import com.enums.AppointmentStatus;
+import com.mapper.helper.MapperHelper;
 import com.mapper.interfaces.AppointmentMapper;
 import com.model.Appointment;
 import com.model.BarberService;
@@ -13,7 +14,6 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.mapper.helper.MapperHelper.checkIfMapperInputIsNull;
 
@@ -21,7 +21,7 @@ import static com.mapper.helper.MapperHelper.checkIfMapperInputIsNull;
 public class AppointmentMapperImpl implements AppointmentMapper {
 
     @Override
-    public Appointment mapAppointmentCreationDtoToAppointmentEntity(
+    public Appointment mapAppointmentCreationDtoToEntity(
             AppointmentCreationDTO dto,
             Client client,
             Employee employee,
@@ -37,57 +37,55 @@ public class AppointmentMapperImpl implements AppointmentMapper {
                 .barberservice(service)
                 .employee(employee)
                 .registrationTimestamp(LocalDateTime.now())
-                .startDateTime(dto.getStartDateTime().withSecond(0))
-                .endDateTime(dto.getEndDateTime().withSecond(0))
+                .startDateTime(MapperHelper.truncateToMinute(dto.getStartDateTime()))
+                .endDateTime(MapperHelper.truncateToMinute(dto.getEndDateTime()))
                 .modifiedDate(LocalDateTime.now())
                 .currentStatus(defaultStatus)
                 .build();
     }
 
     @Override
-    public Appointment mapAppointmentUpdateDtoToAppointmentEntity(
-            AppointmentUpdateDTO updateDTO,
+    public Appointment mapAppointmentUpdateDtoToEntity(
+            AppointmentUpdateDTO dto,
             Employee employee,
             BarberService service,
-            Appointment appointmentOnDB
+            Appointment entity
     ) {
 
-        checkIfMapperInputIsNull(updateDTO, appointmentOnDB);
+        checkIfMapperInputIsNull(dto, entity);
 
-        setUpdatedDataOnEntity(updateDTO, employee, service, appointmentOnDB);
+        setUpdatedDataOnEntity(dto, employee, service, entity);
 
-        return appointmentOnDB;
+        return entity;
     }
 
     @Override
-    public AppointmentInfoDTO mapAppointmentToInfoDto(Appointment appointment) {
+    public AppointmentInfoDTO mapEntityToInfoDto(Appointment entity) {
 
-        checkIfMapperInputIsNull(appointment);
+        checkIfMapperInputIsNull(entity);
 
         return AppointmentInfoDTO.builder()
-                .id(appointment.getAppointmentID())
-                .employeeID(appointment.getEmployee().getEmployeeID())
-                .barberServiceID(appointment.getBarberservice().getBarbershopServiceID())
-                .clientFirstName(appointment.getClient().getFirstName())
-                .clientLastName(appointment.getClient().getLastName())
-                .serviceName(appointment.getBarberservice().getName())
-                .servicePrice(appointment.getBarberservice().getPrice())
-                .employeeFirstName(appointment.getEmployee().getFirstName())
-                .employeeLastName(appointment.getEmployee().getLastName())
-                .registrationTimestamp(appointment.getRegistrationTimestamp())
-                .startDateTime(appointment.getStartDateTime())
-                .endDateTime(appointment.getEndDateTime())
-                .currentStatus(appointment.getCurrentStatus())
-                .optionalNotes(appointment.getOptionalNotes())
+                .id(entity.getAppointmentID())
+                .employeeID(entity.getEmployee().getEmployeeID())
+                .barberServiceID(entity.getBarberservice().getBarbershopServiceID())
+                .clientFirstName(entity.getClient().getFirstName())
+                .clientLastName(entity.getClient().getLastName())
+                .serviceName(entity.getBarberservice().getName())
+                .servicePrice(entity.getBarberservice().getPrice())
+                .employeeFirstName(entity.getEmployee().getFirstName())
+                .employeeLastName(entity.getEmployee().getLastName())
+                .registrationTimestamp(entity.getRegistrationTimestamp())
+                .startDateTime(entity.getStartDateTime())
+                .endDateTime(entity.getEndDateTime())
+                .currentStatus(entity.getCurrentStatus())
+                .optionalNotes(entity.getOptionalNotes())
                 .build();
     }
 
     @Override
-    public List<AppointmentInfoDTO> mapAppointmentToInfoDto(List<Appointment> appointmentList) {
+    public List<AppointmentInfoDTO> mapEntityToInfoDto(List<Appointment> entityList) {
 
-        checkIfMapperInputIsNull(appointmentList);
-
-        return appointmentList.stream().map(this::mapAppointmentToInfoDto).collect(Collectors.toList());
+        return MapperHelper.mapList(entityList, this::mapEntityToInfoDto);
     }
 
     private void setUpdatedDataOnEntity(
@@ -97,17 +95,15 @@ public class AppointmentMapperImpl implements AppointmentMapper {
             Appointment appointmentOnDB
     ) {
 
-        checkIfMapperInputIsNull(updateDTO, employee, service, appointmentOnDB);
-
         if (service != null) appointmentOnDB.setBarberservice(service);
 
         if (employee != null) appointmentOnDB.setEmployee(employee);
 
         if (updateDTO.getNewStartDateTime() != null)
-            appointmentOnDB.setStartDateTime(updateDTO.getNewStartDateTime().withSecond(0));
+            appointmentOnDB.setStartDateTime(MapperHelper.truncateToMinute(updateDTO.getNewStartDateTime()));
 
         if (updateDTO.getNewEndDateTime() != null)
-            appointmentOnDB.setEndDateTime(updateDTO.getNewEndDateTime().withSecond(0));
+            appointmentOnDB.setEndDateTime(MapperHelper.truncateToMinute(updateDTO.getNewEndDateTime()));
 
         if (updateDTO.getNewStatus() != null) appointmentOnDB.setCurrentStatus(updateDTO.getNewStatus());
 

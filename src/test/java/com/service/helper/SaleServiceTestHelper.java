@@ -110,6 +110,6 @@ public class SaleServiceTestHelper {
             PaymentMethod paymentMethod
     ) {
 
-        verify(mapper).mapSaleCreationDtoToSale(eq(creationDTO), eq(client), eq(employee), eq(barberService), eq(paymentMethod), anyList());
+        verify(mapper).mapSaleCreationDtoToEntity(eq(creationDTO), eq(client), eq(employee), eq(barberService), eq(paymentMethod), anyList());
     }
 }

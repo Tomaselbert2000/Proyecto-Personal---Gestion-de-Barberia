@@ -12,12 +12,21 @@ import java.util.List;
 
 public interface AppointmentMapper {
 
-    Appointment mapAppointmentCreationDtoToAppointmentEntity(AppointmentCreationDTO dto, Client client, Employee employee, BarberService service);
+    Appointment mapAppointmentCreationDtoToEntity(
+            AppointmentCreationDTO dto,
+            Client client,
+            Employee employee,
+            BarberService service
+    );
 
-    Appointment mapAppointmentUpdateDtoToAppointmentEntity(AppointmentUpdateDTO updateDTO, Employee employee, BarberService service, Appointment appointmentOnDB);
+    Appointment mapAppointmentUpdateDtoToEntity(
+            AppointmentUpdateDTO dto,
+            Employee employee,
+            BarberService service,
+            Appointment entity
+    );
 
-    AppointmentInfoDTO mapAppointmentToInfoDto(Appointment appointment);
+    AppointmentInfoDTO mapEntityToInfoDto(Appointment entity);
 
-    List<AppointmentInfoDTO> mapAppointmentToInfoDto(List<Appointment> appointmentList);
-
+    List<AppointmentInfoDTO> mapEntityToInfoDto(List<Appointment> entityList);
 }

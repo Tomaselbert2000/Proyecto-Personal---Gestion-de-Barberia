@@ -3,7 +3,7 @@ package com.mapper.implementation;
 import com.dto.barberservice.BarberServiceCreationDTO;
 import com.dto.barberservice.BarberServiceInfoDTO;
 import com.dto.barberservice.BarberServiceUpdateDTO;
-import com.exceptions.common.NullMapperInputException;
+import com.mapper.helper.MapperHelper;
 import com.mapper.interfaces.BarberServiceMapper;
 import com.model.BarberService;
 import com.utils.strings.StringCleaner;
@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.mapper.helper.MapperHelper.checkIfMapperInputIsNull;
 
@@ -25,9 +24,7 @@ public class BarberServiceMapperImpl implements BarberServiceMapper {
 
         LocalDateTime registrationTimestamp = LocalDateTime.now();
 
-        String internalNotes = "";
-
-        if (dto.getInternalNotes() != null) internalNotes = StringCleaner.formatAsSentence(dto.getInternalNotes());
+        String internalNotes = StringCleaner.formatAsSentence(dto.getInternalNotes());
 
         return BarberService.builder()
                 .name(StringCleaner.formatAsSentence(dto.getName()))
@@ -50,26 +47,23 @@ public class BarberServiceMapperImpl implements BarberServiceMapper {
     }
 
     @Override
-    public BarberServiceInfoDTO mapBarberServiceToInfoDto(BarberService barberService) {
+    public BarberServiceInfoDTO mapBarberServiceToInfoDto(BarberService entity) {
 
-        checkIfMapperInputIsNull(barberService);
+        checkIfMapperInputIsNull(entity);
 
         return BarberServiceInfoDTO.builder()
-                .barberServiceId(barberService.getBarbershopServiceID())
-                .name(barberService.getName())
-                .price(barberService.getPrice())
-                .category(barberService.getServiceCategory())
-                .internalNotes(barberService.getInternalNotes() == null ? "" : barberService.getInternalNotes())
+                .barberServiceId(entity.getBarbershopServiceID())
+                .name(entity.getName())
+                .price(entity.getPrice())
+                .category(entity.getServiceCategory())
+                .internalNotes(entity.getInternalNotes())
                 .build();
     }
 
     @Override
-    public List<BarberServiceInfoDTO> mapBarberServiceToInfoDto(List<BarberService> serviceList) {
+    public List<BarberServiceInfoDTO> mapBarberServiceToInfoDto(List<BarberService> entityList) {
 
-        checkIfMapperInputIsNull(serviceList);
-
-        return serviceList.stream().map(this::mapBarberServiceToInfoDto).collect(Collectors.toList());
-
+        return MapperHelper.mapList(entityList, this::mapBarberServiceToInfoDto);
     }
 
     private void setUpdatedDataOnBarberService(BarberServiceUpdateDTO updateDTO, BarberService barberService) {

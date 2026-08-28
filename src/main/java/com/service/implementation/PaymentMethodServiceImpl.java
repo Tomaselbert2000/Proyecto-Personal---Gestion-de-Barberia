@@ -37,7 +37,7 @@ public class PaymentMethodServiceImpl implements PaymentMethodService {
 
         checkNameAvailability(creationDTO.getName());
 
-        PaymentMethod mappedEntity = mapper.mapPaymentMethodCreationDtoToPaymentMethod(creationDTO);
+        PaymentMethod mappedEntity = mapper.mapPaymentMethodCreationDtoToEntity(creationDTO);
 
         paymentMethodRepository.save(mappedEntity);
     }
@@ -77,7 +77,7 @@ public class PaymentMethodServiceImpl implements PaymentMethodService {
 
         checkNameAvailability(updateDTO.getNewName(), paymentMethodID);
 
-        paymentMethodRepository.save(mapper.mapPaymentMethodUpdateDtoToPaymentMethod(paymentMethodOnDB, updateDTO));
+        paymentMethodRepository.save(mapper.mapPaymentMethodUpdateDtoToEntity(paymentMethodOnDB, updateDTO));
     }
 
     @Override

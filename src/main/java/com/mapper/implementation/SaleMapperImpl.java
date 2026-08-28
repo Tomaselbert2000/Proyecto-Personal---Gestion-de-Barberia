@@ -3,6 +3,7 @@ package com.mapper.implementation;
 import com.dto.sale.ReceiptItemDTO;
 import com.dto.sale.SaleCreationDTO;
 import com.dto.sale.SaleInfoDTO;
+import com.mapper.helper.MapperHelper;
 import com.mapper.interfaces.SaleMapper;
 import com.model.*;
 import org.springframework.stereotype.Component;
@@ -10,9 +11,11 @@ import org.springframework.stereotype.Component;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 import static com.mapper.helper.MapperHelper.checkIfMapperInputIsNull;
+import static com.mapper.helper.SaleCalculator.computeModifierValue;
+import static com.mapper.helper.SaleCalculator.computeTotal;
 
 @Component
 public class SaleMapperImpl implements SaleMapper {
@@ -20,28 +23,21 @@ public class SaleMapperImpl implements SaleMapper {
     private static final String EMPTY_SERVICE_DEFAULT_STRING = "Sin servicio / Venta de productos";
 
     @Override
-    public Sale mapSaleCreationDtoToSale(
-            SaleCreationDTO creationDTO,
+    public Sale mapSaleCreationDtoToEntity(
+            SaleCreationDTO dto,
             Client client,
             Employee employee,
             BarberService barberService,
             PaymentMethod paymentMethod,
             List<SaleItem> saleItemList
     ) {
-        checkIfMapperInputIsNull(creationDTO, client, paymentMethod);
+        checkIfMapperInputIsNull(dto, client, paymentMethod);
 
-        double saleTotal = calculateSaleTotal(barberService, saleItemList);
-        double saleTotalModifierValue = 0.0;
-
-        switch (paymentMethod.getModifierType()) {
-
-            case DESCUENTO -> saleTotalModifierValue = -(saleTotal * paymentMethod.getPriceModifier());
-            case RECARGO -> saleTotalModifierValue = (saleTotal * paymentMethod.getPriceModifier());
-            case NINGUNO -> saleTotalModifierValue = 0.0;
-        }
+        double saleTotal = computeTotal(barberService, saleItemList);
+        double saleTotalModifierValue = computeModifierValue(saleTotal, paymentMethod);
 
         Sale newSale = Sale.builder()
-                .dateAndTime(creationDTO.getDateAndTime())
+                .dateAndTime(dto.getDateAndTime())
                 .client(client)
                 .employee(employee)
                 .barberService(barberService)
@@ -56,7 +52,7 @@ public class SaleMapperImpl implements SaleMapper {
             saleItemList.forEach(item -> item.setSale(newSale));
         }
 
-        if(barberService != null){
+        if (barberService != null) {
 
             ServiceRecord record = generateServiceRecord(client, employee, barberService, newSale);
 
@@ -67,63 +63,34 @@ public class SaleMapperImpl implements SaleMapper {
     }
 
     @Override
-    public SaleInfoDTO mapSaleToInfoDTO(Sale sale) {
+    public SaleInfoDTO mapSaleToInfoDTO(Sale entity) {
 
-        checkIfMapperInputIsNull(sale);
+        checkIfMapperInputIsNull(entity);
 
-        String barberServiceName;
+        String barberServiceName = Optional.ofNullable(entity.getBarberService())
+                .map(BarberService::getName)
+                .orElse(EMPTY_SERVICE_DEFAULT_STRING);
 
-        if (sale.getBarberService() == null) {
-
-            barberServiceName = EMPTY_SERVICE_DEFAULT_STRING;
-
-        } else {
-
-            barberServiceName = sale.getBarberService().getName();
-        }
-
-        List<ReceiptItemDTO> receiptItems = createReceiptList(sale);
+        List<ReceiptItemDTO> receiptItems = createReceiptList(entity);
 
         return SaleInfoDTO.builder()
-                .saleID(sale.getSaleID())
-                .dateAndTime(sale.getDateAndTime())
-                .clientFirstName(sale.getClient().getFirstName())
-                .clientLastName(sale.getClient().getLastName())
+                .saleID(entity.getSaleID())
+                .dateAndTime(entity.getDateAndTime())
+                .clientFirstName(entity.getClient().getFirstName())
+                .clientLastName(entity.getClient().getLastName())
                 .barberServiceName(barberServiceName)
-                .employeeFirstName(sale.getEmployee().getFirstName())
-                .employeeLastName(sale.getEmployee().getLastName())
+                .employeeFirstName(entity.getEmployee().getFirstName())
+                .employeeLastName(entity.getEmployee().getLastName())
                 .receiptItems(receiptItems)
-                .total(sale.getTotal())
-                .paymentMethodName(sale.getPaymentMethodUsed().getName())
+                .total(entity.getTotal())
+                .paymentMethodName(entity.getPaymentMethodUsed().getName())
                 .build();
     }
 
     @Override
-    public List<SaleInfoDTO> mapSaleToInfoDTO(List<Sale> saleList) {
+    public List<SaleInfoDTO> mapSaleToInfoDTO(List<Sale> entityList) {
 
-        checkIfMapperInputIsNull(saleList);
-
-        return saleList.stream().map(this::mapSaleToInfoDTO).collect(Collectors.toList());
-    }
-
-    private Double calculateSaleTotal(BarberService barberService, List<SaleItem> saleItemList) {
-
-        checkIfMapperInputIsNull(saleItemList);
-
-        double serviceTotal = (barberService != null) ? barberService.getPrice() : 0.0;
-        double itemListTotal = 0.0;
-
-        if (barberService != null) serviceTotal = barberService.getPrice();
-
-        for (SaleItem item : saleItemList) {
-
-            if (item != null) {
-
-                itemListTotal += item.getUnitPrice() * item.getQuantity();
-            }
-        }
-
-        return serviceTotal + itemListTotal;
+        return MapperHelper.mapList(entityList, this::mapSaleToInfoDTO);
     }
 
     private ServiceRecord generateServiceRecord(
@@ -135,12 +102,14 @@ public class SaleMapperImpl implements SaleMapper {
 
         checkIfMapperInputIsNull(employee, barberService);
 
+        String serviceName = MapperHelper.orDefault(barberService.getName(), EMPTY_SERVICE_DEFAULT_STRING);
+
         return ServiceRecord.builder()
                 .employee(employee)
                 .client(client)
                 .sale(newSale)
                 .timestamp(newSale.getDateAndTime())
-                .serviceName(barberService.getName() == null ? EMPTY_SERVICE_DEFAULT_STRING : barberService.getName())
+                .serviceName(serviceName)
                 .priceAtMoment(barberService.getPrice())
                 .build();
     }
@@ -149,7 +118,7 @@ public class SaleMapperImpl implements SaleMapper {
 
         List<ReceiptItemDTO> receiptList = new ArrayList<>();
 
-        for(SaleItem saleItem : sale.getItems()){
+        for (SaleItem saleItem : sale.getItems()) {
 
             receiptList.add(ReceiptItemDTO.builder()
                     .productName(saleItem.getProduct().getName())

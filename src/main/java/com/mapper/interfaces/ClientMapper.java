@@ -12,9 +12,9 @@ public interface ClientMapper {
 
     Client mapClientCreationDTOtoEntity(ClientCreationDTO dto, LocalDate registrationDate);
 
-    Client mapClientUpdateDTOtoEntity(Client client, ClientUpdateDTO updateDTO);
+    Client mapClientUpdateDTOtoEntity(Client entity, ClientUpdateDTO dto);
 
-    ClientInfoDTO mapClientoToInfoDTO(Client client);
+    ClientInfoDTO mapClientToInfoDTO(Client entity);
 
-    List<ClientInfoDTO> mapClientToInfoDTO(List<Client> clientList);
+    List<ClientInfoDTO> mapClientToInfoDTO(List<Client> entityList);
 }

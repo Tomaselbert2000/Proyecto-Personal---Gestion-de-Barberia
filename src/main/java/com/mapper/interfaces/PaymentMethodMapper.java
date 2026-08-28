@@ -9,11 +9,11 @@ import java.util.List;
 
 public interface PaymentMethodMapper {
 
-    PaymentMethod mapPaymentMethodCreationDtoToPaymentMethod(PaymentMethodCreationDTO dto);
+    PaymentMethod mapPaymentMethodCreationDtoToEntity(PaymentMethodCreationDTO dto);
 
-    PaymentMethod mapPaymentMethodUpdateDtoToPaymentMethod(PaymentMethod paymentMethod, PaymentMethodUpdateDTO updateDTO);
+    PaymentMethod mapPaymentMethodUpdateDtoToEntity(PaymentMethod entity, PaymentMethodUpdateDTO dto);
 
-    PaymentMethodInfoDTO mapPaymentMethodToInfoDTO(PaymentMethod paymentMethod);
+    PaymentMethodInfoDTO mapPaymentMethodToInfoDTO(PaymentMethod entity);
 
-    List<PaymentMethodInfoDTO> mapPaymentMethodToInfoDTO(List<PaymentMethod> paymentMethodList);
+    List<PaymentMethodInfoDTO> mapPaymentMethodToInfoDTO(List<PaymentMethod> entityList);
 }

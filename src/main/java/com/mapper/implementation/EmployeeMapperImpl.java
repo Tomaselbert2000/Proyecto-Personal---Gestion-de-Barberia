@@ -3,13 +3,15 @@ package com.mapper.implementation;
 import com.dto.employee.EmployeeCreationDTO;
 import com.dto.employee.EmployeeInfoDTO;
 import com.dto.employee.EmployeeUpdateDTO;
+import com.mapper.helper.MapperHelper;
 import com.mapper.interfaces.EmployeeMapper;
 import com.model.Employee;
 import com.utils.strings.StringCleaner;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 import static com.mapper.helper.MapperHelper.checkIfMapperInputIsNull;
 import static com.presentation.constants.StringResource.DisplayString.DEFAULT_TERMINATION_DATE_STRING;
@@ -34,11 +36,11 @@ public class EmployeeMapperImpl implements EmployeeMapper {
     }
 
     @Override
-    public Employee mapEmployeeUpdateDtoToEntity(Employee entity, EmployeeUpdateDTO updateDTO) {
+    public Employee mapEmployeeUpdateDtoToEntity(Employee entity, EmployeeUpdateDTO dto) {
 
-        checkIfMapperInputIsNull(entity, updateDTO);
+        checkIfMapperInputIsNull(entity, dto);
 
-        setUpdatedDataOnEntity(entity, updateDTO);
+        setUpdatedDataOnEntity(entity, dto);
 
         return entity;
     }
@@ -48,27 +50,25 @@ public class EmployeeMapperImpl implements EmployeeMapper {
 
         checkIfMapperInputIsNull(employee);
 
-        String terminationDateAsString = DEFAULT_TERMINATION_DATE_STRING;
-
-        if (employee.getTerminationDate() != null) terminationDateAsString = employee.getTerminationDate().toString();
+        String terminationDate = Optional.ofNullable(employee.getTerminationDate())
+                .map(LocalDate::toString)
+                .orElse(DEFAULT_TERMINATION_DATE_STRING);
 
         return EmployeeInfoDTO.builder()
                 .id(employee.getEmployeeID())
                 .firstName(employee.getFirstName())
                 .lastName(employee.getLastName())
                 .hireDateAsString(String.valueOf(employee.getHireDate()))
-                .terminationDateAsString(terminationDateAsString)
+                .terminationDateAsString(terminationDate)
                 .commissionPercentage(employee.getCommissionPercentage())
                 .isActive(employee.isActive())
                 .build();
     }
 
     @Override
-    public List<EmployeeInfoDTO> mapEmployeeToInfoDTO(List<Employee> employeeList) {
+    public List<EmployeeInfoDTO> mapEmployeeToInfoDTO(List<Employee> entityList) {
 
-        checkIfMapperInputIsNull(employeeList);
-
-        return employeeList.stream().map(this::mapEmployeeToInfoDTO).collect(Collectors.toList());
+        return MapperHelper.mapList(entityList, this::mapEmployeeToInfoDTO);
     }
 
     private void setUpdatedDataOnEntity(Employee entity, EmployeeUpdateDTO updateDTO) {

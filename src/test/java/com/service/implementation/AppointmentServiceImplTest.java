@@ -161,7 +161,7 @@ public class AppointmentServiceImplTest extends BaseServiceTest<Appointment, App
         AppointmentInfoDTO returnedInfo = getAppointmentInfoDTO(appointmentService, appointment);
 
         verify(appointmentRepository).findById(appointment.getAppointmentID());
-        verify(mapper).mapAppointmentToInfoDto(appointment);
+        verify(mapper).mapEntityToInfoDto(appointment);
 
         verifyInfoDTOAssertions(returnedInfo);
     }
@@ -174,7 +174,7 @@ public class AppointmentServiceImplTest extends BaseServiceTest<Appointment, App
 
         assertThrows(AppointmentNotFoundException.class, () -> getAppointmentInfoDTO(appointmentService, appointment));
 
-        verify(mapper, never()).mapAppointmentToInfoDto(appointment);
+        verify(mapper, never()).mapEntityToInfoDto(appointment);
     }
 
     @Test
@@ -211,7 +211,7 @@ public class AppointmentServiceImplTest extends BaseServiceTest<Appointment, App
         AppointmentInfoDTO firstResult = returnedList.getFirst();
 
         verify(appointmentRepository).findAll();
-        verify(mapper).mapAppointmentToInfoDto(appointmentList);
+        verify(mapper).mapEntityToInfoDto(appointmentList);
 
         verifyInfoDTOListAssertions(returnedList, firstResult);
     }

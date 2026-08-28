@@ -74,7 +74,7 @@ public class AppUserMapperCreationTest {
 
     private AppUser mapAppUser() {
 
-        mappedUser = mapper.mapAppUserCreationDTOtoAppUser(creationDTO);
+        mappedUser = mapper.mapAppUserCreationDTOtoEntity(creationDTO);
 
         return mappedUser;
     }

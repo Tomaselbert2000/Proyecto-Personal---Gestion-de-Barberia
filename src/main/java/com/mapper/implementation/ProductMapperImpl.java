@@ -3,13 +3,13 @@ package com.mapper.implementation;
 import com.dto.product.ProductCreationDTO;
 import com.dto.product.ProductInfoDTO;
 import com.dto.product.ProductUpdateDTO;
+import com.mapper.helper.MapperHelper;
 import com.mapper.interfaces.ProductMapper;
 import com.model.Product;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.mapper.helper.MapperHelper.checkIfMapperInputIsNull;
 import static com.utils.strings.StringCleaner.formatAsSentence;
@@ -44,63 +44,61 @@ public class ProductMapperImpl implements ProductMapper {
     }
 
     @Override
-    public Product mapProductUpdateDTOtoEntity(Product product, ProductUpdateDTO updateDTO) {
+    public Product mapProductUpdateDTOtoEntity(Product entity, ProductUpdateDTO dto) {
 
-        checkIfMapperInputIsNull(product, updateDTO);
+        checkIfMapperInputIsNull(entity, dto);
 
-        setUpdatedDataOnEntity(product, updateDTO);
+        setUpdatedDataOnEntity(entity, dto);
 
-        return product;
+        return entity;
     }
 
     @Override
-    public ProductInfoDTO mapProductToInfoDTO(Product product) {
+    public ProductInfoDTO mapProductToInfoDTO(Product entity) {
 
-        checkIfMapperInputIsNull(product);
+        checkIfMapperInputIsNull(entity);
 
-        product.retrieveCurrentStockStatus();
+        entity.retrieveCurrentStockStatus();
 
         return ProductInfoDTO.builder()
-                .id(product.getProductID())
-                .name(product.getName())
-                .productCost(product.getProductCost())
-                .currentPrice(product.getCurrentPrice())
-                .calculatedProfit(product.calculateCurrentProfit())
-                .currentStockLevel(product.getCurrentStockLevel())
-                .safetyStockLevel(product.getSafetyStockLevel())
-                .currentStockStatus(product.getStockStatus())
-                .imageFilePath(product.getImageFilePath())
+                .id(entity.getProductID())
+                .name(entity.getName())
+                .productCost(entity.getProductCost())
+                .currentPrice(entity.getCurrentPrice())
+                .calculatedProfit(entity.calculateCurrentProfit())
+                .currentStockLevel(entity.getCurrentStockLevel())
+                .safetyStockLevel(entity.getSafetyStockLevel())
+                .currentStockStatus(entity.getStockStatus())
+                .imageFilePath(entity.getImageFilePath())
                 .build();
     }
 
     @Override
-    public List<ProductInfoDTO> mapProductToInfoDTO(List<Product> productList) {
+    public List<ProductInfoDTO> mapProductToInfoDTO(List<Product> entityList) {
 
-        checkIfMapperInputIsNull(productList);
-
-        return productList.stream().map(this::mapProductToInfoDTO).collect(Collectors.toList());
+        return MapperHelper.mapList(entityList, this::mapProductToInfoDTO);
     }
 
     @Override
-    public ProductUpdateDTO mapProductToUpdateDTO(Product product) {
+    public ProductUpdateDTO mapProductToUpdateDTO(Product entity) {
 
-        checkIfMapperInputIsNull(product);
+        checkIfMapperInputIsNull(entity);
 
         return ProductUpdateDTO.builder()
-                .name(product.getName())
-                .optionalDescription(product.getOptionalDescription())
-                .brandName(product.getBrandName())
-                .presentationUnit(product.getPresentationUnit())
-                .presentationSize(product.getPresentationSize())
-                .productCost(product.getProductCost())
-                .minPrice(product.getMinPrice())
-                .currentPrice(product.getCurrentPrice())
-                .productWholeSalePrice(product.getProductWholeSalePrice())
-                .maxDiscountPercentage(product.getMaxDiscountPercentage())
-                .category(product.getCategory())
-                .currentStockLevel(product.getCurrentStockLevel())
-                .safetyStockLevel(product.getSafetyStockLevel())
-                .imageFilePath(product.getImageFilePath())
+                .name(entity.getName())
+                .optionalDescription(entity.getOptionalDescription())
+                .brandName(entity.getBrandName())
+                .presentationUnit(entity.getPresentationUnit())
+                .presentationSize(entity.getPresentationSize())
+                .productCost(entity.getProductCost())
+                .minPrice(entity.getMinPrice())
+                .currentPrice(entity.getCurrentPrice())
+                .productWholeSalePrice(entity.getProductWholeSalePrice())
+                .maxDiscountPercentage(entity.getMaxDiscountPercentage())
+                .category(entity.getCategory())
+                .currentStockLevel(entity.getCurrentStockLevel())
+                .safetyStockLevel(entity.getSafetyStockLevel())
+                .imageFilePath(entity.getImageFilePath())
                 .build();
     }
 

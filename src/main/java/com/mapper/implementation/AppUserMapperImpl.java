@@ -3,14 +3,13 @@ package com.mapper.implementation;
 import com.dto.appuser.AppUserCreationDTO;
 import com.dto.appuser.AppUserInfoDTO;
 import com.dto.appuser.AppUserUpdateDTO;
-import com.exceptions.common.NullMapperInputException;
+import com.mapper.helper.MapperHelper;
 import com.mapper.interfaces.AppUserMapper;
 import com.model.AppUser;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.mapper.helper.MapperHelper.checkIfMapperInputIsNull;
 
@@ -18,7 +17,7 @@ import static com.mapper.helper.MapperHelper.checkIfMapperInputIsNull;
 public class AppUserMapperImpl implements AppUserMapper {
 
     @Override
-    public AppUser mapAppUserCreationDTOtoAppUser(AppUserCreationDTO dto) {
+    public AppUser mapAppUserCreationDTOtoEntity(AppUserCreationDTO dto) {
 
         checkIfMapperInputIsNull(dto);
 
@@ -30,36 +29,32 @@ public class AppUserMapperImpl implements AppUserMapper {
     }
 
     @Override
-    public void mapAppUserUpdateDTOtoAppUser(AppUserUpdateDTO updateDTO, AppUser appUserOnDB) {
+    public void mapAppUserUpdateDTOtoEntity(AppUserUpdateDTO dto, AppUser entity) {
 
-        checkIfMapperInputIsNull(updateDTO, appUserOnDB);
+        checkIfMapperInputIsNull(dto, entity);
 
-        setUpdatedDataOnEntity(appUserOnDB, updateDTO);
+        setUpdatedDataOnEntity(entity, dto);
     }
 
     @Override
-    public AppUserInfoDTO mapAppUserToInfoDTO(AppUser appUser) {
+    public AppUserInfoDTO mapAppUserToInfoDTO(AppUser entity) {
 
-        checkIfMapperInputIsNull(appUser);
+        checkIfMapperInputIsNull(entity);
 
         return AppUserInfoDTO.builder()
-                .username(appUser.getUsername())
-                .createdAt(appUser.getCreationTimestamp())
-                .hasAdminRights(appUser.getHasAdminRights())
+                .username(entity.getUsername())
+                .createdAt(entity.getCreationTimestamp())
+                .hasAdminRights(entity.getHasAdminRights())
                 .build();
     }
 
     @Override
-    public List<AppUserInfoDTO> mapAppUserToInfoDTO(List<AppUser> appUserList) {
+    public List<AppUserInfoDTO> mapAppUserToInfoDTO(List<AppUser> entityList) {
 
-        checkIfMapperInputIsNull(appUserList);
-
-        return appUserList.stream().map(this::mapAppUserToInfoDTO).collect(Collectors.toList());
+        return MapperHelper.mapList(entityList, this::mapAppUserToInfoDTO);
     }
 
     private void setUpdatedDataOnEntity(AppUser appUserOnDB, AppUserUpdateDTO updateDTO) {
-
-        checkIfMapperInputIsNull(appUserOnDB, updateDTO);
 
         if (updateDTO.getUsername() != null) appUserOnDB.setUsername(updateDTO.getUsername());
         if (updateDTO.getPassword() != null) appUserOnDB.setPassword(updateDTO.getPassword());

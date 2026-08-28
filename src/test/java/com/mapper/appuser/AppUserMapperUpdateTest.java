@@ -86,6 +86,6 @@ public class AppUserMapperUpdateTest {
 
     private void mapEntityForUpdate() {
 
-        mapper.mapAppUserUpdateDTOtoAppUser(updateDTO, existingUser);
+        mapper.mapAppUserUpdateDTOtoEntity(updateDTO, existingUser);
     }
 }

@@ -78,6 +78,6 @@ public class PaymentMethodMapperUpdateTest {
 
     private PaymentMethod mapEntity(PaymentMethod existingPaymentMethod, PaymentMethodUpdateDTO updateDTO) {
 
-        return mapper.mapPaymentMethodUpdateDtoToPaymentMethod(existingPaymentMethod, updateDTO);
+        return mapper.mapPaymentMethodUpdateDtoToEntity(existingPaymentMethod, updateDTO);
     }
 }

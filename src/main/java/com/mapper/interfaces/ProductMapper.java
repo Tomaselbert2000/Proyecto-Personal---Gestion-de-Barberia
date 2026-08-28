@@ -11,11 +11,11 @@ public interface ProductMapper {
 
     Product mapProductCreationDTOtoEntity(ProductCreationDTO dto);
 
-    Product mapProductUpdateDTOtoEntity(Product product, ProductUpdateDTO updateDTO);
+    Product mapProductUpdateDTOtoEntity(Product entity, ProductUpdateDTO dto);
 
-    ProductInfoDTO mapProductToInfoDTO(Product product);
+    ProductInfoDTO mapProductToInfoDTO(Product entity);
 
-    List<ProductInfoDTO> mapProductToInfoDTO(List<Product> productList);
+    List<ProductInfoDTO> mapProductToInfoDTO(List<Product> entityList);
 
-    ProductUpdateDTO mapProductToUpdateDTO(Product product);
+    ProductUpdateDTO mapProductToUpdateDTO(Product entity);
 }

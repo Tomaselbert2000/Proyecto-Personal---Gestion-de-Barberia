@@ -13,7 +13,7 @@ public interface BarberServiceMapper {
 
     BarberService mapBarberServiceUpdateDtoToEntity(BarberService entity, BarberServiceUpdateDTO dto);
 
-    BarberServiceInfoDTO mapBarberServiceToInfoDto(BarberService service);
+    BarberServiceInfoDTO mapBarberServiceToInfoDto(BarberService entity);
 
-    List<BarberServiceInfoDTO> mapBarberServiceToInfoDto(List<BarberService> serviceList);
+    List<BarberServiceInfoDTO> mapBarberServiceToInfoDto(List<BarberService> entityList);
 }

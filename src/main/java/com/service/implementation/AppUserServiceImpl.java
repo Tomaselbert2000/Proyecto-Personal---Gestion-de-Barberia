@@ -32,7 +32,7 @@ public class AppUserServiceImpl implements AppUserService {
 
         checkIfUsernameIsAlreadyTaken(appUserCreationDTO.getUsername());
 
-        AppUser newUser = appUserMapper.mapAppUserCreationDTOtoAppUser(appUserCreationDTO);
+        AppUser newUser = appUserMapper.mapAppUserCreationDTOtoEntity(appUserCreationDTO);
 
         String encodedPassword = encodePassword(newUser.getPassword());
 
@@ -68,7 +68,7 @@ public class AppUserServiceImpl implements AppUserService {
 
         checkIfUsernameIsAlreadyTakenForUpdate(updateDTO.getUsername(), existingAppUser.getUserId());
 
-        appUserMapper.mapAppUserUpdateDTOtoAppUser(updateDTO, existingAppUser);
+        appUserMapper.mapAppUserUpdateDTOtoEntity(updateDTO, existingAppUser);
 
         checkIfPasswordChangedAndEncryptIt(updateDTO, existingAppUser);
 

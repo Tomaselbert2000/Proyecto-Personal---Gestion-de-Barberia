@@ -11,9 +11,9 @@ public interface EmployeeMapper {
 
     Employee mapEmployeeCreationDtoToEntity(EmployeeCreationDTO dto);
 
-    Employee mapEmployeeUpdateDtoToEntity(Employee entity, EmployeeUpdateDTO updateDTO);
+    Employee mapEmployeeUpdateDtoToEntity(Employee entity, EmployeeUpdateDTO dto);
 
     EmployeeInfoDTO mapEmployeeToInfoDTO(Employee entity);
 
-    List<EmployeeInfoDTO> mapEmployeeToInfoDTO(List<Employee> employeeList);
+    List<EmployeeInfoDTO> mapEmployeeToInfoDTO(List<Employee> entityList);
 }

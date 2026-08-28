@@ -118,16 +118,16 @@ public class AppointmentMapperUpdateTest {
 
     private Appointment mapAppointment() {
 
-        return mapper.mapAppointmentUpdateDtoToAppointmentEntity(updateDTO, existingAppointment.getEmployee(), existingAppointment.getBarberservice(), existingAppointment);
+        return mapper.mapAppointmentUpdateDtoToEntity(updateDTO, existingAppointment.getEmployee(), existingAppointment.getBarberservice(), existingAppointment);
     }
 
     private Appointment mapAppointmentWithNullEmployee() {
 
-        return mapper.mapAppointmentUpdateDtoToAppointmentEntity(updateDTO, null, existingAppointment.getBarberservice(), existingAppointment);
+        return mapper.mapAppointmentUpdateDtoToEntity(updateDTO, null, existingAppointment.getBarberservice(), existingAppointment);
     }
 
     private Appointment mapAppointmentWithNullBarberservice() {
 
-        return mapper.mapAppointmentUpdateDtoToAppointmentEntity(updateDTO, existingAppointment.getEmployee(), null, existingAppointment);
+        return mapper.mapAppointmentUpdateDtoToEntity(updateDTO, existingAppointment.getEmployee(), null, existingAppointment);
     }
 }

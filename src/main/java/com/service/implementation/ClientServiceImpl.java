@@ -89,7 +89,7 @@ public class ClientServiceImpl implements ClientService {
 
         Client clientOnDB = loadClient(nationalIdentityCardNumber);
 
-        return mapper.mapClientoToInfoDTO(clientOnDB);
+        return mapper.mapClientToInfoDTO(clientOnDB);
     }
 
     @Override

@@ -117,31 +117,31 @@ public class AppointmentServiceTestHelper {
 
     public static void verifyMapperCreationInteraction(AppointmentMapper mapper) {
 
-        verify(mapper).mapAppointmentCreationDtoToAppointmentEntity(any(), any(), any(), any());
+        verify(mapper).mapAppointmentCreationDtoToEntity(any(), any(), any(), any());
     }
 
     public static void verifyMapperCreationNoInteractions(AppointmentMapper mapper) {
 
-        verify(mapper, never()).mapAppointmentCreationDtoToAppointmentEntity(any(), any(), any(), any());
+        verify(mapper, never()).mapAppointmentCreationDtoToEntity(any(), any(), any(), any());
     }
 
     public static void verifyMapperUpdateInteraction(AppointmentMapper mapper) {
 
-        verify(mapper).mapAppointmentUpdateDtoToAppointmentEntity(any(), any(), any(), any());
+        verify(mapper).mapAppointmentUpdateDtoToEntity(any(), any(), any(), any());
     }
 
     public static void verifyMapperUpdateNoInteractions(AppointmentMapper mapper) {
 
-        verify(mapper, never()).mapAppointmentUpdateDtoToAppointmentEntity(any(), any(), any(), any());
+        verify(mapper, never()).mapAppointmentUpdateDtoToEntity(any(), any(), any(), any());
     }
 
     public static void verifyThatAppointmentWasUpdated(AppointmentMapper mapper) {
 
-        verify(mapper).mapAppointmentUpdateDtoToAppointmentEntity(any(), any(), any(), any());
+        verify(mapper).mapAppointmentUpdateDtoToEntity(any(), any(), any(), any());
     }
 
     public static void verifyThatAppointmentWasNotUpdated(AppointmentMapper mapper) {
 
-        verify(mapper, never()).mapAppointmentUpdateDtoToAppointmentEntity(any(), any(), any(), any());
+        verify(mapper, never()).mapAppointmentUpdateDtoToEntity(any(), any(), any(), any());
     }
 }

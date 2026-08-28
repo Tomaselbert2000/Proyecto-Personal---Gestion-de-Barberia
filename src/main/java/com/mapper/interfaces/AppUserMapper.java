@@ -9,11 +9,11 @@ import java.util.List;
 
 public interface AppUserMapper {
 
-    AppUser mapAppUserCreationDTOtoAppUser(AppUserCreationDTO appUserCreationDTO);
+    AppUser mapAppUserCreationDTOtoEntity(AppUserCreationDTO dto);
 
-    void mapAppUserUpdateDTOtoAppUser(AppUserUpdateDTO updateDTO, AppUser appUserOnDB);
+    void mapAppUserUpdateDTOtoEntity(AppUserUpdateDTO dto, AppUser entity);
 
-    AppUserInfoDTO mapAppUserToInfoDTO(AppUser appUser);
+    AppUserInfoDTO mapAppUserToInfoDTO(AppUser entity);
 
-    List<AppUserInfoDTO> mapAppUserToInfoDTO(List<AppUser> appUserList);
+    List<AppUserInfoDTO> mapAppUserToInfoDTO(List<AppUser> entityList);
 }

@@ -47,22 +47,22 @@ public class PaymentMethodServiceTestHelper {
 
     public static void verifyMapperCreationInteraction(PaymentMethodMapper mapper, PaymentMethodCreationDTO creationDTO) {
 
-        verify(mapper).mapPaymentMethodCreationDtoToPaymentMethod(creationDTO);
+        verify(mapper).mapPaymentMethodCreationDtoToEntity(creationDTO);
     }
 
     public static void verifyMapperCreationNoInteraction(PaymentMethodMapper mapper, PaymentMethodCreationDTO creationDTO) {
 
-        verify(mapper, never()).mapPaymentMethodCreationDtoToPaymentMethod(creationDTO);
+        verify(mapper, never()).mapPaymentMethodCreationDtoToEntity(creationDTO);
     }
 
     public static void verifyMapperUpdateInteraction(PaymentMethodMapper mapper, PaymentMethod paymentMethod, PaymentMethodUpdateDTO updateDTO) {
 
-        verify(mapper).mapPaymentMethodUpdateDtoToPaymentMethod(paymentMethod, updateDTO);
+        verify(mapper).mapPaymentMethodUpdateDtoToEntity(paymentMethod, updateDTO);
     }
 
     public static void verifyMapperUpdateNoInteraction(PaymentMethodMapper mapper, PaymentMethod paymentMethod, PaymentMethodUpdateDTO updateDTO) {
 
-        verify(mapper, never()).mapPaymentMethodUpdateDtoToPaymentMethod(paymentMethod, updateDTO);
+        verify(mapper, never()).mapPaymentMethodUpdateDtoToEntity(paymentMethod, updateDTO);
     }
 
     public static void mockThatNameWillCauseConflict(PaymentMethodRepository paymentMethodRepository, PaymentMethod paymentMethod) {

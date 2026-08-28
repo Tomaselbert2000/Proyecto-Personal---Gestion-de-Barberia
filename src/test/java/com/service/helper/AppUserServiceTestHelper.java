@@ -33,22 +33,22 @@ public class AppUserServiceTestHelper {
 
     public static void verifyMapperCreationInteraction(AppUserMapper mapper, AppUserCreationDTO inputDTO) {
 
-        verify(mapper).mapAppUserCreationDTOtoAppUser(inputDTO);
+        verify(mapper).mapAppUserCreationDTOtoEntity(inputDTO);
     }
 
     public static void verifyMapperCreationNoInteractions(AppUserMapper mapper, AppUserCreationDTO inputDTO) {
 
-        verify(mapper, never()).mapAppUserCreationDTOtoAppUser(inputDTO);
+        verify(mapper, never()).mapAppUserCreationDTOtoEntity(inputDTO);
     }
 
     public static void verifyMapperUpdateInteraction(AppUserMapper mapper, AppUser existingAppUser, AppUserUpdateDTO updateDTO) {
 
-        verify(mapper).mapAppUserUpdateDTOtoAppUser(updateDTO, existingAppUser);
+        verify(mapper).mapAppUserUpdateDTOtoEntity(updateDTO, existingAppUser);
     }
 
     public static void verifyMapperUpdateNoInteraction(AppUserMapper mapper, AppUser existingUser, AppUserUpdateDTO updateDTO) {
 
-        verify(mapper, never()).mapAppUserUpdateDTOtoAppUser(updateDTO, existingUser);
+        verify(mapper, never()).mapAppUserUpdateDTOtoEntity(updateDTO, existingUser);
     }
 
     public static void verifyPasswordEncoderNoInteraction(PasswordEncoder passwordEncoder) {

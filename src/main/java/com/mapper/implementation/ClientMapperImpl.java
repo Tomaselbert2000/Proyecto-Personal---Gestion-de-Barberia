@@ -3,6 +3,7 @@ package com.mapper.implementation;
 import com.dto.client.ClientCreationDTO;
 import com.dto.client.ClientInfoDTO;
 import com.dto.client.ClientUpdateDTO;
+import com.mapper.helper.MapperHelper;
 import com.mapper.interfaces.ClientMapper;
 import com.model.Client;
 import org.springframework.stereotype.Component;
@@ -10,7 +11,6 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.mapper.helper.MapperHelper.checkIfMapperInputIsNull;
 import static com.utils.strings.StringCleaner.*;
@@ -35,39 +35,36 @@ public class ClientMapperImpl implements ClientMapper {
     }
 
     @Override
-    public Client mapClientUpdateDTOtoEntity(Client client, ClientUpdateDTO updateDTO) {
+    public Client mapClientUpdateDTOtoEntity(Client entity, ClientUpdateDTO dto) {
 
-        checkIfMapperInputIsNull(client, updateDTO);
+        checkIfMapperInputIsNull(entity, dto);
 
-        setUpdatedDataOnClient(client, updateDTO);
+        setUpdatedDataOnClient(entity, dto);
 
-        return client;
+        return entity;
     }
 
     @Override
-    public ClientInfoDTO mapClientoToInfoDTO(Client client) {
+    public ClientInfoDTO mapClientToInfoDTO(Client entity) {
 
-        checkIfMapperInputIsNull(client);
+        checkIfMapperInputIsNull(entity);
 
         return ClientInfoDTO.builder()
-                .id(client.getClientID())
-                .nationalIdentityCardNumber(client.getNationalIdentityCardNumber())
-                .firstName(client.getFirstName())
-                .lastName(client.getLastName())
-                .registrationDate(client.getRegistrationDate())
-                .email(client.getEmail())
-                .phoneNumbersList(client.getPhoneNumbersList())
-                .optionalNotes(client.getOptionalNotes())
+                .id(entity.getClientID())
+                .nationalIdentityCardNumber(entity.getNationalIdentityCardNumber())
+                .firstName(entity.getFirstName())
+                .lastName(entity.getLastName())
+                .registrationDate(entity.getRegistrationDate())
+                .email(entity.getEmail())
+                .phoneNumbersList(entity.getPhoneNumbersList())
+                .optionalNotes(entity.getOptionalNotes())
                 .build();
     }
 
     @Override
-    public List<ClientInfoDTO> mapClientToInfoDTO(List<Client> clientList) {
+    public List<ClientInfoDTO> mapClientToInfoDTO(List<Client> entityList) {
 
-        checkIfMapperInputIsNull(clientList);
-
-        return clientList.stream().map(this::mapClientoToInfoDTO).collect(Collectors.toList());
-
+        return MapperHelper.mapList(entityList, this::mapClientToInfoDTO);
     }
 
     private void setUpdatedDataOnClient(Client client, ClientUpdateDTO updateDTO) {
