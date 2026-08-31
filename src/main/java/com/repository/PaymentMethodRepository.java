@@ -41,7 +41,7 @@ public interface PaymentMethodRepository extends JpaRepository<PaymentMethod, Lo
      */
     @Query("""
             SELECT pm
-            FROM PaymentMethod pm WHERE :paymentName IS NULL OR LOWER(pm.name) LIKE LOWER(CONCAT('%', :paymentName, '%'))
+            FROM PaymentMethod pm WHERE (:paymentName IS NULL OR LOWER(pm.name) LIKE LOWER(CONCAT('%', :paymentName, '%')))
                         AND (pm.isActive = :isActive OR :isActive IS NULL)
                         AND (pm.modifierType = :modifierType OR :modifierType IS NULL)
             """)
