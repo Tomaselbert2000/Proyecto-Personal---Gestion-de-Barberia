@@ -9,7 +9,5 @@ public interface AppUserRepository extends JpaRepository<AppUser, Long> {
 
     boolean existsByUsernameAndUserIdNot(String username, Long userId);
 
-    Boolean existsByUsernameAndPassword(String username, String password);
-
     AppUser findByUsername(String username);
 }

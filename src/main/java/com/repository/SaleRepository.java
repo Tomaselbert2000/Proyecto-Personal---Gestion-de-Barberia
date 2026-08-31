@@ -15,11 +15,19 @@ import java.util.List;
 public interface SaleRepository extends JpaRepository<Sale, Long> {
 
     @Query("""
-            SELECT NEW com.dto.stats.PaymentMethodUsageStatsDTO(pm.name, COUNT(s)) FROM Sale s JOIN s.paymentMethodUsed pm GROUP BY pm.name ORDER BY COUNT(s) DESC""")
-    List<PaymentMethodUsageStatsDTO> getpaymentMethodUsageStats();
+            SELECT NEW com.dto.stats.PaymentMethodUsageStatsDTO(pm.name, COUNT(s))
+            FROM Sale s JOIN s.paymentMethodUsed pm
+            GROUP BY pm.name
+            ORDER BY COUNT(s) DESC
+            """)
+    List<PaymentMethodUsageStatsDTO> getPaymentMethodUsageStats();
 
     @Query("""
-            SELECT NEW com.dto.stats.PaymentMethodRevenueStatsDTO(pm.name, SUM(s.total)) FROM Sale  s JOIN s.paymentMethodUsed pm GROUP BY pm.name ORDER BY SUM(s.total) DESC""")
+            SELECT NEW com.dto.stats.PaymentMethodRevenueStatsDTO(pm.name, SUM(s.total))
+            FROM Sale s JOIN s.paymentMethodUsed pm
+            GROUP BY pm.name
+            ORDER BY SUM(s.total) DESC
+            """)
     List<PaymentMethodRevenueStatsDTO> getPaymentMethodRevenueStats();
 
     @Query("""
@@ -27,7 +35,11 @@ public interface SaleRepository extends JpaRepository<Sale, Long> {
     Double getSumOfModifierValueOfAllSales();
 
     @Query("""
-            SELECT NEW com.dto.stats.EmployeeRevenueStatsDTO(e.firstName, e.lastName, SUM(s.total)) FROM Employee e JOIN Sale s GROUP BY e.firstName, e.lastName ORDER BY COUNT(s) DESC""")
+            SELECT NEW com.dto.stats.EmployeeRevenueStatsDTO(e.firstName, e.lastName, SUM(s.total))
+            FROM Employee e JOIN Sale s ON s.employee = e
+            GROUP BY e.firstName, e.lastName
+            ORDER BY COUNT(s) DESC
+            """)
     List<EmployeeRevenueStatsDTO> getEmployeeRevenueStats();
 
 
@@ -40,22 +52,48 @@ public interface SaleRepository extends JpaRepository<Sale, Long> {
     List<EmployeeServicesCompletedStatsDTO> getEmployeeServicesCompletedStats();
 
     @Query("""
-            SELECT NEW com.dto.stats.BarberServiceSalesStatsDTO (b.name, COUNT(s)) FROM BarberService b JOIN Sale s ON s.barberService.barbershopServiceID = b.barbershopServiceID GROUP BY b.name ORDER BY COUNT(s) DESC""")
-    List<BarberServiceSalesStatsDTO> getBarberServiceSaleStats();
+            SELECT NEW com.dto.stats.BarberServiceSalesStatsDTO (b.name, COUNT(s))
+            FROM BarberService b JOIN Sale s ON s.barberService.barbershopServiceID = b.barbershopServiceID
+            GROUP BY b.name
+            ORDER BY COUNT(s) DESC
+            """)
+    List<BarberServiceSalesStatsDTO> getBarberServiceSalesStats();
 
     @Query("""
-            SELECT NEW com.dto.stats.BarberServiceRevenueStatsDTO (b.name, SUM(s.total)) FROM BarberService b JOIN Sale s ON s.barberService.barbershopServiceID = b.barbershopServiceID GROUP BY b.name ORDER BY SUM(s.total) DESC""")
+            SELECT NEW com.dto.stats.BarberServiceRevenueStatsDTO (b.name, SUM(s.total))
+            FROM BarberService b JOIN Sale s ON s.barberService.barbershopServiceID = b.barbershopServiceID
+            GROUP BY b.name
+            ORDER BY SUM(s.total) DESC
+            """)
     List<BarberServiceRevenueStatsDTO> getBarberServiceRevenueStats();
 
     @Query("""
-            SELECT NEW com.dto.stats.BarberServiceUsageStatsDTO (b.name, COUNT(s)) FROM BarberService b JOIN Sale s ON s.barberService.barbershopServiceID = b.barbershopServiceID GROUP BY b.name ORDER BY COUNT(s) ASC""")
+            SELECT NEW com.dto.stats.BarberServiceUsageStatsDTO (b.name, COUNT(s))
+            FROM BarberService b JOIN Sale s ON s.barberService.barbershopServiceID = b.barbershopServiceID
+            GROUP BY b.name
+            ORDER BY COUNT(s) ASC
+            """)
     List<BarberServiceUsageStatsDTO> getBarbarberServiceUsageStats();
 
-    @Query("SELECT COALESCE(SUM(s.total), 0.0) FROM Sale s WHERE s.dateAndTime BETWEEN :minRange AND :maxRange")
-    Double getSaleTotalByDateRange(@Param("minRange") LocalDateTime minRange, @Param("maxRange") LocalDateTime maxRange);
+    @Query("""
+            SELECT COALESCE(SUM(s.total), 0.0)
+            FROM Sale s
+            WHERE s.dateAndTime BETWEEN :minRange AND :maxRange
+            """)
+    Double getSaleTotalByDateRange(
+            @Param("minRange") LocalDateTime minRange,
+            @Param("maxRange") LocalDateTime maxRange
+    );
 
-    @Query("SELECT COUNT(s.saleID) FROM Sale s WHERE s.dateAndTime BETWEEN :todayStart AND :tomorrowStart")
-    Long countByDateAndTimeBetween(@Param("todayStart") LocalDateTime todayStart,@Param("tomorrowStart") LocalDateTime tomorrowStart);
+    @Query("""
+            SELECT COUNT(s.saleID)
+            FROM Sale s
+            WHERE s.dateAndTime BETWEEN :todayStart AND :tomorrowStart
+            """)
+    Long countByDateAndTimeBetween(
+            @Param("todayStart") LocalDateTime todayStart,
+            @Param("tomorrowStart") LocalDateTime tomorrowStart
+    );
 
     @Query("""
                 SELECT bs.name
@@ -73,10 +111,15 @@ public interface SaleRepository extends JpaRepository<Sale, Long> {
     @Query("""
             SELECT p.name
             FROM SaleItem si JOIN si.product p
+            WHERE si.sale.dateAndTime BETWEEN :todayStart AND :tomorrowStart
             GROUP BY p.name
             ORDER BY SUM(si.quantity) DESC
             """)
-    List<String> findMostPopularProductToday(Pageable pageable);
+    List<String> findMostPopularProductToday(
+            @Param("todayStart") LocalDateTime todayStart,
+            @Param("tomorrowStart") LocalDateTime tomorrowStart,
+            Pageable pageable
+    );
 
     @Query("""
                 SELECT s FROM Sale s
@@ -95,9 +138,15 @@ public interface SaleRepository extends JpaRepository<Sale, Long> {
             @Param("saleCompositionType") SaleCompositionFilter saleCompositionType
     );
 
-    @Query("SELECT COALESCE(AVG(s.total), 0.0) FROM Sale s")
+    @Query("""
+            SELECT COALESCE(AVG(s.total), 0.0)
+            FROM Sale s
+            """)
     Double getSaleTotalAverage();
 
-    @Query("SELECT COALESCE(SUM(si.quantity), 0L) FROM SaleItem si JOIN si.product p")
+    @Query("""
+            SELECT COALESCE(SUM(si.quantity), 0L)
+            FROM SaleItem si JOIN si.product p
+            """)
     Long getSaleItemsTotalUnits();
 }

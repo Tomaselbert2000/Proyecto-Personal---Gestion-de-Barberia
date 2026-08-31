@@ -156,7 +156,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     @Override
     public AppointmentTodayStatsDTO getAppointmentsTodayStats() {
 
-        AppointmentTodayStatsDTO appointmentTodayStatsDTO = appointmentRepository.getAppoinmentsTodayStats(getStartOfToday(), getEndOfToday());
+        AppointmentTodayStatsDTO appointmentTodayStatsDTO = appointmentRepository.getAppointmentsTodayStats(getStartOfToday(), getEndOfToday());
 
         if (appointmentTodayStatsDTO != null) {
 
@@ -176,10 +176,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     @Override
     public AppointmentTomorrowStatsDTO getPendingAppointmentsStats() {
 
-        AppointmentTomorrowStatsDTO appointmentTomorrowStatsDTO = appointmentRepository.getPendingAppointmentsStats(
-                LocalDateTime.now(),
-                getStartOfToday().plusDays(1),
-                getEndOfToday().plusDays(1));
+        AppointmentTomorrowStatsDTO appointmentTomorrowStatsDTO = appointmentRepository.getPendingAppointmentsStats(LocalDateTime.now());
 
         if (appointmentTomorrowStatsDTO != null) {
 
@@ -228,7 +225,7 @@ public class AppointmentServiceImpl implements AppointmentService {
                 getEndOfCurrentMonth().atTime(LAST_SECOND_OF_DAY)
         );
 
-        Long totalAppointmentsThisMonth = appointmentRepository.getTotalAppointmentsRegisteredDuringThisMonth(
+        Long totalAppointmentsThisMonth = appointmentRepository.countByStartDateTimeBetween(
                 getStartOfCurrentMonth().atStartOfDay(),
                 getEndOfCurrentMonth().atTime(LAST_SECOND_OF_DAY)
         );
@@ -255,7 +252,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     @Override
     public ExpectedIncomeStatDTO getExpectedIncomeToday() {
 
-        Long appointmentsTodayCount = appointmentRepository.getTotalAppointmentsTodayCount(getStartOfToday(), getEndOfToday());
+        Long appointmentsTodayCount = appointmentRepository.countByStartDateTimeBetween(getStartOfToday(), getEndOfToday());
         Double expectedIncomeByBarberServicePricesToday = appointmentRepository.getBarberServicePriceSumAcrossAppointments(getStartOfToday(), getEndOfToday());
 
         ExpectedIncomeStatDTO expectedIncomeStatDTO = ExpectedIncomeStatDTO.builder()

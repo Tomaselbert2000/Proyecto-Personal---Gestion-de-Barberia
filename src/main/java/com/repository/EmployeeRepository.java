@@ -9,37 +9,12 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
-/**
- * Repositorio especializado para la gestión de empleados (Employees).
- * Proporciona operaciones de persistencia y consultas personalizadas para validar rangos de contratación,
- * obtener estadísticas de estado activo/inactivo y realizar búsquedas en vivo con filtros.
- *
- * <p>Extiende {@link JpaRepository} para heredar las funcionalidades básicas de CRUD.</p>
- */
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
-    /**
-     * Obtiene los 5 empleados más recientes ordenados por fecha de contratación descendente.
-     * Proporciona una vista rápida de las últimas contrataciones en el sistema sin necesidad de cargar el historial.
-     *
-     * @return Una lista con un máximo de 5 elementos, ordenados por {@code hireDate} de mayor a menor.
-     */
     List<Employee> findTop5ByOrderByHireDateDesc();
 
-    /**
-     * Obtiene los 5 empleados que tienen una fecha de terminación registrada, ordenados por dicha fecha descendente.
-     * Útil para identificar rápidamente a los empleados que han dejado la empresa recientemente.
-     *
-     * @return Una lista con un máximo de 5 elementos, ordenados por {@code terminationDate} de mayor a menor.
-     */
     List<Employee> findTop5ByTerminationDateIsNotNullOrderByTerminationDateDesc();
 
-    /**
-     * Obtiene el número total de empleados actualmente activos en el sistema.
-     * Utiliza la bandera {@code isActive} para filtrar los registros válidos.
-     *
-     * @return La cantidad de empleados con estado activo.
-     */
     @Query("SELECT COUNT(E.employeeID) FROM Employee AS E WHERE E.isActive = TRUE")
     Long getActiveEmployees();
 

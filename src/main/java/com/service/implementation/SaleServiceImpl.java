@@ -117,7 +117,7 @@ public class SaleServiceImpl implements SaleService {
     @Override
     public PaymentMethodUsageStatsDTO getMostUsedPaymentMethod() {
 
-        List<PaymentMethodUsageStatsDTO> paymentMethodUsageStatsDTOList = saleRepository.getpaymentMethodUsageStats();
+        List<PaymentMethodUsageStatsDTO> paymentMethodUsageStatsDTOList = saleRepository.getPaymentMethodUsageStats();
 
         if (!paymentMethodUsageStatsDTOList.isEmpty()) {
 
@@ -201,7 +201,7 @@ public class SaleServiceImpl implements SaleService {
     @Override
     public BarberServiceSalesStatsDTO getBarberServiceWithMostSales() {
 
-        List<BarberServiceSalesStatsDTO> barberServiceSalesStatsDTOS = saleRepository.getBarberServiceSaleStats();
+        List<BarberServiceSalesStatsDTO> barberServiceSalesStatsDTOS = saleRepository.getBarberServiceSalesStats();
 
         if (!barberServiceSalesStatsDTOS.isEmpty()) {
 
@@ -310,7 +310,7 @@ public class SaleServiceImpl implements SaleService {
 
         BigDecimal productIncome = BigDecimal.valueOf(saleRepository.getSaleItemsTotalUnits());
 
-        List<String> popularProducts = saleRepository.findMostPopularProductToday(firstResult);
+        List<String> popularProducts = saleRepository.findMostPopularProductToday(getStartOfToday(), getStartOfToday().plusDays(1), firstResult);
 
         return ProductOnlyIncomeDTO.builder()
                 .productTotalIncome(productIncome)

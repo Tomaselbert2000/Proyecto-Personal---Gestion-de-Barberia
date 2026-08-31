@@ -100,7 +100,7 @@ public class PaymentMethodServiceImpl implements PaymentMethodService {
     @Override
     public Long getPaymentMethodCountMarkedAsActive() {
 
-        return paymentMethodRepository.getCountMarkedAsActive();
+        return paymentMethodRepository.countByIsActiveTrue();
     }
 
     @Override

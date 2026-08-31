@@ -1,6 +1,9 @@
 package com.repository;
 
-import com.dto.stats.*;
+import com.dto.stats.ClientNotesStatsDTO;
+import com.dto.stats.ClientPhoneNumberStatsDTO;
+import com.dto.stats.ClientRegistrationTrendStatDTO;
+import com.dto.stats.TotalClientsStatsDTO;
 import com.model.Client;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -10,13 +13,6 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * Repositorio especializado para la gestión de clientes (Clients).
- * Proporciona operaciones de persistencia y consultas personalizadas para validar unicidad de identificadores,
- * buscar clientes por nombre y analizar estadísticas de registro temporal.
- *
- * <p>Extiende {@link JpaRepository} para heredar las funcionalidades básicas de CRUD.</p>
- */
 public interface ClientRepository extends JpaRepository<Client, Long> {
 
     /**
@@ -28,22 +24,8 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
      */
     Optional<Client> findByNationalIdentityCardNumber(String nationalIdentityCardNumber);
 
-    /**
-     * Verifica la existencia de un cliente registrado con un número de documento de identidad nacional específico.
-     * Útil para validar la unicidad del documento antes de crear un nuevo registro.
-     *
-     * @param nationalIdentityCardNumber El número de documento de identidad nacional a buscar.
-     * @return {@code true} si existe al menos un cliente con ese documento; {@code false} en caso contrario.
-     */
     boolean existsByNationalIdentityCardNumber(String nationalIdentityCardNumber);
 
-    /**
-     * Verifica la existencia de un cliente registrado con una dirección de correo electrónico específica.
-     * Útil para validar la unicidad del email antes de crear un nuevo registro.
-     *
-     * @param email La dirección de correo electrónico a buscar.
-     * @return {@code true} si existe al menos un cliente con ese email; {@code false} en caso contrario.
-     */
     boolean existsByEmail(String email);
 
     /**
@@ -53,7 +35,10 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
      * @param phones Una lista de números de teléfono a buscar.
      * @return {@code true} si existe al menos un cliente que tenga uno o más de los números proporcionados; {@code false} en caso contrario.
      */
-    @Query("SELECT COUNT(c) > 0 FROM Client c JOIN c.phoneNumbersList p WHERE p IN :phones")
+    @Query("""
+            SELECT COUNT(c) > 0
+            FROM Client c JOIN c.phoneNumbersList p WHERE p IN :phones
+            """)
     boolean existsByAnyPhoneNumberInList(@Param("phones") List<String> phones);
 
     /**
@@ -86,15 +71,14 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
      * @return {@code true} si existe otro cliente con uno de los teléfonos proporcionados (distinto al actual); {@code false} en caso contrario.
      */
     @Query("""
-            SELECT COUNT(c) > 0 FROM Client c JOIN c.phoneNumbersList p WHERE p IN :phones AND c.clientID != :idExclude""")
-    boolean existsByAnyPhoneNumberInListAndClientIDNot(@Param("phones") List<String> phones, @Param("idExclude") Long clientID);
+            SELECT COUNT(c) > 0
+            FROM Client c JOIN c.phoneNumbersList p WHERE p IN :phones AND c.clientID != :idExclude
+            """)
+    boolean existsByAnyPhoneNumberInListAndClientIDNot(
+            @Param("phones") List<String> phones,
+            @Param("idExclude") Long clientID
+    );
 
-    /**
-     * Obtiene los 5 clientes más recientes ordenados por fecha y hora de registro descendente.
-     * Proporciona una vista rápida de los últimos registros en el sistema sin necesidad de cargar el historial.
-     *
-     * @return Una lista con un máximo de 5 elementos, ordenados por {@code registrationDate} de mayor a menor.
-     */
     List<Client> findTop5ByOrderByRegistrationDateDesc();
 
     /**
@@ -110,33 +94,39 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
      * @return Una lista de clientes que cumplen con el criterio de búsqueda aplicado.
      */
     @Query("""
-            SELECT c FROM Client c WHERE (:searchName IS NULL OR LOWER(CONCAT(c.firstName, ' ', c.lastName)) LIKE LOWER(CONCAT('%', :searchName, '%')))""")
+            SELECT c
+            FROM Client c WHERE (:searchName IS NULL OR LOWER(CONCAT(c.firstName, ' ', c.lastName)) LIKE LOWER(CONCAT('%', :searchName, '%')))
+            """)
     List<Client> clientLiveSearchByName(@Param("searchName") String searchName);
 
-
-    @Query("SELECT COALESCE(COUNT(c.clientID), 0.0) FROM Client c WHERE c.registrationDate BETWEEN :minRange AND :maxRange")
-    Long getClientCountByRegistrationDateRange(@Param("minRange")LocalDate minRange, @Param("maxRange") LocalDate maxRange);
+    @Query("""
+            SELECT COALESCE(COUNT(c.clientID), 0)
+            FROM Client c WHERE c.registrationDate BETWEEN :minRange AND :maxRange
+            """)
+    Long getClientCountByRegistrationDateRange(
+            @Param("minRange") LocalDate minRange,
+            @Param("maxRange") LocalDate maxRange
+    );
 
     @Query("""
-        SELECT c FROM Client c
-        WHERE (:clientName IS NULL OR LOWER(CONCAT(c.firstName, ' ', c.lastName)) LIKE LOWER(CONCAT('%', :clientName, '%')))
-          AND (:limitRegistrationDate IS NULL OR (c.registrationDate >= :limitRegistrationDate AND c.registrationDate <= CURRENT_DATE))
-          AND (
-              (:hasPhone IS NULL) OR (:hasPhone = true AND SIZE(c.phoneNumbersList) > 0) OR (:hasPhone = false AND SIZE(c.phoneNumbersList) = 0)
-          )
-          AND (
-              (:hasNotes IS NULL) OR
-              (:hasNotes = true AND c.optionalNotes IS NOT NULL AND TRIM(c.optionalNotes) != '') OR
-              (:hasNotes = false AND (c.optionalNotes IS NULL OR TRIM(c.optionalNotes) = ''))
-          )
-        """)
+            SELECT c FROM Client c
+            WHERE (:clientName IS NULL OR LOWER(CONCAT(c.firstName, ' ', c.lastName)) LIKE LOWER(CONCAT('%', :clientName, '%')))
+              AND (:limitRegistrationDate IS NULL OR (c.registrationDate >= :limitRegistrationDate AND c.registrationDate <= CURRENT_DATE))
+              AND (
+                  (:hasPhone IS NULL) OR (:hasPhone = true AND SIZE(c.phoneNumbersList) > 0) OR (:hasPhone = false AND SIZE(c.phoneNumbersList) = 0)
+              )
+              AND (
+                  (:hasNotes IS NULL) OR
+                  (:hasNotes = true AND c.optionalNotes IS NOT NULL AND TRIM(c.optionalNotes) != '') OR
+                  (:hasNotes = false AND (c.optionalNotes IS NULL OR TRIM(c.optionalNotes) = ''))
+              )
+            """)
     List<Client> liveSearch(
             @Param("clientName") String clientName,
             @Param("limitRegistrationDate") LocalDate limitRegistrationDate,
             @Param("hasPhone") Boolean hasPhone,
             @Param("hasNotes") Boolean hasNotes
     );
-
 
     @Query("""
             SELECT new com.dto.stats.TotalClientsStatsDTO(

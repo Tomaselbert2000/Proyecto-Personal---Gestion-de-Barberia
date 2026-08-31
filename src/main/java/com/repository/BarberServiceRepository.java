@@ -9,23 +9,9 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-/**
- * Repositorio especializado para la gestión de servicios de barbería (BarberServices).
- * Proporciona operaciones de persistencia y consultas personalizadas para validar unicidad,
- * calcular estadísticas de precios (promedio, máximo, mínimo) y realizar búsquedas en vivo con filtros.
- *
- * <p>Extiende {@link JpaRepository} para heredar las funcionalidades básicas de CRUD.</p>
- */
 public interface BarberServiceRepository extends JpaRepository<BarberService, Long> {
 
-    /**
-     * Verifica la existencia de un servicio con el nombre proporcionado, ignorando mayúsculas y minúsculas.
-     * Útil para validar la unicidad del nombre del servicio antes de crear uno nuevo.
-     *
-     * @param name El nombre del servicio a buscar (case-insensitive).
-     * @return {@code true} si existe al menos un servicio con ese nombre; {@code false} en caso contrario.
-     */
-    Boolean existsByNameIgnoreCase(String name);
+    boolean existsByNameIgnoreCase(String name);
 
     /**
      * Verifica la existencia de un servicio con el nombre proporcionado, excluyendo explícitamente un servicio existente por su ID.
@@ -36,7 +22,7 @@ public interface BarberServiceRepository extends JpaRepository<BarberService, Lo
      * @param barbershopServiceID El ID del servicio actual que se está modificando y debe ser excluido de la búsqueda.
      * @return {@code true} si existe otro servicio con ese nombre (distinto al actual); {@code false} en caso contrario.
      */
-    Boolean existsByNameAndBarbershopServiceIDNot(String name, Long barbershopServiceID);
+    boolean existsByNameAndBarbershopServiceIDNot(String name, Long barbershopServiceID);
 
     /**
      * Realiza una búsqueda en vivo (live search) de servicios aplicando múltiples filtros simultáneamente.
@@ -56,8 +42,18 @@ public interface BarberServiceRepository extends JpaRepository<BarberService, Lo
      * @return Una lista de servicios que cumplen con todos los criterios de filtro aplicados.
      */
     @Query("""
-            SELECT b FROM BarberService b WHERE (:name IS NULL OR b.name LIKE CONCAT('%', :name, '%')) AND (:category IS NULL OR b.serviceCategory=:category) AND (:minPrice IS NULL OR b.price >=:minPrice) AND (:maxPrice IS NULL OR b.price <=:maxPrice)""")
-    List<BarberService> liveSearchWithFilters(@Param("name") String name, @Param("category") BarberServiceCategory category, @Param("minPrice") Double minPrice, @Param("maxPrice") Double maxPrice);
+            SELECT b
+            FROM BarberService b WHERE (:name IS NULL OR b.name LIKE CONCAT('%', :name, '%'))
+                       AND (:category IS NULL OR b.serviceCategory=:category)
+                       AND (:minPrice IS NULL OR b.price >=:minPrice)
+                       AND (:maxPrice IS NULL OR b.price <=:maxPrice)
+            """)
+    List<BarberService> liveSearchWithFilters(
+            @Param("name") String name,
+            @Param("category") BarberServiceCategory category,
+            @Param("minPrice") Double minPrice,
+            @Param("maxPrice") Double maxPrice
+    );
 
     /**
      * Obtiene estadísticas sobre los servicios activos del catálogo.
@@ -69,10 +65,11 @@ public interface BarberServiceRepository extends JpaRepository<BarberService, Lo
      */
     @Query("""
             SELECT NEW com.dto.stats.BarberServiceActiveOnCatalogStatsDTO(
-                COUNT(b),
-                COUNT(DISTINCT b.serviceCategory)
+                 COUNT(b),
+                 COUNT(DISTINCT b.serviceCategory)
             )
             FROM BarberService b
-            WHERE b.isCurrentlyActive = true""")
+            WHERE b.isCurrentlyActive = true
+            """)
     BarberServiceActiveOnCatalogStatsDTO getActiveBarberServicesStats();
 }

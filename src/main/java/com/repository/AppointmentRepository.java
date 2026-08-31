@@ -12,13 +12,6 @@ import org.springframework.data.repository.query.Param;
 import java.time.LocalDateTime;
 import java.util.List;
 
-/**
- * Repositorio especializado para la gestión de citas (Appointments).
- * Proporciona operaciones de persistencia y consultas personalizadas para validar conflictos,
- * contar citas por rango de tiempo y realizar búsquedas en vivo con filtros.
- *
- * <p>Extiende {@link JpaRepository} para heredar las funcionalidades básicas de CRUD.</p>
- */
 public interface AppointmentRepository extends JpaRepository<Appointment, Long> {
 
     /**
@@ -30,14 +23,12 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
      * @param endDateTime   La hora de fin propuesta para la nueva cita.
      * @return {@code true} si existe al menos una cita existente que solapa con el rango proporcionado; {@code false} en caso contrario.
      */
-    @Query(
-            "SELECT " +
-                    "COUNT(A) > 0 " +
-                    "FROM Appointment A " +
-                    "WHERE " +
-                    "A.employee.employeeID=:employeeID " +
-                    "AND (:startDateTime < A.endDateTime AND :endDateTime > A.startDateTime)"
-    )
+    @Query("""
+            SELECT
+            COUNT(A) > 0
+            FROM Appointment A
+            WHERE A.employee.employeeID=:employeeID AND (:startDateTime < A.endDateTime AND :endDateTime > A.startDateTime)
+            """)
     boolean existsOverlappingAppointmentOnCreate(
             @Param("employeeID") Long employeeID,
             @Param("startDateTime") LocalDateTime startDateTime,
@@ -57,14 +48,11 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
      */
     @Query(
             """
-                    SELECT \
-                    COUNT(A) > 0 \
-                    FROM Appointment A \
-                    WHERE \
-                    A.employee.employeeID=:employeeID \
-                    AND (:startDateTime < A.endDateTime AND :endDateTime > A.startDateTime)\
-                    AND A.appointmentID <> :appointmentIDToExclude"""
-    )
+                    SELECT
+                    COUNT(A) > 0
+                    FROM Appointment A
+                    WHERE A.employee.employeeID=:employeeID AND (:startDateTime < A.endDateTime AND :endDateTime > A.startDateTime) AND A.appointmentID <> :appointmentIDToExclude
+                    """)
     boolean existsOverlappingAppointmentOnUpdate(
             @Param("employeeID") Long employeeID,
             @Param("startDateTime") LocalDateTime startDateTime,
@@ -72,21 +60,8 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
             @Param("appointmentIDToExclude") Long appointmentIDToExclude
     );
 
-    /**
-     * Obtiene las 5 citas más recientes ordenadas por fecha y hora de registro descendente.
-     * Proporciona una vista rápida de las últimas actividades en el sistema sin necesidad de cargar el historial.
-     *
-     * @return Una lista con un máximo de 5 elementos, ordenados por {@code registrationTimestamp} de mayor a menor.
-     */
     List<Appointment> findTop5ByOrderByRegistrationTimestampDesc();
 
-    /**
-     * Obtiene las 5 citas más recientes que tengan un estado actual específico, ordenadas por fecha y hora de registro descendente.
-     * Útil para mostrar rápidamente las últimas actividades relacionadas con un estado particular (ej: últimas confirmaciones).
-     *
-     * @param currentStatus El estado actual que deben tener las citas.
-     * @return Una lista con un máximo de 5 elementos, ordenados por {@code registrationTimestamp} de mayor a menor.
-     */
     List<Appointment> findTop5ByCurrentStatusOrderByRegistrationTimestampDesc(AppointmentStatus currentStatus);
 
     /**
@@ -109,7 +84,12 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
      * @return Una lista de citas que cumplen con todos los criterios de filtro aplicados.
      */
     @Query("""
-            SELECT a FROM Appointment  a WHERE (:clientName IS NULL OR CONCAT(a.client.firstName, ' ', a.client.lastName) LIKE CONCAT('%', :clientName, '%')) AND (:employeeName IS NULL OR CONCAT(a.employee.firstName, ' ', a.employee.lastName) LIKE CONCAT('%', :employeeName, '%')) AND (:status IS NULL OR :status = a.currentStatus) AND (:startDateTime IS NULL OR a.startDateTime BETWEEN :startDateTime AND :endDateTime)""")
+            SELECT a
+            FROM Appointment a WHERE
+                        (:clientName IS NULL OR CONCAT(a.client.firstName, ' ', a.client.lastName) LIKE CONCAT('%', :clientName, '%'))
+                        AND (:employeeName IS NULL OR CONCAT(a.employee.firstName, ' ', a.employee.lastName) LIKE CONCAT('%', :employeeName, '%'))
+                        AND (:status IS NULL OR :status = a.currentStatus) AND (:startDateTime IS NULL OR a.startDateTime BETWEEN :startDateTime AND :endDateTime)
+            """)
     List<Appointment> liveSearchWithFilters(
             @Param("clientName") String clientName,
             @Param("status") AppointmentStatus selectedAppointmentStatus,
@@ -126,7 +106,10 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
             FROM Appointment a
             WHERE a.startDateTime BETWEEN :todayStart AND :todayEnd
             """)
-    AppointmentTodayStatsDTO getAppoinmentsTodayStats(@Param("todayStart") LocalDateTime todayStart, @Param("todayEnd") LocalDateTime todayEnd);
+    AppointmentTodayStatsDTO getAppointmentsTodayStats(
+            @Param("todayStart") LocalDateTime todayStart,
+            @Param("todayEnd") LocalDateTime todayEnd
+    );
 
     @Query("""
             SELECT new com.dto.stats.AppointmentTomorrowStatsDTO(
@@ -136,7 +119,9 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
             FROM Appointment a
             WHERE a.currentStatus IN (AppointmentStatus.PROGRAMADO, AppointmentStatus.REPROGRAMADO) AND a.startDateTime >= :now
             """)
-    AppointmentTomorrowStatsDTO getPendingAppointmentsStats(@Param("now") LocalDateTime now, @Param("tomorrowStart") LocalDateTime tomorrowStart, @Param("tomorrowEnd") LocalDateTime tomorrowEnd);
+    AppointmentTomorrowStatsDTO getPendingAppointmentsStats(
+            @Param("now") LocalDateTime now
+    );
 
     @Query("""
             SELECT new com.dto.stats.AppointmentMonthlyComparisonDTO(
@@ -153,15 +138,30 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
             @Param("previousMonthEnd") LocalDateTime previousMonthEnd
     );
 
-    @Query("SELECT COALESCE(COUNT(a.appointmentID), 0.0) FROM Appointment a WHERE a.currentStatus = AppointmentStatus.CANCELADO AND a.startDateTime BETWEEN :startDateTime AND :endDateTime")
-    Long getAppointmentsMarkedAsCanceledDuringThisMonth(@Param("startDateTime") LocalDateTime startDateTime, @Param("endDateTime") LocalDateTime endDateTime);
+    @Query("""
+            SELECT COALESCE(COUNT(a.appointmentID), 0)
+            FROM Appointment a WHERE a.currentStatus = AppointmentStatus.CANCELADO AND a.startDateTime BETWEEN :startDateTime AND :endDateTime
+            """)
+    Long getAppointmentsMarkedAsCanceledDuringThisMonth(
+            @Param("startDateTime") LocalDateTime startDateTime,
+            @Param("endDateTime") LocalDateTime endDateTime
+    );
 
-    @Query("SELECT COALESCE(COUNT(a.appointmentID), 0.0) FROM Appointment a WHERE a.startDateTime BETWEEN :startDateTime AND :endDateTime")
-    Long getTotalAppointmentsRegisteredDuringThisMonth(@Param("startDateTime") LocalDateTime startDateTime, @Param("endDateTime") LocalDateTime endDateTime);
+    @Query("""
+            SELECT COALESCE(SUM(a.barberservice.price), 0.0)
+            FROM Appointment a WHERE a.startDateTime BETWEEN :startDateTime AND :endDateTime
+            """)
+    Double getBarberServicePriceSumAcrossAppointments(
+            @Param("startDateTime") LocalDateTime startDateTime,
+            @Param("endDateTime") LocalDateTime endDateTime
+    );
 
-    @Query("SELECT COALESCE(COUNT(a.appointmentID), 0.0) FROM Appointment a WHERE a.startDateTime BETWEEN :startDateTime AND :endDateTime")
-    Long getTotalAppointmentsTodayCount(@Param("startDateTime") LocalDateTime startDateTime, @Param("endDateTime") LocalDateTime endDateTime);
-
-    @Query("SELECT COALESCE(SUM(a.barberservice.price), 0.0) FROM Appointment a WHERE a.startDateTime BETWEEN :startDateTime AND :endDateTime")
-    Double getBarberServicePriceSumAcrossAppointments(@Param("startDateTime") LocalDateTime startDateTime, @Param("endDateTime") LocalDateTime endDateTime);
+    @Query("""
+            SELECT COALESCE(COUNT(a.appointmentID), 0)
+            FROM Appointment a WHERE a.startDateTime BETWEEN :startDate AND :endDate
+            """)
+    Long countByStartDateTimeBetween(
+            @Param("startDate") LocalDateTime startDate,
+            @Param("endDate") LocalDateTime endDate
+    );
 }

@@ -11,23 +11,9 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-/**
- * Repositorio especializado para la gestión de productos (Products).
- * Proporciona operaciones de persistencia y consultas personalizadas para validar unicidad,
- * identificar productos con stock bajo, calcular el valor total del inventario y realizar búsquedas en vivo con filtros.
- *
- * <p>Extiende {@link JpaRepository} para heredar las funcionalidades básicas de CRUD.</p>
- */
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
-    /**
-     * Verifica la existencia de un producto registrado con el nombre proporcionado.
-     * Útil para validar la unicidad del nombre antes de crear un nuevo registro.
-     *
-     * @param name El nombre del producto a buscar.
-     * @return {@code true} si existe al menos un producto con ese nombre; {@code false} en caso contrario.
-     */
-    Boolean existsByName(String name);
+    boolean existsByName(String name);
 
     /**
      * Verifica la existencia de un producto registrado con el nombre proporcionado, excluyendo explícitamente un producto existente por su ID.
@@ -38,28 +24,9 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
      * @param productID El ID del producto actual que se está modificando y debe ser excluido de la búsqueda.
      * @return {@code true} si existe otro producto con ese nombre (distinto al actual); {@code false} en caso contrario.
      */
-    Boolean existsByNameAndProductIDNot(String name, Long productID);
+    boolean existsByNameAndProductIDNot(String name, Long productID);
 
-    /**
-     * Obtiene los 5 productos más recientes ordenados por fecha y hora de creación descendente.
-     * Proporciona una vista rápida de las últimas entradas en el inventario sin necesidad de cargar el historial.
-     *
-     * @return Una lista con un máximo de 5 elementos, ordenados por {@code creationDate} de mayor a menor.
-     */
     List<Product> findTop5ByOrderByCreationDateDesc();
-
-    /**
-     * Obtiene una lista de productos cuyo nivel de stock actual es menor o igual al nivel de seguridad definido.
-     * La consulta utiliza una comparación directa en la base de datos para identificar rápidamente los artículos que requieren reposición.
-     *
-     * @return Una lista de productos con stock bajo (donde {@code currentStockLevel <= safetyStockLevel}).
-     */
-    @Query("""
-            SELECT p
-            FROM Product p
-            WHERE p.currentStockLevel <= p.safetyStockLevel
-            """)
-    List<Product> getLowStockProducts();
 
     /**
      * Realiza una búsqueda en vivo (live search) de productos aplicando múltiples filtros simultáneamente.
