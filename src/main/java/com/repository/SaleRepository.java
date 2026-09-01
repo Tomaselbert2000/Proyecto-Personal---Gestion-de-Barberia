@@ -73,7 +73,7 @@ public interface SaleRepository extends JpaRepository<Sale, Long> {
             GROUP BY b.name
             ORDER BY COUNT(s) ASC
             """)
-    List<BarberServiceUsageStatsDTO> getBarbarberServiceUsageStats();
+    List<BarberServiceUsageStatsDTO> getBarberServiceUsageStats();
 
     @Query("""
             SELECT COALESCE(SUM(s.total), 0.0)

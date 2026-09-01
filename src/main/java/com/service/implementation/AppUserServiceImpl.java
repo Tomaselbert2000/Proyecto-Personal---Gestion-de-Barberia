@@ -78,9 +78,7 @@ public class AppUserServiceImpl implements AppUserService {
     @Override
     public Boolean signIn(String username, String password) {
 
-        AppUser userOnDB = appUserRepository.findByUsername(username);
-
-        if (userOnDB == null) return false;
+        AppUser userOnDB = appUserRepository.findByUsername(username).orElseThrow(AppUserNotFoundException::new);
 
         return passwordEncoder.matches(password, userOnDB.getPassword());
     }

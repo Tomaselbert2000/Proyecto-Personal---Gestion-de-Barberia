@@ -320,3 +320,5 @@ public class ClientServiceImpl implements ClientService {
             throw new DuplicatedPhoneNumberException();
     }
 }
+
+//TODO: corregir query de numeros de clientes y commitear todos los fixes

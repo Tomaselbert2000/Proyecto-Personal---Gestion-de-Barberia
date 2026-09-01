@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface PaymentMethodRepository extends JpaRepository<PaymentMethod, Long> {
 
@@ -53,5 +54,5 @@ public interface PaymentMethodRepository extends JpaRepository<PaymentMethod, Lo
 
     long countByIsActiveTrue();
 
-    PaymentMethod findPaymentMethodByName(String name);
+    Optional<PaymentMethod> findPaymentMethodByName(String name);
 }

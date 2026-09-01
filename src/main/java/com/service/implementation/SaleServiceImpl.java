@@ -231,7 +231,7 @@ public class SaleServiceImpl implements SaleService {
     @Override
     public BarberServiceUsageStatsDTO getBarberServiceWithLowestUsage() {
 
-        List<BarberServiceUsageStatsDTO> barberServiceUsageStatsDTOS = saleRepository.getBarbarberServiceUsageStats();
+        List<BarberServiceUsageStatsDTO> barberServiceUsageStatsDTOS = saleRepository.getBarberServiceUsageStats();
 
         if (!barberServiceUsageStatsDTOS.isEmpty()) {
 

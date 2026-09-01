@@ -109,11 +109,8 @@ public class PaymentMethodServiceImpl implements PaymentMethodService {
 
         PaymentMethod existingPaymentMethod = loadPaymentMethodByName(name);
 
-        if (existingPaymentMethod != null) {
-
-            existingPaymentMethod.setIsActive(!existingPaymentMethod.getIsActive());
-            paymentMethodRepository.save(existingPaymentMethod);
-        }
+        existingPaymentMethod.setIsActive(!existingPaymentMethod.getIsActive());
+        paymentMethodRepository.save(existingPaymentMethod);
     }
 
     @Override
@@ -133,7 +130,7 @@ public class PaymentMethodServiceImpl implements PaymentMethodService {
 
     private PaymentMethod loadPaymentMethodByName(String name) {
 
-        return paymentMethodRepository.findPaymentMethodByName(name);
+        return paymentMethodRepository.findPaymentMethodByName(name).orElseThrow(PaymentMethodNotFoundException::new);
     }
 
     private PaymentMethod loadPaymentMethodByID(Long paymentMethodID) {

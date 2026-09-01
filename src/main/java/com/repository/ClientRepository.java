@@ -113,7 +113,7 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
             WHERE (:clientName IS NULL OR LOWER(CONCAT(c.firstName, ' ', c.lastName)) LIKE LOWER(CONCAT('%', :clientName, '%')))
               AND (:limitRegistrationDate IS NULL OR (c.registrationDate >= :limitRegistrationDate AND c.registrationDate <= CURRENT_DATE))
               AND (
-                  (:hasPhone IS NULL) OR (:hasPhone = true AND SIZE(c.phoneNumbersList) > 0) OR (:hasPhone = false AND SIZE(c.phoneNumbersList) = 0)
+                  (:hasPhone IS NULL) OR (:hasPhone = true AND EXISTS (SELECT 1 FROM c.phoneNumbersList p)) OR (:hasPhone = false AND NOT EXISTS (SELECT 1 FROM c.phoneNumbersList p))
               )
               AND (
                   (:hasNotes IS NULL) OR
@@ -142,10 +142,10 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
 
     @Query("""
             SELECT new com.dto.stats.ClientPhoneNumberStatsDTO(
-                COUNT(CASE WHEN SIZE(c.phoneNumbersList) > 0 THEN c.clientID ELSE NULL END),
-                COUNT(CASE WHEN SIZE(c.phoneNumbersList) = 0 THEN c.clientID ELSE NULL END)
+                COUNT(DISTINCT(CASE WHEN p IS NOT NULL THEN c.clientID END)),
+                COUNT(DISTINCT(CASE WHEN p IS NULL THEN c.clientID END))
             )
-            FROM Client c
+            FROM Client c LEFT JOIN c.phoneNumbersList p
             """)
     ClientPhoneNumberStatsDTO getPhoneNumberRegistrationStats();
 
