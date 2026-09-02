@@ -36,6 +36,10 @@ public class Product {
     private Double maxDiscountPercentage;
 
     private Integer currentStockLevel;
+
+    @Version
+    private Integer version;
+
     private Integer safetyStockLevel;
 
     @Enumerated(EnumType.STRING)

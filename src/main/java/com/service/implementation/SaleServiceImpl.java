@@ -9,8 +9,8 @@ import com.exceptions.barberservice.BarberServiceNotFoundException;
 import com.exceptions.client.ClientNotFoundException;
 import com.exceptions.employee.EmployeeNotFoundException;
 import com.exceptions.paymentmethod.PaymentMethodNotFoundException;
+import com.exceptions.product.ConcurrentStockModificationException;
 import com.exceptions.product.ProductNotFoundException;
-import com.exceptions.sale.InactiveEmployeeException;
 import com.exceptions.sale.InactivePaymentMethodException;
 import com.exceptions.sale.InsufficientProductStockException;
 import com.exceptions.sale.SaleNotFoundException;
@@ -22,6 +22,7 @@ import com.validation.sale.SaleValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,6 +37,7 @@ import java.util.stream.Collectors;
 import static com.dto.stats.EmptyStatDTOFactory.*;
 import static com.presentation.constants.StringResource.DisplayString.NO_DATA;
 import static com.utils.time.TimeCalculation.*;
+import static com.validation.employee.EmployeeServiceValidationHelper.validateEmployeeIsActive;
 
 @Service
 @RequiredArgsConstructor
@@ -66,7 +68,7 @@ public class SaleServiceImpl implements SaleService {
 
         checkIfEmployeeIsNullAndBarberServiceNot(employee, barberService);
 
-        checkIfEmployeeIsActive(employee);
+        validateEmployeeIsActive(employee);
 
         checkIfPaymentMethodIsActive(paymentMethod);
 
@@ -84,7 +86,14 @@ public class SaleServiceImpl implements SaleService {
 
         Sale newSale = generateSaleEntity(saleDto, client, employee, barberService, paymentMethod, saleItemList);
 
-        saleRepository.save(newSale);
+        try {
+
+            saleRepository.saveAndFlush(newSale);
+
+        } catch (ObjectOptimisticLockingFailureException exception) {
+
+            throw new ConcurrentStockModificationException();
+        }
     }
 
     @Override
@@ -95,7 +104,16 @@ public class SaleServiceImpl implements SaleService {
 
         restoreStockFromSaleItemList(saleOnDB);
 
-        saleRepository.delete(saleOnDB);
+        try {
+
+            saleRepository.delete(saleOnDB);
+
+            saleRepository.flush();
+
+        }catch (ObjectOptimisticLockingFailureException exception){
+
+            throw new ConcurrentStockModificationException();
+        }
     }
 
     @Override
@@ -360,15 +378,6 @@ public class SaleServiceImpl implements SaleService {
     private void checkIfEmployeeIsNullAndBarberServiceNot(Employee employee, BarberService barberService) {
 
         if (employee == null && barberService != null) throw new EmployeeNotFoundException();
-    }
-
-    private void checkIfEmployeeIsActive(Employee employee) {
-
-        if (employee != null) {
-
-            if (!employee.isActive()) throw new InactiveEmployeeException();
-
-        }
     }
 
     private void checkIfPaymentMethodIsActive(PaymentMethod paymentMethod) {
