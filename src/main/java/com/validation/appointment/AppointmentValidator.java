@@ -1,5 +1,6 @@
 package com.validation.appointment;
 
+import com.config.preferences.AppPreferences;
 import com.dto.appointment.AppointmentCreationDTO;
 import com.dto.appointment.AppointmentUpdateDTO;
 import com.exceptions.appointment.DateTimeOutsideServiceHoursException;
@@ -17,16 +18,17 @@ import java.time.LocalTime;
 public class AppointmentValidator extends BaseDTOValidator {
 
     private final Clock clock;
+    private final AppPreferences appPreferences;
 
-    public AppointmentValidator(Validator validatorEngine, Clock clock) {
+    public AppointmentValidator(
+            Validator validatorEngine,
+            Clock clock,
+            AppPreferences appPreferences
+    ) {
+
         super(validatorEngine);
         this.clock = clock;
-    }
-
-    public static final class AppointmentValidatorConstants {
-
-        private static final LocalTime OPENING_TIME = LocalTime.of(8, 0);
-        private static final LocalTime CLOSING_TIME = LocalTime.of(20, 0);
+        this.appPreferences = appPreferences;
     }
 
     public void validateForCreation(AppointmentCreationDTO creationDTO) {
@@ -47,15 +49,28 @@ public class AppointmentValidator extends BaseDTOValidator {
 
         if (startDateTime != null && endDateTime != null) {
 
-            LocalDateTime now = LocalDateTime.now(clock);
+            if (startDateTime.isBefore(now())) throw new InvalidAppointmentStartDateException();
 
-            if (startDateTime.isBefore(now)) throw new InvalidAppointmentStartDateException();
-
-            if (endDateTime.isBefore(now) || endDateTime.isBefore(startDateTime))
+            if (endDateTime.isBefore(now()) || endDateTime.isBefore(startDateTime))
                 throw new InvalidAppointmentEndDateException();
 
-            if (startDateTime.toLocalTime().isBefore(AppointmentValidatorConstants.OPENING_TIME) || endDateTime.toLocalTime().isAfter(AppointmentValidatorConstants.CLOSING_TIME))
+            if (startDateTime.toLocalTime().isBefore(currentOpeningTime()) || endDateTime.toLocalTime().isAfter(currentClosingTime()))
                 throw new DateTimeOutsideServiceHoursException();
         }
+    }
+
+    private LocalDateTime now() {
+
+        return LocalDateTime.now(clock);
+    }
+
+    private LocalTime currentOpeningTime() {
+
+        return LocalTime.parse(appPreferences.getBarberShopOpeningTime());
+    }
+
+    private LocalTime currentClosingTime() {
+
+        return LocalTime.parse(appPreferences.getBarberShopClosingTime());
     }
 }

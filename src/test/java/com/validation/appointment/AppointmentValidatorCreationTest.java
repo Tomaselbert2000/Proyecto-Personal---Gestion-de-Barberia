@@ -1,6 +1,7 @@
 package com.validation.appointment;
 
 import com.abstract_test_class.BaseValidatorTest;
+import com.config.preferences.AppPreferences;
 import com.dto.appointment.AppointmentCreationDTO;
 import com.exceptions.appointment.DateTimeOutsideServiceHoursException;
 import com.exceptions.appointment.InvalidAppointmentEndDateException;
@@ -20,6 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class AppointmentValidatorCreationTest extends BaseValidatorTest<AppointmentValidator, AppointmentCreationDTO> {
 
     private final Clock clock = generateClockInstance(INSTANT, ZONE_ID);
+    private final AppPreferences appPreferences = new AppPreferences();
 
     @Override
     protected void setupInputDTO() {
@@ -30,7 +32,7 @@ public class AppointmentValidatorCreationTest extends BaseValidatorTest<Appointm
     @Override
     protected void setupValidator() {
 
-        validator = new AppointmentValidator(validatorEngine, clock);
+        validator = new AppointmentValidator(validatorEngine, clock, appPreferences);
     }
 
     @Override

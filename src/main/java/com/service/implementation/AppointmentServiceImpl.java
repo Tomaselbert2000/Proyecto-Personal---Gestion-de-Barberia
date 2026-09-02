@@ -13,7 +13,6 @@ import com.exceptions.barberservice.BarberServiceNotFoundException;
 import com.exceptions.client.ClientNotFoundException;
 import com.exceptions.common.EmployeeNotAvailableException;
 import com.exceptions.employee.EmployeeNotFoundException;
-import com.exceptions.sale.InactiveEmployeeException;
 import com.mapper.interfaces.AppointmentMapper;
 import com.model.Appointment;
 import com.model.BarberService;
@@ -38,6 +37,7 @@ import java.util.List;
 
 import static com.dto.stats.EmptyStatDTOFactory.*;
 import static com.utils.time.TimeCalculation.*;
+import static com.validation.employee.EmployeeServiceValidationHelper.validateEmployeeIsActive;
 
 @Service
 @RequiredArgsConstructor
@@ -64,7 +64,7 @@ public class AppointmentServiceImpl implements AppointmentService {
         BarberService service = loadBarberService(creationDTO.getBarberserviceID());
         Employee employee = loadEmployee(creationDTO.getEmployeeID());
 
-        checkIfEmployeeIsActive(employee);
+        validateEmployeeIsActive(employee);
 
         checkEmployeeAvailabilityForCreation(employee, creationDTO.getStartDateTime(), creationDTO.getEndDateTime());
 
@@ -326,11 +326,6 @@ public class AppointmentServiceImpl implements AppointmentService {
         if (appointmentID == null) return null;
 
         return appointmentRepository.findById(appointmentID).orElseThrow(AppointmentNotFoundException::new);
-    }
-
-    private void checkIfEmployeeIsActive(Employee employee) {
-
-        if (!employee.isActive()) throw new InactiveEmployeeException();
     }
 
     private void applyStatusChangeIfPresent(Appointment appointmentToUpdate, AppointmentStatus newStatus) {
