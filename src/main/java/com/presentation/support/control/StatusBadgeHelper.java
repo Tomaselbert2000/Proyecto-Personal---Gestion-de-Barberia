@@ -6,9 +6,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.Region;
 
 import static com.enums.AppointmentStatus.*;
-import static com.enums.AppointmentStatus.CANCELADO;
 import static com.presentation.constants.MaterialDesignResources.MaterialIcon.MaterialDesignStyles.MaterialDesignStyleClass.*;
-import static com.presentation.constants.MaterialDesignResources.MaterialIcon.MaterialDesignStyles.MaterialDesignStyleClass.CANCELED_BADGE;
 import static com.presentation.constants.StringResource.DisplayString.*;
 import static com.presentation.support.control.UIBasicComponents.addLabelStyle;
 import static com.presentation.support.control.UIBasicComponents.setTextOnLabel;
