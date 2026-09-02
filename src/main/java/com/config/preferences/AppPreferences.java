@@ -1,8 +1,6 @@
 package com.config.preferences;
 
 import com.dto.settings.SettingsUpdateDTO;
-import lombok.Getter;
-import lombok.Setter;
 import org.springframework.stereotype.Component;
 
 import java.util.prefs.Preferences;
@@ -33,8 +31,6 @@ import static com.config.preferences.AppPreferencesConstants.AppPreferencesKey.*
  * de la aplicación. El componente es singleton por defecto en Spring.</p>
  */
 @Component
-@Getter
-@Setter
 public class AppPreferences {
 
     /**
