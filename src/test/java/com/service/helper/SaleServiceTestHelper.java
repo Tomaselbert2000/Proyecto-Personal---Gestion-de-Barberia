@@ -27,7 +27,7 @@ public class SaleServiceTestHelper {
 
     public static void captureSale(ArgumentCaptor<Sale> saleCaptor, SaleRepository saleRepository) {
 
-        verify(saleRepository).save(saleCaptor.capture());
+        verify(saleRepository).saveAndFlush(saleCaptor.capture());
     }
 
     public static void mockClient(ClientRepository clientRepository, Client client) {

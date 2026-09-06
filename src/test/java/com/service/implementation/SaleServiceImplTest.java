@@ -33,6 +33,7 @@ import static com.factory.ProductTestDataFactory.buildValidProduct;
 import static com.factory.SaleTestDataFactory.*;
 import static com.service.helper.SaleServiceTestHelper.*;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -456,6 +457,12 @@ public class SaleServiceImplTest extends BaseServiceTest<Sale, SaleRepository> {
         ServiceRecord record = capturedSale.getServiceRecord();
 
         assertEquals(record.getTimestamp(), capturedSale.getDateAndTime());
+    }
+
+    @Override
+    protected void verifyThatEntityWasSaved() {
+
+        verify(getPrimaryRepository()).saveAndFlush(any());
     }
 
     private void syncSaleCreationDTO_IDsWithFactoryObjectsIDs() {
