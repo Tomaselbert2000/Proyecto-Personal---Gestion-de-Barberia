@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<AnchorPane fx:id="anchorPane"
+            xmlns="http://javafx.com/javafx/17.0.12"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.presentation.controller.sale.SaleCreationController">
+
+    <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+          AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+
+        <!-- ================================================================= -->
+        <!-- HEADER SUPERIOR CON BOTÓN VOLVER E ICONO                          -->
+        <!-- ================================================================= -->
+        <HBox alignment="CENTER_LEFT" spacing="16">
+            <padding>
+                <Insets top="16" right="24" bottom="16" left="24"/>
+            </padding>
+
+            <MFXButton fx:id="backButton" styleClass="md-button-outlined" text="Volver">
+                <graphic>
+                    <Region styleClass="arrow-up-circle-icon, md-icon-small"/>
+                </graphic>
+            </MFXButton>
+
+            <VBox spacing="2">
+                <Label styleClass="md-headline-medium" text="Nueva Venta"/>
+                <Label styleClass="md-body-medium" text="Carga los datos para registrar una venta en el sistema"/>
+            </VBox>
+        </HBox>
+
+        <!-- ================================================================= -->
+        <!-- ÁREA ESCROLEABLE DE FORMULARIO                                    -->
+        <!-- ================================================================= -->
+        <ScrollPane fitToHeight="true" fitToWidth="true"
+                    style="-fx-background-color: transparent; -fx-background: transparent;"
+                    VBox.vgrow="ALWAYS">
+            <VBox spacing="24">
+
+                <padding>
+                    <Insets top="16" right="24" bottom="32" left="24"/>
+                </padding>
+
+                <!-- 1. INFORMACIÓN DEL CLIENTE Y EMPLEADO -->
+                <VBox styleClass="md-card" spacing="16">
+                    <padding>
+                        <Insets top="20" right="20" bottom="20" left="20"/>
+                    </padding>
+
+                    <!-- Header de Sección con Ícono -->
+                    <HBox alignment="CENTER_LEFT" spacing="8">
+                        <Region styleClass="person-1-icon, md-icon-medium, md-icon-primary"/>
+                        <Label styleClass="md-title-medium" text="Información del Cliente y Empleado"/>
+                    </HBox>
+
+                    <GridPane hgap="16" vgap="16">
+                        <columnConstraints>
+                            <ColumnConstraints hgrow="ALWAYS" percentWidth="50"/>
+                            <ColumnConstraints hgrow="ALWAYS" percentWidth="50"/>
+                        </columnConstraints>
+
+                        <!-- Cliente -->
+                        <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                            <HBox alignment="CENTER_LEFT" spacing="8">
+                                <Label styleClass="md-label-medium" text="Cliente"/>
+                                <Label styleClass="md-label-medium, md-input-error" text="*"/>
+                                <CheckBox fx:id="anonClientCheckBox" text="Cliente anónimo"/>
+                            </HBox>
+                            <ComboBox fx:id="clientSelector" promptText="Seleccionar cliente"
+                                      styleClass="md-combo-box" maxWidth="Infinity"/>
+                        </VBox>
+
+                        <!-- Empleado -->
+                        <VBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                            <HBox spacing="4">
+                                <Label styleClass="md-label-medium" text="Empleado"/>
+                                <Label styleClass="md-label-medium, md-input-error" text="*"/>
+                            </HBox>
+                            <ComboBox fx:id="employeeSelector" promptText="Seleccionar empleado"
+                                      styleClass="md-combo-box" maxWidth="Infinity"/>
+                        </VBox>
+
+                    </GridPane>
+                </VBox>
+                <VBox styleClass="md-card" spacing="16">
+                    <padding>
+                        <Insets top="20" right="20" bottom="20" left="20"/>
+                    </padding>
+
+                    <!-- Header de Sección con Ícono -->
+                    <HBox alignment="CENTER_LEFT" spacing="8">
+                        <Region styleClass="payments-icon, md-icon-medium, md-icon-primary"/>
+                        <Label styleClass="md-title-medium" text="Método de Pago y Servicio"/>
+                    </HBox>
+
+                    <GridPane hgap="16" vgap="16">
+                        <columnConstraints>
+                            <ColumnConstraints hgrow="ALWAYS" percentWidth="50"/>
+                            <ColumnConstraints hgrow="ALWAYS" percentWidth="50"/>
+                        </columnConstraints>
+                        <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                            <HBox spacing="4">
+                                <Label styleClass="md-label-medium" text="Método de Pago"/>
+                                <Label styleClass="md-label-medium, md-input-error" text="*"/>
+                            </HBox>
+                            <ComboBox fx:id="paymentMethodSelector" promptText="Seleccionar método de pago"
+                                      styleClass="md-combo-box" maxWidth="Infinity"/>
+                        </VBox>
+
+                        <!-- Servicio de Barbería -->
+                        <VBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                            <HBox spacing="4">
+                                <Label styleClass="md-label-medium" text="Servicio de Barbería"/>
+                                <Label styleClass="md-label-medium, md-input-error" text="*"/>
+                            </HBox>
+                            <ComboBox fx:id="barberServiceSelector" promptText="Seleccionar servicio (opcional)"
+                                      styleClass="md-combo-box" maxWidth="Infinity"/>
+                        </VBox>
+
+                    </GridPane>
+                </VBox>
+
+                <!-- 3. FECHA Y HORA DE LA VENTA -->
+                <VBox styleClass="md-card" spacing="16">
+                    <padding>
+                        <Insets top="20" right="20" bottom="20" left="20"/>
+                    </padding>
+
+                    <!-- Header de Sección con Ícono -->
+                    <HBox alignment="CENTER_LEFT" spacing="8">
+                        <Region styleClass="calendar-icon, md-icon-medium, md-icon-primary"/>
+                        <Label styleClass="md-title-medium" text="Fecha y Hora de la Venta"/>
+                    </HBox>
+
+                    <GridPane hgap="16" vgap="16">
+                        <columnConstraints>
+                            <ColumnConstraints hgrow="ALWAYS" percentWidth="50"/>
+                            <ColumnConstraints hgrow="ALWAYS" percentWidth="50"/>
+                        </columnConstraints>
+
+                        <!-- Checkbox Venta Diferida -->
+                        <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                            <HBox alignment="CENTER_LEFT" spacing="8">
+                                <CheckBox fx:id="deferredSaleCheckBox" text="Venta diferida"/>
+                            </HBox>
+                        </VBox>
+
+                        <!-- Fecha y Hora para Venta Diferida -->
+                        <VBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                            <HBox alignment="CENTER_LEFT" spacing="8">
+                                <DatePicker fx:id="deferredSaleDatePicker"/>
+                                <ComboBox fx:id="hourSelectorForDeferredSale" promptText="Hora"/>
+                                <ComboBox fx:id="minuteSelectorForDeferredSale" promptText="Minuto"/>
+                            </HBox>
+                        </VBox>
+
+                    </GridPane>
+                </VBox>
+
+                <!-- 4. BÚSQUEDA DE PRODUCTOS -->
+                <VBox styleClass="md-card" spacing="16">
+                    <padding>
+                        <Insets top="20" right="20" bottom="20" left="20"/>
+                    </padding>
+
+                    <!-- Header de Sección con Ícono -->
+                    <HBox alignment="CENTER_LEFT" spacing="8">
+                        <Region styleClass="search-icon, md-icon-medium, md-icon-primary"/>
+                        <Label styleClass="md-title-medium" text="Buscar Productos"/>
+                    </HBox>
+
+                    <TextField fx:id="productSearchField" promptText="Escribe para buscar productos..."
+                               styleClass="md-text-field" maxWidth="Infinity"/>
+                </VBox>
+
+                <!-- ================================================================= -->
+                <!-- TITLED PANE: CARRITO DE COMPRAS                                  -->
+                <!-- ================================================================= -->
+                <TitledPane fx:id="titledPane" text="Carrito de Compras" styleClass="md-titled-pane">
+                    <padding>
+                        <Insets right="24" bottom="16" left="24"/>
+                    </padding>
+                    <VBox fx:id="productListContainer" spacing="16"/>
+                </TitledPane>
+
+                <!-- ================================================================= -->
+                <!-- TOTAL DE LA VENTA                                              -->
+                <!-- ================================================================= -->
+                <HBox alignment="CENTER_RIGHT">
+                    <Label styleClass="md-title-medium" text="Total: "/>
+                    <Label fx:id="totalLabel" styleClass="md-headline-large"/>
+                </HBox>
+
+                <!-- ================================================================= -->
+                <!-- BARRA DE ACCIONES PRINCIPAL (CANCELAR / REGISTRAR)            -->
+                <!-- ================================================================= -->
+                <HBox spacing="12" alignment="CENTER_RIGHT">
+                    <MFXButton fx:id="registerSale" styleClass="md-button-filled" text="Registrar Venta">
+                        <graphic>
+                            <Region styleClass="done-all-icon, md-icon-small, md-icon-on-surface"/>
+                        </graphic>
+                    </MFXButton>
+                </HBox>
+
+            </VBox>
+        </ScrollPane>
+    </VBox>
+</AnchorPane>

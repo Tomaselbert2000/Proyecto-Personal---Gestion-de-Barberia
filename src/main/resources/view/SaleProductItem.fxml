@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<HBox xmlns:fx="http://javafx.com/fxml/1"
+      alignment="CENTER_LEFT"
+      spacing="8"
+      styleClass="md-list-item"
+      xmlns="http://javafx.com/javafx/25"
+      fx:id="hbox"
+      fx:controller="com.presentation.controller.sale.SaleProductItemController">
+    <padding>
+        <Insets top="12" right="16" bottom="12" left="16"/>
+    </padding>
+
+    <!-- ID de producto -->
+    <Label fx:id="productID" styleClass="md-list-item-headline"/>
+
+    <!-- Region vacío para expandir espacio -->
+    <Region HBox.hgrow="ALWAYS"/>
+
+    <!-- Contenedor interno con botones y campo de cantidad reordenado -->
+    <HBox alignment="CENTER" spacing="4">
+        <MFXButton fx:id="removeUnitButton" styleClass="md-button-tonal" text="-1"/>
+        <TextField fx:id="unitTextfield" promptText="0" maxWidth="50" alignment="CENTER"/>
+        <MFXButton fx:id="addUnitButton" styleClass="md-button-tonal" text="+1"/>
+    </HBox>
+
+    <!-- Botón eliminar producto -->
+    <MFXButton fx:id="removeProductButton" styleClass="md-button-text" text="Eliminar"/>
+</HBox>
