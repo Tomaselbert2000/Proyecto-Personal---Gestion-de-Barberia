@@ -32,7 +32,7 @@ import static com.presentation.support.control.UIBasicComponents.*;
 import static com.presentation.support.control.ValidationFormatter.*;
 import static com.presentation.support.format.PersonNameFormatter.fullName;
 import static com.presentation.support.format.PriceFormatter.format;
-import static com.presentation.support.view.ContainerManager.loadItemsOnController;
+import static com.presentation.support.view.ContainerManager.loadListOfItemsOnController;
 import static com.presentation.support.view.FXMLViewLoader.loadViewOnPane;
 import static com.presentation.support.view.FXMLViewLoader.loadViewWithControllerPane;
 
@@ -202,7 +202,7 @@ public class EmployeeViewController extends BaseCatalogViewController<EmployeeIn
     @Override
     protected void loadItemsOnView(List<EmployeeInfoDTO> items) {
 
-        loadItemsOnController(
+        loadListOfItemsOnController(
                 items,
                 employeeListContainer,
                 EmployeeItemController.class,

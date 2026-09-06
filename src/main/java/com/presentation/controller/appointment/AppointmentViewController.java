@@ -32,7 +32,7 @@ import static com.presentation.support.control.UIBasicComponents.*;
 import static com.presentation.support.control.ValidationFormatter.parseNumberValueToText;
 import static com.presentation.support.control.ValidationFormatter.setStringConverter;
 import static com.presentation.support.notification.ToastNotificationHelper.showToastNotification;
-import static com.presentation.support.view.ContainerManager.loadItemsOnController;
+import static com.presentation.support.view.ContainerManager.loadListOfItemsOnController;
 import static com.presentation.support.view.FXMLViewLoader.loadViewOnPane;
 import static com.presentation.support.view.FXMLViewLoader.loadViewWithControllerPane;
 
@@ -243,7 +243,7 @@ public class AppointmentViewController extends BaseCatalogViewController<Appoint
     @Override
     protected void loadItemsOnView(List<AppointmentInfoDTO> appointmentInfoDTOList) {
 
-        loadItemsOnController(
+        loadListOfItemsOnController(
                 appointmentInfoDTOList,
                 appointmentListVBox,
                 AppointmentItemController.class,

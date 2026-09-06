@@ -36,7 +36,7 @@ import static com.presentation.support.control.UIBasicComponents.*;
 import static com.presentation.support.control.ValidationFormatter.parseNumberValueToText;
 import static com.presentation.support.control.ValidationFormatter.setStringConverter;
 import static com.presentation.support.format.PriceFormatter.format;
-import static com.presentation.support.view.ContainerManager.loadItemsOnController;
+import static com.presentation.support.view.ContainerManager.loadListOfItemsOnController;
 import static com.presentation.support.view.FXMLViewLoader.loadViewWithControllerPane;
 
 @Component
@@ -114,7 +114,7 @@ public class PaymentMethodViewController extends BaseCatalogViewController<Payme
     @Override
     protected void loadItemsOnView(List<PaymentMethodInfoDTO> items) {
 
-        loadItemsOnController(
+        loadListOfItemsOnController(
                 items,
                 paymentMethodListContainer,
                 PaymentMethodItemController.class,

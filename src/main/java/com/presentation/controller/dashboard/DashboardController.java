@@ -35,7 +35,7 @@ import static com.presentation.support.control.ValidationFormatter.*;
 import static com.presentation.support.dialog.DialogHelper.showConfirmationDialog;
 import static com.presentation.support.format.PriceFormatter.formatPriceAsString;
 import static com.presentation.support.view.ContainerManager.cleanContainer;
-import static com.presentation.support.view.ContainerManager.loadItemsOnController;
+import static com.presentation.support.view.ContainerManager.loadListOfItemsOnController;
 import static com.presentation.support.view.FXMLViewLoader.animateViewChange;
 
 @Component
@@ -134,7 +134,7 @@ public class DashboardController {
 
         cleanContainer(activityLogVbox);
 
-        loadItemsOnController(
+        loadListOfItemsOnController(
                 recentActivity,
                 activityLogVbox,
                 ActivityItemController.class,

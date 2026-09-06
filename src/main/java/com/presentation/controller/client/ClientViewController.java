@@ -33,7 +33,7 @@ import static com.presentation.support.control.ComboBoxHelper.loadEnumsOnComboBo
 import static com.presentation.support.control.ComboBoxHelper.resetComboBoxFilter;
 import static com.presentation.support.control.UIBasicComponents.*;
 import static com.presentation.support.control.ValidationFormatter.*;
-import static com.presentation.support.view.ContainerManager.loadItemsOnController;
+import static com.presentation.support.view.ContainerManager.loadListOfItemsOnController;
 import static com.presentation.support.view.FXMLViewLoader.loadViewOnPane;
 import static com.presentation.support.view.FXMLViewLoader.loadViewWithControllerPane;
 
@@ -138,7 +138,7 @@ public class ClientViewController extends BaseCatalogViewController<ClientInfoDT
     @Override
     protected void loadItemsOnView(List<ClientInfoDTO> items) {
 
-        loadItemsOnController(
+        loadListOfItemsOnController(
                 items,
                 clientsListVBox,
                 ClientItemController.class,

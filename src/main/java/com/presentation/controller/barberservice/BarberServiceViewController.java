@@ -43,7 +43,7 @@ import static com.presentation.support.control.ValidationFormatter.setStringConv
 import static com.presentation.support.dialog.DialogHelper.showConfirmationDialog;
 import static com.presentation.support.format.PriceFormatter.format;
 import static com.presentation.support.notification.ToastNotificationHelper.showToastNotification;
-import static com.presentation.support.view.ContainerManager.loadItemsOnController;
+import static com.presentation.support.view.ContainerManager.loadListOfItemsOnController;
 import static com.presentation.support.view.FXMLViewLoader.loadViewWithControllerPane;
 
 @Component
@@ -236,7 +236,7 @@ public class BarberServiceViewController extends BaseCatalogViewController<Barbe
     @Override
     protected void loadItemsOnView(List<BarberServiceInfoDTO> items) {
 
-        loadItemsOnController(
+        loadListOfItemsOnController(
                 items,
                 servicesListViewBox,
                 BarberServiceItemController.class,

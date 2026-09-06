@@ -32,7 +32,7 @@ import static com.presentation.support.control.ComboBoxHelper.resetComboBoxFilte
 import static com.presentation.support.control.UIBasicComponents.*;
 import static com.presentation.support.control.ValidationFormatter.parseNumberValueToText;
 import static com.presentation.support.control.ValidationFormatter.setStringConverter;
-import static com.presentation.support.view.ContainerManager.loadItemsOnController;
+import static com.presentation.support.view.ContainerManager.loadListOfItemsOnController;
 import static com.presentation.support.view.FXMLViewLoader.loadViewOnPane;
 import static com.presentation.support.view.FXMLViewLoader.loadViewWithControllerPane;
 
@@ -200,7 +200,7 @@ public class ProductViewController extends BaseCatalogViewController<ProductInfo
     @Override
     protected void loadItemsOnView(List<ProductInfoDTO> items) {
 
-        loadItemsOnController(
+        loadListOfItemsOnController(
                 items,
                 productListVBox,
                 ProductItemController.class,
