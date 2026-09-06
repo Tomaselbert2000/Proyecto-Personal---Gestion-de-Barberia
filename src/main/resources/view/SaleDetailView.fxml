@@ -90,7 +90,7 @@
                 </VBox>
 
                 <!-- Detalle del Recibo -->
-                <TitledPane fx:id="titledPane" text="Productos del Recibo">
+                <TitledPane fx:id="titledPane" text="Productos del Recibo" styleClass="md-titled-pane">
                     <VBox fx:id="receiptListContainer" styleClass="md-card">
                         <padding>
                             <Insets top="8" right="16" bottom="8" left="16"/>
