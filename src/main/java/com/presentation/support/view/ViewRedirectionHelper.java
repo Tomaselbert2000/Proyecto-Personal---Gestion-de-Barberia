@@ -64,6 +64,8 @@ public class ViewRedirectionHelper {
             case SALES -> loadViewOnPane(SALE_VIEW_PATH, applicationContext, SALE_VIEW_PATH_LOADING_FAILED, borderPane);
             case SALE_DETAIL ->
                     loadViewOnPane(SALE_DETAIL_VIEW_PATH, applicationContext, SALE_DETAIL_VIEW_LOADING_FAILED, borderPane);
+            case SALE_CREATION ->
+                    loadViewOnPane(SALE_CREATION_VIEW_PATH, applicationContext, SALE_CREATION_VIEW_LOADING_FAILED, borderPane);
             case SETTINGS ->
                     loadViewOnPane(SETTINGS_VIEW_PATH, applicationContext, SETTINGS_VIEW_LOADING_FAILED, borderPane);
             case LOGIN -> loadViewOnPane(LOGIN_VIEW_PATH, applicationContext, LOGIN_VIEW_LOADING_FAILED, borderPane);
