@@ -73,4 +73,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             WHERE p.stockStatus IN (StockStatus.BAJO, StockStatus.CRITICO) AND p.currentStockLevel = 0
             """)
     List<InventoryAlertStatsDTO> getInventoryAlertStats();
+
+    List<Product> findAllByName(String name);
 }
