@@ -32,4 +32,6 @@ public interface ProductService {
     ProductStockValueStatsDTO getProductStockValueStat();
 
     InventoryAlertStatsDTO getInventoryAlertStat();
+
+    List<ProductInfoDTO> searchByName(String productName);
 }

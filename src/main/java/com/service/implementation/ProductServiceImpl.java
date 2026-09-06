@@ -179,6 +179,16 @@ public class ProductServiceImpl implements ProductService {
         }
     }
 
+    @Override
+    public List<ProductInfoDTO> searchByName(String productName) {
+
+        List<Product> products = productRepository.findAllByName(productName);
+
+        if (!products.isEmpty()) return mapper.mapProductToInfoDTO(products);
+
+        return List.of();
+    }
+
     private void checkNameAvailability(String name) {
 
         if (productRepository.existsByName(name)) throw new DuplicatedProductNameException();
