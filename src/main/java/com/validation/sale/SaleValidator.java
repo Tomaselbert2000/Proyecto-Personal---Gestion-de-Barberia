@@ -4,7 +4,6 @@ import com.dto.product.ProductItemDTO;
 import com.dto.sale.SaleCreationDTO;
 import com.exceptions.sale.EmptyProductItemListException;
 import com.exceptions.sale.InvalidSaleDateTimeException;
-import com.exceptions.sale.OrphanBarberServiceException;
 import com.exceptions.sale.SaleDateTimeOutOfRangeException;
 import com.validation.common.BaseDTOValidator;
 import jakarta.validation.Validator;
@@ -32,22 +31,17 @@ public class SaleValidator extends BaseDTOValidator {
 
         checkIfSaleIsEmpty(creationDTO.getBarberServiceID(), creationDTO.getProductsDetail());
 
-        validateBarberServiceAndEmployee(creationDTO.getEmployeeID(), creationDTO.getBarberServiceID());
-
         validateSaleDateTime(creationDTO.getDateAndTime());
     }
 
     private void validateSaleDateTime(LocalDateTime dateAndTime) {
 
+        if (dateAndTime == null) return;
+
         if (dateAndTime.isAfter(LocalDateTime.now(clock))) throw new InvalidSaleDateTimeException();
 
         if (dateAndTime.isBefore(LocalDateTime.now(clock).minusHours(REGISTER_WINDOW_IN_HOURS)))
             throw new SaleDateTimeOutOfRangeException();
-    }
-
-    private void validateBarberServiceAndEmployee(Long employeeID, Long barberServiceID) {
-
-        if (employeeID == null && barberServiceID != null) throw new OrphanBarberServiceException();
     }
 
     private void checkIfSaleIsEmpty(Long barberServiceID, List<ProductItemDTO> productsDetail) {

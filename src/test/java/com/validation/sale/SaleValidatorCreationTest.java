@@ -5,7 +5,6 @@ import com.dto.sale.SaleCreationDTO;
 import com.exceptions.common.NullDTOException;
 import com.exceptions.sale.EmptyProductItemListException;
 import com.exceptions.sale.InvalidSaleDateTimeException;
-import com.exceptions.sale.OrphanBarberServiceException;
 import com.exceptions.sale.SaleDateTimeOutOfRangeException;
 import jakarta.validation.ConstraintViolationException;
 import org.junit.jupiter.api.DisplayName;
@@ -31,12 +30,12 @@ public class SaleValidatorCreationTest extends BaseValidatorTest<SaleValidator, 
     }
 
     @Test
-    @DisplayName("Dado un DTO de creación con una fecha y hora NULL, la validación deberá fallar y arrojará ConstraintViolationException")
-    void givenNullDateTime_WhenCreating_ThenThrows_ConstraintViolationException() {
+    @DisplayName("Dado un DTO de creación con una fecha y hora NULL, la validación deberá ser exitosa y no arrojará excepción")
+    void givenNullDateTime_WhenCreating_ThenDoesNotThrowAnyThing() {
 
         inputDTO.setDateAndTime(null);
 
-        assertThrows(ConstraintViolationException.class, this::validateInputDTO);
+        assertDoesNotThrow(this::validateInputDTO);
     }
 
     @Test
@@ -87,17 +86,17 @@ public class SaleValidatorCreationTest extends BaseValidatorTest<SaleValidator, 
     }
 
     @Test
-    @DisplayName("Dado un DTO de creación con un ID de empleado NULL, pero cuyo ID de servicio no sea NULL, la validación deberá fallar y arrojará OrphanBarberServiceException")
-    void givenNullEmployeeID_AndNotNullBarberServiceID_WhenCreating_ThenThrows_OrphanBarberServiceException() {
+    @DisplayName("Dado un DTO de creación con un ID de empleado NULL, pero cuyo ID de servicio no sea NULL, la validación deberá fallar y arrojará ConstraintViolationException")
+    void givenNullEmployeeID_AndNotNullBarberServiceID_WhenCreating_ThenThrows_ConstraintViolationException() {
 
         inputDTO.setEmployeeID(null);
 
-        assertThrows(OrphanBarberServiceException.class, this::validateInputDTO);
+        assertThrows(ConstraintViolationException.class, this::validateInputDTO);
     }
 
     @Test
-    @DisplayName("Dado un DTO de creación con un ID de servicio NULL y una lista de productos no vacía, el ID de empleado será ignorado y no arrojará excepción")
-    void givenNullBarberServiceID_AndProductListNotEmpty_WhenCreating_Then_EmployeeID_IsIgnored() {
+    @DisplayName("Dado un DTO de creación con un ID de servicio NULL y una lista de productos no vacía, la validación será exitosa y no arrojará excepción")
+    void givenNullBarberServiceID_AndProductListNotEmpty_WhenCreating_Then_DoesNotThrowAnything() {
 
         inputDTO.setBarberServiceID(null);
         inputDTO.setProductsDetail(NON_EMPTY_LIST);
