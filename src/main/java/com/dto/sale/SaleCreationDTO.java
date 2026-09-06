@@ -9,6 +9,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.presentation.constants.ConstraintViolationMessages.MessagePredicates.NOT_NULL;
+import static com.presentation.constants.ConstraintViolationMessages.SaleConstraintSubject.*;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -16,15 +19,15 @@ import java.util.List;
 @Builder
 public final class SaleCreationDTO {
 
-    @NotNull
     private LocalDateTime dateAndTime;
 
-    @NotNull
+    @NotNull(message = SALE_CLIENT_ID + NOT_NULL)
     private Long clientID;
 
+    @NotNull(message = SALE_EMPLOYEE_ID + NOT_NULL)
     private Long employeeID;
 
-    @NotNull
+    @NotNull(message = SALE_PAYMENT_METHOD + NOT_NULL)
     private Long paymentMethodID;
 
     private Long barberServiceID;
