@@ -25,14 +25,13 @@ import static com.presentation.concurrency.ConcurrencyManager.executeAsyncTask;
 import static com.presentation.constants.StringResource.DisplayString.EMPLOYEE_COMBOBOX_NO_FILTER;
 import static com.presentation.constants.StringResource.DisplayString.PAYMENT_METHOD_COMBOBOX_NO_FILTER;
 import static com.presentation.constants.StringResource.EmptyListMessage.EMPTY_SALE_LIST_MESSAGE;
-import static com.presentation.constants.StringResource.FxmlViewLoadingErrorMessage.SALE_DETAIL_VIEW_LOADING_FAILED;
-import static com.presentation.constants.StringResource.FxmlViewLoadingErrorMessage.SALE_ITEM_VIEW_LOADING_FAILED;
-import static com.presentation.constants.ViewPath.SALE_DETAIL_VIEW_PATH;
-import static com.presentation.constants.ViewPath.SALE_ITEM_VIEW_PATH;
+import static com.presentation.constants.StringResource.FxmlViewLoadingErrorMessage.*;
+import static com.presentation.constants.ViewPath.*;
 import static com.presentation.support.control.ComboBoxHelper.*;
 import static com.presentation.support.control.UIBasicComponents.*;
 import static com.presentation.support.control.ValidationFormatter.*;
-import static com.presentation.support.view.ContainerManager.loadItemsOnController;
+import static com.presentation.support.view.ContainerManager.loadListOfItemsOnController;
+import static com.presentation.support.view.FXMLViewLoader.loadViewOnPane;
 import static com.presentation.support.view.FXMLViewLoader.loadViewWithControllerPane;
 
 @Component
@@ -148,7 +147,7 @@ public class SalesViewController extends BaseCatalogViewController<SaleInfoDTO> 
     @Override
     protected void loadItemsOnView(List<SaleInfoDTO> items) {
 
-        loadItemsOnController(
+        loadListOfItemsOnController(
                 items,
                 saleListContainer,
                 SaleItemController.class,
@@ -208,7 +207,7 @@ public class SalesViewController extends BaseCatalogViewController<SaleInfoDTO> 
 
     private void registerNewSale() {
 
-        //TODO: pendiente de diseño e implementación
+        loadViewOnPane(SALE_CREATION_VIEW_PATH, applicationContext, SALE_CREATION_VIEW_LOADING_FAILED, anchorPane);
     }
 
     private void loadMonthlyIncomeStats() {

@@ -27,7 +27,7 @@ import static com.presentation.support.control.UIBasicComponents.configureRunnab
 import static com.presentation.support.control.UIBasicComponents.setTextsOnLabelMap;
 import static com.presentation.support.control.ValidationFormatter.parseNumberValueToText;
 import static com.presentation.support.format.PersonNameFormatter.fullName;
-import static com.presentation.support.view.ContainerManager.loadItemsOnController;
+import static com.presentation.support.view.ContainerManager.loadListOfItemsOnController;
 
 @Component
 @RequiredArgsConstructor
@@ -92,7 +92,7 @@ public class SaleDetailViewController {
 
         setTextsOnLabelMap(map);
 
-        loadItemsOnController(
+        loadListOfItemsOnController(
                 infoDTOReference.getReceiptItems(),
                 receiptListContainer,
                 ReceiptItemController.class,
