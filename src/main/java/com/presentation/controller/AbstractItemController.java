@@ -3,6 +3,7 @@ package com.presentation.controller;
 import com.presentation.controller.item.ItemController;
 import javafx.fxml.FXML;
 
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 public abstract class AbstractItemController<T> implements ItemController<T> {
@@ -22,6 +23,14 @@ public abstract class AbstractItemController<T> implements ItemController<T> {
         if (callback != null) {
 
             callback.accept(infoDTOReference);
+        }
+    }
+
+    protected final <U> void fire(U extraElement, BiConsumer<U, T> callback) {
+
+        if (callback != null) {
+
+            callback.accept(extraElement, infoDTOReference);
         }
     }
 }
