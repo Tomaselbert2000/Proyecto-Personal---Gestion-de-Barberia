@@ -27,6 +27,7 @@ public final class PromptTexts {
 
     public static final class ClientPromptText {
 
+        public static final String CLIENT_SEARCH_FIELD = "Buscar cliente por nombre o apellido";
         public static final String CLIENT_NATIONAL_ID_CARD_NUMBER = "Ej: 12345678";
         public static final String CLIENT_NAME = "Ej: Juan";
         public static final String CLIENT_SURNAME = "Ej: Pérez";
@@ -44,6 +45,7 @@ public final class PromptTexts {
 
     public static final class ProductPromptText {
 
+        public static final String PRODUCT_SEARCH_FIELD = "Buscar producto por nombre";
         public static final String PRODUCT_NAME = "Ej: Cera para modelar";
         public static final String PRODUCT_OPTIONAL_DESCRIPTION = "Descripción opcional del producto";
         public static final String PRODUCT_BRAND = "Ej: American Crew";

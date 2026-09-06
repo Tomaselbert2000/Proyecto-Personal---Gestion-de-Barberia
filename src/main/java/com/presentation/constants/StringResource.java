@@ -129,6 +129,8 @@ public final class StringResource {
         public static final String PAYMENT_METHOD_CREATION_TOAST_NOTIFICATION_MESSAGE = "Se ha registrado un nuevo medio de pago en el sistema.";
         public static final String PAYMENT_METHOD_UPDATE_TOAST_NOTIFICATION_MESSAGE = "El medio de pago fue actualizado exitosamente.";
 
+        public static final String SALE_CREATION_TOAST_NOTIFICATION_MESSAGE = "Se ha registrado una nueva venta en el sistema.";
+
         public static final String SETTINGS_UPDATE_NOTIFICATION_MESSAGE = "Los ajustes han sido actualizados correctamente.";
     }
 
@@ -160,6 +162,8 @@ public final class StringResource {
 
         public static final String PAYMENT_METHOD_CREATION_VALIDATION_FAILED = "No se pudo registrar el método de pago. Por favor, revisa lo siguiente:";
         public static final String PAYMENT_METHOD_EDITION_VALIDATION_FAILED = "No se pudo actualizar el método de pago. Por favor, revisa lo siguiente: ";
+
+        public static final String SALE_CREATION_VALIDATION_FAILED = "Error al registrar la venta. Por favor, revise lo siguiente:";
 
         public static final String SETTINGS_UPDATE_VALIDATION_FAILED = "Error al actualizar las preferencias del usuario. Por favor, revise lo siguiente: ";
         public static final String CREDENTIALS_UPDATE_VALIDATION_FAILED = "Error al actualizar las credenciales de usuario. Por favor, revise lo siguiente: ";
@@ -213,6 +217,8 @@ public final class StringResource {
         public static final String SALE_ITEM_VIEW_LOADING_FAILED = ERROR_PREFIX + "lista de ventas";
         public static final String SALE_DETAIL_VIEW_LOADING_FAILED = ERROR_PREFIX + "detalle de venta";
         public static final String RECEIPT_ITEM_VIEW_LOADING_FAILED = ERROR_PREFIX + "items facturados en la venta";
+        public static final String SALE_CREATION_VIEW_LOADING_FAILED = ERROR_PREFIX + "registro de nueva venta";
+        public static final String SALE_PRODUCT_LIST_ITEM_VIEW_LOADING_FAILED = ERROR_PREFIX + "producto agregado al carrito";
     }
 
     public static final class URLs {

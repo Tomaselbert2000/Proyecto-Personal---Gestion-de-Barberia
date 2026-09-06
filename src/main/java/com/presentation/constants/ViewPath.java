@@ -41,6 +41,8 @@ public final class ViewPath {
     public static final String SALE_DETAIL_VIEW_PATH = "/view/SaleDetailView.fxml";
     public static final String SALE_ITEM_VIEW_PATH = "/view/SaleItem.fxml";
     public static final String RECEIPT_ITEM_VIEW_PATH = "/view/ReceiptItem.fxml";
+    public static final String SALE_CREATION_VIEW_PATH = "/view/SaleCreation.fxml";
+    public static final String SALE_PRODUCT_LIST_ITEM_VIEW_PATH = "/view/SaleProductItem.fxml";
 
     public static final String SETTINGS_VIEW_PATH = "/view/SettingsView.fxml";
 

@@ -73,6 +73,13 @@ public final class ConstraintViolationMessages {
         public static final String IMAGE_FILE_PATH = "La ruta de archivo";
     }
 
+    public static final class SaleConstraintSubject {
+
+        public static final String SALE_CLIENT_ID = "El ID de cliente seleccionado para la venta";
+        public static final String SALE_EMPLOYEE_ID = "El ID de empleado asociado a la venta";
+        public static final String SALE_PAYMENT_METHOD = "El ID del medio de pago seleccionado para el cobro de venta";
+    }
+
     public static final class SettingsConstraintSubject {
 
         public static final String SETTINGS_BARBER_SHOP_NAME = "El nombre de negocio";
