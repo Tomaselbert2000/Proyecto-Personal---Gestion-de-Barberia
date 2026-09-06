@@ -143,3 +143,38 @@
 .md-divider-inset {
     -fx-margin: 0 0 0 56;
 }
+
+/* Estructura base para el TitledPane estilo MD3 */
+.md-titled-pane {
+    -fx-text-fill: -fx-on-surface;
+}
+
+/* La cabecera (Título) */
+.md-titled-pane > .title {
+    -fx-background-color: -fx-surface-container-low;
+    -fx-background-radius: 12 12 0 0;
+    -fx-padding: 12 16 12 16;
+    -fx-font-family: "Roboto", sans-serif;
+    -fx-font-size: 14px;
+    -fx-font-weight: 500;
+    -fx-border-color: transparent;
+}
+
+/* Si el panel está cerrado, redondeamos todas las esquinas del título */
+.md-titled-pane:collapsed > .title {
+    -fx-background-radius: 12;
+}
+
+/* El área de contenido (Donde va tu VBox) */
+.md-titled-pane > .content {
+    -fx-background-color: -fx-surface;
+    -fx-background-radius: 0 0 12 12;
+    -fx-border-color: -fx-outline-variant;
+    -fx-border-width: 0 1 1 1;
+    -fx-padding: 0;
+}
+
+/* El color de la flecha de expansión */
+.md-titled-pane > .title > .arrow-button .arrow {
+    -fx-background-color: -fx-on-surface-variant;
+}
