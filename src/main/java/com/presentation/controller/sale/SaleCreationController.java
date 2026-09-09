@@ -119,6 +119,7 @@ public class SaleCreationController extends BaseCrudFormController<SaleCreationD
     @FXML
     private MFXButton
             backButton,
+            resetFormButton,
             registerSale;
 
     @FXML
@@ -166,6 +167,7 @@ public class SaleCreationController extends BaseCrudFormController<SaleCreationD
 
         Map<Button, Runnable> map = Map.ofEntries(
                 Map.entry(backButton, () -> viewRedirectionHelper.redirectToView(SALES, getAnchorPane(), getApplicationContext())),
+                Map.entry(resetFormButton, this::resetForm),
                 Map.entry(registerSale, this::saveEntity)
         );
 
