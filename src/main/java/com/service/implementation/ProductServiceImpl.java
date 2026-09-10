@@ -182,7 +182,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<ProductInfoDTO> searchByName(String productName) {
 
-        List<Product> products = productRepository.findAllByName(productName);
+        List<Product> products = productRepository.liveSearchByName(productName);
 
         if (!products.isEmpty()) return mapper.mapProductToInfoDTO(products);
 

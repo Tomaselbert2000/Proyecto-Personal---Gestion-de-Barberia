@@ -74,5 +74,8 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             """)
     List<InventoryAlertStatsDTO> getInventoryAlertStats();
 
-    List<Product> findAllByName(String name);
+    @Query("""
+            SELECT p FROM Product p WHERE (:name IS NULL OR UPPER(p.name) LIKE UPPER(CONCAT('%', :name, '%')))
+            """)
+    List<Product> liveSearchByName(@Param("name") String name);
 }
