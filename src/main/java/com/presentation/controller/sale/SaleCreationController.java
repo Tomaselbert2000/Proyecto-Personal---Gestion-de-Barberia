@@ -136,6 +136,8 @@ public class SaleCreationController extends BaseCrudFormController<SaleCreationD
         loadGenericTypeListOnComboBox(barberServiceSelector, barberserviceService.getServicesList());
 
         configureProductSearchListener();
+
+        configureButtonActions();
     }
 
     @Override
