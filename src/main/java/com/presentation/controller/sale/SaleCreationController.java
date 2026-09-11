@@ -154,13 +154,6 @@ public class SaleCreationController extends BaseCrudFormController<SaleCreationD
         configureButtonActions();
     }
 
-    private void setInitialEnabledStatusForSelectors() {
-
-        deferredSaleDatePicker.setDisable(true);
-        hourSelectorForDeferredSale.setDisable(true);
-        minuteSelectorForDeferredSale.setDisable(true);
-    }
-
     @Override
     protected AnchorPane getAnchorPane() {
 
@@ -259,6 +252,13 @@ public class SaleCreationController extends BaseCrudFormController<SaleCreationD
         resetProductList();
 
         setTextOnLabel(totalLabel, PriceFormatter.format(servicePriceFlag));
+    }
+
+    private void setInitialEnabledStatusForSelectors() {
+
+        deferredSaleDatePicker.setDisable(true);
+        hourSelectorForDeferredSale.setDisable(true);
+        minuteSelectorForDeferredSale.setDisable(true);
     }
 
     private void resetProductList() {
