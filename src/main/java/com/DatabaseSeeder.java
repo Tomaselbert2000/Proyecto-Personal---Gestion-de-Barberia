@@ -86,7 +86,7 @@ public class DatabaseSeeder implements CommandLineRunner {
     private static final Boolean PAYMENT_METHOD_IS_ACTIVE = true;
     private static final LocalDate PAYMENT_METHOD_CREATION_DATE = LocalDate.of(2026, 1, 1);
     private static final PaymentMethodModifierType PAYMENT_METHOD_MODIFIER_TYPE = PaymentMethodModifierType.DESCUENTO;
-    private static final Double PAYMENT_METHOD_PRICE_MODIFIER = 5.0;
+    private static final Double PAYMENT_METHOD_PRICE_MODIFIER = 0.05;
 
     // ============================================================================
     // OTHER CONSTANTS
