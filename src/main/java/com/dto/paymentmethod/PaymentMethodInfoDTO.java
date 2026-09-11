@@ -16,4 +16,10 @@ public final class PaymentMethodInfoDTO {
     private PaymentMethodModifierType modifierType;
     private Double priceModifier;
     private Boolean isActive;
+
+    @Override
+    public String toString() {
+
+        return name;
+    }
 }
