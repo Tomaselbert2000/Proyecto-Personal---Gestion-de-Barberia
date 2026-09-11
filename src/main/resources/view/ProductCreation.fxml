@@ -5,9 +5,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
-<AnchorPane fx:id="anchorPane"
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1"
+            fx:id="anchorPane"
             xmlns="http://javafx.com/javafx/17.0.12"
-            xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.presentation.controller.product.ProductCreationController">
 
     <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
@@ -256,10 +256,14 @@
 
                 <!-- 4. BARRA DE ACCIONES PRINCIPAL (GUARDAR / LIMPIAR) -->
                 <HBox spacing="12" alignment="CENTER_RIGHT">
-                    <MFXButton fx:id="resetFormButton" styleClass="md-button-text" text="Limpiar campos"/>
+                    <MFXButton fx:id="resetFormButton" styleClass="md-button-text" text="Limpiar campos">
+                        <graphic>
+                            <Region styleClass="clear-all-icon, md-icon-small, md-icon-on-surface"/>
+                        </graphic>
+                    </MFXButton>
                     <MFXButton fx:id="saveButton" styleClass="md-button-filled" text="Guardar Producto">
                         <graphic>
-                            <Region styleClass="done-all-icon, md-icon-small, md-icon-on-surface"/>
+                            <Region styleClass="save-icon, md-icon-small, md-icon-on-surface"/>
                         </graphic>
                     </MFXButton>
                 </HBox>

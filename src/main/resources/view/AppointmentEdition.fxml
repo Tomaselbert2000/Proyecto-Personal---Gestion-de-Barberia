@@ -260,10 +260,17 @@
 
                 <!-- Botones de Acción -->
                 <HBox spacing="8" alignment="CENTER_RIGHT">
-                    <MFXButton fx:id="restoreValuesButton" styleClass="md-button-outlined" text="Restaurar valores"/>
-                    <MFXButton fx:id="saveButton" styleClass="md-button-filled" text="Actualizar Turno"/>
+                    <MFXButton fx:id="restoreValuesButton" styleClass="md-button-outlined" text="Restaurar datos">
+                        <graphic>
+                            <Region styleClass="restore-page-icon, md-icon-small, md-icon-on-surface"/>
+                        </graphic>
+                    </MFXButton>
+                    <MFXButton fx:id="saveButton" styleClass="md-button-filled" text="Actualizar Turno">
+                        <graphic>
+                            <Region styleClass="update-icon, md-icon-small, md-icon-on-surface"/>
+                        </graphic>
+                    </MFXButton>
                 </HBox>
-
             </VBox>
         </ScrollPane>
     </VBox>

@@ -232,10 +232,17 @@
 
                 <!-- Botones de Acción -->
                 <HBox spacing="8" alignment="CENTER_RIGHT">
-                    <MFXButton fx:id="resetFormButton" styleClass="md-button-outlined" text="Limpiar datos"/>
-                    <MFXButton fx:id="saveButton" styleClass="md-button-filled" text="Crear Turno"/>
+                    <MFXButton fx:id="resetFormButton" styleClass="md-button-outlined" text="Limpiar datos">
+                        <graphic>
+                            <Region styleClass="clear-all-icon, md-icon-small, md-icon-on-surface"/>
+                        </graphic>
+                    </MFXButton>
+                    <MFXButton fx:id="saveButton" styleClass="md-button-filled" text="Crear Turno">
+                        <graphic>
+                            <Region styleClass="save-icon, md-icon-small, md-icon-on-surface"/>
+                        </graphic>
+                    </MFXButton>
                 </HBox>
-
             </VBox>
         </ScrollPane>
     </VBox>

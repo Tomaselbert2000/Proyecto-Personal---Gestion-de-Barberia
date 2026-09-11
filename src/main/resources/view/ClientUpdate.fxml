@@ -180,8 +180,16 @@
 
                 <!-- Botones de Acción -->
                 <HBox spacing="8" alignment="CENTER_RIGHT">
-                    <MFXButton fx:id="cancelButton" styleClass="md-button-outlined" text="Cancelar"/>
-                    <MFXButton fx:id="saveButton" styleClass="md-button-filled" text="Guardar Cambios"/>
+                    <MFXButton fx:id="cancelButton" styleClass="md-button-outlined" text="Restaurar datos">
+                        <graphic>
+                            <Region styleClass="restore-page-icon, md-icon-small, md-icon-on-surface"/>
+                        </graphic>
+                    </MFXButton>
+                    <MFXButton fx:id="saveButton" styleClass="md-button-filled" text="Actualizar cliente">
+                        <graphic>
+                            <Region styleClass="update-icon, md-icon-small, md-icon-on-surface"/>
+                        </graphic>
+                    </MFXButton>
                 </HBox>
 
             </VBox>

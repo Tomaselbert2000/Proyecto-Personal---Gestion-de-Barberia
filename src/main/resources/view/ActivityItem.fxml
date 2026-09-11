@@ -16,7 +16,7 @@
     </padding>
 
     <!-- Icono según tipo de actividad -->
-    <Region fx:id="activityIcon" styleClass="md-icon-small, md-icon-on-surface-variant"/>
+    <Region fx:id="activityIcon" styleClass="md-icon-small"/>
 
     <!-- Información de la actividad -->
     <VBox spacing="2" HBox.hgrow="ALWAYS">

@@ -98,8 +98,16 @@
 
                 <!-- Botones de Acción -->
                 <HBox spacing="8" alignment="CENTER_RIGHT">
-                    <MFXButton fx:id="clearButton" styleClass="md-button-outlined" text="Limpiar datos"/>
-                    <MFXButton fx:id="saveButton" styleClass="md-button-filled" text="Registrar Empleado"/>
+                    <MFXButton fx:id="clearButton" styleClass="md-button-outlined" text="Limpiar campos">
+                        <graphic>
+                            <Region styleClass="clear-all-icon, md-icon-small, md-icon-on-surface"/>
+                        </graphic>
+                    </MFXButton>
+                    <MFXButton fx:id="saveButton" styleClass="md-button-filled" text="Registrar Empleado">
+                        <graphic>
+                            <Region styleClass="save-icon, md-icon-small, md-icon-on-surface"/>
+                        </graphic>
+                    </MFXButton>
                 </HBox>
 
             </VBox>

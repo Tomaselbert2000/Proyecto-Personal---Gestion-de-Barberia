@@ -148,8 +148,16 @@
 
                 <!-- Botones de Acción -->
                 <HBox spacing="8" alignment="CENTER_RIGHT">
-                    <MFXButton fx:id="resetButton" styleClass="md-button-outlined" text="Restaurar datos"/>
-                    <MFXButton fx:id="saveButton" styleClass="md-button-filled" text="Actualizar Empleado"/>
+                    <MFXButton fx:id="resetButton" styleClass="md-button-outlined" text="Restaurar datos">
+                        <graphic>
+                            <Region styleClass="restore-page-icon, md-icon-small, md-icon-on-surface"/>
+                        </graphic>
+                    </MFXButton>
+                    <MFXButton fx:id="saveButton" styleClass="md-button-filled" text="Actualizar Empleado">
+                        <graphic>
+                            <Region styleClass="update-icon, md-icon-small, md-icon-on-surface"/>
+                        </graphic>
+                    </MFXButton>
                 </HBox>
 
             </VBox>

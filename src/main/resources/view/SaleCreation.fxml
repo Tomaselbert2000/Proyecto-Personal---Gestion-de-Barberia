@@ -4,9 +4,9 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<AnchorPane fx:id="anchorPane"
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1"
+            fx:id="anchorPane"
             xmlns="http://javafx.com/javafx/17.0.12"
-            xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.presentation.controller.sale.SaleCreationController">
 
     <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
@@ -19,13 +19,11 @@
             <padding>
                 <Insets top="16" right="24" bottom="16" left="24"/>
             </padding>
-
             <MFXButton fx:id="backButton" styleClass="md-button-outlined" text="Volver">
                 <graphic>
                     <Region styleClass="arrow-up-circle-icon, md-icon-small"/>
                 </graphic>
             </MFXButton>
-
             <VBox spacing="2">
                 <Label styleClass="md-headline-medium" text="Nueva Venta"/>
                 <Label styleClass="md-body-medium" text="Carga los datos para registrar una venta en el sistema"/>
@@ -198,13 +196,17 @@
                 <!-- BARRA DE ACCIONES PRINCIPAL (CANCELAR / REGISTRAR)            -->
                 <!-- ================================================================= -->
                 <HBox spacing="12" alignment="CENTER_RIGHT">
+                    <MFXButton fx:id="resetFormButton" styleClass="md-button-filled" text="Limpiar campos">
+                        <graphic>
+                            <Region styleClass="clear-all-icon, md-icon-small, md-icon-on-surface"/>
+                        </graphic>
+                    </MFXButton>
                     <MFXButton fx:id="registerSale" styleClass="md-button-filled" text="Registrar Venta">
                         <graphic>
-                            <Region styleClass="done-all-icon, md-icon-small, md-icon-on-surface"/>
+                            <Region styleClass="save-icon, md-icon-small, md-icon-on-surface"/>
                         </graphic>
                     </MFXButton>
                 </HBox>
-
             </VBox>
         </ScrollPane>
     </VBox>

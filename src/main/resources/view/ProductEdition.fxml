@@ -256,10 +256,14 @@
 
                 <!-- 4. BARRA DE ACCIONES PRINCIPAL -->
                 <HBox spacing="8" alignment="CENTER_RIGHT">
-                    <MFXButton fx:id="resetButton" styleClass="md-button-outlined" text="Restaurar valores"/>
-                    <MFXButton fx:id="saveButton" styleClass="md-button-filled" text="Actualizar datos">
+                    <MFXButton fx:id="resetButton" styleClass="md-button-outlined" text="Restaurar datos">
                         <graphic>
-                            <Region styleClass="done-all-icon, md-icon-small, md-icon-on-surface"/>
+                            <Region styleClass="restore-page-icon, md-icon-small, md-icon-on-surface"/>
+                        </graphic>
+                    </MFXButton>
+                    <MFXButton fx:id="saveButton" styleClass="md-button-filled" text="Actualizar producto">
+                        <graphic>
+                            <Region styleClass="save-icon, md-icon-small, md-icon-on-surface"/>
                         </graphic>
                     </MFXButton>
                 </HBox>

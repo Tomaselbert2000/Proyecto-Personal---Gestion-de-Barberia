@@ -107,10 +107,14 @@
 
                 <!-- Botones de Acción -->
                 <HBox spacing="12" alignment="CENTER_RIGHT">
-                    <MFXButton fx:id="resetFormButton" styleClass="md-button-text" text="Restaurar valores"/>
+                    <MFXButton fx:id="resetFormButton" styleClass="md-button-text" text="Restaurar datos">
+                        <graphic>
+                            <Region styleClass="restore-page-icon, md-icon-small, md-icon-on-surface"/>
+                        </graphic>
+                    </MFXButton>
                     <MFXButton fx:id="saveButton" styleClass="md-button-filled" text="Actualizar medio de pago">
                         <graphic>
-                            <Region styleClass="done-all-icon, md-icon-small, md-icon-on-surface"/>
+                            <Region styleClass="update-icon, md-icon-small, md-icon-on-surface"/>
                         </graphic>
                     </MFXButton>
                 </HBox>
