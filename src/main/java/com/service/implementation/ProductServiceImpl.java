@@ -211,16 +211,4 @@ public class ProductServiceImpl implements ProductService {
 
         return productRepository.findById(productID).orElseThrow(ProductNotFoundException::new);
     }
-
-    private Long getCountByStockStatus(List<ProductInfoDTO> productInfoDTOList) {
-
-        Long counter = 0L;
-
-        for (ProductInfoDTO infoDTO : productInfoDTOList) {
-
-            if (infoDTO.getCurrentStockStatus() == StockStatus.BAJO) counter++;
-        }
-
-        return counter;
-    }
 }
