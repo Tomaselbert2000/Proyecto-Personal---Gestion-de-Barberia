@@ -37,7 +37,7 @@ public class SaleMapperImpl implements SaleMapper {
         double saleTotalModifierValue = computeModifierValue(saleTotal, paymentMethod);
 
         Sale newSale = Sale.builder()
-                .dateAndTime(dto.getDateAndTime())
+                .dateAndTime(dto.getDateAndTime() == null ? null : dto.getDateAndTime())
                 .client(client)
                 .employee(employee)
                 .barberService(barberService)
