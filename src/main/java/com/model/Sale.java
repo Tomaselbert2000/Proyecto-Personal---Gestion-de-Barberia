@@ -50,12 +50,14 @@ public class Sale {
     private SaleCompositionFilter saleComposition;
 
     @PrePersist
-    private void setSaleCompositionType() {
+    private void setPrePersistInformation() {
 
         if (barberService != null && !items.isEmpty()) this.saleComposition = SaleCompositionFilter.VENTA_MIXTA;
 
         if (barberService != null && items.isEmpty()) this.saleComposition = SaleCompositionFilter.SOLO_SERVICIO;
 
         if (barberService == null && !items.isEmpty()) this.saleComposition = SaleCompositionFilter.SOLO_PRODUCTOS;
+
+        if(dateAndTime == null) this.dateAndTime = LocalDateTime.now();
     }
 }
