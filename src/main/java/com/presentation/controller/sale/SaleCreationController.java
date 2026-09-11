@@ -37,10 +37,10 @@ import static com.presentation.constants.StringResource.FxmlViewLoadingErrorMess
 import static com.presentation.constants.StringResource.ToastNotificationMessage.SALE_CREATION_TOAST_NOTIFICATION_MESSAGE;
 import static com.presentation.constants.StringResource.ValidationErrorMessage.SALE_CREATION_VALIDATION_FAILED;
 import static com.presentation.constants.ViewPath.SALE_PRODUCT_LIST_ITEM_VIEW_PATH;
-import static com.presentation.support.control.ComboBoxHelper.loadGenericTypeListOnComboBox;
-import static com.presentation.support.control.ComboBoxHelper.resetComboBoxFilter;
+import static com.presentation.support.control.ComboBoxHelper.*;
 import static com.presentation.support.control.UIBasicComponents.*;
 import static com.presentation.support.control.ValidationFormatter.parseNumberValueToText;
+import static com.presentation.support.view.ContainerManager.cleanContainer;
 import static com.presentation.support.view.ContainerManager.loadSingleItemOnController;
 
 @Component
@@ -133,16 +133,32 @@ public class SaleCreationController extends BaseCrudFormController<SaleCreationD
     @FXML
     public void initialize() {
 
+        setInitialEnabledStatusForSelectors();
+
         loadGenericTypeListOnComboBox(employeeSelector, employeeService.getEmployeeList());
         loadGenericTypeListOnComboBox(clientSelector, clientService.getClientList());
         loadGenericTypeListOnComboBox(paymentMethodSelector, paymentMethodService.getPaymentMethodsList());
         loadGenericTypeListOnComboBox(barberServiceSelector, barberserviceService.getServicesList());
 
+        setLocalTimeHourConverter(hourSelectorForDeferredSale);
+        setLocalTimeMinuteConverter(minuteSelectorForDeferredSale);
+
         configureProductSearchListener();
+
+        configureClientCheckBoxListener();
 
         configureBarberServiceSelectorListener();
 
+        configureDeferredSaleCheckBoxListener();
+
         configureButtonActions();
+    }
+
+    private void setInitialEnabledStatusForSelectors() {
+
+        deferredSaleDatePicker.setDisable(true);
+        hourSelectorForDeferredSale.setDisable(true);
+        minuteSelectorForDeferredSale.setDisable(true);
     }
 
     @Override
@@ -239,6 +255,17 @@ public class SaleCreationController extends BaseCrudFormController<SaleCreationD
         anonClientCheckBox.setSelected(false);
 
         deferredSaleDatePicker.setValue(LocalDate.now());
+
+        resetProductList();
+
+        setTextOnLabel(totalLabel, PriceFormatter.format(servicePriceFlag));
+    }
+
+    private void resetProductList() {
+
+        cleanContainer(productListContainer);
+        contextMenu.getItems().clear();
+        contextMenu.hide();
     }
 
     private void onQuantityUpdated(ProductItemDTO updatedItem) {
@@ -350,6 +377,22 @@ public class SaleCreationController extends BaseCrudFormController<SaleCreationD
                     }
                 }
         );
+    }
+
+    private void configureDeferredSaleCheckBoxListener() {
+
+        deferredSaleCheckBox.selectedProperty().addListener((_, _, isSelected) -> {
+
+                    deferredSaleDatePicker.setDisable(!isSelected);
+                    hourSelectorForDeferredSale.setDisable(!isSelected);
+                    minuteSelectorForDeferredSale.setDisable(!isSelected);
+                }
+        );
+    }
+
+    private void configureClientCheckBoxListener() {
+
+        anonClientCheckBox.selectedProperty().addListener((_, _, isSelected) -> clientSelector.setDisable(isSelected));
     }
 
     private void performProductSearch(String productName) {
