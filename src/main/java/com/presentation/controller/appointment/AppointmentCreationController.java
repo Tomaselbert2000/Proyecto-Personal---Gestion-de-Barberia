@@ -6,6 +6,8 @@ import com.dto.barberservice.BarberServiceInfoDTO;
 import com.dto.client.ClientInfoDTO;
 import com.dto.employee.EmployeeInfoDTO;
 import com.presentation.controller.BaseCrudFormController;
+import com.presentation.support.format.PriceFormatter;
+import com.presentation.support.view.ViewRedirectionHelper;
 import com.service.interfaces.AppointmentService;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXListView;
@@ -39,8 +41,6 @@ import static com.presentation.support.control.ListViewHelper.loadItemsOnListVie
 import static com.presentation.support.control.UIBasicComponents.*;
 import static com.presentation.support.format.PersonNameFormatter.fullName;
 import static com.presentation.support.format.PersonNameFormatter.initials;
-import static com.presentation.support.format.PriceFormatter.formatPriceAsString;
-import com.presentation.support.view.ViewRedirectionHelper;
 import static com.presentation.support.view.VisibilityHelper.setNodeAsNotVisible;
 import static com.presentation.support.view.VisibilityHelper.setNodeAsVisible;
 
@@ -260,9 +260,9 @@ public class AppointmentCreationController extends BaseCrudFormController<Appoin
 
         Double priceAsDouble = Double.valueOf(servicePrice.getText());
 
-        setTextOnLabel(servicePrice, formatPriceAsString(priceAsDouble));
+        setTextOnLabel(servicePrice, PriceFormatter.format(priceAsDouble));
         setTextOnLabel(summaryService, barberServiceSelected.getName());
-        setTextOnLabel(summaryPrice, formatPriceAsString(priceAsDouble));
+        setTextOnLabel(summaryPrice, PriceFormatter.format(priceAsDouble));
 
         setNodeAsVisible(serviceSelectionContainer);
     }

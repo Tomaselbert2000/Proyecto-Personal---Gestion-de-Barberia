@@ -9,9 +9,4 @@ public class PriceFormatter {
 
         return CURRENCY_STRING_ARG + String.format(PRICE_FORMAT, price);
     }
-
-    public static String formatPriceAsString(Double price) {
-
-        return format(price);
-    }
 }

@@ -15,7 +15,6 @@ import java.util.stream.Collectors;
 import static com.presentation.constants.StringResource.DisplayString.NEW_LINE;
 import static com.presentation.constants.StringResource.StringFormat.ONE_DECIMAL_FORMAT;
 import static com.presentation.constants.StringResource.StringFormat.PERCENTAGE_FORMAT;
-import static com.presentation.support.format.PriceFormatter.format;
 
 public class ValidationFormatter {
 
@@ -39,17 +38,6 @@ public class ValidationFormatter {
     public static TextFormatter<String> generateTextFormatterWithFilter(UnaryOperator<TextFormatter.Change> unaryOperatorFilter) {
 
         return new TextFormatter<>(unaryOperatorFilter);
-    }
-
-    /**
-     * Formatea un valor de tipo Double como una cadena de precio.
-     *
-     * @param value El valor de tipo Double a formatear.
-     * @return La cadena de texto formateada como precio.
-     */
-    public static String formatAsPrice(Double value) {
-
-        return format(value);
     }
 
     /**

@@ -6,6 +6,8 @@ import com.dto.barberservice.BarberServiceInfoDTO;
 import com.dto.employee.EmployeeInfoDTO;
 import com.enums.AppointmentStatus;
 import com.presentation.controller.BaseCrudFormController;
+import com.presentation.support.format.PriceFormatter;
+import com.presentation.support.view.ViewRedirectionHelper;
 import com.service.interfaces.AppointmentService;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.fxml.FXML;
@@ -36,8 +38,6 @@ import static com.presentation.support.control.UIBasicComponents.*;
 import static com.presentation.support.control.ValidationFormatter.parseNumberValueToText;
 import static com.presentation.support.control.ValidationFormatter.setStringConverter;
 import static com.presentation.support.format.PersonNameFormatter.fullName;
-import static com.presentation.support.format.PriceFormatter.formatPriceAsString;
-import com.presentation.support.view.ViewRedirectionHelper;
 import static com.presentation.support.view.VisibilityHelper.setNodeAsNotVisible;
 import static com.presentation.support.view.VisibilityHelper.setNodeAsVisible;
 
@@ -290,7 +290,7 @@ public class AppointmentEditionController extends BaseCrudFormController<Appoint
         barberServiceReference = barberServiceSelected;
 
         setTextOnLabel(summaryService, barberServiceSelected.getName());
-        setTextOnLabel(summaryPrice, formatPriceAsString(barberServiceSelected.getPrice()));
+        setTextOnLabel(summaryPrice, PriceFormatter.format(barberServiceSelected.getPrice()));
 
         setNodeAsVisible(serviceSelectionContainer);
         setNodeAsVisible(appointmentSummaryCard);

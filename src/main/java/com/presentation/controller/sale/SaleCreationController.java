@@ -9,6 +9,7 @@ import com.dto.product.ProductItemDTO;
 import com.dto.sale.SaleCreationDTO;
 import com.dto.sale.SaleInfoDTO;
 import com.presentation.controller.BaseCrudFormController;
+import com.presentation.support.format.PriceFormatter;
 import com.presentation.support.view.ViewRedirectionHelper;
 import com.service.interfaces.*;
 import io.github.palexdev.materialfx.controls.MFXButton;
@@ -57,6 +58,8 @@ public class SaleCreationController extends BaseCrudFormController<SaleCreationD
 
     private final Map<Long, ProductItemDTO> shoppingCart = new LinkedHashMap<>();
     private final Map<Long, BigDecimal> priceMap = new LinkedHashMap<>();
+
+    private BigDecimal servicePriceFlag = BigDecimal.valueOf(0);
 
     public SaleCreationController(
             ApplicationContext applicationContext,
@@ -136,6 +139,8 @@ public class SaleCreationController extends BaseCrudFormController<SaleCreationD
         loadGenericTypeListOnComboBox(barberServiceSelector, barberserviceService.getServicesList());
 
         configureProductSearchListener();
+
+        configureBarberServiceSelectorListener();
 
         configureButtonActions();
     }
@@ -308,6 +313,8 @@ public class SaleCreationController extends BaseCrudFormController<SaleCreationD
             total = total.add(BigDecimal.valueOf(dto.getQuantity()).multiply(price));
         }
 
+        total = total.add(servicePriceFlag);
+
         setTextOnLabel(totalLabel, parseNumberValueToText(total));
     }
 
@@ -322,6 +329,24 @@ public class SaleCreationController extends BaseCrudFormController<SaleCreationD
                     } else {
 
                         performProductSearch(newValue);
+                    }
+                }
+        );
+    }
+
+    private void configureBarberServiceSelectorListener() {
+
+        barberServiceSelector.valueProperty().addListener((_, _, newValue) -> {
+
+                    servicePriceFlag = BigDecimal.valueOf(newValue.getPrice());
+
+                    if (totalLabel.getText().isBlank()) {
+
+                        setTextOnLabel(totalLabel, PriceFormatter.format(newValue.getPrice()));
+
+                    } else {
+
+                        calculateSaleTotal();
                     }
                 }
         );

@@ -2,6 +2,7 @@ package com.presentation.controller.product;
 
 import com.dto.product.ProductInfoDTO;
 import com.presentation.controller.AbstractItemController;
+import com.presentation.support.format.PriceFormatter;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -24,7 +25,6 @@ import static com.presentation.constants.ControllerConstants.ProductControllerCo
 import static com.presentation.constants.StringResource.DisplayString.MIN_STOCK_LABEL_PREFIX;
 import static com.presentation.support.control.UIBasicComponents.*;
 import static com.presentation.support.control.ValidationFormatter.formatAsPercentage;
-import static com.presentation.support.control.ValidationFormatter.formatAsPrice;
 import static com.presentation.support.io.FileImageHelper.loadFileOnImageView;
 
 @Component
@@ -65,8 +65,8 @@ public class ProductItemController extends AbstractItemController<ProductInfoDTO
             addStockButton;
 
     private static @NonNull List<String> getStrings(ProductInfoDTO infoDTO, String name, String stockStatusText) {
-        String productCost = formatAsPrice(infoDTO.getProductCost());
-        String productPrice = formatAsPrice(infoDTO.getCurrentPrice());
+        String productCost = PriceFormatter.format(infoDTO.getProductCost());
+        String productPrice = PriceFormatter.format(infoDTO.getCurrentPrice());
         String profit = formatAsPercentage(infoDTO.getCalculatedProfit());
         String currentStock = infoDTO.getCurrentStockLevel().toString();
         String safetyStock = MIN_STOCK_LABEL_PREFIX + infoDTO.getSafetyStockLevel().toString();

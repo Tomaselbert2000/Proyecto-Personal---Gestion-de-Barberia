@@ -1,6 +1,7 @@
 package com.presentation.controller.dashboard;
 
 import com.dto.activity.RecentActivityDTO;
+import com.presentation.support.format.PriceFormatter;
 import com.presentation.support.view.ViewRedirectionHelper;
 import com.service.interfaces.AppointmentService;
 import com.service.interfaces.ClientService;
@@ -31,9 +32,10 @@ import static com.presentation.constants.StringResource.StatMessageSuffix.*;
 import static com.presentation.constants.ViewPath.ACTIVITY_LOG_ITEM_VIEW_PATH;
 import static com.presentation.support.control.UIBasicComponents.configureRunnableMaps;
 import static com.presentation.support.control.UIBasicComponents.setTextOnLabel;
-import static com.presentation.support.control.ValidationFormatter.*;
+import static com.presentation.support.control.ValidationFormatter.formatAsPercentage;
+import static com.presentation.support.control.ValidationFormatter.parseNumberValueToText;
 import static com.presentation.support.dialog.DialogHelper.showConfirmationDialog;
-import static com.presentation.support.format.PriceFormatter.formatPriceAsString;
+import static com.presentation.support.format.PriceFormatter.format;
 import static com.presentation.support.view.ContainerManager.cleanContainer;
 import static com.presentation.support.view.ContainerManager.loadListOfItemsOnController;
 import static com.presentation.support.view.FXMLViewLoader.animateViewChange;
@@ -173,8 +175,8 @@ public class DashboardController {
         executeAsyncTask(
                 appointmentService::getExpectedIncomeToday,
                 expectedIncomeStatDTO -> {
-                    setTextOnLabel(expectedIncome, formatAsPrice(expectedIncomeStatDTO.getExpectedIncomeSumForToday()));
-                    setTextOnLabel(averageTicketValue, AVERAGE_PER_TICKET + formatPriceAsString(expectedIncomeStatDTO.getAverageTicket()));
+                    setTextOnLabel(expectedIncome, format(expectedIncomeStatDTO.getExpectedIncomeSumForToday()));
+                    setTextOnLabel(averageTicketValue, AVERAGE_PER_TICKET + PriceFormatter.format(expectedIncomeStatDTO.getAverageTicket()));
                 }
         );
     }
