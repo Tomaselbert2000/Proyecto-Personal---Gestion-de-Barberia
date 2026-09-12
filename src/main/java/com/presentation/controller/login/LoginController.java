@@ -100,9 +100,9 @@ public class LoginController {
 
         executeAsyncTask(
                 () -> appUserService.signIn(username, password),
-                uiActionValue -> {
+                signInWasSuccessful -> {
 
-                    if (uiActionValue) {
+                    if (signInWasSuccessful) {
 
                         handleSuccessfulLogin(username);
 
