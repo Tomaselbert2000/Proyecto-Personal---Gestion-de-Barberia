@@ -140,6 +140,8 @@ public class SaleCreationController extends BaseCrudFormController<SaleCreationD
         loadGenericTypeListOnComboBox(paymentMethodSelector, paymentMethodService.getPaymentMethodsList());
         loadGenericTypeListOnComboBox(barberServiceSelector, barberserviceService.getServicesList());
 
+        setHourAndMinuteSelectors(hourSelectorForDeferredSale, minuteSelectorForDeferredSale);
+
         setLocalTimeHourConverter(hourSelectorForDeferredSale);
         setLocalTimeMinuteConverter(minuteSelectorForDeferredSale);
 
@@ -203,16 +205,7 @@ public class SaleCreationController extends BaseCrudFormController<SaleCreationD
     @Override
     protected SaleCreationDTO buildDTO() {
 
-        LocalDateTime dateTime = null;
-
-        if (deferredSaleCheckBox.isSelected()) {
-
-            LocalDate date = deferredSaleDatePicker.getValue();
-            LocalTime hour = hourSelectorForDeferredSale.getValue();
-            LocalTime minute = minuteSelectorForDeferredSale.getValue();
-
-            dateTime = LocalDateTime.of(date, LocalTime.of(hour.getHour(), minute.getMinute()));
-        }
+        LocalDateTime dateTime = getLocalDateTimeBasedOnDeferredCheckBox();
 
         Long clientID = clientSelector.getValue() == null ? 1L : clientSelector.getValue().getId();
         Long employeeID = employeeSelector.getValue() == null ? null : employeeSelector.getValue().getId();
@@ -326,6 +319,26 @@ public class SaleCreationController extends BaseCrudFormController<SaleCreationD
         productListContainer.getChildren().remove(node);
 
         calculateSaleTotal();
+    }
+
+    private LocalDateTime getLocalDateTimeBasedOnDeferredCheckBox() {
+
+        LocalDateTime dateTime;
+
+        if (deferredSaleCheckBox.isSelected()) {
+
+            LocalDate date = deferredSaleDatePicker.getValue();
+            LocalTime hour = hourSelectorForDeferredSale.getValue();
+            LocalTime minute = minuteSelectorForDeferredSale.getValue();
+
+            dateTime = LocalDateTime.of(date, LocalTime.of(hour.getHour(), minute.getMinute()));
+
+        } else {
+
+            dateTime = null;
+        }
+
+        return dateTime;
     }
 
     private void calculateSaleTotal() {
