@@ -61,14 +61,15 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) {
 
         http.authorizeHttpRequests(auth -> auth.requestMatchers(
-                        "/login",
-                        "/js/**",
-                        "/css/**",
-                        "/assets/**",
-                        "/fonts/**",
-                        "/images/**"
-                ).permitAll()
-                .anyRequest().authenticated()
+                                "/login",
+                                "/register",
+                                "/js/**",
+                                "/css/**",
+                                "/assets/**",
+                                "/fonts/**",
+                                "/images/**"
+                        ).permitAll()
+                        .anyRequest().authenticated()
         ).formLogin(
                 form -> form.loginPage("/login")
                         .defaultSuccessUrl("/dashboard", true)
