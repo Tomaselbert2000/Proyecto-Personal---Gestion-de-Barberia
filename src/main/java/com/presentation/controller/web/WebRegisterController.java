@@ -31,9 +31,9 @@ public class WebRegisterController {
 
     @PostMapping("/register")
     public String registerUser(
-            @ModelAttribute AppUserCreationDTO dto,
-            @RequestParam String confirmPassword
-    ) {
+            @ModelAttribute(name = "dto") AppUserCreationDTO dto,
+            @RequestParam String confirmPassword,
+            Model model) {
 
         if (Objects.equals(dto.getPassword(), confirmPassword)) {
 
@@ -44,6 +44,8 @@ public class WebRegisterController {
             return REDIRECT_LOGIN;
 
         } else {
+
+            model.addAttribute("error", "Las credenciales ingresadas no coinciden");
 
             return REGISTER_HTML_PATH;
         }

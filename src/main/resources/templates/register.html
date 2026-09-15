@@ -35,6 +35,10 @@
                 Registra un nuevo usuario en el sistema</p>
         </header>
 
+        <!-- Error Message -->
+        <p class="md-body-large" style="color: var(--md-sys-color-error); margin-bottom: 8px;" th:if="${error}"
+           th:text="${error}"></p>
+
         <!-- Form -->
         <form th:object="${dto}" th:action="@{/register}" method="post"
               style="display: flex; flex-direction: column; gap: 16px; padding-left: 24px; padding-right: 24px">
