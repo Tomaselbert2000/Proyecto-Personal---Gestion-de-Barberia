@@ -6,4 +6,6 @@ public final class HtmlTemplatePath {
     }
 
     public static final String LOGIN_HTML_PATH = "login";
+    public static final String REGISTER_HTML_PATH = "register";
+    public static final String REDIRECT_LOGIN = "redirect:/" + LOGIN_HTML_PATH;
 }
