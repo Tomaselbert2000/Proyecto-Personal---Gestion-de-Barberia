@@ -11,13 +11,18 @@ import com.repository.AppUserRepository;
 import com.service.interfaces.AppUserService;
 import com.validation.app_user.AppUserValidator;
 import lombok.RequiredArgsConstructor;
+import org.jspecify.annotations.NonNull;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-public class AppUserServiceImpl implements AppUserService {
+public class AppUserServiceImpl implements AppUserService, UserDetailsService {
 
     private final AppUserRepository appUserRepository;
     private final AppUserMapper appUserMapper;
@@ -122,5 +127,17 @@ public class AppUserServiceImpl implements AppUserService {
 
             existingAppUser.setPassword(encodedPassword);
         }
+    }
+
+    @Override
+    public @NonNull UserDetails loadUserByUsername(@NonNull String username) throws UsernameNotFoundException {
+
+        AppUser appUser = appUserRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(username));
+
+        return User.builder()
+                .username(appUser.getUsername())
+                .password(appUser.getPassword())
+                .roles(appUser.getHasAdminRights() ? "ADMIN" : "USER")
+                .build();
     }
 }
