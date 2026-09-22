@@ -21,6 +21,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import static com.presentation.constants.HtmlTemplatePath.APPOINTMENTS_HTML_PATH;
+import static com.presentation.constants.HtmlTemplatePath.REDIRECT_APPOINTMENTS;
 
 @Controller
 @RequiredArgsConstructor
@@ -67,20 +68,20 @@ public class WebAppointmentController {
     public String markAppointmentAsComplete(@PathVariable Long appointmentID) {
 
         service.markAppointmentAsComplete(AppointmentInfoDTO.builder().id(appointmentID).build());
-        return "redirect:/appointments";
+        return REDIRECT_APPOINTMENTS;
     }
 
     @PostMapping("/appointments/{appointmentID}/cancel")
     public String markAppointmentAsCanceled(@PathVariable Long appointmentID) {
 
         service.markAppointmentAsCanceled(AppointmentInfoDTO.builder().id(appointmentID).build());
-        return "redirect:/appointments";
+        return REDIRECT_APPOINTMENTS;
     }
 
     @PostMapping("/appointments/{appointmentID}/delete")
     public String deleteAppointment(@PathVariable Long appointmentID) {
 
         service.deleteAppointment(appointmentID);
-        return "redirect:/appointments";
+        return REDIRECT_APPOINTMENTS;
     }
 }
