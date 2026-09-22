@@ -108,7 +108,7 @@ public class AppointmentServiceImpl implements AppointmentService {
             endDateTime = date.atTime(LAST_SECOND_OF_DAY);
         }
 
-        if (employeeName.equals(EMPLOYEE_SELECTOR_FIRST_ITEM)) employeeName = null;
+        if (EMPLOYEE_SELECTOR_FIRST_ITEM.equals(employeeName)) employeeName = null;
 
         return appointmentMapper.mapEntityToInfoDto(appointmentRepository.liveSearchWithFilters(clientName, selectedAppointmentStatus, employeeName, startDateTime, endDateTime));
     }
