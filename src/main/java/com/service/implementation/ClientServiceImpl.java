@@ -177,6 +177,10 @@ public class ClientServiceImpl implements ClientService {
         Boolean hasPhone = null;
         Boolean hasNotes = null;
 
+        if (registrationDateRange == null) registrationDateRange = RegistrationDateRange.TODOS;
+        if (phoneFilter == null) phoneFilter = RegisteredPhoneFilter.TODOS;
+        if (notesFilter == null) notesFilter = ClientNotesFilter.TODOS;
+
         switch (registrationDateRange) {
 
             case TODOS -> limitRegistrationDate = null;
