@@ -16,6 +16,8 @@ public interface BarberserviceService {
 
     List<BarberServiceInfoDTO> getServicesList();
 
+    BarberServiceInfoDTO getBarberServiceInfo(Long barberserviceID);
+
     void updateService(Long barberServiceID, BarberServiceUpdateDTO updateDTO);
 
     List<BarberServiceInfoDTO> liveSearch(String name, BarberServiceCategory selectedCategory, Double minPrice, Double maxPrice);

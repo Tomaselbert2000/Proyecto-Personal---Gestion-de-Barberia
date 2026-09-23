@@ -59,6 +59,7 @@ public class BarberServiceServiceImpl implements BarberserviceService {
         barberServiceRepository.delete(serviceOnDB);
     }
 
+    @Override
     public BarberServiceInfoDTO getBarberServiceInfo(Long barberServiceID) {
 
         BarberService serviceOnDB = loadBarberService(barberServiceID);
