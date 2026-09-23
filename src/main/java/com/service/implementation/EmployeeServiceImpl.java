@@ -136,7 +136,16 @@ public class EmployeeServiceImpl implements EmployeeService {
             }
         }
 
-        return mapper.mapEmployeeToInfoDTO(employeeRepository.liveSearchWithFilters(employeeName, statusFlag, startDate, endDate));
+        List<EmployeeInfoDTO> employees = mapper.mapEmployeeToInfoDTO(
+                employeeRepository.liveSearchWithFilters(employeeName, statusFlag, startDate, endDate)
+        );
+
+        for (EmployeeInfoDTO employee : employees) {
+
+            employee.setMonthlyAppointmentsCount(getMonthlyAppointmentsCountByEmployeeID(employee.getId()));
+        }
+
+        return employees;
     }
 
     @Override

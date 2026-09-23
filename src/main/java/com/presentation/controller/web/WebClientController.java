@@ -2,10 +2,6 @@ package com.presentation.controller.web;
 
 import com.dto.client.ClientInfoDTO;
 import com.dto.client.ClientUpdateDTO;
-import com.dto.stats.ClientAcquisitionStatsDTO;
-import com.dto.stats.ClientNotesStatsDTO;
-import com.dto.stats.ClientPhoneNumberStatsDTO;
-import com.dto.stats.ClientRegistrationTrendStatDTO;
 import com.enums.ClientNotesFilter;
 import com.enums.RegisteredPhoneFilter;
 import com.enums.RegistrationDateRange;
@@ -16,7 +12,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.util.List;
 
 import static com.presentation.constants.HtmlConstants.Paths.CLIENTS;
 import static com.presentation.constants.HtmlConstants.Paths.CLIENT_UPDATE;
@@ -40,25 +35,18 @@ public class WebClientController {
             @RequestParam(required = false) RegisteredPhoneFilter phoneFilter
     ) {
 
-        ClientAcquisitionStatsDTO acquisitionStats = service.getClientStatsVsLastMonth();
-        ClientPhoneNumberStatsDTO phoneNumbersStats = service.getPhoneNumberRegistrationStats();
-        ClientNotesStatsDTO notesStats = service.getClientNotesStats();
-        ClientRegistrationTrendStatDTO registrationTrendStats = service.getClientRegistrationTrendStats();
-
-        List<ClientInfoDTO> liveSearch = service.liveSearch(name, registrationDateRange, phoneFilter, notesFilter);
-
         model.addAttribute("currentUser", principal.getName());
 
-        model.addAttribute("acquisitionStats", acquisitionStats);
-        model.addAttribute("phoneNumbersStats", phoneNumbersStats);
-        model.addAttribute("notesStats", notesStats);
-        model.addAttribute("registrationTrendStats", registrationTrendStats);
+        model.addAttribute("acquisitionStats", service.getClientStatsVsLastMonth());
+        model.addAttribute("phoneNumbersStats", service.getPhoneNumberRegistrationStats());
+        model.addAttribute("notesStats", service.getClientNotesStats());
+        model.addAttribute("registrationTrendStats", service.getClientRegistrationTrendStats());
 
         model.addAttribute("phoneFilter", RegisteredPhoneFilter.values());
         model.addAttribute("notesFilter", ClientNotesFilter.values());
         model.addAttribute("registrationTrendFilter", RegistrationDateRange.values());
 
-        model.addAttribute("liveSearch", liveSearch);
+        model.addAttribute("liveSearch", service.liveSearch(name, registrationDateRange, phoneFilter, notesFilter));
 
         return CLIENTS;
     }
