@@ -12,15 +12,21 @@ import java.util.List;
 
 public interface ClientService {
 
-    void registerNewClient(ClientCreationDTO newClient);
+    void registerNewClient(ClientCreationDTO dto);
 
-    void deleteClient(String nationalIDCardNumber);
+    void deleteClient(String nicn);
 
-    void updateClient(String nationalIDCardNumber, ClientUpdateDTO client);
+    void deleteClient(Long id);
 
-    ClientInfoDTO getClientInfo(String nationalIdentityCardNumber);
+    void updateClient(String nicn, ClientUpdateDTO dto);
 
-    List<ClientInfoDTO> clientLiveSearchByName(String searchName);
+    void updateClient(Long clientID, ClientUpdateDTO dto);
+
+    ClientInfoDTO getClientInfo(String nicn);
+
+    ClientInfoDTO getClientInfo(Long id);
+
+    List<ClientInfoDTO> clientLiveSearchByName(String name);
 
     ClientAcquisitionStatsDTO getClientStatsVsLastMonth();
 

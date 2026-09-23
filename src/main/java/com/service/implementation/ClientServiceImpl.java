@@ -42,60 +42,93 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     @Transactional
-    public void registerNewClient(ClientCreationDTO newClient) {
+    public void registerNewClient(ClientCreationDTO dto) {
 
-        validator.validateDTO(newClient);
+        validator.validateDTO(dto);
 
-        checkNationalIDCardNumberAvailability(newClient.getNationalIdentityCardNumber());
+        checkNationalIDCardNumberAvailability(dto.getNationalIdentityCardNumber());
 
-        checkEmailAvailabilityForCreation(newClient.getEmail());
+        checkEmailAvailabilityForCreation(dto.getEmail());
 
-        checkPhoneNumberListForCreation(newClient.getPhoneNumbersList());
+        checkPhoneNumberListForCreation(dto.getPhoneNumbersList());
 
         LocalDate registrationDate = LocalDate.now(clock);
 
-        clientRepository.save(mapper.mapClientCreationDTOtoEntity(newClient, registrationDate));
+        clientRepository.save(mapper.mapClientCreationDTOtoEntity(dto, registrationDate));
     }
 
 
     @Override
     @Transactional
-    public void deleteClient(String nationalIDCardNumber) {
+    public void deleteClient(String nicn) {
 
-        Client clientToDelete = loadClient(nationalIDCardNumber);
+        Client clientToDelete = loadClient(nicn);
 
         clientRepository.delete(clientToDelete);
     }
 
     @Override
-    @Transactional
-    public void updateClient(String nationalIDCardNumber, ClientUpdateDTO updateDTO) {
+    public void deleteClient(Long id) {
 
-        Client clientOnDB = loadClient(nationalIDCardNumber);
+        Client client = clientRepository.findById(id).orElseThrow(ClientNotFoundException::new);
 
-        validator.validateDTO(updateDTO);
-
-        checkNationalIDCardNumberAvailability(clientOnDB.getClientID(), updateDTO.getNationalIdentityCardNumber());
-
-        checkEmailAvailabilityForUpdate(updateDTO.getEmail(), clientOnDB.getClientID());
-
-        checkPhoneNumberListForUpdate(updateDTO.getPhoneNumbersList(), clientOnDB.getClientID());
-
-        clientRepository.save(mapper.mapClientUpdateDTOtoEntity(clientOnDB, updateDTO));
+        clientRepository.delete(client);
     }
 
     @Override
-    public ClientInfoDTO getClientInfo(String nationalIdentityCardNumber) {
+    @Transactional
+    public void updateClient(String nicn, ClientUpdateDTO dto) {
 
-        Client clientOnDB = loadClient(nationalIdentityCardNumber);
+        Client client = loadClient(nicn);
+
+        validator.validateDTO(dto);
+
+        checkNationalIDCardNumberAvailability(client.getClientID(), dto.getNationalIdentityCardNumber());
+
+        checkEmailAvailabilityForUpdate(dto.getEmail(), client.getClientID());
+
+        checkPhoneNumberListForUpdate(dto.getPhoneNumbersList(), client.getClientID());
+
+        clientRepository.save(mapper.mapClientUpdateDTOtoEntity(client, dto));
+    }
+
+    @Override
+    @Transactional
+    public void updateClient(Long clientID, ClientUpdateDTO dto) {
+
+        Client client = clientRepository.findById(clientID).orElseThrow(ClientNotFoundException::new);
+
+        validator.validateDTO(dto);
+
+        checkNationalIDCardNumberAvailability(client.getClientID(), dto.getNationalIdentityCardNumber());
+
+        checkEmailAvailabilityForUpdate(dto.getEmail(), client.getClientID());
+
+        checkPhoneNumberListForUpdate(dto.getPhoneNumbersList(), client.getClientID());
+
+        clientRepository.save(mapper.mapClientUpdateDTOtoEntity(client, dto));
+    }
+
+    @Override
+    public ClientInfoDTO getClientInfo(String nicn) {
+
+        Client clientOnDB = loadClient(nicn);
 
         return mapper.mapClientToInfoDTO(clientOnDB);
     }
 
     @Override
-    public List<ClientInfoDTO> clientLiveSearchByName(String searchName) {
+    public ClientInfoDTO getClientInfo(Long id) {
 
-        return mapper.mapClientToInfoDTO(clientRepository.clientLiveSearchByName(searchName));
+        Client clientOnDB = clientRepository.findById(id).orElseThrow(ClientNotFoundException::new);
+
+        return mapper.mapClientToInfoDTO(clientOnDB);
+    }
+
+    @Override
+    public List<ClientInfoDTO> clientLiveSearchByName(String name) {
+
+        return mapper.mapClientToInfoDTO(clientRepository.clientLiveSearchByName(name));
     }
 
     @Override
