@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Objects;
 
-import static com.presentation.constants.HtmlTemplatePath.REDIRECT_LOGIN;
-import static com.presentation.constants.HtmlTemplatePath.REGISTER_HTML_PATH;
+import static com.presentation.constants.HtmlConstants.Paths.REGISTER;
+import static com.presentation.constants.HtmlConstants.Redirects.REDIRECT_LOGIN;
 
 @Controller
 @RequiredArgsConstructor
@@ -26,7 +26,7 @@ public class WebRegisterController {
 
         model.addAttribute("dto", new AppUserCreationDTO());
 
-        return REGISTER_HTML_PATH;
+        return REGISTER;
     }
 
     @PostMapping("/register")
@@ -47,7 +47,7 @@ public class WebRegisterController {
 
             model.addAttribute("error", "Las credenciales ingresadas no coinciden");
 
-            return REGISTER_HTML_PATH;
+            return REGISTER;
         }
     }
 }

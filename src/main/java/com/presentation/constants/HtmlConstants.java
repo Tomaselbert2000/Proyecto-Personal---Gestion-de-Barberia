@@ -21,6 +21,7 @@ public final class HtmlConstants {
         public static final String REDIRECT = "redirect:/";
         public static final String REDIRECT_LOGIN = REDIRECT + LOGIN;
         public static final String REDIRECT_APPOINTMENTS = REDIRECT + APPOINTMENTS;
+        public static final String REDIRECT_APPOINTMENT_UPDATE = REDIRECT + UPDATE;
         public static final String REDIRECT_BARBERSERVICES = REDIRECT + BARBERSERVICES;
         public static final String REDIRECT_BARBERSERVICE_UPDATE = REDIRECT + UPDATE;
     }

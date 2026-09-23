@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import java.security.Principal;
 import java.util.List;
 
-import static com.presentation.constants.HtmlTemplatePath.DASHBOARD_HTML_PATH;
+import static com.presentation.constants.HtmlConstants.Paths.DASHBOARD;
 
 @Controller
 @RequiredArgsConstructor
@@ -48,6 +48,6 @@ public class WebDashboardController {
         model.addAttribute("inventoryStats", inventoryAlertStatsDTO);
         model.addAttribute("recentActivity", recentActivity);
 
-        return DASHBOARD_HTML_PATH;
+        return DASHBOARD;
     }
 }

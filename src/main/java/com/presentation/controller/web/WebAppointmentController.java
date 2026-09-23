@@ -11,25 +11,24 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.time.LocalDate;
 import java.util.List;
 
-import static com.presentation.constants.HtmlTemplatePath.APPOINTMENTS_HTML_PATH;
-import static com.presentation.constants.HtmlTemplatePath.REDIRECT_APPOINTMENTS;
+import static com.presentation.constants.HtmlConstants.Paths.APPOINTMENTS;
+import static com.presentation.constants.HtmlConstants.Redirects.REDIRECT_APPOINTMENTS;
+import static com.presentation.constants.HtmlConstants.Redirects.REDIRECT_APPOINTMENT_UPDATE;
 
 @Controller
 @RequiredArgsConstructor
+@RequestMapping("/appointments")
 public class WebAppointmentController {
 
     private final AppointmentService service;
 
-    @GetMapping("/appointments")
+    @GetMapping()
     public String showAppointments(
             Model model,
             Principal principal,
@@ -61,27 +60,40 @@ public class WebAppointmentController {
         model.addAttribute("selectedStatus", status);
         model.addAttribute("selectedEmployeeName", employeeName);
 
-        return APPOINTMENTS_HTML_PATH;
+        return APPOINTMENTS;
     }
 
-    @PostMapping("/appointments/{appointmentID}/complete")
+    @PostMapping("/{appointmentID}/complete")
     public String markAppointmentAsComplete(@PathVariable Long appointmentID) {
 
         service.markAppointmentAsComplete(AppointmentInfoDTO.builder().id(appointmentID).build());
         return REDIRECT_APPOINTMENTS;
     }
 
-    @PostMapping("/appointments/{appointmentID}/cancel")
+    @PostMapping("/{appointmentID}/cancel")
     public String markAppointmentAsCanceled(@PathVariable Long appointmentID) {
 
         service.markAppointmentAsCanceled(AppointmentInfoDTO.builder().id(appointmentID).build());
         return REDIRECT_APPOINTMENTS;
     }
 
-    @PostMapping("/appointments/{appointmentID}/delete")
+    @PostMapping("/{appointmentID}/delete")
     public String deleteAppointment(@PathVariable Long appointmentID) {
 
         service.deleteAppointment(appointmentID);
         return REDIRECT_APPOINTMENTS;
+    }
+
+    @GetMapping("/{appointmentID}/update")
+    public String updateAppointment(@PathVariable Long appointmentID, Model model) {
+
+        AppointmentInfoDTO dto = service.getAppointmentInfo(appointmentID);
+
+        model.addAttribute("dto", dto);
+        model.addAttribute("services", service.getBarberServicesFromServiceInstance());
+        model.addAttribute("employees", service.getEmployeesFromServiceInstance());
+        model.addAttribute("statuses", AppointmentStatus.values());
+
+        return REDIRECT_APPOINTMENT_UPDATE;
     }
 }
