@@ -1,10 +1,7 @@
 package com.model;
 
 import com.enums.PaymentMethodModifierType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -24,6 +21,8 @@ public class PaymentMethod {
     private String description;
     private Boolean isActive;
     private LocalDate createdAt;
+
+    @Enumerated(EnumType.STRING)
     private PaymentMethodModifierType modifierType;
     private Double priceModifier;
 }

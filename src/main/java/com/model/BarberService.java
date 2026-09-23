@@ -20,6 +20,8 @@ public class BarberService {
     private Long barbershopServiceID;
     private String name;
     private Double price;
+
+    @Enumerated(EnumType.STRING)
     private BarberServiceCategory serviceCategory;
     private LocalDateTime registrationTimestamp;
     private LocalDateTime modifiedDate;

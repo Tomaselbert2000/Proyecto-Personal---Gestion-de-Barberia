@@ -26,6 +26,7 @@ public class Product {
     private String optionalDescription;
     private String brandName;
 
+    @Enumerated(EnumType.STRING)
     private ProductPresentationUnit presentationUnit;
     private Integer presentationSize;
 
