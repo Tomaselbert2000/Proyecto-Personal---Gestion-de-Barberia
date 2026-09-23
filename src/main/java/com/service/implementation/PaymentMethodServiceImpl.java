@@ -31,30 +31,30 @@ public class PaymentMethodServiceImpl implements PaymentMethodService {
 
     @Override
     @Transactional
-    public void registerNewPaymentMethod(PaymentMethodCreationDTO creationDTO) {
+    public void registerNewPaymentMethod(PaymentMethodCreationDTO dto) {
 
-        validator.validateDTO(creationDTO);
+        validator.validateDTO(dto);
 
-        checkNameAvailability(creationDTO.getName());
+        checkNameAvailability(dto.getName());
 
-        PaymentMethod mappedEntity = mapper.mapPaymentMethodCreationDtoToEntity(creationDTO);
+        PaymentMethod mappedEntity = mapper.mapPaymentMethodCreationDtoToEntity(dto);
 
         paymentMethodRepository.save(mappedEntity);
     }
 
     @Override
     @Transactional
-    public void deletePaymentMethod(Long paymentMethodID) {
+    public void deletePaymentMethod(Long id) {
 
-        PaymentMethod paymentMethodOnDB = loadPaymentMethodByID(paymentMethodID);
+        PaymentMethod paymentMethodOnDB = loadPaymentMethodByID(id);
 
         paymentMethodRepository.delete(paymentMethodOnDB);
     }
 
     @Override
-    public PaymentMethodInfoDTO getPaymentMethod(Long paymentMethodID) {
+    public PaymentMethodInfoDTO getPaymentMethod(Long id) {
 
-        PaymentMethod paymentMethodOnDB = loadPaymentMethodByID(paymentMethodID);
+        PaymentMethod paymentMethodOnDB = loadPaymentMethodByID(id);
 
         return mapper.mapPaymentMethodToInfoDTO(paymentMethodOnDB);
     }
@@ -69,19 +69,19 @@ public class PaymentMethodServiceImpl implements PaymentMethodService {
 
     @Override
     @Transactional
-    public void updatePaymentMethod(Long paymentMethodID, PaymentMethodUpdateDTO updateDTO) {
+    public void updatePaymentMethod(Long id, PaymentMethodUpdateDTO dto) {
 
-        PaymentMethod paymentMethodOnDB = loadPaymentMethodByID(paymentMethodID);
+        PaymentMethod paymentMethodOnDB = loadPaymentMethodByID(id);
 
-        validator.validateDTO(updateDTO);
+        validator.validateDTO(dto);
 
-        checkNameAvailability(updateDTO.getNewName(), paymentMethodID);
+        checkNameAvailability(dto.getNewName(), id);
 
-        paymentMethodRepository.save(mapper.mapPaymentMethodUpdateDtoToEntity(paymentMethodOnDB, updateDTO));
+        paymentMethodRepository.save(mapper.mapPaymentMethodUpdateDtoToEntity(paymentMethodOnDB, dto));
     }
 
     @Override
-    public List<PaymentMethodInfoDTO> paymentMethodLiveSearch(String paymentName, PaymentMethodStatus status, PaymentMethodModifierType modifierType) {
+    public List<PaymentMethodInfoDTO> liveSearch(String name, PaymentMethodStatus status, PaymentMethodModifierType modifierType) {
 
         Boolean isActiveValueToSearch = null;
 
@@ -92,7 +92,7 @@ public class PaymentMethodServiceImpl implements PaymentMethodService {
             case ACTIVO -> isActiveValueToSearch = true;
         }
 
-        List<PaymentMethod> filteredList = paymentMethodRepository.paymentMethodLiveSearch(paymentName, isActiveValueToSearch, modifierType);
+        List<PaymentMethod> filteredList = paymentMethodRepository.paymentMethodLiveSearch(name, isActiveValueToSearch, modifierType);
 
         return mapper.mapPaymentMethodToInfoDTO(filteredList);
     }

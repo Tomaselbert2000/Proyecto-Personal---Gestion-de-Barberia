@@ -10,17 +10,17 @@ import java.util.List;
 
 public interface PaymentMethodService {
 
-    void registerNewPaymentMethod(PaymentMethodCreationDTO creationDTO);
+    void registerNewPaymentMethod(PaymentMethodCreationDTO dto);
 
-    void deletePaymentMethod(Long paymentMethodID);
+    void deletePaymentMethod(Long id);
 
-    PaymentMethodInfoDTO getPaymentMethod(Long paymentMethodID);
+    PaymentMethodInfoDTO getPaymentMethod(Long id);
 
     List<PaymentMethodInfoDTO> getPaymentMethodsList();
 
-    void updatePaymentMethod(Long paymentMethodID, PaymentMethodUpdateDTO updateDTO);
+    void updatePaymentMethod(Long id, PaymentMethodUpdateDTO dto);
 
-    List<PaymentMethodInfoDTO> paymentMethodLiveSearch(String paymentName, PaymentMethodStatus status, PaymentMethodModifierType modifierType);
+    List<PaymentMethodInfoDTO> liveSearch(String name, PaymentMethodStatus status, PaymentMethodModifierType modifierType);
 
     Long getPaymentMethodCountMarkedAsActive();
 

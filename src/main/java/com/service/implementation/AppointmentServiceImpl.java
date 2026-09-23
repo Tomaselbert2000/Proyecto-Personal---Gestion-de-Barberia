@@ -56,36 +56,36 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     @Transactional
-    public void registerNewAppointment(AppointmentCreationDTO creationDTO) {
+    public void registerNewAppointment(AppointmentCreationDTO dto) {
 
-        validator.validateForCreation(creationDTO);
+        validator.validateForCreation(dto);
 
-        Client client = loadClient(creationDTO.getClientID());
-        BarberService service = loadBarberService(creationDTO.getBarberserviceID());
-        Employee employee = loadEmployee(creationDTO.getEmployeeID());
+        Client client = loadClient(dto.getClientID());
+        BarberService service = loadBarberService(dto.getBarberserviceID());
+        Employee employee = loadEmployee(dto.getEmployeeID());
 
         validateEmployeeIsActive(employee);
 
-        checkEmployeeAvailabilityForCreation(employee, creationDTO.getStartDateTime(), creationDTO.getEndDateTime());
+        checkEmployeeAvailabilityForCreation(employee, dto.getStartDateTime(), dto.getEndDateTime());
 
-        Appointment newAppointment = appointmentMapper.mapAppointmentCreationDtoToEntity(creationDTO, client, employee, service);
+        Appointment newAppointment = appointmentMapper.mapAppointmentCreationDtoToEntity(dto, client, employee, service);
 
         appointmentRepository.save(newAppointment);
     }
 
     @Override
     @Transactional
-    public void deleteAppointment(Long appointmentID) {
+    public void deleteAppointment(Long id) {
 
-        Appointment appointmentOnDB = loadAppointment(appointmentID);
+        Appointment appointmentOnDB = loadAppointment(id);
 
         appointmentRepository.delete(appointmentOnDB);
     }
 
     @Override
-    public AppointmentInfoDTO getAppointmentInfo(Long appointmentID) {
+    public AppointmentInfoDTO getAppointmentInfo(Long id) {
 
-        Appointment appointmentOnDB = loadAppointment(appointmentID);
+        Appointment appointmentOnDB = loadAppointment(id);
 
         return appointmentMapper.mapEntityToInfoDto(appointmentOnDB);
     }
@@ -284,20 +284,20 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     @Transactional
-    public void updateAppointment(Long appointmentID, AppointmentUpdateDTO updateDTO) {
+    public void updateAppointment(Long id, AppointmentUpdateDTO dto) {
 
-        validator.validateForUpdate(updateDTO);
+        validator.validateForUpdate(dto);
 
-        Appointment appointmentToUpdate = loadAppointment(appointmentID);
+        Appointment appointmentToUpdate = loadAppointment(id);
 
-        BarberService service = resolveIfBarberServiceWasModified(appointmentToUpdate, updateDTO.getNewBarberserviceID());
-        Employee employee = resolveIfEmployeeWasModified(appointmentToUpdate, updateDTO.getNewEmployeeID());
+        BarberService service = resolveIfBarberServiceWasModified(appointmentToUpdate, dto.getNewBarberserviceID());
+        Employee employee = resolveIfEmployeeWasModified(appointmentToUpdate, dto.getNewEmployeeID());
 
-        checkEmployeeAvailabilityForUpdate(employee, updateDTO.getNewStartDateTime(), updateDTO.getNewEndDateTime(), appointmentID);
+        checkEmployeeAvailabilityForUpdate(employee, dto.getNewStartDateTime(), dto.getNewEndDateTime(), id);
 
-        applyStatusChangeIfPresent(appointmentToUpdate, updateDTO.getNewStatus());
+        applyStatusChangeIfPresent(appointmentToUpdate, dto.getNewStatus());
 
-        appointmentRepository.save(appointmentMapper.mapAppointmentUpdateDtoToEntity(updateDTO, employee, service, appointmentToUpdate));
+        appointmentRepository.save(appointmentMapper.mapAppointmentUpdateDtoToEntity(dto, employee, service, appointmentToUpdate));
     }
 
     private Client loadClient(Long clientID) {

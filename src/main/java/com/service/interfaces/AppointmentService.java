@@ -14,15 +14,15 @@ import java.util.List;
 
 public interface AppointmentService {
 
-    void registerNewAppointment(AppointmentCreationDTO newAppointment);
+    void registerNewAppointment(AppointmentCreationDTO dto);
 
-    void deleteAppointment(Long appointmentID);
+    void deleteAppointment(Long id);
 
-    AppointmentInfoDTO getAppointmentInfo(Long appointmentID);
+    AppointmentInfoDTO getAppointmentInfo(Long id);
 
     List<AppointmentInfoDTO> getAppointmentsList();
 
-    void updateAppointment(Long appointmentID, AppointmentUpdateDTO updateDTO);
+    void updateAppointment(Long id, AppointmentUpdateDTO dto);
 
     List<AppointmentInfoDTO> liveSearch(String clientName, LocalDate date, AppointmentStatus selectedAppointmentStatus, String employeeName);
 
