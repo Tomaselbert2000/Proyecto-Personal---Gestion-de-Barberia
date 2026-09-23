@@ -76,6 +76,10 @@
             transition: transform 200ms ease
         }
 
+        .nav-drawer.open {
+            transform: translateX(0)
+        }
+
         .nav-scrim {
             position: fixed;
             inset: 64px 0 0 0;
@@ -84,6 +88,11 @@
             opacity: 0;
             pointer-events: none;
             transition: opacity 200ms ease
+        }
+
+        .nav-scrim.open {
+            opacity: 1;
+            pointer-events: auto
         }
 
         .nav-brand {
