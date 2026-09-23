@@ -156,7 +156,7 @@ public class ClientServiceImpl implements ClientService {
 
         } else {
 
-            trendPercentage = ((double) clientAcquisitionStatsDTO.getNewClientsThisMonth() * clientAcquisitionStatsDTO.getPercentageVsLastMonth() / 100);
+            trendPercentage = (double) (clientsRegisteredDuringThisMonth - clientsRegisteredTheLastMonth) / clientsRegisteredTheLastMonth * 100;
         }
 
         clientAcquisitionStatsDTO.setPercentageVsLastMonth(trendPercentage);

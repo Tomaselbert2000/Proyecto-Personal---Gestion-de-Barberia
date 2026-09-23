@@ -237,7 +237,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 
         if (canceledStatsDTO != null) {
 
-            Double cancelationPercentage = ((double) canceledStatsDTO.getTotalAppointmentsThisMonth() * canceledStatsDTO.getCanceledAppointmentThisMonth()) / 100;
+            Double cancelationPercentage = ((double) canceledStatsDTO.getCanceledAppointmentThisMonth() / canceledStatsDTO.getTotalAppointmentsThisMonth()) * 100;
 
             canceledStatsDTO.setCanceledAppointmentPercentage(cancelationPercentage);
 
