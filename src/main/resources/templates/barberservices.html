@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Gestión de Servicios - LA TERCERA BARBERSHOP</title>
+    <script type="importmap">
+        { "imports": { "@material/web/": "https://esm.run/@material/web/" } }
+    </script>
+    <script type="module">
+        import '@material/web/all.js';
+        import {styles as typescaleStyles} from '@material/web/typography/md-typescale-styles.js';
+        document.adoptedStyleSheets.push(typescaleStyles.styleSheet);
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+          rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box
+        }
+
+        body {
+            margin: 0;
+            font-family: Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #fef7ff;
+            color: #1d1b20;
+            -webkit-font-smoothing: antialiased
+        }
+
+        .app-header {
+            position: sticky;
+            top: 0;
+            z-index: 6;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            height: 64px;
+            padding: 0 8px;
+            background: #f7f2fa;
+            border-bottom: 1px solid #cac4d0
+        }
+
+        .app-header-titles {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-width: 0;
+            margin-left: 8px
+        }
+
+        .app-header-titles span {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis
+        }
+
+        .app-shell {
+            display: flex;
+            min-height: calc(100vh - 64px)
+        }
+
+        .nav-drawer {
+            position: fixed;
+            top: 64px;
+            bottom: 0;
+            left: 0;
+            z-index: 5;
+            width: min(320px, 84vw);
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            background: #f7f2fa;
+            border-right: 1px solid #cac4d0;
+            transform: translateX(-105%);
+            transition: transform 200ms ease
+        }
+
+        .nav-scrim {
+            position: fixed;
+            inset: 64px 0 0 0;
+            z-index: 4;
+            background: rgba(0, 0, 0, .4);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 200ms ease
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px
+        }
+
+        .nav-brand img {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            object-fit: cover
+        }
+
+        .nav-brand-copy {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.3;
+            min-width: 0
+        }
+
+        .app-main {
+            flex: 1;
+            min-width: 0;
+            width: 100%;
+            padding: 20px 16px 40px
+        }
+
+        .main-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 28px
+        }
+
+        .page-header {
+            display: flex;
+            flex-direction: column;
+            gap: 4px
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px
+        }
+
+        .surface {
+            position: relative;
+            isolation: isolate;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            padding: 20px;
+            border-radius: 16px;
+            background: #f7f2fa;
+            --md-elevation-level: 1
+        }
+
+        .surface.outlined {
+            background: #fef7ff;
+            border: 1px solid #cac4d0;
+            --md-elevation-level: 0
+        }
+
+        .surface-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px
+        }
+
+        .stat-foot {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-wrap: wrap
+        }
+
+        .stat-name {
+            min-width: 0;
+            overflow-wrap: anywhere
+        }
+
+        .stat-empty {
+            font-style: italic;
+            color: #79747e
+        }
+
+        .filter-form {
+            margin: 0
+        }
+
+        .btn-row {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 16px
+        }
+
+        .btn-row md-outlined-button,
+        .btn-row md-filled-button,
+        .btn-row md-filled-tonal-button {
+            flex: 1;
+            min-width: 150px;
+            height: 40px
+        }
+
+        .filter-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px
+        }
+
+        .filter-grid md-outlined-text-field,
+        .filter-grid md-outlined-select {
+            width: 100%
+        }
+
+        .section-head {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px
+        }
+
+        .section-head h2 {
+            flex: 1;
+            min-width: 0
+        }
+
+        .list-surface {
+            gap: 0;
+            padding: 8px 0;
+            overflow: hidden
+        }
+
+        .empty-state {
+            padding: 32px;
+            text-align: center;
+            color: #49454f
+        }
+
+        .svc-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px
+        }
+
+        .svc-card {
+            gap: 0;
+            padding: 16px
+        }
+
+        .svc-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px
+        }
+
+        .svc-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #e8def8;
+            color: #4f378b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0
+        }
+
+        .svc-avatar md-icon {
+            font-size: 22px
+        }
+
+        .svc-body {
+            flex: 1;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 2px
+        }
+
+        .svc-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap
+        }
+
+        .svc-title .name {
+            min-width: 0;
+            overflow-wrap: anywhere
+        }
+
+        .svc-meta {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            flex-wrap: wrap;
+            color: #49454f
+        }
+
+        .svc-meta md-icon {
+            font-size: 16px
+        }
+
+        .svc-notes {
+            display: flex;
+            align-items: flex-start;
+            gap: 4px;
+            color: #49454f;
+            margin-top: 4px;
+            overflow-wrap: anywhere
+        }
+
+        .svc-notes md-icon {
+            font-size: 16px;
+            flex-shrink: 0
+        }
+
+        .svc-expand {
+            flex-shrink: 0;
+            align-self: flex-start
+        }
+
+        .svc-actions {
+            display: none;
+            flex-wrap: wrap;
+            gap: 4px;
+            padding-top: 12px;
+            margin-top: 12px;
+            border-top: 1px solid #cac4d0
+        }
+
+        .svc-actions form {
+            margin: 0
+        }
+
+        .status-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 10px;
+            border-radius: 999px;
+            font-size: .75rem;
+            font-weight: 500;
+            line-height: 1;
+            white-space: nowrap
+        }
+
+        @media (min-width: 600px) {
+            .app-main {
+                padding: 28px 24px 48px
+            }
+        }
+
+        @media (min-width: 840px) {
+            .nav-toggle {
+                display: none
+            }
+
+            .nav-scrim {
+                display: none
+            }
+
+            .nav-drawer {
+                position: sticky;
+                top: 64px;
+                height: calc(100vh - 64px);
+                transform: none
+            }
+
+            .app-main {
+                padding: 32px 32px 56px
+            }
+
+            .filter-grid {
+                grid-template-columns: repeat(2, 1fr)
+            }
+        }
+
+        @media (min-width: 1240px) {
+            .filter-grid {
+                grid-template-columns: repeat(3, 1fr)
+            }
+        }
+    </style>
+</head>
+<body>
+<header class="app-header">
+    <md-icon-button id="navToggle" class="nav-toggle" aria-label="Abrir navegación">
+        <md-icon>menu</md-icon>
+    </md-icon-button>
+    <div class="app-header-titles">
+        <span class="md-typescale-title-large">Gestión de Servicios</span>
+        <span class="md-typescale-label-large" th:text="${currentUser}">Usuario</span>
+    </div>
+    <span style="flex:1"></span>
+    <md-icon-button aria-label="Cuenta de usuario">
+        <md-icon>account_circle</md-icon>
+    </md-icon-button>
+</header>
+
+<div class="nav-scrim" id="navScrim"></div>
+
+<div class="app-shell">
+    <aside class="nav-drawer" id="navDrawer" aria-label="Navegación principal">
+        <div class="nav-brand">
+            <img th:src="@{/images/Logo.jpg}" src="/images/Logo.jpg" alt="Logo LA TERCERA">
+            <div class="nav-brand-copy">
+                <span class="md-typescale-title-medium">LA TERCERA</span>
+                <span class="md-typescale-label-medium">BARBERSHOP</span>
+            </div>
+        </div>
+        <md-divider></md-divider>
+        <md-list>
+            <md-list-item type="link" href="/dashboard">
+                <md-icon slot="start">dashboard</md-icon>
+                <span slot="headline">Dashboard</span>
+            </md-list-item>
+            <md-list-item type="link" href="/clients">
+                <md-icon slot="start">person</md-icon>
+                <span slot="headline">Clientes</span>
+            </md-list-item>
+            <md-list-item type="link" href="/employees">
+                <md-icon slot="start">badge</md-icon>
+                <span slot="headline">Empleados</span>
+            </md-list-item>
+            <md-list-item type="link" href="/appointments">
+                <md-icon slot="start">calendar_today</md-icon>
+                <span slot="headline">Turnos</span>
+            </md-list-item>
+            <md-list-item type="link" href="/barberservices" aria-current="page">
+                <md-icon slot="start">cut</md-icon>
+                <span slot="headline">Servicios</span>
+            </md-list-item>
+            <md-list-item type="link" href="/products">
+                <md-icon slot="start">inventory_2</md-icon>
+                <span slot="headline">Stock de productos</span>
+            </md-list-item>
+            <md-list-item type="link" href="/payment-methods">
+                <md-icon slot="start">payments</md-icon>
+                <span slot="headline">Medios de pago</span>
+            </md-list-item>
+            <md-list-item type="link" href="/sales">
+                <md-icon slot="start">point_of_sale</md-icon>
+                <span slot="headline">Ventas</span>
+            </md-list-item>
+        </md-list>
+        <md-divider></md-divider>
+        <md-list>
+            <md-list-item type="link" href="/settings">
+                <md-icon slot="start">settings</md-icon>
+                <span slot="headline">Configuración</span>
+            </md-list-item>
+            <md-list-item type="link" href="/logout">
+                <md-icon slot="start">logout</md-icon>
+                <span slot="headline">Cerrar Sesión</span>
+            </md-list-item>
+        </md-list>
+    </aside>
+
+    <main class="app-main">
+        <div class="main-inner">
+            <div class="page-header">
+                <h1 class="md-typescale-headline-small" style="margin:0">Gestión de Servicios</h1>
+                <p class="md-typescale-body-medium" style="margin:0;color:#49454f">Administra el catálogo de servicios
+                    de tu barbería</p>
+            </div>
+
+            <section class="stats-grid" aria-label="Estadísticas del catálogo de servicios">
+                <div class="surface">
+                    <md-elevation></md-elevation>
+                    <div class="surface-row">
+                        <span class="md-typescale-body-medium" style="color:#49454f">Servicios Activos</span>
+                        <md-icon aria-hidden="true" style="color:#625b71">cut</md-icon>
+                    </div>
+                    <span class="md-typescale-display-small"
+                          th:text="${activeOnCatalogStats.amountOfActiveServices}">0</span>
+                    <div class="stat-foot">
+                        <span class="md-typescale-body-medium"
+                              th:text="${activeOnCatalogStats.amountOfDifferentCategories}">0</span>
+                        <span class="md-typescale-body-small" style="color:#49454f">categorías distintas</span>
+                    </div>
+                </div>
+
+                <div class="surface">
+                    <md-elevation></md-elevation>
+                    <div class="surface-row">
+                        <span class="md-typescale-body-medium" style="color:#49454f">Más Vendido</span>
+                        <md-icon aria-hidden="true" style="color:#625b71">sell</md-icon>
+                    </div>
+                    <div th:if="${saleStats.amountOfSales != null and saleStats.amountOfSales > 0}">
+                        <span class="md-typescale-title-medium stat-name" th:text="${saleStats.barberServiceName}">Servicio</span>
+                        <div class="stat-foot">
+                            <span class="md-typescale-body-medium" th:text="${saleStats.amountOfSales}">0</span>
+                            <span class="md-typescale-body-small" style="color:#49454f">ventas</span>
+                        </div>
+                    </div>
+                    <div th:unless="${saleStats.amountOfSales != null and saleStats.amountOfSales > 0}">
+                        <span class="md-typescale-body-medium stat-empty">Sin datos de ventas aún</span>
+                    </div>
+                </div>
+
+                <div class="surface">
+                    <md-elevation></md-elevation>
+                    <div class="surface-row">
+                        <span class="md-typescale-body-medium" style="color:#49454f">Mayor Ingreso</span>
+                        <md-icon aria-hidden="true" style="color:#625b71">savings</md-icon>
+                    </div>
+                    <div th:if="${revenueStats.totalRevenue != null and revenueStats.totalRevenue > 0}">
+                        <span class="md-typescale-title-medium stat-name" th:text="${revenueStats.barberServiceName}">Servicio</span>
+                        <div class="stat-foot">
+                            <span class="md-typescale-body-medium"
+                                  th:text="${'$' + #numbers.formatDecimal(revenueStats.totalRevenue, 1, 2)}">$0.00</span>
+                            <span class="md-typescale-body-small" style="color:#49454f">ingresos</span>
+                        </div>
+                    </div>
+                    <div th:unless="${revenueStats.totalRevenue != null and revenueStats.totalRevenue > 0}">
+                        <span class="md-typescale-body-medium stat-empty">Sin ingresos registrados</span>
+                    </div>
+                </div>
+
+                <div class="surface">
+                    <md-elevation></md-elevation>
+                    <div class="surface-row">
+                        <span class="md-typescale-body-medium" style="color:#49454f">Menos Utilizado</span>
+                        <md-icon aria-hidden="true" style="color:#625b71">trending_down</md-icon>
+                    </div>
+                    <div th:if="${usageStats.totalUsage != null and usageStats.totalUsage > 0}">
+                        <span class="md-typescale-title-medium stat-name" th:text="${usageStats.barberServiceName}">Servicio</span>
+                        <div class="stat-foot">
+                            <span class="md-typescale-body-medium" th:text="${usageStats.totalUsage}">0</span>
+                            <span class="md-typescale-body-small" style="color:#49454f">usos</span>
+                        </div>
+                    </div>
+                    <div th:unless="${usageStats.totalUsage != null and usageStats.totalUsage > 0}">
+                        <span class="md-typescale-body-medium stat-empty">Sin usos registrados</span>
+                    </div>
+                </div>
+            </section>
+
+            <section aria-label="Filtros de búsqueda">
+                <h2 class="md-typescale-title-large" style="margin:0 0 12px 0">Filtros de Búsqueda</h2>
+                <form id="filterForm" class="filter-form" th:action="@{/barberservices}" method="get">
+                    <div class="surface outlined">
+                        <div class="filter-grid">
+                            <md-outlined-text-field label="Buscar por nombre" name="serviceName" id="serviceNameFilter"
+                                                    type="text"
+                                                    th:value="${param.serviceName != null ? param.serviceName[0] : ''}"
+                                                    placeholder="Nombre del servicio">
+                                <md-icon slot="leading-icon">search</md-icon>
+                            </md-outlined-text-field>
+                            <md-outlined-select label="Categoría" name="category">
+                                <md-select-option value=""
+                                                  th:selected="${param.category == null or param.category[0] == ''}">
+                                    <div slot="headline">Todas las categorías</div>
+                                </md-select-option>
+                                <md-select-option th:each="cat : ${category}"
+                                                  th:if="${cat.name() != 'TODOS'}"
+                                                  th:value="${cat}"
+                                                  th:selected="${param.category != null and param.category[0] == cat.name()}">
+                                    <div slot="headline" th:text="${cat.displayName}"></div>
+                                </md-select-option>
+                            </md-outlined-select>
+                            <md-outlined-select label="Rango de precio" name="priceRange">
+                                <md-select-option value=""
+                                                  th:selected="${param.priceRange == null or param.priceRange[0] == ''}">
+                                    <div slot="headline">Todos los precios</div>
+                                </md-select-option>
+                                <md-select-option th:each="range : ${priceRange}"
+                                                  th:if="${range.name() != 'TODOS'}"
+                                                  th:value="${range}"
+                                                  th:selected="${param.priceRange != null and param.priceRange[0] == range.name()}">
+                                    <div slot="headline" th:text="${range.displayName}"></div>
+                                </md-select-option>
+                            </md-outlined-select>
+                        </div>
+                        <div class="btn-row">
+                            <md-filled-button type="submit">
+                                <md-icon slot="icon">search</md-icon>
+                                Buscar
+                            </md-filled-button>
+                            <md-outlined-button type="button" onclick="clearFilters()">
+                                <md-icon slot="icon">filter_alt_off</md-icon>
+                                Limpiar
+                            </md-outlined-button>
+                            <md-filled-tonal-button th:href="@{/barberservices/new}" href="/barberservices/new">
+                                <md-icon slot="icon">add</md-icon>
+                                Nuevo Servicio
+                            </md-filled-tonal-button>
+                        </div>
+                    </div>
+                </form>
+            </section>
+
+            <section aria-label="Servicios del catálogo">
+                <div class="section-head">
+                    <h2 class="md-typescale-title-large">Servicios del Catálogo</h2>
+                    <span class="md-typescale-label-large" style="color:#49454f"
+                          th:text="${#lists.size(liveSearch)} + ' servicios'">0 servicios</span>
+                </div>
+
+                <div class="svc-list" th:if="${!#lists.isEmpty(liveSearch)}">
+                    <article class="surface outlined svc-card" th:each="svc : ${liveSearch}">
+                        <div class="svc-row">
+                            <div class="svc-avatar" aria-hidden="true">
+                                <md-icon>cut</md-icon>
+                            </div>
+                            <div class="svc-body">
+                                <div class="svc-title">
+                                    <span class="md-typescale-title-medium name" th:text="${svc.name}">Servicio</span>
+                                    <span class="status-chip"
+                                          th:if="${svc.category != null}"
+                                          th:classappend="${'st-' + #strings.toLowerCase(svc.category.name())}"
+                                          th:title="${svc.category.description}">
+                                        <span th:text="${svc.category.displayName}">Categoría</span>
+                                    </span>
+                                </div>
+                                <div class="svc-meta md-typescale-body-medium">
+                                    <md-icon aria-hidden="true">payments</md-icon>
+                                    <span th:if="${svc.price != null}"
+                                          th:text="${'$' + #numbers.formatDecimal(svc.price, 1, 2)}">$0.00</span>
+                                    <span th:unless="${svc.price != null}">Sin precio</span>
+                                    <span th:if="${svc.category != null}" aria-hidden="true">·</span>
+                                    <span th:if="${svc.category != null}" th:text="${svc.category.displayName}">Categoría</span>
+                                </div>
+                                <p class="svc-notes md-typescale-body-medium"
+                                   th:if="${!#strings.isEmpty(svc.internalNotes)}">
+                                    <md-icon aria-hidden="true">notes</md-icon>
+                                    <span th:text="${svc.internalNotes}">notas</span>
+                                </p>
+                            </div>
+                            <md-icon-button class="svc-expand" aria-label="Acciones rápidas" aria-expanded="false"
+                                            th:data-target="'svc-actions-' + ${svc.barberServiceId}"
+                                            th:aria-controls="'svc-actions-' + ${svc.barberServiceId}"
+                                            th:id="'svc-toggle-' + ${svc.barberServiceId}"
+                                            onclick="toggleSvcActions(this)">
+                                <md-icon>expand_more</md-icon>
+                            </md-icon-button>
+                        </div>
+
+                        <div class="svc-actions" th:id="'svc-actions-' + ${svc.barberServiceId}">
+                            <md-text-button th:href="@{/barberservices/{id}/update(id=${svc.barberServiceId})}">
+                                <md-icon slot="icon">edit</md-icon>
+                                Editar
+                            </md-text-button>
+                            <form th:action="@{/barberservices/{id}/delete(id=${svc.barberServiceId})}" method="post"
+                                  onsubmit="return confirm('¿Eliminar este servicio?');">
+                                <md-text-button type="submit" style="--md-sys-color-primary:#b3261e">
+                                    <md-icon slot="icon">delete</md-icon>
+                                    Eliminar
+                                </md-text-button>
+                            </form>
+                        </div>
+                    </article>
+                </div>
+
+                <div class="surface outlined list-surface" th:if="${#lists.isEmpty(liveSearch)}">
+                    <div class="empty-state md-typescale-body-medium">No se encontraron servicios</div>
+                </div>
+            </section>
+        </div>
+    </main>
+</div>
+
+<script>
+    const drawer = document.getElementById('navDrawer');
+    const scrim = document.getElementById('navScrim');
+    const toggle = document.getElementById('navToggle');
+
+    function setDrawerOpen(open) {
+        drawer.classList.toggle('open', open);
+        scrim.classList.toggle('open', open);
+    }
+
+    toggle.addEventListener('click', () => setDrawerOpen(!drawer.classList.contains('open')));
+    scrim.addEventListener('click', () => setDrawerOpen(false));
+    drawer.querySelectorAll('md-list-item').forEach(item => item.addEventListener('click', () => setDrawerOpen(false)));
+
+    function toggleSvcActions(button) {
+        const panel = document.getElementById(button.dataset.target);
+        const open = panel.classList.toggle('open');
+        button.setAttribute('aria-expanded', String(open));
+        button.setAttribute('aria-label', open ? 'Ocultar acciones' : 'Acciones rápidas');
+        const icon = button.querySelector('md-icon');
+        if (icon) {
+            icon.textContent = open ? 'expand_less' : 'expand_more';
+        }
+    }
+
+    function clearFilters() {
+        window.location.href = '/barberservices';
+    }
+
+    const filterForm = document.getElementById('filterForm');
+    if (filterForm) {
+        let searchTimer;
+        const nameField = document.getElementById('serviceNameFilter');
+        const selects = filterForm.querySelectorAll('md-outlined-select');
+
+        function liveSubmit() {
+            clearTimeout(searchTimer);
+            searchTimer = setTimeout(() => filterForm.requestSubmit(), 400);
+        }
+
+        if (nameField) nameField.addEventListener('input', liveSubmit);
+        selects.forEach(select => select.addEventListener('change', () => filterForm.requestSubmit()));
+    }
+</script>
+</body>
+</html>
