@@ -1,6 +1,7 @@
 package com.presentation.controller.web;
 
 import com.dto.barberservice.BarberServiceInfoDTO;
+import com.dto.barberservice.BarberServiceUpdateDTO;
 import com.dto.stats.BarberServiceActiveOnCatalogStatsDTO;
 import com.dto.stats.BarberServiceRevenueStatsDTO;
 import com.dto.stats.BarberServiceSalesStatsDTO;
@@ -15,11 +16,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.util.List;
 
 import static com.presentation.constants.HtmlConstants.Paths.BARBERSERVICES;
+import static com.presentation.constants.HtmlConstants.Paths.BARBERSERVICE_UPDATE;
 import static com.presentation.constants.HtmlConstants.Redirects.REDIRECT_BARBERSERVICES;
-import static com.presentation.constants.HtmlConstants.Redirects.REDIRECT_BARBERSERVICE_UPDATE;
+import static com.presentation.constants.HtmlConstants.Redirects.redirectToUpdate;
 
 @Controller
 @RequiredArgsConstructor
@@ -50,15 +51,11 @@ public class WebBarberserviceController {
         BarberServiceRevenueStatsDTO revenueStatsDTO = saleService.getBarberServiceWithHighestRevenue();
         BarberServiceUsageStatsDTO usageStatsDTO = saleService.getBarberServiceWithLowestUsage();
 
-        List<BarberServiceInfoDTO> catalog = barberserviceService.getServicesList();
-
         model.addAttribute("currentUser", principal.getName());
         model.addAttribute("activeOnCatalogStats", activeOnCatalogStatsDTO);
         model.addAttribute("saleStats", salesStatsDTO);
         model.addAttribute("revenueStats", revenueStatsDTO);
         model.addAttribute("usageStats", usageStatsDTO);
-
-        model.addAttribute("catalog", catalog);
 
         model.addAttribute("liveSearch", barberserviceService.liveSearch(
                         serviceName,
@@ -90,6 +87,14 @@ public class WebBarberserviceController {
         model.addAttribute("dto", dto);
         model.addAttribute("categories", BarberServiceCategory.values());
 
-        return REDIRECT_BARBERSERVICE_UPDATE;
+        return BARBERSERVICE_UPDATE;
+    }
+
+    @PostMapping("/{barberserviceID}/update")
+    public String updateBarberService(@PathVariable Long barberserviceID, @ModelAttribute BarberServiceUpdateDTO dto) {
+
+        barberserviceService.updateService(barberserviceID, dto);
+
+        return redirectToUpdate(REDIRECT_BARBERSERVICES, barberserviceID);
     }
 }

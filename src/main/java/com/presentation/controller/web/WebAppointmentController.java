@@ -1,6 +1,7 @@
 package com.presentation.controller.web;
 
 import com.dto.appointment.AppointmentInfoDTO;
+import com.dto.appointment.AppointmentUpdateDTO;
 import com.dto.stats.AppointmentCanceledStatsDTO;
 import com.dto.stats.AppointmentMonthlyComparisonDTO;
 import com.dto.stats.AppointmentTodayStatsDTO;
@@ -18,8 +19,9 @@ import java.time.LocalDate;
 import java.util.List;
 
 import static com.presentation.constants.HtmlConstants.Paths.APPOINTMENTS;
+import static com.presentation.constants.HtmlConstants.Paths.APPOINTMENT_UPDATE;
 import static com.presentation.constants.HtmlConstants.Redirects.REDIRECT_APPOINTMENTS;
-import static com.presentation.constants.HtmlConstants.Redirects.REDIRECT_APPOINTMENT_UPDATE;
+import static com.presentation.constants.HtmlConstants.Redirects.redirectToUpdate;
 
 @Controller
 @RequiredArgsConstructor
@@ -94,6 +96,14 @@ public class WebAppointmentController {
         model.addAttribute("employees", service.getEmployeesFromServiceInstance());
         model.addAttribute("statuses", AppointmentStatus.values());
 
-        return REDIRECT_APPOINTMENT_UPDATE;
+        return APPOINTMENT_UPDATE;
+    }
+
+    @PostMapping("/{appointmentID}/update")
+    public String updateAppointment(@PathVariable Long appointmentID, @ModelAttribute AppointmentUpdateDTO dto) {
+
+        service.updateAppointment(appointmentID, dto);
+
+        return redirectToUpdate(REDIRECT_APPOINTMENTS, appointmentID);
     }
 }
