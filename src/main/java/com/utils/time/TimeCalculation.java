@@ -1,7 +1,5 @@
 package com.utils.time;
 
-import lombok.Setter;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -12,11 +10,21 @@ public class TimeCalculation {
     public static final LocalTime FIRST_SECOND_OF_DAY = LocalTime.MIN;
     public static final LocalTime LAST_SECOND_OF_DAY = LocalTime.MAX;
 
-    @Setter
     private static Supplier<LocalDateTime> datetimeProvider = LocalDateTime::now;
 
-    @Setter
     private static Supplier<LocalDate> dateProvider = LocalDate::now;
+
+    @SuppressWarnings("ALL")
+    public static void setDateProvider(Supplier<LocalDate> supplier) {
+
+        dateProvider = supplier;
+    }
+
+    @SuppressWarnings("ALL")
+    public static void setDatetimeProvider(Supplier<LocalDateTime> supplier) {
+
+        datetimeProvider = supplier;
+    }
 
     public static LocalDate getCurrentDate() {
 
