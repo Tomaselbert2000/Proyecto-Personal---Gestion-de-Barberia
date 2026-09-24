@@ -16,11 +16,13 @@ public final class HtmlConstants {
         public static final String BARBERSERVICES = "barberservices";
         public static final String CLIENTS = "clients";
         public static final String EMPLOYEES = "employees";
+        public static final String PAYMENTS = "payments";
 
         public static final String APPOINTMENT_UPDATE = "appointment-update";
         public static final String CLIENT_UPDATE = "client-update";
         public static final String BARBERSERVICE_UPDATE = "barber-service-update";
         public static final String EMPLOYEE_UPDATE = "employee-update";
+        public static final String PAYMENT_UPDATE = "payment-update";
     }
 
     public static final class Redirects {
@@ -30,6 +32,7 @@ public final class HtmlConstants {
         public static final String REDIRECT_BARBERSERVICES = REDIRECT + BARBERSERVICES;
         public static final String REDIRECT_CLIENTS = REDIRECT + CLIENTS;
         public static final String REDIRECT_EMPLOYEES = REDIRECT + EMPLOYEES;
+        public static final String REDIRECT_PAYMENTS = REDIRECT + PAYMENTS;
 
         public static String redirectToUpdate(String baseRedirect, Long id) {
 

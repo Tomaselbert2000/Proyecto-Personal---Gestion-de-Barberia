@@ -47,6 +47,10 @@ public class WebEmployeeController {
 
         model.addAttribute("liveSearch", employeeService.liveSearch(employeeName, status, hireDateRange));
 
+        model.addAttribute("employeeName", employeeName);
+        model.addAttribute("status", status);
+        model.addAttribute("hireDateRange", hireDateRange);
+
         return EMPLOYEES;
     }
 

@@ -26,5 +26,7 @@ public interface PaymentMethodService {
 
     void togglePaymentMethodStatus(String name);
 
+    void togglePaymentMethodStatus(Long id);
+
     List<String> getNames();
 }

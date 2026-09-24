@@ -26,7 +26,7 @@ import static com.presentation.constants.HtmlConstants.Redirects.redirectToUpdat
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/appointments")
-public class WebAppointmentController {
+public class   WebAppointmentController {
 
     private final AppointmentService service;
 

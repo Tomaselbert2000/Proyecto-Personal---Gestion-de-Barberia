@@ -48,6 +48,11 @@ public class WebClientController {
 
         model.addAttribute("liveSearch", service.liveSearch(name, registrationDateRange, phoneFilter, notesFilter));
 
+        model.addAttribute("name", name);
+        model.addAttribute("notesFilter", notesFilter);
+        model.addAttribute("registrationDateRange", registrationDateRange);
+        model.addAttribute("phoneFilter", phoneFilter);
+
         return CLIENTS;
     }
 

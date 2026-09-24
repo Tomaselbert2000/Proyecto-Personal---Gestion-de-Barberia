@@ -25,7 +25,7 @@ import static com.presentation.constants.StringResource.DisplayString.PAYMENT_ME
 @RequiredArgsConstructor
 public class PaymentMethodServiceImpl implements PaymentMethodService {
 
-    private final PaymentMethodRepository paymentMethodRepository;
+    private final PaymentMethodRepository repository;
     private final PaymentMethodValidator validator;
     private final PaymentMethodMapper mapper;
 
@@ -39,7 +39,7 @@ public class PaymentMethodServiceImpl implements PaymentMethodService {
 
         PaymentMethod mappedEntity = mapper.mapPaymentMethodCreationDtoToEntity(dto);
 
-        paymentMethodRepository.save(mappedEntity);
+        repository.save(mappedEntity);
     }
 
     @Override
@@ -48,7 +48,7 @@ public class PaymentMethodServiceImpl implements PaymentMethodService {
 
         PaymentMethod paymentMethodOnDB = loadPaymentMethodByID(id);
 
-        paymentMethodRepository.delete(paymentMethodOnDB);
+        repository.delete(paymentMethodOnDB);
     }
 
     @Override
@@ -62,7 +62,7 @@ public class PaymentMethodServiceImpl implements PaymentMethodService {
     @Override
     public List<PaymentMethodInfoDTO> getPaymentMethodsList() {
 
-        List<PaymentMethod> paymentMethodListOnDB = paymentMethodRepository.findAll();
+        List<PaymentMethod> paymentMethodListOnDB = repository.findAll();
 
         return mapper.mapPaymentMethodToInfoDTO(paymentMethodListOnDB);
     }
@@ -77,22 +77,26 @@ public class PaymentMethodServiceImpl implements PaymentMethodService {
 
         checkNameAvailability(dto.getNewName(), id);
 
-        paymentMethodRepository.save(mapper.mapPaymentMethodUpdateDtoToEntity(paymentMethodOnDB, dto));
+        repository.save(mapper.mapPaymentMethodUpdateDtoToEntity(paymentMethodOnDB, dto));
     }
 
     @Override
     public List<PaymentMethodInfoDTO> liveSearch(String name, PaymentMethodStatus status, PaymentMethodModifierType modifierType) {
 
-        Boolean isActiveValueToSearch = null;
+        Boolean isActiveValueToSearch;
 
         switch (status) {
+
+            case TODOS -> isActiveValueToSearch = null;
+
+            case null -> isActiveValueToSearch = null;
 
             case INACTIVO -> isActiveValueToSearch = false;
 
             case ACTIVO -> isActiveValueToSearch = true;
         }
 
-        List<PaymentMethod> filteredList = paymentMethodRepository.paymentMethodLiveSearch(name, isActiveValueToSearch, modifierType);
+        List<PaymentMethod> filteredList = repository.paymentMethodLiveSearch(name, isActiveValueToSearch, modifierType);
 
         return mapper.mapPaymentMethodToInfoDTO(filteredList);
     }
@@ -100,17 +104,29 @@ public class PaymentMethodServiceImpl implements PaymentMethodService {
     @Override
     public Long getPaymentMethodCountMarkedAsActive() {
 
-        return paymentMethodRepository.countByIsActiveTrue();
+        return repository.countByIsActiveTrue();
     }
 
     @Override
     @Transactional
     public void togglePaymentMethodStatus(String name) {
 
-        PaymentMethod existingPaymentMethod = loadPaymentMethodByName(name);
+        PaymentMethod paymentMethod = loadPaymentMethodByName(name);
 
-        existingPaymentMethod.setIsActive(!existingPaymentMethod.getIsActive());
-        paymentMethodRepository.save(existingPaymentMethod);
+        paymentMethod.setIsActive(!paymentMethod.getIsActive());
+
+        repository.save(paymentMethod);
+    }
+
+    @Override
+    @Transactional
+    public void togglePaymentMethodStatus(Long id) {
+
+        PaymentMethod paymentMethod = loadPaymentMethodByID(id);
+
+        paymentMethod.setIsActive(!paymentMethod.getIsActive());
+
+        repository.save(paymentMethod);
     }
 
     @Override
@@ -120,7 +136,7 @@ public class PaymentMethodServiceImpl implements PaymentMethodService {
 
         names.addFirst(PAYMENT_METHOD_COMBOBOX_NO_FILTER);
 
-        for (PaymentMethod paymentMethod : paymentMethodRepository.findAll()) {
+        for (PaymentMethod paymentMethod : repository.findAll()) {
 
             names.add(paymentMethod.getName());
         }
@@ -130,22 +146,22 @@ public class PaymentMethodServiceImpl implements PaymentMethodService {
 
     private PaymentMethod loadPaymentMethodByName(String name) {
 
-        return paymentMethodRepository.findPaymentMethodByName(name).orElseThrow(PaymentMethodNotFoundException::new);
+        return repository.findPaymentMethodByName(name).orElseThrow(PaymentMethodNotFoundException::new);
     }
 
     private PaymentMethod loadPaymentMethodByID(Long paymentMethodID) {
 
-        return paymentMethodRepository.findById(paymentMethodID).orElseThrow(PaymentMethodNotFoundException::new);
+        return repository.findById(paymentMethodID).orElseThrow(PaymentMethodNotFoundException::new);
     }
 
     private void checkNameAvailability(String name) {
 
-        if (paymentMethodRepository.existsByName(name)) throw new DuplicatedPaymentMethodNameException();
+        if (repository.existsByName(name)) throw new DuplicatedPaymentMethodNameException();
     }
 
     private void checkNameAvailability(String newName, Long paymentMethodID) {
 
-        if (paymentMethodRepository.existsByNameAndPaymentMethodIDNot(newName, paymentMethodID))
+        if (repository.existsByNameAndPaymentMethodIDNot(newName, paymentMethodID))
             throw new DuplicatedPaymentMethodNameException();
     }
 }

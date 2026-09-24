@@ -102,7 +102,7 @@ public class PaymentMethodViewController extends BaseCatalogViewController<Payme
         PaymentMethodStatus status = nullIfTodos(statusFilter.getValue(), PaymentMethodStatus.TODOS);
         PaymentMethodModifierType modifierType = nullIfTodos(modifierTypeFilter.getValue(), PaymentMethodModifierType.TODOS);
 
-        return paymentMethodService.paymentMethodLiveSearch(paymentName, status, modifierType);
+        return paymentMethodService.liveSearch(paymentName, status, modifierType);
     }
 
     @Override
