@@ -362,6 +362,67 @@ public class ProductServiceImplTest extends BaseServiceTest<Product, ProductRepo
         assertThrows(ProductNotFoundException.class, () -> deleteProduct(productService, product));
     }
 
+    @Test
+    @DisplayName("Dado un producto existente, deberá poder sumar stock exitosamente")
+    void givenExistingProductWhenAddingStockThenDoesNotThrowAnything() {
+
+        Integer stockBeforeUpdate = product.getCurrentStockLevel();
+        Integer quantity = 15;
+        Integer expectedStockAfterUpdate = stockBeforeUpdate + quantity;
+
+        mockExistingProduct(productRepository, product);
+
+        productService.updateProductStock(product.getProductID(), quantity, ProductServiceImpl.StockUpdateOperation.ADD);
+
+        assertEquals(product.getCurrentStockLevel(), expectedStockAfterUpdate);
+    }
+
+    @Test
+    @DisplayName("Dado un producto existente, deberá poder restar stock exitosamente")
+    void givenExistingProductWhenReducingStockThenDoesNotThrowAnything() {
+
+        Integer stockBeforeUpdate = product.getCurrentStockLevel();
+        Integer quantity = 15;
+        Integer expectedStockAfterUpdate = stockBeforeUpdate - quantity;
+
+        mockExistingProduct(productRepository, product);
+
+        productService.updateProductStock(product.getProductID(), quantity, ProductServiceImpl.StockUpdateOperation.REMOVE);
+
+        assertEquals(product.getCurrentStockLevel(), expectedStockAfterUpdate);
+    }
+
+    @Test
+    @DisplayName("Dado un producto existente, si se intenta sumar stock con un valor negativo, arrojará IllegalArgumentException")
+    void givenExistingProductWhenAddingStockWithNegativeValueThenThrowsIllegalArgumentException() {
+
+        Integer quantity = -15;
+
+        mockExistingProduct(productRepository, product);
+
+        assertThrows(IllegalArgumentException.class, () -> productService.updateProductStock(product.getProductID(), quantity, ProductServiceImpl.StockUpdateOperation.ADD));
+    }
+
+    @Test
+    @DisplayName("Dado un producto existente, si se intenta actualizar el stock con un valor negativo, arrojará IllegalArgumentException")
+    void givenExistingProductWhenUpdatingStockWithNegativeValueThenThrowsIllegalArgumentException() {
+
+        Integer quantity = -15;
+
+        mockExistingProduct(productRepository, product);
+
+        assertThrows(IllegalArgumentException.class, () -> productService.updateProductStock(product.getProductID(), quantity, ProductServiceImpl.StockUpdateOperation.REMOVE));
+    }
+
+    @Test
+    @DisplayName("Dado un producto existente, si se intenta actualizar el stock con un valor NULL, arrojará NullPointerException")
+    void givenExistingProductWhenUpdatingStockWithNullValueThenThrowsNullPointerException() {
+
+        mockExistingProduct(productRepository, product);
+
+        assertThrows(NullPointerException.class, () -> productService.updateProductStock(product.getProductID(), null, ProductServiceImpl.StockUpdateOperation.REMOVE));
+    }
+
     @Override
     protected ProductRepository getPrimaryRepository() {
 
