@@ -3,6 +3,7 @@ package com.model;
 import com.enums.ProductCategory;
 import com.enums.ProductPresentationUnit;
 import com.enums.StockStatus;
+import com.service.implementation.ProductServiceImpl;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -101,6 +102,15 @@ public class Product {
     private Double profitResult(Double cost, Double price) {
 
         return ((price - cost) / cost) * 100;
+    }
+
+    public void updateStock(Integer quantity, ProductServiceImpl.StockUpdateOperation operation) {
+
+        switch (operation) {
+
+            case ADD -> currentStockLevel += quantity;
+            case REMOVE -> currentStockLevel -= quantity;
+        }
     }
 
     protected static final class ProductStockLevelConstants {
