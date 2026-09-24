@@ -1,50 +1,50 @@
 package com.utils.time;
 
+import lombok.Setter;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.function.Supplier;
 
 public class TimeCalculation {
 
     public static final LocalTime FIRST_SECOND_OF_DAY = LocalTime.MIN;
     public static final LocalTime LAST_SECOND_OF_DAY = LocalTime.MAX;
 
+    @Setter
+    private static Supplier<LocalDateTime> datetimeProvider = LocalDateTime::now;
+
+    @Setter
+    private static Supplier<LocalDate> dateProvider = LocalDate::now;
+
     public static LocalDate getCurrentDate() {
 
-        return LocalDate.now();
+        return dateProvider.get();
     }
 
     public static LocalDateTime getCurrentDateTime() {
 
-        return LocalDateTime.now();
+        return datetimeProvider.get();
     }
 
     public static LocalDateTime getStartOfToday() {
 
-        LocalDate today = getCurrentDate();
-
-        return LocalDateTime.of(today, FIRST_SECOND_OF_DAY);
+        return LocalDateTime.of(dateProvider.get(), FIRST_SECOND_OF_DAY);
     }
 
     public static LocalDateTime getEndOfToday() {
 
-        LocalDate today = getCurrentDate();
-
-        return LocalDateTime.of(today, LAST_SECOND_OF_DAY);
+        return LocalDateTime.of(dateProvider.get(), LAST_SECOND_OF_DAY);
     }
 
     public static LocalDate getStartOfCurrentMonth() {
 
-        LocalDate today = getCurrentDate();
-
-        return today.withDayOfMonth(1);
+        return dateProvider.get().withDayOfMonth(1);
     }
 
     public static LocalDate getEndOfCurrentMonth() {
 
-        LocalDate today = getCurrentDate();
-
-        return today.withDayOfMonth(today.lengthOfMonth());
+        return dateProvider.get().withDayOfMonth(dateProvider.get().lengthOfMonth());
     }
-
 }

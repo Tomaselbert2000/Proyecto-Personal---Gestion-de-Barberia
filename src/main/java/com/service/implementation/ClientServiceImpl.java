@@ -20,13 +20,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.Clock;
 import java.time.LocalDate;
 import java.util.List;
 
 import static com.dto.stats.EmptyStatDTOFactory.*;
-import static com.utils.time.TimeCalculation.getEndOfCurrentMonth;
-import static com.utils.time.TimeCalculation.getStartOfCurrentMonth;
+import static com.utils.time.TimeCalculation.*;
 
 @Service
 @RequiredArgsConstructor
@@ -35,8 +33,6 @@ public class ClientServiceImpl implements ClientService {
     private final ClientMapper mapper;
 
     private final ClientRepository clientRepository;
-
-    private final Clock clock;
 
     private final ClientValidator validator;
 
@@ -52,7 +48,7 @@ public class ClientServiceImpl implements ClientService {
 
         checkPhoneNumberListForCreation(dto.getPhoneNumbersList());
 
-        LocalDate registrationDate = LocalDate.now(clock);
+        LocalDate registrationDate = getCurrentDate();
 
         clientRepository.save(mapper.mapClientCreationDTOtoEntity(dto, registrationDate));
     }
