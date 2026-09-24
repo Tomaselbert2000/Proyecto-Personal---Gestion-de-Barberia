@@ -6,6 +6,7 @@ import com.dto.product.ProductUpdateDTO;
 import com.dto.stats.*;
 import com.enums.ProductCategory;
 import com.enums.StockStatus;
+import com.service.implementation.ProductServiceImpl;
 
 import java.util.List;
 
@@ -34,4 +35,8 @@ public interface ProductService {
     InventoryAlertStatsDTO getInventoryAlertStat();
 
     List<ProductInfoDTO> searchByName(String productName);
+
+    ProductInfoDTO getProductInfo(Long id);
+
+    void updateProductStock(Long id, Integer quantity, ProductServiceImpl.StockUpdateOperation operation);
 }

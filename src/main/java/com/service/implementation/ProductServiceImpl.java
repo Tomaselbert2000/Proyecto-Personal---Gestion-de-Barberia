@@ -189,6 +189,35 @@ public class ProductServiceImpl implements ProductService {
         return List.of();
     }
 
+    @Override
+    public ProductInfoDTO getProductInfo(Long id) {
+
+        Product product = loadProduct(id);
+
+        return mapper.mapProductToInfoDTO(product);
+    }
+
+    @Override
+    @Transactional
+    public void updateProductStock(Long id, Integer quantity, StockUpdateOperation operation) {
+
+        Product product = loadProduct(id);
+
+        if (quantity != null) {
+
+            if (quantity < 0)
+                throw new IllegalArgumentException("No es posible ingresar valores negativos en operaciones de stock");
+
+            product.updateStock(quantity, operation);
+
+            productRepository.save(product);
+
+        } else {
+
+            throw new NullPointerException("El valor ingresado como cantidad es NULL");
+        }
+    }
+
     private void checkNameAvailability(String name) {
 
         if (productRepository.existsByName(name)) throw new DuplicatedProductNameException();
@@ -210,5 +239,11 @@ public class ProductServiceImpl implements ProductService {
     private Product loadProduct(Long productID) {
 
         return productRepository.findById(productID).orElseThrow(ProductNotFoundException::new);
+    }
+
+    public enum StockUpdateOperation {
+
+        ADD,
+        REMOVE
     }
 }
