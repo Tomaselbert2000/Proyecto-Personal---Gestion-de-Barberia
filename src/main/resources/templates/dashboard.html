@@ -464,10 +464,18 @@
                         Sin actividad reciente
                     </div>
                     <md-list th:unless="${#lists.isEmpty(recentActivity)}">
-                        <md-list-item th:each="activity : ${recentActivity}">
-                            <md-icon slot="start"
-                                     th:text="${activity.eventType != null ? activity.eventType.name().toLowerCase() : 'history'}">history
-                            </md-icon>
+                        <md-list-item th:each="activity : ${recentActivity}"
+                                      th:switch="${activity.eventType != null ? activity.eventType.name() : 'HISTORY'}">
+                            <md-icon slot="start" th:case="'NUEVO_CLIENTE'">person_add</md-icon>
+                            <md-icon slot="start" th:case="'NUEVO_EMPLEADO'">badge</md-icon>
+                            <md-icon slot="start" th:case="'NUEVO_PRODUCTO'">inventory_2</md-icon>
+                            <md-icon slot="start" th:case="'NUEVO_TURNO'">calendar_today</md-icon>
+                            <md-icon slot="start" th:case="'TURNO_FINALIZADO'">done_all</md-icon>
+                            <md-icon slot="start" th:case="'TURNO_CANCELADO'">person_cancel</md-icon>
+                            <md-icon slot="start" th:case="'ALERTA_STOCK_BAJO'">warning</md-icon>
+                            <md-icon slot="start" th:case="'EMPLEADO_INACTIVO'">enterprise_off</md-icon>
+                            <md-icon slot="start" th:case="'EMPLEADO_DESVINCULADO'">person_remove</md-icon>
+                            <md-icon slot="start" th:case="*">history</md-icon>
                             <span slot="headline" th:text="${activity.text}">Actividad</span>
                             <span slot="supporting-text"
                                   th:text="${activity.timestamp != null ? #temporals.format(activity.timestamp, 'dd/MM/yyyy HH:mm') : ''}">00/00/0000 00:00
