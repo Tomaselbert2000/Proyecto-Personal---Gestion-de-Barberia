@@ -36,8 +36,8 @@ public class WebEmployeeController {
 
         model.addAttribute("currentUser", principal.getName());
 
-        model.addAttribute("statuses", EmployeeStatus.values());
-        model.addAttribute("hireDateRanges", HireDateRange.values());
+        model.addAttribute("employeeStatuses", EmployeeStatus.values());
+        model.addAttribute("hireDateRangeValues", HireDateRange.values());
 
         model.addAttribute("activeEmployees", employeeService.getActiveEmployees());
         model.addAttribute("totalEmployees", employeeService.getEmployeeCount());

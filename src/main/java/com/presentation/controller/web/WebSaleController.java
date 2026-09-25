@@ -38,8 +38,8 @@ public class WebSaleController {
 
         model.addAttribute("currentUser", principal.getName());
         model.addAttribute("compositionFilters", SaleCompositionFilter.values());
-        model.addAttribute("payments", paymentMethodService.getNames());
-        model.addAttribute("employees", employeeService.getNames());
+        model.addAttribute("paymentNames", paymentMethodService.getNames());
+        model.addAttribute("employeeNames", employeeService.getNames());
 
         model.addAttribute("minTotal", minTotal);
         model.addAttribute("maxTotal", maxTotal);

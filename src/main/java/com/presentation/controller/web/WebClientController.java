@@ -42,9 +42,9 @@ public class WebClientController {
         model.addAttribute("notesStats", service.getClientNotesStats());
         model.addAttribute("registrationTrendStats", service.getClientRegistrationTrendStats());
 
-        model.addAttribute("phoneFilter", RegisteredPhoneFilter.values());
-        model.addAttribute("notesFilter", ClientNotesFilter.values());
-        model.addAttribute("registrationTrendFilter", RegistrationDateRange.values());
+        model.addAttribute("phoneFilterValues", RegisteredPhoneFilter.values());
+        model.addAttribute("notesFilterValues", ClientNotesFilter.values());
+        model.addAttribute("registrationTrendFilterValues", RegistrationDateRange.values());
 
         model.addAttribute("liveSearch", service.liveSearch(name, registrationDateRange, phoneFilter, notesFilter));
 

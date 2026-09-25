@@ -43,14 +43,11 @@ public class WebProductController {
         model.addAttribute("categories", ProductCategory.values());
         model.addAttribute("stockStatuses", StockStatus.values());
 
+        model.addAttribute("name", name);
         model.addAttribute("category", category);
         model.addAttribute("stockStatus", stockStatus);
 
         model.addAttribute("liveSearch", service.liveSearch(name, category, stockStatus));
-
-        model.addAttribute("name", name);
-        model.addAttribute("category", category);
-        model.addAttribute("stockStatus", stockStatus);
 
         return PRODUCTS;
     }

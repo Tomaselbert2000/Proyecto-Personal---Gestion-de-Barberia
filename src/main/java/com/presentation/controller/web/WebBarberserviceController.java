@@ -65,8 +65,8 @@ public class WebBarberserviceController {
                 )
         );
 
-        model.addAttribute("priceRange", PriceRanges.values());
-        model.addAttribute("category", BarberServiceCategory.values());
+        model.addAttribute("priceRangeValues", PriceRanges.values());
+        model.addAttribute("categories", BarberServiceCategory.values());
 
         model.addAttribute("serviceName", serviceName);
         model.addAttribute("category", category);
