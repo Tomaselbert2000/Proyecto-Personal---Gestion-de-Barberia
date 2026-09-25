@@ -351,6 +351,26 @@ public class SaleServiceImpl implements SaleService {
         return mapper.mapSaleToInfoDTO(sales);
     }
 
+    @Override
+    @Transactional 
+    public void cancelSale(Long id) {
+        
+        Sale sale = loadSale(id);
+
+        restoreStockFromSaleItemList(sale);
+
+        sale.setCanceled(true);
+
+        saleRepository.save(sale);
+    }
+
+    private Sale loadSale(Long id){
+
+        if(id == null) return null;
+
+        return saleRepository.findById(id).orElseThrow(SaleNotFoundException::new );
+    }
+
     private Client loadClient(Long clientID) {
 
         return clientRepository.findById(clientID).orElseThrow(ClientNotFoundException::new);

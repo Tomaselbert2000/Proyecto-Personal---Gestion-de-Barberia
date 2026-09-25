@@ -49,6 +49,8 @@ public class Sale {
     @Enumerated(EnumType.STRING)
     private SaleCompositionFilter saleComposition;
 
+    private Boolean canceled;
+
     @PrePersist
     private void setPrePersistInformation() {
 
@@ -59,5 +61,7 @@ public class Sale {
         if (barberService == null && !items.isEmpty()) this.saleComposition = SaleCompositionFilter.SOLO_PRODUCTOS;
 
         if(dateAndTime == null) this.dateAndTime = LocalDateTime.now();
+
+        canceled = false;
     }
 }

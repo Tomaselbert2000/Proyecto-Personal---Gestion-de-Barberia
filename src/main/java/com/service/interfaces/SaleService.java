@@ -51,4 +51,6 @@ public interface SaleService {
             String employeeSelected,
             SaleCompositionFilter saleComposition
     );
+
+    void cancelSale(Long id);
 }
