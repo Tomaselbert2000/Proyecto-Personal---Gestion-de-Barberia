@@ -27,6 +27,7 @@ public final class HtmlConstants {
         public static final String PRODUCT_UPDATE = "product-update";
         public static final String SALES = "sales";
         public static final String SALE_DETAIL = "sale-detail";
+        public static final String SETTINGS = "settings";
 
     }
 
@@ -40,6 +41,7 @@ public final class HtmlConstants {
         public static final String REDIRECT_PAYMENTS = REDIRECT + PAYMENTS;
         public static final String REDIRECT_PRODUCTS = REDIRECT + PRODUCTS;
         public static final String REDIRECT_SALES = REDIRECT + SALES;
+        public static final String REDIRECT_SETTINGS = REDIRECT + SETTINGS;
 
         public static String redirectToUpdate(String baseRedirect, Long id) {
 
