@@ -349,7 +349,7 @@
                 <md-icon slot="start">settings</md-icon>
                 <span slot="headline">Configuración</span>
             </md-list-item>
-            <md-list-item type="link" href="/logout">
+            <md-list-item id="logoutItem">
                 <md-icon slot="start">logout</md-icon>
                 <span slot="headline">Cerrar Sesión</span>
             </md-list-item>
@@ -420,6 +420,19 @@
     </main>
 </div>
 
+<md-dialog id="logoutDialog">
+    <div slot="headline" class="md-typescale-headline-small">Cerrar sesión</div>
+    <div slot="content" class="md-typescale-body-medium">
+        ¿Está seguro que desea cerrar la sesión actual?
+        <form id="logoutForm" th:action="@{/logout}" method="post">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+        </form>
+    </div>
+    <div slot="actions">
+        <md-text-button id="logoutCancel">Cancelar</md-text-button>
+        <md-filled-button type="submit" form="logoutForm">Confirmar</md-filled-button>
+    </div>
+</md-dialog>
 <script>
     const drawer = document.getElementById('navDrawer');
     const scrim = document.getElementById('navScrim');
@@ -464,6 +477,12 @@
             }
         });
     }
+    const logoutItem = document.getElementById('logoutItem');
+    const logoutDialog = document.getElementById('logoutDialog');
+    const logoutCancel = document.getElementById('logoutCancel');
+
+    logoutItem.addEventListener('click', () => logoutDialog.show());
+    logoutCancel.addEventListener('click', () => logoutDialog.close());
 </script>
 </body>
 </html>
