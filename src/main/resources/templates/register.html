@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org" th:attr="data-theme=${@appPreferences.getTheme()}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -17,6 +17,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
           rel="stylesheet">
+    <link rel="stylesheet" href="/css/theme.css">
     <style>
         * {
             box-sizing: border-box
@@ -25,8 +26,8 @@
         body {
             margin: 0;
             font-family: Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: #fef7ff;
-            color: #1d1b20;
+            background: var(--md-sys-color-surface);
+            color: var(--md-sys-color-on-surface);
             -webkit-font-smoothing: antialiased
         }
 
@@ -63,11 +64,11 @@
     </md-text-button>
     <header style="margin-top:24px">
         <h1 class="md-typescale-headline-small" style="margin:0">Crear cuenta</h1>
-        <p class="md-typescale-body-large" style="color:#49454f;margin:8px 0 0 0">Registra un nuevo usuario en el
+        <p class="md-typescale-body-large" style="color:var(--md-sys-color-on-surface-variant);margin:8px 0 0 0">Registra un nuevo usuario en el
             sistema</p>
     </header>
     <div th:if="${error}" th:text="${error}" class="md-typescale-body-large"
-         style="color:#b3261e;margin-top:16px"></div>
+         style="color:var(--md-sys-color-error);margin-top:16px"></div>
     <form th:object="${dto}" th:action="@{/register}" method="post" class="auth-form">
         <md-outlined-text-field label="Nombre de usuario" required type="text" name="username" id="username"
                                 th:field="*{username}" placeholder="Ingresá tu nombre de usuario">

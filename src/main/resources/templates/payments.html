@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org" th:attr="data-theme=${@appPreferences.getTheme()}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -15,6 +15,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
           rel="stylesheet">
+    <link rel="stylesheet" href="/css/theme.css">
     <style>
         * {
             box-sizing: border-box
@@ -23,8 +24,8 @@
         body {
             margin: 0;
             font-family: Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: #fef7ff;
-            color: #1d1b20;
+            background: var(--md-sys-color-surface);
+            color: var(--md-sys-color-on-surface);
             -webkit-font-smoothing: antialiased
         }
 
@@ -37,8 +38,8 @@
             gap: 4px;
             height: 64px;
             padding: 0 8px;
-            background: #f7f2fa;
-            border-bottom: 1px solid #cac4d0
+            background: var(--md-sys-color-surface-container-low);
+            border-bottom: 1px solid var(--md-sys-color-outline-variant)
         }
 
         .app-header-titles {
@@ -70,8 +71,8 @@
             display: flex;
             flex-direction: column;
             overflow-y: auto;
-            background: #f7f2fa;
-            border-right: 1px solid #cac4d0;
+            background: var(--md-sys-color-surface-container-low);
+            border-right: 1px solid var(--md-sys-color-outline-variant);
             transform: translateX(-105%);
             transition: transform 200ms ease
         }
@@ -151,13 +152,13 @@
             gap: 12px;
             padding: 20px;
             border-radius: 16px;
-            background: #f7f2fa;
+            background: var(--md-sys-color-surface-container-low);
             --md-elevation-level: 1
         }
 
         .surface.outlined {
-            background: #fef7ff;
-            border: 1px solid #cac4d0;
+            background: var(--md-sys-color-surface);
+            border: 1px solid var(--md-sys-color-outline-variant);
             --md-elevation-level: 0
         }
 
@@ -226,7 +227,7 @@
         .empty-state {
             padding: 32px;
             text-align: center;
-            color: #49454f
+            color: var(--md-sys-color-on-surface-variant)
         }
 
         .payment-list {
@@ -271,7 +272,7 @@
             align-items: center;
             gap: 4px;
             flex-wrap: wrap;
-            color: #49454f
+            color: var(--md-sys-color-on-surface-variant)
         }
 
         .payment-meta md-icon {
@@ -283,7 +284,7 @@
             display: flex;
             align-items: flex-start;
             gap: 4px;
-            color: #49454f;
+            color: var(--md-sys-color-on-surface-variant);
             margin: 4px 0 0 0;
             overflow-wrap: anywhere
         }
@@ -304,7 +305,7 @@
             gap: 4px;
             padding-top: 12px;
             margin-top: 12px;
-            border-top: 1px solid #cac4d0
+            border-top: 1px solid var(--md-sys-color-outline-variant)
         }
 
         .payment-actions.open {
@@ -337,13 +338,13 @@
         }
 
         .st-activo {
-            background: #d0f2e0;
-            color: #1e6b3c
+            background: var(--md-sys-color-positive-trend-container);
+            color: var(--md-sys-color-positive-trend)
         }
 
         .st-inactivo {
-            background: #f9dedc;
-            color: #b3261e
+            background: var(--md-sys-color-error-container);
+            color: var(--md-sys-color-error)
         }
 
         .mod-descuento {
@@ -357,8 +358,8 @@
         }
 
         .mod-ninguno {
-            background: #e6e0e9;
-            color: #49454f
+            background: var(--md-sys-color-surface-container-highest);
+            color: var(--md-sys-color-on-surface-variant)
         }
 
         @media (min-width: 600px) {
@@ -477,7 +478,7 @@
         <div class="main-inner">
             <div class="page-header">
                 <h1 class="md-typescale-headline-small" style="margin:0">Gestión de Medios de Pago</h1>
-                <p class="md-typescale-body-medium" style="margin:0;color:#49454f">Administra los medios de pago de tu
+                <p class="md-typescale-body-medium" style="margin:0;color:var(--md-sys-color-on-surface-variant)">Administra los medios de pago de tu
                     barbería</p>
             </div>
 
@@ -485,23 +486,23 @@
                 <div class="surface">
                     <md-elevation></md-elevation>
                     <div class="surface-row">
-                        <span class="md-typescale-body-medium" style="color:#49454f">Medio de Pago Más Usado</span>
-                        <md-icon aria-hidden="true" style="color:#625b71">thumb_up</md-icon>
+                        <span class="md-typescale-body-medium" style="color:var(--md-sys-color-on-surface-variant)">Medio de Pago Más Usado</span>
+                        <md-icon aria-hidden="true" style="color:var(--md-sys-color-secondary)">thumb_up</md-icon>
                     </div>
                     <span class="md-typescale-display-small"
                           th:text="${paymentUsageStats.amountOfSalesWhereIsUsed}">0</span>
                     <div class="stat-foot">
                         <span class="md-typescale-body-medium"
                               th:text="${paymentUsageStats.paymentMethodName}">Medio</span>
-                        <span class="md-typescale-body-small" style="color:#49454f">veces usado</span>
+                        <span class="md-typescale-body-small" style="color:var(--md-sys-color-on-surface-variant)">veces usado</span>
                     </div>
                 </div>
 
                 <div class="surface">
                     <md-elevation></md-elevation>
                     <div class="surface-row">
-                        <span class="md-typescale-body-medium" style="color:#49454f">Mayor Recaudación</span>
-                        <md-icon aria-hidden="true" style="color:#625b71">account_balance_wallet</md-icon>
+                        <span class="md-typescale-body-medium" style="color:var(--md-sys-color-on-surface-variant)">Mayor Recaudación</span>
+                        <md-icon aria-hidden="true" style="color:var(--md-sys-color-secondary)">account_balance_wallet</md-icon>
                     </div>
                     <span class="md-typescale-display-small"
                           th:text="'ARS $ ' + ${#numbers.formatDecimal(revenueStats.revenueAmount,1,2)}">ARS $ 0,00</span>
@@ -513,8 +514,8 @@
                 <div class="surface">
                     <md-elevation></md-elevation>
                     <div class="surface-row">
-                        <span class="md-typescale-body-medium" style="color:#49454f">Medios de Pago Activos</span>
-                        <md-icon aria-hidden="true" style="color:#625b71">check_circle</md-icon>
+                        <span class="md-typescale-body-medium" style="color:var(--md-sys-color-on-surface-variant)">Medios de Pago Activos</span>
+                        <md-icon aria-hidden="true" style="color:var(--md-sys-color-secondary)">check_circle</md-icon>
                     </div>
                     <span class="md-typescale-display-small" th:text="${activePaymentsStats}">0</span>
                     <div class="stat-foot">
@@ -525,8 +526,8 @@
                 <div class="surface">
                     <md-elevation></md-elevation>
                     <div class="surface-row">
-                        <span class="md-typescale-body-medium" style="color:#49454f">Balance de Modificadores</span>
-                        <md-icon aria-hidden="true" style="color:#625b71">percent</md-icon>
+                        <span class="md-typescale-body-medium" style="color:var(--md-sys-color-on-surface-variant)">Balance de Modificadores</span>
+                        <md-icon aria-hidden="true" style="color:var(--md-sys-color-secondary)">percent</md-icon>
                     </div>
                     <span class="md-typescale-display-small"
                           th:text="${modifierValueSumStats >= 0 ? '+' + ('ARS $ ' + #numbers.formatDecimal(modifierValueSumStats,1,2)) : '-' + ('ARS $ ' + #numbers.formatDecimal(modifierValueSumStats,1,2))}">+ARS $ 0,00</span>
@@ -593,7 +594,7 @@
             <section aria-label="Medios de pago registrados">
                 <div class="section-head">
                     <h2 class="md-typescale-title-large">Medios de Pago Registrados</h2>
-                    <span class="md-typescale-label-large" style="color:#49454f"
+                    <span class="md-typescale-label-large" style="color:var(--md-sys-color-on-surface-variant)"
                           th:text="${#lists.size(liveSearch)} + ' medios de pago'">0 medios de pago</span>
                 </div>
 
@@ -643,7 +644,7 @@
                             </md-text-button>
                             <form th:action="@{/payments/{id}/toggleStatus(id=${pm.id})}"
                                   method="post" th:if="${pm.isActive}">
-                                <md-text-button type="submit" style="--md-sys-color-primary:#b3261e">
+                                <md-text-button type="submit" style="--md-sys-color-primary:var(--md-sys-color-error)">
                                     <md-icon slot="icon">block</md-icon>
                                     Desactivar
                                 </md-text-button>
@@ -657,7 +658,7 @@
                             </form>
                             <form th:action="@{/payments/{id}/delete(id=${pm.id})}" method="post"
                                   onsubmit="return confirm('¿Eliminar este medio de pago?');">
-                                <md-text-button type="submit" style="--md-sys-color-primary:#b3261e">
+                                <md-text-button type="submit" style="--md-sys-color-primary:var(--md-sys-color-error)">
                                     <md-icon slot="icon">delete</md-icon>
                                     Eliminar
                                 </md-text-button>

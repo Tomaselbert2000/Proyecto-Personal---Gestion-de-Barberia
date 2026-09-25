@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org" th:attr="data-theme=${@appPreferences.getTheme()}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -15,6 +15,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
           rel="stylesheet">
+    <link rel="stylesheet" href="/css/theme.css">
     <style>
         * {
             box-sizing: border-box
@@ -23,8 +24,8 @@
         body {
             margin: 0;
             font-family: Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: #fef7ff;
-            color: #1d1b20;
+            background: var(--md-sys-color-surface);
+            color: var(--md-sys-color-on-surface);
             -webkit-font-smoothing: antialiased
         }
 
@@ -37,8 +38,8 @@
             gap: 4px;
             height: 64px;
             padding: 0 8px;
-            background: #f7f2fa;
-            border-bottom: 1px solid #cac4d0
+            background: var(--md-sys-color-surface-container-low);
+            border-bottom: 1px solid var(--md-sys-color-outline-variant)
         }
 
         .app-header-titles {
@@ -70,8 +71,8 @@
             display: flex;
             flex-direction: column;
             overflow-y: auto;
-            background: #f7f2fa;
-            border-right: 1px solid #cac4d0;
+            background: var(--md-sys-color-surface-container-low);
+            border-right: 1px solid var(--md-sys-color-outline-variant);
             transform: translateX(-105%);
             transition: transform 200ms ease
         }
@@ -155,13 +156,13 @@
             gap: 12px;
             padding: 20px;
             border-radius: 16px;
-            background: #f7f2fa;
+            background: var(--md-sys-color-surface-container-low);
             --md-elevation-level: 1
         }
 
         .surface.outlined {
-            background: #fef7ff;
-            border: 1px solid #cac4d0;
+            background: var(--md-sys-color-surface);
+            border: 1px solid var(--md-sys-color-outline-variant);
             --md-elevation-level: 0
         }
 
@@ -186,7 +187,7 @@
 
         .detail-datetime md-icon {
             font-size: 20px;
-            color: #625b71
+            color: var(--md-sys-color-secondary)
         }
 
         .summary-grid {
@@ -203,7 +204,7 @@
         }
 
         .summary-item .label {
-            color: #49454f
+            color: var(--md-sys-color-on-surface-variant)
         }
 
         .summary-item .value {
@@ -218,7 +219,7 @@
             flex-wrap: wrap;
             padding-top: 12px;
             margin-top: 4px;
-            border-top: 1px solid #e6e0e9
+            border-top: 1px solid var(--md-sys-color-surface-container-highest)
         }
 
         .summary-total-left {
@@ -229,7 +230,7 @@
         }
 
         .summary-total-left .label {
-            color: #49454f
+            color: var(--md-sys-color-on-surface-variant)
         }
 
         .receipt-list {
@@ -242,7 +243,7 @@
             align-items: center;
             gap: 16px;
             padding: 12px 0;
-            border-bottom: 1px solid #e6e0e9
+            border-bottom: 1px solid var(--md-sys-color-surface-container-highest)
         }
 
         .receipt-item:last-child {
@@ -259,7 +260,7 @@
             display: flex;
             align-items: center;
             gap: 24px;
-            color: #49454f
+            color: var(--md-sys-color-on-surface-variant)
         }
 
         .empty-receipt {
@@ -267,7 +268,7 @@
             align-items: center;
             gap: 8px;
             padding: 16px 0 8px;
-            color: #49454f
+            color: var(--md-sys-color-on-surface-variant)
         }
 
         .empty-receipt md-icon {
@@ -384,7 +385,7 @@
         <div class="main-inner">
             <div class="page-header">
                 <h1 class="md-typescale-headline-small" style="margin:0">Detalle de Venta</h1>
-                <p class="md-typescale-body-medium" style="margin:0;color:#49454f">Información y productos de la venta
+                <p class="md-typescale-body-medium" style="margin:0;color:var(--md-sys-color-on-surface-variant)">Información y productos de la venta
                     seleccionada</p>
             </div>
 
@@ -445,7 +446,7 @@
                 <div class="surface outlined">
                     <div class="section-head">
                         <h2 class="md-typescale-title-large" style="margin:0">Productos del Recibo</h2>
-                        <span class="md-typescale-label-large" style="color:#49454f"
+                        <span class="md-typescale-label-large" style="color:var(--md-sys-color-on-surface-variant)"
                               th:text="${dto.receiptItems != null ? #lists.size(dto.receiptItems) : 0} + ' productos'">0 productos</span>
                     </div>
                     <md-divider></md-divider>

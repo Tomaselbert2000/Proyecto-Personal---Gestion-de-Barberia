@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org" th:attr="data-theme=${@appPreferences.getTheme()}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -15,6 +15,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
           rel="stylesheet">
+    <link rel="stylesheet" href="/css/theme.css">
     <style>
         * {
             box-sizing: border-box
@@ -23,8 +24,8 @@
         body {
             margin: 0;
             font-family: Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: #fef7ff;
-            color: #1d1b20;
+            background: var(--md-sys-color-surface);
+            color: var(--md-sys-color-on-surface);
             -webkit-font-smoothing: antialiased
         }
 
@@ -37,8 +38,8 @@
             gap: 4px;
             height: 64px;
             padding: 0 8px;
-            background: #f7f2fa;
-            border-bottom: 1px solid #cac4d0
+            background: var(--md-sys-color-surface-container-low);
+            border-bottom: 1px solid var(--md-sys-color-outline-variant)
         }
 
         .app-header-titles {
@@ -70,8 +71,8 @@
             display: flex;
             flex-direction: column;
             overflow-y: auto;
-            background: #f7f2fa;
-            border-right: 1px solid #cac4d0;
+            background: var(--md-sys-color-surface-container-low);
+            border-right: 1px solid var(--md-sys-color-outline-variant);
             transform: translateX(-105%);
             transition: transform 200ms ease
         }
@@ -157,13 +158,13 @@
             gap: 12px;
             padding: 20px;
             border-radius: 16px;
-            background: #f7f2fa;
+            background: var(--md-sys-color-surface-container-low);
             --md-elevation-level: 1
         }
 
         .surface.outlined {
-            background: #fef7ff;
-            border: 1px solid #cac4d0;
+            background: var(--md-sys-color-surface);
+            border: 1px solid var(--md-sys-color-outline-variant);
             --md-elevation-level: 0
         }
 
@@ -223,7 +224,7 @@
         .empty-state {
             padding: 32px;
             text-align: center;
-            color: #49454f
+            color: var(--md-sys-color-on-surface-variant)
         }
 
         @media (min-width: 600px) {
@@ -332,36 +333,36 @@
         <div class="main-inner">
             <div class="page-header">
                 <h1 class="md-typescale-headline-small" style="margin:0">Dashboard</h1>
-                <p class="md-typescale-body-medium" style="margin:0;color:#49454f">Resumen del día y accesos directos</p>
+                <p class="md-typescale-body-medium" style="margin:0;color:var(--md-sys-color-on-surface-variant)">Resumen del día y accesos directos</p>
             </div>
 
             <section class="stats-grid" aria-label="Estadísticas del día">
                 <div class="surface">
                     <md-elevation></md-elevation>
                     <div class="surface-row">
-                        <span class="md-typescale-body-medium" style="color:#49454f">Clientes nuevos</span>
-                        <md-icon aria-hidden="true" style="color:#625b71">groups</md-icon>
+                        <span class="md-typescale-body-medium" style="color:var(--md-sys-color-on-surface-variant)">Clientes nuevos</span>
+                        <md-icon aria-hidden="true" style="color:var(--md-sys-color-secondary)">groups</md-icon>
                     </div>
                     <span class="md-typescale-display-small" th:text="${clientStats.newClientsThisMonth}">0</span>
                     <div class="stat-foot">
                         <span class="md-typescale-body-medium"
                               th:text="${#numbers.formatDecimal(clientStats.percentageVsLastMonth,1,1) + '%'}">0.0%</span>
-                        <span class="md-typescale-body-small" style="color:#49454f">vs mes anterior</span>
+                        <span class="md-typescale-body-small" style="color:var(--md-sys-color-on-surface-variant)">vs mes anterior</span>
                     </div>
                 </div>
 
                 <div class="surface">
                     <md-elevation></md-elevation>
                     <div class="surface-row">
-                        <span class="md-typescale-body-medium" style="color:#49454f">Ganancias hoy</span>
-                        <md-icon aria-hidden="true" style="color:#625b71">paid</md-icon>
+                        <span class="md-typescale-body-medium" style="color:var(--md-sys-color-on-surface-variant)">Ganancias hoy</span>
+                        <md-icon aria-hidden="true" style="color:var(--md-sys-color-secondary)">paid</md-icon>
                     </div>
                     <span class="md-typescale-display-small"
                           th:text="'$ ' + ${#numbers.formatDecimal(expectedIncomeStats.expectedIncomeSumForToday,1,2)}">$ 0.00</span>
                     <div class="stat-foot">
                         <span class="md-typescale-body-medium"
                               th:text="'Ticket prom: $ ' + ${#numbers.formatDecimal(expectedIncomeStats.averageTicket,1,2)}">Ticket prom: $ 0.00</span>
-                        <span class="md-typescale-body-small" style="color:#49454f"
+                        <span class="md-typescale-body-small" style="color:var(--md-sys-color-on-surface-variant)"
                               th:text="'· ' + ${expectedIncomeStats.appointmentsToday} + ' turnos'">· 0 turnos</span>
                     </div>
                 </div>
@@ -369,28 +370,28 @@
                 <div class="surface">
                     <md-elevation></md-elevation>
                     <div class="surface-row">
-                        <span class="md-typescale-body-medium" style="color:#49454f">Turnos para Hoy</span>
-                        <md-icon aria-hidden="true" style="color:#625b71">event</md-icon>
+                        <span class="md-typescale-body-medium" style="color:var(--md-sys-color-on-surface-variant)">Turnos para Hoy</span>
+                        <md-icon aria-hidden="true" style="color:var(--md-sys-color-secondary)">event</md-icon>
                     </div>
                     <span class="md-typescale-display-small" th:text="${appointmentStats.appointmentCount}">0</span>
                     <div class="stat-foot">
                         <span class="md-typescale-body-medium"
                               th:text="${appointmentStats.totalAmountAsFinished}">0</span>
-                        <span class="md-typescale-body-small" style="color:#49454f">completados</span>
+                        <span class="md-typescale-body-small" style="color:var(--md-sys-color-on-surface-variant)">completados</span>
                     </div>
                 </div>
 
                 <div class="surface">
                     <md-elevation></md-elevation>
                     <div class="surface-row">
-                        <span class="md-typescale-body-medium" style="color:#49454f">Productos en Stock</span>
-                        <md-icon aria-hidden="true" style="color:#625b71">inventory_2</md-icon>
+                        <span class="md-typescale-body-medium" style="color:var(--md-sys-color-on-surface-variant)">Productos en Stock</span>
+                        <md-icon aria-hidden="true" style="color:var(--md-sys-color-secondary)">inventory_2</md-icon>
                     </div>
                     <span class="md-typescale-display-small" th:text="${inventoryStats.lowStockProductsCount}">0</span>
                     <div class="stat-foot">
                         <span class="md-typescale-body-medium"
                               th:text="${inventoryStats.outOfStockProductsCount + ' sin stock'}">0 sin stock</span>
-                        <span class="md-typescale-body-small" style="color:#49454f">· stock bajo</span>
+                        <span class="md-typescale-body-small" style="color:var(--md-sys-color-on-surface-variant)">· stock bajo</span>
                     </div>
                 </div>
             </section>
@@ -402,9 +403,9 @@
                         <div class="quick-head">
                             <div class="quick-copy">
                                 <span class="md-typescale-title-medium">Gestión de Clientes</span>
-                                <span class="md-typescale-body-medium" style="color:#49454f">Administración de altas y padrón de clientes</span>
+                                <span class="md-typescale-body-medium" style="color:var(--md-sys-color-on-surface-variant)">Administración de altas y padrón de clientes</span>
                             </div>
-                            <md-icon aria-hidden="true" style="color:#625b71">person</md-icon>
+                            <md-icon aria-hidden="true" style="color:var(--md-sys-color-secondary)">person</md-icon>
                         </div>
                         <div class="btn-row">
                             <md-outlined-button href="/clients">Ver Clientes</md-outlined-button>
@@ -416,9 +417,9 @@
                         <div class="quick-head">
                             <div class="quick-copy">
                                 <span class="md-typescale-title-medium">Gestión de Empleados</span>
-                                <span class="md-typescale-body-medium" style="color:#49454f">Control de personal, horarios y comisiones</span>
+                                <span class="md-typescale-body-medium" style="color:var(--md-sys-color-on-surface-variant)">Control de personal, horarios y comisiones</span>
                             </div>
-                            <md-icon aria-hidden="true" style="color:#625b71">groups</md-icon>
+                            <md-icon aria-hidden="true" style="color:var(--md-sys-color-secondary)">groups</md-icon>
                         </div>
                         <div class="btn-row">
                             <md-outlined-button href="/employees">Ver Empleados</md-outlined-button>
@@ -430,9 +431,9 @@
                         <div class="quick-head">
                             <div class="quick-copy">
                                 <span class="md-typescale-title-medium">Gestión de Turnos</span>
-                                <span class="md-typescale-body-medium" style="color:#49454f">Agenda del día y reservas de la barbería</span>
+                                <span class="md-typescale-body-medium" style="color:var(--md-sys-color-on-surface-variant)">Agenda del día y reservas de la barbería</span>
                             </div>
-                            <md-icon aria-hidden="true" style="color:#625b71">calendar_month</md-icon>
+                            <md-icon aria-hidden="true" style="color:var(--md-sys-color-secondary)">calendar_month</md-icon>
                         </div>
                         <div class="btn-row">
                             <md-outlined-button href="/appointments">Ver Turnos</md-outlined-button>
@@ -444,9 +445,9 @@
                         <div class="quick-head">
                             <div class="quick-copy">
                                 <span class="md-typescale-title-medium">Stock de Productos</span>
-                                <span class="md-typescale-body-medium" style="color:#49454f">Control de inventario y reposición de insumos</span>
+                                <span class="md-typescale-body-medium" style="color:var(--md-sys-color-on-surface-variant)">Control de inventario y reposición de insumos</span>
                             </div>
-                            <md-icon aria-hidden="true" style="color:#625b71">inventory</md-icon>
+                            <md-icon aria-hidden="true" style="color:var(--md-sys-color-secondary)">inventory</md-icon>
                         </div>
                         <div class="btn-row">
                             <md-outlined-button href="/products">Ver Inventario</md-outlined-button>

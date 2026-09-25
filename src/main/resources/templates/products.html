@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org" th:attr="data-theme=${@appPreferences.getTheme()}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -15,6 +15,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
           rel="stylesheet">
+    <link rel="stylesheet" href="/css/theme.css">
     <style>
         * {
             box-sizing: border-box
@@ -23,8 +24,8 @@
         body {
             margin: 0;
             font-family: Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: #fef7ff;
-            color: #1d1b20;
+            background: var(--md-sys-color-surface);
+            color: var(--md-sys-color-on-surface);
             -webkit-font-smoothing: antialiased
         }
 
@@ -37,8 +38,8 @@
             gap: 4px;
             height: 64px;
             padding: 0 8px;
-            background: #f7f2fa;
-            border-bottom: 1px solid #cac4d0
+            background: var(--md-sys-color-surface-container-low);
+            border-bottom: 1px solid var(--md-sys-color-outline-variant)
         }
 
         .app-header-titles {
@@ -70,8 +71,8 @@
             display: flex;
             flex-direction: column;
             overflow-y: auto;
-            background: #f7f2fa;
-            border-right: 1px solid #cac4d0;
+            background: var(--md-sys-color-surface-container-low);
+            border-right: 1px solid var(--md-sys-color-outline-variant);
             transform: translateX(-105%);
             transition: transform 200ms ease
         }
@@ -151,13 +152,13 @@
             gap: 12px;
             padding: 20px;
             border-radius: 16px;
-            background: #f7f2fa;
+            background: var(--md-sys-color-surface-container-low);
             --md-elevation-level: 1
         }
 
         .surface.outlined {
-            background: #fef7ff;
-            border: 1px solid #cac4d0;
+            background: var(--md-sys-color-surface);
+            border: 1px solid var(--md-sys-color-outline-variant);
             --md-elevation-level: 0
         }
 
@@ -226,7 +227,7 @@
         .empty-state {
             padding: 32px;
             text-align: center;
-            color: #49454f
+            color: var(--md-sys-color-on-surface-variant)
         }
 
         .product-list {
@@ -252,12 +253,12 @@
             width: 56px;
             height: 56px;
             border-radius: 14px;
-            background: #f3edf7;
+            background: var(--md-sys-color-surface-container);
             display: flex;
             align-items: center;
             justify-content: center;
             overflow: hidden;
-            color: #625b71
+            color: var(--md-sys-color-secondary)
         }
 
         .product-thumb md-icon {
@@ -297,7 +298,7 @@
             align-items: center;
             gap: 4px;
             flex-wrap: wrap;
-            color: #49454f
+            color: var(--md-sys-color-on-surface-variant)
         }
 
         .product-meta md-icon {
@@ -316,7 +317,7 @@
             gap: 4px;
             padding-top: 12px;
             margin-top: 12px;
-            border-top: 1px solid #cac4d0
+            border-top: 1px solid var(--md-sys-color-outline-variant)
         }
 
         .product-actions.open {
@@ -347,8 +348,8 @@
         }
 
         .st-critico {
-            background: #f9dedc;
-            color: #b3261e
+            background: var(--md-sys-color-error-container);
+            color: var(--md-sys-color-error)
         }
 
         .st-bajo {
@@ -362,8 +363,8 @@
         }
 
         .st-suficiente {
-            background: #d0f2e0;
-            color: #1e6b3c
+            background: var(--md-sys-color-positive-trend-container);
+            color: var(--md-sys-color-positive-trend)
         }
 
         .st-excedido {
@@ -487,7 +488,7 @@
         <div class="main-inner">
             <div class="page-header">
                 <h1 class="md-typescale-headline-small" style="margin:0">Gestión de Productos</h1>
-                <p class="md-typescale-body-medium" style="margin:0;color:#49454f">Administra el stock de los productos
+                <p class="md-typescale-body-medium" style="margin:0;color:var(--md-sys-color-on-surface-variant)">Administra el stock de los productos
                     de tu barbería</p>
             </div>
 
@@ -495,8 +496,8 @@
                 <div class="surface">
                     <md-elevation></md-elevation>
                     <div class="surface-row">
-                        <span class="md-typescale-body-medium" style="color:#49454f">Productos Registrados</span>
-                        <md-icon aria-hidden="true" style="color:#625b71">category</md-icon>
+                        <span class="md-typescale-body-medium" style="color:var(--md-sys-color-on-surface-variant)">Productos Registrados</span>
+                        <md-icon aria-hidden="true" style="color:var(--md-sys-color-secondary)">category</md-icon>
                     </div>
                     <span class="md-typescale-display-small" th:text="${stockStats.productCount}">0</span>
                     <div class="stat-foot">
@@ -508,21 +509,21 @@
                 <div class="surface">
                     <md-elevation></md-elevation>
                     <div class="surface-row">
-                        <span class="md-typescale-body-medium" style="color:#49454f">Producto Más Vendido</span>
-                        <md-icon aria-hidden="true" style="color:#625b71">star</md-icon>
+                        <span class="md-typescale-body-medium" style="color:var(--md-sys-color-on-surface-variant)">Producto Más Vendido</span>
+                        <md-icon aria-hidden="true" style="color:var(--md-sys-color-secondary)">star</md-icon>
                     </div>
                     <span class="md-typescale-display-small" th:text="${mostSoldStats.unitsSold}">0</span>
                     <div class="stat-foot">
                         <span class="md-typescale-body-medium" th:text="${mostSoldStats.productName}">Producto</span>
-                        <span class="md-typescale-body-small" style="color:#49454f">unidades vendidas</span>
+                        <span class="md-typescale-body-small" style="color:var(--md-sys-color-on-surface-variant)">unidades vendidas</span>
                     </div>
                 </div>
 
                 <div class="surface">
                     <md-elevation></md-elevation>
                     <div class="surface-row">
-                        <span class="md-typescale-body-medium" style="color:#49454f">Mayor Recaudación</span>
-                        <md-icon aria-hidden="true" style="color:#625b71">account_balance_wallet</md-icon>
+                        <span class="md-typescale-body-medium" style="color:var(--md-sys-color-on-surface-variant)">Mayor Recaudación</span>
+                        <md-icon aria-hidden="true" style="color:var(--md-sys-color-secondary)">account_balance_wallet</md-icon>
                     </div>
                     <span class="md-typescale-display-small"
                           th:text="'ARS $ ' + ${#numbers.formatDecimal(highestRevenueStats.revenue,1,2)}">ARS $ 0,00</span>
@@ -534,8 +535,8 @@
                 <div class="surface">
                     <md-elevation></md-elevation>
                     <div class="surface-row">
-                        <span class="md-typescale-body-medium" style="color:#49454f">Valor de Stock</span>
-                        <md-icon aria-hidden="true" style="color:#625b71">savings</md-icon>
+                        <span class="md-typescale-body-medium" style="color:var(--md-sys-color-on-surface-variant)">Valor de Stock</span>
+                        <md-icon aria-hidden="true" style="color:var(--md-sys-color-secondary)">savings</md-icon>
                     </div>
                     <span class="md-typescale-display-small"
                           th:text="${stockValueStats.totalStockValue != null ? ('ARS $ ' + #numbers.formatDecimal(stockValueStats.totalStockValue,1,2)) : 'ARS $ 0,00'}">ARS $ 0,00</span>
@@ -548,8 +549,8 @@
                 <div class="surface">
                     <md-elevation></md-elevation>
                     <div class="surface-row">
-                        <span class="md-typescale-body-medium" style="color:#49454f">Alertas de Inventario</span>
-                        <md-icon aria-hidden="true" style="color:#625b71">warning</md-icon>
+                        <span class="md-typescale-body-medium" style="color:var(--md-sys-color-on-surface-variant)">Alertas de Inventario</span>
+                        <md-icon aria-hidden="true" style="color:var(--md-sys-color-secondary)">warning</md-icon>
                     </div>
                     <span class="md-typescale-display-small" th:text="${inventoryAlertStats.lowStockProductsCount}">0</span>
                     <div class="stat-foot">
@@ -616,7 +617,7 @@
             <section aria-label="Productos registrados">
                 <div class="section-head">
                     <h2 class="md-typescale-title-large">Productos Registrados</h2>
-                    <span class="md-typescale-label-large" style="color:#49454f"
+                    <span class="md-typescale-label-large" style="color:var(--md-sys-color-on-surface-variant)"
                           th:text="${#lists.size(liveSearch)} + ' productos'">0 productos</span>
                 </div>
 
@@ -652,7 +653,7 @@
                                 <div class="product-meta md-typescale-body-small">
                                     <md-icon aria-hidden="true">inventory_2</md-icon>
                                     <span th:text="'Stock actual: ' + ${p.currentStockLevel}">Stock</span>
-                                    <span style="color:#79747e">·</span>
+                                    <span style="color:var(--md-sys-color-outline)">·</span>
                                     <span th:text="'Min: ' + ${p.safetyStockLevel}">Min</span>
                                 </div>
                             </div>
@@ -676,7 +677,7 @@
                             </md-text-button>
                             <form th:action="@{/products/{id}/delete(id=${p.id})}" method="post"
                                   onsubmit="return confirm('¿Eliminar este producto?');">
-                                <md-text-button type="submit" style="--md-sys-color-primary:#b3261e">
+                                <md-text-button type="submit" style="--md-sys-color-primary:var(--md-sys-color-error)">
                                     <md-icon slot="icon">delete</md-icon>
                                     Eliminar
                                 </md-text-button>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org" th:attr="data-theme=${@appPreferences.getTheme()}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -17,6 +17,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
           rel="stylesheet">
+    <link rel="stylesheet" href="/css/theme.css">
     <style>
         * {
             box-sizing: border-box
@@ -25,8 +26,8 @@
         body {
             margin: 0;
             font-family: Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: #fef7ff;
-            color: #1d1b20;
+            background: var(--md-sys-color-surface);
+            color: var(--md-sys-color-on-surface);
             -webkit-font-smoothing: antialiased
         }
 
@@ -45,7 +46,7 @@
             max-width: 400px;
             padding: 24px;
             border-radius: 16px;
-            background: #f7f2fa;
+            background: var(--md-sys-color-surface-container-low);
             display: flex;
             flex-direction: column;
             --md-elevation-level: 3
@@ -68,7 +69,7 @@
         .auth-subtitle {
             text-align: center;
             margin: 0 0 24px 0;
-            color: #49454f
+            color: var(--md-sys-color-on-surface-variant)
         }
 
         .auth-form {
@@ -124,7 +125,7 @@
             <md-filled-button type="submit" class="auth-submit">Iniciar sesión</md-filled-button>
         </form>
         <div class="auth-footer">
-            <p class="md-typescale-body-large" style="margin:0 0 12px 0;color:#49454f">¿No eres usuario? Regístrate</p>
+            <p class="md-typescale-body-large" style="margin:0 0 12px 0;color:var(--md-sys-color-on-surface-variant)">¿No eres usuario? Regístrate</p>
             <md-outlined-button href="/register" class="auth-submit">Registrarse</md-outlined-button>
         </div>
     </div>

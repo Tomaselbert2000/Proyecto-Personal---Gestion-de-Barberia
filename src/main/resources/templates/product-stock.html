@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org" th:attr="data-theme=${@appPreferences.getTheme()}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -15,6 +15,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
           rel="stylesheet">
+    <link rel="stylesheet" href="/css/theme.css">
     <style>
         * {
             box-sizing: border-box
@@ -23,8 +24,8 @@
         body {
             margin: 0;
             font-family: Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: #fef7ff;
-            color: #1d1b20;
+            background: var(--md-sys-color-surface);
+            color: var(--md-sys-color-on-surface);
             -webkit-font-smoothing: antialiased
         }
 
@@ -37,8 +38,8 @@
             gap: 4px;
             height: 64px;
             padding: 0 8px;
-            background: #f7f2fa;
-            border-bottom: 1px solid #cac4d0
+            background: var(--md-sys-color-surface-container-low);
+            border-bottom: 1px solid var(--md-sys-color-outline-variant)
         }
 
         .app-header-titles {
@@ -70,8 +71,8 @@
             display: flex;
             flex-direction: column;
             overflow-y: auto;
-            background: #f7f2fa;
-            border-right: 1px solid #cac4d0;
+            background: var(--md-sys-color-surface-container-low);
+            border-right: 1px solid var(--md-sys-color-outline-variant);
             transform: translateX(-105%);
             transition: transform 200ms ease
         }
@@ -145,13 +146,13 @@
             gap: 16px;
             padding: 20px;
             border-radius: 16px;
-            background: #f7f2fa;
+            background: var(--md-sys-color-surface-container-low);
             --md-elevation-level: 1
         }
 
         .surface.outlined {
-            background: #fef7ff;
-            border: 1px solid #cac4d0;
+            background: var(--md-sys-color-surface);
+            border: 1px solid var(--md-sys-color-outline-variant);
             --md-elevation-level: 0
         }
 
@@ -167,12 +168,12 @@
             width: 56px;
             height: 56px;
             border-radius: 14px;
-            background: #f3edf7;
+            background: var(--md-sys-color-surface-container);
             display: flex;
             align-items: center;
             justify-content: center;
             overflow: hidden;
-            color: #625b71
+            color: var(--md-sys-color-secondary)
         }
 
         .product-thumb md-icon {
@@ -204,7 +205,7 @@
             align-items: center;
             gap: 4px;
             flex-wrap: wrap;
-            color: #49454f
+            color: var(--md-sys-color-on-surface-variant)
         }
 
         .product-meta md-icon {
@@ -242,7 +243,7 @@
             display: flex;
             align-items: center;
             gap: 6px;
-            color: #49454f
+            color: var(--md-sys-color-on-surface-variant)
         }
 
         .hint md-icon {
@@ -359,7 +360,7 @@
         <div class="main-inner">
             <div class="page-header">
                 <h1 class="md-typescale-headline-small" style="margin:0">Modificar Stock</h1>
-                <p class="md-typescale-body-medium" style="margin:0;color:#49454f">Elegí la operación y la cantidad para
+                <p class="md-typescale-body-medium" style="margin:0;color:var(--md-sys-color-on-surface-variant)">Elegí la operación y la cantidad para
                     actualizar el stock del producto</p>
             </div>
 
@@ -377,7 +378,7 @@
                         <div class="product-meta md-typescale-body-small">
                             <md-icon aria-hidden="true">inventory_2</md-icon>
                             <span th:text="'Stock actual: ' + ${product.currentStockLevel}">Stock</span>
-                            <span style="color:#79747e">·</span>
+                            <span style="color:var(--md-sys-color-outline)">·</span>
                             <span th:text="'Min: ' + ${product.safetyStockLevel}">Min</span>
                         </div>
                     </div>

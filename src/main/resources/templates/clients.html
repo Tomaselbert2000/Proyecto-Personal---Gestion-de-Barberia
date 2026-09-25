@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org" th:attr="data-theme=${@appPreferences.getTheme()}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -15,6 +15,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
           rel="stylesheet">
+    <link rel="stylesheet" href="/css/theme.css">
     <style>
         * {
             box-sizing: border-box
@@ -23,8 +24,8 @@
         body {
             margin: 0;
             font-family: Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: #fef7ff;
-            color: #1d1b20;
+            background: var(--md-sys-color-surface);
+            color: var(--md-sys-color-on-surface);
             -webkit-font-smoothing: antialiased
         }
 
@@ -37,8 +38,8 @@
             gap: 4px;
             height: 64px;
             padding: 0 8px;
-            background: #f7f2fa;
-            border-bottom: 1px solid #cac4d0
+            background: var(--md-sys-color-surface-container-low);
+            border-bottom: 1px solid var(--md-sys-color-outline-variant)
         }
 
         .app-header-titles {
@@ -70,8 +71,8 @@
             display: flex;
             flex-direction: column;
             overflow-y: auto;
-            background: #f7f2fa;
-            border-right: 1px solid #cac4d0;
+            background: var(--md-sys-color-surface-container-low);
+            border-right: 1px solid var(--md-sys-color-outline-variant);
             transform: translateX(-105%);
             transition: transform 200ms ease
         }
@@ -151,13 +152,13 @@
             gap: 12px;
             padding: 20px;
             border-radius: 16px;
-            background: #f7f2fa;
+            background: var(--md-sys-color-surface-container-low);
             --md-elevation-level: 1
         }
 
         .surface.outlined {
-            background: #fef7ff;
-            border: 1px solid #cac4d0;
+            background: var(--md-sys-color-surface);
+            border: 1px solid var(--md-sys-color-outline-variant);
             --md-elevation-level: 0
         }
 
@@ -177,7 +178,7 @@
 
         .stat-empty {
             font-style: italic;
-            color: #79747e
+            color: var(--md-sys-color-outline)
         }
 
         .filter-form {
@@ -231,7 +232,7 @@
         .empty-state {
             padding: 32px;
             text-align: center;
-            color: #49454f
+            color: var(--md-sys-color-on-surface-variant)
         }
 
         .client-list {
@@ -255,8 +256,8 @@
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            background: #e8def8;
-            color: #4f378b;
+            background: var(--md-sys-color-secondary-container);
+            color: var(--md-sys-color-on-secondary-container);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -292,7 +293,7 @@
             align-items: center;
             gap: 4px;
             flex-wrap: wrap;
-            color: #49454f
+            color: var(--md-sys-color-on-surface-variant)
         }
 
         .client-meta md-icon {
@@ -304,7 +305,7 @@
             display: flex;
             align-items: flex-start;
             gap: 4px;
-            color: #49454f;
+            color: var(--md-sys-color-on-surface-variant);
             margin-top: 4px;
             overflow-wrap: anywhere
         }
@@ -325,7 +326,7 @@
             gap: 4px;
             padding-top: 12px;
             margin-top: 12px;
-            border-top: 1px solid #cac4d0
+            border-top: 1px solid var(--md-sys-color-outline-variant)
         }
 
         .client-actions.open {
@@ -452,7 +453,7 @@
         <div class="main-inner">
             <div class="page-header">
                 <h1 class="md-typescale-headline-small" style="margin:0">Gestión de Clientes</h1>
-                <p class="md-typescale-body-medium" style="margin:0;color:#49454f">Administra el padrón de clientes de tu
+                <p class="md-typescale-body-medium" style="margin:0;color:var(--md-sys-color-on-surface-variant)">Administra el padrón de clientes de tu
                     barbería</p>
             </div>
 
@@ -460,59 +461,59 @@
                 <div class="surface">
                     <md-elevation></md-elevation>
                     <div class="surface-row">
-                        <span class="md-typescale-body-medium" style="color:#49454f">Clientes Nuevos</span>
-                        <md-icon aria-hidden="true" style="color:#625b71">person_add</md-icon>
+                        <span class="md-typescale-body-medium" style="color:var(--md-sys-color-on-surface-variant)">Clientes Nuevos</span>
+                        <md-icon aria-hidden="true" style="color:var(--md-sys-color-secondary)">person_add</md-icon>
                     </div>
                     <span class="md-typescale-display-small"
                           th:text="${acquisitionStats.newClientsThisMonth}">0</span>
                     <div class="stat-foot">
                         <span class="md-typescale-body-medium"
                               th:text="${#numbers.formatDecimal(acquisitionStats.percentageVsLastMonth,1,1) + '%'}">0.0%</span>
-                        <span class="md-typescale-body-small" style="color:#49454f">vs mes anterior</span>
+                        <span class="md-typescale-body-small" style="color:var(--md-sys-color-on-surface-variant)">vs mes anterior</span>
                     </div>
                 </div>
 
                 <div class="surface">
                     <md-elevation></md-elevation>
                     <div class="surface-row">
-                        <span class="md-typescale-body-medium" style="color:#49454f">Teléfonos Registrados</span>
-                        <md-icon aria-hidden="true" style="color:#625b71">call</md-icon>
+                        <span class="md-typescale-body-medium" style="color:var(--md-sys-color-on-surface-variant)">Teléfonos Registrados</span>
+                        <md-icon aria-hidden="true" style="color:var(--md-sys-color-secondary)">call</md-icon>
                     </div>
                     <span class="md-typescale-display-small"
                           th:text="${phoneNumbersStats.clientsWithAtLeastOnePhoneNumber}">0</span>
                     <div class="stat-foot">
                         <span class="md-typescale-body-medium"
                               th:text="${phoneNumbersStats.clientsWithoutPhoneNumber}">0</span>
-                        <span class="md-typescale-body-small" style="color:#49454f">sin teléfono</span>
+                        <span class="md-typescale-body-small" style="color:var(--md-sys-color-on-surface-variant)">sin teléfono</span>
                     </div>
                 </div>
 
                 <div class="surface">
                     <md-elevation></md-elevation>
                     <div class="surface-row">
-                        <span class="md-typescale-body-medium" style="color:#49454f">Clientes con Observaciones</span>
-                        <md-icon aria-hidden="true" style="color:#625b71">notes</md-icon>
+                        <span class="md-typescale-body-medium" style="color:var(--md-sys-color-on-surface-variant)">Clientes con Observaciones</span>
+                        <md-icon aria-hidden="true" style="color:var(--md-sys-color-secondary)">notes</md-icon>
                     </div>
                     <span class="md-typescale-display-small" th:text="${notesStats.clientsWithNotes}">0</span>
                     <div class="stat-foot">
                         <span class="md-typescale-body-medium"
                               th:text="${#numbers.formatDecimal(notesStats.clientsWithNotesPercentage,1,1) + '%'}">0.0%</span>
-                        <span class="md-typescale-body-small" style="color:#49454f">del padrón</span>
+                        <span class="md-typescale-body-small" style="color:var(--md-sys-color-on-surface-variant)">del padrón</span>
                     </div>
                 </div>
 
                 <div class="surface">
                     <md-elevation></md-elevation>
                     <div class="surface-row">
-                        <span class="md-typescale-body-medium" style="color:#49454f">Tendencia de Registro</span>
-                        <md-icon aria-hidden="true" style="color:#625b71">trending_up</md-icon>
+                        <span class="md-typescale-body-medium" style="color:var(--md-sys-color-on-surface-variant)">Tendencia de Registro</span>
+                        <md-icon aria-hidden="true" style="color:var(--md-sys-color-secondary)">trending_up</md-icon>
                     </div>
                     <span class="md-typescale-display-small"
                           th:text="${registrationTrendStats.clientsRegisteredDuringThisMonth}">0</span>
                     <div class="stat-foot">
                         <span class="md-typescale-body-medium"
                               th:text="${#numbers.formatDecimal(registrationTrendStats.trendPercentage,1,1) + '%'}">0.0%</span>
-                        <span class="md-typescale-body-small" style="color:#49454f"
+                        <span class="md-typescale-body-small" style="color:var(--md-sys-color-on-surface-variant)"
                               th:text="'vs ' + ${registrationTrendStats.clientsRegisteredDuringTheLastMonth} + ' el mes pasado'">vs 0 el mes pasado</span>
                     </div>
                 </div>
@@ -587,7 +588,7 @@
             <section aria-label="Padrón de clientes">
                 <div class="section-head">
                     <h2 class="md-typescale-title-large">Padrón de Clientes</h2>
-                    <span class="md-typescale-label-large" style="color:#49454f"
+                    <span class="md-typescale-label-large" style="color:var(--md-sys-color-on-surface-variant)"
                           th:text="${#lists.size(liveSearch)} + ' clientes'">0 clientes</span>
                 </div>
 
@@ -643,7 +644,7 @@
                             </md-text-button>
                             <form th:action="@{/clients/{id}/delete(id=${client.id})}" method="post"
                                   onsubmit="return confirm('¿Eliminar este cliente?');">
-                                <md-text-button type="submit" style="--md-sys-color-primary:#b3261e">
+                                <md-text-button type="submit" style="--md-sys-color-primary:var(--md-sys-color-error)">
                                     <md-icon slot="icon">delete</md-icon>
                                     Eliminar
                                 </md-text-button>
