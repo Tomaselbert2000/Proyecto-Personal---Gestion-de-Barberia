@@ -1,26 +1,20 @@
 package com.presentation.controller.web;
 
-import static com.presentation.constants.HtmlConstants.Paths.SALES;
-import static com.presentation.constants.HtmlConstants.Paths.SALE_DETAIL;
-import static com.presentation.constants.HtmlConstants.Redirects.REDIRECT_SALES;
-
-import java.math.BigDecimal;
-import java.security.Principal;
-
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
 import com.enums.SaleCompositionFilter;
 import com.service.interfaces.EmployeeService;
 import com.service.interfaces.PaymentMethodService;
 import com.service.interfaces.SaleService;
-
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
+import java.math.BigDecimal;
+import java.security.Principal;
+
+import static com.presentation.constants.HtmlConstants.Paths.SALES;
+import static com.presentation.constants.HtmlConstants.Paths.SALE_DETAIL;
+import static com.presentation.constants.HtmlConstants.Redirects.REDIRECT_SALES;
 
 @Controller
 @RequiredArgsConstructor
@@ -33,17 +27,19 @@ public class WebSaleController {
 
     @GetMapping
     public String showSaleCatalog(
-        Principal principal,
-        Model model,
-        @RequestParam (required = false) BigDecimal minTotal,
-        @RequestParam (required = false) BigDecimal maxTotal,
-        @RequestParam (required = false) String paymentName,
-        @RequestParam (required = false) String employeeName,
-        @RequestParam (required = false) SaleCompositionFilter compositionFilter
-    ){
-        
+            Principal principal,
+            Model model,
+            @RequestParam(required = false) BigDecimal minTotal,
+            @RequestParam(required = false) BigDecimal maxTotal,
+            @RequestParam(required = false) String paymentName,
+            @RequestParam(required = false) String employeeName,
+            @RequestParam(required = false) SaleCompositionFilter compositionFilter
+    ) {
+
         model.addAttribute("currentUser", principal.getName());
         model.addAttribute("compositionFilters", SaleCompositionFilter.values());
+        model.addAttribute("payments", paymentMethodService.getNames());
+        model.addAttribute("employees", employeeService.getNames());
 
         model.addAttribute("minTotal", minTotal);
         model.addAttribute("maxTotal", maxTotal);
@@ -62,15 +58,16 @@ public class WebSaleController {
     }
 
     @GetMapping("/{saleID}/details")
-    public String showSaleDetail(@PathVariable Long saleID, Model model){
+    public String showSaleDetail(@PathVariable Long saleID, Model model, Principal principal) {
 
         model.addAttribute("dto", saleService.getSale(saleID));
+        model.addAttribute("currentUser", principal.getName());
 
         return SALE_DETAIL;
     }
 
     @PostMapping("/{saleID}/cancel")
-    public String cancelSale(@PathVariable Long saleID){
+    public String cancelSale(@PathVariable Long saleID) {
 
         saleService.cancelSale(saleID);
 
