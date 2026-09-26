@@ -135,6 +135,8 @@ public class WebProductController extends BaseWebController<ProductCreationDTO> 
         model.addAttribute("currentUser", principal.getName());
         model.addAttribute("dto", dto);
 
+        populateCreationForm(model);
+
         return PRODUCT_CREATION;
     }
 

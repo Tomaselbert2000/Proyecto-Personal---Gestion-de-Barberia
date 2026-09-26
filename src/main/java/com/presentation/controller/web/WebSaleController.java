@@ -3,8 +3,11 @@ package com.presentation.controller.web;
 import com.dto.sale.SaleCreationDTO;
 import com.enums.SaleCompositionFilter;
 import com.presentation.controller.BaseWebController;
+import com.service.interfaces.BarberserviceService;
+import com.service.interfaces.ClientService;
 import com.service.interfaces.EmployeeService;
 import com.service.interfaces.PaymentMethodService;
+import com.service.interfaces.ProductService;
 import com.service.interfaces.SaleService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +30,9 @@ public class WebSaleController extends BaseWebController<SaleCreationDTO> {
     private final SaleService saleService;
     private final PaymentMethodService paymentMethodService;
     private final EmployeeService employeeService;
+    private final ClientService clientService;
+    private final BarberserviceService barberserviceService;
+    private final ProductService productService;
 
     @GetMapping
     public String showSaleCatalog(
@@ -106,10 +112,18 @@ public class WebSaleController extends BaseWebController<SaleCreationDTO> {
         model.addAttribute("currentUser", principal.getName());
         model.addAttribute("dto", dto);
 
+        populateCreationForm(model);
+
         return SALE_CREATION;
     }
 
     @Override
     protected void populateCreationForm(Model model) {
+
+        model.addAttribute("clients", clientService.getClientList());
+        model.addAttribute("employees", employeeService.getEmployeeList());
+        model.addAttribute("paymentMethods", paymentMethodService.getPaymentMethodsList());
+        model.addAttribute("barberServices", barberserviceService.getServicesList());
+        model.addAttribute("products", productService.getProductsList());
     }
 }
