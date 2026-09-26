@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" th:attr="data-theme=${@appPreferences.getTheme()}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Nueva Venta - LA TERCERA BARBERSHOP</title>
+    <script type="importmap">
+        { "imports": { "@material/web/": "https://esm.run/@material/web/" } }
+    </script>
+    <script type="module">
+        import '@material/web/all.js';
+        import {styles as typescaleStyles} from '@material/web/typography/md-typescale-styles.js';
+        document.adoptedStyleSheets.push(typescaleStyles.styleSheet);
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+          rel="stylesheet">
+    <link rel="stylesheet" href="/css/theme.css">
+    <style>
+        * {
+            box-sizing: border-box
+        }
+
+        body {
+            margin: 0;
+            font-family: Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--md-sys-color-surface);
+            color: var(--md-sys-color-on-surface);
+            -webkit-font-smoothing: antialiased
+        }
+
+        .app-header {
+            position: sticky;
+            top: 0;
+            z-index: 6;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            height: 64px;
+            padding: 0 8px;
+            background: var(--md-sys-color-surface-container-low);
+            border-bottom: 1px solid var(--md-sys-color-outline-variant)
+        }
+
+        .app-header-titles {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-width: 0;
+            margin-left: 8px
+        }
+
+        .app-header-titles span {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis
+        }
+
+        .app-shell {
+            display: flex;
+            min-height: calc(100vh - 64px)
+        }
+
+        .nav-drawer {
+            position: fixed;
+            top: 64px;
+            bottom: 0;
+            left: 0;
+            z-index: 5;
+            width: min(320px, 84vw);
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            background: var(--md-sys-color-surface-container-low);
+            border-right: 1px solid var(--md-sys-color-outline-variant);
+            transform: translateX(-105%);
+            transition: transform 200ms ease
+        }
+
+        .nav-drawer.open {
+            transform: translateX(0)
+        }
+
+        .nav-scrim {
+            position: fixed;
+            inset: 64px 0 0 0;
+            z-index: 4;
+            background: rgba(0, 0, 0, .4);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 200ms ease
+        }
+
+        .nav-scrim.open {
+            opacity: 1;
+            pointer-events: auto
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px
+        }
+
+        .nav-brand img {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            object-fit: cover
+        }
+
+        .nav-brand-copy {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.3;
+            min-width: 0
+        }
+
+        .app-main {
+            flex: 1;
+            min-width: 0;
+            width: 100%;
+            padding: 20px 16px 40px
+        }
+
+        .main-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 28px
+        }
+
+        .page-header {
+            display: flex;
+            flex-direction: column;
+            gap: 4px
+        }
+
+        .surface {
+            position: relative;
+            isolation: isolate;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            padding: 20px;
+            border-radius: 16px;
+            background: var(--md-sys-color-surface-container-low);
+            --md-elevation-level: 1
+        }
+
+        .surface.outlined {
+            background: var(--md-sys-color-surface);
+            border: 1px solid var(--md-sys-color-outline-variant);
+            --md-elevation-level: 0
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px
+        }
+
+        .form-grid md-outlined-text-field,
+        .form-grid md-outlined-select {
+            width: 100%
+        }
+
+        .btn-row {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 16px
+        }
+
+        .btn-row md-outlined-button,
+        .btn-row md-filled-button {
+            flex: 1;
+            min-width: 150px;
+            height: 40px
+        }
+
+        .check-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            min-height: 48px
+        }
+
+        .section-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap
+        }
+
+        .cart-items {
+            display: flex;
+            flex-direction: column;
+            gap: 10px
+        }
+
+        .cart-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 12px;
+            border: 1px solid var(--md-sys-color-outline-variant);
+            border-radius: 12px
+        }
+
+        .cart-item-info {
+            display: flex;
+            flex-direction: column;
+            min-width: 0
+        }
+
+        .cart-item-name {
+            font-weight: 500;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap
+        }
+
+        .cart-item-price {
+            color: var(--md-sys-color-on-surface-variant)
+        }
+
+        .cart-item-qty {
+            display: flex;
+            align-items: center;
+            gap: 2px
+        }
+
+        .cart-item-qty-value {
+            min-width: 24px;
+            text-align: center;
+            font-weight: 500
+        }
+
+        .cart-empty {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 16px 0;
+            color: var(--md-sys-color-on-surface-variant)
+        }
+
+        .cart-summary {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding-top: 14px
+        }
+
+        .picker-search {
+            width: 100%;
+            margin-bottom: 8px
+        }
+
+        .picker-list {
+            max-height: 320px;
+            overflow-y: auto
+        }
+
+        .pick-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 12px;
+            border-radius: 12px;
+            cursor: pointer
+        }
+
+        .pick-row:hover {
+            background: var(--md-sys-color-surface-container-high)
+        }
+
+        .pick-name {
+            font-weight: 500
+        }
+
+        .pick-meta {
+            color: var(--md-sys-color-on-surface-variant);
+            font-size: .875rem
+        }
+
+        .pick-row md-icon {
+            color: var(--md-sys-color-primary)
+        }
+
+        .error-item {
+            display: flex;
+            gap: 8px;
+            align-items: flex-start;
+            padding: 4px 0
+        }
+
+        .error-item::before {
+            content: '•';
+            color: var(--md-sys-color-error)
+        }
+
+        [hidden] {
+            display: none !important
+        }
+
+        @media (min-width: 600px) {
+            .app-main {
+                padding: 28px 24px 48px
+            }
+
+            .form-grid {
+                grid-template-columns: repeat(2, 1fr)
+            }
+
+            .span-full {
+                grid-column: 1 / -1
+            }
+        }
+
+        @media (min-width: 840px) {
+            .nav-toggle {
+                display: none
+            }
+
+            .nav-scrim {
+                display: none
+            }
+
+            .nav-drawer {
+                position: sticky;
+                top: 64px;
+                height: calc(100vh - 64px);
+                transform: none
+            }
+
+            .app-main {
+                padding: 32px 32px 56px
+            }
+        }
+    </style>
+</head>
+<body>
+<header class="app-header">
+    <md-icon-button id="navToggle" class="nav-toggle" aria-label="Abrir navegación">
+        <md-icon>menu</md-icon>
+    </md-icon-button>
+    <div class="app-header-titles">
+        <span class="md-typescale-title-large">Nueva Venta</span>
+        <span class="md-typescale-label-large" th:text="${currentUser}">Usuario</span>
+    </div>
+    <span style="flex:1"></span>
+    <md-icon-button aria-label="Cuenta de usuario">
+        <md-icon>account_circle</md-icon>
+    </md-icon-button>
+</header>
+
+<div class="nav-scrim" id="navScrim"></div>
+
+<div class="app-shell">
+    <aside class="nav-drawer" id="navDrawer" aria-label="Navegación principal">
+        <div class="nav-brand">
+            <img th:src="@{/images/Logo.jpg}" src="/images/Logo.jpg" alt="Logo LA TERCERA">
+            <div class="nav-brand-copy">
+                <span class="md-typescale-title-medium">LA TERCERA</span>
+                <span class="md-typescale-label-medium">BARBERSHOP</span>
+            </div>
+        </div>
+        <md-divider></md-divider>
+        <md-list>
+            <md-list-item type="link" href="/dashboard">
+                <md-icon slot="start">dashboard</md-icon>
+                <span slot="headline">Dashboard</span>
+            </md-list-item>
+            <md-list-item type="link" href="/clients">
+                <md-icon slot="start">person</md-icon>
+                <span slot="headline">Clientes</span>
+            </md-list-item>
+            <md-list-item type="link" href="/employees">
+                <md-icon slot="start">badge</md-icon>
+                <span slot="headline">Empleados</span>
+            </md-list-item>
+            <md-list-item type="link" href="/appointments">
+                <md-icon slot="start">calendar_today</md-icon>
+                <span slot="headline">Turnos</span>
+            </md-list-item>
+            <md-list-item type="link" href="/barberservices">
+                <md-icon slot="start">cut</md-icon>
+                <span slot="headline">Servicios</span>
+            </md-list-item>
+            <md-list-item type="link" href="/products">
+                <md-icon slot="start">inventory_2</md-icon>
+                <span slot="headline">Stock de productos</span>
+            </md-list-item>
+            <md-list-item type="link" href="/payments">
+                <md-icon slot="start">payments</md-icon>
+                <span slot="headline">Medios de pago</span>
+            </md-list-item>
+            <md-list-item type="link" href="/sales" aria-current="page">
+                <md-icon slot="start">point_of_sale</md-icon>
+                <span slot="headline">Ventas</span>
+            </md-list-item>
+        </md-list>
+        <md-divider></md-divider>
+        <md-list>
+            <md-list-item type="link" href="/settings">
+                <md-icon slot="start">settings</md-icon>
+                <span slot="headline">Configuración</span>
+            </md-list-item>
+            <md-list-item id="logoutItem">
+                <md-icon slot="start">logout</md-icon>
+                <span slot="headline">Cerrar Sesión</span>
+            </md-list-item>
+        </md-list>
+    </aside>
+
+    <main class="app-main">
+        <div class="main-inner">
+            <div class="page-header">
+                <h1 class="md-typescale-headline-small" style="margin:0">Nueva Venta</h1>
+                <p class="md-typescale-body-medium" style="margin:0;color:var(--md-sys-color-on-surface-variant)">
+                    Registra una venta en el sistema de la barbería</p>
+            </div>
+
+            <section aria-label="Formulario de registro de venta">
+                <form th:action="@{/sales/new}" method="post">
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                    <div class="surface outlined">
+                        <div class="section-head">
+                            <h2 class="md-typescale-title-large" style="margin:0">Datos de la venta</h2>
+                        </div>
+                        <div class="form-grid">
+                            <md-outlined-select label="Cliente" id="clientSelect">
+                                <md-select-option th:each="c : ${clients}"
+                                                  th:value="${c.id}"
+                                                  th:selected="${dto.clientID != null and dto.clientID == c.id}">
+                                    <div slot="headline" th:text="${c.firstName + ' ' + c.lastName}"></div>
+                                </md-select-option>
+                            </md-outlined-select>
+
+                            <md-outlined-select label="Empleado" name="employeeID" id="employeeSelect">
+                                <md-select-option th:each="e : ${employees}"
+                                                  th:value="${e.id}"
+                                                  th:selected="${dto.employeeID != null and dto.employeeID == e.id}">
+                                    <div slot="headline" th:text="${e.firstName + ' ' + e.lastName}"></div>
+                                </md-select-option>
+                            </md-outlined-select>
+
+                            <md-outlined-select label="Medio de pago" name="paymentMethodID" id="paymentMethodSelect">
+                                <md-select-option th:each="pm : ${paymentMethods}"
+                                                  th:value="${pm.id}"
+                                                  th:selected="${dto.paymentMethodID != null and dto.paymentMethodID == pm.id}">
+                                    <div slot="headline" th:text="${pm.name}"></div>
+                                </md-select-option>
+                            </md-outlined-select>
+
+                            <md-outlined-select label="Servicio de barbería" name="barberServiceID" id="serviceSelect">
+                                <md-select-option value="" th:selected="${dto.barberServiceID == null}">
+                                    <div slot="headline">Sin servicio</div>
+                                </md-select-option>
+                                <md-select-option th:each="s : ${barberServices}"
+                                                  th:value="${s.barberServiceId}"
+                                                  th:attr="data-price=${s.price}"
+                                                  th:selected="${dto.barberServiceID != null and dto.barberServiceID == s.barberServiceId}">
+                                    <div slot="headline" th:text="${s.name}"></div>
+                                </md-select-option>
+                            </md-outlined-select>
+
+                            <label class="check-row">
+                                <md-checkbox id="anonClientCheck" touch-target="wrapper"></md-checkbox>
+                                <span class="md-typescale-body-large">Cliente anónimo</span>
+                            </label>
+
+                            <label class="check-row">
+                                <md-checkbox id="deferredCheck" touch-target="wrapper"
+                                             th:checked="${dto.dateAndTime != null}"></md-checkbox>
+                                <span class="md-typescale-body-large">Venta diferida</span>
+                            </label>
+
+                            <md-outlined-text-field class="span-full" id="deferredDateTimeField" type="datetime-local"
+                                                    label="Fecha y hora de la venta diferida" hidden
+                                                    th:value="${dto.dateAndTime}">
+                                <md-icon slot="leading-icon">schedule</md-icon>
+                            </md-outlined-text-field>
+                        </div>
+                    </div>
+
+                    <div class="surface outlined" style="margin-top:16px">
+                        <div class="section-head">
+                            <h2 class="md-typescale-title-large" style="margin:0">Productos de la venta</h2>
+                            <md-filled-tonal-button id="openProductPicker">
+                                <md-icon slot="icon">add_shopping_cart</md-icon>
+                                Agregar producto
+                            </md-filled-tonal-button>
+                        </div>
+                        <md-divider></md-divider>
+                        <div id="cartItems" class="cart-items"></div>
+                        <div id="cartEmpty" class="cart-empty md-typescale-body-medium">
+                            <md-icon aria-hidden="true">shopping_cart</md-icon>
+                            <span>No se han agregado productos a la venta</span>
+                        </div>
+                        <md-divider></md-divider>
+                        <div class="cart-summary">
+                            <span class="md-typescale-title-medium">Total de la venta</span>
+                            <span class="md-typescale-title-large" id="cartTotal">ARS $ 0,00</span>
+                        </div>
+                    </div>
+
+                    <div th:each="item, it : ${dto.productsDetail}">
+                        <input type="hidden" th:name="|productsDetail[${it.index}].productID|"
+                               th:value="${item.productID}">
+                        <input type="hidden" th:name="|productsDetail[${it.index}].quantity|"
+                               th:value="${item.quantity}">
+                    </div>
+
+                    <input type="hidden" name="clientID" id="clientIDHidden" th:value="${dto.clientID}">
+                    <input type="hidden" name="dateAndTime" id="dateAndTimeHidden" th:value="${dto.dateAndTime}">
+
+                    <div class="btn-row">
+                        <md-filled-button type="submit">
+                            <md-icon slot="icon">check</md-icon>
+                            Registrar Venta
+                        </md-filled-button>
+                        <md-outlined-button type="button" onclick="resetForm()">
+                            <md-icon slot="icon">autorenew</md-icon>
+                            Limpiar
+                        </md-outlined-button>
+                        <md-outlined-button href="/sales">
+                            <md-icon slot="icon">arrow_back</md-icon>
+                            Volver
+                        </md-outlined-button>
+                    </div>
+                </form>
+            </section>
+        </div>
+    </main>
+</div>
+
+<md-dialog id="validationDialog">
+    <div slot="headline" class="md-typescale-headline-small">Error al registrar la venta. Por favor, revise lo
+        siguiente:
+    </div>
+    <div slot="content" class="md-typescale-body-medium">
+        <div th:if="${validationErrors != null and !#lists.isEmpty(validationErrors)}">
+            <div th:each="error : ${validationErrors}" class="error-item">
+                <span th:text="${error}">Error</span>
+            </div>
+        </div>
+    </div>
+    <div slot="actions">
+        <md-text-button id="validationClose">Aceptar</md-text-button>
+    </div>
+</md-dialog>
+
+<md-dialog id="productPickerDialog">
+    <div slot="headline" class="md-typescale-headline-small">Agregar productos a la venta</div>
+    <div slot="content" class="md-typescale-body-medium">
+        <md-outlined-text-field class="picker-search" id="productSearch" label="Buscar producto"
+                                placeholder="Buscar producto por nombre">
+            <md-icon slot="leading-icon">search</md-icon>
+        </md-outlined-text-field>
+        <div id="productPickerList" class="picker-list">
+            <div class="pick-row" th:each="p : ${products}"
+                 th:attr="data-id=${p.id},data-name=${p.name},data-price=${p.currentPrice},data-stock=${p.currentStockLevel}">
+                <div>
+                    <span class="pick-name" th:text="${p.name}">Producto</span>
+                    <div class="pick-meta">
+                        <span th:text="'ARS $ ' + ${#numbers.formatDecimal(p.currentPrice,1,2)}">ARS $ 0,00</span>
+                        <span th:text="' · ' + ${p.currentStockLevel} + ' unidades disponibles'">stock</span>
+                    </div>
+                </div>
+                <md-icon aria-hidden="true">add_circle</md-icon>
+            </div>
+        </div>
+    </div>
+    <div slot="actions">
+        <md-text-button id="productPickerDone">Listo</md-text-button>
+    </div>
+</md-dialog>
+
+<md-dialog id="logoutDialog">
+    <div slot="headline" class="md-typescale-headline-small">Cerrar sesión</div>
+    <div slot="content" class="md-typescale-body-medium">
+        ¿Está seguro que desea cerrar la sesión actual?
+        <form id="logoutForm" th:action="@{/logout}" method="post">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+        </form>
+    </div>
+    <div slot="actions">
+        <md-text-button id="logoutCancel">Cancelar</md-text-button>
+        <md-filled-button type="submit" form="logoutForm">Confirmar</md-filled-button>
+    </div>
+</md-dialog>
+<script>
+    const drawer = document.getElementById('navDrawer');
+    const scrim = document.getElementById('navScrim');
+    const toggle = document.getElementById('navToggle');
+
+    function setDrawerOpen(open) {
+        drawer.classList.toggle('open', open);
+        scrim.classList.toggle('open', open);
+    }
+
+    toggle.addEventListener('click', () => setDrawerOpen(!drawer.classList.contains('open')));
+    scrim.addEventListener('click', () => setDrawerOpen(false));
+    drawer.querySelectorAll('md-list-item').forEach(item => item.addEventListener('click', () => setDrawerOpen(false)));
+
+    function resetForm() {
+        window.location.href = '/sales/new';
+    }
+
+    const validationDialog = document.getElementById('validationDialog');
+    const validationClose = document.getElementById('validationClose');
+    validationClose.addEventListener('click', () => validationDialog.close());
+    if (document.querySelectorAll('#validationDialog .error-item').length > 0) {
+        validationDialog.show();
+    }
+
+    const logoutItem = document.getElementById('logoutItem');
+    const logoutDialog = document.getElementById('logoutDialog');
+    const logoutCancel = document.getElementById('logoutCancel');
+    logoutItem.addEventListener('click', () => logoutDialog.show());
+    logoutCancel.addEventListener('click', () => logoutDialog.close());
+
+    const productById = {};
+    document.querySelectorAll('.pick-row').forEach(row => {
+        productById[Number(row.dataset.id)] = {
+            name: row.dataset.name,
+            price: parseFloat(row.dataset.price)
+        };
+    });
+
+    const cartItems = document.getElementById('cartItems');
+    const cartEmpty = document.getElementById('cartEmpty');
+    const cartTotal = document.getElementById('cartTotal');
+    const creationForm = document.querySelector('form');
+
+    function formatARS(value) {
+        return value.toLocaleString('es-AR', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+    }
+
+    function escapeHtml(text) {
+        return String(text).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    function currentServicePrice() {
+        const serviceSelect = document.getElementById('serviceSelect');
+        const options = serviceSelect.querySelectorAll('md-select-option');
+        const value = serviceSelect.value;
+        for (const option of options) {
+            if (option.value === value && option.dataset.price) {
+                return parseFloat(option.dataset.price) || 0;
+            }
+        }
+        return 0;
+    }
+
+    function renderCart() {
+        cartEmpty.hidden = cartItems.children.length > 0;
+        let total = 0;
+        Array.from(cartItems.children).forEach(row => {
+            const id = Number(row.dataset.id);
+            const qty = Number(row.querySelector('.cart-item-qty-value').textContent);
+            const price = productById[id] ? productById[id].price : 0;
+            total += qty * price;
+        });
+        total += currentServicePrice();
+        cartTotal.textContent = 'ARS $ ' + formatARS(total);
+    }
+
+    function createCartRow(id, qty) {
+        const product = productById[id];
+        if (!product) return;
+        const row = document.createElement('div');
+        row.className = 'cart-item';
+        row.dataset.id = id;
+        row.innerHTML =
+            '<div class="cart-item-info">' +
+            '   <span class="cart-item-name">' + escapeHtml(product.name) + '</span>' +
+            '   <span class="cart-item-price">ARS $ ' + formatARS(product.price) + '</span>' +
+            '</div>' +
+            '<div class="cart-item-qty">' +
+            '   <md-icon-button data-action="dec" aria-label="Disminuir cantidad"><md-icon>remove</md-icon></md-icon-button>' +
+            '   <span class="cart-item-qty-value">' + qty + '</span>' +
+            '   <md-icon-button data-action="inc" aria-label="Aumentar cantidad"><md-icon>add</md-icon></md-icon-button>' +
+            '   <md-icon-button data-action="del" aria-label="Quitar producto"><md-icon>delete</md-icon></md-icon-button>' +
+            '</div>';
+        cartItems.appendChild(row);
+    }
+
+    function addToCart(id, quantity) {
+        const qty = quantity || 1;
+        const existing = Array.from(cartItems.children).find(row => Number(row.dataset.id) === id);
+        if (existing) {
+            const value = existing.querySelector('.cart-item-qty-value');
+            value.textContent = Number(value.textContent) + qty;
+        } else {
+            createCartRow(id, qty);
+        }
+        renderCart();
+    }
+
+    function changeQty(id, delta) {
+        const existing = Array.from(cartItems.children).find(row => Number(row.dataset.id) === id);
+        if (!existing) return;
+        const value = existing.querySelector('.cart-item-qty-value');
+        const next = Number(value.textContent) + delta;
+        if (next <= 0) {
+            existing.remove();
+        } else {
+            value.textContent = next;
+        }
+        renderCart();
+    }
+
+    function removeRow(id) {
+        const existing = Array.from(cartItems.children).find(row => Number(row.dataset.id) === id);
+        if (existing) existing.remove();
+        renderCart();
+    }
+
+    cartItems.addEventListener('click', event => {
+        const button = event.target.closest('md-icon-button');
+        if (!button) return;
+        const row = button.closest('.cart-item');
+        if (!row) return;
+        const id = Number(row.dataset.id);
+        const action = button.dataset.action;
+        if (action === 'inc') changeQty(id, 1);
+        else if (action === 'dec') changeQty(id, -1);
+        else if (action === 'del') removeRow(id);
+    });
+
+    function seedCartFromHidden() {
+        creationForm.querySelectorAll('input[name^="productsDetail"]').forEach(input => {
+            const match = input.name.match(/^productsDetail\[(\d+)\]\.productID$/);
+            if (!match) return;
+            const quantityInput = creationForm.querySelector('input[name="productsDetail[' + match[1] + '].quantity"]');
+            if (!quantityInput) return;
+            const id = Number(input.value);
+            const quantity = Number(quantityInput.value);
+            if (productById[id] && quantity > 0) {
+                addToCart(id, quantity);
+            }
+        });
+    }
+
+    const openProductPicker = document.getElementById('openProductPicker');
+    const productPickerDialog = document.getElementById('productPickerDialog');
+    const productPickerDone = document.getElementById('productPickerDone');
+    const productSearch = document.getElementById('productSearch');
+    const productPickerList = document.getElementById('productPickerList');
+
+    openProductPicker.addEventListener('click', () => {
+        productSearch.value = '';
+        filterPicker('');
+        productPickerDialog.show();
+    });
+    productPickerDone.addEventListener('click', () => productPickerDialog.close());
+    productSearch.addEventListener('input', () => filterPicker(productSearch.value.trim().toLowerCase()));
+
+    function filterPicker(query) {
+        productPickerList.querySelectorAll('.pick-row').forEach(row => {
+            const name = (row.dataset.name || '').toLowerCase();
+            row.hidden = query !== '' && !name.includes(query);
+        });
+    }
+
+    productPickerList.addEventListener('click', event => {
+        const row = event.target.closest('.pick-row');
+        if (!row) return;
+        addToCart(Number(row.dataset.id), 1);
+    });
+
+    const clientSelect = document.getElementById('clientSelect');
+    const clientIDHidden = document.getElementById('clientIDHidden');
+    const anonClientCheck = document.getElementById('anonClientCheck');
+    anonClientCheck.addEventListener('change', () => {
+        clientSelect.disabled = anonClientCheck.checked;
+    });
+
+    const deferredCheck = document.getElementById('deferredCheck');
+    const deferredDateTimeField = document.getElementById('deferredDateTimeField');
+    const dateAndTimeHidden = document.getElementById('dateAndTimeHidden');
+
+    function applyDeferredState() {
+        deferredDateTimeField.hidden = !deferredCheck.checked;
+    }
+
+    deferredCheck.addEventListener('change', applyDeferredState);
+
+    const serviceSelect = document.getElementById('serviceSelect');
+    serviceSelect.addEventListener('change', renderCart);
+
+    creationForm.addEventListener('submit', () => {
+        const clientValue = anonClientCheck.checked ? '1' : (clientSelect.value == null ? '' : String(clientSelect.value));
+        clientIDHidden.value = clientValue;
+
+        if (deferredCheck.checked) {
+            dateAndTimeHidden.value = deferredDateTimeField.value || '';
+        } else {
+            dateAndTimeHidden.value = '';
+        }
+
+        creationForm.querySelectorAll('input[name^="productsDetail"]').forEach(input => input.remove());
+
+        Array.from(cartItems.children).forEach((row, index) => {
+            const id = row.dataset.id;
+            const quantity = row.querySelector('.cart-item-qty-value').textContent;
+            creationForm.insertAdjacentHTML('beforeend',
+                '<input type="hidden" name="productsDetail[' + index + '].productID" value="' + id + '">');
+            creationForm.insertAdjacentHTML('beforeend',
+                '<input type="hidden" name="productsDetail[' + index + '].quantity" value="' + quantity + '">');
+        });
+    });
+
+    applyDeferredState();
+    seedCartFromHidden();
+    renderCart();
+</script>
+</body>
+</html>
