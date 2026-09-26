@@ -1,14 +1,19 @@
 package com.presentation.controller.web;
 
+import com.dto.product.ProductCreationDTO;
 import com.dto.product.ProductInfoDTO;
 import com.dto.product.ProductUpdateDTO;
 import com.enums.ProductCategory;
+import com.enums.ProductPresentationUnit;
 import com.enums.StockStatus;
+import com.presentation.controller.BaseWebController;
 import com.service.implementation.ProductServiceImpl;
 import com.service.interfaces.ProductService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -20,7 +25,7 @@ import static com.presentation.constants.HtmlConstants.Redirects.redirectToUpdat
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/products")
-public class WebProductController {
+public class WebProductController extends BaseWebController<ProductCreationDTO> {
 
     private final ProductService service;
 
@@ -50,6 +55,23 @@ public class WebProductController {
         model.addAttribute("liveSearch", service.liveSearch(name, category, stockStatus));
 
         return PRODUCTS;
+    }
+
+    @GetMapping("/new")
+    public String showProductCreationForm(Model model, Principal principal) {
+
+        return showCreationForm(model, principal, new ProductCreationDTO());
+    }
+
+    @PostMapping("/new")
+    public String createProduct(
+            @Valid @ModelAttribute ProductCreationDTO dto,
+            BindingResult bindingResult,
+            Model model,
+            Principal principal
+    ) {
+
+        return createEntity(dto, bindingResult, model, principal, REDIRECT_PRODUCTS);
     }
 
     @PostMapping("/{productID}/delete")
@@ -99,5 +121,27 @@ public class WebProductController {
         service.updateProductStock(productID, quantity, operation);
 
         return REDIRECT_PRODUCTS;
+    }
+
+    @Override
+    protected void executeCreation(ProductCreationDTO dto) {
+
+        service.registerNewProduct(dto);
+    }
+
+    @Override
+    protected String renderCreationForm(Model model, Principal principal, ProductCreationDTO dto) {
+
+        model.addAttribute("currentUser", principal.getName());
+        model.addAttribute("dto", dto);
+
+        return PRODUCT_CREATION;
+    }
+
+    @Override
+    protected void populateCreationForm(Model model) {
+
+        model.addAttribute("categories", ProductCategory.values());
+        model.addAttribute("productPresentationUnits", ProductPresentationUnit.values());
     }
 }

@@ -4,24 +4,26 @@ import com.dto.employee.EmployeeCreationDTO;
 import com.dto.employee.EmployeeUpdateDTO;
 import com.enums.EmployeeStatus;
 import com.enums.HireDateRange;
+import com.presentation.controller.BaseWebController;
 import com.service.interfaces.EmployeeService;
 import com.service.interfaces.SaleService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 
-import static com.presentation.constants.HtmlConstants.Paths.EMPLOYEES;
-import static com.presentation.constants.HtmlConstants.Paths.EMPLOYEE_UPDATE;
+import static com.presentation.constants.HtmlConstants.Paths.*;
 import static com.presentation.constants.HtmlConstants.Redirects.REDIRECT_EMPLOYEES;
 import static com.presentation.constants.HtmlConstants.Redirects.redirectToUpdate;
 
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/employees")
-public class WebEmployeeController implements WebController<EmployeeCreationDTO>{
+public class WebEmployeeController extends BaseWebController<EmployeeCreationDTO> {
 
     private final EmployeeService employeeService;
     private final SaleService saleService;
@@ -53,6 +55,26 @@ public class WebEmployeeController implements WebController<EmployeeCreationDTO>
         model.addAttribute("hireDateRange", hireDateRange);
 
         return EMPLOYEES;
+    }
+
+    @GetMapping("/new")
+    public String showEmployeeCreationForm(
+            Model model,
+            Principal principal
+    ) {
+
+        return showCreationForm(model, principal, new EmployeeCreationDTO());
+    }
+
+    @PostMapping("/new")
+    public String createNewEmployee(
+            @Valid @ModelAttribute EmployeeCreationDTO dto,
+            BindingResult bindingResult,
+            Model model,
+            Principal principal
+    ) {
+
+        return createEntity(dto, bindingResult, model, principal, REDIRECT_EMPLOYEES);
     }
 
     @PostMapping("/{employeeID}/delete")
@@ -88,14 +110,24 @@ public class WebEmployeeController implements WebController<EmployeeCreationDTO>
     }
 
     @Override
-    public String renderCreationForm(Model model, Principal principal, EmployeeCreationDTO dto) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'renderCreationForm'");
+    protected void executeCreation(EmployeeCreationDTO dto) {
+
+        employeeService.registerNewEmployee(dto);
     }
 
     @Override
-    public void populateCreationCatalog(Model model) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'populateCreationCatalog'");
+    public String renderCreationForm(Model model, Principal principal, EmployeeCreationDTO dto) {
+
+        model.addAttribute("currentUser", principal.getName());
+        model.addAttribute("dto", dto);
+
+        populateCreationForm(model);
+
+        return EMPLOYEE_CREATION;
+    }
+
+    @Override
+    protected void populateCreationForm(Model model) {
+        // Intentionally empty. Employee CRUD does not rely on other's entity information
     }
 }

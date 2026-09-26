@@ -8,7 +8,7 @@ import com.dto.stats.AppointmentMonthlyComparisonDTO;
 import com.dto.stats.AppointmentTodayStatsDTO;
 import com.dto.stats.AppointmentTomorrowStatsDTO;
 import com.enums.AppointmentStatus;
-import com.exceptions.BusinessException;
+import com.presentation.controller.BaseWebController;
 import com.service.interfaces.AppointmentService;
 import com.service.interfaces.ClientService;
 import jakarta.validation.Valid;
@@ -17,13 +17,11 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Objects;
 
 import static com.presentation.constants.HtmlConstants.Paths.*;
 import static com.presentation.constants.HtmlConstants.Redirects.REDIRECT_APPOINTMENTS;
@@ -32,9 +30,9 @@ import static com.presentation.constants.HtmlConstants.Redirects.redirectToUpdat
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/appointments")
-public class WebAppointmentController implements WebController<AppointmentCreationDTO>{
+public class WebAppointmentController extends BaseWebController<AppointmentCreationDTO> {
 
-    private final AppointmentService service;
+    private final AppointmentService appointmentService;
     private final ClientService clientService;
 
     @GetMapping()
@@ -47,12 +45,12 @@ public class WebAppointmentController implements WebController<AppointmentCreati
             @RequestParam(required = false) String employeeName
     ) {
 
-        AppointmentTodayStatsDTO appointmentTodayStatsDTO = service.getAppointmentsTodayStats();
-        AppointmentTomorrowStatsDTO appointmentTomorrowStatsDTO = service.getPendingAppointmentsStats();
-        AppointmentMonthlyComparisonDTO appointmentMonthlyComparisonDTO = service.getMonthlyComparisonStats();
-        AppointmentCanceledStatsDTO canceledStatsDTO = service.getCanceledStats();
+        AppointmentTodayStatsDTO appointmentTodayStatsDTO = appointmentService.getAppointmentsTodayStats();
+        AppointmentTomorrowStatsDTO appointmentTomorrowStatsDTO = appointmentService.getPendingAppointmentsStats();
+        AppointmentMonthlyComparisonDTO appointmentMonthlyComparisonDTO = appointmentService.getMonthlyComparisonStats();
+        AppointmentCanceledStatsDTO canceledStatsDTO = appointmentService.getCanceledStats();
 
-        List<AppointmentInfoDTO> appointmentsList = service.liveSearch(clientName, date, status, employeeName);
+        List<AppointmentInfoDTO> appointmentsList = appointmentService.liveSearch(clientName, date, status, employeeName);
 
         model.addAttribute("currentUser", principal.getName());
         model.addAttribute("appointmentsTodayStats", appointmentTodayStatsDTO);
@@ -62,7 +60,7 @@ public class WebAppointmentController implements WebController<AppointmentCreati
         model.addAttribute("appointmentsLiveSearch", appointmentsList);
 
         model.addAttribute("statuses", AppointmentStatus.values());
-        model.addAttribute("employees", service.getEmployeesFromServiceInstance());
+        model.addAttribute("employees", appointmentService.getEmployeesFromServiceInstance());
 
         model.addAttribute("selectedClientName", clientName);
         model.addAttribute("selectedDate", date);
@@ -75,11 +73,7 @@ public class WebAppointmentController implements WebController<AppointmentCreati
     @GetMapping("/new")
     public String showAppointmentCreationForm(Model model, Principal principal) {
 
-        populateCreationCatalog(model);
-        model.addAttribute("currentUser", principal.getName());
-        model.addAttribute("dto", new AppointmentCreationDTO());
-
-        return APPOINTMENT_CREATION;
+        return showCreationForm(model, principal, new AppointmentCreationDTO());
     }
 
     @PostMapping("/new")
@@ -90,59 +84,49 @@ public class WebAppointmentController implements WebController<AppointmentCreati
             Principal principal
     ) {
 
-        if (bindingResult.hasErrors()) {
-
-            model.addAttribute("validationErrors", bindingResult.getFieldErrors().stream()
-                    .map(FieldError::getDefaultMessage)
-                    .filter(Objects::nonNull)
-                    .toList());
-
-            return renderCreationForm(model, principal, dto);
-        }
-
-        try {
-
-            service.registerNewAppointment(dto);
-
-            return REDIRECT_APPOINTMENTS;
-
-        } catch (BusinessException exception) {
-
-            model.addAttribute("validationErrors", List.of(exception.getMessage()));
-
-            return renderCreationForm(model, principal, dto);
-        }
+        return createEntity(dto, bindingResult, model, principal, REDIRECT_APPOINTMENTS);
     }
 
     @PostMapping("/{appointmentID}/complete")
     public String markAppointmentAsComplete(@PathVariable Long appointmentID) {
 
-        service.markAppointmentAsComplete(AppointmentInfoDTO.builder().id(appointmentID).build());
+        appointmentService.markAppointmentAsComplete(
+                AppointmentInfoDTO.builder()
+                        .id(appointmentID)
+                        .build()
+        );
+
         return REDIRECT_APPOINTMENTS;
     }
 
     @PostMapping("/{appointmentID}/cancel")
     public String markAppointmentAsCanceled(@PathVariable Long appointmentID) {
 
-        service.markAppointmentAsCanceled(AppointmentInfoDTO.builder().id(appointmentID).build());
+        appointmentService.markAppointmentAsCanceled(
+                AppointmentInfoDTO.builder()
+                        .id(appointmentID)
+                        .build()
+        );
+
         return REDIRECT_APPOINTMENTS;
     }
 
     @PostMapping("/{appointmentID}/delete")
     public String deleteAppointment(@PathVariable Long appointmentID) {
 
-        service.deleteAppointment(appointmentID);
+        appointmentService.deleteAppointment(appointmentID);
+
         return REDIRECT_APPOINTMENTS;
     }
 
     @GetMapping("/{appointmentID}/update")
     public String updateAppointment(@PathVariable Long appointmentID, Model model) {
 
-        AppointmentInfoDTO dto = service.getAppointmentInfo(appointmentID);
+        AppointmentInfoDTO dto = appointmentService.getAppointmentInfo(appointmentID);
 
         model.addAttribute("dto", dto);
-        model.addAttribute("services", service.getBarberServicesFromServiceInstance());
-        model.addAttribute("employees", service.getEmployeesFromServiceInstance());
+        model.addAttribute("services", appointmentService.getBarberServicesFromServiceInstance());
+        model.addAttribute("employees", appointmentService.getEmployeesFromServiceInstance());
         model.addAttribute("statuses", AppointmentStatus.values());
 
         return APPOINTMENT_UPDATE;
@@ -151,15 +135,21 @@ public class WebAppointmentController implements WebController<AppointmentCreati
     @PostMapping("/{appointmentID}/update")
     public String updateAppointment(@PathVariable Long appointmentID, @ModelAttribute AppointmentUpdateDTO dto) {
 
-        service.updateAppointment(appointmentID, dto);
+        appointmentService.updateAppointment(appointmentID, dto);
 
         return redirectToUpdate(REDIRECT_APPOINTMENTS, appointmentID);
     }
 
     @Override
+    protected void executeCreation(AppointmentCreationDTO dto) {
+
+        appointmentService.registerNewAppointment(dto);
+    }
+
+    @Override
     public String renderCreationForm(Model model, Principal principal, AppointmentCreationDTO dto) {
 
-        populateCreationCatalog(model);
+        populateCreationForm(model);
         model.addAttribute("currentUser", principal.getName());
         model.addAttribute("dto", dto);
 
@@ -167,10 +157,10 @@ public class WebAppointmentController implements WebController<AppointmentCreati
     }
 
     @Override
-    public void populateCreationCatalog(Model model) {
+    protected void populateCreationForm(Model model) {
 
         model.addAttribute("clients", clientService.getClientList());
-        model.addAttribute("services", service.getBarberServicesFromServiceInstance());
-        model.addAttribute("employees", service.getEmployeesFromServiceInstance());
+        model.addAttribute("services", appointmentService.getBarberServicesFromServiceInstance());
+        model.addAttribute("employees", appointmentService.getEmployeesFromServiceInstance());
     }
 }

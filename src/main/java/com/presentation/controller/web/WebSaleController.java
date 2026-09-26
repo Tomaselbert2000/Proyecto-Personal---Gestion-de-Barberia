@@ -1,25 +1,28 @@
 package com.presentation.controller.web;
 
+import com.dto.sale.SaleCreationDTO;
 import com.enums.SaleCompositionFilter;
+import com.presentation.controller.BaseWebController;
 import com.service.interfaces.EmployeeService;
 import com.service.interfaces.PaymentMethodService;
 import com.service.interfaces.SaleService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.security.Principal;
 
-import static com.presentation.constants.HtmlConstants.Paths.SALES;
-import static com.presentation.constants.HtmlConstants.Paths.SALE_DETAIL;
+import static com.presentation.constants.HtmlConstants.Paths.*;
 import static com.presentation.constants.HtmlConstants.Redirects.REDIRECT_SALES;
 
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/sales")
-public class WebSaleController {
+public class WebSaleController extends BaseWebController<SaleCreationDTO> {
 
     private final SaleService saleService;
     private final PaymentMethodService paymentMethodService;
@@ -57,6 +60,23 @@ public class WebSaleController {
         return SALES;
     }
 
+    @GetMapping("/new")
+    public String showSaleCreationForm(Model model, Principal principal) {
+
+        return showCreationForm(model, principal, new SaleCreationDTO());
+    }
+
+    @PostMapping("/new")
+    public String createNewSale(
+            @Valid @ModelAttribute SaleCreationDTO dto,
+            BindingResult bindingResult,
+            Model model,
+            Principal principal
+    ) {
+
+        return createEntity(dto, bindingResult, model, principal, REDIRECT_SALES);
+    }
+
     @GetMapping("/{saleID}/details")
     public String showSaleDetail(@PathVariable Long saleID, Model model, Principal principal) {
 
@@ -72,5 +92,24 @@ public class WebSaleController {
         saleService.cancelSale(saleID);
 
         return REDIRECT_SALES;
+    }
+
+    @Override
+    protected void executeCreation(SaleCreationDTO dto) {
+
+        saleService.registerNewSale(dto);
+    }
+
+    @Override
+    protected String renderCreationForm(Model model, Principal principal, SaleCreationDTO dto) {
+
+        model.addAttribute("currentUser", principal.getName());
+        model.addAttribute("dto", dto);
+
+        return SALE_CREATION;
+    }
+
+    @Override
+    protected void populateCreationForm(Model model) {
     }
 }

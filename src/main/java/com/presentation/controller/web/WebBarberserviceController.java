@@ -9,7 +9,7 @@ import com.dto.stats.BarberServiceSalesStatsDTO;
 import com.dto.stats.BarberServiceUsageStatsDTO;
 import com.enums.BarberServiceCategory;
 import com.enums.PriceRanges;
-import com.exceptions.BusinessException;
+import com.presentation.controller.BaseWebController;
 import com.service.interfaces.BarberserviceService;
 import com.service.interfaces.SaleService;
 import jakarta.validation.Valid;
@@ -17,12 +17,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.util.List;
-import java.util.Objects;
 
 import static com.presentation.constants.HtmlConstants.Paths.*;
 import static com.presentation.constants.HtmlConstants.Redirects.REDIRECT_BARBERSERVICES;
@@ -31,7 +28,7 @@ import static com.presentation.constants.HtmlConstants.Redirects.redirectToUpdat
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/barberservices")
-public class WebBarberserviceController implements WebController<BarberServiceCreationDTO> {
+public class WebBarberserviceController extends BaseWebController<BarberServiceCreationDTO> {
 
     private final BarberserviceService barberserviceService;
     private final SaleService saleService;
@@ -71,8 +68,8 @@ public class WebBarberserviceController implements WebController<BarberServiceCr
                 )
         );
 
-        model.addAttribute("priceRange", PriceRanges.values());
-        model.addAttribute("category", BarberServiceCategory.values());
+        model.addAttribute("priceRangeValues", PriceRanges.values());
+        model.addAttribute("categories", BarberServiceCategory.values());
 
         model.addAttribute("serviceName", serviceName);
         model.addAttribute("category", category);
@@ -84,11 +81,7 @@ public class WebBarberserviceController implements WebController<BarberServiceCr
     @GetMapping("/new")
     public String showBarberServiceCreationForm(Model model, Principal principal) {
 
-        populateCreationCatalog(model);
-        model.addAttribute("currentUser", principal.getName());
-        model.addAttribute("dto", new BarberServiceCreationDTO());
-
-        return BARBERSERVICE_CREATION;
+        return showCreationForm(model, principal, new BarberServiceCreationDTO());
     }
 
     @PostMapping("/new")
@@ -99,28 +92,7 @@ public class WebBarberserviceController implements WebController<BarberServiceCr
             Principal principal
     ) {
 
-        if (bindingResult.hasErrors()) {
-
-            model.addAttribute("validationErrors", bindingResult.getFieldErrors().stream()
-                    .map(FieldError::getDefaultMessage)
-                    .filter(Objects::nonNull)
-                    .toList());
-
-            return renderCreationForm(model, principal, dto);
-        }
-
-        try {
-
-            barberserviceService.registerNewBarberService(dto);
-
-            return REDIRECT_BARBERSERVICES;
-
-        } catch (BusinessException exception) {
-
-            model.addAttribute("validationErrors", List.of(exception.getMessage()));
-
-            return renderCreationForm(model, principal, dto);
-        }
+        return createEntity(dto, bindingResult, model, principal, REDIRECT_BARBERSERVICES);
     }
 
     @PostMapping("/{barberserviceID}/delete")
@@ -150,18 +122,24 @@ public class WebBarberserviceController implements WebController<BarberServiceCr
     }
 
     @Override
-    public String renderCreationForm(Model model, Principal principal, BarberServiceCreationDTO dto) {
+    protected void executeCreation(BarberServiceCreationDTO dto) {
 
-        populateCreationCatalog(model);
+        barberserviceService.registerNewBarberService(dto);
+    }
+
+    @Override
+    public String renderCreationForm(Model model, Principal principal, BarberServiceCreationDTO dto) {
 
         model.addAttribute("currentUser", principal.getName());
         model.addAttribute("dto", dto);
+
+        populateCreationForm(model);
 
         return BARBERSERVICE_CREATION;
     }
 
     @Override
-    public void populateCreationCatalog(Model model) {
+    protected void populateCreationForm(Model model) {
 
         model.addAttribute("categories", BarberServiceCategory.values());
     }
