@@ -1,5 +1,6 @@
 package com.presentation.controller.web;
 
+import com.dto.employee.EmployeeCreationDTO;
 import com.dto.employee.EmployeeUpdateDTO;
 import com.enums.EmployeeStatus;
 import com.enums.HireDateRange;
@@ -20,7 +21,7 @@ import static com.presentation.constants.HtmlConstants.Redirects.redirectToUpdat
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/employees")
-public class WebEmployeeController {
+public class WebEmployeeController implements WebController<EmployeeCreationDTO>{
 
     private final EmployeeService employeeService;
     private final SaleService saleService;
@@ -84,5 +85,17 @@ public class WebEmployeeController {
         employeeService.changeEmployeeIsActiveValue(employeeID);
 
         return REDIRECT_EMPLOYEES;
+    }
+
+    @Override
+    public String renderCreationForm(Model model, Principal principal, EmployeeCreationDTO dto) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'renderCreationForm'");
+    }
+
+    @Override
+    public void populateCreationCatalog(Model model) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'populateCreationCatalog'");
     }
 }

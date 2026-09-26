@@ -13,10 +13,13 @@ public final class HtmlConstants {
         public static final String REGISTER = "register";
         public static final String DASHBOARD = "dashboard";
         public static final String APPOINTMENTS = "appointments";
+        public static final String APPOINTMENT_CREATION = "appointment-creation";
         public static final String APPOINTMENT_UPDATE = "appointment-update";
         public static final String BARBERSERVICES = "barberservices";
+        public static final String BARBERSEVICE_CREATION = "barberservice-creation";
         public static final String BARBERSERVICE_UPDATE = "barberservice-update";
         public static final String CLIENTS = "clients";
+        public static final String CLIENT_CREATION = "client-creation";
         public static final String CLIENT_UPDATE = "client-update";
         public static final String EMPLOYEES = "employees";
         public static final String EMPLOYEE_UPDATE = "employee-update";
