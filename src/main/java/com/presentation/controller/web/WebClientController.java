@@ -8,7 +8,6 @@ import com.enums.RegisteredPhoneFilter;
 import com.enums.RegistrationDateRange;
 import com.exceptions.BusinessException;
 import com.service.interfaces.ClientService;
-
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -22,7 +21,6 @@ import java.util.List;
 import java.util.Objects;
 
 import static com.presentation.constants.HtmlConstants.Paths.CLIENTS;
-import static com.presentation.constants.HtmlConstants.Paths.CLIENT_CREATION;
 import static com.presentation.constants.HtmlConstants.Paths.CLIENT_UPDATE;
 import static com.presentation.constants.HtmlConstants.Redirects.REDIRECT_CLIENTS;
 import static com.presentation.constants.HtmlConstants.Redirects.redirectToUpdate;
@@ -103,6 +101,14 @@ public class WebClientController implements WebController<ClientCreationDTO> {
         }
     }
 
+    @Override
+    public String renderCreationForm(Model model, Principal principal, ClientCreationDTO dto) {
+        return "";
+    }
+
+    @Override
+    public void populateCreationCatalog(Model model) {
+
     }
 
     @PostMapping("/{clientID}/delete")
@@ -129,23 +135,5 @@ public class WebClientController implements WebController<ClientCreationDTO> {
         service.updateClient(clientID, dto);
 
         return redirectToUpdate(REDIRECT_CLIENTS, clientID);
-    }
-
-    @Override
-    public String renderCreationForm(Model model, Principal principal, ClientCreationDTO dto) {
-
-        model.addAttribute("currentUser", principal.getName());
-        model.addAttribute("dto", dto);
-
-        populateCreationCatalog(model);
-
-        return CLIENT_CREATION;
-    }
-
-    @Override
-    public void populateCreationCatalog(Model model) {
-        /*
-         * Client creation process does not rely on other's entity information
-         */
     }
 }

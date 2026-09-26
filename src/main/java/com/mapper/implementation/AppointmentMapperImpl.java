@@ -39,6 +39,7 @@ public class AppointmentMapperImpl implements AppointmentMapper {
                 .registrationTimestamp(LocalDateTime.now())
                 .startDateTime(MapperHelper.truncateToMinute(dto.getStartDateTime()))
                 .endDateTime(MapperHelper.truncateToMinute(dto.getEndDateTime()))
+                .optionalNotes(dto.getOptionalNotes())
                 .modifiedDate(LocalDateTime.now())
                 .currentStatus(defaultStatus)
                 .build();

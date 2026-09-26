@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" th:attr="data-theme=${@appPreferences.getTheme()}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Nuevo Turno - LA TERCERA BARBERSHOP</title>
+    <script type="importmap">
+        { "imports": { "@material/web/": "https://esm.run/@material/web/" } }
+    </script>
+    <script type="module">
+        import '@material/web/all.js';
+        import {styles as typescaleStyles} from '@material/web/typography/md-typescale-styles.js';
+        document.adoptedStyleSheets.push(typescaleStyles.styleSheet);
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+          rel="stylesheet">
+    <link rel="stylesheet" href="/css/theme.css">
+    <style>
+        * {
+            box-sizing: border-box
+        }
+
+        body {
+            margin: 0;
+            font-family: Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--md-sys-color-surface);
+            color: var(--md-sys-color-on-surface);
+            -webkit-font-smoothing: antialiased
+        }
+
+        .app-header {
+            position: sticky;
+            top: 0;
+            z-index: 6;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            height: 64px;
+            padding: 0 8px;
+            background: var(--md-sys-color-surface-container-low);
+            border-bottom: 1px solid var(--md-sys-color-outline-variant)
+        }
+
+        .app-header-titles {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-width: 0;
+            margin-left: 8px
+        }
+
+        .app-header-titles span {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis
+        }
+
+        .app-shell {
+            display: flex;
+            min-height: calc(100vh - 64px)
+        }
+
+        .nav-drawer {
+            position: fixed;
+            top: 64px;
+            bottom: 0;
+            left: 0;
+            z-index: 5;
+            width: min(320px, 84vw);
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            background: var(--md-sys-color-surface-container-low);
+            border-right: 1px solid var(--md-sys-color-outline-variant);
+            transform: translateX(-105%);
+            transition: transform 200ms ease
+        }
+
+        .nav-drawer.open {
+            transform: translateX(0)
+        }
+
+        .nav-scrim {
+            position: fixed;
+            inset: 64px 0 0 0;
+            z-index: 4;
+            background: rgba(0, 0, 0, .4);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 200ms ease
+        }
+
+        .nav-scrim.open {
+            opacity: 1;
+            pointer-events: auto
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px
+        }
+
+        .nav-brand img {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            object-fit: cover
+        }
+
+        .nav-brand-copy {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.3;
+            min-width: 0
+        }
+
+        .app-main {
+            flex: 1;
+            min-width: 0;
+            width: 100%;
+            padding: 20px 16px 40px
+        }
+
+        .main-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 28px
+        }
+
+        .page-header {
+            display: flex;
+            flex-direction: column;
+            gap: 4px
+        }
+
+        .surface {
+            position: relative;
+            isolation: isolate;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            padding: 20px;
+            border-radius: 16px;
+            background: var(--md-sys-color-surface-container-low);
+            --md-elevation-level: 1
+        }
+
+        .surface.outlined {
+            background: var(--md-sys-color-surface);
+            border: 1px solid var(--md-sys-color-outline-variant);
+            --md-elevation-level: 0
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px
+        }
+
+        .form-grid md-outlined-text-field,
+        .form-grid md-outlined-select {
+            width: 100%
+        }
+
+        .btn-row {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 16px
+        }
+
+        .btn-row md-outlined-button,
+        .btn-row md-filled-button {
+            flex: 1;
+            min-width: 150px;
+            height: 40px
+        }
+
+        .appt-summary {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            padding-top: 12px;
+            margin-top: 4px;
+            border-top: 1px solid var(--md-sys-color-outline-variant)
+        }
+
+        .appt-summary[hidden] {
+            display: none
+        }
+
+        .summary-title {
+            margin: 0 0 4px 0
+        }
+
+        .summary-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--md-sys-color-on-surface);
+            min-width: 0
+        }
+
+        .summary-row md-icon {
+            font-size: 20px;
+            color: var(--md-sys-color-secondary);
+            flex-shrink: 0
+        }
+
+        .summary-row span {
+            min-width: 0;
+            overflow-wrap: anywhere
+        }
+
+        .error-item {
+            display: flex;
+            gap: 8px;
+            align-items: flex-start;
+            padding: 4px 0
+        }
+
+        .error-item::before {
+            content: '•';
+            color: var(--md-sys-color-error)
+        }
+
+        @media (min-width: 600px) {
+            .app-main {
+                padding: 28px 24px 48px
+            }
+
+            .form-grid {
+                grid-template-columns: repeat(2, 1fr)
+            }
+        }
+
+        @media (min-width: 840px) {
+            .nav-toggle {
+                display: none
+            }
+
+            .nav-scrim {
+                display: none
+            }
+
+            .nav-drawer {
+                position: sticky;
+                top: 64px;
+                height: calc(100vh - 64px);
+                transform: none
+            }
+
+            .app-main {
+                padding: 32px 32px 56px
+            }
+        }
+    </style>
+</head>
+<body>
+<header class="app-header">
+    <md-icon-button id="navToggle" class="nav-toggle" aria-label="Abrir navegación">
+        <md-icon>menu</md-icon>
+    </md-icon-button>
+    <div class="app-header-titles">
+        <span class="md-typescale-title-large">Nuevo Turno</span>
+        <span class="md-typescale-label-large" th:text="${currentUser}">Usuario</span>
+    </div>
+    <span style="flex:1"></span>
+    <md-icon-button aria-label="Cuenta de usuario">
+        <md-icon>account_circle</md-icon>
+    </md-icon-button>
+</header>
+
+<div class="nav-scrim" id="navScrim"></div>
+
+<div class="app-shell">
+    <aside class="nav-drawer" id="navDrawer" aria-label="Navegación principal">
+        <div class="nav-brand">
+            <img th:src="@{/images/Logo.jpg}" src="/images/Logo.jpg" alt="Logo LA TERCERA">
+            <div class="nav-brand-copy">
+                <span class="md-typescale-title-medium">LA TERCERA</span>
+                <span class="md-typescale-label-medium">BARBERSHOP</span>
+            </div>
+        </div>
+        <md-divider></md-divider>
+        <md-list>
+            <md-list-item type="link" href="/dashboard">
+                <md-icon slot="start">dashboard</md-icon>
+                <span slot="headline">Dashboard</span>
+            </md-list-item>
+            <md-list-item type="link" href="/clients">
+                <md-icon slot="start">person</md-icon>
+                <span slot="headline">Clientes</span>
+            </md-list-item>
+            <md-list-item type="link" href="/employees">
+                <md-icon slot="start">badge</md-icon>
+                <span slot="headline">Empleados</span>
+            </md-list-item>
+            <md-list-item type="link" href="/appointments">
+                <md-icon slot="start">calendar_today</md-icon>
+                <span slot="headline">Turnos</span>
+            </md-list-item>
+            <md-list-item type="link" href="/barberservices">
+                <md-icon slot="start">cut</md-icon>
+                <span slot="headline">Servicios</span>
+            </md-list-item>
+            <md-list-item type="link" href="/products">
+                <md-icon slot="start">inventory_2</md-icon>
+                <span slot="headline">Stock de productos</span>
+            </md-list-item>
+            <md-list-item type="link" href="/payment-methods">
+                <md-icon slot="start">payments</md-icon>
+                <span slot="headline">Medios de pago</span>
+            </md-list-item>
+            <md-list-item type="link" href="/sales">
+                <md-icon slot="start">point_of_sale</md-icon>
+                <span slot="headline">Ventas</span>
+            </md-list-item>
+        </md-list>
+        <md-divider></md-divider>
+        <md-list>
+            <md-list-item type="link" href="/settings">
+                <md-icon slot="start">settings</md-icon>
+                <span slot="headline">Configuración</span>
+            </md-list-item>
+            <md-list-item id="logoutItem">
+                <md-icon slot="start">logout</md-icon>
+                <span slot="headline">Cerrar Sesión</span>
+            </md-list-item>
+        </md-list>
+    </aside>
+
+    <main class="app-main">
+        <div class="main-inner">
+            <div class="page-header">
+                <h1 class="md-typescale-headline-small" style="margin:0">Nuevo Turno</h1>
+                <p class="md-typescale-body-medium" style="margin:0;color:var(--md-sys-color-on-surface-variant)">Agenda un turno en la barbería</p>
+            </div>
+
+            <section aria-label="Formulario de registro de turno">
+                <form th:action="@{/appointments/new}" method="post">
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                    <div class="surface outlined">
+                        <div class="form-grid">
+                            <md-outlined-select label="Cliente" name="clientID" id="clientSelect">
+                                <md-select-option value="" th:selected="${dto.clientID == null}">
+                                    <div slot="headline">Seleccionar cliente</div>
+                                </md-select-option>
+                                <md-select-option th:each="client : ${clients}"
+                                                  th:value="${client.id}"
+                                                  th:selected="${dto.clientID != null and dto.clientID == client.id}">
+                                    <div slot="headline" th:text="${client.firstName + ' ' + client.lastName}"></div>
+                                </md-select-option>
+                            </md-outlined-select>
+
+                            <md-outlined-select label="Servicio" name="barberserviceID" id="serviceSelect">
+                                <md-select-option value="" th:selected="${dto.barberserviceID == null}">
+                                    <div slot="headline">Seleccionar servicio</div>
+                                </md-select-option>
+                                <md-select-option th:each="service : ${services}"
+                                                  th:value="${service.barberServiceId}"
+                                                  th:attr="data-price=${service.price}"
+                                                  th:selected="${dto.barberserviceID != null and dto.barberserviceID == service.barberServiceId}">
+                                    <div slot="headline"
+                                         th:text="${service.name + ' - $' + #numbers.formatDecimal(service.price, 1, 2)}"></div>
+                                </md-select-option>
+                            </md-outlined-select>
+
+                            <md-outlined-select label="Empleado" name="employeeID" id="employeeSelect">
+                                <md-select-option value="" th:selected="${dto.employeeID == null}">
+                                    <div slot="headline">Seleccionar empleado</div>
+                                </md-select-option>
+                                <md-select-option th:each="employee : ${employees}"
+                                                  th:value="${employee.id}"
+                                                  th:selected="${dto.employeeID != null and dto.employeeID == employee.id}">
+                                    <div slot="headline" th:text="${employee.firstName + ' ' + employee.lastName}"></div>
+                                </md-select-option>
+                            </md-outlined-select>
+
+                            <md-outlined-text-field label="Inicio del turno" name="startDateTime" id="startDateTime"
+                                                    type="datetime-local" th:value="${dto.startDateTime}">
+                                <md-icon slot="leading-icon">event</md-icon>
+                            </md-outlined-text-field>
+
+                            <md-outlined-text-field label="Fin del turno" name="endDateTime" id="endDateTime"
+                                                    type="datetime-local" th:value="${dto.endDateTime}">
+                                <md-icon slot="leading-icon">schedule</md-icon>
+                            </md-outlined-text-field>
+
+                            <md-outlined-text-field label="Notas opcionales" name="optionalNotes" id="optionalNotes"
+                                                    type="textarea" rows="3" maxlength="256"
+                                                    th:value="${dto.optionalNotes}"
+                                                    placeholder="Agregar notas o comentarios sobre el turno">
+                                <md-icon slot="leading-icon">notes</md-icon>
+                            </md-outlined-text-field>
+                        </div>
+
+                        <div class="surface outlined appt-summary" id="appointmentSummary" hidden>
+                            <h3 class="md-typescale-title-medium summary-title">Resumen del turno</h3>
+                            <div class="summary-row">
+                                <md-icon aria-hidden="true">person</md-icon>
+                                <span id="summaryClient" class="md-typescale-body-medium">—</span>
+                            </div>
+                            <div class="summary-row">
+                                <md-icon aria-hidden="true">cut</md-icon>
+                                <span id="summaryService" class="md-typescale-body-medium">—</span>
+                            </div>
+                            <div class="summary-row">
+                                <md-icon aria-hidden="true">badge</md-icon>
+                                <span id="summaryEmployee" class="md-typescale-body-medium">—</span>
+                            </div>
+                            <div class="summary-row">
+                                <md-icon aria-hidden="true">event</md-icon>
+                                <span id="summaryDatetime" class="md-typescale-body-medium">—</span>
+                            </div>
+                            <div class="summary-row">
+                                <md-icon aria-hidden="true">payments</md-icon>
+                                <span id="summaryPrice" class="md-typescale-body-medium">—</span>
+                            </div>
+                        </div>
+
+                        <div class="btn-row">
+                            <md-filled-button type="submit">
+                                <md-icon slot="icon">check</md-icon>
+                                Guardar Turno
+                            </md-filled-button>
+                            <md-outlined-button type="button" onclick="resetForm()">
+                                <md-icon slot="icon">autorenew</md-icon>
+                                Limpiar
+                            </md-outlined-button>
+                            <md-outlined-button href="/appointments">
+                                <md-icon slot="icon">arrow_back</md-icon>
+                                Cancelar
+                            </md-outlined-button>
+                        </div>
+                    </div>
+                </form>
+            </section>
+        </div>
+    </main>
+</div>
+
+<md-dialog id="validationDialog">
+    <div slot="headline" class="md-typescale-headline-small">No se pudo registrar el turno. Por favor, revisa lo siguiente:</div>
+    <div slot="content" class="md-typescale-body-medium">
+        <div th:if="${validationErrors != null and !#lists.isEmpty(validationErrors)}">
+            <div th:each="error : ${validationErrors}" class="error-item">
+                <span th:text="${error}">Error</span>
+            </div>
+        </div>
+    </div>
+    <div slot="actions">
+        <md-text-button id="validationClose">Aceptar</md-text-button>
+    </div>
+</md-dialog>
+
+<md-dialog id="logoutDialog">
+    <div slot="headline" class="md-typescale-headline-small">Cerrar sesión</div>
+    <div slot="content" class="md-typescale-body-medium">
+        ¿Está seguro que desea cerrar la sesión actual?
+        <form id="logoutForm" th:action="@{/logout}" method="post">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+        </form>
+    </div>
+    <div slot="actions">
+        <md-text-button id="logoutCancel">Cancelar</md-text-button>
+        <md-filled-button type="submit" form="logoutForm">Confirmar</md-filled-button>
+    </div>
+</md-dialog>
+<script>
+    const drawer = document.getElementById('navDrawer');
+    const scrim = document.getElementById('navScrim');
+    const toggle = document.getElementById('navToggle');
+
+    function setDrawerOpen(open) {
+        drawer.classList.toggle('open', open);
+        scrim.classList.toggle('open', open);
+    }
+
+    toggle.addEventListener('click', () => setDrawerOpen(!drawer.classList.contains('open')));
+    scrim.addEventListener('click', () => setDrawerOpen(false));
+    drawer.querySelectorAll('md-list-item').forEach(item => item.addEventListener('click', () => setDrawerOpen(false)));
+
+    const clientSelect = document.getElementById('clientSelect');
+    const serviceSelect = document.getElementById('serviceSelect');
+    const employeeSelect = document.getElementById('employeeSelect');
+    const startInput = document.getElementById('startDateTime');
+    const endInput = document.getElementById('endDateTime');
+    const summary = document.getElementById('appointmentSummary');
+    const summaryClient = document.getElementById('summaryClient');
+    const summaryService = document.getElementById('summaryService');
+    const summaryEmployee = document.getElementById('summaryEmployee');
+    const summaryDatetime = document.getElementById('summaryDatetime');
+    const summaryPrice = document.getElementById('summaryPrice');
+    const DEFAULT_DURATION_IN_MINUTES = 60;
+
+    let endEdited = false;
+
+    function optionText(select) {
+        const value = select.value;
+        if (!value) return '';
+        const option = select.querySelector('md-select-option[value="' + value + '"]');
+        return option ? option.textContent.trim() : '';
+    }
+
+    function pad(value) {
+        return String(value).padStart(2, '0');
+    }
+
+    function addMinutes(value, minutes) {
+        const parsed = new Date(value);
+        parsed.setMinutes(parsed.getMinutes() + minutes);
+        return parsed.getFullYear() + '-' + pad(parsed.getMonth() + 1) + '-' + pad(parsed.getDate()) + 'T' +
+            pad(parsed.getHours()) + ':' + pad(parsed.getMinutes());
+    }
+
+    function updateSummary() {
+        const client = optionText(clientSelect);
+        const service = optionText(serviceSelect);
+        const employee = optionText(employeeSelect);
+        const start = startInput.value;
+        const end = endInput.value;
+
+        const complete = client && service && employee && start && end;
+
+        summary.hidden = !complete;
+        if (!complete) return;
+
+        summaryClient.textContent = client;
+        summaryService.textContent = service;
+        summaryEmployee.textContent = employee;
+        summaryDatetime.textContent = start.replace('T', ' ') + ' a ' + end.replace('T', ' ');
+        const selectedService = serviceSelect.querySelector('md-select-option[value="' + serviceSelect.value + '"]');
+        const price = selectedService ? parseFloat(selectedService.getAttribute('data-price')) : NaN;
+        summaryPrice.textContent = isNaN(price) ? '—' : '$' + price.toFixed(2);
+    }
+
+    clientSelect.addEventListener('change', updateSummary);
+    serviceSelect.addEventListener('change', updateSummary);
+    employeeSelect.addEventListener('change', updateSummary);
+    endInput.addEventListener('input', () => {
+        endEdited = true;
+        updateSummary();
+    });
+    startInput.addEventListener('change', () => {
+        if (!endEdited && startInput.value) {
+            endInput.value = addMinutes(startInput.value, DEFAULT_DURATION_IN_MINUTES);
+        }
+        updateSummary();
+    });
+
+    function resetForm() {
+        window.location.href = '/appointments/new';
+    }
+
+    updateSummary();
+
+    const validationDialog = document.getElementById('validationDialog');
+    const validationClose = document.getElementById('validationClose');
+    validationClose.addEventListener('click', () => validationDialog.close());
+    if (document.querySelectorAll('#validationDialog .error-item').length > 0) {
+        validationDialog.show();
+    }
+
+    const logoutItem = document.getElementById('logoutItem');
+    const logoutDialog = document.getElementById('logoutDialog');
+    const logoutCancel = document.getElementById('logoutCancel');
+
+    logoutItem.addEventListener('click', () => logoutDialog.show());
+    logoutCancel.addEventListener('click', () => logoutDialog.close());
+</script>
+</body>
+</html>

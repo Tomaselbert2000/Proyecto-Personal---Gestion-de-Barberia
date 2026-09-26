@@ -10,7 +10,7 @@ import com.dto.stats.AppointmentTomorrowStatsDTO;
 import com.enums.AppointmentStatus;
 import com.exceptions.BusinessException;
 import com.service.interfaces.AppointmentService;
-
+import com.service.interfaces.ClientService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -25,18 +25,17 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
-import static com.presentation.constants.HtmlConstants.Paths.APPOINTMENTS;
-import static com.presentation.constants.HtmlConstants.Paths.APPOINTMENT_CREATION;
-import static com.presentation.constants.HtmlConstants.Paths.APPOINTMENT_UPDATE;
+import static com.presentation.constants.HtmlConstants.Paths.*;
 import static com.presentation.constants.HtmlConstants.Redirects.REDIRECT_APPOINTMENTS;
 import static com.presentation.constants.HtmlConstants.Redirects.redirectToUpdate;
 
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/appointments")
-public class WebAppointmentController implements WebController<AppointmentCreationDTO> {
+public class WebAppointmentController implements WebController<AppointmentCreationDTO>{
 
     private final AppointmentService service;
+    private final ClientService clientService;
 
     @GetMapping()
     public String showAppointments(
@@ -45,7 +44,8 @@ public class WebAppointmentController implements WebController<AppointmentCreati
             @RequestParam(required = false) String clientName,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
             @RequestParam(required = false) AppointmentStatus status,
-            @RequestParam(required = false) String employeeName) {
+            @RequestParam(required = false) String employeeName
+    ) {
 
         AppointmentTodayStatsDTO appointmentTodayStatsDTO = service.getAppointmentsTodayStats();
         AppointmentTomorrowStatsDTO appointmentTomorrowStatsDTO = service.getPendingAppointmentsStats();
@@ -70,6 +70,48 @@ public class WebAppointmentController implements WebController<AppointmentCreati
         model.addAttribute("selectedEmployeeName", employeeName);
 
         return APPOINTMENTS;
+    }
+
+    @GetMapping("/new")
+    public String showAppointmentCreationForm(Model model, Principal principal) {
+
+        populateCreationCatalog(model);
+        model.addAttribute("currentUser", principal.getName());
+        model.addAttribute("dto", new AppointmentCreationDTO());
+
+        return APPOINTMENT_CREATION;
+    }
+
+    @PostMapping("/new")
+    public String createAppointment(
+            @Valid @ModelAttribute(name = "dto") AppointmentCreationDTO dto,
+            BindingResult bindingResult,
+            Model model,
+            Principal principal
+    ) {
+
+        if (bindingResult.hasErrors()) {
+
+            model.addAttribute("validationErrors", bindingResult.getFieldErrors().stream()
+                    .map(FieldError::getDefaultMessage)
+                    .filter(Objects::nonNull)
+                    .toList());
+
+            return renderCreationForm(model, principal, dto);
+        }
+
+        try {
+
+            service.registerNewAppointment(dto);
+
+            return REDIRECT_APPOINTMENTS;
+
+        } catch (BusinessException exception) {
+
+            model.addAttribute("validationErrors", List.of(exception.getMessage()));
+
+            return renderCreationForm(model, principal, dto);
+        }
     }
 
     @PostMapping("/{appointmentID}/complete")
@@ -106,47 +148,6 @@ public class WebAppointmentController implements WebController<AppointmentCreati
         return APPOINTMENT_UPDATE;
     }
 
-    @GetMapping("/new")
-    public String showAppointmentCreationForm(
-            Model model,
-            Principal principal) {
-
-        return renderCreationForm(model, principal, new AppointmentCreationDTO());
-    }
-
-    @PostMapping("/new")
-    public String createAppointment(
-            @Valid @ModelAttribute(name = "dto") AppointmentCreationDTO dto,
-            BindingResult bindingResult,
-            Model model,
-            Principal principal) {
-
-        if (bindingResult.hasErrors()) {
-
-            model.addAttribute(
-                    "validationErrors", bindingResult.getFieldErrors()
-                            .stream()
-                            .map(FieldError::getDefaultMessage)
-                            .filter(Objects::nonNull)
-                            .toList());
-
-            return renderCreationForm(model, principal, dto);
-        }
-
-        try {
-
-            service.registerNewAppointment(dto);
-
-            return REDIRECT_APPOINTMENTS;
-
-        } catch (BusinessException exception) {
-
-            model.addAttribute("validationErrors", List.of(exception.getMessage()));
-
-            return renderCreationForm(model, principal, dto);
-        }
-    }
-
     @PostMapping("/{appointmentID}/update")
     public String updateAppointment(@PathVariable Long appointmentID, @ModelAttribute AppointmentUpdateDTO dto) {
 
@@ -158,10 +159,9 @@ public class WebAppointmentController implements WebController<AppointmentCreati
     @Override
     public String renderCreationForm(Model model, Principal principal, AppointmentCreationDTO dto) {
 
+        populateCreationCatalog(model);
         model.addAttribute("currentUser", principal.getName());
         model.addAttribute("dto", dto);
-
-        populateCreationCatalog(model);
 
         return APPOINTMENT_CREATION;
     }
@@ -169,8 +169,8 @@ public class WebAppointmentController implements WebController<AppointmentCreati
     @Override
     public void populateCreationCatalog(Model model) {
 
+        model.addAttribute("clients", clientService.getClientList());
         model.addAttribute("services", service.getBarberServicesFromServiceInstance());
         model.addAttribute("employees", service.getEmployeesFromServiceInstance());
-        model.addAttribute("statuses", AppointmentStatus.values());
     }
 }

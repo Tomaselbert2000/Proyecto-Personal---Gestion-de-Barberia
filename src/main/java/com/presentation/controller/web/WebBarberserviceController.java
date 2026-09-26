@@ -12,7 +12,6 @@ import com.enums.PriceRanges;
 import com.exceptions.BusinessException;
 import com.service.interfaces.BarberserviceService;
 import com.service.interfaces.SaleService;
-
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -25,9 +24,7 @@ import java.security.Principal;
 import java.util.List;
 import java.util.Objects;
 
-import static com.presentation.constants.HtmlConstants.Paths.BARBERSERVICES;
-import static com.presentation.constants.HtmlConstants.Paths.BARBERSERVICE_UPDATE;
-import static com.presentation.constants.HtmlConstants.Paths.BARBERSEVICE_CREATION;
+import static com.presentation.constants.HtmlConstants.Paths.*;
 import static com.presentation.constants.HtmlConstants.Redirects.REDIRECT_BARBERSERVICES;
 import static com.presentation.constants.HtmlConstants.Redirects.redirectToUpdate;
 
@@ -67,13 +64,15 @@ public class WebBarberserviceController implements WebController<BarberServiceCr
         model.addAttribute("usageStats", usageStatsDTO);
 
         model.addAttribute("liveSearch", barberserviceService.liveSearch(
-                serviceName,
-                category,
-                minPrice,
-                maxPrice));
+                        serviceName,
+                        category,
+                        minPrice,
+                        maxPrice
+                )
+        );
 
-        model.addAttribute("priceRangeValues", PriceRanges.values());
-        model.addAttribute("categories", BarberServiceCategory.values());
+        model.addAttribute("priceRange", PriceRanges.values());
+        model.addAttribute("category", BarberServiceCategory.values());
 
         model.addAttribute("serviceName", serviceName);
         model.addAttribute("category", category);
@@ -85,7 +84,11 @@ public class WebBarberserviceController implements WebController<BarberServiceCr
     @GetMapping("/new")
     public String showBarberServiceCreationForm(Model model, Principal principal) {
 
-        return renderCreationForm(model, principal, new BarberServiceCreationDTO());
+        populateCreationCatalog(model);
+        model.addAttribute("currentUser", principal.getName());
+        model.addAttribute("dto", new BarberServiceCreationDTO());
+
+        return BARBERSERVICE_CREATION;
     }
 
     @PostMapping("/new")
@@ -93,16 +96,15 @@ public class WebBarberserviceController implements WebController<BarberServiceCr
             @Valid @ModelAttribute(name = "dto") BarberServiceCreationDTO dto,
             BindingResult bindingResult,
             Model model,
-            Principal principal) {
+            Principal principal
+    ) {
 
         if (bindingResult.hasErrors()) {
 
-            model.addAttribute(
-                    "validationErrors", bindingResult.getFieldErrors()
-                            .stream()
-                            .map(FieldError::getDefaultMessage)
-                            .filter(Objects::nonNull)
-                            .toList());
+            model.addAttribute("validationErrors", bindingResult.getFieldErrors().stream()
+                    .map(FieldError::getDefaultMessage)
+                    .filter(Objects::nonNull)
+                    .toList());
 
             return renderCreationForm(model, principal, dto);
         }
@@ -150,12 +152,12 @@ public class WebBarberserviceController implements WebController<BarberServiceCr
     @Override
     public String renderCreationForm(Model model, Principal principal, BarberServiceCreationDTO dto) {
 
+        populateCreationCatalog(model);
+
         model.addAttribute("currentUser", principal.getName());
         model.addAttribute("dto", dto);
 
-        populateCreationCatalog(model);
-
-        return BARBERSEVICE_CREATION;
+        return BARBERSERVICE_CREATION;
     }
 
     @Override

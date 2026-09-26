@@ -12,23 +12,34 @@ public final class HtmlConstants {
         public static final String LOGIN = "login";
         public static final String REGISTER = "register";
         public static final String DASHBOARD = "dashboard";
+
         public static final String APPOINTMENTS = "appointments";
         public static final String APPOINTMENT_CREATION = "appointment-creation";
         public static final String APPOINTMENT_UPDATE = "appointment-update";
+
         public static final String BARBERSERVICES = "barberservices";
-        public static final String BARBERSEVICE_CREATION = "barberservice-creation";
+        public static final String BARBERSERVICE_CREATION = "barberservice-creation";
         public static final String BARBERSERVICE_UPDATE = "barberservice-update";
+
         public static final String CLIENTS = "clients";
         public static final String CLIENT_CREATION = "client-creation";
         public static final String CLIENT_UPDATE = "client-update";
+
         public static final String EMPLOYEES = "employees";
+        public static final String EMPLOYEE_CREATION = "employee-creation";
         public static final String EMPLOYEE_UPDATE = "employee-update";
+
         public static final String PAYMENTS = "payments";
+        public static final String PAYMENT_CREATION = "payment-creation";
         public static final String PAYMENT_UPDATE = "payment-update";
+
         public static final String PRODUCTS = "products";
         public static final String PRODUCT_STOCK = "product-stock";
+        public static final String PRODUCT_CREATION = "product-creation";
         public static final String PRODUCT_UPDATE = "product-update";
+
         public static final String SALES = "sales";
+        public static final String SALE_CREATION = "sale-creation";
         public static final String SALE_DETAIL = "sale-detail";
         public static final String SETTINGS = "settings";
 
