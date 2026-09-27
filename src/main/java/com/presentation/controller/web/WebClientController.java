@@ -1,11 +1,11 @@
 package com.presentation.controller.web;
 
 import com.dto.client.ClientCreationDTO;
-import com.dto.client.ClientInfoDTO;
 import com.dto.client.ClientUpdateDTO;
 import com.enums.ClientNotesFilter;
 import com.enums.RegisteredPhoneFilter;
 import com.enums.RegistrationDateRange;
+import com.mapper.interfaces.ClientMapper;
 import com.presentation.controller.BaseWebController;
 import com.service.interfaces.ClientService;
 import jakarta.validation.Valid;
@@ -19,14 +19,14 @@ import java.security.Principal;
 
 import static com.presentation.constants.HtmlConstants.Paths.*;
 import static com.presentation.constants.HtmlConstants.Redirects.REDIRECT_CLIENTS;
-import static com.presentation.constants.HtmlConstants.Redirects.redirectToUpdate;
 
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/clients")
-public class WebClientController extends BaseWebController<ClientCreationDTO> {
+public class WebClientController extends BaseWebController<ClientCreationDTO, ClientUpdateDTO> {
 
     private final ClientService service;
+    private final ClientMapper mapper;
 
     @GetMapping()
     public String showClientCatalog(
@@ -61,7 +61,7 @@ public class WebClientController extends BaseWebController<ClientCreationDTO> {
     @GetMapping("/new")
     public String showClientCreationForm(Model model, Principal principal) {
 
-        return renderCreationForm(model, principal, new ClientCreationDTO());
+        return showCreationForm(model, principal, new ClientCreationDTO());
     }
 
     @PostMapping("/new")
@@ -75,9 +75,27 @@ public class WebClientController extends BaseWebController<ClientCreationDTO> {
     }
 
     @Override
+    protected ClientUpdateDTO invokeServiceAndReturnDTO(Long id) {
+
+        return mapper.mapInfoDTOtoUpdateDTO(service.getClientInfo(id));
+    }
+
+    @Override
     protected void executeCreation(ClientCreationDTO dto) {
 
         service.registerNewClient(dto);
+    }
+
+    @Override
+    protected void executeUpdate(Long entityID, ClientUpdateDTO updateDTO) {
+
+        service.updateClient(entityID, updateDTO);
+    }
+
+    @Override
+    protected void executeDeletion(Long entityID) {
+
+        service.deleteClient(entityID);
     }
 
     @Override
@@ -92,32 +110,40 @@ public class WebClientController extends BaseWebController<ClientCreationDTO> {
     }
 
     @Override
+    protected String renderUpdateForm(Model model, Long entityID, Principal principal, ClientUpdateDTO updateDTO) {
+
+        model.addAttribute("currentUser", principal.getName());
+        model.addAttribute("client", service.getClientInfo(entityID));
+        model.addAttribute("updateDTO", updateDTO);
+
+        return CLIENT_UPDATE;
+    }
+
+    @Override
     protected void populateCreationForm(Model model) {
     }
 
     @PostMapping("/{clientID}/delete")
     public String deleteClient(@PathVariable Long clientID) {
 
-        service.deleteClient(clientID);
-
-        return REDIRECT_CLIENTS;
+        return deleteEntity(clientID, REDIRECT_CLIENTS);
     }
 
     @GetMapping("/{clientID}/update")
-    public String updateClient(@PathVariable Long clientID, Model model) {
+    public String updateClient(@PathVariable Long clientID, Model model, Principal principal) {
 
-        ClientInfoDTO dto = service.getClientInfo(clientID);
-
-        model.addAttribute("dto", dto);
-
-        return CLIENT_UPDATE;
+        return renderUpdateForm(model, clientID, principal, invokeServiceAndReturnDTO(clientID));
     }
 
     @PostMapping("/{clientID}/update")
-    public String updateClient(@PathVariable Long clientID, @ModelAttribute ClientUpdateDTO dto) {
+    public String updateClient(
+            @PathVariable Long clientID,
+            @Valid @ModelAttribute ClientUpdateDTO dto,
+            BindingResult bindingResult,
+            Model model,
+            Principal principal
+    ) {
 
-        service.updateClient(clientID, dto);
-
-        return redirectToUpdate(REDIRECT_CLIENTS, clientID);
+        return updateEntity(clientID, dto, bindingResult, model, principal, REDIRECT_CLIENTS);
     }
 }

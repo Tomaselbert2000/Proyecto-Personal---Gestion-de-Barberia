@@ -8,6 +8,7 @@ import com.dto.stats.AppointmentMonthlyComparisonDTO;
 import com.dto.stats.AppointmentTodayStatsDTO;
 import com.dto.stats.AppointmentTomorrowStatsDTO;
 import com.enums.AppointmentStatus;
+import com.mapper.interfaces.AppointmentMapper;
 import com.presentation.controller.BaseWebController;
 import com.service.interfaces.AppointmentService;
 import com.service.interfaces.ClientService;
@@ -25,15 +26,15 @@ import java.util.List;
 
 import static com.presentation.constants.HtmlConstants.Paths.*;
 import static com.presentation.constants.HtmlConstants.Redirects.REDIRECT_APPOINTMENTS;
-import static com.presentation.constants.HtmlConstants.Redirects.redirectToUpdate;
 
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/appointments")
-public class WebAppointmentController extends BaseWebController<AppointmentCreationDTO> {
+public class WebAppointmentController extends BaseWebController<AppointmentCreationDTO, AppointmentUpdateDTO> {
 
     private final AppointmentService appointmentService;
     private final ClientService clientService;
+    private final AppointmentMapper mapper;
 
     @GetMapping()
     public String showAppointments(
@@ -114,30 +115,31 @@ public class WebAppointmentController extends BaseWebController<AppointmentCreat
     @PostMapping("/{appointmentID}/delete")
     public String deleteAppointment(@PathVariable Long appointmentID) {
 
-        appointmentService.deleteAppointment(appointmentID);
-
-        return REDIRECT_APPOINTMENTS;
+        return deleteEntity(appointmentID, REDIRECT_APPOINTMENTS);
     }
 
     @GetMapping("/{appointmentID}/update")
-    public String updateAppointment(@PathVariable Long appointmentID, Model model) {
+    public String showAppointmentUpdateForm(@PathVariable Long appointmentID, Model model, Principal principal) {
 
-        AppointmentInfoDTO dto = appointmentService.getAppointmentInfo(appointmentID);
-
-        model.addAttribute("dto", dto);
-        model.addAttribute("services", appointmentService.getBarberServicesFromServiceInstance());
-        model.addAttribute("employees", appointmentService.getEmployeesFromServiceInstance());
-        model.addAttribute("statuses", AppointmentStatus.values());
-
-        return APPOINTMENT_UPDATE;
+        return renderUpdateForm(model, appointmentID, principal, invokeServiceAndReturnDTO(appointmentID));
     }
 
     @PostMapping("/{appointmentID}/update")
-    public String updateAppointment(@PathVariable Long appointmentID, @ModelAttribute AppointmentUpdateDTO dto) {
+    public String updateAppointment(
+            @PathVariable Long appointmentID,
+            @Valid @ModelAttribute(name = "dto") AppointmentUpdateDTO dto,
+            BindingResult bindingResult,
+            Model model,
+            Principal principal
+    ) {
 
-        appointmentService.updateAppointment(appointmentID, dto);
+        return updateEntity(appointmentID, dto, bindingResult, model, principal, REDIRECT_APPOINTMENTS);
+    }
 
-        return redirectToUpdate(REDIRECT_APPOINTMENTS, appointmentID);
+    @Override
+    protected AppointmentUpdateDTO invokeServiceAndReturnDTO(Long id) {
+
+        return mapper.mapInfoDTOtoUpdateDTO(appointmentService.getAppointmentInfo(id));
     }
 
     @Override
@@ -147,13 +149,39 @@ public class WebAppointmentController extends BaseWebController<AppointmentCreat
     }
 
     @Override
+    protected void executeUpdate(Long entityID, AppointmentUpdateDTO dto) {
+
+        appointmentService.updateAppointment(entityID, dto);
+    }
+
+    @Override
+    protected void executeDeletion(Long entityID) {
+
+        appointmentService.deleteAppointment(entityID);
+    }
+
+    @Override
     public String renderCreationForm(Model model, Principal principal, AppointmentCreationDTO dto) {
 
-        populateCreationForm(model);
         model.addAttribute("currentUser", principal.getName());
         model.addAttribute("dto", dto);
 
+        populateCreationForm(model);
+
         return APPOINTMENT_CREATION;
+    }
+
+    @Override
+    protected String renderUpdateForm(Model model, Long entityID, Principal principal, AppointmentUpdateDTO dto) {
+
+        model.addAttribute("appointment", appointmentService.getAppointmentInfo(entityID));
+        model.addAttribute("dto", dto);
+        model.addAttribute("services", appointmentService.getBarberServicesFromServiceInstance());
+        model.addAttribute("employees", appointmentService.getEmployeesFromServiceInstance());
+        model.addAttribute("statuses", AppointmentStatus.values());
+        model.addAttribute("currentUser", principal.getName());
+
+        return APPOINTMENT_UPDATE;
     }
 
     @Override

@@ -1,10 +1,10 @@
 package com.presentation.controller.web;
 
 import com.dto.paymentmethod.PaymentMethodCreationDTO;
-import com.dto.paymentmethod.PaymentMethodInfoDTO;
 import com.dto.paymentmethod.PaymentMethodUpdateDTO;
 import com.enums.PaymentMethodModifierType;
 import com.enums.PaymentMethodStatus;
+import com.mapper.interfaces.PaymentMethodMapper;
 import com.presentation.controller.BaseWebController;
 import com.service.interfaces.PaymentMethodService;
 import com.service.interfaces.SaleService;
@@ -19,15 +19,15 @@ import java.security.Principal;
 
 import static com.presentation.constants.HtmlConstants.Paths.*;
 import static com.presentation.constants.HtmlConstants.Redirects.REDIRECT_PAYMENTS;
-import static com.presentation.constants.HtmlConstants.Redirects.redirectToUpdate;
 
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/payments")
-public class WebPaymentMethodController extends BaseWebController<PaymentMethodCreationDTO> {
+public class WebPaymentMethodController extends BaseWebController<PaymentMethodCreationDTO, PaymentMethodUpdateDTO> {
 
     private final SaleService saleService;
     private final PaymentMethodService paymentMethodService;
+    private final PaymentMethodMapper mapper;
 
     @GetMapping
     public String showPaymentCatalog(
@@ -85,34 +85,53 @@ public class WebPaymentMethodController extends BaseWebController<PaymentMethodC
     @PostMapping("/{paymentID}/delete")
     public String deletePaymentMethod(@PathVariable Long paymentID) {
 
-        paymentMethodService.deletePaymentMethod(paymentID);
-
-        return REDIRECT_PAYMENTS;
+        return deleteEntity(paymentID, REDIRECT_PAYMENTS);
     }
 
     @GetMapping("/{paymentID}/update")
-    public String updatePaymentMethod(@PathVariable Long paymentID, Model model) {
+    public String updatePaymentMethod(
+            @PathVariable Long paymentID,
+            Model model,
+            Principal principal
+    ) {
 
-        PaymentMethodInfoDTO dto = paymentMethodService.getPaymentMethod(paymentID);
-
-        model.addAttribute("dto", dto);
-        model.addAttribute("modifierType", PaymentMethodModifierType.values());
-
-        return PAYMENT_UPDATE;
+        return renderUpdateForm(model, paymentID, principal, invokeServiceAndReturnDTO(paymentID));
     }
 
     @PostMapping("/{paymentID}/update")
-    public String updatePaymentMethod(@PathVariable Long paymentID, @ModelAttribute PaymentMethodUpdateDTO dto) {
+    public String updatePaymentMethod(
+            @PathVariable Long paymentID,
+            @Valid @ModelAttribute PaymentMethodUpdateDTO dto,
+            BindingResult bindingResult,
+            Model model,
+            Principal principal
+    ) {
 
-        paymentMethodService.updatePaymentMethod(paymentID, dto);
+        return updateEntity(paymentID, dto, bindingResult, model, principal, REDIRECT_PAYMENTS);
+    }
 
-        return redirectToUpdate(REDIRECT_PAYMENTS, paymentID);
+    @Override
+    protected PaymentMethodUpdateDTO invokeServiceAndReturnDTO(Long id) {
+
+        return mapper.mapInfoDTOtoUpdateDTO(paymentMethodService.getPaymentMethod(id));
     }
 
     @Override
     protected void executeCreation(PaymentMethodCreationDTO dto) {
 
         paymentMethodService.registerNewPaymentMethod(dto);
+    }
+
+    @Override
+    protected void executeUpdate(Long entityID, PaymentMethodUpdateDTO dto) {
+
+        paymentMethodService.updatePaymentMethod(entityID, dto);
+    }
+
+    @Override
+    protected void executeDeletion(Long entityID) {
+
+        paymentMethodService.deletePaymentMethod(entityID);
     }
 
     @Override
@@ -124,6 +143,17 @@ public class WebPaymentMethodController extends BaseWebController<PaymentMethodC
         populateCreationForm(model);
 
         return PAYMENT_CREATION;
+    }
+
+    @Override
+    protected String renderUpdateForm(Model model, Long entityID, Principal principal, PaymentMethodUpdateDTO dto) {
+
+        model.addAttribute("currentUser", principal.getName());
+        model.addAttribute("payment", paymentMethodService.getPaymentMethod(entityID));
+        model.addAttribute("modifiers", PaymentMethodModifierType.values());
+        model.addAttribute("dto", dto);
+
+        return PAYMENT_UPDATE;
     }
 
     @Override

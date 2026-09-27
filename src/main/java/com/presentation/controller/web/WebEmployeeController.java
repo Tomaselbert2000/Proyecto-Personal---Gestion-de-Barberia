@@ -4,6 +4,7 @@ import com.dto.employee.EmployeeCreationDTO;
 import com.dto.employee.EmployeeUpdateDTO;
 import com.enums.EmployeeStatus;
 import com.enums.HireDateRange;
+import com.mapper.interfaces.EmployeeMapper;
 import com.presentation.controller.BaseWebController;
 import com.service.interfaces.EmployeeService;
 import com.service.interfaces.SaleService;
@@ -18,15 +19,15 @@ import java.security.Principal;
 
 import static com.presentation.constants.HtmlConstants.Paths.*;
 import static com.presentation.constants.HtmlConstants.Redirects.REDIRECT_EMPLOYEES;
-import static com.presentation.constants.HtmlConstants.Redirects.redirectToUpdate;
 
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/employees")
-public class WebEmployeeController extends BaseWebController<EmployeeCreationDTO> {
+public class WebEmployeeController extends BaseWebController<EmployeeCreationDTO, EmployeeUpdateDTO> {
 
     private final EmployeeService employeeService;
     private final SaleService saleService;
+    private final EmployeeMapper mapper;
 
     @GetMapping
     public String showEmployeeCatalog(
@@ -80,25 +81,25 @@ public class WebEmployeeController extends BaseWebController<EmployeeCreationDTO
     @PostMapping("/{employeeID}/delete")
     public String deleteEmployee(@PathVariable Long employeeID) {
 
-        employeeService.deleteEmployee(employeeID);
-
-        return REDIRECT_EMPLOYEES;
+        return deleteEntity(employeeID, REDIRECT_EMPLOYEES);
     }
 
     @GetMapping("/{employeeID}/update")
-    public String updateEmployee(@PathVariable Long employeeID, Model model) {
+    public String updateEmployee(@PathVariable Long employeeID, Model model, Principal principal) {
 
-        model.addAttribute("dto", employeeService.getEmployeeInfo(employeeID));
-
-        return EMPLOYEE_UPDATE;
+        return renderUpdateForm(model, employeeID, principal, invokeServiceAndReturnDTO(employeeID));
     }
 
     @PostMapping("/{employeeID}/update")
-    public String updateEmployee(@PathVariable Long employeeID, @ModelAttribute EmployeeUpdateDTO dto) {
+    public String updateEmployee(
+            @PathVariable Long employeeID,
+            @Valid @ModelAttribute EmployeeUpdateDTO dto,
+            BindingResult bindingResult,
+            Model model,
+            Principal principal
+    ) {
 
-        employeeService.updateEmployee(employeeID, dto);
-
-        return redirectToUpdate(REDIRECT_EMPLOYEES, employeeID);
+        return updateEntity(employeeID, dto, bindingResult, model, principal, REDIRECT_EMPLOYEES);
     }
 
     @PostMapping("/{employeeID}/toggleActivityStatus")
@@ -110,9 +111,27 @@ public class WebEmployeeController extends BaseWebController<EmployeeCreationDTO
     }
 
     @Override
+    protected EmployeeUpdateDTO invokeServiceAndReturnDTO(Long id) {
+
+        return mapper.mapInfoDTOtoUpdateDTO(employeeService.getEmployeeInfo(id));
+    }
+
+    @Override
     protected void executeCreation(EmployeeCreationDTO dto) {
 
         employeeService.registerNewEmployee(dto);
+    }
+
+    @Override
+    protected void executeUpdate(Long entityID, EmployeeUpdateDTO dto) {
+
+        employeeService.updateEmployee(entityID, dto);
+    }
+
+    @Override
+    protected void executeDeletion(Long entityID) {
+
+        employeeService.deleteEmployee(entityID);
     }
 
     @Override
@@ -124,6 +143,16 @@ public class WebEmployeeController extends BaseWebController<EmployeeCreationDTO
         populateCreationForm(model);
 
         return EMPLOYEE_CREATION;
+    }
+
+    @Override
+    protected String renderUpdateForm(Model model, Long entityID, Principal principal, EmployeeUpdateDTO dto) {
+
+        model.addAttribute("currentUser", principal.getName());
+        model.addAttribute("employee", employeeService.getEmployeeInfo(entityID));
+        model.addAttribute("dto", dto);
+
+        return EMPLOYEE_UPDATE;
     }
 
     @Override

@@ -1,7 +1,6 @@
 package com.presentation.controller.web;
 
 import com.dto.barberservice.BarberServiceCreationDTO;
-import com.dto.barberservice.BarberServiceInfoDTO;
 import com.dto.barberservice.BarberServiceUpdateDTO;
 import com.dto.stats.BarberServiceActiveOnCatalogStatsDTO;
 import com.dto.stats.BarberServiceRevenueStatsDTO;
@@ -9,6 +8,7 @@ import com.dto.stats.BarberServiceSalesStatsDTO;
 import com.dto.stats.BarberServiceUsageStatsDTO;
 import com.enums.BarberServiceCategory;
 import com.enums.PriceRanges;
+import com.mapper.interfaces.BarberServiceMapper;
 import com.presentation.controller.BaseWebController;
 import com.service.interfaces.BarberserviceService;
 import com.service.interfaces.SaleService;
@@ -23,15 +23,15 @@ import java.security.Principal;
 
 import static com.presentation.constants.HtmlConstants.Paths.*;
 import static com.presentation.constants.HtmlConstants.Redirects.REDIRECT_BARBERSERVICES;
-import static com.presentation.constants.HtmlConstants.Redirects.redirectToUpdate;
 
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/barberservices")
-public class WebBarberserviceController extends BaseWebController<BarberServiceCreationDTO> {
+public class WebBarberserviceController extends BaseWebController<BarberServiceCreationDTO, BarberServiceUpdateDTO> {
 
     private final BarberserviceService barberserviceService;
     private final SaleService saleService;
+    private final BarberServiceMapper mapper;
 
     @GetMapping()
     public String showBarberserviceCatalog(
@@ -98,33 +98,49 @@ public class WebBarberserviceController extends BaseWebController<BarberServiceC
     @PostMapping("/{barberserviceID}/delete")
     public String deleteBarberService(@PathVariable Long barberserviceID) {
 
-        barberserviceService.deleteBarberservice(barberserviceID);
-        return REDIRECT_BARBERSERVICES;
+        return deleteEntity(barberserviceID, REDIRECT_BARBERSERVICES);
     }
 
     @GetMapping("/{barberserviceID}/update")
-    public String updateBarberService(@PathVariable Long barberserviceID, Model model) {
+    public String updateBarberService(@PathVariable Long barberserviceID, Model model, Principal principal) {
 
-        BarberServiceInfoDTO dto = barberserviceService.getBarberServiceInfo(barberserviceID);
-
-        model.addAttribute("dto", dto);
-        model.addAttribute("categories", BarberServiceCategory.values());
-
-        return BARBERSERVICE_UPDATE;
+        return renderUpdateForm(model, barberserviceID, principal, invokeServiceAndReturnDTO(barberserviceID));
     }
 
     @PostMapping("/{barberserviceID}/update")
-    public String updateBarberService(@PathVariable Long barberserviceID, @ModelAttribute BarberServiceUpdateDTO dto) {
+    public String updateBarberService(
+            @PathVariable Long barberserviceID,
+            @Valid @ModelAttribute BarberServiceUpdateDTO dto,
+            BindingResult bindingResult,
+            Model model,
+            Principal principal
+    ) {
 
-        barberserviceService.updateService(barberserviceID, dto);
+        return updateEntity(barberserviceID, dto, bindingResult, model, principal, REDIRECT_BARBERSERVICES);
+    }
 
-        return redirectToUpdate(REDIRECT_BARBERSERVICES, barberserviceID);
+    @Override
+    protected BarberServiceUpdateDTO invokeServiceAndReturnDTO(Long id) {
+
+        return mapper.mapInfoDTOtoUpdateDTO(barberserviceService.getBarberServiceInfo(id));
     }
 
     @Override
     protected void executeCreation(BarberServiceCreationDTO dto) {
 
         barberserviceService.registerNewBarberService(dto);
+    }
+
+    @Override
+    protected void executeUpdate(Long entityID, BarberServiceUpdateDTO dto) {
+
+        barberserviceService.updateService(entityID, dto);
+    }
+
+    @Override
+    protected void executeDeletion(Long entityID) {
+
+        barberserviceService.deleteBarberservice(entityID);
     }
 
     @Override
@@ -136,6 +152,17 @@ public class WebBarberserviceController extends BaseWebController<BarberServiceC
         populateCreationForm(model);
 
         return BARBERSERVICE_CREATION;
+    }
+
+    @Override
+    protected String renderUpdateForm(Model model, Long entityID, Principal principal, BarberServiceUpdateDTO dto) {
+
+        model.addAttribute("currentUser", principal.getName());
+        model.addAttribute("barberservice", barberserviceService.getBarberServiceInfo(entityID));
+        model.addAttribute("dto", dto);
+        model.addAttribute("categories", BarberServiceCategory.values());
+
+        return BARBERSERVICE_UPDATE;
     }
 
     @Override

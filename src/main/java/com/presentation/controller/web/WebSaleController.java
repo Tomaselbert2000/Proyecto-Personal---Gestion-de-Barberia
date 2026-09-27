@@ -3,12 +3,7 @@ package com.presentation.controller.web;
 import com.dto.sale.SaleCreationDTO;
 import com.enums.SaleCompositionFilter;
 import com.presentation.controller.BaseWebController;
-import com.service.interfaces.BarberserviceService;
-import com.service.interfaces.ClientService;
-import com.service.interfaces.EmployeeService;
-import com.service.interfaces.PaymentMethodService;
-import com.service.interfaces.ProductService;
-import com.service.interfaces.SaleService;
+import com.service.interfaces.*;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -25,7 +20,7 @@ import static com.presentation.constants.HtmlConstants.Redirects.REDIRECT_SALES;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/sales")
-public class WebSaleController extends BaseWebController<SaleCreationDTO> {
+public class WebSaleController extends BaseWebController<SaleCreationDTO, SaleCreationDTO> {
 
     private final SaleService saleService;
     private final PaymentMethodService paymentMethodService;
@@ -101,9 +96,25 @@ public class WebSaleController extends BaseWebController<SaleCreationDTO> {
     }
 
     @Override
+    protected SaleCreationDTO invokeServiceAndReturnDTO(Long id) {
+        return null;
+    }
+
+    @Override
     protected void executeCreation(SaleCreationDTO dto) {
 
         saleService.registerNewSale(dto);
+    }
+
+    @Override
+    protected void executeUpdate(Long entityID, SaleCreationDTO creationDTO) {
+
+        throw new UnsupportedOperationException("La edición de ventas no está permitida por reglas de negocio.");
+    }
+
+    @Override
+    protected void executeDeletion(Long entityID) {
+        // This feature is currently on early development
     }
 
     @Override
@@ -115,6 +126,11 @@ public class WebSaleController extends BaseWebController<SaleCreationDTO> {
         populateCreationForm(model);
 
         return SALE_CREATION;
+    }
+
+    @Override
+    protected String renderUpdateForm(Model model, Long entityID, Principal principal, SaleCreationDTO creationDTO) {
+        return "";
     }
 
     @Override

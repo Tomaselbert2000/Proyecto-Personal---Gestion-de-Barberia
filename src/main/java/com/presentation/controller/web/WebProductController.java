@@ -6,6 +6,8 @@ import com.dto.product.ProductUpdateDTO;
 import com.enums.ProductCategory;
 import com.enums.ProductPresentationUnit;
 import com.enums.StockStatus;
+import com.exceptions.BusinessException;
+import com.mapper.interfaces.ProductMapper;
 import com.presentation.controller.BaseWebController;
 import com.service.implementation.ProductServiceImpl;
 import com.service.interfaces.ProductService;
@@ -20,14 +22,14 @@ import java.security.Principal;
 
 import static com.presentation.constants.HtmlConstants.Paths.*;
 import static com.presentation.constants.HtmlConstants.Redirects.REDIRECT_PRODUCTS;
-import static com.presentation.constants.HtmlConstants.Redirects.redirectToUpdate;
 
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/products")
-public class WebProductController extends BaseWebController<ProductCreationDTO> {
+public class WebProductController extends BaseWebController<ProductCreationDTO, ProductUpdateDTO> {
 
     private final ProductService service;
+    private final ProductMapper mapper;
 
     @GetMapping
     public String showProductCatalog(
@@ -65,7 +67,7 @@ public class WebProductController extends BaseWebController<ProductCreationDTO> 
 
     @PostMapping("/new")
     public String createProduct(
-            @Valid @ModelAttribute ProductCreationDTO dto,
+            @Valid @ModelAttribute(name = "dto") ProductCreationDTO dto,
             BindingResult bindingResult,
             Model model,
             Principal principal
@@ -77,27 +79,25 @@ public class WebProductController extends BaseWebController<ProductCreationDTO> 
     @PostMapping("/{productID}/delete")
     public String deleteProduct(@PathVariable Long productID) {
 
-        service.deleteProduct(productID);
-
-        return REDIRECT_PRODUCTS;
+        return deleteEntity(productID, REDIRECT_PRODUCTS);
     }
 
     @GetMapping("/{productID}/update")
-    public String updateProduct(@PathVariable Long productID, Model model) {
+    public String updateProduct(@PathVariable Long productID, Model model, Principal principal) {
 
-        ProductUpdateDTO dto = service.getProductForUpdate(productID);
-
-        model.addAttribute("dto", dto);
-
-        return PRODUCT_UPDATE;
+        return renderUpdateForm(model, productID, principal, invokeServiceAndReturnDTO(productID));
     }
 
     @PostMapping("/{productID}/update")
-    public String updateProduct(@PathVariable Long productID, @ModelAttribute ProductUpdateDTO dto) {
+    public String updateProduct(
+            @PathVariable Long productID,
+            @Valid @ModelAttribute(name = "dto") ProductUpdateDTO dto,
+            BindingResult bindingResult,
+            Model model,
+            Principal principal
+    ) {
 
-        service.updateProduct(productID, dto);
-
-        return redirectToUpdate(REDIRECT_PRODUCTS, productID);
+        return updateEntity(productID, dto, bindingResult, model, principal, REDIRECT_PRODUCTS);
     }
 
     @GetMapping("/{productID}/update-stock")
@@ -118,15 +118,40 @@ public class WebProductController extends BaseWebController<ProductCreationDTO> 
             @RequestParam ProductServiceImpl.StockUpdateOperation operation
     ) {
 
-        service.updateProductStock(productID, quantity, operation);
+        try {
 
-        return REDIRECT_PRODUCTS;
+            service.updateProductStock(productID, quantity, operation);
+
+            return REDIRECT_PRODUCTS;
+
+        } catch (BusinessException exception) {
+
+            return REDIRECT_PRODUCTS + ERROR_SUFFIX;
+        }
+    }
+
+    @Override
+    protected ProductUpdateDTO invokeServiceAndReturnDTO(Long id) {
+
+        return mapper.mapInfoDTOtoUpdateDTO(service.getProductInfo(id));
     }
 
     @Override
     protected void executeCreation(ProductCreationDTO dto) {
 
         service.registerNewProduct(dto);
+    }
+
+    @Override
+    protected void executeUpdate(Long entityID, ProductUpdateDTO updateDTO) {
+
+        service.updateProduct(entityID, updateDTO);
+    }
+
+    @Override
+    protected void executeDeletion(Long entityID) {
+
+        service.deleteProduct(entityID);
     }
 
     @Override
@@ -138,6 +163,18 @@ public class WebProductController extends BaseWebController<ProductCreationDTO> 
         populateCreationForm(model);
 
         return PRODUCT_CREATION;
+    }
+
+    @Override
+    protected String renderUpdateForm(Model model, Long entityID, Principal principal, ProductUpdateDTO updateDTO) {
+
+        model.addAttribute("currentUser", principal.getName());
+        model.addAttribute("product", service.getProductInfo(entityID));
+        model.addAttribute("dto", updateDTO);
+        model.addAttribute("categories", ProductCategory.values());
+        model.addAttribute("productPresentationUnits", ProductPresentationUnit.values());
+
+        return PRODUCT_UPDATE;
     }
 
     @Override
