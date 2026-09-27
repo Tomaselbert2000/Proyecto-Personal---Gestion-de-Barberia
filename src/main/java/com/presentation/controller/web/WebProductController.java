@@ -133,7 +133,7 @@ public class WebProductController extends BaseWebController<ProductCreationDTO, 
     @Override
     protected ProductUpdateDTO invokeServiceAndReturnDTO(Long id) {
 
-        return mapper.mapInfoDTOtoUpdateDTO(service.getProductInfo(id));
+        return service.getProductForUpdate(id);
     }
 
     @Override
