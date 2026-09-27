@@ -15,6 +15,7 @@ public final class BarberServiceInfoDTO {
     private Double price;
     private BarberServiceCategory category;
     private String internalNotes;
+    private Boolean isCurrentlyActive;
 
     @Override
     public String toString() {

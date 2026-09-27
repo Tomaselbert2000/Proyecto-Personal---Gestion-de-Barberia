@@ -7,6 +7,7 @@ import lombok.*;
 import java.time.LocalDateTime;
 
 import static com.presentation.constants.ConstraintViolationMessages.AppointmentConstraintSubject.APPOINTMENT_OPTIONAL_NOTES;
+import static com.presentation.constants.ConstraintViolationMessages.MessagePredicates.OPTIONAL_TEXT_OR_DESCRIPTION_MAX_SIZE;
 import static com.validation.common.CommonConstants.MAX_OPTIONAL_DESCRIPTION_LENGTH;
 
 @Getter
@@ -26,6 +27,6 @@ public final class AppointmentUpdateDTO {
 
     private AppointmentStatus newStatus;
 
-    @Size(max = MAX_OPTIONAL_DESCRIPTION_LENGTH, message = APPOINTMENT_OPTIONAL_NOTES + MAX_OPTIONAL_DESCRIPTION_LENGTH)
+    @Size(max = MAX_OPTIONAL_DESCRIPTION_LENGTH, message = APPOINTMENT_OPTIONAL_NOTES + OPTIONAL_TEXT_OR_DESCRIPTION_MAX_SIZE)
     private String optionalNotes;
 }
