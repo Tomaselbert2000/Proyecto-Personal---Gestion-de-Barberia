@@ -47,9 +47,8 @@ public final class ProductUpdateDTO implements ProductInputDTO {
     @Positive(message = PRODUCT_WHOLE_SALE_PRICE + POSITIVE)
     private Double productWholeSalePrice;
 
-    @PositiveOrZero(message = PRODUCT_DISCOUNT_VALUE + HIGHER_OR_EQUALS_THAN_ZERO)
-    @DecimalMin(value = MIN_DISCOUNT_VALUE)
-    @DecimalMax(value = MAX_DISCOUNT_VALUE)
+    @DecimalMin(value = MIN_DISCOUNT_VALUE, message = PRODUCT_DISCOUNT_VALUE + HIGHER_OR_EQUALS_THAN_ZERO)
+    @DecimalMax(value = MAX_DISCOUNT_VALUE, message = PRODUCT_DISCOUNT_VALUE + LOWER_OR_EQUALS_THAN_ONE)
     private Double maxDiscountPercentage;
 
     private ProductCategory category;
