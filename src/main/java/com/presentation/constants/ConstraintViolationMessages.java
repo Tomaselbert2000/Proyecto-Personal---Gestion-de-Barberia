@@ -93,6 +93,7 @@ public final class ConstraintViolationMessages {
         public static final String NOT_NULL = " no puede ser NULL";
         public static final String NOT_BLANK = " no puede quedar en blanco";
         public static final String INVALID_NAME_SIZE = " solo acepta un rango de caractéres entre 4 ~ 100";
+        public static final String INVALID_NICN_SIZE = " solo acepta un rango de caractéres entre 7 ~ 8";
         public static final String INVALID_PHONE_SIZE = " solo acepta un rango de 7 a 15 dígitos";
         public static final String OPTIONAL_TEXT_OR_DESCRIPTION_MAX_SIZE = " solo acepta un máximo de 256 caractéres";
         public static final String DOES_NOT_MATCH_NAME_REGEX = " solo acepta caractéres del alfabeto";
