@@ -71,6 +71,20 @@ public class EmployeeMapperImpl implements EmployeeMapper {
         return MapperHelper.mapList(entityList, this::mapEmployeeToInfoDTO);
     }
 
+    @Override
+    public EmployeeUpdateDTO mapInfoDTOtoUpdateDTO(EmployeeInfoDTO dto) {
+
+        checkIfMapperInputIsNull(dto);
+
+        return EmployeeUpdateDTO.builder()
+                .firstName(dto.getFirstName())
+                .lastName(dto.getLastName())
+                .isActive(dto.getIsActive())
+                .terminationDate(LocalDate.parse(dto.getTerminationDateAsString()))
+                .commissionPercentage(dto.getCommissionPercentage())
+                .build();
+    }
+
     private void setUpdatedDataOnEntity(Employee entity, EmployeeUpdateDTO updateDTO) {
 
         if (updateDTO.getFirstName() != null)

@@ -29,4 +29,6 @@ public interface AppointmentMapper {
     AppointmentInfoDTO mapEntityToInfoDto(Appointment entity);
 
     List<AppointmentInfoDTO> mapEntityToInfoDto(List<Appointment> entityList);
+
+    AppointmentUpdateDTO mapInfoDTOtoUpdateDTO(AppointmentInfoDTO dto);
 }

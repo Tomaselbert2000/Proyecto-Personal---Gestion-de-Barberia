@@ -17,4 +17,6 @@ public interface ClientMapper {
     ClientInfoDTO mapClientToInfoDTO(Client entity);
 
     List<ClientInfoDTO> mapClientToInfoDTO(List<Client> entityList);
+
+    ClientUpdateDTO mapInfoDTOtoUpdateDTO(ClientInfoDTO dto);
 }

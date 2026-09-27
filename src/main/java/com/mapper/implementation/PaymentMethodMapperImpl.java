@@ -72,6 +72,20 @@ public class PaymentMethodMapperImpl implements PaymentMethodMapper {
         return MapperHelper.mapList(entityList, this::mapPaymentMethodToInfoDTO);
     }
 
+    @Override
+    public PaymentMethodUpdateDTO mapInfoDTOtoUpdateDTO(PaymentMethodInfoDTO dto) {
+
+        checkIfMapperInputIsNull(dto);
+
+        return PaymentMethodUpdateDTO.builder()
+                .newName(dto.getName())
+                .newDescription(dto.getDescription())
+                .isActive(dto.getIsActive())
+                .newModifierType(dto.getModifierType())
+                .priceModifier(dto.getPriceModifier())
+                .build();
+    }
+
     private void setUpdatedDataOnEntity(PaymentMethod paymentMethod, PaymentMethodUpdateDTO updateDTO) {
 
         if (updateDTO.getNewName() != null) paymentMethod.setName(updateDTO.getNewName());

@@ -56,6 +56,7 @@ public class BarberServiceMapperImpl implements BarberServiceMapper {
                 .name(entity.getName())
                 .price(entity.getPrice())
                 .category(entity.getServiceCategory())
+                .isCurrentlyActive(entity.getIsCurrentlyActive())
                 .internalNotes(entity.getInternalNotes() == null ? "Sin notas" : entity.getInternalNotes())
                 .build();
     }
@@ -64,6 +65,20 @@ public class BarberServiceMapperImpl implements BarberServiceMapper {
     public List<BarberServiceInfoDTO> mapBarberServiceToInfoDto(List<BarberService> entityList) {
 
         return MapperHelper.mapList(entityList, this::mapBarberServiceToInfoDto);
+    }
+
+    @Override
+    public BarberServiceUpdateDTO mapInfoDTOtoUpdateDTO(BarberServiceInfoDTO dto) {
+
+        checkIfMapperInputIsNull(dto);
+
+        return BarberServiceUpdateDTO.builder()
+                .name(dto.getName())
+                .price(dto.getPrice())
+                .serviceCategory(dto.getCategory())
+                .internalNotes(dto.getInternalNotes())
+                .isCurrentlyActive(dto.getIsCurrentlyActive())
+                .build();
     }
 
     private void setUpdatedDataOnBarberService(BarberServiceUpdateDTO updateDTO, BarberService barberService) {

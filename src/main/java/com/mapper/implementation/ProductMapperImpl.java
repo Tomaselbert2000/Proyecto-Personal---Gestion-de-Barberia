@@ -102,6 +102,29 @@ public class ProductMapperImpl implements ProductMapper {
                 .build();
     }
 
+    @Override
+    public ProductUpdateDTO mapInfoDTOtoUpdateDTO(ProductInfoDTO dto) {
+
+        checkIfMapperInputIsNull(dto);
+
+        return ProductUpdateDTO.builder()
+                .name(dto.getName())
+                .optionalDescription(dto.getOptionalDescription())
+                .brandName(dto.getBrandName())
+                .presentationUnit(dto.getPresentationUnit())
+                .presentationSize(dto.getPresentationSize())
+                .productCost(dto.getProductCost())
+                .minPrice(dto.getMinPrice())
+                .currentPrice(dto.getCurrentPrice())
+                .productWholeSalePrice(dto.getWholeSalePrice())
+                .maxDiscountPercentage(dto.getMaxDiscountPercentage())
+                .category(dto.getCategory())
+                .currentStockLevel(dto.getCurrentStockLevel())
+                .safetyStockLevel(dto.getSafetyStockLevel())
+                .imageFilePath(dto.getImageFilePath())
+                .build();
+    }
+
     private void setUpdatedDataOnEntity(Product product, ProductUpdateDTO updateDTO) {
 
         if (updateDTO.getName() != null) product.setName(formatAsSentence(updateDTO.getName()));

@@ -89,6 +89,21 @@ public class AppointmentMapperImpl implements AppointmentMapper {
         return MapperHelper.mapList(entityList, this::mapEntityToInfoDto);
     }
 
+    @Override
+    public AppointmentUpdateDTO mapInfoDTOtoUpdateDTO(AppointmentInfoDTO dto) {
+
+        checkIfMapperInputIsNull(dto);
+
+        return AppointmentUpdateDTO.builder()
+                .newEmployeeID(dto.getEmployeeID())
+                .newBarberserviceID(dto.getBarberServiceID())
+                .newStartDateTime(dto.getStartDateTime())
+                .newEndDateTime(dto.getEndDateTime())
+                .newStatus(dto.getCurrentStatus())
+                .optionalNotes(dto.getOptionalNotes())
+                .build();
+    }
+
     private void setUpdatedDataOnEntity(
             AppointmentUpdateDTO updateDTO,
             Employee employee,

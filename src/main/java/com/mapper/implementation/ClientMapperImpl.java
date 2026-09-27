@@ -67,6 +67,21 @@ public class ClientMapperImpl implements ClientMapper {
         return MapperHelper.mapList(entityList, this::mapClientToInfoDTO);
     }
 
+    @Override
+    public ClientUpdateDTO mapInfoDTOtoUpdateDTO(ClientInfoDTO dto) {
+
+        checkIfMapperInputIsNull(dto);
+
+        return ClientUpdateDTO.builder()
+                .nationalIdentityCardNumber(dto.getNationalIdentityCardNumber())
+                .firstName(dto.getFirstName())
+                .lastName(dto.getLastName())
+                .email(dto.getEmail())
+                .phoneNumbersList(dto.getPhoneNumbersList())
+                .optionalNotes(dto.getOptionalNotes())
+                .build();
+    }
+
     private void setUpdatedDataOnClient(Client client, ClientUpdateDTO updateDTO) {
 
         if (updateDTO.getNationalIdentityCardNumber() != null)
