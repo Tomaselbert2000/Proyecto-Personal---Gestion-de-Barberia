@@ -76,11 +76,18 @@ public class EmployeeMapperImpl implements EmployeeMapper {
 
         checkIfMapperInputIsNull(dto);
 
+        LocalDate terminationDate = null;
+
+        if (!dto.getTerminationDateAsString().isBlank() && !dto.getTerminationDateAsString().equals(DEFAULT_TERMINATION_DATE_STRING)) {
+
+            terminationDate = LocalDate.parse(dto.getTerminationDateAsString());
+        }
+
         return EmployeeUpdateDTO.builder()
                 .firstName(dto.getFirstName())
                 .lastName(dto.getLastName())
                 .isActive(dto.getIsActive())
-                .terminationDate(LocalDate.parse(dto.getTerminationDateAsString()))
+                .terminationDate(terminationDate)
                 .commissionPercentage(dto.getCommissionPercentage())
                 .build();
     }
