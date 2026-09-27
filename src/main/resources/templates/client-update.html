@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" th:attr="data-theme=${@appPreferences.getTheme()}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Editar Cliente - LA TERCERA BARBERSHOP</title>
+    <script type="importmap">
+        { "imports": { "@material/web/": "https://esm.run/@material/web/" } }
+    </script>
+    <script type="module">
+        import '@material/web/all.js';
+        import {styles as typescaleStyles} from '@material/web/typography/md-typescale-styles.js';
+        document.adoptedStyleSheets.push(typescaleStyles.styleSheet);
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+          rel="stylesheet">
+    <link rel="stylesheet" href="/css/theme.css">
+    <style>
+        * {
+            box-sizing: border-box
+        }
+
+        body {
+            margin: 0;
+            font-family: Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--md-sys-color-surface);
+            color: var(--md-sys-color-on-surface);
+            -webkit-font-smoothing: antialiased
+        }
+
+        .app-header {
+            position: sticky;
+            top: 0;
+            z-index: 6;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            height: 64px;
+            padding: 0 8px;
+            background: var(--md-sys-color-surface-container-low);
+            border-bottom: 1px solid var(--md-sys-color-outline-variant)
+        }
+
+        .app-header-titles {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-width: 0;
+            margin-left: 8px
+        }
+
+        .app-header-titles span {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis
+        }
+
+        .app-shell {
+            display: flex;
+            min-height: calc(100vh - 64px)
+        }
+
+        .nav-drawer {
+            position: fixed;
+            top: 64px;
+            bottom: 0;
+            left: 0;
+            z-index: 5;
+            width: min(320px, 84vw);
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            background: var(--md-sys-color-surface-container-low);
+            border-right: 1px solid var(--md-sys-color-outline-variant);
+            transform: translateX(-105%);
+            transition: transform 200ms ease
+        }
+
+        .nav-drawer.open {
+            transform: translateX(0)
+        }
+
+        .nav-scrim {
+            position: fixed;
+            inset: 64px 0 0 0;
+            z-index: 4;
+            background: rgba(0, 0, 0, .4);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 200ms ease
+        }
+
+        .nav-scrim.open {
+            opacity: 1;
+            pointer-events: auto
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px
+        }
+
+        .nav-brand img {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            object-fit: cover
+        }
+
+        .nav-brand-copy {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.3;
+            min-width: 0
+        }
+
+        .app-main {
+            flex: 1;
+            min-width: 0;
+            width: 100%;
+            padding: 20px 16px 40px
+        }
+
+        .main-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 28px
+        }
+
+        .page-header {
+            display: flex;
+            flex-direction: column;
+            gap: 4px
+        }
+
+        .surface {
+            position: relative;
+            isolation: isolate;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            padding: 20px;
+            border-radius: 16px;
+            background: var(--md-sys-color-surface-container-low);
+            --md-elevation-level: 1
+        }
+
+        .surface.outlined {
+            background: var(--md-sys-color-surface);
+            border: 1px solid var(--md-sys-color-outline-variant);
+            --md-elevation-level: 0
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px
+        }
+
+        .form-grid md-outlined-text-field,
+        .form-grid md-outlined-select {
+            width: 100%
+        }
+
+        .phones-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap
+        }
+
+        .phone-row {
+            display: flex;
+            align-items: center;
+            gap: 8px
+        }
+
+        .phone-row md-outlined-text-field {
+            flex: 1;
+            min-width: 0
+        }
+
+        .phone-row md-icon-button {
+            flex-shrink: 0
+        }
+
+        .btn-row {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 16px
+        }
+
+        .btn-row md-outlined-button,
+        .btn-row md-filled-button {
+            flex: 1;
+            min-width: 150px;
+            height: 40px
+        }
+
+        .error-item {
+            display: flex;
+            gap: 8px;
+            align-items: flex-start;
+            padding: 4px 0
+        }
+
+        .error-item::before {
+            content: '•';
+            color: var(--md-sys-color-error)
+        }
+
+        @media (min-width: 600px) {
+            .app-main {
+                padding: 28px 24px 48px
+            }
+
+            .form-grid {
+                grid-template-columns: repeat(2, 1fr)
+            }
+
+            .span-full {
+                grid-column: 1 / -1
+            }
+        }
+
+        @media (min-width: 840px) {
+            .nav-toggle {
+                display: none
+            }
+
+            .nav-scrim {
+                display: none
+            }
+
+            .nav-drawer {
+                position: sticky;
+                top: 64px;
+                height: calc(100vh - 64px);
+                transform: none
+            }
+
+            .app-main {
+                padding: 32px 32px 56px
+            }
+        }
+    </style>
+</head>
+<body>
+<header class="app-header">
+    <md-icon-button id="navToggle" class="nav-toggle" aria-label="Abrir navegación">
+        <md-icon>menu</md-icon>
+    </md-icon-button>
+    <div class="app-header-titles">
+        <span class="md-typescale-title-large">Editar Cliente</span>
+        <span class="md-typescale-label-large" th:text="${currentUser}">Usuario</span>
+    </div>
+    <span style="flex:1"></span>
+    <md-icon-button aria-label="Cuenta de usuario">
+        <md-icon>account_circle</md-icon>
+    </md-icon-button>
+</header>
+
+<div class="nav-scrim" id="navScrim"></div>
+
+<div class="app-shell">
+    <aside class="nav-drawer" id="navDrawer" aria-label="Navegación principal">
+        <div class="nav-brand">
+            <img th:src="@{/images/Logo.jpg}" src="/images/Logo.jpg" alt="Logo LA TERCERA">
+            <div class="nav-brand-copy">
+                <span class="md-typescale-title-medium">LA TERCERA</span>
+                <span class="md-typescale-label-medium">BARBERSHOP</span>
+            </div>
+        </div>
+        <md-divider></md-divider>
+        <md-list>
+            <md-list-item type="link" href="/dashboard">
+                <md-icon slot="start">dashboard</md-icon>
+                <span slot="headline">Dashboard</span>
+            </md-list-item>
+            <md-list-item type="link" href="/clients" aria-current="page">
+                <md-icon slot="start">person</md-icon>
+                <span slot="headline">Clientes</span>
+            </md-list-item>
+            <md-list-item type="link" href="/employees">
+                <md-icon slot="start">badge</md-icon>
+                <span slot="headline">Empleados</span>
+            </md-list-item>
+            <md-list-item type="link" href="/appointments">
+                <md-icon slot="start">calendar_today</md-icon>
+                <span slot="headline">Turnos</span>
+            </md-list-item>
+            <md-list-item type="link" href="/barberservices">
+                <md-icon slot="start">cut</md-icon>
+                <span slot="headline">Servicios</span>
+            </md-list-item>
+            <md-list-item type="link" href="/products">
+                <md-icon slot="start">inventory_2</md-icon>
+                <span slot="headline">Stock de productos</span>
+            </md-list-item>
+            <md-list-item type="link" href="/payments">
+                <md-icon slot="start">payments</md-icon>
+                <span slot="headline">Medios de pago</span>
+            </md-list-item>
+            <md-list-item type="link" href="/sales">
+                <md-icon slot="start">point_of_sale</md-icon>
+                <span slot="headline">Ventas</span>
+            </md-list-item>
+        </md-list>
+        <md-divider></md-divider>
+        <md-list>
+            <md-list-item type="link" href="/settings">
+                <md-icon slot="start">settings</md-icon>
+                <span slot="headline">Configuración</span>
+            </md-list-item>
+            <md-list-item id="logoutItem">
+                <md-icon slot="start">logout</md-icon>
+                <span slot="headline">Cerrar Sesión</span>
+            </md-list-item>
+        </md-list>
+    </aside>
+
+    <main class="app-main">
+        <div class="main-inner">
+            <div class="page-header">
+                <h1 class="md-typescale-headline-small" style="margin:0">Editar Cliente</h1>
+                <p class="md-typescale-body-medium" style="margin:0;color:var(--md-sys-color-on-surface-variant)">
+                    Actualiza los datos del cliente seleccionado del sistema</p>
+            </div>
+
+            <section aria-label="Formulario de edición de cliente">
+                <form th:action="@{/clients/{clientID}/update(clientID=${client.id})}" method="post">
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                    <div class="surface outlined">
+                        <div class="form-grid">
+                            <md-outlined-text-field label="DNI" name="nationalIdentityCardNumber" id="clientDNI"
+                                                    maxlength="8" inputmode="numeric"
+                                                    th:value="${updateDTO.nationalIdentityCardNumber}"
+                                                    placeholder="Ej: 12345678">
+                                <md-icon slot="leading-icon">badge</md-icon>
+                            </md-outlined-text-field>
+
+                            <md-outlined-text-field label="Nombre" name="firstName" id="clientFirstName"
+                                                    maxlength="100" th:value="${updateDTO.firstName}"
+                                                    placeholder="Ej: Juan">
+                                <md-icon slot="leading-icon">person</md-icon>
+                            </md-outlined-text-field>
+
+                            <md-outlined-text-field label="Apellido" name="lastName" id="clientLastName"
+                                                    maxlength="100" th:value="${updateDTO.lastName}"
+                                                    placeholder="Ej: Pérez">
+                                <md-icon slot="leading-icon">person_outline</md-icon>
+                            </md-outlined-text-field>
+
+                            <md-outlined-text-field label="Correo electrónico" name="email" id="clientEmail"
+                                                    type="email" maxlength="100" th:value="${updateDTO.email}"
+                                                    placeholder="Ej: juan@gmail.com">
+                                <md-icon slot="leading-icon">mail</md-icon>
+                            </md-outlined-text-field>
+
+                            <div class="span-full">
+                                <div class="phones-header">
+                                    <span class="md-typescale-title-small">Teléfonos</span>
+                                    <md-outlined-button type="button" id="addPhoneBtn">
+                                        <md-icon slot="icon">add</md-icon>
+                                        Agregar teléfono
+                                    </md-outlined-button>
+                                </div>
+                                <div id="phonesContainer"
+                                     style="display:flex;flex-direction:column;gap:8px;margin-top:12px">
+                                    <div class="phone-row" th:each="phone, iter : ${updateDTO.phoneNumbersList}">
+                                        <md-outlined-text-field th:name="${'phoneNumbersList[' + iter.index + ']'}"
+                                                                th:value="${phone}" label="Teléfono" type="tel"
+                                                                maxlength="15" placeholder="+54 9 1234 5678">
+                                            <md-icon slot="leading-icon">phone</md-icon>
+                                        </md-outlined-text-field>
+                                        <md-icon-button type="button" class="removePhone"
+                                                        aria-label="Eliminar teléfono">
+                                            <md-icon>delete</md-icon>
+                                        </md-icon-button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <md-outlined-text-field label="Notas opcionales" name="optionalNotes" id="clientNotes"
+                                                    type="textarea" rows="3" maxlength="256" class="span-full"
+                                                    th:value="${updateDTO.optionalNotes}"
+                                                    placeholder="Agrega notas sobre el cliente (alergias, preferencias, etc.)">
+                                <md-icon slot="leading-icon">notes</md-icon>
+                            </md-outlined-text-field>
+                        </div>
+
+                        <div class="btn-row">
+                            <md-filled-button type="submit">
+                                <md-icon slot="icon">check</md-icon>
+                                Guardar Cambios
+                            </md-filled-button>
+                            <md-outlined-button type="button" id="resetButton"
+                                                th:attr="data-reset-url=@{/clients/{id}/update(id=${client.id})}">
+                                <md-icon slot="icon">autorenew</md-icon>
+                                Restaurar valores
+                            </md-outlined-button>
+                            <md-outlined-button href="/clients">
+                                <md-icon slot="icon">arrow_back</md-icon>
+                                Cancelar
+                            </md-outlined-button>
+                        </div>
+                    </div>
+                </form>
+            </section>
+        </div>
+    </main>
+</div>
+
+<md-dialog id="validationDialog">
+    <div slot="headline" class="md-typescale-headline-small">No se pudo actualizar el cliente. Por favor, revisa lo
+        siguiente:
+    </div>
+    <div slot="content" class="md-typescale-body-medium">
+        <div th:if="${validationErrors != null and !#lists.isEmpty(validationErrors)}">
+            <div th:each="error : ${validationErrors}" class="error-item">
+                <span th:text="${error}">Error</span>
+            </div>
+        </div>
+    </div>
+    <div slot="actions">
+        <md-text-button id="validationClose">Aceptar</md-text-button>
+    </div>
+</md-dialog>
+
+<md-dialog id="logoutDialog">
+    <div slot="headline" class="md-typescale-headline-small">Cerrar sesión</div>
+    <div slot="content" class="md-typescale-body-medium">
+        ¿Está seguro que desea cerrar la sesión actual?
+        <form id="logoutForm" th:action="@{/logout}" method="post">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+        </form>
+    </div>
+    <div slot="actions">
+        <md-text-button id="logoutCancel">Cancelar</md-text-button>
+        <md-filled-button type="submit" form="logoutForm">Confirmar</md-filled-button>
+    </div>
+</md-dialog>
+<script>
+    const drawer = document.getElementById('navDrawer');
+    const scrim = document.getElementById('navScrim');
+    const toggle = document.getElementById('navToggle');
+
+    function setDrawerOpen(open) {
+        drawer.classList.toggle('open', open);
+        scrim.classList.toggle('open', open);
+    }
+
+    toggle.addEventListener('click', () => setDrawerOpen(!drawer.classList.contains('open')));
+    scrim.addEventListener('click', () => setDrawerOpen(false));
+    drawer.querySelectorAll('md-list-item').forEach(item => item.addEventListener('click', () => setDrawerOpen(false)));
+
+    const resetButton = document.getElementById('resetButton');
+    resetButton.addEventListener('click', () => {
+        window.location.href = resetButton.dataset.resetUrl;
+    });
+
+    const validationDialog = document.getElementById('validationDialog');
+    const validationClose = document.getElementById('validationClose');
+    validationClose.addEventListener('click', () => validationDialog.close());
+    if (document.querySelectorAll('#validationDialog .error-item').length > 0) {
+        validationDialog.show();
+    }
+
+    const logoutItem = document.getElementById('logoutItem');
+    const logoutDialog = document.getElementById('logoutDialog');
+    const logoutCancel = document.getElementById('logoutCancel');
+
+    logoutItem.addEventListener('click', () => logoutDialog.show());
+    logoutCancel.addEventListener('click', () => logoutDialog.close());
+
+    const phonesContainer = document.getElementById('phonesContainer');
+    const addPhoneBtn = document.getElementById('addPhoneBtn');
+
+    function renumberPhoneRows() {
+        document.querySelectorAll('#phonesContainer .phone-row').forEach((row, i) => {
+            row.querySelector('md-outlined-text-field').setAttribute('name', 'phoneNumbersList[' + i + ']');
+        });
+    }
+
+    function createPhoneRow() {
+        const row = document.createElement('div');
+        row.className = 'phone-row';
+        const field = document.createElement('md-outlined-text-field');
+        field.setAttribute('label', 'Teléfono');
+        field.setAttribute('type', 'tel');
+        field.setAttribute('maxlength', '15');
+        field.setAttribute('placeholder', '+54 9 1234 5678');
+        const fieldIcon = document.createElement('md-icon');
+        fieldIcon.setAttribute('slot', 'leading-icon');
+        fieldIcon.textContent = 'phone';
+        field.appendChild(fieldIcon);
+        const remove = document.createElement('md-icon-button');
+        remove.setAttribute('type', 'button');
+        remove.setAttribute('class', 'removePhone');
+        remove.setAttribute('aria-label', 'Eliminar teléfono');
+        const removeIcon = document.createElement('md-icon');
+        removeIcon.textContent = 'delete';
+        remove.appendChild(removeIcon);
+        row.appendChild(field);
+        row.appendChild(remove);
+        return row;
+    }
+
+    function addPhoneRow() {
+        phonesContainer.appendChild(createPhoneRow());
+        renumberPhoneRows();
+    }
+
+    function removePhoneRow(button) {
+        const row = button.closest('.phone-row');
+        if (row) row.remove();
+        renumberPhoneRows();
+    }
+
+    addPhoneBtn.addEventListener('click', addPhoneRow);
+    phonesContainer.addEventListener('click', (event) => {
+        const remove = event.target.closest('.removePhone');
+        if (remove) removePhoneRow(remove);
+    });
+    if (document.querySelectorAll('#phonesContainer .phone-row').length === 0) {
+        addPhoneRow();
+    } else {
+        renumberPhoneRows();
+    }
+</script>
+</body>
+</html>
