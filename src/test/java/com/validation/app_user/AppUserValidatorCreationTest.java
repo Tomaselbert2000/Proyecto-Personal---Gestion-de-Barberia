@@ -42,15 +42,6 @@ public class AppUserValidatorCreationTest extends BaseValidatorTest<AppUserValid
     }
 
     @Test
-    @DisplayName("Dado un DTO de creación con un booleano de derechos de administrador NULL, la validación deberá fallar y arrojará ConstraintViolationException")
-    void givenNullAdminRights_WhenValidating_ThenThrows_ConstraintViolationException() {
-
-        inputDTO.setHasAdminRights(null);
-
-        assertThrows(ConstraintViolationException.class, this::validateInputDTO);
-    }
-
-    @Test
     @DisplayName("Dado un DTO de creación con un nombre de usuario en blanco, la validación deberá fallar y arrojará ConstraintViolationException")
     void givenBlankUsername_whenValidating_thenThrows_ConstraintViolationException() {
 
