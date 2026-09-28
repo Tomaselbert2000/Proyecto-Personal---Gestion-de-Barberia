@@ -33,7 +33,14 @@ public abstract class BaseWebController<CreationDTO, UpdateDTO> {
             String onSuccessRedirectPath
     ) {
 
-        return processSubmission(bindingResult, model, () -> executeCreation(dto), () -> renderCreationForm(model, principal, dto), onSuccessRedirectPath);
+        try {
+
+            return processSubmission(bindingResult, model, () -> executeCreation(dto), () -> renderCreationForm(model, principal, dto), onSuccessRedirectPath);
+
+        } catch (BusinessException | ConstraintViolationException | DataIntegrityViolationException e) {
+
+            return onSuccessRedirectPath + ERROR_SUFFIX;
+        }
     }
 
     protected String updateEntity(
@@ -45,7 +52,13 @@ public abstract class BaseWebController<CreationDTO, UpdateDTO> {
             String onSuccessRedirectPath
     ) {
 
-        return processSubmission(bindingResult, model, () -> executeUpdate(entityID, dto), () -> renderUpdateForm(model, entityID, principal, dto), onSuccessRedirectPath);
+        try {
+            return processSubmission(bindingResult, model, () -> executeUpdate(entityID, dto), () -> renderUpdateForm(model, entityID, principal, dto), onSuccessRedirectPath);
+
+        } catch (BusinessException | ConstraintViolationException | DataIntegrityViolationException e) {
+
+            return onSuccessRedirectPath + ERROR_SUFFIX;
+        }
     }
 
     protected String deleteEntity(Long entityID, String onSuccessRedirectPath) {
@@ -56,13 +69,10 @@ public abstract class BaseWebController<CreationDTO, UpdateDTO> {
 
             return onSuccessRedirectPath;
 
-        } catch (BusinessException exception) {
+        } catch (BusinessException | DataIntegrityViolationException exception) {
 
             return onSuccessRedirectPath + ERROR_SUFFIX;
 
-        } catch (DataIntegrityViolationException exception) {
-
-            return onSuccessRedirectPath + DATA_INTEGRITY_ERROR;
         }
     }
 
@@ -104,6 +114,7 @@ public abstract class BaseWebController<CreationDTO, UpdateDTO> {
         }
 
         try {
+
             actionToExecute.run();
 
             return onSuccessRedirectPath;
