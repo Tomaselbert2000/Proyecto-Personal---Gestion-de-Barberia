@@ -311,11 +311,6 @@
             </div>
 
             <section aria-label="Formulario de registro de empleado">
-                <div th:if="${validationErrors != null}" class="error-container">
-                    <p style="color: red;" th:each="error : ${validationErrors}" th:text="${error}">
-                        Mensaje de error
-                    </p>
-                </div>
                 <form th:action="@{/employees/new}" method="post">
                     <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
                     <div class="surface outlined">

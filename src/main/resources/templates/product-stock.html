@@ -386,11 +386,6 @@
                 </div>
 
                 <md-divider></md-divider>
-                <div th:if="${validationErrors != null}" class="error-container">
-                    <p style="color: red;" th:each="error : ${validationErrors}" th:text="${error}">
-                        Mensaje de error
-                    </p>
-                </div>
                 <form class="stock-form" th:action="@{/products/{id}/update-stock(id=${product.id})}" method="post"
                       th:attr="data-current-stock=${product.currentStockLevel}">
                     <md-outlined-select label="Operación" name="operation">
