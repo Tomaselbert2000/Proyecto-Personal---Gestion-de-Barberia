@@ -118,11 +118,20 @@ public class WebEmployeeController extends BaseWebController<EmployeeCreationDTO
     }
 
     @PostMapping("/{employeeID}/toggleActivityStatus")
-    public String toggleActivityStatus(@PathVariable Long employeeID) {
+    public String toggleActivityStatus(
+            @PathVariable Long employeeID
+    ) {
 
-        employeeService.changeEmployeeIsActiveValue(employeeID);
+        try {
 
-        return REDIRECT_EMPLOYEES;
+            employeeService.changeEmployeeIsActiveValue(employeeID);
+
+            return REDIRECT_EMPLOYEES;
+
+        } catch (BusinessException exception) {
+
+            return REDIRECT_EMPLOYEES + ERROR_SUFFIX;
+        }
     }
 
     @Override
