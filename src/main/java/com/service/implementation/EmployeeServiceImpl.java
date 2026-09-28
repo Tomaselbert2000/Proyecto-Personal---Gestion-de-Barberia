@@ -29,7 +29,7 @@ import static com.utils.time.TimeCalculation.*;
 @RequiredArgsConstructor
 public class EmployeeServiceImpl implements EmployeeService {
 
-    private final EmployeeRepository employeeRepository;
+    private final EmployeeRepository repository;
 
     private final EmployeeMapper mapper;
 
@@ -41,7 +41,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         validator.validateDTO(dto);
 
-        employeeRepository.save(mapper.mapEmployeeCreationDtoToEntity(dto));
+        repository.save(mapper.mapEmployeeCreationDtoToEntity(dto));
     }
 
     @Override
@@ -50,7 +50,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         Employee employeeToDelete = loadEmployee(employeeID);
 
-        employeeRepository.delete(employeeToDelete);
+        repository.delete(employeeToDelete);
     }
 
     @Override
@@ -70,7 +70,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public List<EmployeeInfoDTO> getEmployeeList() {
 
-        List<EmployeeInfoDTO> dtos = mapper.mapEmployeeToInfoDTO(employeeRepository.findAll());
+        List<EmployeeInfoDTO> dtos = mapper.mapEmployeeToInfoDTO(repository.findAll());
 
         for (EmployeeInfoDTO dto : dtos) {
 
@@ -92,19 +92,19 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         checkTerminationDate(employeeOnDB, updateDTO.getTerminationDate());
 
-        employeeRepository.save(mapper.mapEmployeeUpdateDtoToEntity(employeeOnDB, updateDTO));
+        repository.save(mapper.mapEmployeeUpdateDtoToEntity(employeeOnDB, updateDTO));
     }
 
     @Override
     public Long getActiveEmployees() {
 
-        return employeeRepository.getActiveEmployees();
+        return repository.getActiveEmployees();
     }
 
     @Override
     public Long getEmployeeCount() {
 
-        return employeeRepository.count();
+        return repository.count();
     }
 
     @SuppressWarnings("NonAsciiCharacters")
@@ -137,7 +137,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
 
         List<EmployeeInfoDTO> employees = mapper.mapEmployeeToInfoDTO(
-                employeeRepository.liveSearchWithFilters(employeeName, statusFlag, startDate, endDate)
+                repository.liveSearchWithFilters(employeeName, statusFlag, startDate, endDate)
         );
 
         for (EmployeeInfoDTO employee : employees) {
@@ -154,11 +154,18 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         Employee employee = loadEmployee(id);
 
+        if(employee.getTerminationDate() != null){
+
+            employee.setActive(false);
+
+            repository.save(employee);
+        }
+
         boolean value = employee.isActive();
 
         employee.setActive(!value);
 
-        employeeRepository.save(employee);
+        repository.save(employee);
     }
 
     @Override
@@ -168,7 +175,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         names.addFirst(EMPLOYEE_COMBOBOX_NO_FILTER);
 
-        for (Employee employee : employeeRepository.findAll()) {
+        for (Employee employee : repository.findAll()) {
 
             names.add(fullName(employee.getFirstName(), employee.getLastName()));
         }
@@ -178,7 +185,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     private Employee loadEmployee(Long employeeID) {
 
-        return employeeRepository.findById(employeeID).orElseThrow(EmployeeNotFoundException::new);
+        return repository.findById(employeeID).orElseThrow(EmployeeNotFoundException::new);
     }
 
     private void checkTerminationDate(Employee employeeOnDB, LocalDate terminationDate) {
@@ -210,7 +217,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     private Long getMonthlyAppointmentsCountByEmployeeID(Long employeeID) {
 
-        return employeeRepository.getMonthlyAppointmentsByEmployee(
+        return repository.getMonthlyAppointmentsByEmployee(
                 employeeID,
                 getStartOfCurrentMonth().atStartOfDay(),
                 getEndOfCurrentMonth().atTime(LAST_SECOND_OF_DAY)
