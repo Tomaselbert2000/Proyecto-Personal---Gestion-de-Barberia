@@ -542,7 +542,7 @@
                                                   th:selected="${param.status == null or param.status[0] == ''}">
                                     <div slot="headline">Todos los estados</div>
                                 </md-select-option>
-                                <md-select-option th:each="s : ${statuses}"
+                                <md-select-option th:each="s : ${employeeStatuses}"
                                                   th:if="${s.name() != 'TODOS'}"
                                                   th:value="${s}"
                                                   th:selected="${param.status != null and param.status[0] == s.name()}">
@@ -554,7 +554,7 @@
                                                   th:selected="${param.hireDateRange == null or param.hireDateRange[0] == ''}">
                                     <div slot="headline">Todos los rangos</div>
                                 </md-select-option>
-                                <md-select-option th:each="r : ${hireDateRanges}"
+                                <md-select-option th:each="r : ${hireDateRangeValues}"
                                                   th:if="${r.name() != 'TODOS'}"
                                                   th:value="${r}"
                                                   th:selected="${param.hireDateRange != null and param.hireDateRange[0] == r.name()}">
