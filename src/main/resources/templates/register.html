@@ -54,6 +54,18 @@
             height: 48px;
             margin-top: 8px
         }
+
+        .error-item {
+            display: flex;
+            gap: 8px;
+            align-items: flex-start;
+            padding: 4px 0
+        }
+
+        .error-item::before {
+            content: '•';
+            color: var(--md-sys-color-error)
+        }
     </style>
 </head>
 <body>
@@ -70,12 +82,13 @@
     <div th:if="${error}" th:text="${error}" class="md-typescale-body-large"
          style="color:var(--md-sys-color-error);margin-top:16px"></div>
     <form th:object="${dto}" th:action="@{/register}" method="post" class="auth-form">
+        <input type="hidden" name="hasAdminRights" value="false">
         <md-outlined-text-field label="Nombre de usuario" required type="text" name="username" id="username"
-                                th:field="*{username}" placeholder="Ingresá tu nombre de usuario">
+                                th:value="${dto.username}" placeholder="Ingresá tu nombre de usuario">
             <md-icon slot="leading-icon">person</md-icon>
         </md-outlined-text-field>
         <md-outlined-text-field label="Contraseña" required type="password" name="password" id="password"
-                                th:field="*{password}" placeholder="Ingresá tu contraseña">
+                                placeholder="Ingresá tu contraseña">
             <md-icon slot="leading-icon">lock</md-icon>
             <md-icon-button toggle slot="trailing-icon" aria-label="Mostrar contraseña"
                             onclick="togglePassword('password', this)">
@@ -94,12 +107,34 @@
         </md-outlined-text-field>
         <md-filled-button type="submit" class="auth-submit">Crear usuario</md-filled-button>
     </form>
+    <md-dialog id="validationDialog">
+        <div slot="headline" class="md-typescale-headline-small">No se pudo crear la cuenta. Por favor, revisa lo
+            siguiente:
+        </div>
+        <div slot="content" class="md-typescale-body-medium">
+            <div th:if="${validationErrors != null and !#lists.isEmpty(validationErrors)}">
+                <div th:each="error : ${validationErrors}" class="error-item">
+                    <span th:text="${error}">Error</span>
+                </div>
+            </div>
+        </div>
+        <div slot="actions">
+            <md-text-button id="validationClose">Aceptar</md-text-button>
+        </div>
+    </md-dialog>
 </div>
 <script>
     function togglePassword(id, button) {
         const field = document.getElementById(id);
         field.type = field.type === 'password' ? 'text' : 'password';
         button.setAttribute('aria-label', field.type === 'password' ? 'Mostrar contraseña' : 'Ocultar contraseña');
+    }
+
+    const validationDialog = document.getElementById('validationDialog');
+    const validationClose = document.getElementById('validationClose');
+    validationClose.addEventListener('click', () => validationDialog.close());
+    if (document.querySelectorAll('#validationDialog .error-item').length > 0) {
+        validationDialog.show();
     }
 </script>
 </body>
