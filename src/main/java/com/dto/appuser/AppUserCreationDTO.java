@@ -7,7 +7,9 @@ import lombok.*;
 
 import static com.presentation.constants.ConstraintViolationMessages.AppUserConstraintSubject.APP_PASSWORD_STRING;
 import static com.presentation.constants.ConstraintViolationMessages.AppUserConstraintSubject.APP_USERNAME_STRING;
+import static com.presentation.constants.ConstraintViolationMessages.MessagePredicates.MAX_NAME_SIZE;
 import static com.presentation.constants.ConstraintViolationMessages.MessagePredicates.NOT_BLANK;
+import static com.presentation.constants.ConstraintViolationMessages.MessagePredicates.NOT_NULL;
 import static com.validation.common.CommonConstants.MAX_NAME_LENGTH;
 
 @Getter
@@ -17,15 +19,16 @@ import static com.validation.common.CommonConstants.MAX_NAME_LENGTH;
 @Builder
 public final class AppUserCreationDTO {
 
-    @NotNull
+    @NotNull(message = APP_USERNAME_STRING + NOT_NULL)
     @NotBlank(message = APP_USERNAME_STRING + NOT_BLANK)
-    @Size(max = MAX_NAME_LENGTH)
+    @Size(max = MAX_NAME_LENGTH, message = APP_USERNAME_STRING + MAX_NAME_SIZE)
     private String username;
 
-    @NotNull
+    @NotNull(message = APP_PASSWORD_STRING + NOT_NULL)
     @NotBlank(message = APP_PASSWORD_STRING + NOT_BLANK)
     private String password;
 
-    @NotNull
+    // Se completa desde el formulario de registro (campo oculto) o en executeCreation() del controlador web.
+    // La feature de roles/permisos queda desestimada por el momento, pero se mantiene el campo en el DTO.
     private Boolean hasAdminRights;
 }

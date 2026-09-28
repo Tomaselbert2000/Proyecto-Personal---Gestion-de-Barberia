@@ -20,8 +20,8 @@ import static com.validation.common.CommonConstants.*;
 public final class ClientCreationDTO implements ClientInputDTO {
 
     @NotBlank(message = CLIENT_NATIONAL_ID_CARD_NUMBER + NOT_BLANK)
-    @Size(min = MIN_NATIONAL_ID_CARD_NUMBER_LENGTH, max = MAX_NATIONAL_ID_CARD_NUMBER_LENGTH, message = CLIENT_NATIONAL_ID_CARD_NUMBER + INVALID_NAME_SIZE)
-    @Pattern(regexp = NATIONAL_ID_CARD_NUMBER_REGEX, message = CLIENT_NATIONAL_ID_CARD_NUMBER + DOES_NOT_MATCH_NAME_REGEX)
+    @Size(min = MIN_NATIONAL_ID_CARD_NUMBER_LENGTH, max = MAX_NATIONAL_ID_CARD_NUMBER_LENGTH, message = CLIENT_NATIONAL_ID_CARD_NUMBER + INVALID_NICN_SIZE)
+    @Pattern(regexp = NATIONAL_ID_CARD_NUMBER_REGEX, message = CLIENT_NATIONAL_ID_CARD_NUMBER + DOES_NOT_MATCH_PHONE_REGEX)
     private String nationalIdentityCardNumber;
 
     @NotBlank(message = CLIENT_FIRST_NAME + NOT_BLANK)
@@ -38,10 +38,10 @@ public final class ClientCreationDTO implements ClientInputDTO {
     @Pattern(regexp = EMAIL_REGEX, message = CLIENT_EMAIL + DOES_NOT_MATCH_EMAIL_REGEX)
     private String email;
 
-    @NotEmpty
-    private List<@NotBlank(message = CLIENT_PHONE + NOT_BLANK) @Size(min = MIN_PHONE_LENGTH, max = MAX_PHONE_LENGTH) @Pattern(regexp = PHONE_REGEX, message = CLIENT_PHONE + DOES_NOT_MATCH_PHONE_REGEX) String> phoneNumbersList;
+    @NotEmpty(message = CLIENT_PHONE + NOT_BLANK)
+    private List<@NotBlank(message = CLIENT_PHONE + NOT_BLANK) @Size(min = MIN_PHONE_LENGTH, max = MAX_PHONE_LENGTH, message = CLIENT_PHONE + INVALID_PHONE_SIZE) @Pattern(regexp = PHONE_REGEX, message = CLIENT_PHONE + DOES_NOT_MATCH_PHONE_REGEX) String> phoneNumbersList;
 
-    @NotNull
+    @NotNull(message = CLIENT_OPTIONAL_NOTES + NOT_NULL)
     @Size(max = MAX_OPTIONAL_DESCRIPTION_LENGTH, message = CLIENT_OPTIONAL_NOTES + OPTIONAL_TEXT_OR_DESCRIPTION_MAX_SIZE)
     private String optionalNotes;
 }

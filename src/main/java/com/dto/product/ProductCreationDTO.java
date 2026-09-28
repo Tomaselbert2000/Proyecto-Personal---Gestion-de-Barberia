@@ -24,7 +24,7 @@ public final class ProductCreationDTO implements ProductInputDTO {
     @Pattern(regexp = NAME_REGEX, message = PRODUCT_NAME + DOES_NOT_MATCH_NAME_REGEX)
     private String name;
 
-    @NotNull
+    @NotNull(message = OPTIONAL_DESCRIPTION + NOT_NULL)
     @Size(max = MAX_OPTIONAL_DESCRIPTION_LENGTH, message = OPTIONAL_DESCRIPTION + OPTIONAL_TEXT_OR_DESCRIPTION_MAX_SIZE)
     private String optionalDescription;
 

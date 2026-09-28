@@ -22,14 +22,14 @@ public final class PaymentMethodCreationDTO {
     @Pattern(regexp = NAME_REGEX, message = PAYMENT_METHOD_NAME + DOES_NOT_MATCH_NAME_REGEX)
     private String name;
 
-    @NotNull
+    @NotNull(message = PAYMENT_METHOD_DESCRIPTION + NOT_NULL)
     @Size(max = MAX_OPTIONAL_DESCRIPTION_LENGTH, message = PAYMENT_METHOD_DESCRIPTION + OPTIONAL_TEXT_OR_DESCRIPTION_MAX_SIZE)
     private String description;
 
     @NotNull(message = PAYMENT_METHOD_MODIFIER_TYPE + NOT_NULL)
     private PaymentMethodModifierType priceModifierType;
 
-    @NotNull
+    @NotNull(message = PAYMENT_METHOD_PRICE_MODIFIER + NOT_NULL)
     @PositiveOrZero(message = PAYMENT_METHOD_PRICE_MODIFIER + HIGHER_OR_EQUALS_THAN_ZERO)
     private Double priceModifier;
 }
