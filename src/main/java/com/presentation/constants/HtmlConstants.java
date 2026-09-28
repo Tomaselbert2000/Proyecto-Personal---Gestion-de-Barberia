@@ -46,6 +46,7 @@ public final class HtmlConstants {
     }
 
     public static final class Redirects {
+
         public static final String REDIRECT = "redirect:/";
         public static final String REDIRECT_LOGIN = REDIRECT + LOGIN;
         public static final String REDIRECT_APPOINTMENTS = REDIRECT + APPOINTMENTS;
@@ -56,10 +57,5 @@ public final class HtmlConstants {
         public static final String REDIRECT_PRODUCTS = REDIRECT + PRODUCTS;
         public static final String REDIRECT_SALES = REDIRECT + SALES;
         public static final String REDIRECT_SETTINGS = REDIRECT + SETTINGS;
-
-        public static String redirectToUpdate(String baseRedirect, Long id) {
-
-            return String.format("%s/%d/update", baseRedirect, id);
-        }
     }
 }
