@@ -27,8 +27,5 @@ public final class AppUserCreationDTO {
     @NotNull(message = APP_PASSWORD_STRING + NOT_NULL)
     @NotBlank(message = APP_PASSWORD_STRING + NOT_BLANK)
     private String password;
-
-    // Se completa desde el formulario de registro (campo oculto) o en executeCreation() del controlador web.
-    // La feature de roles/permisos queda desestimada por el momento, pero se mantiene el campo en el DTO.
     private Boolean hasAdminRights;
 }
