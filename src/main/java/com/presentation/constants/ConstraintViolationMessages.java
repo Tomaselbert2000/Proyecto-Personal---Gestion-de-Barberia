@@ -9,6 +9,7 @@ public final class ConstraintViolationMessages {
 
         public static final String APP_USERNAME_STRING = "El nombre de usuario";
         public static final String APP_PASSWORD_STRING = "La contraseña";
+        public static final String APP_CONFIRM_PASSWORD_STRING = "La confirmación de la contraseña";
     }
 
     public static final class AppointmentConstraintSubject {
@@ -57,6 +58,8 @@ public final class ConstraintViolationMessages {
 
     public static final class ProductConstraintSubject {
 
+        public static final String PRODUCT_ID = "El ID de producto";
+        public static final String PRODUCT_ITEM_QUANTITY = "La cantidad de producto";
         public static final String PRODUCT_NAME = "El nombre de producto";
         public static final String BRAND_NAME = "El nombre de la marca";
         public static final String OPTIONAL_DESCRIPTION = "La descripción opcional";
@@ -93,6 +96,7 @@ public final class ConstraintViolationMessages {
         public static final String NOT_NULL = " no puede ser NULL";
         public static final String NOT_BLANK = " no puede quedar en blanco";
         public static final String INVALID_NAME_SIZE = " solo acepta un rango de caractéres entre 4 ~ 100";
+        public static final String MAX_NAME_SIZE = " solo acepta un máximo de 100 caractéres";
         public static final String INVALID_NICN_SIZE = " solo acepta un rango de caractéres entre 7 ~ 8";
         public static final String INVALID_PHONE_SIZE = " solo acepta un rango de 7 a 15 dígitos";
         public static final String OPTIONAL_TEXT_OR_DESCRIPTION_MAX_SIZE = " solo acepta un máximo de 256 caractéres";
