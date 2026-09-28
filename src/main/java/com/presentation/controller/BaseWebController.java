@@ -16,8 +16,8 @@ import java.util.function.Supplier;
 
 public abstract class BaseWebController<CreationDTO, UpdateDTO> {
 
-    private static final String VALIDATION_TAG = "validationErrors";
-    private static final String DATA_INTEGRITY_ERROR = "La operación solicitada incurre en un error de integridad de base de datos";
+    protected static final String VALIDATION_TAG = "validationErrors";
+    protected static final String DATA_INTEGRITY_ERROR = "La operación solicitada incurre en un error de integridad de base de datos";
     protected static final String ERROR_SUFFIX = "?error=true";
 
     protected String showCreationForm(Model model, Principal principal, CreationDTO dto) {
