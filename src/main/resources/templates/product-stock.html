@@ -360,7 +360,8 @@
         <div class="main-inner">
             <div class="page-header">
                 <h1 class="md-typescale-headline-small" style="margin:0">Modificar Stock</h1>
-                <p class="md-typescale-body-medium" style="margin:0;color:var(--md-sys-color-on-surface-variant)">Elegí la operación y la cantidad para
+                <p class="md-typescale-body-medium" style="margin:0;color:var(--md-sys-color-on-surface-variant)">Elegí
+                    la operación y la cantidad para
                     actualizar el stock del producto</p>
             </div>
 
@@ -385,7 +386,11 @@
                 </div>
 
                 <md-divider></md-divider>
-
+                <div th:if="${validationErrors != null}" class="error-container">
+                    <p style="color: red;" th:each="error : ${validationErrors}" th:text="${error}">
+                        Mensaje de error
+                    </p>
+                </div>
                 <form class="stock-form" th:action="@{/products/{id}/update-stock(id=${product.id})}" method="post"
                       th:attr="data-current-stock=${product.currentStockLevel}">
                     <md-outlined-select label="Operación" name="operation">

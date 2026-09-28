@@ -307,20 +307,28 @@
         <div class="main-inner">
             <div class="page-header">
                 <h1 class="md-typescale-headline-small" style="margin:0">Nuevo Medio de Pago</h1>
-                <p class="md-typescale-body-medium" style="margin:0;color:var(--md-sys-color-on-surface-variant)">Registra un nuevo medio de pago en el sistema de la barbería</p>
+                <p class="md-typescale-body-medium" style="margin:0;color:var(--md-sys-color-on-surface-variant)">
+                    Registra un nuevo medio de pago en el sistema de la barbería</p>
             </div>
 
             <section aria-label="Formulario de registro de medio de pago">
+                <div th:if="${validationErrors != null}" class="error-container">
+                    <p style="color: red;" th:each="error : ${validationErrors}" th:text="${error}">
+                        Mensaje de error
+                    </p>
+                </div>
                 <form th:action="@{/payments/new}" method="post">
                     <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
                     <div class="surface outlined">
                         <div class="form-grid">
                             <md-outlined-text-field class="span-full" label="Nombre" name="name" id="paymentName"
-                                                    maxlength="100" th:value="${dto.name}" placeholder="Ej: Tarjeta de crédito">
+                                                    maxlength="100" th:value="${dto.name}"
+                                                    placeholder="Ej: Tarjeta de crédito">
                                 <md-icon slot="leading-icon">credit_card</md-icon>
                             </md-outlined-text-field>
 
-                            <md-outlined-select label="Tipo de modificador" name="priceModifierType" id="paymentModifierType">
+                            <md-outlined-select label="Tipo de modificador" name="priceModifierType"
+                                                id="paymentModifierType">
                                 <md-select-option th:each="m : ${modifiers}"
                                                   th:if="${m.name() != 'TODOS'}"
                                                   th:value="${m}"
@@ -329,15 +337,18 @@
                                 </md-select-option>
                             </md-outlined-select>
 
-                            <md-outlined-text-field label="Valor de modificador" name="priceModifier" id="paymentPriceModifier"
+                            <md-outlined-text-field label="Valor de modificador" name="priceModifier"
+                                                    id="paymentPriceModifier"
                                                     type="text" inputmode="decimal" placeholder="$0"
                                                     th:value="${dto.priceModifier}">
                                 <md-icon slot="leading-icon">attach_money</md-icon>
                             </md-outlined-text-field>
 
-                            <md-outlined-text-field class="span-full" label="Descripción" name="description" id="paymentDescription"
+                            <md-outlined-text-field class="span-full" label="Descripción" name="description"
+                                                    id="paymentDescription"
                                                     type="textarea" rows="3" maxlength="256"
-                                                    th:value="${dto.description}" placeholder="Descripción del método de pago">
+                                                    th:value="${dto.description}"
+                                                    placeholder="Descripción del método de pago">
                                 <md-icon slot="leading-icon">description</md-icon>
                             </md-outlined-text-field>
                         </div>
@@ -364,7 +375,9 @@
 </div>
 
 <md-dialog id="validationDialog">
-    <div slot="headline" class="md-typescale-headline-small">No se pudo registrar el método de pago. Por favor, revisa lo siguiente:</div>
+    <div slot="headline" class="md-typescale-headline-small">No se pudo registrar el método de pago. Por favor, revisa
+        lo siguiente:
+    </div>
     <div slot="content" class="md-typescale-body-medium">
         <div th:if="${validationErrors != null and !#lists.isEmpty(validationErrors)}">
             <div th:each="error : ${validationErrors}" class="error-item">

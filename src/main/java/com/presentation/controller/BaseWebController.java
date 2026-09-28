@@ -1,7 +1,9 @@
 package com.presentation.controller;
 
 import com.exceptions.BusinessException;
+import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Valid;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -15,6 +17,7 @@ import java.util.function.Supplier;
 public abstract class BaseWebController<CreationDTO, UpdateDTO> {
 
     private static final String VALIDATION_TAG = "validationErrors";
+    private static final String DATA_INTEGRITY_ERROR = "La operación solicitada incurre en un error de integridad de base de datos";
     protected static final String ERROR_SUFFIX = "?error=true";
 
     protected String showCreationForm(Model model, Principal principal, CreationDTO dto) {
@@ -56,6 +59,10 @@ public abstract class BaseWebController<CreationDTO, UpdateDTO> {
         } catch (BusinessException exception) {
 
             return onSuccessRedirectPath + ERROR_SUFFIX;
+
+        } catch (DataIntegrityViolationException exception) {
+
+            return onSuccessRedirectPath + DATA_INTEGRITY_ERROR;
         }
     }
 
@@ -101,9 +108,15 @@ public abstract class BaseWebController<CreationDTO, UpdateDTO> {
 
             return onSuccessRedirectPath;
 
-        } catch (BusinessException exception) {
+        } catch (BusinessException | ConstraintViolationException exception) {
 
             model.addAttribute(VALIDATION_TAG, List.of(exception.getMessage()));
+
+            return errorViewProvider.get();
+
+        } catch (DataIntegrityViolationException exception) {
+
+            model.addAttribute(VALIDATION_TAG, List.of(DATA_INTEGRITY_ERROR));
 
             return errorViewProvider.get();
         }

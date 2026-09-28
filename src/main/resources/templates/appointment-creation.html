@@ -339,10 +339,16 @@
         <div class="main-inner">
             <div class="page-header">
                 <h1 class="md-typescale-headline-small" style="margin:0">Nuevo Turno</h1>
-                <p class="md-typescale-body-medium" style="margin:0;color:var(--md-sys-color-on-surface-variant)">Agenda un turno en la barbería</p>
+                <p class="md-typescale-body-medium" style="margin:0;color:var(--md-sys-color-on-surface-variant)">Agenda
+                    un turno en la barbería</p>
             </div>
 
             <section aria-label="Formulario de registro de turno">
+                <div th:if="${validationErrors != null}" class="error-container">
+                    <p style="color: red;" th:each="error : ${validationErrors}" th:text="${error}">
+                        Mensaje de error
+                    </p>
+                </div>
                 <form th:action="@{/appointments/new}" method="post">
                     <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
                     <div class="surface outlined">
@@ -378,7 +384,8 @@
                                 <md-select-option th:each="employee : ${employees}"
                                                   th:value="${employee.id}"
                                                   th:selected="${dto.employeeID != null and dto.employeeID == employee.id}">
-                                    <div slot="headline" th:text="${employee.firstName + ' ' + employee.lastName}"></div>
+                                    <div slot="headline"
+                                         th:text="${employee.firstName + ' ' + employee.lastName}"></div>
                                 </md-select-option>
                             </md-outlined-select>
 
@@ -446,7 +453,9 @@
 </div>
 
 <md-dialog id="validationDialog">
-    <div slot="headline" class="md-typescale-headline-small">No se pudo registrar el turno. Por favor, revisa lo siguiente:</div>
+    <div slot="headline" class="md-typescale-headline-small">No se pudo registrar el turno. Por favor, revisa lo
+        siguiente:
+    </div>
     <div slot="content" class="md-typescale-body-medium">
         <div th:if="${validationErrors != null and !#lists.isEmpty(validationErrors)}">
             <div th:each="error : ${validationErrors}" class="error-item">

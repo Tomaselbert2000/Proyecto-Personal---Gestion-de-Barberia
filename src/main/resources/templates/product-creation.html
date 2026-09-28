@@ -312,6 +312,11 @@
             </div>
 
             <section aria-label="Formulario de registro de producto">
+                <div th:if="${validationErrors != null}" class="error-container">
+                    <p style="color: red;" th:each="error : ${validationErrors}" th:text="${error}">
+                        Mensaje de error
+                    </p>
+                </div>
                 <form th:action="@{/products/new}" method="post">
                     <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
                     <input type="hidden" name="imageFilePath" value="">
