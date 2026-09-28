@@ -5,6 +5,7 @@ import com.dto.client.ClientUpdateDTO;
 import com.enums.ClientNotesFilter;
 import com.enums.RegisteredPhoneFilter;
 import com.enums.RegistrationDateRange;
+import com.exceptions.BusinessException;
 import com.mapper.interfaces.ClientMapper;
 import com.presentation.controller.BaseWebController;
 import com.service.interfaces.ClientService;
@@ -16,6 +17,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
 
 import static com.presentation.constants.HtmlConstants.Paths.*;
 import static com.presentation.constants.HtmlConstants.Redirects.REDIRECT_CLIENTS;
@@ -130,9 +132,21 @@ public class WebClientController extends BaseWebController<ClientCreationDTO, Cl
     }
 
     @GetMapping("/{clientID}/update")
-    public String updateClient(@PathVariable Long clientID, Model model, Principal principal) {
+    public String updateClient(@PathVariable Long clientID,
+                               Model model,
+                               Principal principal
+    ) {
 
-        return renderUpdateForm(model, clientID, principal, invokeServiceAndReturnDTO(clientID));
+        try {
+
+            return renderUpdateForm(model, clientID, principal, invokeServiceAndReturnDTO(clientID));
+
+        } catch (BusinessException e) {
+
+            model.addAttribute(VALIDATION_TAG, List.of(e.getMessage()));
+
+            return renderCreationForm(model, principal, new ClientCreationDTO());
+        }
     }
 
     @PostMapping("/{clientID}/update")

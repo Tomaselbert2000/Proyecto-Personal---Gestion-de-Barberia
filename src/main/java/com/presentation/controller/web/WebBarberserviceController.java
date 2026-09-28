@@ -8,6 +8,7 @@ import com.dto.stats.BarberServiceSalesStatsDTO;
 import com.dto.stats.BarberServiceUsageStatsDTO;
 import com.enums.BarberServiceCategory;
 import com.enums.PriceRanges;
+import com.exceptions.BusinessException;
 import com.mapper.interfaces.BarberServiceMapper;
 import com.presentation.controller.BaseWebController;
 import com.service.interfaces.BarberserviceService;
@@ -20,6 +21,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
 
 import static com.presentation.constants.HtmlConstants.Paths.*;
 import static com.presentation.constants.HtmlConstants.Redirects.REDIRECT_BARBERSERVICES;
@@ -102,9 +104,22 @@ public class WebBarberserviceController extends BaseWebController<BarberServiceC
     }
 
     @GetMapping("/{barberserviceID}/update")
-    public String updateBarberService(@PathVariable Long barberserviceID, Model model, Principal principal) {
+    public String updateBarberService(
+            @PathVariable Long barberserviceID,
+            Model model,
+            Principal principal
+    ) {
 
-        return renderUpdateForm(model, barberserviceID, principal, invokeServiceAndReturnDTO(barberserviceID));
+        try {
+
+            return renderUpdateForm(model, barberserviceID, principal, invokeServiceAndReturnDTO(barberserviceID));
+
+        } catch (BusinessException e) {
+
+            model.addAttribute(VALIDATION_TAG, List.of(e.getMessage()));
+
+            return renderCreationForm(model, principal, new BarberServiceCreationDTO());
+        }
     }
 
     @PostMapping("/{barberserviceID}/update")

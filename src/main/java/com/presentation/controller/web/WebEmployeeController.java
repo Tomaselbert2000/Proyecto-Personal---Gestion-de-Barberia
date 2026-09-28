@@ -4,6 +4,7 @@ import com.dto.employee.EmployeeCreationDTO;
 import com.dto.employee.EmployeeUpdateDTO;
 import com.enums.EmployeeStatus;
 import com.enums.HireDateRange;
+import com.exceptions.BusinessException;
 import com.mapper.interfaces.EmployeeMapper;
 import com.presentation.controller.BaseWebController;
 import com.service.interfaces.EmployeeService;
@@ -16,6 +17,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
 
 import static com.presentation.constants.HtmlConstants.Paths.*;
 import static com.presentation.constants.HtmlConstants.Redirects.REDIRECT_EMPLOYEES;
@@ -85,9 +87,22 @@ public class WebEmployeeController extends BaseWebController<EmployeeCreationDTO
     }
 
     @GetMapping("/{employeeID}/update")
-    public String updateEmployee(@PathVariable Long employeeID, Model model, Principal principal) {
+    public String updateEmployee(
+            @PathVariable Long employeeID,
+            Model model,
+            Principal principal
+    ) {
 
-        return renderUpdateForm(model, employeeID, principal, invokeServiceAndReturnDTO(employeeID));
+        try {
+
+            return renderUpdateForm(model, employeeID, principal, invokeServiceAndReturnDTO(employeeID));
+
+        } catch (BusinessException e) {
+
+            model.addAttribute(VALIDATION_TAG, List.of(e.getMessage()));
+
+            return renderCreationForm(model, principal, new EmployeeCreationDTO());
+        }
     }
 
     @PostMapping("/{employeeID}/update")

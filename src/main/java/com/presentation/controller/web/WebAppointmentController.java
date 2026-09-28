@@ -8,6 +8,7 @@ import com.dto.stats.AppointmentMonthlyComparisonDTO;
 import com.dto.stats.AppointmentTodayStatsDTO;
 import com.dto.stats.AppointmentTomorrowStatsDTO;
 import com.enums.AppointmentStatus;
+import com.exceptions.BusinessException;
 import com.mapper.interfaces.AppointmentMapper;
 import com.presentation.controller.BaseWebController;
 import com.service.interfaces.AppointmentService;
@@ -119,9 +120,22 @@ public class WebAppointmentController extends BaseWebController<AppointmentCreat
     }
 
     @GetMapping("/{appointmentID}/update")
-    public String showAppointmentUpdateForm(@PathVariable Long appointmentID, Model model, Principal principal) {
+    public String showAppointmentUpdateForm(
+            @PathVariable Long appointmentID,
+            Model model,
+            Principal principal
+    ) {
 
-        return renderUpdateForm(model, appointmentID, principal, invokeServiceAndReturnDTO(appointmentID));
+        try {
+
+            return renderUpdateForm(model, appointmentID, principal, invokeServiceAndReturnDTO(appointmentID));
+
+        } catch (BusinessException e) {
+
+            model.addAttribute(VALIDATION_TAG, List.of(e.getMessage()));
+
+            return renderCreationForm(model, principal, new AppointmentCreationDTO());
+        }
     }
 
     @PostMapping("/{appointmentID}/update")

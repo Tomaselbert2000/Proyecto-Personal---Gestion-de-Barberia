@@ -7,7 +7,6 @@ import com.enums.ProductCategory;
 import com.enums.ProductPresentationUnit;
 import com.enums.StockStatus;
 import com.exceptions.BusinessException;
-import com.mapper.interfaces.ProductMapper;
 import com.presentation.controller.BaseWebController;
 import com.service.implementation.ProductServiceImpl;
 import com.service.interfaces.ProductService;
@@ -19,6 +18,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
 
 import static com.presentation.constants.HtmlConstants.Paths.*;
 import static com.presentation.constants.HtmlConstants.Redirects.REDIRECT_PRODUCTS;
@@ -29,7 +29,6 @@ import static com.presentation.constants.HtmlConstants.Redirects.REDIRECT_PRODUC
 public class WebProductController extends BaseWebController<ProductCreationDTO, ProductUpdateDTO> {
 
     private final ProductService service;
-    private final ProductMapper mapper;
 
     @GetMapping
     public String showProductCatalog(
@@ -83,9 +82,22 @@ public class WebProductController extends BaseWebController<ProductCreationDTO, 
     }
 
     @GetMapping("/{productID}/update")
-    public String updateProduct(@PathVariable Long productID, Model model, Principal principal) {
+    public String updateProduct(
+            @PathVariable Long productID,
+            Model model,
+            Principal principal
+    ) {
 
-        return renderUpdateForm(model, productID, principal, invokeServiceAndReturnDTO(productID));
+        try {
+
+            return renderUpdateForm(model, productID, principal, invokeServiceAndReturnDTO(productID));
+
+        } catch (BusinessException e) {
+
+            model.addAttribute(VALIDATION_TAG, List.of(e.getMessage()));
+
+            return renderCreationForm(model, principal, new ProductCreationDTO());
+        }
     }
 
     @PostMapping("/{productID}/update")

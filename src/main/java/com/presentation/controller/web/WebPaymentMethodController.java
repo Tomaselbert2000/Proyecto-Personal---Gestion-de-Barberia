@@ -4,6 +4,7 @@ import com.dto.paymentmethod.PaymentMethodCreationDTO;
 import com.dto.paymentmethod.PaymentMethodUpdateDTO;
 import com.enums.PaymentMethodModifierType;
 import com.enums.PaymentMethodStatus;
+import com.exceptions.BusinessException;
 import com.mapper.interfaces.PaymentMethodMapper;
 import com.presentation.controller.BaseWebController;
 import com.service.interfaces.PaymentMethodService;
@@ -16,6 +17,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
 
 import static com.presentation.constants.HtmlConstants.Paths.*;
 import static com.presentation.constants.HtmlConstants.Redirects.REDIRECT_PAYMENTS;
@@ -95,7 +97,16 @@ public class WebPaymentMethodController extends BaseWebController<PaymentMethodC
             Principal principal
     ) {
 
-        return renderUpdateForm(model, paymentID, principal, invokeServiceAndReturnDTO(paymentID));
+        try {
+
+            return renderUpdateForm(model, paymentID, principal, invokeServiceAndReturnDTO(paymentID));
+
+        } catch (BusinessException e) {
+
+            model.addAttribute(VALIDATION_TAG, List.of(e.getMessage()));
+
+            return renderCreationForm(model, principal, new PaymentMethodCreationDTO());
+        }
     }
 
     @PostMapping("/{paymentID}/update")
