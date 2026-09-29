@@ -189,6 +189,18 @@
             width: 100%
         }
 
+        .span-full {
+            grid-column: 1 / -1
+        }
+
+        .check-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            min-height: 48px
+        }
+
         .btn-row {
             display: flex;
             gap: 12px;
@@ -351,7 +363,7 @@
                             <div class="ficha-item">
                                 <span class="md-typescale-label-medium">Comisión actual</span>
                                 <span class="md-typescale-body-large"
-                                      th:text="${employee.commissionPercentage != null ? (#numbers.formatDecimal(employee.commissionPercentage * 100, 0, 0) + ' %') : '--'}">70 %</span>
+                                      th:text="${employee.commissionPercentage != null ? (#numbers.formatDecimal(employee.commissionPercentage * 100, 1, 1) + ' %') : '--'}">70 %</span>
                             </div>
                             <div class="ficha-item">
                                 <span class="md-typescale-label-medium">Fecha de cese</span>
@@ -374,12 +386,20 @@
 
                             <md-outlined-text-field label="Comisión" name="commissionVisible" id="commissionVisible"
                                                     type="text" inputmode="decimal" maxlength="6" suffix-text="%"
-                                                    th:value="${dto.commissionPercentage != null ? #numbers.formatDecimal(dto.commissionPercentage * 100, 0, 0) : ''}"
+                                                    th:value="${dto.commissionPercentage != null ? #numbers.formatDecimal(dto.commissionPercentage * 100, 1, 1) : ''}"
                                                     placeholder="Ej: 60">
                                 <md-icon slot="leading-icon">percent</md-icon>
                             </md-outlined-text-field>
                             <input type="hidden" name="commissionPercentage" id="commissionPercentage"
                                    th:value="${dto.commissionPercentage}">
+
+                            <label class="check-row span-full" th:if="${dto.terminationDate == null}">
+                                <md-checkbox id="employeeIsActive" touch-target="wrapper"
+                                             th:checked="${dto.isActive}"></md-checkbox>
+                                <span class="md-typescale-body-large">Empleado en actividad</span>
+                            </label>
+                            <input type="hidden" name="isActive" id="employeeIsActiveValue"
+                                   th:value="${dto.isActive}">
 
                             <md-outlined-text-field label="Fecha de cese" name="terminationDate"
                                                     id="employeeTerminationDate"
@@ -387,6 +407,11 @@
                                 <md-icon slot="leading-icon">event_busy</md-icon>
                             </md-outlined-text-field>
                         </div>
+
+                        <p class="md-typescale-body-small span-full"
+                           style="margin:8px 0 0 0;color:var(--md-sys-color-on-surface-variant)"
+                           th:if="${dto.terminationDate != null}">Este empleado está desvinculado: siempre se
+                            encontrará inactivo. Si vaciás la fecha de cese, vuelve a estar en relación laboral.</p>
 
                         <div class="btn-row">
                             <md-filled-button type="submit">
@@ -494,6 +519,15 @@
         }
         commissionHidden.value = converted;
     });
+
+    const activeCheckbox = document.getElementById('employeeIsActive');
+    const activeHidden = document.getElementById('employeeIsActiveValue');
+
+    if (activeCheckbox && activeHidden) {
+        editionForm.addEventListener('submit', () => {
+            activeHidden.value = activeCheckbox.checked ? 'true' : 'false';
+        });
+    }
 </script>
 </body>
 </html>

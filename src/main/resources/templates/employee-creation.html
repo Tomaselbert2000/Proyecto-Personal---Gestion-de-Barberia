@@ -332,7 +332,7 @@
 
                             <md-outlined-text-field label="Comisión" name="commissionVisible" id="commissionVisible"
                                                     type="text" inputmode="decimal" maxlength="6" suffix-text="%"
-                                                    th:value="${dto.commissionPercentage != null ? #numbers.formatDecimal(dto.commissionPercentage * 100, 0, 0) : ''}"
+                                                    th:value="${dto.commissionPercentage != null ? #numbers.formatDecimal(dto.commissionPercentage * 100, 1, 1) : ''}"
                                                     placeholder="Ej: 60">
                                 <md-icon slot="leading-icon">percent</md-icon>
                             </md-outlined-text-field>
