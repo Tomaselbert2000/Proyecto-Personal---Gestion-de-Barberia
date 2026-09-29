@@ -22,11 +22,16 @@ import java.util.List;
 import static com.factory.EmployeeTestDataFactory.*;
 import static com.service.helper.EmployeeServiceTestHelper.*;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 public class EmployeeServiceImplTest extends BaseServiceTest<Employee, EmployeeRepository> {
 
     private static final LocalDate HIRE_DATE = LocalDate.of(2026, 1, 1);
     private static final LocalDate INVALID_TERMINATION_DATE = LocalDate.of(2025, 1, 1);
+    private static final LocalDate TERMINATION_DATE = LocalDate.of(2026, 12, 31);
+    private static final LocalDate RETROACTIVE_TERMINATION_DATE = LocalDate.of(2026, 5, 5);
+    private static final LocalDate FUTURE_TERMINATION_DATE = LocalDate.of(2031, 5, 5);
     private final Employee employeeOnDB = buildValidEmployee();
     private final EmployeeCreationDTO creationDTO = buildValidEmployeeCreationDTO();
     private final EmployeeUpdateDTO updateDTO = buildValidEmployeeUpdateDTO();
@@ -188,6 +193,150 @@ public class EmployeeServiceImplTest extends BaseServiceTest<Employee, EmployeeR
         assertThrows(InvalidEmployeeTerminationDateException.class, () -> updateEmployee(employeeService, employeeOnDB, updateDTO));
 
         verifyUpdateProcessFailure();
+    }
+
+    @Test
+    @DisplayName("Dado un empleado en actividad y no desvinculado, podrá ser configurado como inactivo exitosamente")
+    void givenCurrentlyWorkingEmployeeWhenSetAsInactiveDoesNotThrowsAnything() {
+
+        employeeOnDB.setTerminationDate(null); // by default, factory employee has termination date, so we set it as null here before persist
+
+        mockEmployee(employeeRepository, employeeOnDB);
+
+        employeeService.changeEmployeeIsActiveValue(employeeOnDB.getEmployeeID());
+
+        verify(employeeRepository, times(1)).save(employeeOnDB);
+
+        assertFalse(employeeOnDB.isActive());
+    }
+
+    @Test
+    @DisplayName("Dado un empleado inactivo y no desvinculado, podrá ser configurado nuevamente como activo")
+    void givenCurrentlyWorkingEmployeeWhenSetAsActiveDoesNotThrowsAnything() {
+
+        employeeOnDB.setTerminationDate(null); // by default, factory employee has termination date, so we set it as null here before persist
+        employeeOnDB.setActive(false); // and we set the employee as inactive too
+
+        mockEmployee(employeeRepository, employeeOnDB);
+
+        employeeService.changeEmployeeIsActiveValue(employeeOnDB.getEmployeeID());
+
+        verify(employeeRepository, times(1)).save(employeeOnDB);
+
+        assertTrue(employeeOnDB.isActive());
+    }
+
+    @Test
+    @DisplayName("Dado un empleado desvinculado, su estado será inactivo y no modificable")
+    void givenEmployeeLaidOffThenStatusIsPermanentlyInactive(){
+
+        employeeOnDB.setActive(true); // I force set the employee as active before saving
+
+        mockEmployee(employeeRepository, employeeOnDB);
+
+        employeeService.changeEmployeeIsActiveValue(employeeOnDB.getEmployeeID());
+
+        assertFalse(employeeOnDB.isActive());
+    }
+
+    @Test
+    @DisplayName("Dado un empleado que se envía como activo junto a una fecha de fin de relación laboral, la regla de negocio prevailsce y el empleado queda inactivo")
+    void givenActiveFlagSentAlongsideTerminationDateWhenUpdatingThenEmployeeEndsUpInactive() {
+
+        employeeOnDB.setActive(false);
+
+        mockEmployee(employeeRepository, employeeOnDB);
+
+        updateDTO.setIsActive(true);
+        updateDTO.setTerminationDate(TERMINATION_DATE);
+
+        updateEmployee(employeeService, employeeOnDB, updateDTO);
+
+        assertAll(
+                "El empleado desvinculado debe quedar inactivo",
+                () -> assertFalse(employeeOnDB.isActive()),
+                () -> assertEquals(TERMINATION_DATE, employeeOnDB.getTerminationDate())
+        );
+    }
+
+    @Test
+    @DisplayName("Dada una fecha de fin de relación laboral retroactiva pero posterior a la fecha de contratación, el empleado queda desvinculado e inactivo")
+    void givenRetroactiveTerminationDateAfterHireDateWhenUpdatingThenEmployeeIsLaidOffAndInactive() {
+
+        employeeOnDB.setActive(true);
+
+        mockEmployee(employeeRepository, employeeOnDB);
+
+        updateDTO.setIsActive(true);
+        updateDTO.setTerminationDate(RETROACTIVE_TERMINATION_DATE);
+
+        updateEmployee(employeeService, employeeOnDB, updateDTO);
+
+        assertAll(
+                "La baja retroactiva debe aceptarse y desactivar al empleado",
+                () -> assertEquals(RETROACTIVE_TERMINATION_DATE, employeeOnDB.getTerminationDate()),
+                () -> assertFalse(employeeOnDB.isActive())
+        );
+    }
+
+    @Test
+    @DisplayName("Dada una fecha de fin de relación laboral futura, el empleado queda desvinculado e inactivo")
+    void givenFutureTerminationDateWhenUpdatingThenEmployeeIsLaidOffAndInactive() {
+
+        employeeOnDB.setActive(true);
+
+        mockEmployee(employeeRepository, employeeOnDB);
+
+        updateDTO.setIsActive(true);
+        updateDTO.setTerminationDate(FUTURE_TERMINATION_DATE);
+
+        updateEmployee(employeeService, employeeOnDB, updateDTO);
+
+        assertAll(
+                "La baja futura debe aceptarse y desactivar al empleado",
+                () -> assertEquals(FUTURE_TERMINATION_DATE, employeeOnDB.getTerminationDate()),
+                () -> assertFalse(employeeOnDB.isActive())
+        );
+    }
+
+    @Test
+    @DisplayName("Dado un empleado desvinculado, al enviar el formulario de edición sin fecha de fin de relación laboral, el empleado vuelve a estar en relación laboral")
+    void givenEmptyTerminationDateWhenUpdatingThenEmployeeIsNotLaidOffAnymore() {
+
+        employeeOnDB.setActive(false);
+
+        mockEmployee(employeeRepository, employeeOnDB);
+
+        updateDTO.setIsActive(true);
+        updateDTO.setTerminationDate(null);
+
+        updateEmployee(employeeService, employeeOnDB, updateDTO);
+
+        assertAll(
+                "La fecha de cese debe quedar vaciada y el empleado vuelve a estar activo",
+                () -> assertNull(employeeOnDB.getTerminationDate()),
+                () -> assertTrue(employeeOnDB.isActive())
+        );
+    }
+
+    @Test
+    @DisplayName("Dado un empleado en relación laboral enviado como inactivo, su estado se persiste como inactivo")
+    void givenInactiveFlagWithoutTerminationDateWhenUpdatingThenEmployeeEndsUpInactive() {
+
+        employeeOnDB.setActive(true);
+
+        mockEmployee(employeeRepository, employeeOnDB);
+
+        updateDTO.setIsActive(false);
+        updateDTO.setTerminationDate(null);
+
+        updateEmployee(employeeService, employeeOnDB, updateDTO);
+
+        assertAll(
+                "El estado inactive enviado por el formulario debe respetarse",
+                () -> assertNull(employeeOnDB.getTerminationDate()),
+                () -> assertFalse(employeeOnDB.isActive())
+        );
     }
 
     private void verifyCreationProcessSuccess() {
