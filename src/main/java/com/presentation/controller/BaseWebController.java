@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.Supplier;
 
+import static com.presentation.constants.StringResource.ValidationErrorMessage.INVALID_FIELD_FORMAT_ERROR;
+
 public abstract class BaseWebController<CreationDTO, UpdateDTO> {
 
     protected static final String VALIDATION_TAG = "validationErrors";
@@ -94,6 +96,7 @@ public abstract class BaseWebController<CreationDTO, UpdateDTO> {
 
         return bindingResult.getFieldErrors()
                 .stream()
+                .filter(f -> !f.isBindingFailure())
                 .map(FieldError::getDefaultMessage)
                 .filter(Objects::nonNull)
                 .toList();
@@ -108,7 +111,9 @@ public abstract class BaseWebController<CreationDTO, UpdateDTO> {
     ) {
         if (bindingResult.hasErrors()) {
 
-            model.addAttribute(VALIDATION_TAG, collectValidationErrors(bindingResult));
+            List<String> validationErrors = collectValidationErrors(bindingResult);
+
+            model.addAttribute(VALIDATION_TAG, validationErrors.isEmpty() ? List.of(INVALID_FIELD_FORMAT_ERROR) : validationErrors);
 
             return errorViewProvider.get();
         }
