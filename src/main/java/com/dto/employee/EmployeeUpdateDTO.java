@@ -1,9 +1,6 @@
 package com.dto.employee;
 
-import jakarta.validation.constraints.DecimalMax;
-import jakarta.validation.constraints.DecimalMin;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -32,6 +29,7 @@ public final class EmployeeUpdateDTO {
     private String lastName;
 
     private Boolean isActive;
+
     private LocalDate terminationDate;
 
     @DecimalMin(value = MIN_COMMISION_PERCENTAGE_VALUE, message = EMPLOYEE_COMMISSION_PERCENTAGE + PERCENTAGE_LOWER_THAN_ZERO)

@@ -32,6 +32,7 @@ public final class EmployeeCreationDTO {
     @Pattern(regexp = NAME_REGEX, message = EMPLOYEE_LAST_NAME + DOES_NOT_MATCH_NAME_REGEX)
     private String lastName;
 
+    @PastOrPresent
     @NotNull(message = EMPLOYEE_HIRE_DATE + NOT_NULL)
     private LocalDate hireDate;
 
