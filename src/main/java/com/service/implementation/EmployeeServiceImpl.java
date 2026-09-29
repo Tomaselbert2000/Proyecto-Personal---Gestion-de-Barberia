@@ -74,9 +74,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         for (EmployeeInfoDTO dto : dtos) {
 
-            Long monthlyAppointmentsCount = getMonthlyAppointmentsCountByEmployeeID(dto.getId());
-
-            dto.setMonthlyAppointmentsCount(monthlyAppointmentsCount);
+            dto.setMonthlyAppointmentsCount(getMonthlyAppointmentsCountByEmployeeID(dto.getId()));
         }
 
         return dtos;
@@ -92,7 +90,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         checkTerminationDate(employeeOnDB, updateDTO.getTerminationDate());
 
-        repository.save(mapper.mapEmployeeUpdateDtoToEntity(employeeOnDB, updateDTO));
+        Employee employeeToSave = mapper.mapEmployeeUpdateDtoToEntity(employeeOnDB, updateDTO);
+
+        employeeToSave.setTerminationDate(updateDTO.getTerminationDate());
+
+        if (updateDTO.getTerminationDate() != null) employeeToSave.setActive(false);
+
+        repository.save(employeeToSave);
     }
 
     @Override
@@ -154,11 +158,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         Employee employee = loadEmployee(id);
 
-        if(employee.getTerminationDate() != null){
+        if (employee.getTerminationDate() != null) {
 
             employee.setActive(false);
 
             repository.save(employee);
+
+            return;
         }
 
         boolean value = employee.isActive();
