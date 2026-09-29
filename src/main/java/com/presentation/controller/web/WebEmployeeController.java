@@ -17,15 +17,17 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.util.List;
 
 import static com.presentation.constants.HtmlConstants.Paths.*;
 import static com.presentation.constants.HtmlConstants.Redirects.REDIRECT_EMPLOYEES;
+import static com.presentation.constants.StringResource.OperationMessages.EMPLOYEE_OPERATION_FAILED;
 
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/employees")
 public class WebEmployeeController extends BaseWebController<EmployeeCreationDTO, EmployeeUpdateDTO> {
+
+    private static final String OPERATION_FAILED_TAG = "operationFailedMessage";
 
     private final EmployeeService employeeService;
     private final SaleService saleService;
@@ -36,8 +38,8 @@ public class WebEmployeeController extends BaseWebController<EmployeeCreationDTO
             Model model,
             Principal principal,
             @RequestParam(required = false) String employeeName,
-            @RequestParam(required = false) EmployeeStatus status,
-            @RequestParam(required = false) HireDateRange hireDateRange
+            @RequestParam(required = false) String status,
+            @RequestParam(required = false) String hireDateRange
     ) {
 
         model.addAttribute("currentUser", principal.getName());
@@ -51,11 +53,13 @@ public class WebEmployeeController extends BaseWebController<EmployeeCreationDTO
         model.addAttribute("employeeCompletedServicesStats", saleService.getEmployeeWithMostServicesCompleted());
         model.addAttribute("averageByEmployee", saleService.getActiveEmployeesAverageServices());
 
-        model.addAttribute("liveSearch", employeeService.liveSearch(employeeName, status, hireDateRange));
+        model.addAttribute("liveSearch", employeeService.liveSearch(employeeName, parseEnumValue(status, EmployeeStatus.class), parseEnumValue(hireDateRange, HireDateRange.class)));
 
         model.addAttribute("employeeName", employeeName);
         model.addAttribute("status", status);
         model.addAttribute("hireDateRange", hireDateRange);
+
+        model.addAttribute(OPERATION_FAILED_TAG, EMPLOYEE_OPERATION_FAILED);
 
         return EMPLOYEES;
     }
@@ -99,9 +103,7 @@ public class WebEmployeeController extends BaseWebController<EmployeeCreationDTO
 
         } catch (BusinessException e) {
 
-            model.addAttribute(VALIDATION_TAG, List.of(e.getMessage()));
-
-            return renderCreationForm(model, principal, new EmployeeCreationDTO());
+            return REDIRECT_EMPLOYEES + ERROR_SUFFIX;
         }
     }
 
@@ -182,5 +184,24 @@ public class WebEmployeeController extends BaseWebController<EmployeeCreationDTO
     @Override
     protected void populateCreationForm(Model model) {
         // Intentionally empty. Employee CRUD does not rely on other's entity information
+    }
+
+    /**
+     * Resuelve un valor de enumerado recibido por query string de forma tolerante: los valores
+     * ausentes, vacíos o no reconocidos se interpretan como "sin filtro" en lugar de provocar
+     * un error 400.
+     */
+    private <E extends Enum<E>> E parseEnumValue(String rawValue, Class<E> enumType) {
+
+        if (rawValue == null || rawValue.isBlank()) return null;
+
+        try {
+
+            return Enum.valueOf(enumType, rawValue.trim());
+
+        } catch (IllegalArgumentException exception) {
+
+            return null;
+        }
     }
 }
