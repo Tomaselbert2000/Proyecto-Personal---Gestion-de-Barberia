@@ -27,8 +27,10 @@ public final class StringResource {
         public static final String CLIENT_CREATION_FAILED = CREATION_FAILED_PREFIX + "el cliente" + CREATION_FAILED_SUFFIX;
         public static final String CLIENT_UPDATE_FAILED = UPDATE_FAILED_PREFIX + "el cliente" + UPDATE_FAILED_SUFFIX;
 
-        public static final String EMPLOYEE_CREATION_FAILED = CREATION_FAILED_PREFIX + "el cliente" + CREATION_FAILED_SUFFIX;
+        public static final String EMPLOYEE_CREATION_FAILED = CREATION_FAILED_PREFIX + "el empleado" + CREATION_FAILED_SUFFIX;
         public static final String EMPLOYEE_UPDATE_FAILED = UPDATE_FAILED_PREFIX + "el empleado" + UPDATE_FAILED_SUFFIX;
+
+        public static final String EMPLOYEE_OPERATION_FAILED = "No se pudo completar la operación solicitada sobre el empleado. Por favor, revisa los datos e intenta nuevamente.";
     }
 
     public static final class ConfirmationDialog {
@@ -137,6 +139,8 @@ public final class StringResource {
     public static final class ValidationErrorMessage {
 
         public static final String VALIDATION_ERROR_TITLE = "Error de validación";
+
+        public static final String INVALID_FIELD_FORMAT_ERROR = "El formato de alguno de los campos ingresados no es válido";
 
         public static final String LOGIN_ERROR_TITLE = "Error de inicio de sesión";
         public static final String LOGIN_FAILED = "Usuario o contraseña incorrectos";
