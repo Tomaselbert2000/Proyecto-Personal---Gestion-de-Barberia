@@ -9,6 +9,7 @@ import com.enums.StockStatus;
 import com.exceptions.product.DuplicatedProductNameException;
 import com.exceptions.product.InvalidProductCurrentPriceException;
 import com.exceptions.product.ProductNotFoundException;
+import com.exceptions.sale.InsufficientProductStockException;
 import com.mapper.interfaces.ProductMapper;
 import com.model.Product;
 import com.repository.ProductRepository;
@@ -205,6 +206,9 @@ public class ProductServiceImpl implements ProductService {
 
         if (quantity != null) {
 
+            if (operation == StockUpdateOperation.REMOVE && quantity > product.getCurrentStockLevel())
+                throw new InsufficientProductStockException();
+
             if (quantity < 0)
                 throw new IllegalArgumentException("No es posible ingresar valores negativos en operaciones de stock");
 
@@ -220,12 +224,12 @@ public class ProductServiceImpl implements ProductService {
 
     private void checkNameAvailability(String name) {
 
-        if (productRepository.existsByName(name)) throw new DuplicatedProductNameException();
+        if (productRepository.existsByNameIgnoreCase(name)) throw new DuplicatedProductNameException();
     }
 
     private void checkNameAvailability(String name, Long productID) {
 
-        if (productRepository.existsByNameAndProductIDNot(name, productID)) throw new DuplicatedProductNameException();
+        if (productRepository.existsByNameIgnoreCaseAndProductIDNot(name, productID)) throw new DuplicatedProductNameException();
     }
 
     private void checkIfNewCurrentPriceIsLowerThanCurrentCost(Double newCurrentPrice, Double persistedProductCost) {
