@@ -1,5 +1,6 @@
 package com.repository;
 
+import com.dto.stats.MonthlyAppointmentCountDTO;
 import com.model.Employee;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -52,13 +53,15 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     );
 
     @Query("""
-            SELECT COUNT(a.appointmentID)
+            SELECT new com.dto.stats.MonthlyAppointmentCountDTO(
+            a.employee.employeeID,
+            COUNT(a.appointmentID))
             FROM Appointment a
-            WHERE a.employee.employeeID IN : employeeIDs
+            WHERE a.employee.employeeID IN (:employeeIDs)
             AND a.startDateTime BETWEEN :startDate AND :endDate
-            ORDER BY a.employee.employeeID
-            """)
-    List<Long> countMonthlyAppointmentsBatch(
+            GROUP BY a.employee.employeeID
+           """)
+    List<MonthlyAppointmentCountDTO> countMonthlyAppointmentsBatch(
             @Param("employeeIDs") List<Long> employeeIDs,
             @Param("startDate") LocalDateTime startDate,
             @Param("endDate") LocalDateTime endDate
