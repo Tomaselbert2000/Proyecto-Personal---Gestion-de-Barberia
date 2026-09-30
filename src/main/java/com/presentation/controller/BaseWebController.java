@@ -21,6 +21,7 @@ public abstract class BaseWebController<CreationDTO, UpdateDTO> {
     protected static final String VALIDATION_TAG = "validationErrors";
     protected static final String DATA_INTEGRITY_ERROR = "La operación solicitada incurre en un error de integridad de base de datos";
     protected static final String ERROR_SUFFIX = "?error=true";
+    protected static final String OPERATION_FAILED_TAG = "operationFailedMessage";
 
     protected String showCreationForm(Model model, Principal principal, CreationDTO dto) {
 
@@ -100,6 +101,20 @@ public abstract class BaseWebController<CreationDTO, UpdateDTO> {
                 .map(FieldError::getDefaultMessage)
                 .filter(Objects::nonNull)
                 .toList();
+    }
+
+    protected <E extends Enum<E>> E parseEnumValue(String rawValue, Class<E> enumType) {
+
+        if (rawValue == null || rawValue.isBlank()) return null;
+
+        try {
+
+            return Enum.valueOf(enumType, rawValue.trim());
+
+        } catch (IllegalArgumentException exception) {
+
+            return null;
+        }
     }
 
     private String processSubmission(

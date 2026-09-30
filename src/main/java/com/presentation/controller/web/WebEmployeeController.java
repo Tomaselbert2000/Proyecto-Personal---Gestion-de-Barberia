@@ -27,8 +27,6 @@ import static com.presentation.constants.StringResource.OperationMessages.EMPLOY
 @RequestMapping("/employees")
 public class WebEmployeeController extends BaseWebController<EmployeeCreationDTO, EmployeeUpdateDTO> {
 
-    private static final String OPERATION_FAILED_TAG = "operationFailedMessage";
-
     private final EmployeeService employeeService;
     private final SaleService saleService;
     private final EmployeeMapper mapper;
@@ -101,7 +99,7 @@ public class WebEmployeeController extends BaseWebController<EmployeeCreationDTO
 
             return renderUpdateForm(model, employeeID, principal, invokeServiceAndReturnDTO(employeeID));
 
-        } catch (BusinessException e) {
+        } catch (BusinessException exception) {
 
             return REDIRECT_EMPLOYEES + ERROR_SUFFIX;
         }
@@ -184,24 +182,5 @@ public class WebEmployeeController extends BaseWebController<EmployeeCreationDTO
     @Override
     protected void populateCreationForm(Model model) {
         // Intentionally empty. Employee CRUD does not rely on other's entity information
-    }
-
-    /**
-     * Resuelve un valor de enumerado recibido por query string de forma tolerante: los valores
-     * ausentes, vacíos o no reconocidos se interpretan como "sin filtro" en lugar de provocar
-     * un error 400.
-     */
-    private <E extends Enum<E>> E parseEnumValue(String rawValue, Class<E> enumType) {
-
-        if (rawValue == null || rawValue.isBlank()) return null;
-
-        try {
-
-            return Enum.valueOf(enumType, rawValue.trim());
-
-        } catch (IllegalArgumentException exception) {
-
-            return null;
-        }
     }
 }
