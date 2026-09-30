@@ -3,6 +3,7 @@ package com.service.implementation;
 import com.dto.employee.EmployeeCreationDTO;
 import com.dto.employee.EmployeeInfoDTO;
 import com.dto.employee.EmployeeUpdateDTO;
+import com.dto.stats.MonthlyAppointmentCountDTO;
 import com.enums.EmployeeStatus;
 import com.enums.HireDateRange;
 import com.exceptions.employee.EmployeeNotFoundException;
@@ -19,7 +20,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import static com.presentation.constants.StringResource.DisplayString.EMPLOYEE_COMBOBOX_NO_FILTER;
 import static com.presentation.support.format.PersonNameFormatter.fullName;
@@ -75,17 +79,18 @@ public class EmployeeServiceImpl implements EmployeeService {
         if (employees.isEmpty()) return List.of();
 
         List<Long> employeeIDs = employees.stream().map(Employee::getEmployeeID).toList();
-        List<Long> appointments = repository.countMonthlyAppointmentsBatch(
+        List<MonthlyAppointmentCountDTO> appointmentCount = repository.countMonthlyAppointmentsBatch(
                 employeeIDs,
                 getStartOfCurrentMonth().atStartOfDay(),
-                getEndOfCurrentMonth().atTime(LAST_SECOND_OF_DAY)
-        );
+                getEndOfCurrentMonth().atTime(LAST_SECOND_OF_DAY));
+
+        Map<Long, Long> countsByEmployees = mapMonthlyAppointmentCount(employeeIDs, appointmentCount);
 
         List<EmployeeInfoDTO> dtos = mapper.mapEmployeeToInfoDTO(employees);
 
-        for (int i = 0; i < dtos.size(); i++) {
+        for (EmployeeInfoDTO dto : dtos) {
 
-            dtos.get(i).setMonthlyAppointmentsCount(appointments.get(i));
+            dto.setMonthlyAppointmentsCount(countsByEmployees.getOrDefault(dto.getId(), 0L));
         }
 
         return dtos;
@@ -153,16 +158,20 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         List<Employee> liveSearch = repository.liveSearchWithFilters(employeeName, statusFlag, startDate, endDate);
 
-        if(liveSearch.isEmpty()) return List.of();
+        List<Long> employeeIDs = liveSearch.stream().map(Employee::getEmployeeID).toList();
+        List<MonthlyAppointmentCountDTO> appointmentCount = repository.countMonthlyAppointmentsBatch(
+                employeeIDs,
+                getStartOfCurrentMonth().atStartOfDay(),
+                getEndOfCurrentMonth().atTime(LAST_SECOND_OF_DAY));
+
+
+        Map<Long, Long> countsByEmployees = mapMonthlyAppointmentCount(employeeIDs, appointmentCount);
 
         List<EmployeeInfoDTO> dtos = mapper.mapEmployeeToInfoDTO(liveSearch);
 
-        List<Long> employeeIDs = liveSearch.stream().map(Employee::getEmployeeID).toList();
-        List<Long> appointmentIDs = repository.countMonthlyAppointmentsBatch(employeeIDs, getStartOfCurrentMonth().atStartOfDay(), getEndOfCurrentMonth().atTime(LAST_SECOND_OF_DAY));
+        for (EmployeeInfoDTO dto : dtos) {
 
-        for(int i = 0; i< dtos.size(); i++){
-
-            dtos.get(i).setMonthlyAppointmentsCount(appointmentIDs.get(i));
+            dto.setMonthlyAppointmentsCount(countsByEmployees.getOrDefault(dto.getId(), 0L));
         }
 
         return dtos;
@@ -244,5 +253,22 @@ public class EmployeeServiceImpl implements EmployeeService {
                 getStartOfCurrentMonth().atStartOfDay(),
                 getEndOfCurrentMonth().atTime(LAST_SECOND_OF_DAY)
         );
+    }
+
+    private Map<Long, Long> mapMonthlyAppointmentCount(List<Long> employeeIDs, List<MonthlyAppointmentCountDTO> appointmentCount) {
+
+        Map<Long, Long> byEmployee = appointmentCount.stream().collect(Collectors.toMap(
+                MonthlyAppointmentCountDTO::getEmployeeID,
+                MonthlyAppointmentCountDTO::getAppointmentCount
+        ));
+
+        Map<Long, Long> result = new HashMap<>();
+
+        for (Long employeeID : employeeIDs) {
+
+            result.put(employeeID, byEmployee.getOrDefault(employeeID, 0L));
+        }
+
+        return result;
     }
 }
