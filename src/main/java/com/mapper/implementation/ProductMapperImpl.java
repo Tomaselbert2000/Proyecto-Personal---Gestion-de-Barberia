@@ -26,7 +26,7 @@ public class ProductMapperImpl implements ProductMapper {
 
         return Product.builder()
                 .name(formatAsSentence(dto.getName()).trim())
-                .optionalDescription(dto.getOptionalDescription().trim())
+                .optionalDescription(formatAsSentence(dto.getOptionalDescription()).trim())
                 .brandName(formatAsSentence(dto.getBrandName()).trim())
                 .presentationUnit(dto.getPresentationUnit())
                 .presentationSize(dto.getPresentationSize())
