@@ -4,6 +4,7 @@ import com.abstract_test_class.BaseServiceTest;
 import com.dto.employee.EmployeeCreationDTO;
 import com.dto.employee.EmployeeInfoDTO;
 import com.dto.employee.EmployeeUpdateDTO;
+import com.dto.stats.MonthlyAppointmentCountDTO;
 import com.exceptions.employee.*;
 import com.mapper.implementation.EmployeeMapperImpl;
 import com.mapper.interfaces.EmployeeMapper;
@@ -146,7 +147,7 @@ public class EmployeeServiceImplTest extends BaseServiceTest<Employee, EmployeeR
     void given_N_ExistingEmployees_WhenGettingAll_ThenReturns_InfoDTOList() {
 
         mockEmployeeList(employeeRepository, List.of(employeeOnDB));
-        when(employeeRepository.countMonthlyAppointmentsBatch(anyList(), any(), any())).thenReturn(List.of(employeeOnDB.getEmployeeID()));
+        when(employeeRepository.countMonthlyAppointmentsBatch(anyList(), any(), any())).thenReturn(List.of(new MonthlyAppointmentCountDTO(employeeOnDB.getEmployeeID(), 1L)));
 
         List<EmployeeInfoDTO> returnedList = employeeService.getEmployeeList();
 
