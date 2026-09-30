@@ -13,15 +13,16 @@ import com.service.interfaces.ProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.TransactionSystemException;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.util.List;
 
 import static com.presentation.constants.HtmlConstants.Paths.*;
 import static com.presentation.constants.HtmlConstants.Redirects.REDIRECT_PRODUCTS;
+import static com.presentation.constants.StringResource.OperationMessages.PRODUCT_OPERATION_FAILED;
 
 @Controller
 @RequiredArgsConstructor
@@ -35,8 +36,8 @@ public class WebProductController extends BaseWebController<ProductCreationDTO, 
             Principal principal,
             Model model,
             @RequestParam(required = false) String name,
-            @RequestParam(required = false) ProductCategory category,
-            @RequestParam(required = false) StockStatus stockStatus
+            @RequestParam(required = false) String category,
+            @RequestParam(required = false) String stockStatus
     ) {
 
         model.addAttribute("currentUser", principal.getName());
@@ -53,7 +54,13 @@ public class WebProductController extends BaseWebController<ProductCreationDTO, 
         model.addAttribute("category", category);
         model.addAttribute("stockStatus", stockStatus);
 
-        model.addAttribute("liveSearch", service.liveSearch(name, category, stockStatus));
+        model.addAttribute("liveSearch", service.liveSearch(
+                name,
+                parseEnumValue(category, ProductCategory.class),
+                parseEnumValue(stockStatus, StockStatus.class))
+        );
+
+        model.addAttribute(OPERATION_FAILED_TAG, PRODUCT_OPERATION_FAILED);
 
         return PRODUCTS;
     }
@@ -94,9 +101,7 @@ public class WebProductController extends BaseWebController<ProductCreationDTO, 
 
         } catch (BusinessException e) {
 
-            model.addAttribute(VALIDATION_TAG, List.of(e.getMessage()));
-
-            return renderCreationForm(model, principal, new ProductCreationDTO());
+            return REDIRECT_PRODUCTS + ERROR_SUFFIX;
         }
     }
 
@@ -115,12 +120,19 @@ public class WebProductController extends BaseWebController<ProductCreationDTO, 
     @GetMapping("/{productID}/update-stock")
     public String registerStock(@PathVariable Long productID, Model model, Principal principal) {
 
-        ProductInfoDTO productDTO = service.getProductInfo(productID);
+        try {
 
-        model.addAttribute("currentUser", principal.getName());
-        model.addAttribute("product", productDTO);
+            ProductInfoDTO productDTO = service.getProductInfo(productID);
 
-        return PRODUCT_STOCK;
+            model.addAttribute("currentUser", principal.getName());
+            model.addAttribute("product", productDTO);
+
+            return PRODUCT_STOCK;
+
+        } catch (BusinessException e) {
+
+            return REDIRECT_PRODUCTS + ERROR_SUFFIX;
+        }
     }
 
     @PostMapping("/{productID}/update-stock")
@@ -136,7 +148,7 @@ public class WebProductController extends BaseWebController<ProductCreationDTO, 
 
             return REDIRECT_PRODUCTS;
 
-        } catch (BusinessException exception) {
+        } catch (BusinessException | IllegalArgumentException | TransactionSystemException exception) {
 
             return REDIRECT_PRODUCTS + ERROR_SUFFIX;
         }
