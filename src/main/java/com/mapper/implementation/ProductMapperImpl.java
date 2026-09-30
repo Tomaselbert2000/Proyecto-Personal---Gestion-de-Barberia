@@ -148,6 +148,9 @@ public class ProductMapperImpl implements ProductMapper {
         if (updateDTO.getMaxDiscountPercentage() != null)
             product.setMaxDiscountPercentage(updateDTO.getMaxDiscountPercentage());
 
+        if (updateDTO.getProductWholeSalePrice() != null)
+            product.setProductWholeSalePrice(updateDTO.getProductWholeSalePrice());
+
         if (updateDTO.getCategory() != null) product.setCategory(updateDTO.getCategory());
 
         if (updateDTO.getCurrentStockLevel() != null) product.setCurrentStockLevel(updateDTO.getCurrentStockLevel());
