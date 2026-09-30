@@ -8,6 +8,7 @@ import com.exceptions.employee.*;
 import com.mapper.implementation.EmployeeMapperImpl;
 import com.mapper.interfaces.EmployeeMapper;
 import com.model.Employee;
+import com.repository.AppointmentRepository;
 import com.repository.EmployeeRepository;
 import com.validation.employee.EmployeeValidator;
 import org.junit.jupiter.api.DisplayName;
@@ -22,8 +23,7 @@ import java.util.List;
 import static com.factory.EmployeeTestDataFactory.*;
 import static com.service.helper.EmployeeServiceTestHelper.*;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 public class EmployeeServiceImplTest extends BaseServiceTest<Employee, EmployeeRepository> {
 
@@ -35,12 +35,19 @@ public class EmployeeServiceImplTest extends BaseServiceTest<Employee, EmployeeR
     private final Employee employeeOnDB = buildValidEmployee();
     private final EmployeeCreationDTO creationDTO = buildValidEmployeeCreationDTO();
     private final EmployeeUpdateDTO updateDTO = buildValidEmployeeUpdateDTO();
+
     @Spy
     private final EmployeeMapper mapper = new EmployeeMapperImpl();
+
     @Mock
     private EmployeeRepository employeeRepository;
+
+    @Mock
+    private AppointmentRepository appointmentRepository;
+
     @Mock
     private EmployeeValidator validator;
+
     @InjectMocks
     private EmployeeServiceImpl employeeService;
 
@@ -139,6 +146,7 @@ public class EmployeeServiceImplTest extends BaseServiceTest<Employee, EmployeeR
     void given_N_ExistingEmployees_WhenGettingAll_ThenReturns_InfoDTOList() {
 
         mockEmployeeList(employeeRepository, List.of(employeeOnDB));
+        when(employeeRepository.countMonthlyAppointmentsBatch(anyList(), any(), any())).thenReturn(List.of(employeeOnDB.getEmployeeID()));
 
         List<EmployeeInfoDTO> returnedList = employeeService.getEmployeeList();
 
@@ -228,7 +236,7 @@ public class EmployeeServiceImplTest extends BaseServiceTest<Employee, EmployeeR
 
     @Test
     @DisplayName("Dado un empleado desvinculado, su estado será inactivo y no modificable")
-    void givenEmployeeLaidOffThenStatusIsPermanentlyInactive(){
+    void givenEmployeeLaidOffThenStatusIsPermanentlyInactive() {
 
         employeeOnDB.setActive(true); // I force set the employee as active before saving
 
