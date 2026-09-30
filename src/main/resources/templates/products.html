@@ -488,8 +488,15 @@
         <div class="main-inner">
             <div class="page-header">
                 <h1 class="md-typescale-headline-small" style="margin:0">Gestión de Productos</h1>
-                <p class="md-typescale-body-medium" style="margin:0;color:var(--md-sys-color-on-surface-variant)">Administra el stock de los productos
+                <p class="md-typescale-body-medium" style="margin:0;color:var(--md-sys-color-on-surface-variant)">
+                    Administra el stock de los productos
                     de tu barbería</p>
+            </div>
+
+            <div class="banner error" th:if="${param.error != null and param.error[0] == 'true'}" role="alert">
+                <md-icon aria-hidden="true">error</md-icon>
+                <span class="md-typescale-body-medium" th:text="${operationFailedMessage}">No se pudo completar la
+                    operación solicitada.</span>
             </div>
 
             <section class="stats-grid" aria-label="Estadísticas de productos">
@@ -523,12 +530,14 @@
                     <md-elevation></md-elevation>
                     <div class="surface-row">
                         <span class="md-typescale-body-medium" style="color:var(--md-sys-color-on-surface-variant)">Mayor Recaudación</span>
-                        <md-icon aria-hidden="true" style="color:var(--md-sys-color-secondary)">account_balance_wallet</md-icon>
+                        <md-icon aria-hidden="true" style="color:var(--md-sys-color-secondary)">account_balance_wallet
+                        </md-icon>
                     </div>
                     <span class="md-typescale-display-small"
                           th:text="'ARS $ ' + ${#numbers.formatDecimal(highestRevenueStats.revenue,1,2)}">ARS $ 0,00</span>
                     <div class="stat-foot">
-                        <span class="md-typescale-body-medium" th:text="${highestRevenueStats.productName}">Producto</span>
+                        <span class="md-typescale-body-medium"
+                              th:text="${highestRevenueStats.productName}">Producto</span>
                     </div>
                 </div>
 
@@ -552,7 +561,8 @@
                         <span class="md-typescale-body-medium" style="color:var(--md-sys-color-on-surface-variant)">Alertas de Inventario</span>
                         <md-icon aria-hidden="true" style="color:var(--md-sys-color-secondary)">warning</md-icon>
                     </div>
-                    <span class="md-typescale-display-small" th:text="${inventoryAlertStats.lowStockProductsCount}">0</span>
+                    <span class="md-typescale-display-small"
+                          th:text="${inventoryAlertStats.lowStockProductsCount}">0</span>
                     <div class="stat-foot">
                         <span class="md-typescale-body-medium"
                               th:text="${inventoryAlertStats.outOfStockProductsCount} + ' productos agotados'">0 productos agotados</span>
