@@ -70,11 +70,22 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public List<EmployeeInfoDTO> getEmployeeList() {
 
-        List<EmployeeInfoDTO> dtos = mapper.mapEmployeeToInfoDTO(repository.findAll());
+        List<Employee> employees = repository.findAll();
 
-        for (EmployeeInfoDTO dto : dtos) {
+        if (employees.isEmpty()) return List.of();
 
-            dto.setMonthlyAppointmentsCount(getMonthlyAppointmentsCountByEmployeeID(dto.getId()));
+        List<Long> employeeIDs = employees.stream().map(Employee::getEmployeeID).toList();
+        List<Long> appointments = repository.countMonthlyAppointmentsBatch(
+                employeeIDs,
+                getStartOfCurrentMonth().atStartOfDay(),
+                getEndOfCurrentMonth().atTime(LAST_SECOND_OF_DAY)
+        );
+
+        List<EmployeeInfoDTO> dtos = mapper.mapEmployeeToInfoDTO(employees);
+
+        for (int i = 0; i < dtos.size(); i++) {
+
+            dtos.get(i).setMonthlyAppointmentsCount(appointments.get(i));
         }
 
         return dtos;
@@ -140,16 +151,21 @@ public class EmployeeServiceImpl implements EmployeeService {
             }
         }
 
-        List<EmployeeInfoDTO> employees = mapper.mapEmployeeToInfoDTO(
-                repository.liveSearchWithFilters(employeeName, statusFlag, startDate, endDate)
-        );
+        List<Employee> liveSearch = repository.liveSearchWithFilters(employeeName, statusFlag, startDate, endDate);
 
-        for (EmployeeInfoDTO employee : employees) {
+        if(liveSearch.isEmpty()) return List.of();
 
-            employee.setMonthlyAppointmentsCount(getMonthlyAppointmentsCountByEmployeeID(employee.getId()));
+        List<EmployeeInfoDTO> dtos = mapper.mapEmployeeToInfoDTO(liveSearch);
+
+        List<Long> employeeIDs = liveSearch.stream().map(Employee::getEmployeeID).toList();
+        List<Long> appointmentIDs = repository.countMonthlyAppointmentsBatch(employeeIDs, getStartOfCurrentMonth().atStartOfDay(), getEndOfCurrentMonth().atTime(LAST_SECOND_OF_DAY));
+
+        for(int i = 0; i< dtos.size(); i++){
+
+            dtos.get(i).setMonthlyAppointmentsCount(appointmentIDs.get(i));
         }
 
-        return employees;
+        return dtos;
     }
 
     @Override

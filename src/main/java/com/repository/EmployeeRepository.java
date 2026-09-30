@@ -50,4 +50,17 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
             @Param("startDate") LocalDateTime startDate,
             @Param("endDate") LocalDateTime endDate
     );
+
+    @Query("""
+            SELECT COUNT(a.appointmentID)
+            FROM Appointment a
+            WHERE a.employee.employeeID IN : employeeIDs
+            AND a.startDateTime BETWEEN :startDate AND :endDate
+            ORDER BY a.employee.employeeID
+            """)
+    List<Long> countMonthlyAppointmentsBatch(
+            @Param("employeeIDs") List<Long> employeeIDs,
+            @Param("startDate") LocalDateTime startDate,
+            @Param("endDate") LocalDateTime endDate
+    );
 }
