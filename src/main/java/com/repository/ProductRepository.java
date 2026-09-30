@@ -13,18 +13,25 @@ import java.util.List;
 
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
-    boolean existsByName(String name);
+    /**
+     * Verifica la existencia de un producto cuyo nombre coincida con el proporcionado sin distinguir mayúsculas de minúsculas.
+     * Spring Data deriva esta consulta como {@code upper(name) = upper(?name)}, de modo que dos productos que sólo
+     * difieren en la capitalización de su nombre se consideran duplicados.
+     *
+     * @param name El nombre del producto a buscar.
+     * @return {@code true} si ya existe un producto con ese nombre, ignorando mayúsculas y minúsculas.
+     */
+    boolean existsByNameIgnoreCase(String name);
 
     /**
-     * Verifica la existencia de un producto registrado con el nombre proporcionado, excluyendo explícitamente un producto existente por su ID.
-     * Esta operación es crítica durante la actualización de productos para permitir renombrar un producto existente
-     * sin que la validación de unicidad falle contra sí mismo.
+     * Variante de {@link #existsByNameIgnoreCase(String)} que excluye un producto por su ID, para permitir
+     * renombrar un producto existente sin que la validación de unicidad falle contra sí mismo.
      *
      * @param name      El nombre del producto a buscar.
-     * @param productID El ID del producto actual que se está modificando y debe ser excluido de la búsqueda.
-     * @return {@code true} si existe otro producto con ese nombre (distinto al actual); {@code false} en caso contrario.
+     * @param productID El ID del producto que se está modificando y debe ser excluido de la búsqueda.
+     * @return {@code true} si existe otro producto con ese nombre (distinto al actual), ignorando capitalización.
      */
-    boolean existsByNameAndProductIDNot(String name, Long productID);
+    boolean existsByNameIgnoreCaseAndProductIDNot(String name, Long productID);
 
     List<Product> findTop5ByOrderByCreationDateDesc();
 
@@ -45,8 +52,8 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query("""
             SELECT p
             FROM Product p
-            WHERE (:name IS NULL OR p.name
-            LIKE CONCAT('%', :name, '%'))
+            WHERE (:name IS NULL OR UPPER(p.name)
+            LIKE UPPER(CONCAT('%', :name, '%')))
             AND (:category IS NULL OR p.category=:category)
             """)
     List<Product> liveSearchWithFilters(@Param("name") String productName, @Param("category") ProductCategory selectedCategory);
@@ -68,9 +75,9 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query("""
             SELECT new com.dto.stats.InventoryAlertStatsDTO(
             COUNT(p.productID),
-            SUM(CASE WHEN p.stockStatus = StockStatus.BAJO OR p.stockStatus = StockStatus.CRITICO THEN 1 ELSE 0 END))
+            SUM(CASE WHEN p.currentStockLevel = 0 THEN 1 ELSE 0 END))
             FROM Product p
-            WHERE p.stockStatus IN (StockStatus.BAJO, StockStatus.CRITICO) AND p.currentStockLevel = 0
+            WHERE p.stockStatus IN (StockStatus.BAJO, StockStatus.CRITICO)
             """)
     List<InventoryAlertStatsDTO> getInventoryAlertStats();
 
