@@ -5,6 +5,7 @@ import com.enums.ProductPresentationUnit;
 import com.enums.StockStatus;
 import com.service.implementation.ProductServiceImpl;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.PositiveOrZero;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -37,11 +38,13 @@ public class Product {
     private Double productWholeSalePrice;
     private Double maxDiscountPercentage;
 
+    @PositiveOrZero
     private Integer currentStockLevel;
 
     @Version
     private Integer version;
 
+    @PositiveOrZero
     private Integer safetyStockLevel;
 
     @Enumerated(EnumType.STRING)
