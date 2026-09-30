@@ -79,12 +79,12 @@ public class ProductServiceTestHelper {
 
     public static void mockThatProductNameWillCauseConflict(ProductRepository productRepository, Product product) {
 
-        when(productRepository.existsByName(product.getName())).thenReturn(true);
+        when(productRepository.existsByNameIgnoreCase(product.getName())).thenReturn(true);
     }
 
     public static void mockThatProductNameWillCauseConflictOnUpdate(ProductRepository productRepository, ProductUpdateDTO updateDTO, Product product) {
 
-        when(productRepository.existsByNameAndProductIDNot(updateDTO.getName(), product.getProductID())).thenReturn(true);
+        when(productRepository.existsByNameIgnoreCaseAndProductIDNot(updateDTO.getName(), product.getProductID())).thenReturn(true);
     }
 
     public static void mockRepoToReturnList(ProductRepository productRepository, List<Product> products) {
