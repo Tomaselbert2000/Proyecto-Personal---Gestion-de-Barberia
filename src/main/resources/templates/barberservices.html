@@ -469,6 +469,12 @@
                     de tu barbería</p>
             </div>
 
+            <div class="banner error" th:if="${param.error != null and param.error[0] == 'true'}" role="alert">
+                <md-icon aria-hidden="true">error</md-icon>
+                <span class="md-typescale-body-medium" th:text="${operationFailedMessage}">No se pudo completar la
+                    operación solicitada.</span>
+            </div>
+
             <section class="stats-grid" aria-label="Estadísticas del catálogo de servicios">
                 <div class="surface">
                     <md-elevation></md-elevation>
@@ -557,7 +563,7 @@
                                                   th:selected="${param.category == null or param.category[0] == ''}">
                                     <div slot="headline">Todas las categorías</div>
                                 </md-select-option>
-                                <md-select-option th:each="cat : ${category}"
+                                <md-select-option th:each="cat : ${categories}"
                                                   th:if="${cat.name() != 'TODOS'}"
                                                   th:value="${cat}"
                                                   th:selected="${param.category != null and param.category[0] == cat.name()}">
@@ -569,7 +575,7 @@
                                                   th:selected="${param.priceRange == null or param.priceRange[0] == ''}">
                                     <div slot="headline">Todos los precios</div>
                                 </md-select-option>
-                                <md-select-option th:each="range : ${priceRange}"
+                                <md-select-option th:each="range : ${priceRangeValues}"
                                                   th:if="${range.name() != 'TODOS'}"
                                                   th:value="${range}"
                                                   th:selected="${param.priceRange != null and param.priceRange[0] == range.name()}">
@@ -648,6 +654,7 @@
                             </md-text-button>
                             <form th:action="@{/barberservices/{id}/delete(id=${svc.barberServiceId})}" method="post"
                                   onsubmit="return confirm('¿Eliminar este servicio?');">
+                                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
                                 <md-text-button type="submit" style="--md-sys-color-primary:var(--md-sys-color-error)">
                                     <md-icon slot="icon">delete</md-icon>
                                     Eliminar
