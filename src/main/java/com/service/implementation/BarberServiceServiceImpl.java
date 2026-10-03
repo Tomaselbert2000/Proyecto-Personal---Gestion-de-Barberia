@@ -116,7 +116,7 @@ public class BarberServiceServiceImpl implements BarberserviceService {
 
     private void checkIfNameIsAlreadyRegisteredWhenUpdating(Long barberServiceID, String name) {
 
-        if (barberServiceRepository.existsByNameAndBarbershopServiceIDNot(name, barberServiceID))
+        if (barberServiceRepository.existsByNameIgnoreCaseAndBarbershopServiceIDNot(name, barberServiceID))
             throw new DuplicatedBarberServiceNameException();
     }
 
