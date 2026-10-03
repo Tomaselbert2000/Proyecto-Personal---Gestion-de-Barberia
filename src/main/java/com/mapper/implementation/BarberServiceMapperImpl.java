@@ -57,7 +57,7 @@ public class BarberServiceMapperImpl implements BarberServiceMapper {
                 .price(entity.getPrice())
                 .category(entity.getServiceCategory())
                 .isCurrentlyActive(entity.getIsCurrentlyActive())
-                .internalNotes(entity.getInternalNotes() == null ? "Sin notas" : entity.getInternalNotes())
+                .internalNotes(entity.getInternalNotes())
                 .build();
     }
 
