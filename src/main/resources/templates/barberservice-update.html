@@ -340,6 +340,17 @@
                                 </md-select-option>
                             </md-outlined-select>
 
+                            <md-outlined-select label="Estado" name="isCurrentlyActive" id="activeSelect">
+                                <md-select-option value="true"
+                                                  th:selected="${dto.isCurrentlyActive == null or dto.isCurrentlyActive}">
+                                    <div slot="headline">Activo</div>
+                                </md-select-option>
+                                <md-select-option value="false"
+                                                  th:selected="${dto.isCurrentlyActive != null and !dto.isCurrentlyActive}">
+                                    <div slot="headline">Inactivo</div>
+                                </md-select-option>
+                            </md-outlined-select>
+
                             <md-outlined-text-field label="Notas internas" name="internalNotes" id="internalNotes"
                                                     type="textarea" rows="3" maxlength="256" class="span-full"
                                                     th:value="${dto.internalNotes}"
