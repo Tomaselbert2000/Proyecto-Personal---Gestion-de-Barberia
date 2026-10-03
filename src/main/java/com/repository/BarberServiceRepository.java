@@ -14,15 +14,16 @@ public interface BarberServiceRepository extends JpaRepository<BarberService, Lo
     boolean existsByNameIgnoreCase(String name);
 
     /**
-     * Verifica la existencia de un servicio con el nombre proporcionado, excluyendo explícitamente un servicio existente por su ID.
-     * Esta operación es crítica durante la actualización de servicios para permitir renombrar un servicio existente
-     * sin que la validación de unicidad falle contra sí mismo.
+     * Verifica la existencia de un servicio con el nombre proporcionado, ignorando mayúsculas y minúsculas,
+     * y excluyendo explícitamente un servicio existente por su ID.
+     * Mantiene el mismo criterio de unicidad que {@link #existsByNameIgnoreCase(String)} que usa el alta,
+     * de modo que un nombre que el alta rechazaría también queda rechazado al editar.
      *
      * @param name                El nombre del servicio a buscar (case-insensitive).
      * @param barbershopServiceID El ID del servicio actual que se está modificando y debe ser excluido de la búsqueda.
      * @return {@code true} si existe otro servicio con ese nombre (distinto al actual); {@code false} en caso contrario.
      */
-    boolean existsByNameAndBarbershopServiceIDNot(String name, Long barbershopServiceID);
+    boolean existsByNameIgnoreCaseAndBarbershopServiceIDNot(String name, Long barbershopServiceID);
 
     /**
      * Realiza una búsqueda en vivo (live search) de servicios aplicando múltiples filtros simultáneamente.
@@ -43,7 +44,7 @@ public interface BarberServiceRepository extends JpaRepository<BarberService, Lo
      */
     @Query("""
             SELECT b
-            FROM BarberService b WHERE (:name IS NULL OR b.name LIKE CONCAT('%', :name, '%'))
+            FROM BarberService b WHERE (:name IS NULL OR UPPER(b.name) LIKE UPPER(CONCAT('%', :name, '%')))
                        AND (:category IS NULL OR b.serviceCategory=:category)
                        AND (:minPrice IS NULL OR b.price >=:minPrice)
                        AND (:maxPrice IS NULL OR b.price <=:maxPrice)
