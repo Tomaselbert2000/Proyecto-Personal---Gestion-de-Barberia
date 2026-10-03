@@ -21,10 +21,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.util.List;
 
 import static com.presentation.constants.HtmlConstants.Paths.*;
 import static com.presentation.constants.HtmlConstants.Redirects.REDIRECT_BARBERSERVICES;
+import static com.presentation.constants.StringResource.OperationMessages.BARBERSERVICE_OPERATION_FAILED;
 
 @Controller
 @RequiredArgsConstructor
@@ -39,17 +39,18 @@ public class WebBarberserviceController extends BaseWebController<BarberServiceC
     public String showBarberserviceCatalog(
             Model model,
             @RequestParam(required = false) String serviceName,
-            @RequestParam(required = false) BarberServiceCategory category,
-            @RequestParam(required = false) PriceRanges priceRange,
+            @RequestParam(required = false) String category,
+            @RequestParam(required = false) String priceRange,
             Principal principal) {
 
-        Double minPrice = null, maxPrice = null;
+        PriceRanges priceEnum = parseEnumValue(priceRange, PriceRanges.class);
 
-        if (priceRange != null) {
+        Double minPrice = priceEnum == null ? null : priceEnum.getMinPrice();
+        Double maxPrice = priceEnum == null ? null : priceEnum.getMaxPrice();
 
-            minPrice = priceRange.getMinPrice();
-            maxPrice = priceRange.getMaxPrice();
-        }
+        BarberServiceCategory categoryEnum = parseEnumValue(category, BarberServiceCategory.class);
+
+        if (categoryEnum == BarberServiceCategory.TODOS) categoryEnum = null;
 
         BarberServiceActiveOnCatalogStatsDTO activeOnCatalogStatsDTO = barberserviceService.getActiveOnCatalogStats();
         BarberServiceSalesStatsDTO salesStatsDTO = saleService.getBarberServiceWithMostSales();
@@ -64,7 +65,7 @@ public class WebBarberserviceController extends BaseWebController<BarberServiceC
 
         model.addAttribute("liveSearch", barberserviceService.liveSearch(
                         serviceName,
-                        category,
+                        categoryEnum,
                         minPrice,
                         maxPrice
                 )
@@ -76,6 +77,8 @@ public class WebBarberserviceController extends BaseWebController<BarberServiceC
         model.addAttribute("serviceName", serviceName);
         model.addAttribute("category", category);
         model.addAttribute("priceRange", priceRange);
+
+        model.addAttribute(OPERATION_FAILED_TAG, BARBERSERVICE_OPERATION_FAILED);
 
         return BARBERSERVICES;
     }
@@ -116,9 +119,7 @@ public class WebBarberserviceController extends BaseWebController<BarberServiceC
 
         } catch (BusinessException e) {
 
-            model.addAttribute(VALIDATION_TAG, List.of(e.getMessage()));
-
-            return renderCreationForm(model, principal, new BarberServiceCreationDTO());
+            return REDIRECT_BARBERSERVICES + ERROR_SUFFIX;
         }
     }
 
