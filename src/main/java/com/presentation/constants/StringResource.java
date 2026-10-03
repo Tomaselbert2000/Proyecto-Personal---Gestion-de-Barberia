@@ -30,8 +30,12 @@ public final class StringResource {
         public static final String EMPLOYEE_CREATION_FAILED = CREATION_FAILED_PREFIX + "el empleado" + CREATION_FAILED_SUFFIX;
         public static final String EMPLOYEE_UPDATE_FAILED = UPDATE_FAILED_PREFIX + "el empleado" + UPDATE_FAILED_SUFFIX;
 
-        public static final String EMPLOYEE_OPERATION_FAILED = "No se pudo completar la operación solicitada sobre el empleado. Por favor, revisa los datos e intenta nuevamente.";
-        public static final String PRODUCT_OPERATION_FAILED = "No se pudo completar la operación solicitada sobre el producto. Por favor, revisa los datos e intenta nuevamente,";
+        public static final String OPERATION_FAILED = "No se pudo completar la operación solicitada sobre el/la: ";
+        public static final String PLEASE_TRY_AGAIN = " Por favor, revisa los datos e intenta nuevamente.";
+
+        public static final String EMPLOYEE_OPERATION_FAILED = OPERATION_FAILED + "empleado" + PLEASE_TRY_AGAIN;
+        public static final String PRODUCT_OPERATION_FAILED =  OPERATION_FAILED + "producto" + PLEASE_TRY_AGAIN;
+        public static final String BARBERSERVICE_OPERATION_FAILED = OPERATION_FAILED + "servicio de barbería" + PLEASE_TRY_AGAIN;
     }
 
     public static final class ConfirmationDialog {
