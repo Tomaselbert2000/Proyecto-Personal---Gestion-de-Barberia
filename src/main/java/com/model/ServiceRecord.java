@@ -30,4 +30,10 @@ public class ServiceRecord {
     private LocalDateTime timestamp;
     private String serviceName;
     private Double priceAtMoment;
+
+    @PrePersist
+    private void setTimeStamp() {
+
+        if (this.timestamp == null) this.timestamp = LocalDateTime.now();
+    }
 }
