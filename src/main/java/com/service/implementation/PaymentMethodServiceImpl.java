@@ -85,6 +85,8 @@ public class PaymentMethodServiceImpl implements PaymentMethodService {
 
         Boolean isActiveValueToSearch;
 
+        if (modifierType == PaymentMethodModifierType.TODOS) modifierType = null;
+
         switch (status) {
 
             case TODOS -> isActiveValueToSearch = null;
@@ -156,12 +158,12 @@ public class PaymentMethodServiceImpl implements PaymentMethodService {
 
     private void checkNameAvailability(String name) {
 
-        if (repository.existsByName(name)) throw new DuplicatedPaymentMethodNameException();
+        if (repository.existsByNameIgnoreCase(name)) throw new DuplicatedPaymentMethodNameException();
     }
 
     private void checkNameAvailability(String newName, Long paymentMethodID) {
 
-        if (repository.existsByNameAndPaymentMethodIDNot(newName, paymentMethodID))
+        if (repository.existsByNameIgnoreCaseAndPaymentMethodIDNot(newName, paymentMethodID))
             throw new DuplicatedPaymentMethodNameException();
     }
 }
