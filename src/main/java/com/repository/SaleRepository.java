@@ -17,6 +17,7 @@ public interface SaleRepository extends JpaRepository<Sale, Long> {
     @Query("""
             SELECT NEW com.dto.stats.PaymentMethodUsageStatsDTO(pm.name, COUNT(s))
             FROM Sale s JOIN s.paymentMethodUsed pm
+            WHERE s.canceled = false
             GROUP BY pm.name
             ORDER BY COUNT(s) DESC
             """)
@@ -25,18 +26,20 @@ public interface SaleRepository extends JpaRepository<Sale, Long> {
     @Query("""
             SELECT NEW com.dto.stats.PaymentMethodRevenueStatsDTO(pm.name, SUM(s.total))
             FROM Sale s JOIN s.paymentMethodUsed pm
+            WHERE s.canceled = false
             GROUP BY pm.name
             ORDER BY SUM(s.total) DESC
             """)
     List<PaymentMethodRevenueStatsDTO> getPaymentMethodRevenueStats();
 
     @Query("""
-            SELECT SUM(s.modifierValue) FROM Sale s""")
+            SELECT SUM(s.modifierValue) FROM Sale s WHERE s.canceled = false""")
     Double getSumOfModifierValueOfAllSales();
 
     @Query("""
             SELECT NEW com.dto.stats.EmployeeRevenueStatsDTO(e.firstName, e.lastName, SUM(s.total))
             FROM Employee e JOIN Sale s ON s.employee = e
+            WHERE s.canceled = false
             GROUP BY e.firstName, e.lastName
             ORDER BY COUNT(s) DESC
             """)
@@ -46,6 +49,7 @@ public interface SaleRepository extends JpaRepository<Sale, Long> {
     @Query("""
             SELECT NEW com.dto.stats.EmployeeServicesCompletedStatsDTO(e.firstName, e.lastName, COUNT(s))
             FROM Employee e JOIN Sale s ON s.employee = e
+            WHERE s.canceled = false
             GROUP BY e.firstName, e.lastName
             ORDER BY COUNT(s) DESC
             """)
@@ -54,6 +58,7 @@ public interface SaleRepository extends JpaRepository<Sale, Long> {
     @Query("""
             SELECT NEW com.dto.stats.BarberServiceSalesStatsDTO (b.name, COUNT(s))
             FROM BarberService b JOIN Sale s ON s.barberService.barbershopServiceID = b.barbershopServiceID
+            WHERE s.canceled = false
             GROUP BY b.name
             ORDER BY COUNT(s) DESC
             """)
@@ -62,6 +67,7 @@ public interface SaleRepository extends JpaRepository<Sale, Long> {
     @Query("""
             SELECT NEW com.dto.stats.BarberServiceRevenueStatsDTO (b.name, SUM(s.total))
             FROM BarberService b JOIN Sale s ON s.barberService.barbershopServiceID = b.barbershopServiceID
+            WHERE s.canceled = false
             GROUP BY b.name
             ORDER BY SUM(s.total) DESC
             """)
@@ -70,6 +76,7 @@ public interface SaleRepository extends JpaRepository<Sale, Long> {
     @Query("""
             SELECT NEW com.dto.stats.BarberServiceUsageStatsDTO (b.name, COUNT(s))
             FROM BarberService b JOIN Sale s ON s.barberService.barbershopServiceID = b.barbershopServiceID
+            WHERE s.canceled = false
             GROUP BY b.name
             ORDER BY COUNT(s) ASC
             """)
@@ -78,7 +85,8 @@ public interface SaleRepository extends JpaRepository<Sale, Long> {
     @Query("""
             SELECT COALESCE(SUM(s.total), 0.0)
             FROM Sale s
-            WHERE s.dateAndTime BETWEEN :minRange AND :maxRange
+            WHERE s.canceled = false
+              AND s.dateAndTime BETWEEN :minRange AND :maxRange
             """)
     Double getSaleTotalByDateRange(
             @Param("minRange") LocalDateTime minRange,
@@ -88,17 +96,21 @@ public interface SaleRepository extends JpaRepository<Sale, Long> {
     @Query("""
             SELECT COUNT(s.saleID)
             FROM Sale s
-            WHERE s.dateAndTime BETWEEN :todayStart AND :tomorrowStart
+            WHERE s.canceled = false
+              AND s.dateAndTime BETWEEN :todayStart AND :tomorrowStart
             """)
     Long countByDateAndTimeBetween(
             @Param("todayStart") LocalDateTime todayStart,
             @Param("tomorrowStart") LocalDateTime tomorrowStart
     );
 
+    Long countByCanceledFalse();
+
     @Query("""
                 SELECT bs.name
                 FROM Sale s JOIN s.barberService bs
-                WHERE s.dateAndTime >= :todayStart AND s.dateAndTime < :tomorrowStart
+                WHERE s.canceled = false
+                  AND s.dateAndTime >= :todayStart AND s.dateAndTime < :tomorrowStart
                 GROUP BY bs.name
                 ORDER BY COUNT(s) DESC
             """)
@@ -111,9 +123,10 @@ public interface SaleRepository extends JpaRepository<Sale, Long> {
     @Query("""
             SELECT p.name
             FROM SaleItem si JOIN si.product p
-            WHERE si.sale.dateAndTime BETWEEN :todayStart AND :tomorrowStart
+            WHERE si.sale.canceled = false
+              AND si.sale.dateAndTime BETWEEN :todayStart AND :tomorrowStart
             GROUP BY p.name
-            ORDER BY SUM(si.quantity) DESC
+            ORDER BY SUM(si.quantity * si.unitPrice) DESC
             """)
     List<String> findMostPopularProductToday(
             @Param("todayStart") LocalDateTime todayStart,
@@ -141,12 +154,21 @@ public interface SaleRepository extends JpaRepository<Sale, Long> {
     @Query("""
             SELECT COALESCE(AVG(s.total), 0.0)
             FROM Sale s
+            WHERE s.canceled = false
             """)
     Double getSaleTotalAverage();
 
     @Query("""
             SELECT COALESCE(SUM(si.quantity), 0L)
             FROM SaleItem si JOIN si.product p
+            WHERE si.sale.canceled = false
             """)
     Long getSaleItemsTotalUnits();
+
+    @Query("""
+            SELECT COALESCE(SUM(si.quantity * si.unitPrice), 0.0)
+            FROM SaleItem si JOIN si.product p
+            WHERE si.sale.canceled = false
+            """)
+    Double getSaleItemsTotalIncome();
 }

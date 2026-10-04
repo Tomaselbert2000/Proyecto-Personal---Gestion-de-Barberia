@@ -13,6 +13,7 @@ public interface SaleItemRepository extends JpaRepository<SaleItem, Long> {
     @Query("""
             SELECT new com.dto.stats.ProductMostSoldStatsDTO(p.name, SUM(si.quantity))
             FROM SaleItem si JOIN si.product p
+            WHERE si.sale.canceled = false
             GROUP BY p.productID
             ORDER BY SUM(si.quantity) DESC
             """)
@@ -21,6 +22,7 @@ public interface SaleItemRepository extends JpaRepository<SaleItem, Long> {
     @Query("""
             SELECT new com.dto.stats.ProductHighestRevenueStatsDTO(p.name, SUM(si.unitPrice * si.quantity))
             FROM SaleItem si JOIN si.product p
+            WHERE si.sale.canceled = false
             GROUP BY p.productID
             ORDER BY SUM(si.unitPrice * si.quantity) DESC
             """)
