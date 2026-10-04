@@ -37,6 +37,7 @@ public final class StringResource {
         public static final String PRODUCT_OPERATION_FAILED = OPERATION_FAILED + "producto" + PLEASE_TRY_AGAIN;
         public static final String BARBERSERVICE_OPERATION_FAILED = OPERATION_FAILED + "servicio de barbería" + PLEASE_TRY_AGAIN;
         public static final String PAYMENT_METHOD_OPERATION_FAILED = OPERATION_FAILED + "medio de pago" + PLEASE_TRY_AGAIN;
+        public static final String SALE_OPERATION_FAILED = OPERATION_FAILED + "venta" + PLEASE_TRY_AGAIN;
     }
 
     public static final class ConfirmationDialog {
