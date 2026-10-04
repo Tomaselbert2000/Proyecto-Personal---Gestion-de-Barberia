@@ -195,6 +195,23 @@
             height: 40px
         }
 
+        .banner {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            border-radius: 8px
+        }
+
+        .banner.error {
+            background: var(--md-sys-color-error-container);
+            color: var(--md-sys-color-on-error-container)
+        }
+
+        .banner.error md-icon {
+            color: var(--md-sys-color-error)
+        }
+
         .filter-grid {
             display: grid;
             grid-template-columns: 1fr;
@@ -478,8 +495,15 @@
         <div class="main-inner">
             <div class="page-header">
                 <h1 class="md-typescale-headline-small" style="margin:0">Gestión de Medios de Pago</h1>
-                <p class="md-typescale-body-medium" style="margin:0;color:var(--md-sys-color-on-surface-variant)">Administra los medios de pago de tu
+                <p class="md-typescale-body-medium" style="margin:0;color:var(--md-sys-color-on-surface-variant)">
+                    Administra los medios de pago de tu
                     barbería</p>
+            </div>
+
+            <div class="banner error" th:if="${param.error != null and param.error[0] == 'true'}" role="alert">
+                <md-icon aria-hidden="true">error</md-icon>
+                <span class="md-typescale-body-medium" th:text="${operationFailedMessage}">No se pudo completar la
+                    operación solicitada.</span>
             </div>
 
             <section class="stats-grid" aria-label="Estadísticas de medios de pago">
@@ -502,7 +526,8 @@
                     <md-elevation></md-elevation>
                     <div class="surface-row">
                         <span class="md-typescale-body-medium" style="color:var(--md-sys-color-on-surface-variant)">Mayor Recaudación</span>
-                        <md-icon aria-hidden="true" style="color:var(--md-sys-color-secondary)">account_balance_wallet</md-icon>
+                        <md-icon aria-hidden="true" style="color:var(--md-sys-color-secondary)">account_balance_wallet
+                        </md-icon>
                     </div>
                     <span class="md-typescale-display-small"
                           th:text="'ARS $ ' + ${#numbers.formatDecimal(revenueStats.revenueAmount,1,2)}">ARS $ 0,00</span>
