@@ -11,18 +11,22 @@ import java.util.Optional;
 
 public interface PaymentMethodRepository extends JpaRepository<PaymentMethod, Long> {
 
-    boolean existsByName(String name);
+    boolean existsByNameIgnoreCase(String name);
 
     /**
-     * Verifica la existencia de un metodo de pago registrado con el nombre proporcionado, excluyendo explícitamente un metodo existente por su ID.
+     * Verifica la existencia de un metodo de pago registrado con el nombre proporcionado, ignorando mayúsculas y minúsculas,
+     * y excluyendo explícitamente un metodo existente por su ID.
      * Esta operación es crítica durante la actualización de métodos de pago para permitir renombrar un metodo existente
      * sin que la validación de unicidad falle contra sí mismo.
      *
-     * @param name            El nombre del metodo de pago a buscar.
+     * <p>Mantiene el mismo criterio de unicidad que {@link #existsByNameIgnoreCase(String)} que usa el alta, de modo que
+     * un nombre que el alta rechazaría también queda rechazado al editar.</p>
+     *
+     * @param name            El nombre del metodo de pago a buscar (case-insensitive).
      * @param paymentMethodID El ID del metodo de pago actual que se está modificando y debe ser excluido de la búsqueda.
      * @return {@code true} si existe otro metodo de pago con ese nombre (distinto al actual); {@code false} en caso contrario.
      */
-    boolean existsByNameAndPaymentMethodIDNot(String name, Long paymentMethodID);
+    boolean existsByNameIgnoreCaseAndPaymentMethodIDNot(String name, Long paymentMethodID);
 
     /**
      * Realiza una búsqueda en vivo (live search) de métodos de pago aplicando múltiples filtros simultáneamente.
