@@ -27,6 +27,7 @@ public final class PaymentMethodTestConstants {
     public static final class UpdateValidData {
 
         public static final String UPDATED_PAYMENT_METHOD_NAME = "PayPal";
+        public static final String UPDATED_PAYMENT_METHOD_NAME_NORMALIZED = "Paypal";
         public static final String UPDATED_PAYMENT_METHOD_DESCRIPTION = "Pasarela de pagos global";
         public static final PaymentMethodModifierType UPDATED_PAYMENT_METHOD_MODIFIER_TYPE = PaymentMethodModifierType.DESCUENTO;
         public static final Double UPDATED_PRICE_MODIFIER_VALUE = 0.10;

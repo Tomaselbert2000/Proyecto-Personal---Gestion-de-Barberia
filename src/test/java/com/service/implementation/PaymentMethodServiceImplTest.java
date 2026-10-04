@@ -20,6 +20,7 @@ import java.time.Clock;
 
 import static com.factory.PaymentMethodTestDataFactory.*;
 import static com.service.helper.PaymentMethodServiceTestHelper.*;
+import static com.test_constant.PaymentMethodTestConstants.UpdateValidData.UPDATED_PAYMENT_METHOD_NAME_NORMALIZED;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -188,7 +189,7 @@ public class PaymentMethodServiceImplTest extends BaseServiceTest<PaymentMethod,
         assertAll(
                 "Verifación de campos",
                 () -> assertNotNull(capturedPayment),
-                () -> assertEquals(updateDTO.getNewName(), capturedPayment.getName()),
+                () -> assertEquals(UPDATED_PAYMENT_METHOD_NAME_NORMALIZED, capturedPayment.getName()),
                 () -> assertEquals(updateDTO.getNewDescription(), capturedPayment.getDescription()),
                 () -> assertEquals(updateDTO.getIsActive(), capturedPayment.getIsActive()),
                 () -> assertEquals(updateDTO.getNewModifierType(), capturedPayment.getModifierType()),
