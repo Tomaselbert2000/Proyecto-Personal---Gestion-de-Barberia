@@ -88,7 +88,8 @@ public class PaymentMethodMapperImpl implements PaymentMethodMapper {
 
     private void setUpdatedDataOnEntity(PaymentMethod paymentMethod, PaymentMethodUpdateDTO updateDTO) {
 
-        if (updateDTO.getNewName() != null) paymentMethod.setName(updateDTO.getNewName());
+        if (updateDTO.getNewName() != null)
+            paymentMethod.setName(StringCleaner.formatAsProperName(updateDTO.getNewName()));
 
         if (updateDTO.getNewDescription() != null) {
 
