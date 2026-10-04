@@ -21,6 +21,7 @@ import java.util.List;
 
 import static com.presentation.constants.HtmlConstants.Paths.*;
 import static com.presentation.constants.HtmlConstants.Redirects.REDIRECT_PAYMENTS;
+import static com.presentation.constants.StringResource.OperationMessages.PAYMENT_METHOD_OPERATION_FAILED;
 
 @Controller
 @RequiredArgsConstructor
@@ -56,6 +57,8 @@ public class WebPaymentMethodController extends BaseWebController<PaymentMethodC
         model.addAttribute("status", status);
         model.addAttribute("modifier", modifierType);
 
+        model.addAttribute(OPERATION_FAILED_TAG, PAYMENT_METHOD_OPERATION_FAILED);
+
         return PAYMENTS;
     }
 
@@ -79,9 +82,16 @@ public class WebPaymentMethodController extends BaseWebController<PaymentMethodC
     @PostMapping("/{paymentID}/toggleStatus")
     public String togglePaymentMethodStatus(@PathVariable Long paymentID) {
 
-        paymentMethodService.togglePaymentMethodStatus(paymentID);
+        try {
 
-        return REDIRECT_PAYMENTS;
+            paymentMethodService.togglePaymentMethodStatus(paymentID);
+
+            return REDIRECT_PAYMENTS;
+
+        } catch (BusinessException e) {
+
+            return REDIRECT_PAYMENTS + ERROR_SUFFIX;
+        }
     }
 
     @PostMapping("/{paymentID}/delete")
