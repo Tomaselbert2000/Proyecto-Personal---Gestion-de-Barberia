@@ -203,6 +203,23 @@
             height: 40px
         }
 
+        .banner {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            border-radius: 8px
+        }
+
+        .banner.error {
+            background: var(--md-sys-color-error-container);
+            color: var(--md-sys-color-on-error-container)
+        }
+
+        .banner.error md-icon {
+            color: var(--md-sys-color-error)
+        }
+
         .filter-grid {
             display: grid;
             grid-template-columns: 1fr;
@@ -435,6 +452,12 @@
                 <h1 class="md-typescale-headline-small" style="margin:0">Gestión de Ventas</h1>
                 <p class="md-typescale-body-medium" style="margin:0;color:var(--md-sys-color-on-surface-variant)">Consulta el historial de ventas de tu
                     barbería</p>
+            </div>
+
+            <div class="banner error" th:if="${param.error != null and param.error[0] == 'true'}" role="alert">
+                <md-icon aria-hidden="true">error</md-icon>
+                <span class="md-typescale-body-medium" th:text="${operationFailedMessage}">No se pudo completar la
+                    operación solicitada.</span>
             </div>
 
             <section class="stats-grid" aria-label="Estadísticas de ventas">
