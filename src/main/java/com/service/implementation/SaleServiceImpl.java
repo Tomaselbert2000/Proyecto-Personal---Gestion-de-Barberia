@@ -110,7 +110,7 @@ public class SaleServiceImpl implements SaleService {
 
             saleRepository.flush();
 
-        }catch (ObjectOptimisticLockingFailureException exception){
+        } catch (ObjectOptimisticLockingFailureException exception) {
 
             throw new ConcurrentStockModificationException();
         }
@@ -204,7 +204,7 @@ public class SaleServiceImpl implements SaleService {
     public Double getActiveEmployeesAverageServices() {
 
         Long currentlyActiveEmployees = employeeRepository.getActiveEmployees();
-        long registeredSales = saleRepository.count();
+        long registeredSales = saleRepository.countByCanceledFalse();
 
         if (currentlyActiveEmployees != 0L) {
 
@@ -326,7 +326,7 @@ public class SaleServiceImpl implements SaleService {
 
         Pageable firstResult = PageRequest.of(0, 1);
 
-        BigDecimal productIncome = BigDecimal.valueOf(saleRepository.getSaleItemsTotalUnits());
+        BigDecimal productIncome = BigDecimal.valueOf(saleRepository.getSaleItemsTotalIncome());
 
         List<String> popularProducts = saleRepository.findMostPopularProductToday(getStartOfToday(), getStartOfToday().plusDays(1), firstResult);
 
@@ -352,10 +352,12 @@ public class SaleServiceImpl implements SaleService {
     }
 
     @Override
-    @Transactional 
+    @Transactional
     public void cancelSale(Long id) {
-        
+
         Sale sale = loadSale(id);
+
+        if (sale.getCanceled()) return;
 
         restoreStockFromSaleItemList(sale);
 
@@ -364,11 +366,11 @@ public class SaleServiceImpl implements SaleService {
         saleRepository.save(sale);
     }
 
-    private Sale loadSale(Long id){
+    private Sale loadSale(Long id) {
 
-        if(id == null) return null;
+        if (id == null) return null;
 
-        return saleRepository.findById(id).orElseThrow(SaleNotFoundException::new );
+        return saleRepository.findById(id).orElseThrow(SaleNotFoundException::new);
     }
 
     private Client loadClient(Long clientID) {
