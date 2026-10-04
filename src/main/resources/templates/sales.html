@@ -517,14 +517,14 @@
                                 <md-icon slot="leading-icon">attach_money</md-icon>
                             </md-outlined-text-field>
                             <md-outlined-select label="Medio de pago" name="paymentName">
-                                <md-select-option th:each="p, iter : ${payments}"
+                                <md-select-option th:each="p, iter : ${paymentNames}"
                                                   th:value="${iter.first ? '' : p}"
                                                   th:selected="${iter.first ? (param.paymentName == null or param.paymentName[0] == '') : (param.paymentName != null and param.paymentName[0] == p)}">
                                     <div slot="headline" th:text="${p}">Todos los medios de pago</div>
                                 </md-select-option>
                             </md-outlined-select>
                             <md-outlined-select label="Empleado" name="employeeName">
-                                <md-select-option th:each="e, iter : ${employees}"
+                                <md-select-option th:each="e, iter : ${employeeNames}"
                                                   th:value="${iter.first ? '' : e}"
                                                   th:selected="${iter.first ? (param.employeeName == null or param.employeeName[0] == '') : (param.employeeName != null and param.employeeName[0] == e)}">
                                     <div slot="headline" th:text="${e}">Todos los empleados</div>

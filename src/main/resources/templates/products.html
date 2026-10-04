@@ -195,6 +195,23 @@
             height: 40px
         }
 
+        .banner {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            border-radius: 8px
+        }
+
+        .banner.error {
+            background: var(--md-sys-color-error-container);
+            color: var(--md-sys-color-on-error-container)
+        }
+
+        .banner.error md-icon {
+            color: var(--md-sys-color-error)
+        }
+
         .filter-grid {
             display: grid;
             grid-template-columns: 1fr;

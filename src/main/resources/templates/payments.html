@@ -649,7 +649,7 @@
                                 <div class="payment-meta md-typescale-body-small">
                                     <md-icon aria-hidden="true">percent</md-icon>
                                     <span th:if="${pm.priceModifier != null}"
-                                          th:text="'Modificador: ' + ${'ARS $ ' + #numbers.formatDecimal(pm.priceModifier,1,2)}">ARS $ 0,00</span>
+                                          th:text="${'Modificador: ' + #numbers.formatDecimal(pm.priceModifier * 100, 1, 1) + '%'}">0,0%</span>
                                     <span th:unless="${pm.priceModifier != null}">Modificador: —</span>
                                 </div>
                             </div>
