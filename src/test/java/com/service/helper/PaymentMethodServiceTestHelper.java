@@ -67,12 +67,12 @@ public class PaymentMethodServiceTestHelper {
 
     public static void mockThatNameWillCauseConflict(PaymentMethodRepository paymentMethodRepository, PaymentMethod paymentMethod) {
 
-        when(paymentMethodRepository.existsByName(paymentMethod.getName())).thenReturn(true);
+        when(paymentMethodRepository.existsByNameIgnoreCase(paymentMethod.getName())).thenReturn(true);
     }
 
     public static void mockThatNameWillCauseConflictOnUpdate(PaymentMethodRepository paymentMethodRepository, PaymentMethod paymentMethod) {
 
-        when(paymentMethodRepository.existsByNameAndPaymentMethodIDNot(paymentMethod.getName(), paymentMethod.getPaymentMethodID())).thenReturn(true);
+        when(paymentMethodRepository.existsByNameIgnoreCaseAndPaymentMethodIDNot(paymentMethod.getName(), paymentMethod.getPaymentMethodID())).thenReturn(true);
     }
 
     public static void mockPaymentMethod(PaymentMethodRepository paymentMethodRepository, PaymentMethod paymentMethod) {
