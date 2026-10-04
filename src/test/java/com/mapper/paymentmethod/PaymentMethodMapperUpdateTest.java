@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import static com.factory.PaymentMethodTestDataFactory.buildValidPaymentMethod;
 import static com.factory.PaymentMethodTestDataFactory.buildValidPaymentMethodUpdateDTO;
 import static com.test_constant.PaymentMethodTestConstants.CreationValidData.*;
-import static com.test_constant.PaymentMethodTestConstants.MapperData.PAYMENT_METHOD_TEST_CLOCK;
+import static com.test_constant.PaymentMethodTestConstants.MapperData.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PaymentMethodMapperUpdateTest {
@@ -74,6 +74,28 @@ public class PaymentMethodMapperUpdateTest {
         PaymentMethod result = mapEntity(existingPaymentMethod, updateDTO);
 
         assertEquals(PAYMENT_METHOD_PRICE_MODIFIER_VALUE, result.getPriceModifier());
+    }
+
+    @Test
+    @DisplayName("Debería normalizar el nuevo nombre con el mismo criterio que el alta")
+    void givenNewNameInLowerCase_WhenUpdating_ThenIsCapitalizedLikeCreation() {
+
+        updateDTO.setNewName(LOWERCASE_PAYMENT_METHOD_NAME);
+
+        PaymentMethod result = mapEntity(existingPaymentMethod, updateDTO);
+
+        assertEquals(PAYMENT_METHOD_NAME, result.getName());
+    }
+
+    @Test
+    @DisplayName("Debería trimear correctamente el nuevo nombre")
+    void givenNewNameWithSpaces_WhenUpdating_ThenIsTrimmed() {
+
+        updateDTO.setNewName(PAYMENT_METHOD_NAME_WITH_SPACES);
+
+        PaymentMethod result = mapEntity(existingPaymentMethod, updateDTO);
+
+        assertEquals(PAYMENT_METHOD_NAME, result.getName());
     }
 
     private PaymentMethod mapEntity(PaymentMethod existingPaymentMethod, PaymentMethodUpdateDTO updateDTO) {
