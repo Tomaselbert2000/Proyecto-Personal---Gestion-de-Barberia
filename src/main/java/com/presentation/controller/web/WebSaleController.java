@@ -2,6 +2,7 @@ package com.presentation.controller.web;
 
 import com.dto.sale.SaleCreationDTO;
 import com.enums.SaleCompositionFilter;
+import com.exceptions.BusinessException;
 import com.presentation.controller.BaseWebController;
 import com.service.interfaces.*;
 import jakarta.validation.Valid;
@@ -16,6 +17,7 @@ import java.security.Principal;
 
 import static com.presentation.constants.HtmlConstants.Paths.*;
 import static com.presentation.constants.HtmlConstants.Redirects.REDIRECT_SALES;
+import static com.presentation.constants.StringResource.OperationMessages.SALE_OPERATION_FAILED;
 
 @Controller
 @RequiredArgsConstructor
@@ -53,6 +55,8 @@ public class WebSaleController extends BaseWebController<SaleCreationDTO, SaleCr
 
         model.addAttribute("liveSearch", saleService.liveSearch(minTotal, maxTotal, paymentName, employeeName, compositionFilter));
 
+        model.addAttribute(OPERATION_FAILED_TAG, SALE_OPERATION_FAILED);
+
         model.addAttribute("monthlyIncomeStats", saleService.getMonthlyIncomeStats());
         model.addAttribute("averageTicketStats", saleService.getAverageTicketStats());
         model.addAttribute("salesTodayStats", saleService.getSalesTodayStats());
@@ -81,18 +85,32 @@ public class WebSaleController extends BaseWebController<SaleCreationDTO, SaleCr
     @GetMapping("/{saleID}/details")
     public String showSaleDetail(@PathVariable Long saleID, Model model, Principal principal) {
 
-        model.addAttribute("dto", saleService.getSale(saleID));
-        model.addAttribute("currentUser", principal.getName());
+        try {
 
-        return SALE_DETAIL;
+            model.addAttribute("dto", saleService.getSale(saleID));
+            model.addAttribute("currentUser", principal.getName());
+
+            return SALE_DETAIL;
+
+        } catch (BusinessException e) {
+
+            return REDIRECT_SALES + ERROR_SUFFIX;
+        }
     }
 
     @PostMapping("/{saleID}/cancel")
     public String cancelSale(@PathVariable Long saleID) {
 
-        saleService.cancelSale(saleID);
+        try {
 
-        return REDIRECT_SALES;
+            saleService.cancelSale(saleID);
+
+            return REDIRECT_SALES;
+
+        } catch (BusinessException e) {
+
+            return REDIRECT_SALES + ERROR_SUFFIX;
+        }
     }
 
     @Override
