@@ -84,6 +84,7 @@ public class SaleMapperImpl implements SaleMapper {
                 .receiptItems(receiptItems)
                 .total(entity.getTotal())
                 .paymentMethodName(entity.getPaymentMethodUsed().getName())
+                .canceled(entity.getCanceled())
                 .build();
     }
 

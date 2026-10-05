@@ -22,4 +22,5 @@ public final class SaleInfoDTO {
     private List<ReceiptItemDTO> receiptItems;
     private Double total;
     private String paymentMethodName;
+    private Boolean canceled;
 }
