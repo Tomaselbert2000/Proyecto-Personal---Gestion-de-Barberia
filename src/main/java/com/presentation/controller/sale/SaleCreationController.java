@@ -128,10 +128,12 @@ public class SaleCreationController extends BaseCrudFormController<SaleCreationD
     @FXML
     private Label totalLabel;
 
-    private final ContextMenu contextMenu = new ContextMenu();
+    private ContextMenu contextMenu;
 
     @FXML
     public void initialize() {
+
+        contextMenu = new ContextMenu();
 
         setInitialEnabledStatusForSelectors();
 
