@@ -32,16 +32,21 @@ import static com.presentation.support.io.FileImageHelper.loadFileOnImageView;
 @Setter
 public class ProductItemController extends AbstractItemController<ProductInfoDTO> {
 
-    private static final Image IMAGE_PLACEHOLDER;
-
-    static {
-
-        IMAGE_PLACEHOLDER = new Image(Objects.requireNonNull(ProductItemController.class.getResource(PLACEHOLDER_PATH)).toExternalForm());
-    }
+    private static Image IMAGE_PLACEHOLDER = null;
 
     private Consumer<ProductInfoDTO>
             onEditCallback,
             onAddStockCallback;
+
+    private static Image getImagePlaceholder() {
+
+        if (IMAGE_PLACEHOLDER == null) {
+
+            IMAGE_PLACEHOLDER = new Image(Objects.requireNonNull(Objects.requireNonNull(ProductItemController.class.getResource(PLACEHOLDER_PATH)).toExternalForm()));
+        }
+
+        return IMAGE_PLACEHOLDER;
+    }
 
     @FXML
     private VBox stockStatusBadgeVbox;
@@ -122,7 +127,7 @@ public class ProductItemController extends AbstractItemController<ProductInfoDTO
 
         } catch (Exception e) {
 
-            productImagePlaceholder.setImage(IMAGE_PLACEHOLDER);
+            productImagePlaceholder.setImage(getImagePlaceholder());
         }
     }
 }
