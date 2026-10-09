@@ -24,6 +24,16 @@ public final class ClientTestConstants {
         public static final String OPTIONAL_NOTES = "El cliente presenta alergias y/o condiciones médicas. Consultar antes de prestar servicios.";
     }
 
+    public static final class SecondValidClientData {
+
+        public static final String SECOND_CLIENT_NATIONAL_ID_CARD_NUMBER = "8765432";
+        public static final String SECOND_CLIENT_FIRST_NAME = "Maria Sofia";
+        public static final String SECOND_CLIENT_LAST_NAME = "Rodriguez";
+        public static final String SECOND_CLIENT_EMAIL = "maria.sofia@gmail.com";
+        public static final List<String> SECOND_CLIENT_PHONE_LIST = List.of("1111222233", "4444555566");
+        public static final String SECOND_CLIENT_OPTIONAL_NOTES = "Cliente preferente con historial de fidelidad.";
+    }
+
     public static final class UpdateValidData {
 
         public static final String NEW_NATIONAL_ID_CARD_NUMBER = "7654321";
@@ -37,6 +47,7 @@ public final class ClientTestConstants {
     public static final class MapperData {
 
         public static final Long CLIENT_ID = 1L;
+        public static final Long ANOTHER_ID = 2L;
         public static final LocalDate REGISTRATION_DATE = LocalDate.of(2026, 1, 1);
         public static final String NATIONAL_ID_CARD_NUMBER_WITH_SPACES = addTabs(NATIONAL_ID_CARD_NUMBER);
         public static final String FIRST_NAME_WITH_SPACES = addTabs(FIRST_NAME);

@@ -20,6 +20,14 @@ public final class EmployeeTestConstants {
         public static final Double EMPLOYEE_COMMISSION_PERCENTAGE = 0.70;
     }
 
+    public static final class SecondValidEmployeeData {
+
+        public static final String SECOND_EMPLOYEE_FIRST_NAME = "Tomas Gabriel";
+        public static final String SECOND_EMPLOYEE_LAST_NAME = "Elbert";
+        public static final LocalDate SECOND_EMPLOYEE_HIRE_DATE = LocalDate.of(2026, 1, 5);
+        public static final Double SECOND_EMPLOYEE_COMMISSION_PERCENTAGE = 0.50;
+    }
+
     public static final class UpdateValidData {
 
         public static final String EMPLOYEE_NEW_NAME = "Juan";
@@ -32,6 +40,7 @@ public final class EmployeeTestConstants {
     public static final class MapperData {
 
         public static final Long EMPLOYEE_ID = 1L;
+        public static final Long SECOND_ID = 2L;
         public static final Boolean EMPLOYEE_IS_ACTIVE_VALUE = true;
         public static final String EMPLOYEE_FIRST_NAME_WITH_SPACES = addTabs(EMPLOYEE_FIRST_NAME);
         public static final String EMPLOYEE_LAST_NAME_WITH_SPACES = addTabs(EMPLOYEE_LAST_NAME);

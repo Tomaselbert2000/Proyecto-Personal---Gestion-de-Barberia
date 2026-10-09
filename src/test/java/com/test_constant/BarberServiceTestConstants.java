@@ -17,6 +17,14 @@ public final class BarberServiceTestConstants {
         public static final String INTERNAL_NOTES = "El servicio debe tomar como máximo 45 minutos.";
     }
 
+    public static final class SecondValidBarberServiceData {
+
+        public static final String SECOND_BARBER_SERVICE_NAME = "Corte de pelo básico";
+        public static final Double SECOND_BARBER_SERVICE_PRICE = 8000.0;
+        public static final BarberServiceCategory SECOND_BARBER_SERVICE_CATEGORY = BarberServiceCategory.CORTE;
+        public static final String SECOND_INTERNAL_NOTES = "El servicio debe tomar como máximo 45 minutos.";
+    }
+
     public static final class UpdateValidData {
 
         public static final String NEW_BARBER_SERVICE_NAME = "Corte de pelo americano completo";
@@ -36,6 +44,7 @@ public final class BarberServiceTestConstants {
 
     public static final class MapperTestData {
         public static final Long BARBER_SERVICE_ID = 1L;
+        public static final Long SECOND_ID = 2L;
         public static final LocalDateTime BARBER_SERVICE_REGISTRATION_TIMESTAMP = LocalDateTime.of(2026, 1, 1, 12, 30);
         public static final LocalDateTime BARBER_SERVICE_MODIFICATION_TIMESTAMP = null;
         public static final String BARBER_SERVICE_NAME_WITH_SPACES = "        Corte de pelo americano      ";
