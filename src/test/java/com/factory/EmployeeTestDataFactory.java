@@ -6,8 +6,8 @@ import com.model.Employee;
 
 import static com.test_constant.AppointmentTestConstants.UpdateValidData.NEW_EMPLOYEE_ID;
 import static com.test_constant.EmployeeTestConstants.CreationValidData.*;
-import static com.test_constant.EmployeeTestConstants.MapperData.EMPLOYEE_ID;
-import static com.test_constant.EmployeeTestConstants.MapperData.EMPLOYEE_IS_ACTIVE_VALUE;
+import static com.test_constant.EmployeeTestConstants.MapperData.*;
+import static com.test_constant.EmployeeTestConstants.SecondValidEmployeeData.*;
 import static com.test_constant.EmployeeTestConstants.UpdateValidData.*;
 
 public class EmployeeTestDataFactory {
@@ -46,6 +46,18 @@ public class EmployeeTestDataFactory {
                 .terminationDate(EMPLOYEE_TERMINATION_DATE)
                 .isActive(EMPLOYEE_IS_ACTIVE_VALUE)
                 .commissionPercentage(EMPLOYEE_COMMISSION_PERCENTAGE)
+                .build();
+    }
+
+    public static Employee buildAnotherValidEmployee() {
+
+        return Employee.builder()
+                .employeeID(SECOND_ID)
+                .firstName(SECOND_EMPLOYEE_FIRST_NAME)
+                .lastName(SECOND_EMPLOYEE_LAST_NAME)
+                .hireDate(SECOND_EMPLOYEE_HIRE_DATE)
+                .isActive(true)
+                .commissionPercentage(SECOND_EMPLOYEE_COMMISSION_PERCENTAGE)
                 .build();
     }
 

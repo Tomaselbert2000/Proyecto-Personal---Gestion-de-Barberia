@@ -65,4 +65,22 @@ public class AppointmentTestDataFactory {
                 .currentStatus(AppointmentStatus.PROGRAMADO)
                 .build();
     }
+
+    public static AppointmentCreationDTO buildAppointmentCreationDTO(
+            Long clientID,
+            Long employeeID,
+            Long barberserviceID,
+            LocalDateTime startDateTime,
+            LocalDateTime endDateTime,
+            String optionalNotes) {
+
+        return AppointmentCreationDTO.builder()
+                .clientID(clientID)
+                .employeeID(employeeID)
+                .barberserviceID(barberserviceID)
+                .startDateTime(startDateTime)
+                .endDateTime(endDateTime)
+                .optionalNotes(optionalNotes)
+                .build();
+    }
 }

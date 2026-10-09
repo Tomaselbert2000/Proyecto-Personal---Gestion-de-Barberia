@@ -7,6 +7,7 @@ import com.model.BarberService;
 import static com.test_constant.AppointmentTestConstants.UpdateValidData.NEW_BARBER_SERVICE_ID;
 import static com.test_constant.BarberServiceTestConstants.CreationValidData.*;
 import static com.test_constant.BarberServiceTestConstants.MapperTestData.*;
+import static com.test_constant.BarberServiceTestConstants.SecondValidBarberServiceData.*;
 import static com.test_constant.BarberServiceTestConstants.UpdateValidData.*;
 
 public class BarberServiceTestDataFactory {
@@ -44,6 +45,19 @@ public class BarberServiceTestDataFactory {
                 .registrationTimestamp(BARBER_SERVICE_REGISTRATION_TIMESTAMP)
                 .modifiedDate(BARBER_SERVICE_MODIFICATION_TIMESTAMP)
                 .internalNotes(INTERNAL_NOTES)
+                .build();
+    }
+
+    public static BarberService buildAnotherValidBarberService() {
+
+        return BarberService.builder()
+                .barbershopServiceID(SECOND_ID)
+                .name(SECOND_BARBER_SERVICE_NAME)
+                .price(SECOND_BARBER_SERVICE_PRICE)
+                .serviceCategory(SECOND_BARBER_SERVICE_CATEGORY)
+                .registrationTimestamp(BARBER_SERVICE_REGISTRATION_TIMESTAMP.plusMinutes(30))
+                .modifiedDate(BARBER_SERVICE_MODIFICATION_TIMESTAMP)
+                .internalNotes(SECOND_INTERNAL_NOTES)
                 .build();
     }
 
