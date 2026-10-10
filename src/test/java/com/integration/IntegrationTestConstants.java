@@ -15,10 +15,10 @@ public final class IntegrationTestConstants {
         public static final LocalDate futureDate = LocalDate.now().plusDays(1);
         public static final LocalDateTime startDateTime = futureDate.atTime(START_HOUR, 0);
         public static final LocalDateTime endDateTime = startDateTime.plusMinutes(APPOINTMENT_DURATION_MINUTES);
-        public static LocalDateTime startDateTime1 = futureDate.atTime(START_HOUR, 0);
-        public static LocalDateTime endDateTime1 = startDateTime1.plusMinutes(APPOINTMENT_DURATION_MINUTES);
-        public static LocalDateTime startDateTime2 = startDateTime1.plusMinutes(APPOINTMENT_DURATION_MINUTES);
-        public static LocalDateTime endDateTime2 = startDateTime2.plusMinutes(APPOINTMENT_DURATION_MINUTES);
+        public static final LocalDateTime startDateTime1 = futureDate.atTime(START_HOUR, 0);
+        public static final LocalDateTime endDateTime1 = startDateTime1.plusMinutes(APPOINTMENT_DURATION_MINUTES);
+        public static final LocalDateTime startDateTime2 = startDateTime1.plusMinutes(APPOINTMENT_DURATION_MINUTES);
+        public static final LocalDateTime endDateTime2 = startDateTime2.plusMinutes(APPOINTMENT_DURATION_MINUTES);
         public static final LocalDateTime now = LocalDateTime.now();
         public static final LocalDate tomorrow = now.toLocalDate().plusDays(1);
         public static final LocalDateTime start1 = tomorrow.atTime(10, 30);
