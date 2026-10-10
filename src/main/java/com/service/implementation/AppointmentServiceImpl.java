@@ -125,7 +125,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 
         Appointment appointmentOnDB = loadAppointment(dto.getId());
 
-        applyStatusChangeIfPresent(appointmentOnDB, AppointmentStatus.FINALIZADO);
+        applyStatusChangeIfPresent(appointmentOnDB, AppointmentStatus.FINALIZADO, null, null);
 
         appointmentRepository.save(appointmentOnDB);
     }
@@ -136,7 +136,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 
         Appointment appointmentOnDB = loadAppointment(dto.getId());
 
-        applyStatusChangeIfPresent(appointmentOnDB, AppointmentStatus.CANCELADO);
+        applyStatusChangeIfPresent(appointmentOnDB, AppointmentStatus.CANCELADO, null, null);
 
         appointmentRepository.save(appointmentOnDB);
     }
@@ -295,7 +295,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 
         checkEmployeeAvailabilityForUpdate(employee, dto.getNewStartDateTime(), dto.getNewEndDateTime(), id);
 
-        applyStatusChangeIfPresent(appointmentToUpdate, dto.getNewStatus());
+        applyStatusChangeIfPresent(appointmentToUpdate, dto.getNewStatus(), dto.getNewStartDateTime(), dto.getNewEndDateTime());
 
         appointmentRepository.save(appointmentMapper.mapAppointmentUpdateDtoToEntity(dto, employee, service, appointmentToUpdate));
     }
@@ -328,9 +328,13 @@ public class AppointmentServiceImpl implements AppointmentService {
         return appointmentRepository.findById(appointmentID).orElseThrow(AppointmentNotFoundException::new);
     }
 
-    private void applyStatusChangeIfPresent(Appointment appointmentToUpdate, AppointmentStatus newStatus) {
+    private void applyStatusChangeIfPresent(Appointment appointmentToUpdate, AppointmentStatus newStatus, LocalDateTime newStartDateTime, LocalDateTime newEndDateTime) {
 
-        if (newStatus != null) appointmentToUpdate.changeStatus(newStatus);
+        if (newStatus != null) {
+            appointmentToUpdate.changeStatus(newStatus);
+        } else if (newStartDateTime != null || newEndDateTime != null) {
+            appointmentToUpdate.changeStatus(AppointmentStatus.REPROGRAMADO);
+        }
     }
 
     private void checkEmployeeAvailabilityForCreation(Employee employee, LocalDateTime startDateTime, LocalDateTime endDateTime) {
