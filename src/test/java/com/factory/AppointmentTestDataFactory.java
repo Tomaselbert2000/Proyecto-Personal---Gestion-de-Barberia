@@ -83,4 +83,22 @@ public class AppointmentTestDataFactory {
                 .optionalNotes(optionalNotes)
                 .build();
     }
+
+    public static AppointmentUpdateDTO buildAppointmentUpdateDTO(
+            LocalDateTime newStartDateTime,
+            LocalDateTime newEndDateTime,
+            AppointmentStatus newStatus,
+            String optionalNotes,
+            Long newEmployeeID,
+            Long newBarberserviceID) {
+
+        return AppointmentUpdateDTO.builder()
+                .newEmployeeID(newEmployeeID)
+                .newBarberserviceID(newBarberserviceID)
+                .newStartDateTime(newStartDateTime)
+                .newEndDateTime(newEndDateTime)
+                .newStatus(newStatus)
+                .optionalNotes(optionalNotes)
+                .build();
+    }
 }
