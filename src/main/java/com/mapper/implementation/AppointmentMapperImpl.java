@@ -123,6 +123,8 @@ public class AppointmentMapperImpl implements AppointmentMapper {
 
         if (updateDTO.getNewStatus() != null) appointmentOnDB.setCurrentStatus(updateDTO.getNewStatus());
 
+        if (updateDTO.getOptionalNotes() != null) appointmentOnDB.setOptionalNotes(updateDTO.getOptionalNotes());
+
         appointmentOnDB.setModifiedDate(LocalDateTime.now());
     }
 }
