@@ -2,6 +2,7 @@ package com.integration;
 
 import com.dto.appointment.AppointmentCreationDTO;
 import com.dto.appointment.AppointmentInfoDTO;
+import com.dto.appointment.AppointmentUpdateDTO;
 import com.enums.AppointmentStatus;
 import com.exceptions.appointment.AppointmentNotFoundException;
 import com.exceptions.barberservice.BarberServiceNotFoundException;
@@ -258,18 +259,6 @@ public class AppointmentIntegrationTest {
         assertEquals(2L, allAppointmentsViaLiveSearch.size(), "Sin filtros debe devolver todos los turnos");
     }
 
-    private void setAllEntityIDsAsNull(Client mockClient, Employee mockEmployee, BarberService mockBarberService) {
-
-        mockClient.setClientID(null);
-        mockEmployee.setEmployeeID(null);
-        mockBarberService.setBarbershopServiceID(null);
-    }
-
-    private void assertDtoAttributes(AppointmentInfoDTO infoDTO, Appointment appointment, Client savedClient, Employee savedEmployee, BarberService savedBarberService) {
-
-        assertAll(() -> assertEquals(appointment.getAppointmentID(), infoDTO.getId(), MESSAGE_ID_MATCH), () -> assertEquals(savedEmployee.getEmployeeID(), infoDTO.getEmployeeID(), MESSAGE_EMPLOYEE_ID_MATCH), () -> assertEquals(savedBarberService.getBarbershopServiceID(), infoDTO.getBarberServiceID(), MESSAGE_SERVICE_ID_MATCH), () -> assertEquals(savedClient.getFirstName(), infoDTO.getClientFirstName(), MESSAGE_CLIENT_FIRST_NAME_MATCH), () -> assertEquals(savedClient.getLastName(), infoDTO.getClientLastName(), MESSAGE_CLIENT_LAST_NAME_MATCH), () -> assertEquals(savedBarberService.getName(), infoDTO.getServiceName(), MESSAGE_SERVICE_NAME_MATCH), () -> assertEquals(savedBarberService.getPrice(), infoDTO.getServicePrice(), MESSAGE_SERVICE_PRICE_MATCH), () -> assertEquals(savedEmployee.getFirstName(), infoDTO.getEmployeeFirstName(), MESSAGE_EMPLOYEE_FIRST_NAME_MATCH), () -> assertEquals(savedEmployee.getLastName(), infoDTO.getEmployeeLastName(), MESSAGE_EMPLOYEE_LAST_NAME_MATCH), () -> assertEquals(appointment.getRegistrationTimestamp(), infoDTO.getRegistrationTimestamp(), MESSAGE_REGISTRATION_TIMESTAMP_MATCH), () -> assertEquals(appointment.getStartDateTime(), infoDTO.getStartDateTime(), MESSAGE_START_DATETIME_MATCH), () -> assertEquals(appointment.getEndDateTime(), infoDTO.getEndDateTime(), MESSAGE_END_DATETIME_MATCH), () -> assertEquals(appointment.getCurrentStatus(), infoDTO.getCurrentStatus(), MESSAGE_CURRENT_STATUS_MATCH), () -> assertEquals(appointment.getOptionalNotes(), infoDTO.getOptionalNotes(), MESSAGE_OPTIONAL_NOTES_MATCH));
-    }
-
     @Test
     @DisplayName("Dado un turno registrado, deberá poder marcarse como completado exitosamente")
     void shouldMarkAnAppointmentAsCompleted() {
@@ -288,5 +277,112 @@ public class AppointmentIntegrationTest {
         AppointmentInfoDTO updatedAppointmentInfoDTO = service.getAppointmentInfo(appointment.getAppointmentID());
 
         assertEquals(AppointmentStatus.FINALIZADO, updatedAppointmentInfoDTO.getCurrentStatus(), "El turno debe estar en estado FINALIZADO después de marcarlo como completado");
+    }
+
+    @Test
+    @DisplayName("Dado un turno registrado, deberá poder marcarse como cancelado exitosamente")
+    void shouldMarkAnAppointmentAsCanceled() {
+
+        AppointmentCreationDTO creationDTO = AppointmentTestDataFactory.buildAppointmentCreationDTO(savedClient1.getClientID(), savedEmployee1.getEmployeeID(), savedBarberService1.getBarbershopServiceID(), startDateTime, endDateTime, "Turno a cancelar");
+
+        service.registerNewAppointment(creationDTO);
+
+        Appointment appointment = appointmentRepository.findAll().getFirst();
+        AppointmentInfoDTO appointmentInfoDTO = service.getAppointmentInfo(appointment.getAppointmentID());
+
+        assertEquals(AppointmentStatus.PROGRAMADO, appointmentInfoDTO.getCurrentStatus(), "El turno debe estar en estado PROGRAMADO tras la creación");
+
+        service.markAppointmentAsCanceled(appointmentInfoDTO);
+
+        AppointmentInfoDTO updatedAppointmentInfoDTO = service.getAppointmentInfo(appointment.getAppointmentID());
+
+        assertEquals(AppointmentStatus.CANCELADO, updatedAppointmentInfoDTO.getCurrentStatus(), "El turno debe estar en estado CANCELADO después de marcarlo como cancelado");
+    }
+
+    @Test
+    @DisplayName("Dado un turno con fecha de inicio modificada, su estado debe cambiarse a REPROGRAMADO")
+    void shouldMarkAnAppointmentAsREPROGRAMADO_WhenUpdatingStartDatetime() {
+
+        AppointmentCreationDTO creationDTO = AppointmentTestDataFactory.buildAppointmentCreationDTO(savedClient1.getClientID(), savedEmployee1.getEmployeeID(), savedBarberService1.getBarbershopServiceID(), startDateTime, endDateTime, "Turno a reprogramar");
+
+        service.registerNewAppointment(creationDTO);
+
+        Appointment appointment = appointmentRepository.findAll().getFirst();
+        AppointmentInfoDTO appointmentInfoDTO = service.getAppointmentInfo(appointment.getAppointmentID());
+
+        assertEquals(AppointmentStatus.PROGRAMADO, appointmentInfoDTO.getCurrentStatus(), "El turno debe estar en estado PROGRAMADO tras la creación");
+
+        AppointmentUpdateDTO updateDTO = AppointmentTestDataFactory.buildAppointmentUpdateDTO(
+                startDateTime.plusMinutes(30),
+                endDateTime.plusMinutes(30),
+                null,
+                null,
+                null,
+                null
+        );
+
+        service.updateAppointment(appointment.getAppointmentID(), updateDTO);
+
+        AppointmentInfoDTO updatedAppointmentInfoDTO = service.getAppointmentInfo(appointment.getAppointmentID());
+
+        assertEquals(AppointmentStatus.REPROGRAMADO, updatedAppointmentInfoDTO.getCurrentStatus(), "El turno debe estar en estado REPROGRAMADO después de modificar su fecha de inicio");
+    }
+
+    @Test
+    @DisplayName("Dado un turno en estado REPROGRAMADO, no debería poder cambiarse a PROGRAMADO")
+    void shouldNotMarkAnAppointmentAsPROGRAMADO_WhenCurrentStatusIsREPROGRAMADO() {
+
+        // Dado: Crear un turno
+        AppointmentCreationDTO creationDTO = AppointmentTestDataFactory.buildAppointmentCreationDTO(savedClient1.getClientID(), savedEmployee1.getEmployeeID(), savedBarberService1.getBarbershopServiceID(), startDateTime, endDateTime, "Turno inicial");
+
+        service.registerNewAppointment(creationDTO);
+
+        Appointment appointment = appointmentRepository.findAll().getFirst();
+        AppointmentInfoDTO initialInfoDTO = service.getAppointmentInfo(appointment.getAppointmentID());
+
+        assertEquals(AppointmentStatus.PROGRAMADO, initialInfoDTO.getCurrentStatus(), "El turno debe estar en estado PROGRAMADO inicialmente");
+
+        // Cuando: Modificar la fecha de inicio para forzar el cambio a REPROGRAMADO
+        AppointmentUpdateDTO reprogramDTO = AppointmentTestDataFactory.buildAppointmentUpdateDTO(
+                startDateTime.plusMinutes(30),
+                endDateTime.plusMinutes(30),
+                null,
+                null,
+                null,
+                null
+        );
+
+        service.updateAppointment(appointment.getAppointmentID(), reprogramDTO);
+
+        AppointmentInfoDTO reprogrammedInfoDTO = service.getAppointmentInfo(appointment.getAppointmentID());
+        assertEquals(AppointmentStatus.REPROGRAMADO, reprogrammedInfoDTO.getCurrentStatus(), "El turno debe estar en estado REPROGRAMADO después de modificar su horario");
+
+        // Cuando: Intentar cambiar el estado a PROGRAMADO explícitamente
+        AppointmentUpdateDTO updateToProgramadoDTO = AppointmentTestDataFactory.buildAppointmentUpdateDTO(
+                startDateTime,
+                endDateTime,
+                AppointmentStatus.PROGRAMADO,
+                null,
+                null,
+                null
+        );
+
+        // Entonces: Debería lanzar InvalidAppointmentUpdateException
+        assertThrows(com.exceptions.appointment.InvalidAppointmentUpdateException.class,
+                () -> service.updateAppointment(appointment.getAppointmentID(), updateToProgramadoDTO),
+                "El sistema no debería permitir cambiar un turno de estado REPROGRAMADO a PROGRAMADO"
+        );
+    }
+
+    private void setAllEntityIDsAsNull(Client mockClient, Employee mockEmployee, BarberService mockBarberService) {
+
+        mockClient.setClientID(null);
+        mockEmployee.setEmployeeID(null);
+        mockBarberService.setBarbershopServiceID(null);
+    }
+
+    private void assertDtoAttributes(AppointmentInfoDTO infoDTO, Appointment appointment, Client savedClient, Employee savedEmployee, BarberService savedBarberService) {
+
+        assertAll(() -> assertEquals(appointment.getAppointmentID(), infoDTO.getId(), MESSAGE_ID_MATCH), () -> assertEquals(savedEmployee.getEmployeeID(), infoDTO.getEmployeeID(), MESSAGE_EMPLOYEE_ID_MATCH), () -> assertEquals(savedBarberService.getBarbershopServiceID(), infoDTO.getBarberServiceID(), MESSAGE_SERVICE_ID_MATCH), () -> assertEquals(savedClient.getFirstName(), infoDTO.getClientFirstName(), MESSAGE_CLIENT_FIRST_NAME_MATCH), () -> assertEquals(savedClient.getLastName(), infoDTO.getClientLastName(), MESSAGE_CLIENT_LAST_NAME_MATCH), () -> assertEquals(savedBarberService.getName(), infoDTO.getServiceName(), MESSAGE_SERVICE_NAME_MATCH), () -> assertEquals(savedBarberService.getPrice(), infoDTO.getServicePrice(), MESSAGE_SERVICE_PRICE_MATCH), () -> assertEquals(savedEmployee.getFirstName(), infoDTO.getEmployeeFirstName(), MESSAGE_EMPLOYEE_FIRST_NAME_MATCH), () -> assertEquals(savedEmployee.getLastName(), infoDTO.getEmployeeLastName(), MESSAGE_EMPLOYEE_LAST_NAME_MATCH), () -> assertEquals(appointment.getRegistrationTimestamp(), infoDTO.getRegistrationTimestamp(), MESSAGE_REGISTRATION_TIMESTAMP_MATCH), () -> assertEquals(appointment.getStartDateTime(), infoDTO.getStartDateTime(), MESSAGE_START_DATETIME_MATCH), () -> assertEquals(appointment.getEndDateTime(), infoDTO.getEndDateTime(), MESSAGE_END_DATETIME_MATCH), () -> assertEquals(appointment.getCurrentStatus(), infoDTO.getCurrentStatus(), MESSAGE_CURRENT_STATUS_MATCH), () -> assertEquals(appointment.getOptionalNotes(), infoDTO.getOptionalNotes(), MESSAGE_OPTIONAL_NOTES_MATCH));
     }
 }
