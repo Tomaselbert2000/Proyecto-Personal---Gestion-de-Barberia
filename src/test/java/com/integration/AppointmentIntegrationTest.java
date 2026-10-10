@@ -369,6 +369,99 @@ public class AppointmentIntegrationTest {
         );
     }
 
+    @Test
+    @DisplayName("Dado un turno existente, deberá poder actualizarse exitosamente todos sus campos permitidos")
+    void shouldUpdateSuccessfullyAnExistingAppointment() {
+
+        service.registerNewAppointment(creationDTO);
+        Long appointmentID = getFirstAppointmentOnList().getAppointmentID();
+
+        AppointmentUpdateDTO updateDTO = buildAppointmentUpdateDTO(
+                startDateTime.plusHours(1),
+                endDateTime.plusHours(1),
+                AppointmentStatus.REPROGRAMADO,
+                "Nota actualizada - Cambio de horario",
+                savedEmployee2.getEmployeeID(),
+                savedBarberService2.getBarbershopServiceID()
+        );
+
+        service.updateAppointment(appointmentID, updateDTO);
+
+        AppointmentInfoDTO updatedInfoDTO = service.getAppointmentInfo(appointmentID);
+
+        assertAll(
+                () -> assertEquals(appointmentID, updatedInfoDTO.getId(), MESSAGE_ID_MATCH),
+                () -> assertEquals(savedEmployee2.getEmployeeID(), updatedInfoDTO.getEmployeeID(), MESSAGE_EMPLOYEE_ID_MATCH),
+                () -> assertEquals(savedBarberService2.getBarbershopServiceID(), updatedInfoDTO.getBarberServiceID(), MESSAGE_SERVICE_ID_MATCH),
+                () -> assertEquals(startDateTime.plusHours(1), updatedInfoDTO.getStartDateTime(), MESSAGE_START_DATETIME_MATCH),
+                () -> assertEquals(endDateTime.plusHours(1), updatedInfoDTO.getEndDateTime(), MESSAGE_END_DATETIME_MATCH),
+                () -> assertEquals(AppointmentStatus.REPROGRAMADO, updatedInfoDTO.getCurrentStatus(), MESSAGE_CURRENT_STATUS_MATCH),
+                () -> assertEquals("Nota actualizada - Cambio de horario", updatedInfoDTO.getOptionalNotes(), MESSAGE_OPTIONAL_NOTES_MATCH)
+        );
+
+        Appointment updatedEntity = appointmentRepository.findById(appointmentID).orElseThrow();
+        assertNotNull(updatedEntity.getModifiedDate(), "La fecha de modificación no debe ser null");
+    }
+
+    @Test
+    @DisplayName("Dado un turno existente y otro turno del mismo empleado, no debería poder actualizarse la fecha de inicio si esto solapara con el otro turno")
+    void shouldNotUpdateAnExistingAppointment_WhenNewTimeSlotsOverlapWithAnotherAppointment() {
+
+        service.registerNewAppointment(creationDTO);
+
+        AppointmentCreationDTO sameEmployeeSecondAppointment = buildAppointmentCreationDTO(
+                savedClient2.getClientID(),
+                savedEmployee1.getEmployeeID(),
+                savedBarberService1.getBarbershopServiceID(),
+                startDateTime.plusHours(2),
+                endDateTime.plusHours(2),
+                "Segundo turno mismo empleado"
+        );
+
+        service.registerNewAppointment(sameEmployeeSecondAppointment);
+
+        Long firstAppointmentID = getFirstAppointmentOnList().getAppointmentID();
+
+        AppointmentInfoDTO firstAppointmentInfoDTO = service.getAppointmentInfo(firstAppointmentID);
+
+        AppointmentUpdateDTO overlappingUpdateDTO = buildAppointmentUpdateDTO(
+                sameEmployeeSecondAppointment.getStartDateTime(),
+                sameEmployeeSecondAppointment.getEndDateTime(),
+                null,
+                null,
+                firstAppointmentInfoDTO.getEmployeeID(),
+                firstAppointmentInfoDTO.getBarberServiceID()
+        );
+
+        assertThrows(EmployeeNotAvailableException.class,
+                () -> service.updateAppointment(firstAppointmentID, overlappingUpdateDTO),
+                "El sistema no debería permitir actualizar el turno a un horario que solape con otro turno del mismo empleado"
+        );
+    }
+
+    @Test
+    @DisplayName("Dado un turno existente, no debería poder actualizarse con un servicio de barbería inexistente")
+    void shouldNotUpdateAnExistingAppointment_WithNonExistingBarberService() {
+
+        service.registerNewAppointment(creationDTO);
+
+        Long appointmentID = getFirstAppointmentOnList().getAppointmentID();
+
+        AppointmentUpdateDTO updateDTO = buildAppointmentUpdateDTO(
+                startDateTime,
+                endDateTime,
+                null,
+                null,
+                savedEmployee1.getEmployeeID(),
+                -1L
+        );
+
+        assertThrows(BarberServiceNotFoundException.class,
+                () -> service.updateAppointment(appointmentID, updateDTO),
+                "El sistema no debería permitir actualizar el turno con un servicio de barbería inexistente"
+        );
+    }
+
     private void setAllEntityIDsAsNull(Client mockClient, Employee mockEmployee, BarberService mockBarberService) {
 
         mockClient.setClientID(null);
