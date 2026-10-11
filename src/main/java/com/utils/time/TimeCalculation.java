@@ -14,6 +14,8 @@ public class TimeCalculation {
 
     private static Supplier<LocalDate> dateProvider = LocalDate::now;
 
+    private static Supplier<LocalTime> timeProvider = LocalTime::now;
+
     @SuppressWarnings("ALL")
     public static void setDateProvider(Supplier<LocalDate> supplier) {
 
@@ -24,6 +26,17 @@ public class TimeCalculation {
     public static void setDatetimeProvider(Supplier<LocalDateTime> supplier) {
 
         datetimeProvider = supplier;
+    }
+
+    @SuppressWarnings("ALL")
+    public static void setTimeProvider(Supplier<LocalTime> supplier) {
+
+        timeProvider = supplier;
+    }
+
+    public static LocalTime getCurrentTime() {
+
+        return timeProvider.get();
     }
 
     public static LocalDate getCurrentDate() {
