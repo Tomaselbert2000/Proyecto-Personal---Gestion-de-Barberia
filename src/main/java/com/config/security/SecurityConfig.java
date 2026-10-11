@@ -6,25 +6,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-/**
- * Configuración de seguridad para el cifrado de contraseñas en la aplicación.
- *
- * <p>Esta clase define los beans necesarios para habilitar el cifrado seguro
- * de contraseñas utilizando {@link BCryptPasswordEncoder}. El componente se
- * integra automáticamente con Spring Security para proteger credenciales
- * durante el proceso de autenticación y almacenamiento en bases de datos.
- *
- * <p>El uso de BCrypt garantiza:
- * <ul>
- *   <li>Cifrado asimétrico resistente a ataques de fuerza bruta</li>
- *   <li>Salting automático para evitar ataques de diccionario</li>
- *   <li>Coste computacional ajustable que dificulta ataques paralelos</li>
- * </ul>
- *
- * <p>El bean se registra automáticamente en el contexto Spring y está disponible
- * para inyección en servicios de autenticación, repositorios de usuarios y
- * controladores de registro/login.
- */
 @Configuration
 public class SecurityConfig {
 
@@ -67,7 +48,8 @@ public class SecurityConfig {
                                 "/css/**",
                                 "/assets/**",
                                 "/fonts/**",
-                                "/images/**"
+                                "/images/**",
+                                "/appointment-booking/**"
                         ).permitAll()
                         .anyRequest().authenticated()
         ).formLogin(
