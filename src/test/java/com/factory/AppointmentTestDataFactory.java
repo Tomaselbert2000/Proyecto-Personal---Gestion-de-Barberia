@@ -2,13 +2,16 @@ package com.factory;
 
 import com.dto.appointment.AppointmentCreationDTO;
 import com.dto.appointment.AppointmentUpdateDTO;
+import com.dto.appointment.PublicAppointmentDTO;
 import com.enums.AppointmentStatus;
 import com.model.Appointment;
 import com.model.BarberService;
 import com.model.Client;
 import com.model.Employee;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 import static com.factory.BarberServiceTestDataFactory.buildValidBarberService;
 import static com.factory.ClientTestDataFactory.buildValidClient;
@@ -99,6 +102,19 @@ public class AppointmentTestDataFactory {
                 .newEndDateTime(newEndDateTime)
                 .newStatus(newStatus)
                 .optionalNotes(optionalNotes)
+                .build();
+    }
+
+    public static PublicAppointmentDTO buildPublicAppointmentDTO() {
+
+        return PublicAppointmentDTO.builder()
+                .guestFirstName("Tomas")
+                .guestLastName("Elbert")
+                .guestPhone("1122334455")
+                .date(LocalDate.now().plusDays(1))
+                .startTime(LocalTime.of(12, 30))
+                .employeeID(1L)
+                .barberServiceID(1L)
                 .build();
     }
 }
