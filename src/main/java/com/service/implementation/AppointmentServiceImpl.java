@@ -1,5 +1,6 @@
 package com.service.implementation;
 
+import com.config.preferences.AppPreferences;
 import com.dto.appointment.AppointmentCreationDTO;
 import com.dto.appointment.AppointmentInfoDTO;
 import com.dto.appointment.AppointmentUpdateDTO;
@@ -33,6 +34,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.dto.stats.EmptyStatDTOFactory.*;
@@ -53,6 +56,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     private final ClientService clientService;
     private final BarberserviceService barberserviceService;
     private final EmployeeService employeeService;
+    private final AppPreferences appPreferences;
 
     @Override
     @Transactional
@@ -280,6 +284,47 @@ public class AppointmentServiceImpl implements AppointmentService {
     public Long getCount() {
 
         return appointmentRepository.count();
+    }
+
+    @Override
+    public List<LocalTime> getAvailableSlots(LocalDate date, Long employeeId) {
+
+        LocalTime openingTime = LocalTime.parse(appPreferences.getBarberShopOpeningTime());
+        LocalTime closingTime = LocalTime.parse(appPreferences.getBarberShopClosingTime());
+
+        LocalTime startTimeToSearch = openingTime;
+
+        if (date.equals(getCurrentDate())) {
+
+            LocalTime currentTime = getCurrentTime();
+
+            if (currentTime.getMinute() <= 29) {
+
+                startTimeToSearch = currentTime.withMinute(30);
+
+            } else {
+                startTimeToSearch = currentTime.plusHours(1).withMinute(0);
+            }
+        }
+
+        List<LocalTime> availableSlots = new ArrayList<>();
+        LocalTime currentSlot = startTimeToSearch;
+
+        while (currentSlot.isBefore(closingTime)) {
+
+            availableSlots.add(currentSlot);
+            currentSlot = currentSlot.plusMinutes(30);
+        }
+
+        List<Appointment> bookedAppointments = appointmentRepository.getAppointmentsByEmployeeAndDate(employeeId, getStartOfGivenDate(date), getEndOfGivenDate(date));
+
+        List<LocalTime> occupiedTimes = bookedAppointments.stream()
+                .map(appointment -> appointment.getStartDateTime().toLocalTime())
+                .toList();
+
+        availableSlots.removeAll(occupiedTimes);
+
+        return availableSlots;
     }
 
     @Override

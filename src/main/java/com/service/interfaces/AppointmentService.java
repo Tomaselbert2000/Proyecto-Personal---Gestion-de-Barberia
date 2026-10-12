@@ -10,6 +10,7 @@ import com.dto.stats.*;
 import com.enums.AppointmentStatus;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 public interface AppointmentService {
@@ -47,4 +48,6 @@ public interface AppointmentService {
     ExpectedIncomeStatDTO getExpectedIncomeToday();
 
     Long getCount();
+
+    List<LocalTime> getAvailableSlots(LocalDate date, Long employeeId);
 }

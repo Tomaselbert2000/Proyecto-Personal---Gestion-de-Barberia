@@ -164,4 +164,13 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
             @Param("startDate") LocalDateTime startDate,
             @Param("endDate") LocalDateTime endDate
     );
+
+    @Query("""
+            SELECT a FROM Appointment a WHERE a.employee.employeeID =:employeeId AND a.startDateTime BETWEEN :startTime AND :endTime
+            """)
+    List<Appointment> getAppointmentsByEmployeeAndDate(
+            @Param("employeeId") Long employeeId,
+            @Param("startTime") LocalDateTime startTime,
+            @Param("endTime") LocalDateTime endTime
+    );
 }
