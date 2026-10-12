@@ -59,6 +59,16 @@ public class TimeCalculation {
         return LocalDateTime.of(dateProvider.get(), LAST_SECOND_OF_DAY);
     }
 
+    public static LocalDateTime getStartOfGivenDate(LocalDate date) {
+
+        return date.atStartOfDay();
+    }
+
+    public static LocalDateTime getEndOfGivenDate(LocalDate date) {
+
+        return date.atTime(LAST_SECOND_OF_DAY);
+    }
+
     public static LocalDate getStartOfCurrentMonth() {
 
         return dateProvider.get().withDayOfMonth(1);
