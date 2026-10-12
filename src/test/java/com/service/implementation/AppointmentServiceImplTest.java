@@ -109,7 +109,7 @@ public class AppointmentServiceImplTest extends BaseServiceTest<Appointment, App
     @DisplayName("Dado cualquier valor NULL ingresado dentro del DTO de creación de turno, arrojará NullAppointmentInputDataException")
     void givenAnyNullValue_WhenCreating_ThenThrows_NullAppoiuntmentInputDataException() {
 
-        doThrow(NullAppointmentInputDataException.class).when(validator).validateForCreation(any());
+        doThrow(NullAppointmentInputDataException.class).when(validator).validateForCreation(any(AppointmentCreationDTO.class));
 
         assertThrows(NullAppointmentInputDataException.class, () -> registerAppointment(appointmentService, creationDTO));
 
