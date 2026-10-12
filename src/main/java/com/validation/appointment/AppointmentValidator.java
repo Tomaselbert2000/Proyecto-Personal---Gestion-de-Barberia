@@ -3,6 +3,7 @@ package com.validation.appointment;
 import com.config.preferences.AppPreferences;
 import com.dto.appointment.AppointmentCreationDTO;
 import com.dto.appointment.AppointmentUpdateDTO;
+import com.dto.appointment.PublicAppointmentDTO;
 import com.exceptions.appointment.DateTimeOutsideServiceHoursException;
 import com.exceptions.appointment.InvalidAppointmentEndDateException;
 import com.exceptions.appointment.InvalidAppointmentStartDateException;
@@ -36,6 +37,15 @@ public class AppointmentValidator extends BaseDTOValidator {
         super.validateDTO(creationDTO);
 
         validateDateTimeInterval(creationDTO.getStartDateTime(), creationDTO.getEndDateTime());
+    }
+
+    public void validateForCreation(PublicAppointmentDTO guestDTO) {
+
+        super.validateDTO(guestDTO);
+
+        LocalDateTime guestStartTime = LocalDateTime.of(guestDTO.getDate(), guestDTO.getStartTime());
+
+        validateDateTimeInterval(guestStartTime, guestStartTime.plusMinutes(30));
     }
 
     public void validateForUpdate(AppointmentUpdateDTO updateDTO) {
