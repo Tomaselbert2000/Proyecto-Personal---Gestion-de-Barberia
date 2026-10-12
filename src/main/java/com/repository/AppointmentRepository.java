@@ -85,10 +85,15 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
      */
     @Query("""
             SELECT a
-            FROM Appointment a WHERE
-                        (:clientName IS NULL OR CONCAT(a.client.firstName, ' ', a.client.lastName) LIKE CONCAT('%', :clientName, '%'))
-                        AND (:employeeName IS NULL OR CONCAT(a.employee.firstName, ' ', a.employee.lastName) LIKE CONCAT('%', :employeeName, '%'))
-                        AND (:status IS NULL OR :status = a.currentStatus) AND (:startDateTime IS NULL OR a.startDateTime BETWEEN :startDateTime AND :endDateTime)
+            FROM Appointment a
+            LEFT JOIN a.client c
+            LEFT JOIN a.employee e
+            WHERE (:clientName IS NULL
+                        OR CONCAT(c.firstName, ' ', c.lastName) LIKE CONCAT('%', :clientName, '%')
+                        OR CONCAT(a.guestFirstName, ' ', a.guestLastName) LIKE CONCAT('%', :clientName, '%'))
+                        AND (:employeeName IS NULL OR CONCAT(e.firstName, ' ', e.lastName) LIKE CONCAT('%', :employeeName, '%'))
+                        AND (:status IS NULL OR :status = a.currentStatus)
+                        AND (:startDateTime IS NULL OR a.startDateTime BETWEEN :startDateTime AND :endDateTime)
             """)
     List<Appointment> liveSearchWithFilters(
             @Param("clientName") String clientName,
