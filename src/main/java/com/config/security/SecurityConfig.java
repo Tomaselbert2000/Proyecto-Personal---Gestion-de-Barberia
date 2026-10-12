@@ -49,7 +49,7 @@ public class SecurityConfig {
                                 "/assets/**",
                                 "/fonts/**",
                                 "/images/**",
-                                "/appointment-booking/**"
+                                "/public-booking/**"
                         ).permitAll()
                         .anyRequest().authenticated()
         ).formLogin(
