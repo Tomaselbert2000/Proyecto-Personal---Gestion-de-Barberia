@@ -107,7 +107,7 @@ public class AppointmentServiceTestHelper {
 
     public static void verifyValidatorCreationInteraction(AppointmentValidator validator) {
 
-        verify(validator).validateForCreation(any());
+        verify(validator).validateForCreation(any(AppointmentCreationDTO.class));
     }
 
     public static void verifyValidatorUpdateInteraction(AppointmentValidator validator) {
