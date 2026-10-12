@@ -29,12 +29,14 @@ public class Appointment {
 
     @ManyToOne
     private Employee employee;
-
     private LocalDateTime registrationTimestamp;
     private LocalDateTime startDateTime;
     private LocalDateTime endDateTime;
     private LocalDateTime modifiedDate;
     private String optionalNotes;
+    private String guestFirstName;
+    private String guestLastName;
+    private String guestPhone;
 
     @Enumerated(EnumType.STRING)
     private AppointmentStatus currentStatus;
@@ -50,5 +52,13 @@ public class Appointment {
             throw new InvalidAppointmentUpdateException();
 
         this.currentStatus = newStatus;
+    }
+
+    @PrePersist
+    private void setDefaultValues() {
+
+        this.registrationTimestamp = LocalDateTime.now();
+        this.modifiedDate = LocalDateTime.now();
+        this.currentStatus = PROGRAMADO;
     }
 }
