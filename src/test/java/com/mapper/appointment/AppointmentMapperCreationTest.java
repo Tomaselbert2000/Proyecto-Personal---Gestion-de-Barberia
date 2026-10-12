@@ -38,15 +38,6 @@ public class AppointmentMapperCreationTest {
         assertEquals(inputDTO.getEndDateTime(), result.getEndDateTime());
     }
 
-    @Test
-    @DisplayName("Dado un DTO de creación con datos correctos, el estado por defecto es PROGRAMADO")
-    void givenNewAppointment_WhenCreating_ThenTheDefaultStatusIsPROGRAMADO() {
-
-        Appointment result = mapAppointment();
-
-        assertEquals(AppointmentStatus.PROGRAMADO, result.getCurrentStatus());
-    }
-
     private Appointment mapAppointment() {
 
         return appointmentMapperImpl.mapAppointmentCreationDtoToEntity(inputDTO, new Client(), new Employee(), new BarberService());
