@@ -16,6 +16,10 @@ public final class HtmlConstants {
         public static final String APPOINTMENTS = "appointments";
         public static final String APPOINTMENT_CREATION = "appointment-creation";
         public static final String APPOINTMENT_UPDATE = "appointment-update";
+        public static final String PUBLIC_BOOKING_STEP_ONE = "step-1";
+        public static final String PUBLIC_BOOKING_STEP_TWO = "step-2";
+        public static final String PUBLIC_BOOKING_STEP_THREE = "step-3";
+        public static final String PUBLIC_BOOKING_SUCCESS = "booking-success";
 
         public static final String BARBERSERVICES = "barberservices";
         public static final String BARBERSERVICE_CREATION = "barberservice-creation";
@@ -57,5 +61,6 @@ public final class HtmlConstants {
         public static final String REDIRECT_PRODUCTS = REDIRECT + PRODUCTS;
         public static final String REDIRECT_SALES = REDIRECT + SALES;
         public static final String REDIRECT_SETTINGS = REDIRECT + SETTINGS;
+        public static final String REDIRECT_BOOKING_SUCCESS = REDIRECT + PUBLIC_BOOKING_SUCCESS;
     }
 }
