@@ -3,6 +3,7 @@ package com.mapper.interfaces;
 import com.dto.appointment.AppointmentCreationDTO;
 import com.dto.appointment.AppointmentInfoDTO;
 import com.dto.appointment.AppointmentUpdateDTO;
+import com.dto.appointment.PublicAppointmentDTO;
 import com.model.Appointment;
 import com.model.BarberService;
 import com.model.Client;
@@ -31,4 +32,6 @@ public interface AppointmentMapper {
     List<AppointmentInfoDTO> mapEntityToInfoDto(List<Appointment> entityList);
 
     AppointmentUpdateDTO mapInfoDTOtoUpdateDTO(AppointmentInfoDTO dto);
+
+    Appointment mapPublicAppointmentDTOtoEntity(PublicAppointmentDTO dto, Employee employee, BarberService service);
 }

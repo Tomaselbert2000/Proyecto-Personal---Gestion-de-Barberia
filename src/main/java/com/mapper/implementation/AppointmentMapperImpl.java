@@ -3,7 +3,7 @@ package com.mapper.implementation;
 import com.dto.appointment.AppointmentCreationDTO;
 import com.dto.appointment.AppointmentInfoDTO;
 import com.dto.appointment.AppointmentUpdateDTO;
-import com.enums.AppointmentStatus;
+import com.dto.appointment.PublicAppointmentDTO;
 import com.mapper.helper.MapperHelper;
 import com.mapper.interfaces.AppointmentMapper;
 import com.model.Appointment;
@@ -30,18 +30,13 @@ public class AppointmentMapperImpl implements AppointmentMapper {
 
         checkIfMapperInputIsNull(dto, client, service, employee);
 
-        AppointmentStatus defaultStatus = AppointmentStatus.PROGRAMADO;
-
         return Appointment.builder()
                 .client(client)
                 .barberservice(service)
                 .employee(employee)
-                .registrationTimestamp(LocalDateTime.now())
                 .startDateTime(MapperHelper.truncateToMinute(dto.getStartDateTime()))
                 .endDateTime(MapperHelper.truncateToMinute(dto.getEndDateTime()))
                 .optionalNotes(dto.getOptionalNotes())
-                .modifiedDate(LocalDateTime.now())
-                .currentStatus(defaultStatus)
                 .build();
     }
 
@@ -101,6 +96,24 @@ public class AppointmentMapperImpl implements AppointmentMapper {
                 .newEndDateTime(dto.getEndDateTime())
                 .newStatus(dto.getCurrentStatus())
                 .optionalNotes(dto.getOptionalNotes())
+                .build();
+    }
+
+    @Override
+    public Appointment mapPublicAppointmentDTOtoEntity(
+            PublicAppointmentDTO dto,
+            Employee employee,
+            BarberService service
+    ) {
+
+        checkIfMapperInputIsNull(dto, employee, service);
+
+        return Appointment.builder()
+                .barberservice(service)
+                .employee(employee)
+                .startDateTime(MapperHelper.truncateToMinute(LocalDateTime.from(dto.getStartTime())))
+                .endDateTime(MapperHelper.truncateToMinute(LocalDateTime.from(dto.getStartTime().plusMinutes(30))))
+                .optionalNotes("")
                 .build();
     }
 
