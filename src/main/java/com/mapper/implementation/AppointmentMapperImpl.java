@@ -108,12 +108,17 @@ public class AppointmentMapperImpl implements AppointmentMapper {
 
         checkIfMapperInputIsNull(dto, employee, service);
 
+        LocalDateTime dateTime = LocalDateTime.of(dto.getDate(), dto.getStartTime());
+
         return Appointment.builder()
                 .barberservice(service)
                 .employee(employee)
-                .startDateTime(MapperHelper.truncateToMinute(LocalDateTime.from(dto.getStartTime())))
-                .endDateTime(MapperHelper.truncateToMinute(LocalDateTime.from(dto.getStartTime().plusMinutes(30))))
+                .startDateTime(MapperHelper.truncateToMinute(dateTime))
+                .endDateTime(MapperHelper.truncateToMinute(dateTime.plusMinutes(30)))
                 .optionalNotes("")
+                .guestFirstName(dto.getGuestFirstName())
+                .guestLastName(dto.getGuestLastName())
+                .guestPhone(dto.getGuestPhone())
                 .build();
     }
 
