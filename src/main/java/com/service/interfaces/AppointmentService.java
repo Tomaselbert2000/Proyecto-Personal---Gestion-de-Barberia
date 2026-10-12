@@ -3,6 +3,7 @@ package com.service.interfaces;
 import com.dto.appointment.AppointmentCreationDTO;
 import com.dto.appointment.AppointmentInfoDTO;
 import com.dto.appointment.AppointmentUpdateDTO;
+import com.dto.appointment.PublicAppointmentDTO;
 import com.dto.barberservice.BarberServiceInfoDTO;
 import com.dto.client.ClientInfoDTO;
 import com.dto.employee.EmployeeInfoDTO;
@@ -16,6 +17,8 @@ import java.util.List;
 public interface AppointmentService {
 
     void registerNewAppointment(AppointmentCreationDTO dto);
+
+    void registerNewAppointment(PublicAppointmentDTO dto);
 
     void deleteAppointment(Long id);
 

@@ -4,6 +4,7 @@ import com.config.preferences.AppPreferences;
 import com.dto.appointment.AppointmentCreationDTO;
 import com.dto.appointment.AppointmentInfoDTO;
 import com.dto.appointment.AppointmentUpdateDTO;
+import com.dto.appointment.PublicAppointmentDTO;
 import com.dto.barberservice.BarberServiceInfoDTO;
 import com.dto.client.ClientInfoDTO;
 import com.dto.employee.EmployeeInfoDTO;
@@ -73,6 +74,26 @@ public class AppointmentServiceImpl implements AppointmentService {
         checkEmployeeAvailabilityForCreation(employee, dto.getStartDateTime(), dto.getEndDateTime());
 
         Appointment newAppointment = appointmentMapper.mapAppointmentCreationDtoToEntity(dto, client, employee, service);
+
+        appointmentRepository.save(newAppointment);
+    }
+
+    @Override
+    @Transactional
+    public void registerNewAppointment(PublicAppointmentDTO dto) {
+
+        validator.validateForCreation(dto);
+
+        BarberService service = loadBarberService(dto.getBarberServiceID());
+        Employee employee = loadEmployee(dto.getEmployeeID());
+
+        validateEmployeeIsActive(employee);
+
+        LocalDateTime dateTime = LocalDateTime.of(dto.getDate(), dto.getStartTime());
+
+        checkEmployeeAvailabilityForCreation(employee, dateTime, dateTime.plusMinutes(30));
+
+        Appointment newAppointment = appointmentMapper.mapPublicAppointmentDTOtoEntity(dto, employee, service);
 
         appointmentRepository.save(newAppointment);
     }
