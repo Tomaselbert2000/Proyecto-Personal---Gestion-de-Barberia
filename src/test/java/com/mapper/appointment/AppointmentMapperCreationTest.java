@@ -1,7 +1,6 @@
 package com.mapper.appointment;
 
 import com.dto.appointment.AppointmentCreationDTO;
-import com.enums.AppointmentStatus;
 import com.mapper.implementation.AppointmentMapperImpl;
 import com.mapper.interfaces.AppointmentMapper;
 import com.model.Appointment;

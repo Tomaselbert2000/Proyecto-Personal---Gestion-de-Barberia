@@ -71,6 +71,7 @@ public class StageInitializer implements ApplicationListener<StageReadyEvent> {
      *
      * @param event evento que indica que el Stage ha finalizado su carga
      */
+    @SuppressWarnings("incomplete-switch")
     @Override
     public void onApplicationEvent(StageReadyEvent event) {
 

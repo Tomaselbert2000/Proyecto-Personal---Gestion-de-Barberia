@@ -115,8 +115,7 @@ public class AppointmentIntegrationTest {
                 savedBarberService1.getBarbershopServiceID(),
                 startDateTime,
                 endDateTime,
-                "Importante"
-        );
+                "Importante");
 
         creationDTO2 = buildAppointmentCreationDTO(
                 savedClient2.getClientID(),
@@ -124,8 +123,7 @@ public class AppointmentIntegrationTest {
                 savedBarberService2.getBarbershopServiceID(),
                 startDateTime2,
                 endDateTime2,
-                "Nota turno 2"
-        );
+                "Nota turno 2");
 
         overlapedAppointment = buildAppointmentCreationDTO(
                 savedClient1.getClientID(),
@@ -133,8 +131,7 @@ public class AppointmentIntegrationTest {
                 savedBarberService1.getBarbershopServiceID(),
                 startDateTime,
                 endDateTime,
-                "Segundo turno solapado"
-        );
+                "Segundo turno solapado");
     }
 
     @Test
@@ -252,12 +249,14 @@ public class AppointmentIntegrationTest {
         assertEquals(2L, filteredByStatus.size(), "Debería filtrarse por estado PROGRAMADO");
 
         // Test 3: Búsqueda con filtro por nombre de empleado
-        List<AppointmentInfoDTO> filteredByEmployee = service.liveSearch(null, null, null, savedEmployee1.getFirstName());
+        List<AppointmentInfoDTO> filteredByEmployee = service.liveSearch(null, null, null,
+                savedEmployee1.getFirstName());
         assertEquals(1L, filteredByEmployee.size(), "Debería filtrarse por nombre de empleado");
         assertEquals(savedEmployee1.getFirstName(), filteredByEmployee.getFirst().getEmployeeFirstName());
 
         // Test 4: Búsqueda con múltiples filtros (cliente + estado)
-        List<AppointmentInfoDTO> filteredByClientAndStatus = service.liveSearch(savedClient1.getFirstName(), null, AppointmentStatus.PROGRAMADO, null);
+        List<AppointmentInfoDTO> filteredByClientAndStatus = service.liveSearch(savedClient1.getFirstName(), null,
+                AppointmentStatus.PROGRAMADO, null);
         assertEquals(1L, filteredByClientAndStatus.size(), "Debería filtrarse por cliente y estado");
 
         // Test 5: Búsqueda con rango de tiempo (fecha de creación de los turnos)
@@ -276,15 +275,19 @@ public class AppointmentIntegrationTest {
 
         service.registerNewAppointment(creationDTO);
 
-        AppointmentInfoDTO appointmentInfoDTO = service.getAppointmentInfo(getFirstAppointmentOnList().getAppointmentID());
+        AppointmentInfoDTO appointmentInfoDTO = service
+                .getAppointmentInfo(getFirstAppointmentOnList().getAppointmentID());
 
-        assertEquals(AppointmentStatus.PROGRAMADO, appointmentInfoDTO.getCurrentStatus(), "El turno debe estar en estado PROGRAMADO tras la creación");
+        assertEquals(AppointmentStatus.PROGRAMADO, appointmentInfoDTO.getCurrentStatus(),
+                "El turno debe estar en estado PROGRAMADO tras la creación");
 
         service.markAppointmentAsComplete(appointmentInfoDTO);
 
-        AppointmentInfoDTO updatedAppointmentInfoDTO = service.getAppointmentInfo(getFirstAppointmentOnList().getAppointmentID());
+        AppointmentInfoDTO updatedAppointmentInfoDTO = service
+                .getAppointmentInfo(getFirstAppointmentOnList().getAppointmentID());
 
-        assertEquals(AppointmentStatus.FINALIZADO, updatedAppointmentInfoDTO.getCurrentStatus(), "El turno debe estar en estado FINALIZADO después de marcarlo como completado");
+        assertEquals(AppointmentStatus.FINALIZADO, updatedAppointmentInfoDTO.getCurrentStatus(),
+                "El turno debe estar en estado FINALIZADO después de marcarlo como completado");
     }
 
     @Test
@@ -293,15 +296,19 @@ public class AppointmentIntegrationTest {
 
         service.registerNewAppointment(creationDTO);
 
-        AppointmentInfoDTO appointmentInfoDTO = service.getAppointmentInfo(getFirstAppointmentOnList().getAppointmentID());
+        AppointmentInfoDTO appointmentInfoDTO = service
+                .getAppointmentInfo(getFirstAppointmentOnList().getAppointmentID());
 
-        assertEquals(AppointmentStatus.PROGRAMADO, appointmentInfoDTO.getCurrentStatus(), "El turno debe estar en estado PROGRAMADO tras la creación");
+        assertEquals(AppointmentStatus.PROGRAMADO, appointmentInfoDTO.getCurrentStatus(),
+                "El turno debe estar en estado PROGRAMADO tras la creación");
 
         service.markAppointmentAsCanceled(appointmentInfoDTO);
 
-        AppointmentInfoDTO updatedAppointmentInfoDTO = service.getAppointmentInfo(getFirstAppointmentOnList().getAppointmentID());
+        AppointmentInfoDTO updatedAppointmentInfoDTO = service
+                .getAppointmentInfo(getFirstAppointmentOnList().getAppointmentID());
 
-        assertEquals(AppointmentStatus.CANCELADO, updatedAppointmentInfoDTO.getCurrentStatus(), "El turno debe estar en estado CANCELADO después de marcarlo como cancelado");
+        assertEquals(AppointmentStatus.CANCELADO, updatedAppointmentInfoDTO.getCurrentStatus(),
+                "El turno debe estar en estado CANCELADO después de marcarlo como cancelado");
     }
 
     @Test
@@ -310,9 +317,11 @@ public class AppointmentIntegrationTest {
 
         service.registerNewAppointment(creationDTO);
 
-        AppointmentInfoDTO appointmentInfoDTO = service.getAppointmentInfo(getFirstAppointmentOnList().getAppointmentID());
+        AppointmentInfoDTO appointmentInfoDTO = service
+                .getAppointmentInfo(getFirstAppointmentOnList().getAppointmentID());
 
-        assertEquals(AppointmentStatus.PROGRAMADO, appointmentInfoDTO.getCurrentStatus(), "El turno debe estar en estado PROGRAMADO tras la creación");
+        assertEquals(AppointmentStatus.PROGRAMADO, appointmentInfoDTO.getCurrentStatus(),
+                "El turno debe estar en estado PROGRAMADO tras la creación");
 
         AppointmentUpdateDTO updateDTO = buildAppointmentUpdateDTO(
                 startDateTime.plusMinutes(30),
@@ -320,14 +329,15 @@ public class AppointmentIntegrationTest {
                 null,
                 null,
                 null,
-                null
-        );
+                null);
 
         service.updateAppointment(getFirstAppointmentOnList().getAppointmentID(), updateDTO);
 
-        AppointmentInfoDTO updatedAppointmentInfoDTO = service.getAppointmentInfo(getFirstAppointmentOnList().getAppointmentID());
+        AppointmentInfoDTO updatedAppointmentInfoDTO = service
+                .getAppointmentInfo(getFirstAppointmentOnList().getAppointmentID());
 
-        assertEquals(AppointmentStatus.REPROGRAMADO, updatedAppointmentInfoDTO.getCurrentStatus(), "El turno debe estar en estado REPROGRAMADO después de modificar su fecha de inicio");
+        assertEquals(AppointmentStatus.REPROGRAMADO, updatedAppointmentInfoDTO.getCurrentStatus(),
+                "El turno debe estar en estado REPROGRAMADO después de modificar su fecha de inicio");
     }
 
     @Test
@@ -338,7 +348,8 @@ public class AppointmentIntegrationTest {
 
         AppointmentInfoDTO initialInfoDTO = service.getAppointmentInfo(getFirstAppointmentOnList().getAppointmentID());
 
-        assertEquals(AppointmentStatus.PROGRAMADO, initialInfoDTO.getCurrentStatus(), "El turno debe estar en estado PROGRAMADO inicialmente");
+        assertEquals(AppointmentStatus.PROGRAMADO, initialInfoDTO.getCurrentStatus(),
+                "El turno debe estar en estado PROGRAMADO inicialmente");
 
         AppointmentUpdateDTO reprogramDTO = buildAppointmentUpdateDTO(
                 startDateTime.plusMinutes(30),
@@ -346,13 +357,14 @@ public class AppointmentIntegrationTest {
                 null,
                 null,
                 null,
-                null
-        );
+                null);
 
         service.updateAppointment(getFirstAppointmentOnList().getAppointmentID(), reprogramDTO);
 
-        AppointmentInfoDTO reprogrammedInfoDTO = service.getAppointmentInfo(getFirstAppointmentOnList().getAppointmentID());
-        assertEquals(AppointmentStatus.REPROGRAMADO, reprogrammedInfoDTO.getCurrentStatus(), "El turno debe estar en estado REPROGRAMADO después de modificar su horario");
+        AppointmentInfoDTO reprogrammedInfoDTO = service
+                .getAppointmentInfo(getFirstAppointmentOnList().getAppointmentID());
+        assertEquals(AppointmentStatus.REPROGRAMADO, reprogrammedInfoDTO.getCurrentStatus(),
+                "El turno debe estar en estado REPROGRAMADO después de modificar su horario");
 
         AppointmentUpdateDTO updateToProgramadoDTO = buildAppointmentUpdateDTO(
                 startDateTime,
@@ -360,13 +372,11 @@ public class AppointmentIntegrationTest {
                 AppointmentStatus.PROGRAMADO,
                 null,
                 null,
-                null
-        );
+                null);
 
         assertThrows(InvalidAppointmentUpdateException.class,
                 () -> service.updateAppointment(getFirstAppointmentOnList().getAppointmentID(), updateToProgramadoDTO),
-                "El sistema no debería permitir cambiar un turno de estado REPROGRAMADO a PROGRAMADO"
-        );
+                "El sistema no debería permitir cambiar un turno de estado REPROGRAMADO a PROGRAMADO");
     }
 
     @Test
@@ -382,8 +392,7 @@ public class AppointmentIntegrationTest {
                 AppointmentStatus.REPROGRAMADO,
                 "Nota actualizada - Cambio de horario",
                 savedEmployee2.getEmployeeID(),
-                savedBarberService2.getBarbershopServiceID()
-        );
+                savedBarberService2.getBarbershopServiceID());
 
         service.updateAppointment(appointmentID, updateDTO);
 
@@ -391,13 +400,18 @@ public class AppointmentIntegrationTest {
 
         assertAll(
                 () -> assertEquals(appointmentID, updatedInfoDTO.getId(), MESSAGE_ID_MATCH),
-                () -> assertEquals(savedEmployee2.getEmployeeID(), updatedInfoDTO.getEmployeeID(), MESSAGE_EMPLOYEE_ID_MATCH),
-                () -> assertEquals(savedBarberService2.getBarbershopServiceID(), updatedInfoDTO.getBarberServiceID(), MESSAGE_SERVICE_ID_MATCH),
-                () -> assertEquals(startDateTime.plusHours(1), updatedInfoDTO.getStartDateTime(), MESSAGE_START_DATETIME_MATCH),
-                () -> assertEquals(endDateTime.plusHours(1), updatedInfoDTO.getEndDateTime(), MESSAGE_END_DATETIME_MATCH),
-                () -> assertEquals(AppointmentStatus.REPROGRAMADO, updatedInfoDTO.getCurrentStatus(), MESSAGE_CURRENT_STATUS_MATCH),
-                () -> assertEquals("Nota actualizada - Cambio de horario", updatedInfoDTO.getOptionalNotes(), MESSAGE_OPTIONAL_NOTES_MATCH)
-        );
+                () -> assertEquals(savedEmployee2.getEmployeeID(), updatedInfoDTO.getEmployeeID(),
+                        MESSAGE_EMPLOYEE_ID_MATCH),
+                () -> assertEquals(savedBarberService2.getBarbershopServiceID(), updatedInfoDTO.getBarberServiceID(),
+                        MESSAGE_SERVICE_ID_MATCH),
+                () -> assertEquals(startDateTime.plusHours(1), updatedInfoDTO.getStartDateTime(),
+                        MESSAGE_START_DATETIME_MATCH),
+                () -> assertEquals(endDateTime.plusHours(1), updatedInfoDTO.getEndDateTime(),
+                        MESSAGE_END_DATETIME_MATCH),
+                () -> assertEquals(AppointmentStatus.REPROGRAMADO, updatedInfoDTO.getCurrentStatus(),
+                        MESSAGE_CURRENT_STATUS_MATCH),
+                () -> assertEquals("Nota actualizada - Cambio de horario", updatedInfoDTO.getOptionalNotes(),
+                        MESSAGE_OPTIONAL_NOTES_MATCH));
 
         Appointment updatedEntity = appointmentRepository.findById(appointmentID).orElseThrow();
         assertNotNull(updatedEntity.getModifiedDate(), "La fecha de modificación no debe ser null");
@@ -415,8 +429,7 @@ public class AppointmentIntegrationTest {
                 savedBarberService1.getBarbershopServiceID(),
                 startDateTime.plusHours(2),
                 endDateTime.plusHours(2),
-                "Segundo turno mismo empleado"
-        );
+                "Segundo turno mismo empleado");
 
         service.registerNewAppointment(sameEmployeeSecondAppointment);
 
@@ -430,13 +443,11 @@ public class AppointmentIntegrationTest {
                 null,
                 null,
                 firstAppointmentInfoDTO.getEmployeeID(),
-                firstAppointmentInfoDTO.getBarberServiceID()
-        );
+                firstAppointmentInfoDTO.getBarberServiceID());
 
         assertThrows(EmployeeNotAvailableException.class,
                 () -> service.updateAppointment(firstAppointmentID, overlappingUpdateDTO),
-                "El sistema no debería permitir actualizar el turno a un horario que solape con otro turno del mismo empleado"
-        );
+                "El sistema no debería permitir actualizar el turno a un horario que solape con otro turno del mismo empleado");
     }
 
     @Test
@@ -453,13 +464,11 @@ public class AppointmentIntegrationTest {
                 null,
                 null,
                 savedEmployee1.getEmployeeID(),
-                -1L
-        );
+                -1L);
 
         assertThrows(BarberServiceNotFoundException.class,
                 () -> service.updateAppointment(appointmentID, updateDTO),
-                "El sistema no debería permitir actualizar el turno con un servicio de barbería inexistente"
-        );
+                "El sistema no debería permitir actualizar el turno con un servicio de barbería inexistente");
     }
 
     private void setAllEntityIDsAsNull(Client mockClient, Employee mockEmployee, BarberService mockBarberService) {
@@ -474,24 +483,33 @@ public class AppointmentIntegrationTest {
             Appointment appointment,
             Client savedClient,
             Employee savedEmployee,
-            BarberService savedBarberService
-    ) {
+            BarberService savedBarberService) {
 
         assertAll(
                 () -> assertEquals(appointment.getAppointmentID(), infoDTO.getId(), MESSAGE_ID_MATCH),
                 () -> assertEquals(savedEmployee.getEmployeeID(), infoDTO.getEmployeeID(), MESSAGE_EMPLOYEE_ID_MATCH),
-                () -> assertEquals(savedBarberService.getBarbershopServiceID(), infoDTO.getBarberServiceID(), MESSAGE_SERVICE_ID_MATCH),
-                () -> assertEquals(savedClient.getFirstName(), infoDTO.getClientFirstName(), MESSAGE_CLIENT_FIRST_NAME_MATCH),
-                () -> assertEquals(savedClient.getLastName(), infoDTO.getClientLastName(), MESSAGE_CLIENT_LAST_NAME_MATCH),
+                () -> assertEquals(savedBarberService.getBarbershopServiceID(), infoDTO.getBarberServiceID(),
+                        MESSAGE_SERVICE_ID_MATCH),
+                () -> assertEquals(savedClient.getFirstName(), infoDTO.getClientFirstName(),
+                        MESSAGE_CLIENT_FIRST_NAME_MATCH),
+                () -> assertEquals(savedClient.getLastName(), infoDTO.getClientLastName(),
+                        MESSAGE_CLIENT_LAST_NAME_MATCH),
                 () -> assertEquals(savedBarberService.getName(), infoDTO.getServiceName(), MESSAGE_SERVICE_NAME_MATCH),
-                () -> assertEquals(savedBarberService.getPrice(), infoDTO.getServicePrice(), MESSAGE_SERVICE_PRICE_MATCH),
-                () -> assertEquals(savedEmployee.getFirstName(), infoDTO.getEmployeeFirstName(), MESSAGE_EMPLOYEE_FIRST_NAME_MATCH),
-                () -> assertEquals(savedEmployee.getLastName(), infoDTO.getEmployeeLastName(), MESSAGE_EMPLOYEE_LAST_NAME_MATCH),
-                () -> assertEquals(appointment.getRegistrationTimestamp(), infoDTO.getRegistrationTimestamp(), MESSAGE_REGISTRATION_TIMESTAMP_MATCH),
-                () -> assertEquals(appointment.getStartDateTime(), infoDTO.getStartDateTime(), MESSAGE_START_DATETIME_MATCH),
+                () -> assertEquals(savedBarberService.getPrice(), infoDTO.getServicePrice(),
+                        MESSAGE_SERVICE_PRICE_MATCH),
+                () -> assertEquals(savedEmployee.getFirstName(), infoDTO.getEmployeeFirstName(),
+                        MESSAGE_EMPLOYEE_FIRST_NAME_MATCH),
+                () -> assertEquals(savedEmployee.getLastName(), infoDTO.getEmployeeLastName(),
+                        MESSAGE_EMPLOYEE_LAST_NAME_MATCH),
+                () -> assertEquals(appointment.getRegistrationTimestamp(), infoDTO.getRegistrationTimestamp(),
+                        MESSAGE_REGISTRATION_TIMESTAMP_MATCH),
+                () -> assertEquals(appointment.getStartDateTime(), infoDTO.getStartDateTime(),
+                        MESSAGE_START_DATETIME_MATCH),
                 () -> assertEquals(appointment.getEndDateTime(), infoDTO.getEndDateTime(), MESSAGE_END_DATETIME_MATCH),
-                () -> assertEquals(appointment.getCurrentStatus(), infoDTO.getCurrentStatus(), MESSAGE_CURRENT_STATUS_MATCH),
-                () -> assertEquals(appointment.getOptionalNotes(), infoDTO.getOptionalNotes(), MESSAGE_OPTIONAL_NOTES_MATCH));
+                () -> assertEquals(appointment.getCurrentStatus(), infoDTO.getCurrentStatus(),
+                        MESSAGE_CURRENT_STATUS_MATCH),
+                () -> assertEquals(appointment.getOptionalNotes(), infoDTO.getOptionalNotes(),
+                        MESSAGE_OPTIONAL_NOTES_MATCH));
     }
 
     private @NonNull Appointment getFirstAppointmentOnList() {
