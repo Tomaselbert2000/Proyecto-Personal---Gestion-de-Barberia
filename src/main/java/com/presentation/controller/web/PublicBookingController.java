@@ -1,6 +1,7 @@
 package com.presentation.controller.web;
 
 import com.dto.appointment.PublicAppointmentDTO;
+import com.exceptions.BusinessException;
 import com.service.interfaces.AppointmentService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -111,7 +112,17 @@ public class PublicBookingController {
             return PUBLIC_BOOKING_STEP_THREE;
         }
 
-        appointmentService.registerNewAppointment(dto);
+        try {
+
+            appointmentService.registerNewAppointment(dto);
+
+        } catch (BusinessException exception) {
+
+            model.addAttribute("errors", List.of(exception.getMessage()));
+            loadSelection(model, dto.getBarberServiceID(), dto.getEmployeeID());
+
+            return PUBLIC_BOOKING_STEP_THREE;
+        }
 
         return REDIRECT_BOOKING_SUCCESS;
     }
