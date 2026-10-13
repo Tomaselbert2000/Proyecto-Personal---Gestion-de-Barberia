@@ -453,7 +453,8 @@
         <div class="main-inner">
             <div class="page-header">
                 <h1 class="md-typescale-headline-small" style="margin:0">Gestión de Clientes</h1>
-                <p class="md-typescale-body-medium" style="margin:0;color:var(--md-sys-color-on-surface-variant)">Administra el padrón de clientes de tu
+                <p class="md-typescale-body-medium" style="margin:0;color:var(--md-sys-color-on-surface-variant)">
+                    Administra el padrón de clientes de tu
                     barbería</p>
             </div>
 
@@ -535,7 +536,7 @@
                                                   th:selected="${param.registrationDateRange == null or param.registrationDateRange[0] == ''}">
                                     <div slot="headline">Todos los rangos</div>
                                 </md-select-option>
-                                <md-select-option th:each="range : ${registrationTrendFilter}"
+                                <md-select-option th:each="range : ${registrationTrendFilterValues}"
                                                   th:if="${range.name() != 'TODOS'}"
                                                   th:value="${range}"
                                                   th:selected="${param.registrationDateRange != null and param.registrationDateRange[0] == range.name()}">
@@ -547,7 +548,7 @@
                                                   th:selected="${param.phoneFilter == null or param.phoneFilter[0] == ''}">
                                     <div slot="headline">Todos</div>
                                 </md-select-option>
-                                <md-select-option th:each="filter : ${phoneFilter}"
+                                <md-select-option th:each="filter : ${phoneFilterValues}"
                                                   th:if="${filter.name() != 'TODOS'}"
                                                   th:value="${filter}"
                                                   th:selected="${param.phoneFilter != null and param.phoneFilter[0] == filter.name()}">
@@ -559,7 +560,7 @@
                                                   th:selected="${param.notesFilter == null or param.notesFilter[0] == ''}">
                                     <div slot="headline">Todos los registros</div>
                                 </md-select-option>
-                                <md-select-option th:each="filter : ${notesFilter}"
+                                <md-select-option th:each="filter : ${notesFilterValues}"
                                                   th:if="${filter.name() != 'TODOS'}"
                                                   th:value="${filter}"
                                                   th:selected="${param.notesFilter != null and param.notesFilter[0] == filter.name()}">
@@ -613,7 +614,8 @@
                                 </div>
                                 <div class="client-meta md-typescale-body-small">
                                     <md-icon aria-hidden="true">mail</md-icon>
-                                    <span th:if="${!#strings.isEmpty(client.email)}" th:text="${client.email}">email</span>
+                                    <span th:if="${!#strings.isEmpty(client.email)}"
+                                          th:text="${client.email}">email</span>
                                     <span th:unless="${!#strings.isEmpty(client.email)}">Sin email</span>
                                 </div>
                                 <div class="client-meta md-typescale-body-small">
@@ -638,6 +640,13 @@
                         </div>
 
                         <div class="client-actions" th:id="'client-actions-' + ${client.id}">
+                            <md-filled-tonal-button type="button"
+                                                    th:if="${!#lists.isEmpty(client.phoneNumbersList)}"
+                                                    th:data-phone="${client.phoneNumbersList[0]}"
+                                                    onclick="openWhatsApp(this)">
+                                <md-icon slot="icon">chat</md-icon>
+                                WhatsApp
+                            </md-filled-tonal-button>
                             <md-text-button th:href="@{/clients/{id}/update(id=${client.id})}">
                                 <md-icon slot="icon">edit</md-icon>
                                 Editar
@@ -697,6 +706,12 @@
         if (icon) {
             icon.textContent = open ? 'expand_less' : 'expand_more';
         }
+    }
+
+    function openWhatsApp(button) {
+        const digits = (button.dataset.phone || '').replace(/\D/g, '');
+        if (!digits) return;
+        window.open('https://wa.me/' + digits, '_blank', 'noopener');
     }
 
     function clearFilters() {

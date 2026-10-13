@@ -24,6 +24,8 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Objects;
+
 import static com.factory.AppUserTestDataFactory.buildValidAppUserCreationDTO;
 import static com.factory.AppUserTestDataFactory.buildValidAppUserUpdateDTO;
 import static com.test_constant.AppUserTestConstants.CreationValidData.APP_USER_1_DEFAULT_ADMIN_RIGHTS_BOOLEAN;
@@ -554,6 +556,6 @@ public class AppUserIntegrationTest {
     private boolean hasAuthority(UserDetails loadedUser, String expectedAuthority) {
 
         return loadedUser.getAuthorities().stream()
-                .anyMatch(authority -> authority.getAuthority().equals(expectedAuthority));
+                .anyMatch(authority -> Objects.equals(authority.getAuthority(), expectedAuthority));
     }
 }

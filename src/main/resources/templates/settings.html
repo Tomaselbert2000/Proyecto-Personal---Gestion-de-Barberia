@@ -604,7 +604,9 @@
                     </div>
                 </section>
 
-                <!-- Configuración de Seguridad -->
+                <!-- Configuración de Seguridad ocultada temporalmente: el cambio de credenciales no
+                     persiste aún (requiere endpoint dedicado). Ver hallazgo SET-01 de la auditoría. -->
+                <!--/*
                 <section class="settings-section" aria-label="Seguridad">
                     <div class="section-title">
                         <md-icon aria-hidden="true">security</md-icon>
@@ -650,6 +652,7 @@
                         </div>
                     </div>
                 </section>
+                */-->
 
                 <!-- Información de la Aplicación -->
                 <section class="settings-section" aria-label="Acerca de la aplicación">
@@ -815,6 +818,8 @@
         el.addEventListener('input', autosave);
     });
 
+    // --- Sección de credenciales ocultada temporalmente (ver SET-01). Descomentar junto con el HTML. ---
+    /*
     // Generador de contraseñas (equivalente a PasswordGenerator)
     const UPPERCASE = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     const LOWERCASE = 'abcdefghijklmnopqrstuvwxyz';
@@ -879,6 +884,7 @@
         document.getElementById('adminConfirmPasswordField').value = '';
         showSnack('Credenciales actualizadas exitosamente');
     });
+    */
 
     // Feedback posterior a guardar / errores de validación del servidor
     customElements.whenDefined('md-snackbar').then(() => {

@@ -512,10 +512,10 @@
 
     editionForm.addEventListener('submit', () => {
         const raw = commissionVisible.value.trim();
-        let converted = '-1.0';
+        let converted = '';
         if (raw) {
             const value = parseFloat(raw);
-            converted = isNaN(value) ? '-1.0' : (value / 100).toFixed(4);
+            converted = isNaN(value) ? '' : (value / 100).toFixed(4);
         }
         commissionHidden.value = converted;
     });

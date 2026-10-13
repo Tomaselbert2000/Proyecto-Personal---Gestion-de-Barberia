@@ -339,15 +339,6 @@
                 <form th:action="@{/products/{productID}/update(productID=${product.id})}" method="post">
                     <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
                     <div class="surface outlined">
-                        <div class="product-thumb" th:if="${!#strings.isEmpty(product.imageFilePath)}">
-                            <img th:src="${product.imageFilePath}" alt="Imagen del producto">
-                            <div class="product-thumb-copy">
-                                <span class="md-typescale-label-medium">Imagen actual</span>
-                                <span class="md-typescale-body-small"
-                                      style="color:var(--md-sys-color-on-surface-variant)">La imagen se mantiene si no se modifica</span>
-                            </div>
-                        </div>
-
                         <div class="form-grid">
                             <md-outlined-text-field class="span-full" label="Nombre de producto" name="name"
                                                     id="productName"
@@ -432,7 +423,8 @@
                             <md-outlined-text-field label="Stock actual" name="currentStockLevel"
                                                     id="productCurrentStock"
                                                     type="text" inputmode="numeric" th:value="${dto.currentStockLevel}"
-                                                    placeholder="0 unidades">
+                                                    readonly placeholder="0 unidades"
+                                                    supporting-text='Para modificarlo usá "Modificar Stock"'>
                                 <md-icon slot="leading-icon">inventory_2</md-icon>
                             </md-outlined-text-field>
 

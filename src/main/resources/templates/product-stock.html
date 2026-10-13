@@ -371,8 +371,6 @@
                 <div class="stock-product-head">
                     <div class="product-thumb" aria-hidden="true">
                         <md-icon>inventory_2</md-icon>
-                        <img th:if="${!#strings.isEmpty(product.imageFilePath)}" th:src="${product.imageFilePath}"
-                             alt="" onerror="this.remove()">
                     </div>
                     <div class="stock-product-copy">
                         <span class="md-typescale-title-medium name" th:text="${product.name}">Producto</span>
