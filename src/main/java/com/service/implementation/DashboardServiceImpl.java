@@ -93,7 +93,7 @@ public class DashboardServiceImpl implements DashboardService {
 
         if (appointmentToMap == null) return null;
 
-        String textToAttach = String.join(" ", NEW_APPOINTMENT_REGISTERED_STRING, appointmentToMap.getClient().getFirstName(), appointmentToMap.getEmployee().getFirstName());
+        String textToAttach = String.join(" ", NEW_APPOINTMENT_REGISTERED_STRING, resolveClientFirstName(appointmentToMap), appointmentToMap.getEmployee().getFirstName());
         EventType eventType = EventType.NUEVO_TURNO;
         LocalDateTime timestamp = appointmentToMap.getModifiedDate();
 
@@ -115,7 +115,7 @@ public class DashboardServiceImpl implements DashboardService {
 
         if (completedAppointment == null) return null;
 
-        String textToAttach = String.join(" ", COMPLETED_APPOINTMENT_STRING, completedAppointment.getClient().getFirstName(), completedAppointment.getEmployee().getFirstName());
+        String textToAttach = String.join(" ", COMPLETED_APPOINTMENT_STRING, resolveClientFirstName(completedAppointment), completedAppointment.getEmployee().getFirstName());
         EventType eventType = EventType.TURNO_FINALIZADO;
         LocalDateTime timestamp = completedAppointment.getModifiedDate();
 
@@ -126,7 +126,7 @@ public class DashboardServiceImpl implements DashboardService {
 
         if (canceledAppointment == null) return null;
 
-        String textToAttach = String.join(" ", CANCELED_APPOINTMENT_STRING, canceledAppointment.getClient().getFirstName(), canceledAppointment.getEmployee().getFirstName());
+        String textToAttach = String.join(" ", CANCELED_APPOINTMENT_STRING, resolveClientFirstName(canceledAppointment), canceledAppointment.getEmployee().getFirstName());
         EventType eventType = EventType.TURNO_CANCELADO;
         LocalDateTime timestamp = canceledAppointment.getModifiedDate();
 
@@ -140,5 +140,12 @@ public class DashboardServiceImpl implements DashboardService {
                 .text(textToAttach)
                 .timestamp(timestamp)
                 .build();
+    }
+
+    private String resolveClientFirstName(Appointment appointment) {
+
+        if (appointment.getClient() != null) return appointment.getClient().getFirstName();
+
+        return appointment.getGuestFirstName() != null ? appointment.getGuestFirstName() : "";
     }
 }

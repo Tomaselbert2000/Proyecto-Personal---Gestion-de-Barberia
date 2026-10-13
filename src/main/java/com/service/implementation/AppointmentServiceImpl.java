@@ -310,6 +310,11 @@ public class AppointmentServiceImpl implements AppointmentService {
     @Override
     public List<LocalTime> getAvailableSlots(LocalDate date, Long employeeId) {
 
+        if (date.isBefore(getCurrentDate())) {
+
+            return new ArrayList<>();
+        }
+
         LocalTime openingTime = LocalTime.parse(appPreferences.getBarberShopOpeningTime());
         LocalTime closingTime = LocalTime.parse(appPreferences.getBarberShopClosingTime());
 
@@ -319,13 +324,18 @@ public class AppointmentServiceImpl implements AppointmentService {
 
             LocalTime currentTime = getCurrentTime();
 
-            if (currentTime.getMinute() <= 29) {
+            if (!currentTime.isBefore(closingTime)) {
 
-                startTimeToSearch = currentTime.withMinute(30);
-
-            } else {
-                startTimeToSearch = currentTime.plusHours(1).withMinute(0);
+                return new ArrayList<>();
             }
+
+            LocalTime nextSlot = currentTime.getMinute() <= 29
+                    ? currentTime.withMinute(30)
+                    : currentTime.plusHours(1).withMinute(0);
+
+            nextSlot = nextSlot.withSecond(0).withNano(0);
+
+            if (nextSlot.isAfter(openingTime)) startTimeToSearch = nextSlot;
         }
 
         List<LocalTime> availableSlots = new ArrayList<>();
@@ -337,7 +347,11 @@ public class AppointmentServiceImpl implements AppointmentService {
             currentSlot = currentSlot.plusMinutes(30);
         }
 
-        List<Appointment> bookedAppointments = appointmentRepository.getAppointmentsByEmployeeAndDate(employeeId, getStartOfGivenDate(date), getEndOfGivenDate(date));
+        List<Appointment> bookedAppointments = appointmentRepository
+                .getAppointmentsByEmployeeAndDate(employeeId, getStartOfGivenDate(date), getEndOfGivenDate(date))
+                .stream()
+                .filter(appointment -> appointment.getCurrentStatus() != AppointmentStatus.CANCELADO)
+                .toList();
 
         List<LocalTime> occupiedTimes = bookedAppointments.stream()
                 .map(appointment -> appointment.getStartDateTime().toLocalTime())
