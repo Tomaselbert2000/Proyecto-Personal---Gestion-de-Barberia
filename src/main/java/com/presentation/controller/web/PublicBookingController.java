@@ -2,8 +2,10 @@ package com.presentation.controller.web;
 
 import com.dto.appointment.PublicAppointmentDTO;
 import com.service.interfaces.AppointmentService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,8 +29,12 @@ public class PublicBookingController {
     @GetMapping
     public String showStepOne(Model model) {
 
-        model.addAttribute("employees", appointmentService.getEmployeesFromServiceInstance());
-        model.addAttribute("services", appointmentService.getBarberServicesFromServiceInstance());
+        model.addAttribute("employees", appointmentService.getEmployeesFromServiceInstance().stream()
+                .filter(employee -> Boolean.TRUE.equals(employee.getIsActive()))
+                .toList());
+        model.addAttribute("services", appointmentService.getBarberServicesFromServiceInstance().stream()
+                .filter(service -> Boolean.TRUE.equals(service.getIsCurrentlyActive()))
+                .toList());
 
         return PUBLIC_BOOKING_STEP_ONE;
     }
@@ -47,12 +53,13 @@ public class PublicBookingController {
         }
 
         model.addAttribute("serviceId", serviceId);
-        model.addAttribute("employeeid", employeeId);
+        model.addAttribute("employeeId", employeeId);
         model.addAttribute("date", date);
 
         List<LocalTime> availableSlots = appointmentService.getAvailableSlots(date, employeeId);
 
         model.addAttribute("availableSlots", availableSlots);
+        loadSelection(model, serviceId, employeeId);
 
         return PUBLIC_BOOKING_STEP_TWO;
     }
@@ -61,23 +68,45 @@ public class PublicBookingController {
     public String showStepThree(
             @RequestParam Long serviceId,
             @RequestParam Long employeeId,
-            @RequestParam LocalDate date,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalTime time,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME) LocalTime time,
+            HttpServletRequest request,
             Model model
     ) {
 
-        model.addAttribute("serviceId", serviceId);
-        model.addAttribute("employeeId", employeeId);
-        model.addAttribute("date", date);
-        model.addAttribute("time", time);
+        request.getSession();
+
+        model.addAttribute("dto", PublicAppointmentDTO.builder()
+                .barberServiceID(serviceId)
+                .employeeID(employeeId)
+                .date(date)
+                .startTime(time)
+                .build());
+
+        loadSelection(model, serviceId, employeeId);
 
         return PUBLIC_BOOKING_STEP_THREE;
     }
 
+    @GetMapping("/booking-success")
+    public String showStepFour() {
+
+        return PUBLIC_BOOKING_SUCCESS;
+    }
+
     @PostMapping("/confirm")
-    public String confirm(@Valid @ModelAttribute(name = "dto") PublicAppointmentDTO dto, BindingResult bindingResult) {
+    public String confirm(
+            @Valid @ModelAttribute(name = "dto") PublicAppointmentDTO dto,
+            BindingResult bindingResult,
+            Model model
+    ) {
 
         if (bindingResult.hasErrors()) {
+
+            model.addAttribute("errors", bindingResult.getAllErrors().stream()
+                    .map(DefaultMessageSourceResolvable::getDefaultMessage)
+                    .toList());
+            loadSelection(model, dto.getBarberServiceID(), dto.getEmployeeID());
 
             return PUBLIC_BOOKING_STEP_THREE;
         }
@@ -85,5 +114,17 @@ public class PublicBookingController {
         appointmentService.registerNewAppointment(dto);
 
         return REDIRECT_BOOKING_SUCCESS;
+    }
+
+    private void loadSelection(Model model, Long serviceId, Long employeeId) {
+
+        model.addAttribute("barberService", appointmentService.getBarberServicesFromServiceInstance().stream()
+                .filter(service -> service.getBarberServiceId().equals(serviceId))
+                .findFirst()
+                .orElse(null));
+        model.addAttribute("employee", appointmentService.getEmployeesFromServiceInstance().stream()
+                .filter(employee -> employee.getId().equals(employeeId))
+                .findFirst()
+                .orElse(null));
     }
 }

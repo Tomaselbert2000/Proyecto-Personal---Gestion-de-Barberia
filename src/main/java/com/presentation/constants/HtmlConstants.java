@@ -61,6 +61,6 @@ public final class HtmlConstants {
         public static final String REDIRECT_PRODUCTS = REDIRECT + PRODUCTS;
         public static final String REDIRECT_SALES = REDIRECT + SALES;
         public static final String REDIRECT_SETTINGS = REDIRECT + SETTINGS;
-        public static final String REDIRECT_BOOKING_SUCCESS = REDIRECT + PUBLIC_BOOKING_SUCCESS;
+        public static final String REDIRECT_BOOKING_SUCCESS = REDIRECT + "public-booking/" + PUBLIC_BOOKING_SUCCESS;
     }
 }
