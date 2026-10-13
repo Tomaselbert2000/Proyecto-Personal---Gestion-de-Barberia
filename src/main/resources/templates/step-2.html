@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" th:attr="data-theme=${@appPreferences.getTheme()}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Elegí el horario disponible para tu turno.">
+    <title>Elegir horario - LA TERCERA BARBERSHOP</title>
+    <script type="importmap">
+        { "imports": { "@material/web/": "https://esm.run/@material/web/" } }
+    </script>
+    <script type="module">
+        import '@material/web/all.js';
+        import {styles as typescaleStyles} from '@material/web/typography/md-typescale-styles.js';
+        document.adoptedStyleSheets.push(typescaleStyles.styleSheet);
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+          rel="stylesheet">
+    <link rel="stylesheet" href="/css/theme.css">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: 'Roboto', system-ui, sans-serif;
+            color: var(--md-sys-color-on-background);
+            background: radial-gradient(1100px 520px at 50% -12%, color-mix(in srgb, var(--md-sys-color-primary) 15%, transparent), transparent 70%),
+            var(--md-sys-color-background);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .shell {
+            width: 100%;
+            max-width: 780px;
+            margin: 0 auto;
+            padding: 28px 18px 64px;
+        }
+
+        /* ---------- Marca ---------- */
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 26px;
+        }
+
+        .brand-logo {
+            width: 50px;
+            height: 50px;
+            display: grid;
+            place-items: center;
+            border-radius: 16px;
+            background: var(--md-sys-color-primary-container);
+            color: var(--md-sys-color-on-primary-container);
+            box-shadow: 0 4px 14px color-mix(in srgb, var(--md-sys-color-shadow) 16%, transparent);
+        }
+
+        .brand-logo md-icon {
+            font-size: 28px;
+        }
+
+        .brand-text {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.15;
+        }
+
+        .brand-name {
+            font-weight: 700;
+            font-size: 1.15rem;
+            letter-spacing: .2px;
+        }
+
+        .brand-sub {
+            font-size: .8rem;
+            color: var(--md-sys-color-on-surface-variant);
+        }
+
+        /* ---------- Stepper ---------- */
+        .stepper {
+            list-style: none;
+            display: flex;
+            gap: 8px;
+            margin: 0 0 22px;
+            padding: 0;
+        }
+
+        .step {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 14px;
+            border-radius: 18px;
+            background: var(--md-sys-color-surface-container-low);
+            color: var(--md-sys-color-on-surface-variant);
+            border: 1px solid transparent;
+            transition: background .3s ease, color .3s ease, border-color .3s ease;
+        }
+
+        .step-index {
+            width: 28px;
+            height: 28px;
+            flex: none;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            font-weight: 700;
+            font-size: .85rem;
+            background: var(--md-sys-color-surface-container-highest);
+            transition: inherit;
+        }
+
+        .step-label {
+            font-size: .84rem;
+            font-weight: 500;
+        }
+
+        .step.is-active {
+            background: var(--md-sys-color-primary-container);
+            color: var(--md-sys-color-on-primary-container);
+            border-color: color-mix(in srgb, var(--md-sys-color-primary) 42%, transparent);
+        }
+
+        .step.is-active .step-index {
+            background: var(--md-sys-color-primary);
+            color: var(--md-sys-color-on-primary);
+        }
+
+        .step.is-done .step-index {
+            background: var(--md-sys-color-primary);
+            color: var(--md-sys-color-on-primary);
+        }
+
+        /* ---------- Tarjeta ---------- */
+        .card {
+            background: var(--md-sys-color-surface-container-low);
+            border-radius: 28px;
+            padding: 30px 24px;
+            box-shadow: 0 1px 2px color-mix(in srgb, var(--md-sys-color-shadow) 12%, transparent),
+            0 14px 36px color-mix(in srgb, var(--md-sys-color-shadow) 8%, transparent);
+            animation: rise .5s cubic-bezier(.2, .8, .2, 1) both;
+        }
+
+        @keyframes rise {
+            from {
+                opacity: 0;
+                transform: translateY(16px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: .78rem;
+            font-weight: 600;
+            letter-spacing: .4px;
+            text-transform: uppercase;
+            color: var(--md-sys-color-primary);
+            margin: 0 0 8px;
+        }
+
+        h1 {
+            font-size: clamp(1.5rem, 4vw, 2rem);
+            font-weight: 700;
+            margin: 0 0 8px;
+            line-height: 1.2;
+        }
+
+        .subtitle {
+            margin: 0 0 22px;
+            color: var(--md-sys-color-on-surface-variant);
+            line-height: 1.5;
+        }
+
+        /* ---------- Resumen de selección ---------- */
+        .picked {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 26px;
+        }
+
+        .chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 14px;
+            border-radius: 999px;
+            background: var(--md-sys-color-secondary-container);
+            color: var(--md-sys-color-on-secondary-container);
+            font-size: .85rem;
+            font-weight: 500;
+        }
+
+        .chip md-icon {
+            font-size: 18px;
+        }
+
+        /* ---------- Selector de fecha ---------- */
+        .date-bar {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 16px;
+            border-radius: 20px;
+            background: var(--md-sys-color-surface-container);
+            margin-bottom: 22px;
+            flex-wrap: wrap;
+        }
+
+        .date-current {
+            flex: 1;
+            min-width: 150px;
+            display: flex;
+            flex-direction: column;
+            line-height: 1.2;
+        }
+
+        .date-main {
+            font-weight: 700;
+            font-size: 1.05rem;
+        }
+
+        .date-rel {
+            font-size: .78rem;
+            color: var(--md-sys-color-on-surface-variant);
+        }
+
+        .date-picker {
+            width: 170px;
+        }
+
+        .slot-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: .98rem;
+            font-weight: 600;
+            margin: 0 0 14px;
+        }
+
+        .slot-title md-icon {
+            font-size: 20px;
+            color: var(--md-sys-color-primary);
+        }
+
+        /* ---------- Grilla de horarios ---------- */
+        .slots {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(104px, 1fr));
+            gap: 10px;
+        }
+
+        .slot {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2px;
+            padding: 14px 8px;
+            border-radius: 16px;
+            border: 1.5px solid var(--md-sys-color-outline-variant);
+            background: var(--md-sys-color-surface-container-lowest);
+            color: var(--md-sys-color-on-surface);
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform .2s ease, border-color .2s ease, background .2s ease, box-shadow .2s ease;
+            animation: rise .35s ease both;
+        }
+
+        .slot span {
+            font-size: .72rem;
+            font-weight: 500;
+            opacity: .65;
+        }
+
+        .slot:hover {
+            border-color: var(--md-sys-color-primary);
+            background: color-mix(in srgb, var(--md-sys-color-primary) 9%, var(--md-sys-color-surface-container-lowest));
+            transform: translateY(-3px);
+            box-shadow: 0 10px 22px color-mix(in srgb, var(--md-sys-color-shadow) 14%, transparent);
+        }
+
+        .slot:focus-visible {
+            outline: 3px solid color-mix(in srgb, var(--md-sys-color-primary) 45%, transparent);
+            outline-offset: 2px;
+        }
+
+        /* ---------- Estado vacío ---------- */
+        .empty {
+            text-align: center;
+            padding: 30px 18px;
+            color: var(--md-sys-color-on-surface-variant);
+        }
+
+        .empty md-icon {
+            font-size: 44px;
+            opacity: .7;
+        }
+
+        .empty p {
+            margin: 8px 0 0;
+        }
+
+        /* ---------- Acciones ---------- */
+        .actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+
+        .actions .spacer {
+            flex: 1;
+        }
+
+        @media (max-width: 520px) {
+            .step-label {
+                display: none;
+            }
+
+            .step {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+<main class="shell">
+
+    <header class="brand">
+        <span class="brand-logo"><md-icon>content_cut</md-icon></span>
+        <span class="brand-text">
+            <span class="brand-name">LA TERCERA BARBERSHOP</span>
+            <span class="brand-sub">Reserva de turnos online</span>
+        </span>
+    </header>
+
+    <ol class="stepper" aria-label="Progreso de la reserva">
+        <li class="step is-done">
+            <span class="step-index"><md-icon style="font-size:16px">check</md-icon></span>
+            <span class="step-label">Servicio y barbero</span>
+        </li>
+        <li class="step is-active" aria-current="step">
+            <span class="step-index">2</span>
+            <span class="step-label">Horario</span>
+        </li>
+        <li class="step">
+            <span class="step-index">3</span>
+            <span class="step-label">Confirmación</span>
+        </li>
+    </ol>
+
+    <section class="card">
+        <p class="eyebrow">
+            <md-icon>schedule</md-icon>
+            Paso 2 de 3
+        </p>
+        <h1>Elegí tu horario</h1>
+        <p class="subtitle">Estos son los horarios libres para el día seleccionado. Cada turno dura 30 minutos.</p>
+
+        <div class="picked">
+            <span class="chip">
+                <md-icon>cut</md-icon>
+                <span th:text="${barberService != null ? barberService.name : 'Servicio'}">Servicio</span>
+            </span>
+            <span class="chip">
+                <md-icon>person</md-icon>
+                <span th:text="${employee != null ? employee.firstName + ' ' + employee.lastName : 'Barbero'}">Barbero</span>
+            </span>
+        </div>
+
+        <div class="date-bar">
+            <a class="md-link" th:if="${date.isAfter(T(java.time.LocalDate).now())}"
+               th:href="@{/public-booking/calendar(serviceId=${serviceId}, employeeId=${employeeId}, date=${date.minusDays(1)})}"
+               aria-label="Día anterior">
+                <md-icon-button type="button">
+                    <md-icon>chevron_left</md-icon>
+                </md-icon-button>
+            </a>
+            <span class="md-link" th:unless="${date.isAfter(T(java.time.LocalDate).now())}">
+                <md-icon-button type="button" disabled aria-label="Día anterior"><md-icon>chevron_left</md-icon></md-icon-button>
+            </span>
+
+            <div class="date-current">
+                <span class="date-main" th:text="${#temporals.format(date, 'dd/MM/yyyy')}">00/00/0000</span>
+                <span class="date-rel" th:if="${date.isEqual(T(java.time.LocalDate).now())}">Hoy</span>
+                <span class="date-rel" th:if="${date.isEqual(T(java.time.LocalDate).now().plusDays(1))}">Mañana</span>
+                <span class="date-rel"
+                      th:if="${!date.isEqual(T(java.time.LocalDate).now()) and !date.isEqual(T(java.time.LocalDate).now().plusDays(1))}"
+                      th:text="${#temporals.format(date, 'EEEE', T(java.util.Locale).forLanguageTag('es-AR'))}">día</span>
+            </div>
+
+            <form class="date-picker" th:action="@{/public-booking/calendar}" method="get">
+                <input type="hidden" name="serviceId" th:value="${serviceId}">
+                <input type="hidden" name="employeeId" th:value="${employeeId}">
+                <md-outlined-text-field id="dateJump" type="date" name="date" label="Otro día"
+                                        th:value="${date}"
+                                        th:min="${T(java.time.LocalDate).now()}"></md-outlined-text-field>
+            </form>
+
+            <a class="md-link"
+               th:href="@{/public-booking/calendar(serviceId=${serviceId}, employeeId=${employeeId}, date=${date.plusDays(1)})}"
+               aria-label="Día siguiente">
+                <md-icon-button type="button">
+                    <md-icon>chevron_right</md-icon>
+                </md-icon-button>
+            </a>
+        </div>
+
+        <div th:if="${not #lists.isEmpty(availableSlots)}">
+            <p class="slot-title">
+                <md-icon>event_available</md-icon>
+                Horarios disponibles
+            </p>
+            <div class="slots">
+                <a class="slot" th:each="slot : ${availableSlots}"
+                   th:href="@{/public-booking/client-info(serviceId=${serviceId}, employeeId=${employeeId}, date=${date}, time=${slot})}">
+                    <span th:text="${#temporals.format(slot, 'HH:mm')}">00:00</span>
+                    <span>hs</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="empty" th:if="${#lists.isEmpty(availableSlots)}">
+            <md-icon>event_busy</md-icon>
+            <p>No quedan horarios disponibles para este día.</p>
+            <p>Probá con otra fecha usando las flechas o el selector.</p>
+        </div>
+
+        <div class="actions">
+            <md-outlined-button type="button"
+                                th:onclick="'location.href=\'' + @{/public-booking} + '\''">
+                <md-icon slot="icon">arrow_back</md-icon>
+                Volver
+            </md-outlined-button>
+            <span class="spacer"></span>
+        </div>
+    </section>
+</main>
+
+<script>
+    const dateJump = document.getElementById('dateJump');
+    if (dateJump) {
+        dateJump.addEventListener('change', () => dateJump.closest('form').submit());
+    }
+</script>
+</body>
+</html>

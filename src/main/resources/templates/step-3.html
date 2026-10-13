@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" th:attr="data-theme=${@appPreferences.getTheme()}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Confirmá los datos de tu turno.">
+    <title>Confirmar turno - LA TERCERA BARBERSHOP</title>
+    <script type="importmap">
+        { "imports": { "@material/web/": "https://esm.run/@material/web/" } }
+    </script>
+    <script type="module">
+        import '@material/web/all.js';
+        import {styles as typescaleStyles} from '@material/web/typography/md-typescale-styles.js';
+        document.adoptedStyleSheets.push(typescaleStyles.styleSheet);
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+          rel="stylesheet">
+    <link rel="stylesheet" href="/css/theme.css">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: 'Roboto', system-ui, sans-serif;
+            color: var(--md-sys-color-on-background);
+            background: radial-gradient(1100px 520px at 50% -12%, color-mix(in srgb, var(--md-sys-color-primary) 15%, transparent), transparent 70%),
+            var(--md-sys-color-background);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .shell {
+            width: 100%;
+            max-width: 780px;
+            margin: 0 auto;
+            padding: 28px 18px 64px;
+        }
+
+        /* ---------- Marca ---------- */
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 26px;
+        }
+
+        .brand-logo {
+            width: 50px;
+            height: 50px;
+            display: grid;
+            place-items: center;
+            border-radius: 16px;
+            background: var(--md-sys-color-primary-container);
+            color: var(--md-sys-color-on-primary-container);
+            box-shadow: 0 4px 14px color-mix(in srgb, var(--md-sys-color-shadow) 16%, transparent);
+        }
+
+        .brand-logo md-icon {
+            font-size: 28px;
+        }
+
+        .brand-text {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.15;
+        }
+
+        .brand-name {
+            font-weight: 700;
+            font-size: 1.15rem;
+            letter-spacing: .2px;
+        }
+
+        .brand-sub {
+            font-size: .8rem;
+            color: var(--md-sys-color-on-surface-variant);
+        }
+
+        /* ---------- Stepper ---------- */
+        .stepper {
+            list-style: none;
+            display: flex;
+            gap: 8px;
+            margin: 0 0 22px;
+            padding: 0;
+        }
+
+        .step {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 14px;
+            border-radius: 18px;
+            background: var(--md-sys-color-surface-container-low);
+            color: var(--md-sys-color-on-surface-variant);
+            border: 1px solid transparent;
+            transition: background .3s ease, color .3s ease, border-color .3s ease;
+        }
+
+        .step-index {
+            width: 28px;
+            height: 28px;
+            flex: none;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            font-weight: 700;
+            font-size: .85rem;
+            background: var(--md-sys-color-surface-container-highest);
+            transition: inherit;
+        }
+
+        .step-label {
+            font-size: .84rem;
+            font-weight: 500;
+        }
+
+        .step.is-active {
+            background: var(--md-sys-color-primary-container);
+            color: var(--md-sys-color-on-primary-container);
+            border-color: color-mix(in srgb, var(--md-sys-color-primary) 42%, transparent);
+        }
+
+        .step.is-active .step-index {
+            background: var(--md-sys-color-primary);
+            color: var(--md-sys-color-on-primary);
+        }
+
+        .step.is-done .step-index {
+            background: var(--md-sys-color-primary);
+            color: var(--md-sys-color-on-primary);
+        }
+
+        /* ---------- Tarjeta ---------- */
+        .card {
+            background: var(--md-sys-color-surface-container-low);
+            border-radius: 28px;
+            padding: 30px 24px;
+            box-shadow: 0 1px 2px color-mix(in srgb, var(--md-sys-color-shadow) 12%, transparent),
+            0 14px 36px color-mix(in srgb, var(--md-sys-color-shadow) 8%, transparent);
+            animation: rise .5s cubic-bezier(.2, .8, .2, 1) both;
+        }
+
+        @keyframes rise {
+            from {
+                opacity: 0;
+                transform: translateY(16px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: .78rem;
+            font-weight: 600;
+            letter-spacing: .4px;
+            text-transform: uppercase;
+            color: var(--md-sys-color-primary);
+            margin: 0 0 8px;
+        }
+
+        h1 {
+            font-size: clamp(1.5rem, 4vw, 2rem);
+            font-weight: 700;
+            margin: 0 0 8px;
+            line-height: 1.2;
+        }
+
+        .subtitle {
+            margin: 0 0 22px;
+            color: var(--md-sys-color-on-surface-variant);
+            line-height: 1.5;
+        }
+
+        /* ---------- Alerta de errores ---------- */
+        .alert {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 14px 16px;
+            border-radius: 18px;
+            margin-bottom: 22px;
+            background: var(--md-sys-color-error-container);
+            color: var(--md-sys-color-on-error-container);
+        }
+
+        .alert md-icon {
+            font-size: 22px;
+            flex: none;
+        }
+
+        .alert ul {
+            margin: 0;
+            padding-left: 18px;
+        }
+
+        /* ---------- Resumen ---------- */
+        .summary {
+            border-radius: 22px;
+            padding: 6px 18px;
+            background: var(--md-sys-color-surface-container);
+            margin-bottom: 26px;
+        }
+
+        .summary-row {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 14px 0;
+            border-bottom: 1px solid var(--md-sys-color-outline-variant);
+        }
+
+        .summary-row:last-child {
+            border-bottom: none;
+        }
+
+        .summary-row > md-icon {
+            color: var(--md-sys-color-primary);
+            font-size: 22px;
+            flex: none;
+        }
+
+        .summary-text {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.3;
+            flex: 1;
+        }
+
+        .summary-label {
+            font-size: .76rem;
+            text-transform: uppercase;
+            letter-spacing: .4px;
+            color: var(--md-sys-color-on-surface-variant);
+        }
+
+        .summary-value {
+            font-weight: 600;
+        }
+
+        .summary-price {
+            font-weight: 700;
+            color: var(--md-sys-color-primary);
+            white-space: nowrap;
+        }
+
+        /* ---------- Formulario ---------- */
+        .form-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: .98rem;
+            font-weight: 600;
+            margin: 0 0 16px;
+        }
+
+        .form-title md-icon {
+            font-size: 20px;
+            color: var(--md-sys-color-primary);
+        }
+
+        .fields {
+            display: grid;
+            gap: 16px;
+        }
+
+        @media (min-width: 620px) {
+            .fields-2 {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .span-2 {
+                grid-column: 1 / -1;
+            }
+        }
+
+        md-outlined-text-field {
+            width: 100%;
+        }
+
+        .hint {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 16px;
+            font-size: .82rem;
+            color: var(--md-sys-color-on-surface-variant);
+        }
+
+        .hint md-icon {
+            font-size: 18px;
+        }
+
+        /* ---------- Acciones ---------- */
+        .actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 28px;
+        }
+
+        .actions .spacer {
+            flex: 1;
+        }
+
+        @media (max-width: 520px) {
+            .step-label {
+                display: none;
+            }
+
+            .step {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+<main class="shell">
+
+    <header class="brand">
+        <span class="brand-logo"><md-icon>content_cut</md-icon></span>
+        <span class="brand-text">
+            <span class="brand-name">LA TERCERA BARBERSHOP</span>
+            <span class="brand-sub">Reserva de turnos online</span>
+        </span>
+    </header>
+
+    <ol class="stepper" aria-label="Progreso de la reserva">
+        <li class="step is-done">
+            <span class="step-index"><md-icon style="font-size:16px">check</md-icon></span>
+            <span class="step-label">Servicio y barbero</span>
+        </li>
+        <li class="step is-done">
+            <span class="step-index"><md-icon style="font-size:16px">check</md-icon></span>
+            <span class="step-label">Horario</span>
+        </li>
+        <li class="step is-active" aria-current="step">
+            <span class="step-index">3</span>
+            <span class="step-label">Confirmación</span>
+        </li>
+    </ol>
+
+    <section class="card">
+        <p class="eyebrow">
+            <md-icon>fact_check</md-icon>
+            Paso 3 de 3
+        </p>
+        <h1>Confirmá tu turno</h1>
+        <p class="subtitle">Revisá el resumen y dejanos tus datos de contacto para reservar el turno.</p>
+
+        <div class="alert" th:if="${errors != null and not #lists.isEmpty(errors)}" role="alert">
+            <md-icon>error</md-icon>
+            <ul>
+                <li th:each="error : ${errors}" th:text="${error}">Error</li>
+            </ul>
+        </div>
+
+        <div class="summary">
+            <div class="summary-row">
+                <md-icon>cut</md-icon>
+                <span class="summary-text">
+                    <span class="summary-label">Servicio</span>
+                    <span class="summary-value"
+                          th:text="${barberService != null ? barberService.name : 'Servicio seleccionado'}">Servicio</span>
+                </span>
+                <span class="summary-price" th:if="${barberService != null}"
+                      th:text="'ARS $ ' + ${#numbers.formatDecimal(barberService.price, 1, 2)}">ARS $ 0,00</span>
+            </div>
+            <div class="summary-row">
+                <md-icon>person</md-icon>
+                <span class="summary-text">
+                    <span class="summary-label">Barbero</span>
+                    <span class="summary-value"
+                          th:text="${employee != null ? employee.firstName + ' ' + employee.lastName : 'Barbero seleccionado'}">Barbero</span>
+                </span>
+            </div>
+            <div class="summary-row">
+                <md-icon>calendar_month</md-icon>
+                <span class="summary-text">
+                    <span class="summary-label">Fecha</span>
+                    <span class="summary-value"
+                          th:text="${dto.date != null ? #temporals.format(dto.date, 'EEEE dd/MM/yyyy', T(java.util.Locale).forLanguageTag('es-AR')) : 'Sin fecha'}">Fecha</span>
+                </span>
+            </div>
+            <div class="summary-row">
+                <md-icon>schedule</md-icon>
+                <span class="summary-text">
+                    <span class="summary-label">Horario</span>
+                    <span class="summary-value"
+                          th:text="${dto.startTime != null ? #temporals.format(dto.startTime, 'HH:mm') + ' a ' + #temporals.format(dto.startTime.plusMinutes(30), 'HH:mm') + ' hs' : 'Sin horario'}">Horario</span>
+                </span>
+            </div>
+        </div>
+
+        <form th:action="@{/public-booking/confirm}" method="post">
+            <input type="hidden" name="barberServiceID" th:value="${dto.barberServiceID}">
+            <input type="hidden" name="employeeID" th:value="${dto.employeeID}">
+            <input type="hidden" name="date" th:value="${dto.date}">
+            <input type="hidden" name="startTime" th:value="${dto.startTime}">
+
+            <p class="form-title">
+                <md-icon>contact_page</md-icon>
+                Tus datos de contacto
+            </p>
+
+            <div class="fields fields-2">
+                <md-outlined-text-field label="Nombre" name="guestFirstName" required
+                                        autocomplete="given-name"
+                                        th:value="${dto.guestFirstName}"></md-outlined-text-field>
+                <md-outlined-text-field label="Apellido" name="guestLastName" required
+                                        autocomplete="family-name"
+                                        th:value="${dto.guestLastName}"></md-outlined-text-field>
+                <md-outlined-text-field class="span-2" label="Teléfono" name="guestPhone" type="tel" required
+                                        autocomplete="tel" th:value="${dto.guestPhone}"></md-outlined-text-field>
+            </div>
+
+            <p class="hint">
+                <md-icon>info</md-icon>
+                No necesitás crear una cuenta. Usaremos tu teléfono solo para contactarte por la reserva.
+            </p>
+
+            <div class="actions">
+                <md-outlined-button type="button"
+                                    th:onclick="'location.href=\'' + @{/public-booking/calendar(serviceId=${dto.barberServiceID}, employeeId=${dto.employeeID}, date=${dto.date})} + '\''">
+                    <md-icon slot="icon">arrow_back</md-icon>
+                    Volver
+                </md-outlined-button>
+                <span class="spacer"></span>
+                <md-filled-button type="submit">
+                    Confirmar turno
+                    <md-icon slot="icon">check_circle</md-icon>
+                </md-filled-button>
+            </div>
+        </form>
+    </section>
+</main>
+</body>
+</html>

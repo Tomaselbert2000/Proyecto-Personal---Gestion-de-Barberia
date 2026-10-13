@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" th:attr="data-theme=${@appPreferences.getTheme()}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Reservá tu turno en LA TERCERA BARBERSHOP en tres simples pasos.">
+    <title>Reservar turno - LA TERCERA BARBERSHOP</title>
+    <script type="importmap">
+        { "imports": { "@material/web/": "https://esm.run/@material/web/" } }
+    </script>
+    <script type="module">
+        import '@material/web/all.js';
+        import {styles as typescaleStyles} from '@material/web/typography/md-typescale-styles.js';
+        document.adoptedStyleSheets.push(typescaleStyles.styleSheet);
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+          rel="stylesheet">
+    <link rel="stylesheet" href="/css/theme.css">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: 'Roboto', system-ui, sans-serif;
+            color: var(--md-sys-color-on-background);
+            background: radial-gradient(1100px 520px at 50% -12%, color-mix(in srgb, var(--md-sys-color-primary) 15%, transparent), transparent 70%),
+            var(--md-sys-color-background);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .shell {
+            width: 100%;
+            max-width: 780px;
+            margin: 0 auto;
+            padding: 28px 18px 64px;
+        }
+
+        /* ---------- Marca ---------- */
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 26px;
+        }
+
+        .brand-logo {
+            width: 50px;
+            height: 50px;
+            display: grid;
+            place-items: center;
+            border-radius: 16px;
+            background: var(--md-sys-color-primary-container);
+            color: var(--md-sys-color-on-primary-container);
+            box-shadow: 0 4px 14px color-mix(in srgb, var(--md-sys-color-shadow) 16%, transparent);
+        }
+
+        .brand-logo md-icon {
+            font-size: 28px;
+        }
+
+        .brand-text {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.15;
+        }
+
+        .brand-name {
+            font-weight: 700;
+            font-size: 1.15rem;
+            letter-spacing: .2px;
+        }
+
+        .brand-sub {
+            font-size: .8rem;
+            color: var(--md-sys-color-on-surface-variant);
+        }
+
+        /* ---------- Stepper ---------- */
+        .stepper {
+            list-style: none;
+            display: flex;
+            gap: 8px;
+            margin: 0 0 22px;
+            padding: 0;
+        }
+
+        .step {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 14px;
+            border-radius: 18px;
+            background: var(--md-sys-color-surface-container-low);
+            color: var(--md-sys-color-on-surface-variant);
+            border: 1px solid transparent;
+            transition: background .3s ease, color .3s ease, border-color .3s ease;
+        }
+
+        .step-index {
+            width: 28px;
+            height: 28px;
+            flex: none;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            font-weight: 700;
+            font-size: .85rem;
+            background: var(--md-sys-color-surface-container-highest);
+            transition: inherit;
+        }
+
+        .step-label {
+            font-size: .84rem;
+            font-weight: 500;
+        }
+
+        .step.is-active {
+            background: var(--md-sys-color-primary-container);
+            color: var(--md-sys-color-on-primary-container);
+            border-color: color-mix(in srgb, var(--md-sys-color-primary) 42%, transparent);
+        }
+
+        .step.is-active .step-index {
+            background: var(--md-sys-color-primary);
+            color: var(--md-sys-color-on-primary);
+        }
+
+        .step.is-done .step-index {
+            background: var(--md-sys-color-primary);
+            color: var(--md-sys-color-on-primary);
+        }
+
+        /* ---------- Tarjeta principal ---------- */
+        .card {
+            background: var(--md-sys-color-surface-container-low);
+            border-radius: 28px;
+            padding: 30px 24px;
+            box-shadow: 0 1px 2px color-mix(in srgb, var(--md-sys-color-shadow) 12%, transparent),
+            0 14px 36px color-mix(in srgb, var(--md-sys-color-shadow) 8%, transparent);
+            animation: rise .5s cubic-bezier(.2, .8, .2, 1) both;
+        }
+
+        @keyframes rise {
+            from {
+                opacity: 0;
+                transform: translateY(16px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: .78rem;
+            font-weight: 600;
+            letter-spacing: .4px;
+            text-transform: uppercase;
+            color: var(--md-sys-color-primary);
+            margin: 0 0 8px;
+        }
+
+        h1 {
+            font-size: clamp(1.5rem, 4vw, 2rem);
+            font-weight: 700;
+            margin: 0 0 8px;
+            line-height: 1.2;
+        }
+
+        .subtitle {
+            margin: 0 0 26px;
+            color: var(--md-sys-color-on-surface-variant);
+            line-height: 1.5;
+        }
+
+        .section-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: .98rem;
+            font-weight: 600;
+            margin: 0 0 14px;
+        }
+
+        .section-label md-icon {
+            font-size: 20px;
+            color: var(--md-sys-color-primary);
+        }
+
+        .section + .section {
+            margin-top: 30px;
+        }
+
+        .grid {
+            display: grid;
+            gap: 12px;
+        }
+
+        @media (min-width: 620px) {
+            .grid-2 {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        /* ---------- Tarjetas de opción ---------- */
+        .choice {
+            position: relative;
+            display: block;
+            cursor: pointer;
+        }
+
+        .choice input {
+            position: absolute;
+            opacity: 0;
+            width: 1px;
+            height: 1px;
+            pointer-events: none;
+        }
+
+        .choice-body {
+            position: relative;
+            display: block;
+            height: 100%;
+            padding: 16px 18px;
+            border-radius: 20px;
+            border: 1.5px solid var(--md-sys-color-outline-variant);
+            background: var(--md-sys-color-surface-container-lowest);
+            transition: transform .25s ease, border-color .25s ease, background .25s ease, box-shadow .25s ease;
+        }
+
+        .choice:hover .choice-body {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 24px color-mix(in srgb, var(--md-sys-color-shadow) 14%, transparent);
+        }
+
+        .choice input:checked + .choice-body {
+            border-color: var(--md-sys-color-primary);
+            background: color-mix(in srgb, var(--md-sys-color-primary) 9%, var(--md-sys-color-surface-container-lowest));
+        }
+
+        .choice input:focus-visible + .choice-body {
+            outline: 3px solid color-mix(in srgb, var(--md-sys-color-primary) 45%, transparent);
+            outline-offset: 2px;
+        }
+
+        .choice-head {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .choice-title {
+            font-weight: 600;
+            font-size: 1.02rem;
+        }
+
+        .choice-price {
+            font-weight: 700;
+            color: var(--md-sys-color-primary);
+            white-space: nowrap;
+        }
+
+        .choice-desc {
+            margin: 8px 0 0;
+            font-size: .86rem;
+            line-height: 1.45;
+            color: var(--md-sys-color-on-surface-variant);
+        }
+
+        .choice-check {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 26px;
+            height: 26px;
+            display: grid;
+            place-items: center;
+            border-radius: 50%;
+            background: var(--md-sys-color-primary);
+            color: var(--md-sys-color-on-primary);
+            opacity: 0;
+            transform: scale(.5);
+            transition: opacity .2s ease, transform .2s ease;
+        }
+
+        .choice-check md-icon {
+            font-size: 17px;
+        }
+
+        .choice input:checked + .choice-body .choice-check {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .badge-cat {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 3px 10px;
+            border-radius: 999px;
+            font-size: .72rem;
+            font-weight: 600;
+            background: var(--md-sys-color-secondary-container);
+            color: var(--md-sys-color-on-secondary-container);
+        }
+
+        /* ---------- Empleados ---------- */
+        .employee .choice-body {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding-right: 44px;
+        }
+
+        .avatar {
+            width: 46px;
+            height: 46px;
+            flex: none;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            font-weight: 700;
+            background: var(--md-sys-color-tertiary-container);
+            color: var(--md-sys-color-on-tertiary-container);
+        }
+
+        .employee-name {
+            font-weight: 600;
+        }
+
+        .employee-role {
+            font-size: .8rem;
+            color: var(--md-sys-color-on-surface-variant);
+        }
+
+        /* ---------- Acciones ---------- */
+        .actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+
+        .actions .spacer {
+            flex: 1;
+        }
+
+        .actions md-filled-button,
+        .actions md-outlined-button {
+            --md-filled-button-container-height: 48px;
+        }
+
+        /* ---------- Estado vacío ---------- */
+        .empty {
+            text-align: center;
+            padding: 36px 18px;
+            color: var(--md-sys-color-on-surface-variant);
+        }
+
+        .empty md-icon {
+            font-size: 42px;
+            opacity: .7;
+        }
+
+        /* ---------- Pie ---------- */
+        .foot {
+            margin-top: 26px;
+            text-align: center;
+            font-size: .82rem;
+            color: var(--md-sys-color-on-surface-variant);
+        }
+
+        .foot a {
+            color: var(--md-sys-color-primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .foot a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 520px) {
+            .step-label {
+                display: none;
+            }
+
+            .step {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+<main class="shell">
+
+    <header class="brand">
+        <span class="brand-logo"><md-icon>content_cut</md-icon></span>
+        <span class="brand-text">
+            <span class="brand-name">LA TERCERA BARBERSHOP</span>
+            <span class="brand-sub">Reserva de turnos online</span>
+        </span>
+    </header>
+
+    <ol class="stepper" aria-label="Progreso de la reserva">
+        <li class="step is-active" aria-current="step">
+            <span class="step-index">1</span>
+            <span class="step-label">Servicio y barbero</span>
+        </li>
+        <li class="step">
+            <span class="step-index">2</span>
+            <span class="step-label">Horario</span>
+        </li>
+        <li class="step">
+            <span class="step-index">3</span>
+            <span class="step-label">Confirmación</span>
+        </li>
+    </ol>
+
+    <section class="card">
+        <p class="eyebrow">
+            <md-icon>event_available</md-icon>
+            Paso 1 de 3
+        </p>
+        <h1>Reservá tu turno</h1>
+        <p class="subtitle">Elegí el servicio que querés y con qué barbero te gustaría atenderte.</p>
+
+        <div class="empty" th:if="${#lists.isEmpty(services) or #lists.isEmpty(employees)}">
+            <md-icon>event_busy</md-icon>
+            <p>En este momento no hay servicios ni barberos disponibles para reservar online.</p>
+            <p>Por favor, intentá más tarde o comunicate con el local.</p>
+        </div>
+
+        <form th:if="${not #lists.isEmpty(services) and not #lists.isEmpty(employees)}"
+              th:action="@{/public-booking/calendar}" method="get">
+
+            <div class="section">
+                <p class="section-label">
+                    <md-icon>cut</md-icon>
+                    Elegí tu servicio
+                </p>
+                <div class="grid grid-2">
+                    <label class="choice" th:each="service : ${services}">
+                        <input type="radio" name="serviceId" th:value="${service.barberServiceId}" required>
+                        <span class="choice-body">
+                            <span class="choice-check"><md-icon>check</md-icon></span>
+                            <span class="choice-head">
+                                <span class="choice-title" th:text="${service.name}">Corte</span>
+                                <span class="choice-price"
+                                      th:text="'ARS $ ' + ${#numbers.formatDecimal(service.price, 1, 2)}">ARS $ 0,00</span>
+                            </span>
+                            <p class="choice-desc"
+                               th:text="${service.category.description}">Descripción del servicio</p>
+                            <span class="badge-cat" th:text="${service.category.displayName}">Categoría</span>
+                        </span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="section">
+                <p class="section-label">
+                    <md-icon>person</md-icon>
+                    Elegí tu barbero
+                </p>
+                <div class="grid grid-2">
+                    <label class="choice employee" th:each="employee : ${employees}">
+                        <input type="radio" name="employeeId" th:value="${employee.id}" required>
+                        <span class="choice-body">
+                            <span class="avatar"
+                                  th:text="${#strings.toUpperCase(#strings.substring(employee.firstName, 0, 1) + #strings.substring(employee.lastName, 0, 1))}">TB</span>
+                            <span>
+                                <span class="employee-name" th:text="${employee.firstName + ' ' + employee.lastName}">Nombre</span>
+                                <span class="employee-role">Disponible</span>
+                            </span>
+                            <span class="choice-check"><md-icon>check</md-icon></span>
+                        </span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="actions">
+                <span class="spacer"></span>
+                <md-filled-button type="submit">
+                    Ver horarios disponibles
+                    <md-icon slot="icon">arrow_forward</md-icon>
+                </md-filled-button>
+            </div>
+        </form>
+    </section>
+
+    <p class="foot">¿Sos parte del equipo? <a th:href="@{/login}">Iniciá sesión</a></p>
+</main>
+</body>
+</html>
