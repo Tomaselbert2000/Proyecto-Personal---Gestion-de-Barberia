@@ -19,6 +19,7 @@ import java.security.Principal;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.IntStream;
@@ -78,8 +79,8 @@ public class WebSettingsController {
                 .phone(blankToNull(phone))
                 .email(blankToNull(email))
                 .address(blankToNull(address))
-                .openingHour(LocalTime.parse(openingHour == null || openingHour.isBlank() ? DEFAULT_OPENING_TIME : openingHour))
-                .closingHour(LocalTime.parse(closingHour == null || closingHour.isBlank() ? DEFAULT_CLOSING_TIME : closingHour))
+                .openingHour(parseHourOrDefault(openingHour, DEFAULT_OPENING_TIME))
+                .closingHour(parseHourOrDefault(closingHour, DEFAULT_CLOSING_TIME))
                 .newAppointmentNotificationEnabled(Boolean.TRUE.equals(newAppointmentNotificationEnabled))
                 .clientReminderNotificationEnabled(Boolean.TRUE.equals(clientReminderNotificationEnabled))
                 .lowStockNotificationEnabled(Boolean.TRUE.equals(lowStockNotificationEnabled))
@@ -200,6 +201,19 @@ public class WebSettingsController {
     private static String blankToNull(String value) {
 
         return value == null || value.isBlank() ? null : value.trim();
+    }
+
+    private static LocalTime parseHourOrDefault(String value, String defaultValue) {
+
+        String candidate = value == null || value.isBlank() ? defaultValue : value.trim();
+
+        try {
+            return LocalTime.parse(candidate);
+
+        } catch (DateTimeParseException exception) {
+
+            return LocalTime.parse(defaultValue);
+        }
     }
 
     private static String nullToEmpty(String value) {
