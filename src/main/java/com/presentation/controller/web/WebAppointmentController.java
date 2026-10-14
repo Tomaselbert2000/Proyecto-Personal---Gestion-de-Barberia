@@ -98,7 +98,7 @@ public class WebAppointmentController extends BaseWebController<AppointmentCreat
                         .build()
         );
 
-        return REDIRECT_APPOINTMENTS;
+        return REDIRECT_APPOINTMENTS + COMPLETED_SUFFIX;
     }
 
     @PostMapping("/{appointmentID}/cancel")
@@ -110,7 +110,7 @@ public class WebAppointmentController extends BaseWebController<AppointmentCreat
                         .build()
         );
 
-        return REDIRECT_APPOINTMENTS;
+        return REDIRECT_APPOINTMENTS + CANCELLED_SUFFIX;
     }
 
     @PostMapping("/{appointmentID}/delete")

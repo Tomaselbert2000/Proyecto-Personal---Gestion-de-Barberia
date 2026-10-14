@@ -21,6 +21,11 @@ public abstract class BaseWebController<CreationDTO, UpdateDTO> {
     protected static final String VALIDATION_TAG = "validationErrors";
     protected static final String DATA_INTEGRITY_ERROR = "La operación solicitada incurre en un error de integridad de base de datos";
     protected static final String ERROR_SUFFIX = "?error=true";
+    protected static final String CREATED_SUFFIX = "?created=true";
+    protected static final String UPDATED_SUFFIX = "?updated=true";
+    protected static final String DELETED_SUFFIX = "?deleted=true";
+    protected static final String CANCELLED_SUFFIX = "?cancelled=true";
+    protected static final String COMPLETED_SUFFIX = "?completed=true";
     protected static final String OPERATION_FAILED_TAG = "operationFailedMessage";
 
     protected String showCreationForm(Model model, Principal principal, CreationDTO dto) {
@@ -38,7 +43,7 @@ public abstract class BaseWebController<CreationDTO, UpdateDTO> {
 
         try {
 
-            return processSubmission(bindingResult, model, () -> executeCreation(dto), () -> renderCreationForm(model, principal, dto), onSuccessRedirectPath);
+            return processSubmission(bindingResult, model, () -> executeCreation(dto), () -> renderCreationForm(model, principal, dto), onSuccessRedirectPath + CREATED_SUFFIX);
 
         } catch (BusinessException | ConstraintViolationException | DataIntegrityViolationException e) {
 
@@ -56,7 +61,7 @@ public abstract class BaseWebController<CreationDTO, UpdateDTO> {
     ) {
 
         try {
-            return processSubmission(bindingResult, model, () -> executeUpdate(entityID, dto), () -> renderUpdateForm(model, entityID, principal, dto), onSuccessRedirectPath);
+            return processSubmission(bindingResult, model, () -> executeUpdate(entityID, dto), () -> renderUpdateForm(model, entityID, principal, dto), onSuccessRedirectPath + UPDATED_SUFFIX);
 
         } catch (BusinessException | ConstraintViolationException | DataIntegrityViolationException e) {
 
@@ -70,7 +75,7 @@ public abstract class BaseWebController<CreationDTO, UpdateDTO> {
 
             executeDeletion(entityID);
 
-            return onSuccessRedirectPath;
+            return onSuccessRedirectPath + DELETED_SUFFIX;
 
         } catch (BusinessException | DataIntegrityViolationException exception) {
 

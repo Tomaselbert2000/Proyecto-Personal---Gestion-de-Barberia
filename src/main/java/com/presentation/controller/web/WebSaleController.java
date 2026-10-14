@@ -105,7 +105,7 @@ public class WebSaleController extends BaseWebController<SaleCreationDTO, SaleCr
 
             saleService.cancelSale(saleID);
 
-            return REDIRECT_SALES;
+            return REDIRECT_SALES + CANCELLED_SUFFIX;
 
         } catch (BusinessException e) {
 

@@ -146,7 +146,7 @@ public class WebProductController extends BaseWebController<ProductCreationDTO, 
 
             service.updateProductStock(productID, quantity, operation);
 
-            return REDIRECT_PRODUCTS;
+            return REDIRECT_PRODUCTS + UPDATED_SUFFIX;
 
         } catch (BusinessException | IllegalArgumentException | TransactionSystemException exception) {
 
