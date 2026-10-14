@@ -1,21 +1,10 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org" th:attr="data-theme=${@appPreferences.getTheme()}">
+<html lang="es" th:attr="data-theme=${@appPreferences.getTheme()}" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>Gestión de Turnos - LA TERCERA BARBERSHOP</title>
-    <script type="importmap">
-        { "imports": { "@material/web/": "https://esm.run/@material/web/" } }
-    </script>
-    <script type="module">
-        import '@material/web/all.js';
-        import {styles as typescaleStyles} from '@material/web/typography/md-typescale-styles.js';
-        document.adoptedStyleSheets.push(typescaleStyles.styleSheet);
-    </script>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
-          rel="stylesheet">
-    <link rel="stylesheet" href="/css/theme.css">
+    <th:block th:replace="~{fragments/layout :: headAssets}"></th:block>
     <style>
         * {
             box-sizing: border-box
@@ -409,94 +398,30 @@
     </style>
 </head>
 <body>
-<header class="app-header">
-    <md-icon-button id="navToggle" class="nav-toggle" aria-label="Abrir navegación">
-        <md-icon>menu</md-icon>
-    </md-icon-button>
-    <div class="app-header-titles">
-        <span class="md-typescale-title-large">Gestión de Turnos</span>
-        <span class="md-typescale-label-large" th:text="${currentUser}">Usuario</span>
-    </div>
-    <span style="flex:1"></span>
-    <md-icon-button aria-label="Cuenta de usuario">
-        <md-icon>account_circle</md-icon>
-    </md-icon-button>
-</header>
+<header th:replace="~{fragments/layout :: header(title='Gestión de Turnos', backHref='', backLabel='')}"></header>
 
 <div class="nav-scrim" id="navScrim"></div>
 
 <div class="app-shell">
-    <aside class="nav-drawer" id="navDrawer" aria-label="Navegación principal">
-        <div class="nav-brand">
-            <img th:src="@{/images/Logo.jpg}" src="/images/Logo.jpg" alt="Logo LA TERCERA">
-            <div class="nav-brand-copy">
-                <span class="md-typescale-title-medium">LA TERCERA</span>
-                <span class="md-typescale-label-medium">BARBERSHOP</span>
-            </div>
-        </div>
-        <md-divider></md-divider>
-        <md-list>
-            <md-list-item type="link" href="/dashboard">
-                <md-icon slot="start">dashboard</md-icon>
-                <span slot="headline">Dashboard</span>
-            </md-list-item>
-            <md-list-item type="link" href="/clients">
-                <md-icon slot="start">person</md-icon>
-                <span slot="headline">Clientes</span>
-            </md-list-item>
-            <md-list-item type="link" href="/employees">
-                <md-icon slot="start">badge</md-icon>
-                <span slot="headline">Empleados</span>
-            </md-list-item>
-            <md-list-item type="link" href="/appointments">
-                <md-icon slot="start">calendar_today</md-icon>
-                <span slot="headline">Turnos</span>
-            </md-list-item>
-            <md-list-item type="link" href="/barberservices">
-                <md-icon slot="start">cut</md-icon>
-                <span slot="headline">Servicios</span>
-            </md-list-item>
-            <md-list-item type="link" href="/products">
-                <md-icon slot="start">inventory_2</md-icon>
-                <span slot="headline">Stock de productos</span>
-            </md-list-item>
-            <md-list-item type="link" href="/payments">
-                <md-icon slot="start">payments</md-icon>
-                <span slot="headline">Medios de pago</span>
-            </md-list-item>
-            <md-list-item type="link" href="/sales">
-                <md-icon slot="start">point_of_sale</md-icon>
-                <span slot="headline">Ventas</span>
-            </md-list-item>
-        </md-list>
-        <md-divider></md-divider>
-        <md-list>
-            <md-list-item type="link" href="/settings">
-                <md-icon slot="start">settings</md-icon>
-                <span slot="headline">Configuración</span>
-            </md-list-item>
-            <md-list-item id="logoutItem">
-                <md-icon slot="start">logout</md-icon>
-                <span slot="headline">Cerrar Sesión</span>
-            </md-list-item>
-        </md-list>
-    </aside>
+    <aside th:replace="~{fragments/layout :: drawer(active='')}"></aside>
 
     <main class="app-main">
         <div class="main-inner">
             <div class="page-header">
                 <h1 class="md-typescale-headline-small" style="margin:0">Gestión de Turnos</h1>
-                <p class="md-typescale-body-medium" style="margin:0;color:var(--md-sys-color-on-surface-variant)">Administra los turnos de tu barbería</p>
+                <p class="md-typescale-body-medium" style="margin:0;color:var(--md-sys-color-on-surface-variant)">
+                    Administra los turnos de tu barbería</p>
             </div>
 
-            <section class="stats-grid" aria-label="Estadísticas de turnos">
+            <section aria-label="Estadísticas de turnos" class="stats-grid">
                 <div class="surface">
                     <md-elevation></md-elevation>
                     <div class="surface-row">
                         <span class="md-typescale-body-medium" style="color:var(--md-sys-color-on-surface-variant)">Turnos Hoy</span>
                         <md-icon aria-hidden="true" style="color:var(--md-sys-color-secondary)">calendar_today</md-icon>
                     </div>
-                    <span class="md-typescale-display-small" th:text="${appointmentsTodayStats.appointmentCount}">0</span>
+                    <span class="md-typescale-display-small"
+                          th:text="${appointmentsTodayStats.appointmentCount}">0</span>
                     <div class="stat-foot">
                         <span class="md-typescale-body-medium"
                               th:text="${appointmentsTodayStats.totalAmountAsFinished}">0</span>
@@ -553,37 +478,37 @@
 
             <section aria-label="Filtros de búsqueda">
                 <h2 class="md-typescale-title-large" style="margin:0 0 12px 0">Filtros de Búsqueda</h2>
-                <form id="filterForm" class="filter-form" th:action="@{/appointments}" method="get">
+                <form class="filter-form" id="filterForm" method="get" th:action="@{/appointments}">
                     <div class="surface outlined">
                         <div class="filter-grid">
-                            <md-outlined-text-field label="Buscar por cliente" name="clientName" id="clientNameFilter"
-                                                    type="text" th:value="${selectedClientName}"
-                                                    placeholder="Nombre o apellido del cliente">
+                            <md-outlined-text-field id="clientNameFilter" label="Buscar por cliente" name="clientName"
+                                                    placeholder="Nombre o apellido del cliente" th:value="${selectedClientName}"
+                                                    type="text">
                                 <md-icon slot="leading-icon">search</md-icon>
                             </md-outlined-text-field>
-                            <md-outlined-text-field label="Fecha" name="date" type="date"
-                                                    th:value="${selectedDate}">
+                            <md-outlined-text-field label="Fecha" name="date" th:value="${selectedDate}"
+                                                    type="date">
                                 <md-icon slot="leading-icon">event</md-icon>
                             </md-outlined-text-field>
                             <md-outlined-select label="Estado" name="status">
-                                <md-select-option value="" th:selected="${selectedStatus == null}">
+                                <md-select-option th:selected="${selectedStatus == null}" value="">
                                     <div slot="headline">Todos</div>
                                 </md-select-option>
                                 <md-select-option th:each="status : ${statuses}"
-                                                   th:if="${status.name() != 'TODOS'}"
-                                                   th:value="${status}"
-                                                   th:selected="${selectedStatus == status}">
+                                                  th:if="${status.name() != 'TODOS'}"
+                                                  th:selected="${selectedStatus == status}"
+                                                  th:value="${status}">
                                     <div slot="headline" th:text="${status.displayName}"></div>
                                 </md-select-option>
                             </md-outlined-select>
                             <md-outlined-select label="Empleado" name="employeeName">
-                                <md-select-option value="Todos los empleados"
-                                                  th:selected="${selectedEmployeeName == null or selectedEmployeeName == 'Todos los empleados'}">
+                                <md-select-option th:selected="${selectedEmployeeName == null or selectedEmployeeName == 'Todos los empleados'}"
+                                                  value="Todos los empleados">
                                     <div slot="headline">Todos los empleados</div>
                                 </md-select-option>
                                 <md-select-option th:each="employee : ${employees}"
-                                                  th:value="${employee.firstName + ' ' + employee.lastName}"
-                                                  th:selected="${selectedEmployeeName != null and selectedEmployeeName == employee.firstName + ' ' + employee.lastName}">
+                                                  th:selected="${selectedEmployeeName != null and selectedEmployeeName == employee.firstName + ' ' + employee.lastName}"
+                                                  th:value="${employee.firstName + ' ' + employee.lastName}">
                                     <div slot="headline"
                                          th:text="${employee.firstName + ' ' + employee.lastName}"></div>
                                 </md-select-option>
@@ -594,11 +519,11 @@
                                 <md-icon slot="icon">search</md-icon>
                                 Buscar
                             </md-filled-button>
-                            <md-outlined-button type="button" onclick="clearFilters()">
+                            <md-outlined-button onclick="clearFilters()" type="button">
                                 <md-icon slot="icon">filter_alt_off</md-icon>
                                 Limpiar
                             </md-outlined-button>
-                            <md-filled-tonal-button th:href="@{/appointments/new}" href="/appointments/new">
+                            <md-filled-tonal-button href="/appointments/new" th:href="@{/appointments/new}">
                                 <md-icon slot="icon">add</md-icon>
                                 Nuevo Turno
                             </md-filled-tonal-button>
@@ -617,7 +542,7 @@
                 <div class="appt-list" th:if="${!#lists.isEmpty(appointmentsLiveSearch)}">
                     <article class="surface outlined appt-card" th:each="appt : ${appointmentsLiveSearch}">
                         <div class="appt-row">
-                            <div class="appt-avatar" aria-hidden="true">
+                            <div aria-hidden="true" class="appt-avatar">
                                 <md-icon>person</md-icon>
                             </div>
                             <div class="appt-body">
@@ -626,7 +551,7 @@
                                           th:text="${appt.clientFirstName + ' ' + appt.clientLastName}">Cliente</span>
                                     <span class="status-chip"
                                           th:classappend="${'st-' + #strings.toLowerCase(appt.currentStatus.name())}">
-                                        <span class="dot" aria-hidden="true"></span>
+                                        <span aria-hidden="true" class="dot"></span>
                                         <span th:text="${appt.currentStatus.displayName}">Estado</span>
                                     </span>
                                 </div>
@@ -649,24 +574,24 @@
                                     <span th:text="${appt.optionalNotes}">notas</span>
                                 </p>
                             </div>
-                            <md-icon-button class="appt-expand" aria-label="Acciones rápidas" aria-expanded="false"
-                                            th:data-target="'appt-actions-' + ${appt.id}"
+                            <md-icon-button aria-expanded="false" aria-label="Acciones rápidas" class="appt-expand"
+                                            onclick="toggleApptActions(this)"
                                             th:aria-controls="'appt-actions-' + ${appt.id}"
-                                            th:id="'appt-toggle-' + ${appt.id}"
-                                            onclick="toggleApptActions(this)">
+                                            th:data-target="'appt-actions-' + ${appt.id}"
+                                            th:id="'appt-toggle-' + ${appt.id}">
                                 <md-icon>expand_more</md-icon>
                             </md-icon-button>
                         </div>
 
                         <div class="appt-actions" th:id="'appt-actions-' + ${appt.id}">
-                            <form th:action="@{/appointments/{id}/complete(id=${appt.id})}" method="post"
+                            <form method="post" th:action="@{/appointments/{id}/complete(id=${appt.id})}"
                                   th:if="${appt.currentStatus.name() != 'FINALIZADO' and appt.currentStatus.name() != 'CANCELADO'}">
                                 <md-text-button type="submit">
                                     <md-icon slot="icon">check_circle</md-icon>
                                     Completar
                                 </md-text-button>
                             </form>
-                            <form th:action="@{/appointments/{id}/cancel(id=${appt.id})}" method="post"
+                            <form method="post" th:action="@{/appointments/{id}/cancel(id=${appt.id})}"
                                   th:if="${appt.currentStatus.name() != 'FINALIZADO' and appt.currentStatus.name() != 'CANCELADO'}">
                                 <md-text-button type="submit">
                                     <md-icon slot="icon">block</md-icon>
@@ -677,9 +602,14 @@
                                 <md-icon slot="icon">edit</md-icon>
                                 Editar
                             </md-text-button>
-                            <form th:action="@{/appointments/{id}/delete(id=${appt.id})}" method="post"
-                                  onsubmit="return confirm('¿Eliminar este turno?');">
-                                <md-text-button type="submit" style="--md-sys-color-primary:var(--md-sys-color-error)">
+                            <form method="post"
+                                  th:action="@{/appointments/{id}/delete(id=${appt.id})}" th:id="'deleteForm-' + ${appt.id}">
+                                <md-text-button data-confirm-accept="Eliminar" data-confirm-message="¿Eliminar este turno?"
+                                                data-confirm-title="Eliminar turno"
+                                                onclick="askConfirm(this)"
+                                                style="--md-sys-color-primary:var(--md-sys-color-error)"
+                                                th:data-confirm-form="'deleteForm-' + ${appt.id}"
+                                                type="button">
                                     <md-icon slot="icon">delete</md-icon>
                                     Eliminar
                                 </md-text-button>
@@ -696,33 +626,9 @@
     </main>
 </div>
 
-<md-dialog id="logoutDialog">
-    <div slot="headline" class="md-typescale-headline-small">Cerrar sesión</div>
-    <div slot="content" class="md-typescale-body-medium">
-        ¿Está seguro que desea cerrar la sesión actual?
-        <form id="logoutForm" th:action="@{/logout}" method="post">
-            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-        </form>
-    </div>
-    <div slot="actions">
-        <md-text-button id="logoutCancel">Cancelar</md-text-button>
-        <md-filled-button type="submit" form="logoutForm">Confirmar</md-filled-button>
-    </div>
-</md-dialog>
+<div th:replace="~{fragments/layout :: dialogs}"></div>
+<div th:replace="~{fragments/layout :: successToast(entityLabel='El turno')}"></div>
 <script>
-    const drawer = document.getElementById('navDrawer');
-    const scrim = document.getElementById('navScrim');
-    const toggle = document.getElementById('navToggle');
-
-    function setDrawerOpen(open) {
-        drawer.classList.toggle('open', open);
-        scrim.classList.toggle('open', open);
-    }
-
-    toggle.addEventListener('click', () => setDrawerOpen(!drawer.classList.contains('open')));
-    scrim.addEventListener('click', () => setDrawerOpen(false));
-    drawer.querySelectorAll('md-list-item').forEach(item => item.addEventListener('click', () => setDrawerOpen(false)));
-
     function toggleApptActions(button) {
         const panel = document.getElementById(button.dataset.target);
         const open = panel.classList.toggle('open');
@@ -754,12 +660,7 @@
         if (dateField) dateField.addEventListener('change', () => filterForm.requestSubmit());
         selects.forEach(select => select.addEventListener('change', () => filterForm.requestSubmit()));
     }
-    const logoutItem = document.getElementById('logoutItem');
-    const logoutDialog = document.getElementById('logoutDialog');
-    const logoutCancel = document.getElementById('logoutCancel');
-
-    logoutItem.addEventListener('click', () => logoutDialog.show());
-    logoutCancel.addEventListener('click', () => logoutDialog.close());
 </script>
+<script th:replace="~{fragments/layout :: commonScripts}"></script>
 </body>
 </html>

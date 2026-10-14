@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org" th:attr="data-theme=${@appPreferences.getTheme()}">
+<html lang="es" th:attr="data-theme=${@appPreferences.getTheme()}" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>Registro - Sistema de Gestión</title>
     <script type="importmap">
         { "imports": { "@material/web/": "https://esm.run/@material/web/" } }
@@ -12,12 +12,12 @@
         import {styles as typescaleStyles} from '@material/web/typography/md-typescale-styles.js';
         document.adoptedStyleSheets.push(typescaleStyles.styleSheet);
     </script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
           rel="stylesheet">
-    <link rel="stylesheet" href="/css/theme.css">
+    <link href="/css/theme.css" rel="stylesheet">
     <style>
         * {
             box-sizing: border-box
@@ -70,50 +70,51 @@
 </head>
 <body>
 <div class="register-page">
-    <md-text-button href="/" class="back-btn" aria-label="Volver">
+    <md-text-button aria-label="Volver" class="back-btn" href="/">
         <md-icon slot="icon">arrow_back</md-icon>
         Volver
     </md-text-button>
     <header style="margin-top:24px">
         <h1 class="md-typescale-headline-small" style="margin:0">Crear cuenta</h1>
-        <p class="md-typescale-body-large" style="color:var(--md-sys-color-on-surface-variant);margin:8px 0 0 0">Registra un nuevo usuario en el
+        <p class="md-typescale-body-large" style="color:var(--md-sys-color-on-surface-variant);margin:8px 0 0 0">
+            Registra un nuevo usuario en el
             sistema</p>
     </header>
-    <div th:if="${error}" th:text="${error}" class="md-typescale-body-large"
-         style="color:var(--md-sys-color-error);margin-top:16px"></div>
-    <form th:object="${dto}" th:action="@{/register}" method="post" class="auth-form">
-        <input type="hidden" name="hasAdminRights" value="false">
-        <md-outlined-text-field label="Nombre de usuario" required type="text" name="username" id="username"
-                                th:value="${dto.username}" placeholder="Ingresá tu nombre de usuario">
+    <div class="md-typescale-body-large" style="color:var(--md-sys-color-error);margin-top:16px" th:if="${error}"
+         th:text="${error}"></div>
+    <form class="auth-form" method="post" th:action="@{/register}" th:object="${dto}">
+        <input name="hasAdminRights" type="hidden" value="false">
+        <md-outlined-text-field id="username" label="Nombre de usuario" name="username" placeholder="Ingresá tu nombre de usuario" required
+                                th:value="${dto.username}" type="text">
             <md-icon slot="leading-icon">person</md-icon>
         </md-outlined-text-field>
-        <md-outlined-text-field label="Contraseña" required type="password" name="password" id="password"
-                                placeholder="Ingresá tu contraseña">
+        <md-outlined-text-field id="password" label="Contraseña" name="password" placeholder="Ingresá tu contraseña" required
+                                type="password">
             <md-icon slot="leading-icon">lock</md-icon>
-            <md-icon-button toggle slot="trailing-icon" aria-label="Mostrar contraseña"
-                            onclick="togglePassword('password', this)">
+            <md-icon-button aria-label="Mostrar contraseña" onclick="togglePassword('password', this)" slot="trailing-icon"
+                            toggle>
                 <md-icon>visibility</md-icon>
                 <md-icon slot="selected">visibility_off</md-icon>
             </md-icon-button>
         </md-outlined-text-field>
-        <md-outlined-text-field label="Confirmar contraseña" required type="password" name="confirmPassword"
-                                id="confirmPassword" placeholder="Repetí tu contraseña">
+        <md-outlined-text-field id="confirmPassword" label="Confirmar contraseña" name="confirmPassword" placeholder="Repetí tu contraseña"
+                                required type="password">
             <md-icon slot="leading-icon">lock</md-icon>
-            <md-icon-button toggle slot="trailing-icon" aria-label="Mostrar contraseña"
-                            onclick="togglePassword('confirmPassword', this)">
+            <md-icon-button aria-label="Mostrar contraseña" onclick="togglePassword('confirmPassword', this)" slot="trailing-icon"
+                            toggle>
                 <md-icon>visibility</md-icon>
                 <md-icon slot="selected">visibility_off</md-icon>
             </md-icon-button>
         </md-outlined-text-field>
-        <md-filled-button type="submit" class="auth-submit">Crear usuario</md-filled-button>
+        <md-filled-button class="auth-submit" type="submit">Crear usuario</md-filled-button>
     </form>
     <md-dialog id="validationDialog">
-        <div slot="headline" class="md-typescale-headline-small">No se pudo crear la cuenta. Por favor, revisa lo
+        <div class="md-typescale-headline-small" slot="headline">No se pudo crear la cuenta. Por favor, revisa lo
             siguiente:
         </div>
-        <div slot="content" class="md-typescale-body-medium">
+        <div class="md-typescale-body-medium" slot="content">
             <div th:if="${validationErrors != null and !#lists.isEmpty(validationErrors)}">
-                <div th:each="error : ${validationErrors}" class="error-item">
+                <div class="error-item" th:each="error : ${validationErrors}">
                     <span th:text="${error}">Error</span>
                 </div>
             </div>

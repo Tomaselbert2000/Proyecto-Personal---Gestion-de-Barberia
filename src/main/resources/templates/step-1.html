@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org" th:attr="data-theme=${@appPreferences.getTheme()}">
+<html lang="es" th:attr="data-theme=${@appPreferences.getTheme()}" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Reservá tu turno en LA TERCERA BARBERSHOP en tres simples pasos.">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Reservá tu turno en LA TERCERA BARBERSHOP en tres simples pasos." name="description">
     <title>Reservar turno - LA TERCERA BARBERSHOP</title>
     <script type="importmap">
         { "imports": { "@material/web/": "https://esm.run/@material/web/" } }
@@ -13,12 +13,12 @@
         import {styles as typescaleStyles} from '@material/web/typography/md-typescale-styles.js';
         document.adoptedStyleSheets.push(typescaleStyles.styleSheet);
     </script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
           rel="stylesheet">
-    <link rel="stylesheet" href="/css/theme.css">
+    <link href="/css/theme.css" rel="stylesheet">
     <style>
         * {
             box-sizing: border-box;
@@ -417,8 +417,8 @@
         </span>
     </header>
 
-    <ol class="stepper" aria-label="Progreso de la reserva">
-        <li class="step is-active" aria-current="step">
+    <ol aria-label="Progreso de la reserva" class="stepper">
+        <li aria-current="step" class="step is-active">
             <span class="step-index">1</span>
             <span class="step-label">Servicio y barbero</span>
         </li>
@@ -446,8 +446,8 @@
             <p>Por favor, intentá más tarde o comunicate con el local.</p>
         </div>
 
-        <form th:if="${not #lists.isEmpty(services) and not #lists.isEmpty(employees)}"
-              th:action="@{/public-booking/calendar}" method="get">
+        <form method="get"
+              th:action="@{/public-booking/calendar}" th:if="${not #lists.isEmpty(services) and not #lists.isEmpty(employees)}">
 
             <div class="section">
                 <p class="section-label">
@@ -456,7 +456,7 @@
                 </p>
                 <div class="grid grid-2">
                     <label class="choice" th:each="service : ${services}">
-                        <input type="radio" name="serviceId" th:value="${service.barberServiceId}" required>
+                        <input name="serviceId" required th:value="${service.barberServiceId}" type="radio">
                         <span class="choice-body">
                             <span class="choice-check"><md-icon>check</md-icon></span>
                             <span class="choice-head">
@@ -479,7 +479,7 @@
                 </p>
                 <div class="grid grid-2">
                     <label class="choice employee" th:each="employee : ${employees}">
-                        <input type="radio" name="employeeId" th:value="${employee.id}" required>
+                        <input name="employeeId" required th:value="${employee.id}" type="radio">
                         <span class="choice-body">
                             <span class="avatar"
                                   th:text="${#strings.toUpperCase(#strings.substring(employee.firstName, 0, 1) + #strings.substring(employee.lastName, 0, 1))}">TB</span>

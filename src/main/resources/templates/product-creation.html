@@ -1,21 +1,10 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org" th:attr="data-theme=${@appPreferences.getTheme()}">
+<html lang="es" th:attr="data-theme=${@appPreferences.getTheme()}" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>Nuevo Producto - LA TERCERA BARBERSHOP</title>
-    <script type="importmap">
-        { "imports": { "@material/web/": "https://esm.run/@material/web/" } }
-    </script>
-    <script type="module">
-        import '@material/web/all.js';
-        import {styles as typescaleStyles} from '@material/web/typography/md-typescale-styles.js';
-        document.adoptedStyleSheets.push(typescaleStyles.styleSheet);
-    </script>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
-          rel="stylesheet">
-    <link rel="stylesheet" href="/css/theme.css">
+    <th:block th:replace="~{fragments/layout :: headAssets}"></th:block>
     <style>
         * {
             box-sizing: border-box
@@ -230,78 +219,12 @@
     </style>
 </head>
 <body>
-<header class="app-header">
-    <md-icon-button id="navToggle" class="nav-toggle" aria-label="Abrir navegación">
-        <md-icon>menu</md-icon>
-    </md-icon-button>
-    <div class="app-header-titles">
-        <span class="md-typescale-title-large">Nuevo Producto</span>
-        <span class="md-typescale-label-large" th:text="${currentUser}">Usuario</span>
-    </div>
-    <span style="flex:1"></span>
-    <md-icon-button aria-label="Cuenta de usuario">
-        <md-icon>account_circle</md-icon>
-    </md-icon-button>
-</header>
+<header th:replace="~{fragments/layout :: header(title='Nuevo Producto', backHref='', backLabel='')}"></header>
 
 <div class="nav-scrim" id="navScrim"></div>
 
 <div class="app-shell">
-    <aside class="nav-drawer" id="navDrawer" aria-label="Navegación principal">
-        <div class="nav-brand">
-            <img th:src="@{/images/Logo.jpg}" src="/images/Logo.jpg" alt="Logo LA TERCERA">
-            <div class="nav-brand-copy">
-                <span class="md-typescale-title-medium">LA TERCERA</span>
-                <span class="md-typescale-label-medium">BARBERSHOP</span>
-            </div>
-        </div>
-        <md-divider></md-divider>
-        <md-list>
-            <md-list-item type="link" href="/dashboard">
-                <md-icon slot="start">dashboard</md-icon>
-                <span slot="headline">Dashboard</span>
-            </md-list-item>
-            <md-list-item type="link" href="/clients">
-                <md-icon slot="start">person</md-icon>
-                <span slot="headline">Clientes</span>
-            </md-list-item>
-            <md-list-item type="link" href="/employees">
-                <md-icon slot="start">badge</md-icon>
-                <span slot="headline">Empleados</span>
-            </md-list-item>
-            <md-list-item type="link" href="/appointments">
-                <md-icon slot="start">calendar_today</md-icon>
-                <span slot="headline">Turnos</span>
-            </md-list-item>
-            <md-list-item type="link" href="/barberservices">
-                <md-icon slot="start">cut</md-icon>
-                <span slot="headline">Servicios</span>
-            </md-list-item>
-            <md-list-item type="link" href="/products" aria-current="page">
-                <md-icon slot="start">inventory_2</md-icon>
-                <span slot="headline">Stock de productos</span>
-            </md-list-item>
-            <md-list-item type="link" href="/payments">
-                <md-icon slot="start">payments</md-icon>
-                <span slot="headline">Medios de pago</span>
-            </md-list-item>
-            <md-list-item type="link" href="/sales">
-                <md-icon slot="start">point_of_sale</md-icon>
-                <span slot="headline">Ventas</span>
-            </md-list-item>
-        </md-list>
-        <md-divider></md-divider>
-        <md-list>
-            <md-list-item type="link" href="/settings">
-                <md-icon slot="start">settings</md-icon>
-                <span slot="headline">Configuración</span>
-            </md-list-item>
-            <md-list-item id="logoutItem">
-                <md-icon slot="start">logout</md-icon>
-                <span slot="headline">Cerrar Sesión</span>
-            </md-list-item>
-        </md-list>
-    </aside>
+    <aside th:replace="~{fragments/layout :: drawer(active='/products')}"></aside>
 
     <main class="app-main">
         <div class="main-inner">
@@ -312,102 +235,102 @@
             </div>
 
             <section aria-label="Formulario de registro de producto">
-                <form th:action="@{/products/new}" method="post">
-                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-                    <input type="hidden" name="imageFilePath" value="">
+                <form method="post" th:action="@{/products/new}">
+                    <input th:name="${_csrf.parameterName}" th:value="${_csrf.token}" type="hidden">
+                    <input name="imageFilePath" type="hidden" value="">
                     <div class="surface outlined">
                         <div class="form-grid">
-                            <md-outlined-text-field class="span-full" label="Nombre de producto" name="name"
-                                                    id="productName"
-                                                    maxlength="100" th:value="${dto.name}"
-                                                    placeholder="Ej: Cera para modelar">
+                            <md-outlined-text-field class="span-full" id="productName" label="Nombre de producto"
+                                                    maxlength="100"
+                                                    name="name" placeholder="Ej: Cera para modelar"
+                                                    th:value="${dto.name}">
                                 <md-icon slot="leading-icon">inventory_2</md-icon>
                             </md-outlined-text-field>
 
-                            <md-outlined-text-field label="Marca" name="brandName" id="productBrandName"
-                                                    maxlength="100" th:value="${dto.brandName}"
-                                                    placeholder="Ej: American Crew">
+                            <md-outlined-text-field id="productBrandName" label="Marca" maxlength="100"
+                                                    name="brandName" placeholder="Ej: American Crew"
+                                                    th:value="${dto.brandName}">
                                 <md-icon slot="leading-icon">branding_watermark</md-icon>
                             </md-outlined-text-field>
 
-                            <md-outlined-text-field label="Tamaño o volumen" name="presentationSize"
-                                                    id="productPresentationSize"
-                                                    type="text" inputmode="numeric" th:value="${dto.presentationSize}"
-                                                    placeholder="Ej: 250ml">
+                            <md-outlined-text-field id="productPresentationSize" inputmode="numeric"
+                                                    label="Tamaño o volumen"
+                                                    name="presentationSize" placeholder="Ej: 250ml" th:value="${dto.presentationSize}"
+                                                    type="text">
                                 <md-icon slot="leading-icon">straighten</md-icon>
                             </md-outlined-text-field>
 
-                            <md-outlined-select label="Categoría" name="category" id="productCategory">
+                            <md-outlined-select id="productCategory" label="Categoría" name="category">
                                 <md-select-option th:each="c : ${categories}"
                                                   th:if="${c.name() != 'TODOS'}"
-                                                  th:value="${c}"
-                                                  th:selected="${dto.category != null and dto.category.name() == c.name()}">
+                                                  th:selected="${dto.category != null and dto.category.name() == c.name()}"
+                                                  th:value="${c}">
                                     <div slot="headline" th:text="${c.displayName}"></div>
                                 </md-select-option>
                             </md-outlined-select>
 
-                            <md-outlined-select label="Medida de presentación" name="presentationUnit"
-                                                id="productPresentationUnit">
+                            <md-outlined-select id="productPresentationUnit" label="Medida de presentación"
+                                                name="presentationUnit">
                                 <md-select-option th:each="u : ${productPresentationUnits}"
                                                   th:if="${u.name() != 'TODOS'}"
-                                                  th:value="${u}"
-                                                  th:selected="${dto.presentationUnit != null and dto.presentationUnit.name() == u.name()}">
+                                                  th:selected="${dto.presentationUnit != null and dto.presentationUnit.name() == u.name()}"
+                                                  th:value="${u}">
                                     <div slot="headline" th:text="${u.displayName}"></div>
                                 </md-select-option>
                             </md-outlined-select>
 
-                            <md-outlined-text-field class="span-full" label="Descripción opcional"
-                                                    name="optionalDescription" id="productDescription"
-                                                    type="textarea" rows="3" maxlength="256"
+                            <md-outlined-text-field class="span-full" id="productDescription"
+                                                    label="Descripción opcional" maxlength="256"
+                                                    name="optionalDescription" placeholder="Descripción opcional del producto" rows="3"
                                                     th:value="${dto.optionalDescription}"
-                                                    placeholder="Descripción opcional del producto">
+                                                    type="textarea">
                                 <md-icon slot="leading-icon">description</md-icon>
                             </md-outlined-text-field>
 
-                            <md-outlined-text-field label="Costo de producto" name="productCost" id="productCost"
-                                                    type="text" inputmode="decimal" th:value="${dto.productCost}"
-                                                    placeholder="$0">
+                            <md-outlined-text-field id="productCost" inputmode="decimal" label="Costo de producto"
+                                                    name="productCost" placeholder="$0" th:value="${dto.productCost}"
+                                                    type="text">
                                 <md-icon slot="leading-icon">attach_money</md-icon>
                             </md-outlined-text-field>
 
-                            <md-outlined-text-field label="Precio de venta mínimo" name="minPrice" id="productMinPrice"
-                                                    type="text" inputmode="decimal" th:value="${dto.minPrice}"
-                                                    placeholder="$0">
+                            <md-outlined-text-field id="productMinPrice" inputmode="decimal" label="Precio de venta mínimo"
+                                                    name="minPrice" placeholder="$0" th:value="${dto.minPrice}"
+                                                    type="text">
                                 <md-icon slot="leading-icon">attach_money</md-icon>
                             </md-outlined-text-field>
 
-                            <md-outlined-text-field label="Precio actual de venta" name="currentPrice"
-                                                    id="productCurrentPrice"
-                                                    type="text" inputmode="decimal" th:value="${dto.currentPrice}"
-                                                    placeholder="$0">
+                            <md-outlined-text-field id="productCurrentPrice" inputmode="decimal"
+                                                    label="Precio actual de venta"
+                                                    name="currentPrice" placeholder="$0" th:value="${dto.currentPrice}"
+                                                    type="text">
                                 <md-icon slot="leading-icon">attach_money</md-icon>
                             </md-outlined-text-field>
 
-                            <md-outlined-text-field label="Precio al por mayor" name="productWholeSalePrice"
-                                                    id="productWholesalePrice"
-                                                    type="text" inputmode="decimal"
-                                                    th:value="${dto.productWholeSalePrice}" placeholder="$0">
+                            <md-outlined-text-field id="productWholesalePrice" inputmode="decimal"
+                                                    label="Precio al por mayor"
+                                                    name="productWholeSalePrice" placeholder="$0"
+                                                    th:value="${dto.productWholeSalePrice}" type="text">
                                 <md-icon slot="leading-icon">attach_money</md-icon>
                             </md-outlined-text-field>
 
-                            <md-outlined-text-field class="span-full" label="Descuento máximo"
-                                                    name="maxDiscountPercentage" id="productMaxDiscount"
-                                                    type="text" inputmode="decimal"
-                                                    th:value="${dto.maxDiscountPercentage}" placeholder="$0">
+                            <md-outlined-text-field class="span-full" id="productMaxDiscount"
+                                                    inputmode="decimal" label="Descuento máximo"
+                                                    name="maxDiscountPercentage" placeholder="$0"
+                                                    th:value="${dto.maxDiscountPercentage}" type="text">
                                 <md-icon slot="leading-icon">percent</md-icon>
                             </md-outlined-text-field>
 
-                            <md-outlined-text-field label="Stock actual" name="currentStockLevel"
-                                                    id="productCurrentStock"
-                                                    type="text" inputmode="numeric" th:value="${dto.currentStockLevel}"
-                                                    placeholder="0 unidades">
+                            <md-outlined-text-field id="productCurrentStock" inputmode="numeric"
+                                                    label="Stock actual"
+                                                    name="currentStockLevel" placeholder="0 unidades" th:value="${dto.currentStockLevel}"
+                                                    type="text">
                                 <md-icon slot="leading-icon">inventory_2</md-icon>
                             </md-outlined-text-field>
 
-                            <md-outlined-text-field label="Stock mínimo seguro" name="safetyStockLevel"
-                                                    id="productSafetyStock"
-                                                    type="text" inputmode="numeric" th:value="${dto.safetyStockLevel}"
-                                                    placeholder="0 unidades">
+                            <md-outlined-text-field id="productSafetyStock" inputmode="numeric"
+                                                    label="Stock mínimo seguro"
+                                                    name="safetyStockLevel" placeholder="0 unidades" th:value="${dto.safetyStockLevel}"
+                                                    type="text">
                                 <md-icon slot="leading-icon">inventory_2</md-icon>
                             </md-outlined-text-field>
                         </div>
@@ -417,7 +340,7 @@
                                 <md-icon slot="icon">check</md-icon>
                                 Guardar Producto
                             </md-filled-button>
-                            <md-outlined-button type="button" onclick="resetForm()">
+                            <md-outlined-button onclick="resetForm()" type="button">
                                 <md-icon slot="icon">autorenew</md-icon>
                                 Limpiar
                             </md-outlined-button>
@@ -434,12 +357,12 @@
 </div>
 
 <md-dialog id="validationDialog">
-    <div slot="headline" class="md-typescale-headline-small">No se pudo registrar el producto. Por favor, revisa lo
+    <div class="md-typescale-headline-small" slot="headline">No se pudo registrar el producto. Por favor, revisa lo
         siguiente:
     </div>
-    <div slot="content" class="md-typescale-body-medium">
+    <div class="md-typescale-body-medium" slot="content">
         <div th:if="${validationErrors != null and !#lists.isEmpty(validationErrors)}">
-            <div th:each="error : ${validationErrors}" class="error-item">
+            <div class="error-item" th:each="error : ${validationErrors}">
                 <span th:text="${error}">Error</span>
             </div>
         </div>
@@ -449,33 +372,8 @@
     </div>
 </md-dialog>
 
-<md-dialog id="logoutDialog">
-    <div slot="headline" class="md-typescale-headline-small">Cerrar sesión</div>
-    <div slot="content" class="md-typescale-body-medium">
-        ¿Está seguro que desea cerrar la sesión actual?
-        <form id="logoutForm" th:action="@{/logout}" method="post">
-            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-        </form>
-    </div>
-    <div slot="actions">
-        <md-text-button id="logoutCancel">Cancelar</md-text-button>
-        <md-filled-button type="submit" form="logoutForm">Confirmar</md-filled-button>
-    </div>
-</md-dialog>
+<div th:replace="~{fragments/layout :: dialogs}"></div>
 <script>
-    const drawer = document.getElementById('navDrawer');
-    const scrim = document.getElementById('navScrim');
-    const toggle = document.getElementById('navToggle');
-
-    function setDrawerOpen(open) {
-        drawer.classList.toggle('open', open);
-        scrim.classList.toggle('open', open);
-    }
-
-    toggle.addEventListener('click', () => setDrawerOpen(!drawer.classList.contains('open')));
-    scrim.addEventListener('click', () => setDrawerOpen(false));
-    drawer.querySelectorAll('md-list-item').forEach(item => item.addEventListener('click', () => setDrawerOpen(false)));
-
     function resetForm() {
         window.location.href = '/products/new';
     }
@@ -486,13 +384,6 @@
     if (document.querySelectorAll('#validationDialog .error-item').length > 0) {
         validationDialog.show();
     }
-
-    const logoutItem = document.getElementById('logoutItem');
-    const logoutDialog = document.getElementById('logoutDialog');
-    const logoutCancel = document.getElementById('logoutCancel');
-
-    logoutItem.addEventListener('click', () => logoutDialog.show());
-    logoutCancel.addEventListener('click', () => logoutDialog.close());
 
     const integerFields = ['productPresentationSize', 'productCurrentStock', 'productSafetyStock']
         .map(id => document.getElementById(id));
@@ -525,5 +416,6 @@
         });
     });
 </script>
+<script th:replace="~{fragments/layout :: commonScripts}"></script>
 </body>
 </html>

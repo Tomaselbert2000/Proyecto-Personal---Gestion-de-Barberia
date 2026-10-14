@@ -1,21 +1,10 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org" th:attr="data-theme=${@appPreferences.getTheme()}">
+<html lang="es" th:attr="data-theme=${@appPreferences.getTheme()}" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>Editar Empleado - LA TERCERA BARBERSHOP</title>
-    <script type="importmap">
-        { "imports": { "@material/web/": "https://esm.run/@material/web/" } }
-    </script>
-    <script type="module">
-        import '@material/web/all.js';
-        import {styles as typescaleStyles} from '@material/web/typography/md-typescale-styles.js';
-        document.adoptedStyleSheets.push(typescaleStyles.styleSheet);
-    </script>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
-          rel="stylesheet">
-    <link rel="stylesheet" href="/css/theme.css">
+    <th:block th:replace="~{fragments/layout :: headAssets}"></th:block>
     <style>
         * {
             box-sizing: border-box
@@ -264,78 +253,12 @@
     </style>
 </head>
 <body>
-<header class="app-header">
-    <md-icon-button id="navToggle" class="nav-toggle" aria-label="Abrir navegación">
-        <md-icon>menu</md-icon>
-    </md-icon-button>
-    <div class="app-header-titles">
-        <span class="md-typescale-title-large">Editar Empleado</span>
-        <span class="md-typescale-label-large" th:text="${currentUser}">Usuario</span>
-    </div>
-    <span style="flex:1"></span>
-    <md-icon-button aria-label="Cuenta de usuario">
-        <md-icon>account_circle</md-icon>
-    </md-icon-button>
-</header>
+<header th:replace="~{fragments/layout :: header(title='Editar Empleado', backHref='', backLabel='')}"></header>
 
 <div class="nav-scrim" id="navScrim"></div>
 
 <div class="app-shell">
-    <aside class="nav-drawer" id="navDrawer" aria-label="Navegación principal">
-        <div class="nav-brand">
-            <img th:src="@{/images/Logo.jpg}" src="/images/Logo.jpg" alt="Logo LA TERCERA">
-            <div class="nav-brand-copy">
-                <span class="md-typescale-title-medium">LA TERCERA</span>
-                <span class="md-typescale-label-medium">BARBERSHOP</span>
-            </div>
-        </div>
-        <md-divider></md-divider>
-        <md-list>
-            <md-list-item type="link" href="/dashboard">
-                <md-icon slot="start">dashboard</md-icon>
-                <span slot="headline">Dashboard</span>
-            </md-list-item>
-            <md-list-item type="link" href="/clients">
-                <md-icon slot="start">person</md-icon>
-                <span slot="headline">Clientes</span>
-            </md-list-item>
-            <md-list-item type="link" href="/employees" aria-current="page">
-                <md-icon slot="start">badge</md-icon>
-                <span slot="headline">Empleados</span>
-            </md-list-item>
-            <md-list-item type="link" href="/appointments">
-                <md-icon slot="start">calendar_today</md-icon>
-                <span slot="headline">Turnos</span>
-            </md-list-item>
-            <md-list-item type="link" href="/barberservices">
-                <md-icon slot="start">cut</md-icon>
-                <span slot="headline">Servicios</span>
-            </md-list-item>
-            <md-list-item type="link" href="/products">
-                <md-icon slot="start">inventory_2</md-icon>
-                <span slot="headline">Stock de productos</span>
-            </md-list-item>
-            <md-list-item type="link" href="/payments">
-                <md-icon slot="start">payments</md-icon>
-                <span slot="headline">Medios de pago</span>
-            </md-list-item>
-            <md-list-item type="link" href="/sales">
-                <md-icon slot="start">point_of_sale</md-icon>
-                <span slot="headline">Ventas</span>
-            </md-list-item>
-        </md-list>
-        <md-divider></md-divider>
-        <md-list>
-            <md-list-item type="link" href="/settings">
-                <md-icon slot="start">settings</md-icon>
-                <span slot="headline">Configuración</span>
-            </md-list-item>
-            <md-list-item id="logoutItem">
-                <md-icon slot="start">logout</md-icon>
-                <span slot="headline">Cerrar Sesión</span>
-            </md-list-item>
-        </md-list>
-    </aside>
+    <aside th:replace="~{fragments/layout :: drawer(active='/employees')}"></aside>
 
     <main class="app-main">
         <div class="main-inner">
@@ -346,8 +269,8 @@
             </div>
 
             <section aria-label="Formulario de edición de empleado">
-                <form th:action="@{/employees/{employeeID}/update(employeeID=${employee.id})}" method="post">
-                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                <form method="post" th:action="@{/employees/{employeeID}/update(employeeID=${employee.id})}">
+                    <input th:name="${_csrf.parameterName}" th:value="${_csrf.token}" type="hidden">
                     <div class="surface outlined">
                         <div class="ficha">
                             <div class="ficha-item">
@@ -374,36 +297,36 @@
                         <md-divider></md-divider>
 
                         <div class="form-grid">
-                            <md-outlined-text-field label="Nombre" name="firstName" id="employeeFirstName"
-                                                    maxlength="100" th:value="${dto.firstName}" placeholder="Ej: Juan">
+                            <md-outlined-text-field id="employeeFirstName" label="Nombre" maxlength="100"
+                                                    name="firstName" placeholder="Ej: Juan" th:value="${dto.firstName}">
                                 <md-icon slot="leading-icon">person</md-icon>
                             </md-outlined-text-field>
 
-                            <md-outlined-text-field label="Apellido" name="lastName" id="employeeLastName"
-                                                    maxlength="100" th:value="${dto.lastName}" placeholder="Ej: Perez">
+                            <md-outlined-text-field id="employeeLastName" label="Apellido" maxlength="100"
+                                                    name="lastName" placeholder="Ej: Perez" th:value="${dto.lastName}">
                                 <md-icon slot="leading-icon">person_outline</md-icon>
                             </md-outlined-text-field>
 
-                            <md-outlined-text-field label="Comisión" name="commissionVisible" id="commissionVisible"
-                                                    type="text" inputmode="decimal" maxlength="6" suffix-text="%"
+                            <md-outlined-text-field id="commissionVisible" inputmode="decimal" label="Comisión"
+                                                    maxlength="6" name="commissionVisible" placeholder="Ej: 60" suffix-text="%"
                                                     th:value="${dto.commissionPercentage != null ? #numbers.formatDecimal(dto.commissionPercentage * 100, 1, 1) : ''}"
-                                                    placeholder="Ej: 60">
+                                                    type="text">
                                 <md-icon slot="leading-icon">percent</md-icon>
                             </md-outlined-text-field>
-                            <input type="hidden" name="commissionPercentage" id="commissionPercentage"
-                                   th:value="${dto.commissionPercentage}">
+                            <input id="commissionPercentage" name="commissionPercentage" th:value="${dto.commissionPercentage}"
+                                   type="hidden">
 
                             <label class="check-row span-full" th:if="${dto.terminationDate == null}">
-                                <md-checkbox id="employeeIsActive" touch-target="wrapper"
-                                             th:checked="${dto.isActive}"></md-checkbox>
+                                <md-checkbox id="employeeIsActive" th:checked="${dto.isActive}"
+                                             touch-target="wrapper"></md-checkbox>
                                 <span class="md-typescale-body-large">Empleado en actividad</span>
                             </label>
-                            <input type="hidden" name="isActive" id="employeeIsActiveValue"
-                                   th:value="${dto.isActive}">
+                            <input id="employeeIsActiveValue" name="isActive" th:value="${dto.isActive}"
+                                   type="hidden">
 
-                            <md-outlined-text-field label="Fecha de cese" name="terminationDate"
-                                                    id="employeeTerminationDate"
-                                                    type="date" th:value="${dto.terminationDate}">
+                            <md-outlined-text-field id="employeeTerminationDate" label="Fecha de cese"
+                                                    name="terminationDate"
+                                                    th:value="${dto.terminationDate}" type="date">
                                 <md-icon slot="leading-icon">event_busy</md-icon>
                             </md-outlined-text-field>
                         </div>
@@ -418,8 +341,8 @@
                                 <md-icon slot="icon">check</md-icon>
                                 Guardar Cambios
                             </md-filled-button>
-                            <md-outlined-button type="button" id="resetButton"
-                                                th:attr="data-reset-url=@{/employees/{id}/update(id=${employee.id})}">
+                            <md-outlined-button id="resetButton" th:attr="data-reset-url=@{/employees/{id}/update(id=${employee.id})}"
+                                                type="button">
                                 <md-icon slot="icon">autorenew</md-icon>
                                 Restaurar valores
                             </md-outlined-button>
@@ -436,12 +359,12 @@
 </div>
 
 <md-dialog id="validationDialog">
-    <div slot="headline" class="md-typescale-headline-small">No se pudo actualizar el empleado. Por favor, revisa lo
+    <div class="md-typescale-headline-small" slot="headline">No se pudo actualizar el empleado. Por favor, revisa lo
         siguiente:
     </div>
-    <div slot="content" class="md-typescale-body-medium">
+    <div class="md-typescale-body-medium" slot="content">
         <div th:if="${validationErrors != null and !#lists.isEmpty(validationErrors)}">
-            <div th:each="error : ${validationErrors}" class="error-item">
+            <div class="error-item" th:each="error : ${validationErrors}">
                 <span th:text="${error}">Error</span>
             </div>
         </div>
@@ -451,33 +374,8 @@
     </div>
 </md-dialog>
 
-<md-dialog id="logoutDialog">
-    <div slot="headline" class="md-typescale-headline-small">Cerrar sesión</div>
-    <div slot="content" class="md-typescale-body-medium">
-        ¿Está seguro que desea cerrar la sesión actual?
-        <form id="logoutForm" th:action="@{/logout}" method="post">
-            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-        </form>
-    </div>
-    <div slot="actions">
-        <md-text-button id="logoutCancel">Cancelar</md-text-button>
-        <md-filled-button type="submit" form="logoutForm">Confirmar</md-filled-button>
-    </div>
-</md-dialog>
+<div th:replace="~{fragments/layout :: dialogs}"></div>
 <script>
-    const drawer = document.getElementById('navDrawer');
-    const scrim = document.getElementById('navScrim');
-    const toggle = document.getElementById('navToggle');
-
-    function setDrawerOpen(open) {
-        drawer.classList.toggle('open', open);
-        scrim.classList.toggle('open', open);
-    }
-
-    toggle.addEventListener('click', () => setDrawerOpen(!drawer.classList.contains('open')));
-    scrim.addEventListener('click', () => setDrawerOpen(false));
-    drawer.querySelectorAll('md-list-item').forEach(item => item.addEventListener('click', () => setDrawerOpen(false)));
-
     const resetButton = document.getElementById('resetButton');
     resetButton.addEventListener('click', () => {
         window.location.href = resetButton.dataset.resetUrl;
@@ -489,13 +387,6 @@
     if (document.querySelectorAll('#validationDialog .error-item').length > 0) {
         validationDialog.show();
     }
-
-    const logoutItem = document.getElementById('logoutItem');
-    const logoutDialog = document.getElementById('logoutDialog');
-    const logoutCancel = document.getElementById('logoutCancel');
-
-    logoutItem.addEventListener('click', () => logoutDialog.show());
-    logoutCancel.addEventListener('click', () => logoutDialog.close());
 
     const commissionVisible = document.getElementById('commissionVisible');
     const commissionHidden = document.getElementById('commissionPercentage');
@@ -529,5 +420,6 @@
         });
     }
 </script>
+<script th:replace="~{fragments/layout :: commonScripts}"></script>
 </body>
 </html>

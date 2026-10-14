@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org" th:attr="data-theme=${@appPreferences.getTheme()}">
+<html lang="es" th:attr="data-theme=${@appPreferences.getTheme()}" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Confirmá los datos de tu turno.">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Confirmá los datos de tu turno." name="description">
     <title>Confirmar turno - LA TERCERA BARBERSHOP</title>
     <script type="importmap">
         { "imports": { "@material/web/": "https://esm.run/@material/web/" } }
@@ -13,12 +13,12 @@
         import {styles as typescaleStyles} from '@material/web/typography/md-typescale-styles.js';
         document.adoptedStyleSheets.push(typescaleStyles.styleSheet);
     </script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
           rel="stylesheet">
-    <link rel="stylesheet" href="/css/theme.css">
+    <link href="/css/theme.css" rel="stylesheet">
     <style>
         * {
             box-sizing: border-box;
@@ -341,7 +341,7 @@
         </span>
     </header>
 
-    <ol class="stepper" aria-label="Progreso de la reserva">
+    <ol aria-label="Progreso de la reserva" class="stepper">
         <li class="step is-done">
             <span class="step-index"><md-icon style="font-size:16px">check</md-icon></span>
             <span class="step-label">Servicio y barbero</span>
@@ -350,7 +350,7 @@
             <span class="step-index"><md-icon style="font-size:16px">check</md-icon></span>
             <span class="step-label">Horario</span>
         </li>
-        <li class="step is-active" aria-current="step">
+        <li aria-current="step" class="step is-active">
             <span class="step-index">3</span>
             <span class="step-label">Confirmación</span>
         </li>
@@ -364,7 +364,7 @@
         <h1>Confirmá tu turno</h1>
         <p class="subtitle">Revisá el resumen y dejanos tus datos de contacto para reservar el turno.</p>
 
-        <div class="alert" th:if="${errors != null and not #lists.isEmpty(errors)}" role="alert">
+        <div class="alert" role="alert" th:if="${errors != null and not #lists.isEmpty(errors)}">
             <md-icon>error</md-icon>
             <ul>
                 <li th:each="error : ${errors}" th:text="${error}">Error</li>
@@ -408,11 +408,11 @@
             </div>
         </div>
 
-        <form th:action="@{/public-booking/confirm}" method="post">
-            <input type="hidden" name="barberServiceID" th:value="${dto.barberServiceID}">
-            <input type="hidden" name="employeeID" th:value="${dto.employeeID}">
-            <input type="hidden" name="date" th:value="${dto.date}">
-            <input type="hidden" name="startTime" th:value="${dto.startTime}">
+        <form method="post" th:action="@{/public-booking/confirm}">
+            <input name="barberServiceID" th:value="${dto.barberServiceID}" type="hidden">
+            <input name="employeeID" th:value="${dto.employeeID}" type="hidden">
+            <input name="date" th:value="${dto.date}" type="hidden">
+            <input name="startTime" th:value="${dto.startTime}" type="hidden">
 
             <p class="form-title">
                 <md-icon>contact_page</md-icon>
@@ -420,14 +420,14 @@
             </p>
 
             <div class="fields fields-2">
-                <md-outlined-text-field label="Nombre" name="guestFirstName" required
-                                        autocomplete="given-name"
+                <md-outlined-text-field autocomplete="given-name" label="Nombre" name="guestFirstName"
+                                        required
                                         th:value="${dto.guestFirstName}"></md-outlined-text-field>
-                <md-outlined-text-field label="Apellido" name="guestLastName" required
-                                        autocomplete="family-name"
+                <md-outlined-text-field autocomplete="family-name" label="Apellido" name="guestLastName"
+                                        required
                                         th:value="${dto.guestLastName}"></md-outlined-text-field>
-                <md-outlined-text-field class="span-2" label="Teléfono" name="guestPhone" type="tel" required
-                                        autocomplete="tel" th:value="${dto.guestPhone}"></md-outlined-text-field>
+                <md-outlined-text-field autocomplete="tel" class="span-2" label="Teléfono" name="guestPhone" required
+                                        th:value="${dto.guestPhone}" type="tel"></md-outlined-text-field>
             </div>
 
             <p class="hint">
@@ -436,8 +436,8 @@
             </p>
 
             <div class="actions">
-                <md-outlined-button type="button"
-                                    th:onclick="'location.href=\'' + @{/public-booking/calendar(serviceId=${dto.barberServiceID}, employeeId=${dto.employeeID}, date=${dto.date})} + '\''">
+                <md-outlined-button th:onclick="'location.href=\'' + @{/public-booking/calendar(serviceId=${dto.barberServiceID}, employeeId=${dto.employeeID}, date=${dto.date})} + '\''"
+                                    type="button">
                     <md-icon slot="icon">arrow_back</md-icon>
                     Volver
                 </md-outlined-button>

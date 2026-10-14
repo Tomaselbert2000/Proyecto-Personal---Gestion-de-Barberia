@@ -1,21 +1,10 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org" th:attr="data-theme=${selectedTheme}">
+<html lang="es" th:attr="data-theme=${selectedTheme}" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>Configuración - LA TERCERA BARBERSHOP</title>
-    <script type="importmap">
-        { "imports": { "@material/web/": "https://esm.run/@material/web/" } }
-    </script>
-    <script type="module">
-        import '@material/web/all.js';
-        import {styles as typescaleStyles} from '@material/web/typography/md-typescale-styles.js';
-        document.adoptedStyleSheets.push(typescaleStyles.styleSheet);
-    </script>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
-          rel="stylesheet">
-    <link rel="stylesheet" href="/css/theme.css">
+    <th:block th:replace="~{fragments/layout :: headAssets}"></th:block>
     <style>
         * {
             box-sizing: border-box
@@ -383,78 +372,12 @@
     </style>
 </head>
 <body th:attr="data-saved=${saved}, data-error=${error}, data-error-msg=${errorMessage != null ? errorMessage : ''}">
-<header class="app-header">
-    <md-icon-button id="navToggle" class="nav-toggle" aria-label="Abrir navegación">
-        <md-icon>menu</md-icon>
-    </md-icon-button>
-    <div class="app-header-titles">
-        <span class="md-typescale-title-large">Configuración</span>
-        <span class="md-typescale-label-large" th:text="${currentUser}">Usuario</span>
-    </div>
-    <span style="flex:1"></span>
-    <md-icon-button aria-label="Cuenta de usuario">
-        <md-icon>account_circle</md-icon>
-    </md-icon-button>
-</header>
+<header th:replace="~{fragments/layout :: header(title='Configuración', backHref='', backLabel='')}"></header>
 
 <div class="nav-scrim" id="navScrim"></div>
 
 <div class="app-shell">
-    <aside class="nav-drawer" id="navDrawer" aria-label="Navegación principal">
-        <div class="nav-brand">
-            <img th:src="@{/images/Logo.jpg}" src="/images/Logo.jpg" alt="Logo LA TERCERA">
-            <div class="nav-brand-copy">
-                <span class="md-typescale-title-medium">LA TERCERA</span>
-                <span class="md-typescale-label-medium">BARBERSHOP</span>
-            </div>
-        </div>
-        <md-divider></md-divider>
-        <md-list>
-            <md-list-item type="link" href="/dashboard">
-                <md-icon slot="start">dashboard</md-icon>
-                <span slot="headline">Dashboard</span>
-            </md-list-item>
-            <md-list-item type="link" href="/clients">
-                <md-icon slot="start">person</md-icon>
-                <span slot="headline">Clientes</span>
-            </md-list-item>
-            <md-list-item type="link" href="/employees">
-                <md-icon slot="start">badge</md-icon>
-                <span slot="headline">Empleados</span>
-            </md-list-item>
-            <md-list-item type="link" href="/appointments">
-                <md-icon slot="start">calendar_today</md-icon>
-                <span slot="headline">Turnos</span>
-            </md-list-item>
-            <md-list-item type="link" href="/barberservices">
-                <md-icon slot="start">cut</md-icon>
-                <span slot="headline">Servicios</span>
-            </md-list-item>
-            <md-list-item type="link" href="/products">
-                <md-icon slot="start">inventory_2</md-icon>
-                <span slot="headline">Stock de productos</span>
-            </md-list-item>
-            <md-list-item type="link" href="/payments">
-                <md-icon slot="start">payments</md-icon>
-                <span slot="headline">Medios de pago</span>
-            </md-list-item>
-            <md-list-item type="link" href="/sales">
-                <md-icon slot="start">point_of_sale</md-icon>
-                <span slot="headline">Ventas</span>
-            </md-list-item>
-        </md-list>
-        <md-divider></md-divider>
-        <md-list>
-            <md-list-item type="link" href="/settings" aria-current="page">
-                <md-icon slot="start">settings</md-icon>
-                <span slot="headline">Configuración</span>
-            </md-list-item>
-            <md-list-item id="logoutItem">
-                <md-icon slot="start">logout</md-icon>
-                <span slot="headline">Cerrar Sesión</span>
-            </md-list-item>
-        </md-list>
-    </aside>
+    <aside th:replace="~{fragments/layout :: drawer(active='/settings')}"></aside>
 
     <main class="app-main">
         <div class="main-inner">
@@ -465,16 +388,16 @@
                     aplicación</p>
             </div>
 
-            <form id="settingsForm" th:action="@{/settings}" method="post">
-                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+            <form id="settingsForm" method="post" th:action="@{/settings}">
+                <input th:name="${_csrf.parameterName}" th:value="${_csrf.token}" type="hidden">
                 <!-- Estados de notificaciones: sincronizados por JS antes de cada envío -->
-                <input type="hidden" name="newAppointmentNotificationEnabled" value="false">
-                <input type="hidden" name="clientReminderNotificationEnabled" value="false">
-                <input type="hidden" name="lowStockNotificationEnabled" value="false">
-                <input type="hidden" name="workplaceChangesNotificationEnabled" value="false">
+                <input name="newAppointmentNotificationEnabled" type="hidden" value="false">
+                <input name="clientReminderNotificationEnabled" type="hidden" value="false">
+                <input name="lowStockNotificationEnabled" type="hidden" value="false">
+                <input name="workplaceChangesNotificationEnabled" type="hidden" value="false">
 
                 <!-- Selector de Tema -->
-                <section class="settings-section" aria-label="Apariencia">
+                <section aria-label="Apariencia" class="settings-section">
                     <div class="section-title">
                         <md-icon aria-hidden="true">palette</md-icon>
                         <h2 class="md-typescale-title-medium">Apariencia</h2>
@@ -487,11 +410,11 @@
                         <md-divider></md-divider>
                         <div class="theme-grid">
                             <label class="theme-option" th:each="theme : ${themes}">
-                                <input type="radio" name="themeSelected" data-autosave
+                                <input data-autosave name="themeSelected" th:checked="${theme.name() == selectedTheme}"
                                        th:value="${theme.name()}"
-                                       th:checked="${theme.name() == selectedTheme}">
+                                       type="radio">
                                 <div class="theme-card">
-                                    <md-icon th:switch="${theme.name()}" aria-hidden="true">
+                                    <md-icon aria-hidden="true" th:switch="${theme.name()}">
                                         <span th:case="'MD3_LIGHT'">light_mode</span>
                                         <span th:case="'MD3_DARK'">dark_mode</span>
                                         <span th:case="'LA_TERCERA_LIGHT'">content_cut</span>
@@ -506,7 +429,7 @@
                 </section>
 
                 <!-- Configuración del Negocio -->
-                <section class="settings-section" aria-label="Datos del negocio">
+                <section aria-label="Datos del negocio" class="settings-section">
                     <div class="section-title">
                         <md-icon aria-hidden="true">storefront</md-icon>
                         <h2 class="md-typescale-title-medium">Datos del Negocio</h2>
@@ -514,36 +437,36 @@
                     <div class="surface outlined settings-card">
                         <div class="form-grid">
                             <div class="form-field">
-                                <md-outlined-text-field label="Nombre de la Barbería" name="name" data-autosave
+                                <md-outlined-text-field data-autosave label="Nombre de la Barbería" name="name"
                                                         placeholder="Ej: La Tercera Barbershop"
                                                         th:attr="value=${name}"></md-outlined-text-field>
                             </div>
                             <div class="form-field">
-                                <md-outlined-text-field label="Teléfono" name="phone" data-autosave
+                                <md-outlined-text-field data-autosave label="Teléfono" name="phone"
                                                         placeholder="Ej: +54 9 1122334455"
                                                         th:attr="value=${phone}"></md-outlined-text-field>
                             </div>
                             <div class="form-field">
-                                <md-outlined-text-field label="Email" name="email" data-autosave
+                                <md-outlined-text-field data-autosave label="Email" name="email"
                                                         placeholder="Ej: latercera@barbershop.com"
                                                         th:attr="value=${email}"></md-outlined-text-field>
                             </div>
                             <div class="form-field">
-                                <md-outlined-text-field label="Dirección" name="address" data-autosave
+                                <md-outlined-text-field data-autosave label="Dirección" name="address"
                                                         placeholder="Ej: Calle 123"
                                                         th:attr="value=${address}"></md-outlined-text-field>
                             </div>
                             <div class="form-field">
-                                <md-outlined-select label="Horario de Apertura" name="openingHour" data-autosave
-                                                    th:display-text="${openingTime}" th:attr="value=${openingTime}">
+                                <md-outlined-select data-autosave label="Horario de Apertura" name="openingHour"
+                                                    th:attr="value=${openingTime}" th:display-text="${openingTime}">
                                     <md-select-option th:each="h : ${hours}" th:value="${h}">
                                         <div slot="headline" th:text="${h}">08:00</div>
                                     </md-select-option>
                                 </md-outlined-select>
                             </div>
                             <div class="form-field">
-                                <md-outlined-select label="Horario de Cierre" name="closingHour" data-autosave
-                                                    th:display-text="${closingTime}" th:attr="value=${closingTime}">
+                                <md-outlined-select data-autosave label="Horario de Cierre" name="closingHour"
+                                                    th:attr="value=${closingTime}" th:display-text="${closingTime}">
                                     <md-select-option th:each="h : ${hours}" th:value="${h}">
                                         <div slot="headline" th:text="${h}">08:00</div>
                                     </md-select-option>
@@ -554,7 +477,7 @@
                 </section>
 
                 <!-- Configuración de Notificaciones -->
-                <section class="settings-section" aria-label="Notificaciones">
+                <section aria-label="Notificaciones" class="settings-section">
                     <div class="section-title">
                         <md-icon aria-hidden="true">notifications</md-icon>
                         <h2 class="md-typescale-title-medium">Notificaciones</h2>
@@ -567,8 +490,8 @@
                                     <span class="md-typescale-body-small"
                                           style="color:var(--md-sys-color-on-surface-variant)">Recibir alertas cuando se agende un nuevo turno</span>
                                 </div>
-                                <md-switch name="newAppointmentNotificationEnabled" value="true" data-autosave
-                                           th:attr="checked=${newAppointmentNotifications} ? 'checked' : null"></md-switch>
+                                <md-switch data-autosave name="newAppointmentNotificationEnabled" th:attr="checked=${newAppointmentNotifications} ? 'checked' : null"
+                                           value="true"></md-switch>
                             </div>
                             <md-divider></md-divider>
                             <div class="notif-row">
@@ -577,8 +500,8 @@
                                     <span class="md-typescale-body-small"
                                           style="color:var(--md-sys-color-on-surface-variant)">Enviar recordatorios a los clientes antes de su turno</span>
                                 </div>
-                                <md-switch name="clientReminderNotificationEnabled" value="true" data-autosave
-                                           th:attr="checked=${clientReminderNotifications} ? 'checked' : null"></md-switch>
+                                <md-switch data-autosave name="clientReminderNotificationEnabled" th:attr="checked=${clientReminderNotifications} ? 'checked' : null"
+                                           value="true"></md-switch>
                             </div>
                             <md-divider></md-divider>
                             <div class="notif-row">
@@ -587,8 +510,8 @@
                                     <span class="md-typescale-body-small"
                                           style="color:var(--md-sys-color-on-surface-variant)">Notificar cuando el stock esté bajo o crítico</span>
                                 </div>
-                                <md-switch name="lowStockNotificationEnabled" value="true" data-autosave
-                                           th:attr="checked=${lowStockNotifications} ? 'checked' : null"></md-switch>
+                                <md-switch data-autosave name="lowStockNotificationEnabled" th:attr="checked=${lowStockNotifications} ? 'checked' : null"
+                                           value="true"></md-switch>
                             </div>
                             <md-divider></md-divider>
                             <div class="notif-row">
@@ -597,8 +520,8 @@
                                     <span class="md-typescale-body-small"
                                           style="color:var(--md-sys-color-on-surface-variant)">Alertas sobre cambios en el equipo de trabajo</span>
                                 </div>
-                                <md-switch name="workplaceChangesNotificationEnabled" value="true" data-autosave
-                                           th:attr="checked=${workplaceChangesNotifications} ? 'checked' : null"></md-switch>
+                                <md-switch data-autosave name="workplaceChangesNotificationEnabled" th:attr="checked=${workplaceChangesNotifications} ? 'checked' : null"
+                                           value="true"></md-switch>
                             </div>
                         </div>
                     </div>
@@ -655,14 +578,14 @@
                 */-->
 
                 <!-- Información de la Aplicación -->
-                <section class="settings-section" aria-label="Acerca de la aplicación">
+                <section aria-label="Acerca de la aplicación" class="settings-section">
                     <div class="section-title">
                         <md-icon aria-hidden="true">info</md-icon>
                         <h2 class="md-typescale-title-medium">Acerca de la Aplicación</h2>
                     </div>
                     <div class="surface outlined settings-card">
                         <div class="about-head">
-                            <img th:src="@{/images/Logo.jpg}" src="/images/Logo.jpg" alt="Logo LA TERCERA">
+                            <img alt="Logo LA TERCERA" src="/images/Logo.jpg" th:src="@{/images/Logo.jpg}">
                             <div class="about-copy">
                                 <span class="md-typescale-headline-small">La Tercera Barbershop</span>
                                 <span class="md-typescale-body-large"
@@ -690,8 +613,8 @@
                 <!-- Botones de Acción -->
                 <div class="settings-actions">
                     <p class="md-typescale-body-small mobile-hint">Los cambios se guardan automáticamente</p>
-                    <md-outlined-button type="reset" class="desktop-action">Restaurar datos</md-outlined-button>
-                    <md-filled-button type="submit" class="desktop-action">Guardar Cambios</md-filled-button>
+                    <md-outlined-button class="desktop-action" type="reset">Restaurar datos</md-outlined-button>
+                    <md-filled-button class="desktop-action" type="submit">Guardar Cambios</md-filled-button>
                 </div>
             </form>
         </div>
@@ -702,33 +625,8 @@
     <span id="snackbarText"></span>
 </md-snackbar>
 
-<md-dialog id="logoutDialog">
-    <div slot="headline" class="md-typescale-headline-small">Cerrar sesión</div>
-    <div slot="content" class="md-typescale-body-medium">
-        ¿Está seguro que desea cerrar la sesión actual?
-        <form id="logoutForm" th:action="@{/logout}" method="post">
-            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-        </form>
-    </div>
-    <div slot="actions">
-        <md-text-button id="logoutCancel">Cancelar</md-text-button>
-        <md-filled-button type="submit" form="logoutForm">Confirmar</md-filled-button>
-    </div>
-</md-dialog>
+<div th:replace="~{fragments/layout :: dialogs}"></div>
 <script>
-    const drawer = document.getElementById('navDrawer');
-    const scrim = document.getElementById('navScrim');
-    const toggle = document.getElementById('navToggle');
-
-    function setDrawerOpen(open) {
-        drawer.classList.toggle('open', open);
-        scrim.classList.toggle('open', open);
-    }
-
-    toggle.addEventListener('click', () => setDrawerOpen(!drawer.classList.contains('open')));
-    scrim.addEventListener('click', () => setDrawerOpen(false));
-    drawer.querySelectorAll('md-list-item').forEach(item => item.addEventListener('click', () => setDrawerOpen(false)));
-
     const form = document.getElementById('settingsForm');
     const isMobile = window.matchMedia('(max-width: 839px)');
     const snackbar = document.getElementById('snackbar');
@@ -797,8 +695,11 @@
     // Cambio en caliente del tema visual (equivalente a la transición de la versión de escritorio)
     function applyWebTheme(themeName) {
         const apply = () => { document.documentElement.dataset.theme = themeName; };
-        if (document.startViewTransition) {
+        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (document.startViewTransition && !reduceMotion) {
             document.startViewTransition(apply);
+        } else if (reduceMotion) {
+            apply();
         } else {
             document.documentElement.classList.add('theme-fade');
             apply();
@@ -894,12 +795,7 @@
             showSnack(document.body.dataset.errorMsg || 'No se pudieron guardar los cambios.', true);
         }
     });
-    const logoutItem = document.getElementById('logoutItem');
-    const logoutDialog = document.getElementById('logoutDialog');
-    const logoutCancel = document.getElementById('logoutCancel');
-
-    logoutItem.addEventListener('click', () => logoutDialog.show());
-    logoutCancel.addEventListener('click', () => logoutDialog.close());
 </script>
+<script th:replace="~{fragments/layout :: commonScripts}"></script>
 </body>
 </html>

@@ -1,21 +1,10 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org" th:attr="data-theme=${@appPreferences.getTheme()}">
+<html lang="es" th:attr="data-theme=${@appPreferences.getTheme()}" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>Detalle de Venta - LA TERCERA BARBERSHOP</title>
-    <script type="importmap">
-        { "imports": { "@material/web/": "https://esm.run/@material/web/" } }
-    </script>
-    <script type="module">
-        import '@material/web/all.js';
-        import {styles as typescaleStyles} from '@material/web/typography/md-typescale-styles.js';
-        document.adoptedStyleSheets.push(typescaleStyles.styleSheet);
-    </script>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
-          rel="stylesheet">
-    <link rel="stylesheet" href="/css/theme.css">
+    <th:block th:replace="~{fragments/layout :: headAssets}"></th:block>
     <style>
         * {
             box-sizing: border-box
@@ -308,89 +297,24 @@
     </style>
 </head>
 <body>
-<header class="app-header">
-    <md-icon-button id="navToggle" class="nav-toggle" aria-label="Abrir navegación">
-        <md-icon>menu</md-icon>
-    </md-icon-button>
-    <div class="app-header-titles">
-        <span class="md-typescale-title-large">Detalle de Venta</span>
-        <span class="md-typescale-label-large" th:text="${currentUser}">Usuario</span>
-    </div>
-    <span style="flex:1"></span>
-    <md-icon-button aria-label="Cuenta de usuario">
-        <md-icon>account_circle</md-icon>
-    </md-icon-button>
-</header>
+<header th:replace="~{fragments/layout :: header(title='Detalle de Venta', backHref='', backLabel='')}"></header>
 
 <div class="nav-scrim" id="navScrim"></div>
 
 <div class="app-shell">
-    <aside class="nav-drawer" id="navDrawer" aria-label="Navegación principal">
-        <div class="nav-brand">
-            <img th:src="@{/images/Logo.jpg}" src="/images/Logo.jpg" alt="Logo LA TERCERA">
-            <div class="nav-brand-copy">
-                <span class="md-typescale-title-medium">LA TERCERA</span>
-                <span class="md-typescale-label-medium">BARBERSHOP</span>
-            </div>
-        </div>
-        <md-divider></md-divider>
-        <md-list>
-            <md-list-item type="link" href="/dashboard">
-                <md-icon slot="start">dashboard</md-icon>
-                <span slot="headline">Dashboard</span>
-            </md-list-item>
-            <md-list-item type="link" href="/clients">
-                <md-icon slot="start">person</md-icon>
-                <span slot="headline">Clientes</span>
-            </md-list-item>
-            <md-list-item type="link" href="/employees">
-                <md-icon slot="start">badge</md-icon>
-                <span slot="headline">Empleados</span>
-            </md-list-item>
-            <md-list-item type="link" href="/appointments">
-                <md-icon slot="start">calendar_today</md-icon>
-                <span slot="headline">Turnos</span>
-            </md-list-item>
-            <md-list-item type="link" href="/barberservices">
-                <md-icon slot="start">cut</md-icon>
-                <span slot="headline">Servicios</span>
-            </md-list-item>
-            <md-list-item type="link" href="/products">
-                <md-icon slot="start">inventory_2</md-icon>
-                <span slot="headline">Stock de productos</span>
-            </md-list-item>
-            <md-list-item type="link" href="/payments">
-                <md-icon slot="start">payments</md-icon>
-                <span slot="headline">Medios de pago</span>
-            </md-list-item>
-            <md-list-item type="link" href="/sales" aria-current="page">
-                <md-icon slot="start">point_of_sale</md-icon>
-                <span slot="headline">Ventas</span>
-            </md-list-item>
-        </md-list>
-        <md-divider></md-divider>
-        <md-list>
-            <md-list-item type="link" href="/settings">
-                <md-icon slot="start">settings</md-icon>
-                <span slot="headline">Configuración</span>
-            </md-list-item>
-            <md-list-item id="logoutItem">
-                <md-icon slot="start">logout</md-icon>
-                <span slot="headline">Cerrar Sesión</span>
-            </md-list-item>
-        </md-list>
-    </aside>
+    <aside th:replace="~{fragments/layout :: drawer(active='/sales')}"></aside>
 
     <main class="app-main">
         <div class="main-inner">
             <div class="page-header">
                 <h1 class="md-typescale-headline-small" style="margin:0">Detalle de Venta</h1>
-                <p class="md-typescale-body-medium" style="margin:0;color:var(--md-sys-color-on-surface-variant)">Información y productos de la venta
+                <p class="md-typescale-body-medium" style="margin:0;color:var(--md-sys-color-on-surface-variant)">
+                    Información y productos de la venta
                     seleccionada</p>
             </div>
 
             <div class="detail-toolbar">
-                <md-outlined-button th:href="@{/sales}" href="/sales">
+                <md-outlined-button href="/sales" th:href="@{/sales}">
                     <md-icon slot="icon">arrow_back</md-icon>
                     Volver
                 </md-outlined-button>
@@ -434,7 +358,7 @@
                             <span class="md-typescale-display-small"
                                   th:text="'ARS $ ' + ${#numbers.formatDecimal(dto.total,1,2)}">ARS $ 0,00</span>
                         </div>
-                        <md-filled-button type="button" title="Disponible próximamente">
+                        <md-filled-button title="Disponible próximamente" type="button">
                             <md-icon slot="icon">picture_as_pdf</md-icon>
                             Descargar PDF
                         </md-filled-button>
@@ -473,38 +397,9 @@
     </main>
 </div>
 
-<md-dialog id="logoutDialog">
-    <div slot="headline" class="md-typescale-headline-small">Cerrar sesión</div>
-    <div slot="content" class="md-typescale-body-medium">
-        ¿Está seguro que desea cerrar la sesión actual?
-        <form id="logoutForm" th:action="@{/logout}" method="post">
-            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-        </form>
-    </div>
-    <div slot="actions">
-        <md-text-button id="logoutCancel">Cancelar</md-text-button>
-        <md-filled-button type="submit" form="logoutForm">Confirmar</md-filled-button>
-    </div>
-</md-dialog>
+<div th:replace="~{fragments/layout :: dialogs}"></div>
 <script>
-    const drawer = document.getElementById('navDrawer');
-    const scrim = document.getElementById('navScrim');
-    const toggle = document.getElementById('navToggle');
-
-    function setDrawerOpen(open) {
-        drawer.classList.toggle('open', open);
-        scrim.classList.toggle('open', open);
-    }
-
-    toggle.addEventListener('click', () => setDrawerOpen(!drawer.classList.contains('open')));
-    scrim.addEventListener('click', () => setDrawerOpen(false));
-    drawer.querySelectorAll('md-list-item').forEach(item => item.addEventListener('click', () => setDrawerOpen(false)));
-    const logoutItem = document.getElementById('logoutItem');
-    const logoutDialog = document.getElementById('logoutDialog');
-    const logoutCancel = document.getElementById('logoutCancel');
-
-    logoutItem.addEventListener('click', () => logoutDialog.show());
-    logoutCancel.addEventListener('click', () => logoutDialog.close());
 </script>
+<script th:replace="~{fragments/layout :: commonScripts}"></script>
 </body>
 </html>

@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org" th:attr="data-theme=${@appPreferences.getTheme()}">
+<html lang="es" th:attr="data-theme=${@appPreferences.getTheme()}" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>Login - Sistema de Gestión</title>
     <script type="importmap">
         { "imports": { "@material/web/": "https://esm.run/@material/web/" } }
@@ -12,12 +12,12 @@
         import {styles as typescaleStyles} from '@material/web/typography/md-typescale-styles.js';
         document.adoptedStyleSheets.push(typescaleStyles.styleSheet);
     </script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
           rel="stylesheet">
-    <link rel="stylesheet" href="/css/theme.css">
+    <link href="/css/theme.css" rel="stylesheet">
     <style>
         * {
             box-sizing: border-box
@@ -124,39 +124,39 @@
 <div class="login-page">
     <div class="auth-card">
         <md-elevation></md-elevation>
-        <img src="/images/Logo.jpg" alt="Logo Barbería" class="auth-logo">
+        <img alt="Logo Barbería" class="auth-logo" src="/images/Logo.jpg">
         <h1 class="md-typescale-headline-small auth-title">Sistema de Gestión</h1>
         <p class="md-typescale-body-large auth-subtitle">Bienvenido de nuevo</p>
-        <div class="auth-alert" th:if="${param.error}" role="alert">
+        <div class="auth-alert" role="alert" th:if="${param.error}">
             <md-icon>error</md-icon>
             <span class="md-typescale-body-medium">Usuario o contraseña incorrectos. Intentá de nuevo.</span>
         </div>
-        <div class="auth-alert success" th:if="${param.logout}" role="alert">
+        <div class="auth-alert success" role="alert" th:if="${param.logout}">
             <md-icon>check_circle</md-icon>
             <span class="md-typescale-body-medium">Cerraste sesión correctamente.</span>
         </div>
-        <form th:action="@{/login}" method="post" class="auth-form">
-            <md-outlined-text-field label="Nombre de usuario" type="text" name="username" required>
+        <form class="auth-form" method="post" th:action="@{/login}">
+            <md-outlined-text-field label="Nombre de usuario" name="username" required type="text">
                 <md-icon slot="leading-icon">person</md-icon>
             </md-outlined-text-field>
-            <md-outlined-text-field label="Contraseña" type="password" name="password" required id="passwordInput">
+            <md-outlined-text-field id="passwordInput" label="Contraseña" name="password" required type="password">
                 <md-icon slot="leading-icon">lock</md-icon>
-                <md-icon-button toggle slot="trailing-icon" aria-label="Mostrar contraseña"
-                                onclick="togglePassword('passwordInput', this)">
+                <md-icon-button aria-label="Mostrar contraseña" onclick="togglePassword('passwordInput', this)" slot="trailing-icon"
+                                toggle>
                     <md-icon>visibility</md-icon>
                     <md-icon slot="selected">visibility_off</md-icon>
                 </md-icon-button>
             </md-outlined-text-field>
             <div class="remember-row">
                 <md-checkbox id="rememberSession" touch-target="wrapper"></md-checkbox>
-                <label for="rememberSession" class="md-typescale-body-medium">Mantener sesión iniciada</label>
+                <label class="md-typescale-body-medium" for="rememberSession">Mantener sesión iniciada</label>
             </div>
-            <md-filled-button type="submit" class="auth-submit">Iniciar sesión</md-filled-button>
+            <md-filled-button class="auth-submit" type="submit">Iniciar sesión</md-filled-button>
         </form>
         <div class="auth-footer">
             <p class="md-typescale-body-large" style="margin:0 0 12px 0;color:var(--md-sys-color-on-surface-variant)">
                 ¿No eres usuario? Regístrate</p>
-            <md-outlined-button href="/register" class="auth-submit">Registrarse</md-outlined-button>
+            <md-outlined-button class="auth-submit" href="/register">Registrarse</md-outlined-button>
         </div>
     </div>
 </div>

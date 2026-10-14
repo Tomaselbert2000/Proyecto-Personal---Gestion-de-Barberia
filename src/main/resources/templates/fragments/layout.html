@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Fragmentos de layout</title>
+</head>
+<body>
+
+<!--
+    Fragmentos de layout compartidos por las vistas del panel (T-11).
+    Se incluyen desde cada plantilla con th:replace.
+-->
+
+<!-- Assets comunes del <head>: importmap, Material Web, tipografías y tema. -->
+<th:block th:fragment="headAssets">
+    <script type="importmap">
+        { "imports": { "@material/web/": "https://esm.run/@material/web/" } }
+    </script>
+    <script type="module">
+        import '@material/web/all.js';
+        import {styles as typescaleStyles} from '@material/web/typography/md-typescale-styles.js';
+        document.adoptedStyleSheets.push(typescaleStyles.styleSheet);
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+          rel="stylesheet">
+    <link href="/css/theme.css" rel="stylesheet">
+</th:block>
+
+<!-- Header superior. @param title: título visible. @param backHref/backLabel: botón "volver" opcional. -->
+<header class="app-header" th:fragment="header(title, backHref, backLabel)">
+    <md-icon-button aria-label="Abrir navegación" class="nav-toggle" id="navToggle">
+        <md-icon>menu</md-icon>
+    </md-icon-button>
+    <md-icon-button th:aria-label="${backLabel}" th:href="@{${backHref}}" th:if="${!#strings.isEmpty(backHref)}">
+        <md-icon>arrow_back</md-icon>
+    </md-icon-button>
+    <div class="app-header-titles">
+        <span class="md-typescale-title-large" th:text="${title}">Título</span>
+        <span class="md-typescale-label-large" th:text="${currentUser}">Usuario</span>
+    </div>
+    <span style="flex:1"></span>
+    <md-icon-button aria-expanded="false" aria-haspopup="menu" aria-label="Cuenta de usuario" id="accountMenuButton">
+        <md-icon>account_circle</md-icon>
+    </md-icon-button>
+    <md-menu anchor="accountMenuButton" id="accountMenu" positioning="popover">
+        <md-menu-item href="/settings">
+            <md-icon slot="start">settings</md-icon>
+            <span slot="headline">Configuración</span>
+        </md-menu-item>
+        <md-menu-item id="accountMenuLogout">
+            <md-icon slot="start">logout</md-icon>
+            <span slot="headline">Cerrar sesión</span>
+        </md-menu-item>
+    </md-menu>
+</header>
+
+<!-- Drawer de navegación. @param active: href del ítem activo (opcional). -->
+<aside aria-label="Navegación principal" class="nav-drawer" id="navDrawer" th:fragment="drawer(active)">
+    <div class="nav-brand">
+        <img alt="Logo LA TERCERA" src="/images/Logo.jpg" th:src="@{/images/Logo.jpg}">
+        <div class="nav-brand-copy">
+            <span class="md-typescale-title-medium">LA TERCERA</span>
+            <span class="md-typescale-label-medium">BARBERSHOP</span>
+        </div>
+    </div>
+    <md-divider></md-divider>
+    <md-list>
+        <md-list-item href="/dashboard" th:attr="aria-current=${active == '/dashboard' ? 'page' : null}" type="link">
+            <md-icon slot="start">dashboard</md-icon>
+            <span slot="headline">Dashboard</span>
+        </md-list-item>
+        <md-list-item href="/clients" th:attr="aria-current=${active == '/clients' ? 'page' : null}" type="link">
+            <md-icon slot="start">person</md-icon>
+            <span slot="headline">Clientes</span>
+        </md-list-item>
+        <md-list-item href="/employees" th:attr="aria-current=${active == '/employees' ? 'page' : null}" type="link">
+            <md-icon slot="start">badge</md-icon>
+            <span slot="headline">Empleados</span>
+        </md-list-item>
+        <md-list-item href="/appointments" th:attr="aria-current=${active == '/appointments' ? 'page' : null}"
+                      type="link">
+            <md-icon slot="start">calendar_today</md-icon>
+            <span slot="headline">Turnos</span>
+        </md-list-item>
+        <md-list-item href="/barberservices" th:attr="aria-current=${active == '/barberservices' ? 'page' : null}"
+                      type="link">
+            <md-icon slot="start">cut</md-icon>
+            <span slot="headline">Servicios</span>
+        </md-list-item>
+        <md-list-item href="/products" th:attr="aria-current=${active == '/products' ? 'page' : null}" type="link">
+            <md-icon slot="start">inventory_2</md-icon>
+            <span slot="headline">Stock de productos</span>
+        </md-list-item>
+        <md-list-item href="/payments" th:attr="aria-current=${active == '/payments' ? 'page' : null}" type="link">
+            <md-icon slot="start">payments</md-icon>
+            <span slot="headline">Medios de pago</span>
+        </md-list-item>
+        <md-list-item href="/sales" th:attr="aria-current=${active == '/sales' ? 'page' : null}" type="link">
+            <md-icon slot="start">point_of_sale</md-icon>
+            <span slot="headline">Ventas</span>
+        </md-list-item>
+    </md-list>
+    <md-divider></md-divider>
+    <md-list>
+        <md-list-item href="/settings" th:attr="aria-current=${active == '/settings' ? 'page' : null}" type="link">
+            <md-icon slot="start">settings</md-icon>
+            <span slot="headline">Configuración</span>
+        </md-list-item>
+        <md-list-item id="logoutItem">
+            <md-icon slot="start">logout</md-icon>
+            <span slot="headline">Cerrar Sesión</span>
+        </md-list-item>
+    </md-list>
+</aside>
+
+<!-- Diálogos compartidos: cierre de sesión y confirmación de acciones destructivas. -->
+<th:block th:fragment="dialogs">
+    <md-dialog id="logoutDialog">
+        <div class="md-typescale-headline-small" slot="headline">Cerrar sesión</div>
+        <div class="md-typescale-body-medium" slot="content">
+            ¿Está seguro que desea cerrar la sesión actual?
+            <form id="logoutForm" method="post" th:action="@{/logout}">
+                <input th:name="${_csrf.parameterName}" th:value="${_csrf.token}" type="hidden">
+            </form>
+        </div>
+        <div slot="actions">
+            <md-text-button id="logoutCancel">Cancelar</md-text-button>
+            <md-filled-button form="logoutForm" type="submit">Confirmar</md-filled-button>
+        </div>
+    </md-dialog>
+    <md-dialog id="confirmDialog">
+        <div class="md-typescale-headline-small" id="confirmDialogHeadline" slot="headline">Confirmar</div>
+        <div class="md-typescale-body-medium" id="confirmDialogMessage" slot="content">¿Está seguro?</div>
+        <div slot="actions">
+            <md-text-button id="confirmDialogCancel" type="button">Cancelar</md-text-button>
+            <md-filled-button id="confirmDialogConfirm" style="--md-sys-color-primary:var(--md-sys-color-error);--md-sys-color-on-primary:var(--md-sys-color-on-error)"
+                              type="button">
+                Confirmar
+            </md-filled-button>
+        </div>
+    </md-dialog>
+</th:block>
+
+<!-- Aviso de operación exitosa. @param entityLabel: sujeto del mensaje, p.ej. "El cliente". -->
+<md-snackbar id="successSnackbar" th:attr="data-entity=${entityLabel}" th:fragment="successToast(entityLabel)"
+             timeout-ms="4000">
+    <span id="successSnackbarText"></span>
+</md-snackbar>
+
+<!-- Scripts comunes del panel: drawer, sesión, menú de cuenta y confirmaciones. -->
+<script th:fragment="commonScripts">
+    const drawer = document.getElementById('navDrawer');
+    const scrim = document.getElementById('navScrim');
+    const toggle = document.getElementById('navToggle');
+
+    function setDrawerOpen(open) {
+        drawer.classList.toggle('open', open);
+        scrim.classList.toggle('open', open);
+    }
+
+    toggle.addEventListener('click', () => setDrawerOpen(!drawer.classList.contains('open')));
+    scrim.addEventListener('click', () => setDrawerOpen(false));
+    drawer.querySelectorAll('md-list-item').forEach(item => item.addEventListener('click', () => setDrawerOpen(false)));
+
+    const logoutItem = document.getElementById('logoutItem');
+    const logoutDialog = document.getElementById('logoutDialog');
+    const logoutCancel = document.getElementById('logoutCancel');
+
+    logoutItem.addEventListener('click', () => logoutDialog.show());
+    logoutCancel.addEventListener('click', () => logoutDialog.close());
+
+    const confirmDialog = document.getElementById('confirmDialog');
+    const confirmDialogHeadline = document.getElementById('confirmDialogHeadline');
+    const confirmDialogMessage = document.getElementById('confirmDialogMessage');
+    const confirmDialogConfirm = document.getElementById('confirmDialogConfirm');
+    const confirmDialogCancel = document.getElementById('confirmDialogCancel');
+    let confirmPendingForm = null;
+
+    function askConfirm(button) {
+        confirmPendingForm = document.getElementById(button.dataset.confirmForm);
+        confirmDialogHeadline.textContent = button.dataset.confirmTitle || 'Confirmar';
+        confirmDialogMessage.textContent = button.dataset.confirmMessage || '¿Está seguro que desea continuar?';
+        confirmDialogConfirm.textContent = button.dataset.confirmAccept || 'Confirmar';
+        confirmDialog.show();
+    }
+
+    confirmDialogCancel.addEventListener('click', () => confirmDialog.close());
+    confirmDialogConfirm.addEventListener('click', () => {
+        confirmDialog.close();
+        if (confirmPendingForm) confirmPendingForm.requestSubmit();
+    });
+
+    // Menú de cuenta en el header (M-06)
+    const accountMenuButton = document.getElementById('accountMenuButton');
+    const accountMenu = document.getElementById('accountMenu');
+    const accountMenuLogout = document.getElementById('accountMenuLogout');
+
+    accountMenuButton.addEventListener('click', () => {
+        accountMenu.open = !accountMenu.open;
+    });
+    accountMenu.addEventListener('opened', () => accountMenuButton.setAttribute('aria-expanded', 'true'));
+    accountMenu.addEventListener('closed', () => accountMenuButton.setAttribute('aria-expanded', 'false'));
+    accountMenuLogout.addEventListener('click', () => logoutDialog.show());
+
+    // Evita el doble envío de formularios que modifican datos (M-05)
+    const submitControls = 'button, md-filled-button, md-outlined-button, md-tonal-button, md-elevated-button, md-text-button';
+
+    document.querySelectorAll('form[method="post"], form[method="POST"]').forEach(form => {
+        form.addEventListener('submit', event => {
+            if (form.dataset.submitting === 'true') {
+                event.preventDefault();
+                return;
+            }
+            form.dataset.submitting = 'true';
+            // Se deshabilitan luego de enviar para no alterar los datos del submit
+            setTimeout(() => {
+                form.disabledControls = Array.from(form.querySelectorAll(submitControls));
+                form.disabledControls.forEach(control => { control.disabled = true; });
+            }, 0);
+        });
+    });
+
+    // Reactiva los formularios al volver con el botón "atrás" del navegador
+    window.addEventListener('pageshow', event => {
+        if (!event.persisted) return;
+        document.querySelectorAll('form[data-submitting]').forEach(form => {
+            delete form.dataset.submitting;
+            (form.disabledControls || []).forEach(control => { control.disabled = false; });
+            form.disabledControls = null;
+        });
+    });
+
+    // Aviso de éxito según la operación realizada (M-04)
+    customElements.whenDefined('md-snackbar').then(() => {
+        const successSnackbar = document.getElementById('successSnackbar');
+        if (!successSnackbar) return;
+
+        const params = new URLSearchParams(window.location.search);
+        const verbs = {
+            created: 'se creó',
+            updated: 'se actualizó',
+            deleted: 'se eliminó',
+            cancelled: 'se canceló',
+            completed: 'se completó'
+        };
+        const operation = Object.keys(verbs).find(key => params.get(key) === 'true');
+        if (!operation) return;
+
+        const entity = successSnackbar.dataset.entity;
+        document.getElementById('successSnackbarText').textContent = entity
+            ? `${entity} ${verbs[operation]} correctamente.`
+            : 'La operación se completó correctamente.';
+        successSnackbar.show();
+    });
+</script>
+
+</body>
+</html>
