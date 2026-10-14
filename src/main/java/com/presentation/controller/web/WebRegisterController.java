@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Objects;
 
 import static com.presentation.constants.HtmlConstants.Paths.REGISTER;
+import static com.presentation.constants.HtmlConstants.Paths.REGISTERED_TRUE;
 import static com.presentation.constants.HtmlConstants.Redirects.REDIRECT_LOGIN;
 
 @Controller
@@ -55,7 +56,7 @@ public class WebRegisterController extends BaseWebController<AppUserCreationDTO,
 
                 executeCreation(dto);
 
-                return REDIRECT_LOGIN;
+                return REDIRECT_LOGIN + REGISTERED_TRUE;
 
             } else {
 

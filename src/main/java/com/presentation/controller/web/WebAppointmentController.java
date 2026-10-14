@@ -43,16 +43,18 @@ public class WebAppointmentController extends BaseWebController<AppointmentCreat
             Principal principal,
             @RequestParam(required = false) String clientName,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
-            @RequestParam(required = false) AppointmentStatus status,
+            @RequestParam(required = false) String status,
             @RequestParam(required = false) String employeeName
     ) {
+
+        AppointmentStatus parsedStatus = parseEnumValue(status, AppointmentStatus.class);
 
         AppointmentTodayStatsDTO appointmentTodayStatsDTO = appointmentService.getAppointmentsTodayStats();
         AppointmentTomorrowStatsDTO appointmentTomorrowStatsDTO = appointmentService.getPendingAppointmentsStats();
         AppointmentMonthlyComparisonDTO appointmentMonthlyComparisonDTO = appointmentService.getMonthlyComparisonStats();
         AppointmentCanceledStatsDTO canceledStatsDTO = appointmentService.getCanceledStats();
 
-        List<AppointmentInfoDTO> appointmentsList = appointmentService.liveSearch(clientName, date, status, employeeName);
+        List<AppointmentInfoDTO> appointmentsList = appointmentService.liveSearch(clientName, date, parsedStatus, employeeName);
 
         model.addAttribute("currentUser", principal.getName());
         model.addAttribute("appointmentsTodayStats", appointmentTodayStatsDTO);
@@ -66,7 +68,7 @@ public class WebAppointmentController extends BaseWebController<AppointmentCreat
 
         model.addAttribute("selectedClientName", clientName);
         model.addAttribute("selectedDate", date);
-        model.addAttribute("selectedStatus", status);
+        model.addAttribute("selectedStatus", parsedStatus);
         model.addAttribute("selectedEmployeeName", employeeName);
 
         return APPOINTMENTS;

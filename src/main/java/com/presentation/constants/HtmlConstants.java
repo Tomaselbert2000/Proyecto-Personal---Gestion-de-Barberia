@@ -47,6 +47,7 @@ public final class HtmlConstants {
         public static final String SALE_DETAIL = "sale-detail";
         public static final String SETTINGS = "settings";
 
+        public static final String REGISTERED_TRUE = "?registered=true";
     }
 
     public static final class Redirects {
