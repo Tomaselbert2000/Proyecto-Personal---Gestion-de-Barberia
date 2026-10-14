@@ -49,6 +49,8 @@ public class SecurityConfig {
                                 "/assets/**",
                                 "/fonts/**",
                                 "/images/**",
+                                "/favicon.ico",
+                                "/error",
                                 "/public-booking/**"
                         ).permitAll()
                         .anyRequest().authenticated()
