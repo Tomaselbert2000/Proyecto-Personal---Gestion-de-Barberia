@@ -410,7 +410,7 @@
 <main class="shell">
 
     <header class="brand">
-        <span class="brand-logo"><md-icon>content_cut</md-icon></span>
+        <span class="brand-logo"><md-icon aria-hidden="true">content_cut</md-icon></span>
         <span class="brand-text">
             <span class="brand-name">LA TERCERA BARBERSHOP</span>
             <span class="brand-sub">Reserva de turnos online</span>
@@ -434,31 +434,42 @@
 
     <section class="card">
         <p class="eyebrow">
-            <md-icon>event_available</md-icon>
+            <md-icon aria-hidden="true">event_available</md-icon>
             Paso 1 de 3
         </p>
         <h1>Reservá tu turno</h1>
         <p class="subtitle">Elegí el servicio que querés y con qué barbero te gustaría atenderte.</p>
 
-        <div class="empty" th:if="${#lists.isEmpty(services) or #lists.isEmpty(employees)}">
-            <md-icon>event_busy</md-icon>
+        <div class="empty" th:if="${#lists.isEmpty(services) and #lists.isEmpty(employees)}">
+            <md-icon aria-hidden="true">event_busy</md-icon>
             <p>En este momento no hay servicios ni barberos disponibles para reservar online.</p>
+            <p>Por favor, intentá más tarde o comunicate con el local.</p>
+        </div>
+        <div class="empty" th:if="${!#lists.isEmpty(services) and #lists.isEmpty(employees)}">
+            <md-icon aria-hidden="true">event_busy</md-icon>
+            <p>En este momento no hay barberos disponibles para reservar online.</p>
+            <p>Por favor, intentá más tarde o comunicate con el local.</p>
+        </div>
+        <div class="empty" th:if="${#lists.isEmpty(services) and !#lists.isEmpty(employees)}">
+            <md-icon aria-hidden="true">event_busy</md-icon>
+            <p>En este momento no hay servicios disponibles para reservar online.</p>
             <p>Por favor, intentá más tarde o comunicate con el local.</p>
         </div>
 
         <form method="get"
-              th:action="@{/public-booking/calendar}" th:if="${not #lists.isEmpty(services) and not #lists.isEmpty(employees)}">
+              th:action="@{/public-booking/calendar}"
+              th:if="${not #lists.isEmpty(services) and not #lists.isEmpty(employees)}">
 
             <div class="section">
                 <p class="section-label">
-                    <md-icon>cut</md-icon>
+                    <md-icon aria-hidden="true">cut</md-icon>
                     Elegí tu servicio
                 </p>
                 <div class="grid grid-2">
                     <label class="choice" th:each="service : ${services}">
                         <input name="serviceId" required th:value="${service.barberServiceId}" type="radio">
                         <span class="choice-body">
-                            <span class="choice-check"><md-icon>check</md-icon></span>
+                            <span class="choice-check"><md-icon aria-hidden="true">check</md-icon></span>
                             <span class="choice-head">
                                 <span class="choice-title" th:text="${service.name}">Corte</span>
                                 <span class="choice-price"
@@ -474,7 +485,7 @@
 
             <div class="section">
                 <p class="section-label">
-                    <md-icon>person</md-icon>
+                    <md-icon aria-hidden="true">person</md-icon>
                     Elegí tu barbero
                 </p>
                 <div class="grid grid-2">
@@ -487,7 +498,7 @@
                                 <span class="employee-name" th:text="${employee.firstName + ' ' + employee.lastName}">Nombre</span>
                                 <span class="employee-role">Disponible</span>
                             </span>
-                            <span class="choice-check"><md-icon>check</md-icon></span>
+                            <span class="choice-check"><md-icon aria-hidden="true">check</md-icon></span>
                         </span>
                     </label>
                 </div>
@@ -497,7 +508,7 @@
                 <span class="spacer"></span>
                 <md-filled-button type="submit">
                     Ver horarios disponibles
-                    <md-icon slot="icon">arrow_forward</md-icon>
+                    <md-icon aria-hidden="true" slot="icon">arrow_forward</md-icon>
                 </md-filled-button>
             </div>
         </form>

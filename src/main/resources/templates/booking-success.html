@@ -204,7 +204,7 @@
 <main class="shell">
 
     <header class="brand">
-        <span class="brand-logo"><md-icon>content_cut</md-icon></span>
+        <span class="brand-logo"><md-icon aria-hidden="true">content_cut</md-icon></span>
         <span class="brand-text">
             <span class="brand-name">LA TERCERA BARBERSHOP</span>
             <span class="brand-sub">Reserva de turnos online</span>
@@ -213,7 +213,7 @@
 
     <section class="card">
         <div class="success-icon">
-            <md-icon>check</md-icon>
+            <md-icon aria-hidden="true">check</md-icon>
         </div>
 
         <h1>¡Reserva confirmada!</h1>
@@ -221,14 +221,14 @@
             reservado.</p>
 
         <p class="note">
-            <md-icon>phone</md-icon>
+            <md-icon aria-hidden="true">phone</md-icon>
             Si necesitás cambios, contactanos al local.
         </p>
 
         <div class="actions">
-            <md-filled-button th:onclick="'location.href=\'' + @{/public-booking} + '\''"
+            <md-filled-button th:href="@{/public-booking}"
                               type="button">
-                <md-icon slot="icon">home</md-icon>
+                <md-icon aria-hidden="true" slot="icon">home</md-icon>
                 Volver al inicio
             </md-filled-button>
         </div>

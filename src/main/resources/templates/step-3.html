@@ -334,7 +334,7 @@
 <main class="shell">
 
     <header class="brand">
-        <span class="brand-logo"><md-icon>content_cut</md-icon></span>
+        <span class="brand-logo"><md-icon aria-hidden="true">content_cut</md-icon></span>
         <span class="brand-text">
             <span class="brand-name">LA TERCERA BARBERSHOP</span>
             <span class="brand-sub">Reserva de turnos online</span>
@@ -343,11 +343,11 @@
 
     <ol aria-label="Progreso de la reserva" class="stepper">
         <li class="step is-done">
-            <span class="step-index"><md-icon style="font-size:16px">check</md-icon></span>
+            <span class="step-index"><md-icon aria-hidden="true" style="font-size:16px">check</md-icon></span>
             <span class="step-label">Servicio y barbero</span>
         </li>
         <li class="step is-done">
-            <span class="step-index"><md-icon style="font-size:16px">check</md-icon></span>
+            <span class="step-index"><md-icon aria-hidden="true" style="font-size:16px">check</md-icon></span>
             <span class="step-label">Horario</span>
         </li>
         <li aria-current="step" class="step is-active">
@@ -358,14 +358,14 @@
 
     <section class="card">
         <p class="eyebrow">
-            <md-icon>fact_check</md-icon>
+            <md-icon aria-hidden="true">fact_check</md-icon>
             Paso 3 de 3
         </p>
         <h1>Confirmá tu turno</h1>
         <p class="subtitle">Revisá el resumen y dejanos tus datos de contacto para reservar el turno.</p>
 
         <div class="alert" role="alert" th:if="${errors != null and not #lists.isEmpty(errors)}">
-            <md-icon>error</md-icon>
+            <md-icon aria-hidden="true">error</md-icon>
             <ul>
                 <li th:each="error : ${errors}" th:text="${error}">Error</li>
             </ul>
@@ -373,7 +373,7 @@
 
         <div class="summary">
             <div class="summary-row">
-                <md-icon>cut</md-icon>
+                <md-icon aria-hidden="true">cut</md-icon>
                 <span class="summary-text">
                     <span class="summary-label">Servicio</span>
                     <span class="summary-value"
@@ -383,7 +383,7 @@
                       th:text="'ARS $ ' + ${#numbers.formatDecimal(barberService.price, 1, 2)}">ARS $ 0,00</span>
             </div>
             <div class="summary-row">
-                <md-icon>person</md-icon>
+                <md-icon aria-hidden="true">person</md-icon>
                 <span class="summary-text">
                     <span class="summary-label">Barbero</span>
                     <span class="summary-value"
@@ -391,7 +391,7 @@
                 </span>
             </div>
             <div class="summary-row">
-                <md-icon>calendar_month</md-icon>
+                <md-icon aria-hidden="true">calendar_month</md-icon>
                 <span class="summary-text">
                     <span class="summary-label">Fecha</span>
                     <span class="summary-value"
@@ -399,7 +399,7 @@
                 </span>
             </div>
             <div class="summary-row">
-                <md-icon>schedule</md-icon>
+                <md-icon aria-hidden="true">schedule</md-icon>
                 <span class="summary-text">
                     <span class="summary-label">Horario</span>
                     <span class="summary-value"
@@ -415,7 +415,7 @@
             <input name="startTime" th:value="${dto.startTime}" type="hidden">
 
             <p class="form-title">
-                <md-icon>contact_page</md-icon>
+                <md-icon aria-hidden="true">contact_page</md-icon>
                 Tus datos de contacto
             </p>
 
@@ -431,20 +431,21 @@
             </div>
 
             <p class="hint">
-                <md-icon>info</md-icon>
+                <md-icon aria-hidden="true">info</md-icon>
                 No necesitás crear una cuenta. Usaremos tu teléfono solo para contactarte por la reserva.
             </p>
 
             <div class="actions">
-                <md-outlined-button th:onclick="'location.href=\'' + @{/public-booking/calendar(serviceId=${dto.barberServiceID}, employeeId=${dto.employeeID}, date=${dto.date})} + '\''"
-                                    type="button">
-                    <md-icon slot="icon">arrow_back</md-icon>
+                <md-outlined-button
+                        th:href="@{/public-booking/calendar(serviceId=${dto.barberServiceID}, employeeId=${dto.employeeID}, date=${dto.date})}"
+                        type="button">
+                    <md-icon aria-hidden="true" slot="icon">arrow_back</md-icon>
                     Volver
                 </md-outlined-button>
                 <span class="spacer"></span>
                 <md-filled-button type="submit">
                     Confirmar turno
-                    <md-icon slot="icon">check_circle</md-icon>
+                    <md-icon aria-hidden="true" slot="icon">check_circle</md-icon>
                 </md-filled-button>
             </div>
         </form>
