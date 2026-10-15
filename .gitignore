@@ -34,3 +34,6 @@ build/
 
 ### Qwen Code ###
 .qwen/
+
+### Uploads (imágenes subidas en tiempo de ejecución) ###
+uploads/
