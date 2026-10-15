@@ -1,10 +1,15 @@
 package com.presentation.controller.web;
 
 import com.config.preferences.AppPreferences;
+import com.dto.credentials.CredentialsUpdateDTO;
 import com.dto.settings.SettingsUpdateDTO;
 import com.enums.Theme;
+import com.exceptions.appuser.AppUserNotFoundException;
+import com.exceptions.credentials.PasswordMismatchException;
 import com.exceptions.settings.InvalidServiceHourException;
+import com.service.interfaces.AppUserService;
 import com.utils.info.AppInformation;
+import com.validation.credentials.CredentialsUpdateValidator;
 import com.validation.settings.SettingsUpdateValidator;
 import jakarta.validation.ConstraintViolationException;
 import lombok.RequiredArgsConstructor;
@@ -43,15 +48,19 @@ public class WebSettingsController {
     private final AppPreferences appPreferences;
     private final AppInformation appInformation;
     private final SettingsUpdateValidator settingsUpdateValidator;
+    private final CredentialsUpdateValidator credentialsUpdateValidator;
+    private final AppUserService appUserService;
 
     @GetMapping
     public String showSettings(
             Principal principal,
             Model model,
-            @RequestParam(required = false, defaultValue = "false") Boolean saved
+            @RequestParam(required = false, defaultValue = "false") Boolean saved,
+            @RequestParam(required = false, defaultValue = "false") Boolean credentialsUpdated
     ) {
 
         populateModel(model, principal, null, saved, null);
+        model.addAttribute("credentialsUpdated", credentialsUpdated);
 
         return SETTINGS;
     }
@@ -106,6 +115,41 @@ public class WebSettingsController {
 
             return SETTINGS;
         }
+    }
+
+    @PostMapping("/credentials")
+    public String updateCredentials(
+            Principal principal,
+            Model model,
+            @RequestParam(required = false, defaultValue = "") String adminPassword,
+            @RequestParam(required = false, defaultValue = "") String adminConfirmPassword
+    ) {
+
+        CredentialsUpdateDTO credentialsUpdateDTO = CredentialsUpdateDTO.builder()
+                .username(principal.getName())
+                .password(adminPassword)
+                .confirmPassword(adminConfirmPassword)
+                .build();
+
+        try {
+
+            credentialsUpdateValidator.validateDTO(credentialsUpdateDTO);
+            appUserService.updateCredentials(principal.getName(), credentialsUpdateDTO);
+
+            return REDIRECT_SETTINGS + "?credentialsUpdated=true";
+
+        } catch (ConstraintViolationException exception) {
+
+            populateModel(model, principal, null, false, getConstraintViolationsList(exception));
+
+        } catch (PasswordMismatchException | AppUserNotFoundException exception) {
+
+            populateModel(model, principal, null, false, exception.getMessage());
+        }
+
+        model.addAttribute("credentialsUpdated", false);
+
+        return SETTINGS;
     }
 
     private void populateModel(
