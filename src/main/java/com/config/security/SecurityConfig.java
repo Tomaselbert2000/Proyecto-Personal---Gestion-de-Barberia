@@ -49,6 +49,7 @@ public class SecurityConfig {
                                 "/assets/**",
                                 "/fonts/**",
                                 "/images/**",
+                                "/uploads/**",
                                 "/favicon.ico",
                                 "/error",
                                 "/public-booking/**"
