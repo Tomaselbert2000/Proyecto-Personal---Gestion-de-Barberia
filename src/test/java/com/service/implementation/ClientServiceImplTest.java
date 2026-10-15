@@ -16,26 +16,36 @@ import org.mockito.*;
 
 import java.time.Clock;
 import java.time.LocalDate;
+import java.util.List;
 
 import static com.factory.ClientTestDataFactory.*;
 import static com.service.helper.ClientServiceTestHelper.*;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
 public class ClientServiceImplTest extends BaseServiceTest<Client, ClientRepository> {
 
     private final Client client = buildValidClient();
     private final ClientCreationDTO creationDTO = buildValidClientCreationDTO();
     private final ClientUpdateDTO updateDTO = buildValidClientUpdateDTO();
+    private final Long clientID = client.getClientID();
+
     @Spy
     private final Clock clock = Clock.systemDefaultZone();
+
     @Spy
     private final ClientMapper mapper = new ClientMapperImpl();
+
     @Mock
     private ClientRepository clientRepository;
+
     @Mock
     private ClientValidator validator;
+
     @Captor
     private ArgumentCaptor<Client> captor;
+
     @InjectMocks
     private ClientServiceImpl clientService;
 
@@ -386,6 +396,184 @@ public class ClientServiceImplTest extends BaseServiceTest<Client, ClientReposit
         assertThrows(ClientNotFoundException.class, () -> deleteClient(clientService, client));
 
         verifyThatEntityWasNotDeleted(client);
+    }
+
+    @Test
+    @DisplayName("Dado un cliente registrado y un DTO de actualización con información correcta, deberá persistir los cambios exitosamente (por ID Long)")
+    void givenExistingClient_WhenUpdatingWithValidData_ThenIsSuccessfullyPersisted_ById() {
+
+        mockClientById(clientRepository, client);
+
+        updateClientById(clientService, clientID, updateDTO);
+
+        captureClient(clientRepository, captor);
+
+        verifyValidatorUpdateInteraction(validator, updateDTO);
+        verifyMapperUpdateInteraction(mapper, client, updateDTO);
+
+        Client clientCaptured = captor.getValue();
+
+        assertNotNull(clientCaptured);
+
+        verifyUpdatDTOAssertions(clientCaptured);
+    }
+
+    @Test
+    @DisplayName("Dado un ID de cliente inexistente, al intentar actualizarlo por ID Long deberá arrojar ClientNotFoundException")
+    void givenNonExistingClient_WhenUpdatingById_ThenThrows_ClientNotFoundException() {
+
+        mockThatClientIDDoesNotExist(clientRepository, client);
+
+        assertThrows(ClientNotFoundException.class, () -> updateClientById(clientService, clientID, updateDTO));
+
+        verifyMapperUpdateNoInteractions(mapper, client, updateDTO);
+        verifyThatEntityWasNotSaved();
+    }
+
+    @Test
+    @DisplayName("Dado un ID de cliente inexistente, al intentar eliminarlo por ID Long deberá arrojar ClientNotFoundException")
+    void givenNonExistingClient_WhenDeletingById_ThenThrows_ClientNotFoundException() {
+
+        mockThatClientIDDoesNotExist(clientRepository, client);
+
+        assertThrows(ClientNotFoundException.class, () -> deleteClientById(clientService, clientID));
+
+        verifyThatEntityWasNotDeleted(client);
+    }
+
+    @Test
+    @DisplayName("Dado un cliente registrado, deberá retornar su información mediante DTO informativo (por ID Long)")
+    void givenExistingClient_WhenSearchingById_ThenReturnsItsInformation() {
+
+        mockClientById(clientRepository, client);
+
+        ClientInfoDTO returnedDTO = clientService.getClientInfo(clientID);
+
+        verifyInfoDTOAssertions(returnedDTO);
+    }
+
+    @Test
+    @DisplayName("Dado un nombre de cliente, la búsqueda en vivo deberá retornar resultados (LiveSearchByName)")
+    void givenClientName_WhenLiveSearchingByName_ThenReturnsResults() {
+
+        when(clientRepository.clientLiveSearchByName(client.getFirstName())).thenReturn(List.of(client));
+
+        List<ClientInfoDTO> returnedDTOs = clientService.clientLiveSearchByName(client.getFirstName());
+
+        assertNotNull(returnedDTOs);
+        assertEquals(1, returnedDTOs.size());
+        assertEquals(client.getFirstName(), returnedDTOs.getFirst().getFirstName());
+    }
+
+    @Test
+    @DisplayName("Dado un cliente registrado, deberá retornar la lista completa de clientes")
+    void givenClientList_WhenRetrievingAllClients_ThenReturnsList() {
+
+        when(clientRepository.findAll()).thenReturn(List.of(client));
+
+        List<ClientInfoDTO> returnedDTOs = clientService.getClientList();
+
+        assertNotNull(returnedDTOs);
+        assertEquals(1, returnedDTOs.size());
+        assertEquals(client.getFirstName(), returnedDTOs.getFirst().getFirstName());
+    }
+
+    @Test
+    @DisplayName("Dado el repositorio, deberá retornar las estadísticas totales de clientes")
+    void givenRepository_WhenGettingTotalClientsStats_ThenReturnsStats() {
+
+        when(clientRepository.getTotalClientsStats(any(), any()))
+                .thenReturn(com.dto.stats.TotalClientsStatsDTO.builder()
+                        .totalClientsCount(100L)
+                        .clientsRegisteredThisMonth(10L)
+                        .build());
+
+        com.dto.stats.TotalClientsStatsDTO stats = clientService.getTotalClientsStats();
+
+        assertNotNull(stats);
+        assertEquals(100L, stats.getTotalClientsCount());
+        assertEquals(10L, stats.getClientsRegisteredThisMonth());
+    }
+
+    @Test
+    @DisplayName("Dado el repositorio, deberá retornar las estadísticas de registro de teléfonos")
+    void givenRepository_WhenGettingPhoneNumberStats_ThenReturnsStats() {
+
+        when(clientRepository.getPhoneNumberRegistrationStats())
+                .thenReturn(com.dto.stats.ClientPhoneNumberStatsDTO.builder()
+                        .clientsWithAtLeastOnePhoneNumber(80L)
+                        .build());
+
+        com.dto.stats.ClientPhoneNumberStatsDTO stats = clientService.getPhoneNumberRegistrationStats();
+
+        assertNotNull(stats);
+        assertEquals(80L, stats.getClientsWithAtLeastOnePhoneNumber());
+    }
+
+    @Test
+    @DisplayName("Dado el repositorio, deberá retornar las estadísticas de tendencia de registro")
+    void givenRepository_WhenGettingRegistrationTrendStats_ThenReturnsStats() {
+
+        when(clientRepository.getClientRegistrationTrend(any(), any(), any(), any()))
+                .thenReturn(com.dto.stats.ClientRegistrationTrendStatDTO.builder()
+                        .clientsRegisteredDuringThisMonth(10L)
+                        .clientsRegisteredDuringTheLastMonth(8L)
+                        .build());
+
+        com.dto.stats.ClientRegistrationTrendStatDTO stats = clientService.getClientRegistrationTrendStats();
+
+        assertNotNull(stats);
+        assertEquals(10L, stats.getClientsRegisteredDuringThisMonth());
+        assertEquals(8L, stats.getClientsRegisteredDuringTheLastMonth());
+        assertEquals(25.0, stats.getTrendPercentage(), 0.01);
+    }
+
+    @Test
+    @DisplayName("Dado el repositorio, deberá retornar las estadísticas de observaciones de clientes")
+    void givenRepository_WhenGettingNotesStats_ThenReturnsStats() {
+
+        when(clientRepository.getClientsNotesStats())
+                .thenReturn(com.dto.stats.ClientNotesStatsDTO.builder()
+                        .clientsWithNotes(15L)
+                        .clientsWithoutNotes(5L)
+                        .build());
+
+        com.dto.stats.ClientNotesStatsDTO stats = clientService.getClientNotesStats();
+
+        assertNotNull(stats);
+        assertEquals(15L, stats.getClientsWithNotes());
+        assertEquals(5L, stats.getClientsWithoutNotes());
+    }
+
+    @Test
+    @DisplayName("Dado el repositorio, deberá retornar las estadísticas de adquisición de clientes vs último mes")
+    void givenRepository_WhenGettingAcquisitionStatsVsLastMonth_ThenReturnsStats() {
+
+        when(clientRepository.getTotalClientsStats(any(), any()))
+                .thenReturn(com.dto.stats.TotalClientsStatsDTO.builder()
+                        .totalClientsCount(100L)
+                        .clientsRegisteredThisMonth(10L)
+                        .build());
+
+        com.dto.stats.TotalClientsStatsDTO stats = clientService.getTotalClientsStats();
+
+        assertNotNull(stats);
+        assertEquals(100L, stats.getTotalClientsCount());
+        assertEquals(10L, stats.getClientsRegisteredThisMonth());
+    }
+
+    @Test
+    @DisplayName("Dado un nombre de cliente, filtros de fecha, teléfono y notas, la búsqueda en vivo deberá retornar resultados")
+    void givenClientName_WhenLiveSearchWithFilters_ThenReturnsFilteredResults() {
+
+        when(clientRepository.liveSearch(client.getFirstName(), null, null, null))
+                .thenReturn(List.of(client));
+
+        List<ClientInfoDTO> returnedDTOs = clientService.liveSearch(client.getFirstName(), null, null, null);
+
+        assertNotNull(returnedDTOs);
+        assertEquals(1, returnedDTOs.size());
+        assertEquals(client.getFirstName(), returnedDTOs.getFirst().getFirstName());
     }
 
     private void verifyCreationProcessFailure() {

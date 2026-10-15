@@ -87,9 +87,29 @@ public class ClientServiceTestHelper {
         when(clientRepository.existsByEmailAndClientIDNot(updateDTO.getEmail(), client.getClientID())).thenReturn(true);
     }
 
+    public static void mockThatClientIDDoesNotExist(ClientRepository clientRepository, Client client) {
+
+        when(clientRepository.findById(client.getClientID())).thenReturn(Optional.empty());
+    }
+
     public static void mockClientByNationalIDCardNumber(ClientRepository clientRepository, Client client) {
 
         when(clientRepository.findByNationalIdentityCardNumber(client.getNationalIdentityCardNumber())).thenReturn(Optional.of(client));
+    }
+
+    public static void mockClientById(ClientRepository clientRepository, Client client) {
+
+        when(clientRepository.findById(client.getClientID())).thenReturn(Optional.of(client));
+    }
+
+    public static void updateClientById(ClientService clientService, Long clientID, ClientUpdateDTO updateDTO) {
+
+        clientService.updateClient(clientID, updateDTO);
+    }
+
+    public static void deleteClientById(ClientService clientService, Long clientID) {
+
+        clientService.deleteClient(clientID);
     }
 
     public static <T extends ClientInputDTO> void mockValidatorToThrowException(ClientValidator validator, Exception exception, T dto) {
