@@ -74,7 +74,7 @@
             position: fixed;
             inset: 64px 0 0 0;
             z-index: 4;
-            background: rgba(0, 0, 0, .4);
+            background: color-mix(in srgb, var(--md-sys-color-scrim) 40%, transparent);
             opacity: 0;
             pointer-events: none;
             transition: opacity 200ms ease
@@ -236,19 +236,18 @@
 
             <section aria-label="Formulario de registro de servicio">
                 <form method="post" th:action="@{/barberservices/new}">
-                    <input th:name="${_csrf.parameterName}" th:value="${_csrf.token}" type="hidden">
                     <div class="surface outlined">
                         <div class="form-grid">
                             <md-outlined-text-field id="serviceName" label="Nombre del servicio" maxlength="100"
                                                     name="name" placeholder="Ej: Corte Clásico"
                                                     th:value="${dto.name}">
-                                <md-icon slot="leading-icon">cut</md-icon>
+                                <md-icon aria-hidden="true" slot="leading-icon">cut</md-icon>
                             </md-outlined-text-field>
 
-                            <md-outlined-text-field id="servicePrice" label="Precio" min="0"
+                            <md-outlined-text-field id="servicePrice" label="Precio" min="0.01"
                                                     name="price" placeholder="Ej: 12000" step="0.01"
                                                     th:value="${dto.price}" type="number">
-                                <md-icon slot="leading-icon">payments</md-icon>
+                                <md-icon aria-hidden="true" slot="leading-icon">payments</md-icon>
                             </md-outlined-text-field>
 
                             <md-outlined-select id="categorySelect" label="Categoría" name="serviceCategory">
@@ -264,24 +263,26 @@
                             </md-outlined-select>
 
                             <md-outlined-text-field class="span-full" id="internalNotes" label="Notas internas"
-                                                    maxlength="256" name="internalNotes" placeholder="Notas internas para el personal (no visible para clientes)" rows="3"
+                                                    maxlength="256" name="internalNotes"
+                                                    placeholder="Notas internas para el personal (no visible para clientes)"
+                                                    rows="3"
                                                     th:value="${dto.internalNotes}"
                                                     type="textarea">
-                                <md-icon slot="leading-icon">notes</md-icon>
+                                <md-icon aria-hidden="true" slot="leading-icon">notes</md-icon>
                             </md-outlined-text-field>
                         </div>
 
                         <div class="btn-row">
                             <md-filled-button type="submit">
-                                <md-icon slot="icon">check</md-icon>
+                                <md-icon aria-hidden="true" slot="icon">check</md-icon>
                                 Guardar Servicio
                             </md-filled-button>
-                            <md-outlined-button onclick="resetForm()" type="button">
-                                <md-icon slot="icon">autorenew</md-icon>
+                            <md-outlined-button onclick="resetForm(this)" type="button">
+                                <md-icon aria-hidden="true" slot="icon">autorenew</md-icon>
                                 Limpiar
                             </md-outlined-button>
                             <md-outlined-button href="/barberservices">
-                                <md-icon slot="icon">arrow_back</md-icon>
+                                <md-icon aria-hidden="true" slot="icon">arrow_back</md-icon>
                                 Cancelar
                             </md-outlined-button>
                         </div>
@@ -310,8 +311,8 @@
 
 <div th:replace="~{fragments/layout :: dialogs}"></div>
 <script>
-    function resetForm() {
-        window.location.href = '/barberservices/new';
+    function resetForm(source) {
+        resetFormInPlace(source.closest('form'));
     }
 
     const validationDialog = document.getElementById('validationDialog');

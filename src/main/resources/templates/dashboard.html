@@ -74,7 +74,7 @@
             position: fixed;
             inset: 64px 0 0 0;
             z-index: 4;
-            background: rgba(0, 0, 0, .4);
+            background: color-mix(in srgb, var(--md-sys-color-scrim) 40%, transparent);
             opacity: 0;
             pointer-events: none;
             transition: opacity 200ms ease
@@ -250,7 +250,7 @@
 <div class="nav-scrim" id="navScrim"></div>
 
 <div class="app-shell">
-    <aside th:replace="~{fragments/layout :: drawer(active='')}"></aside>
+    <aside th:replace="~{fragments/layout :: drawer(active='/dashboard')}"></aside>
 
     <main class="app-main">
         <div class="main-inner">
@@ -393,18 +393,21 @@
                         Sin actividad reciente
                     </div>
                     <md-list th:unless="${#lists.isEmpty(recentActivity)}">
-                        <md-list-item th:each="activity : ${recentActivity}"
+                        <md-list-item th:attr="data-timestamp=${activity.timestamp}"
+                                      th:each="activity : ${recentActivity}"
                                       th:switch="${activity.eventType != null ? activity.eventType.name() : 'HISTORY'}">
-                            <md-icon slot="start" th:case="'NUEVO_CLIENTE'">person_add</md-icon>
-                            <md-icon slot="start" th:case="'NUEVO_EMPLEADO'">badge</md-icon>
-                            <md-icon slot="start" th:case="'NUEVO_PRODUCTO'">inventory_2</md-icon>
-                            <md-icon slot="start" th:case="'NUEVO_TURNO'">calendar_today</md-icon>
-                            <md-icon slot="start" th:case="'TURNO_FINALIZADO'">done_all</md-icon>
-                            <md-icon slot="start" th:case="'TURNO_CANCELADO'">person_cancel</md-icon>
-                            <md-icon slot="start" th:case="'ALERTA_STOCK_BAJO'">warning</md-icon>
-                            <md-icon slot="start" th:case="'EMPLEADO_INACTIVO'">enterprise_off</md-icon>
-                            <md-icon slot="start" th:case="'EMPLEADO_DESVINCULADO'">person_remove</md-icon>
-                            <md-icon slot="start" th:case="*">history</md-icon>
+                            <md-icon aria-hidden="true" slot="start" th:case="'NUEVO_CLIENTE'">person_add</md-icon>
+                            <md-icon aria-hidden="true" slot="start" th:case="'NUEVO_EMPLEADO'">badge</md-icon>
+                            <md-icon aria-hidden="true" slot="start" th:case="'NUEVO_PRODUCTO'">inventory_2</md-icon>
+                            <md-icon aria-hidden="true" slot="start" th:case="'NUEVO_TURNO'">calendar_today</md-icon>
+                            <md-icon aria-hidden="true" slot="start" th:case="'TURNO_FINALIZADO'">done_all</md-icon>
+                            <md-icon aria-hidden="true" slot="start" th:case="'TURNO_CANCELADO'">person_cancel</md-icon>
+                            <md-icon aria-hidden="true" slot="start" th:case="'ALERTA_STOCK_BAJO'">warning</md-icon>
+                            <md-icon aria-hidden="true" slot="start" th:case="'EMPLEADO_INACTIVO'">enterprise_off
+                            </md-icon>
+                            <md-icon aria-hidden="true" slot="start" th:case="'EMPLEADO_DESVINCULADO'">person_remove
+                            </md-icon>
+                            <md-icon aria-hidden="true" slot="start" th:case="*">history</md-icon>
                             <span slot="headline" th:text="${activity.text}">Actividad</span>
                             <span slot="supporting-text"
                                   th:text="${activity.timestamp != null ? #temporals.format(activity.timestamp, 'dd/MM/yyyy HH:mm') : ''}">00/00/0000 00:00
@@ -419,6 +422,34 @@
 
 <div th:replace="~{fragments/layout :: dialogs}"></div>
 <script>
+    // DASH-02: marca de tiempo relativa en "Actividad Reciente" (la absoluta queda en el title).
+    (function () {
+        function relativeTime(date) {
+            const diffMs = Date.now() - date.getTime();
+            if (diffMs < 0) return null;
+            const minutes = Math.floor(diffMs / 60000);
+            if (minutes < 1) return 'Hace instantes';
+            if (minutes < 60) return 'Hace ' + minutes + ' min';
+            const hours = Math.floor(minutes / 60);
+            if (hours < 24) return 'Hace ' + hours + ' h';
+            const days = Math.floor(hours / 24);
+            if (days < 7) return 'Hace ' + days + ' d';
+            return null;
+        }
+
+        document.querySelectorAll('md-list-item[data-timestamp]').forEach(item => {
+            const iso = item.dataset.timestamp;
+            if (!iso) return;
+            const parsed = new Date(iso.replace(/(\.\d{3})\d+/, '$1'));
+            if (isNaN(parsed.getTime())) return;
+            const relative = relativeTime(parsed);
+            if (!relative) return;
+            const target = item.querySelector('[slot="supporting-text"]');
+            if (!target) return;
+            target.title = target.textContent.trim();
+            target.textContent = relative;
+        });
+    })();
 </script>
 <script th:replace="~{fragments/layout :: commonScripts}"></script>
 </body>

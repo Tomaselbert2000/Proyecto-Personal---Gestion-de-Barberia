@@ -74,7 +74,7 @@
             position: fixed;
             inset: 64px 0 0 0;
             z-index: 4;
-            background: rgba(0, 0, 0, .4);
+            background: color-mix(in srgb, var(--md-sys-color-scrim) 40%, transparent);
             opacity: 0;
             pointer-events: none;
             transition: opacity 200ms ease
@@ -180,6 +180,40 @@
             width: 100%
         }
 
+        .product-image-field {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap
+        }
+
+        .product-image-preview {
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 96px;
+            height: 96px;
+            overflow: hidden;
+            border: 1px solid var(--md-sys-color-outline-variant);
+            border-radius: 14px;
+            background: var(--md-sys-color-surface-container);
+            color: var(--md-sys-color-secondary)
+        }
+
+        .product-image-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover
+        }
+
+        .product-image-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            min-width: 0
+        }
+
         .btn-row {
             display: flex;
             gap: 12px;
@@ -259,28 +293,57 @@
             </div>
 
             <section aria-label="Formulario de edición de producto">
-                <form method="post" th:action="@{/products/{productID}/update(productID=${product.id})}">
-                    <input th:name="${_csrf.parameterName}" th:value="${_csrf.token}" type="hidden">
+                <form enctype="multipart/form-data" method="post"
+                      th:action="@{/products/{productID}/update(productID=${product.id})}">
+                    <input name="imageFilePath" th:value="${dto.imageFilePath}" type="hidden">
                     <div class="surface outlined">
                         <div class="form-grid">
+                            <div class="span-full product-image-field">
+                                <div class="product-image-preview" id="productImagePreview">
+                                    <img alt="Imagen del producto" th:if="${!#strings.isEmpty(dto.imageFilePath)}"
+                                         th:src="${dto.imageFilePath}">
+                                    <md-icon aria-hidden="true"
+                                             th:if="${#strings.isEmpty(dto.imageFilePath)}">add_photo_alternate
+                                    </md-icon>
+                                </div>
+                                <div class="product-image-actions">
+                                    <span class="md-typescale-label-large">Imagen del producto (opcional)</span>
+                                    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+                                        <md-outlined-button
+                                                onclick="document.getElementById('productImageInput').click()"
+                                                type="button">
+                                            <md-icon aria-hidden="true" slot="icon">upload</md-icon>
+                                            Cambiar imagen
+                                        </md-outlined-button>
+                                        <input accept="image/png,image/jpeg" class="visually-hidden"
+                                               id="productImageInput" name="imageFile" type="file">
+                                    </div>
+                                    <span class="md-typescale-body-small"
+                                          style="color:var(--md-sys-color-on-surface-variant)">Formatos JPG o PNG · máx. 5 MB</span>
+                                    <span class="md-typescale-body-small" id="productImageError"
+                                          style="color:var(--md-sys-color-error);display:none"></span>
+                                </div>
+                            </div>
+
                             <md-outlined-text-field class="span-full" id="productName" label="Nombre de producto"
                                                     maxlength="100"
                                                     name="name" placeholder="Ej: Cera para modelar"
                                                     th:value="${dto.name}">
-                                <md-icon slot="leading-icon">inventory_2</md-icon>
+                                <md-icon aria-hidden="true" slot="leading-icon">inventory_2</md-icon>
                             </md-outlined-text-field>
 
                             <md-outlined-text-field id="productBrandName" label="Marca" maxlength="100"
                                                     name="brandName" placeholder="Ej: American Crew"
                                                     th:value="${dto.brandName}">
-                                <md-icon slot="leading-icon">branding_watermark</md-icon>
+                                <md-icon aria-hidden="true" slot="leading-icon">branding_watermark</md-icon>
                             </md-outlined-text-field>
 
                             <md-outlined-text-field id="productPresentationSize" inputmode="numeric"
                                                     label="Tamaño o volumen"
-                                                    name="presentationSize" placeholder="Ej: 250ml" th:value="${dto.presentationSize}"
+                                                    name="presentationSize" placeholder="Ej: 250ml"
+                                                    th:value="${dto.presentationSize}"
                                                     type="text">
-                                <md-icon slot="leading-icon">straighten</md-icon>
+                                <md-icon aria-hidden="true" slot="leading-icon">straighten</md-icon>
                             </md-outlined-text-field>
 
                             <md-outlined-select id="productCategory" label="Categoría" name="category">
@@ -304,73 +367,78 @@
 
                             <md-outlined-text-field class="span-full" id="productDescription"
                                                     label="Descripción opcional" maxlength="256"
-                                                    name="optionalDescription" placeholder="Descripción opcional del producto" rows="3"
+                                                    name="optionalDescription"
+                                                    placeholder="Descripción opcional del producto" rows="3"
                                                     th:value="${dto.optionalDescription}"
                                                     type="textarea">
-                                <md-icon slot="leading-icon">description</md-icon>
+                                <md-icon aria-hidden="true" slot="leading-icon">description</md-icon>
                             </md-outlined-text-field>
 
                             <md-outlined-text-field id="productCost" inputmode="decimal" label="Costo de producto"
                                                     name="productCost" placeholder="$0" th:value="${dto.productCost}"
                                                     type="text">
-                                <md-icon slot="leading-icon">attach_money</md-icon>
+                                <md-icon aria-hidden="true" slot="leading-icon">attach_money</md-icon>
                             </md-outlined-text-field>
 
-                            <md-outlined-text-field id="productMinPrice" inputmode="decimal" label="Precio de venta mínimo"
+                            <md-outlined-text-field id="productMinPrice" inputmode="decimal"
+                                                    label="Precio de venta mínimo"
                                                     name="minPrice" placeholder="$0" th:value="${dto.minPrice}"
                                                     type="text">
-                                <md-icon slot="leading-icon">attach_money</md-icon>
+                                <md-icon aria-hidden="true" slot="leading-icon">attach_money</md-icon>
                             </md-outlined-text-field>
 
                             <md-outlined-text-field id="productCurrentPrice" inputmode="decimal"
                                                     label="Precio actual de venta"
                                                     name="currentPrice" placeholder="$0" th:value="${dto.currentPrice}"
                                                     type="text">
-                                <md-icon slot="leading-icon">attach_money</md-icon>
+                                <md-icon aria-hidden="true" slot="leading-icon">attach_money</md-icon>
                             </md-outlined-text-field>
 
                             <md-outlined-text-field id="productWholesalePrice" inputmode="decimal"
                                                     label="Precio al por mayor"
                                                     name="productWholeSalePrice" placeholder="$0"
                                                     th:value="${dto.productWholeSalePrice}" type="text">
-                                <md-icon slot="leading-icon">attach_money</md-icon>
+                                <md-icon aria-hidden="true" slot="leading-icon">attach_money</md-icon>
                             </md-outlined-text-field>
 
                             <md-outlined-text-field class="span-full" id="productMaxDiscount"
                                                     inputmode="decimal" label="Descuento máximo"
                                                     name="maxDiscountPercentage" placeholder="$0"
                                                     th:value="${dto.maxDiscountPercentage}" type="text">
-                                <md-icon slot="leading-icon">percent</md-icon>
+                                <md-icon aria-hidden="true" slot="leading-icon">percent</md-icon>
                             </md-outlined-text-field>
 
                             <md-outlined-text-field id="productCurrentStock" inputmode="numeric"
                                                     label="Stock actual"
                                                     name="currentStockLevel" placeholder="0 unidades" readonly
-                                                    supporting-text='Para modificarlo usá "Modificar Stock"' th:value="${dto.currentStockLevel}"
+                                                    supporting-text='Para modificarlo usá "Modificar Stock"'
+                                                    th:value="${dto.currentStockLevel}"
                                                     type="text">
-                                <md-icon slot="leading-icon">inventory_2</md-icon>
+                                <md-icon aria-hidden="true" slot="leading-icon">inventory_2</md-icon>
                             </md-outlined-text-field>
 
                             <md-outlined-text-field id="productSafetyStock" inputmode="numeric"
                                                     label="Stock mínimo seguro"
-                                                    name="safetyStockLevel" placeholder="0 unidades" th:value="${dto.safetyStockLevel}"
+                                                    name="safetyStockLevel" placeholder="0 unidades"
+                                                    th:value="${dto.safetyStockLevel}"
                                                     type="text">
-                                <md-icon slot="leading-icon">inventory_2</md-icon>
+                                <md-icon aria-hidden="true" slot="leading-icon">inventory_2</md-icon>
                             </md-outlined-text-field>
                         </div>
 
                         <div class="btn-row">
                             <md-filled-button type="submit">
-                                <md-icon slot="icon">check</md-icon>
+                                <md-icon aria-hidden="true" slot="icon">check</md-icon>
                                 Guardar Cambios
                             </md-filled-button>
-                            <md-outlined-button id="resetButton" th:attr="data-reset-url=@{/products/{id}/update(id=${product.id})}"
+                            <md-outlined-button id="resetButton"
+                                                th:attr="data-reset-url=@{/products/{id}/update(id=${product.id})}"
                                                 type="button">
-                                <md-icon slot="icon">autorenew</md-icon>
+                                <md-icon aria-hidden="true" slot="icon">autorenew</md-icon>
                                 Restaurar valores
                             </md-outlined-button>
                             <md-outlined-button href="/products">
-                                <md-icon slot="icon">arrow_back</md-icon>
+                                <md-icon aria-hidden="true" slot="icon">arrow_back</md-icon>
                                 Cancelar
                             </md-outlined-button>
                         </div>
@@ -401,7 +469,7 @@
 <script>
     const resetButton = document.getElementById('resetButton');
     resetButton.addEventListener('click', () => {
-        window.location.href = resetButton.dataset.resetUrl;
+        resetFormInPlace(resetButton.closest('form'));
     });
 
     const validationDialog = document.getElementById('validationDialog');
@@ -441,6 +509,42 @@
             if (field.value.trim() === '') field.value = '0.0';
         });
     });
+</script>
+<script>
+    (function () {
+        const imageInput = document.getElementById('productImageInput');
+        const preview = document.getElementById('productImagePreview');
+        const errorLabel = document.getElementById('productImageError');
+        if (!imageInput || !preview) return;
+
+        const MAX_IMAGE_BYTES = 5 * 1024 * 1024;
+
+        imageInput.addEventListener('change', () => {
+            const file = imageInput.files && imageInput.files[0];
+            if (errorLabel) {
+                errorLabel.style.display = 'none';
+                errorLabel.textContent = '';
+            }
+            if (!file) return;
+
+            if (file.size > MAX_IMAGE_BYTES) {
+                imageInput.value = '';
+                if (errorLabel) {
+                    errorLabel.textContent = 'La imagen supera el tamaño máximo de 5 MB.';
+                    errorLabel.style.display = '';
+                }
+                return;
+            }
+
+            const objectUrl = URL.createObjectURL(file);
+            preview.replaceChildren();
+            const image = document.createElement('img');
+            image.alt = 'Vista previa de la imagen del producto';
+            image.src = objectUrl;
+            image.addEventListener('load', () => URL.revokeObjectURL(objectUrl), { once: true });
+            preview.appendChild(image);
+        });
+    })();
 </script>
 <script th:replace="~{fragments/layout :: commonScripts}"></script>
 </body>

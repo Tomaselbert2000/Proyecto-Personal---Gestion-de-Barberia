@@ -74,7 +74,7 @@
             position: fixed;
             inset: 64px 0 0 0;
             z-index: 4;
-            background: rgba(0, 0, 0, .4);
+            background: color-mix(in srgb, var(--md-sys-color-scrim) 40%, transparent);
             opacity: 0;
             pointer-events: none;
             transition: opacity 200ms ease
@@ -519,7 +519,7 @@
                                                     name="name" placeholder="Nombre del producto"
                                                     th:value="${param.name != null ? param.name[0] : ''}"
                                                     type="text">
-                                <md-icon slot="leading-icon">search</md-icon>
+                                <md-icon aria-hidden="true" slot="leading-icon">search</md-icon>
                             </md-outlined-text-field>
                             <md-outlined-select label="Categoría" name="category">
                                 <md-select-option th:selected="${param.category == null or param.category[0] == ''}"
@@ -534,8 +534,9 @@
                                 </md-select-option>
                             </md-outlined-select>
                             <md-outlined-select label="Estado de stock" name="stockStatus">
-                                <md-select-option th:selected="${param.stockStatus == null or param.stockStatus[0] == ''}"
-                                                  value="">
+                                <md-select-option
+                                        th:selected="${param.stockStatus == null or param.stockStatus[0] == ''}"
+                                        value="">
                                     <div slot="headline">Todos los estados de stock</div>
                                 </md-select-option>
                                 <md-select-option th:each="s : ${stockStatuses}"
@@ -548,15 +549,15 @@
                         </div>
                         <div class="btn-row">
                             <md-filled-button type="submit">
-                                <md-icon slot="icon">search</md-icon>
+                                <md-icon aria-hidden="true" slot="icon">search</md-icon>
                                 Buscar
                             </md-filled-button>
                             <md-outlined-button onclick="clearFilters()" type="button">
-                                <md-icon slot="icon">filter_alt_off</md-icon>
+                                <md-icon aria-hidden="true" slot="icon">filter_alt_off</md-icon>
                                 Limpiar
                             </md-outlined-button>
                             <md-filled-tonal-button href="/products/new" th:href="@{/products/new}">
-                                <md-icon slot="icon">add</md-icon>
+                                <md-icon aria-hidden="true" slot="icon">add</md-icon>
                                 Nuevo Producto
                             </md-filled-tonal-button>
                         </div>
@@ -575,7 +576,9 @@
                     <article class="surface outlined product-card" th:each="p : ${liveSearch}">
                         <div class="product-row">
                             <div aria-hidden="true" class="product-thumb">
-                                <md-icon>inventory_2</md-icon>
+                                <img alt="" loading="lazy" onerror="this.remove()"
+                                     th:if="${!#strings.isEmpty(p.imageFilePath)}" th:src="${p.imageFilePath}">
+                                <md-icon aria-hidden="true">inventory_2</md-icon>
                             </div>
                             <div class="product-body">
                                 <div class="product-title">
@@ -610,28 +613,29 @@
                                             th:aria-controls="'product-actions-' + ${p.id}"
                                             th:data-target="'product-actions-' + ${p.id}"
                                             th:id="'product-toggle-' + ${p.id}">
-                                <md-icon>expand_more</md-icon>
+                                <md-icon aria-hidden="true">expand_more</md-icon>
                             </md-icon-button>
                         </div>
 
                         <div class="product-actions" th:id="'product-actions-' + ${p.id}">
                             <md-text-button th:href="@{/products/{id}/update(id=${p.id})}">
-                                <md-icon slot="icon">edit</md-icon>
+                                <md-icon aria-hidden="true" slot="icon">edit</md-icon>
                                 Editar
                             </md-text-button>
                             <md-text-button th:href="@{/products/{id}/update-stock(id=${p.id})}">
-                                <md-icon slot="icon">add_box</md-icon>
+                                <md-icon aria-hidden="true" slot="icon">add_box</md-icon>
                                 Modificar Stock
                             </md-text-button>
                             <form method="post" th:action="@{/products/{id}/delete(id=${p.id})}"
                                   th:id="'deleteForm-' + ${p.id}">
-                                <md-text-button data-confirm-accept="Eliminar" data-confirm-message="¿Eliminar este producto?"
+                                <md-text-button data-confirm-accept="Eliminar"
+                                                data-confirm-message="¿Eliminar este producto?"
                                                 data-confirm-title="Eliminar producto"
                                                 onclick="askConfirm(this)"
                                                 style="--md-sys-color-primary:var(--md-sys-color-error)"
                                                 th:data-confirm-form="'deleteForm-' + ${p.id}"
                                                 type="button">
-                                    <md-icon slot="icon">delete</md-icon>
+                                    <md-icon aria-hidden="true" slot="icon">delete</md-icon>
                                     Eliminar
                                 </md-text-button>
                             </form>

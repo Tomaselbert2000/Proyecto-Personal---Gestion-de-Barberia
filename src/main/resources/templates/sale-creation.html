@@ -74,7 +74,7 @@
             position: fixed;
             inset: 64px 0 0 0;
             z-index: 4;
-            background: rgba(0, 0, 0, .4);
+            background: color-mix(in srgb, var(--md-sys-color-scrim) 40%, transparent);
             opacity: 0;
             pointer-events: none;
             transition: opacity 200ms ease
@@ -354,7 +354,6 @@
 
             <section aria-label="Formulario de registro de venta">
                 <form method="post" th:action="@{/sales/new}">
-                    <input th:name="${_csrf.parameterName}" th:value="${_csrf.token}" type="hidden">
                     <div class="surface outlined">
                         <div class="section-head">
                             <h2 class="md-typescale-title-large" style="margin:0">Datos de la venta</h2>
@@ -408,9 +407,10 @@
                             </label>
 
                             <md-outlined-text-field class="span-full" hidden id="deferredDateTimeField"
-                                                    label="Fecha y hora de la venta diferida" th:value="${dto.dateAndTime}"
+                                                    label="Fecha y hora de la venta diferida"
+                                                    th:value="${dto.dateAndTime}"
                                                     type="datetime-local">
-                                <md-icon slot="leading-icon">schedule</md-icon>
+                                <md-icon aria-hidden="true" slot="leading-icon">schedule</md-icon>
                             </md-outlined-text-field>
                         </div>
                     </div>
@@ -419,20 +419,21 @@
                         <div class="section-head">
                             <h2 class="md-typescale-title-large" style="margin:0">Productos de la venta</h2>
                             <md-filled-tonal-button id="openProductPicker">
-                                <md-icon slot="icon">add_shopping_cart</md-icon>
+                                <md-icon aria-hidden="true" slot="icon">add_shopping_cart</md-icon>
                                 Agregar producto
                             </md-filled-tonal-button>
                         </div>
                         <md-divider></md-divider>
-                        <div class="cart-items" id="cartItems"></div>
-                        <div class="cart-empty md-typescale-body-medium" id="cartEmpty">
+                        <div aria-live="polite" aria-relevant="additions removals" class="cart-items"
+                             id="cartItems"></div>
+                        <div aria-live="polite" class="cart-empty md-typescale-body-medium" id="cartEmpty">
                             <md-icon aria-hidden="true">shopping_cart</md-icon>
                             <span>No se han agregado productos a la venta</span>
                         </div>
                         <md-divider></md-divider>
                         <div class="cart-summary">
                             <span class="md-typescale-title-medium">Total de la venta</span>
-                            <span class="md-typescale-title-large" id="cartTotal">ARS $ 0,00</span>
+                            <span aria-live="polite" class="md-typescale-title-large" id="cartTotal">ARS $ 0,00</span>
                         </div>
                     </div>
 
@@ -448,15 +449,15 @@
 
                     <div class="btn-row">
                         <md-filled-button type="submit">
-                            <md-icon slot="icon">check</md-icon>
+                            <md-icon aria-hidden="true" slot="icon">check</md-icon>
                             Registrar Venta
                         </md-filled-button>
-                        <md-outlined-button onclick="resetForm()" type="button">
-                            <md-icon slot="icon">autorenew</md-icon>
+                        <md-outlined-button onclick="resetForm(this)" type="button">
+                            <md-icon aria-hidden="true" slot="icon">autorenew</md-icon>
                             Limpiar
                         </md-outlined-button>
-                        <md-outlined-button href="/sales">
-                            <md-icon slot="icon">arrow_back</md-icon>
+                        <md-outlined-button href="/sales" th:href="@{/sales}" type="button">
+                            <md-icon aria-hidden="true" slot="icon">arrow_back</md-icon>
                             Volver
                         </md-outlined-button>
                     </div>
@@ -487,10 +488,11 @@
     <div class="md-typescale-body-medium" slot="content">
         <md-outlined-text-field class="picker-search" id="productSearch" label="Buscar producto"
                                 placeholder="Buscar producto por nombre">
-            <md-icon slot="leading-icon">search</md-icon>
+            <md-icon aria-hidden="true" slot="leading-icon">search</md-icon>
         </md-outlined-text-field>
         <div class="picker-list" id="productPickerList">
-            <div class="pick-row" th:attr="data-id=${p.id},data-name=${p.name},data-price=${p.currentPrice},data-stock=${p.currentStockLevel}"
+            <div class="pick-row"
+                 th:attr="data-id=${p.id},data-name=${p.name},data-price=${p.currentPrice},data-stock=${p.currentStockLevel}"
                  th:each="p : ${products}">
                 <div>
                     <span class="pick-name" th:text="${p.name}">Producto</span>
@@ -501,6 +503,9 @@
                 </div>
                 <md-icon aria-hidden="true">add_circle</md-icon>
             </div>
+            <div class="picker-no-results md-typescale-body-medium" hidden id="pickerNoResults">
+                No se encontraron productos
+            </div>
         </div>
     </div>
     <div slot="actions">
@@ -510,8 +515,10 @@
 
 <div th:replace="~{fragments/layout :: dialogs}"></div>
 <script>
-    function resetForm() {
-        window.location.href = '/sales/new';
+    function resetForm(source) {
+        resetFormInPlace(source.closest('form'));
+        cartItems.innerHTML = '';
+        renderCart();
     }
 
     const validationDialog = document.getElementById('validationDialog');
@@ -525,7 +532,7 @@
     document.querySelectorAll('.pick-row').forEach(row => {
         productById[Number(row.dataset.id)] = {
             name: row.dataset.name,
-            price: parseFloat(row.dataset.price)
+            cents: Math.round(Number(row.dataset.price) * 100)
         };
     });
 
@@ -542,13 +549,13 @@
         return String(text).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
     }
 
-    function currentServicePrice() {
+    function currentServiceCents() {
         const serviceSelect = document.getElementById('serviceSelect');
         const options = serviceSelect.querySelectorAll('md-select-option');
         const value = serviceSelect.value;
         for (const option of options) {
             if (option.value === value && option.dataset.price) {
-                return parseFloat(option.dataset.price) || 0;
+                return Math.round((parseFloat(option.dataset.price) || 0) * 100);
             }
         }
         return 0;
@@ -556,15 +563,15 @@
 
     function renderCart() {
         cartEmpty.hidden = cartItems.children.length > 0;
-        let total = 0;
+        let totalCents = 0;
         Array.from(cartItems.children).forEach(row => {
             const id = Number(row.dataset.id);
             const qty = Number(row.querySelector('.cart-item-qty-value').textContent);
-            const price = productById[id] ? productById[id].price : 0;
-            total += qty * price;
+            const priceCents = productById[id] ? productById[id].cents : 0;
+            totalCents += qty * priceCents;
         });
-        total += currentServicePrice();
-        cartTotal.textContent = 'ARS $ ' + formatARS(total);
+        totalCents += currentServiceCents();
+        cartTotal.textContent = 'ARS $ ' + formatARS(totalCents / 100);
     }
 
     function createCartRow(id, qty) {
@@ -576,13 +583,13 @@
         row.innerHTML =
             '<div class="cart-item-info">' +
             '   <span class="cart-item-name">' + escapeHtml(product.name) + '</span>' +
-            '   <span class="cart-item-price">ARS $ ' + formatARS(product.price) + '</span>' +
+            '   <span class="cart-item-price">ARS $ ' + formatARS(product.cents / 100) + '</span>' +
             '</div>' +
             '<div class="cart-item-qty">' +
-            '   <md-icon-button data-action="dec" aria-label="Disminuir cantidad"><md-icon>remove</md-icon></md-icon-button>' +
+            '   <md-icon-button data-action="dec" aria-label="Disminuir cantidad"><md-icon aria-hidden="true">remove</md-icon></md-icon-button>' +
             '   <span class="cart-item-qty-value">' + qty + '</span>' +
-            '   <md-icon-button data-action="inc" aria-label="Aumentar cantidad"><md-icon>add</md-icon></md-icon-button>' +
-            '   <md-icon-button data-action="del" aria-label="Quitar producto"><md-icon>delete</md-icon></md-icon-button>' +
+            '   <md-icon-button data-action="inc" aria-label="Aumentar cantidad"><md-icon aria-hidden="true">add</md-icon></md-icon-button>' +
+            '   <md-icon-button data-action="del" aria-label="Quitar producto"><md-icon aria-hidden="true">delete</md-icon></md-icon-button>' +
             '</div>';
         cartItems.appendChild(row);
     }
@@ -659,10 +666,14 @@
     productSearch.addEventListener('input', () => filterPicker(productSearch.value.trim().toLowerCase()));
 
     function filterPicker(query) {
+        let visible = 0;
         productPickerList.querySelectorAll('.pick-row').forEach(row => {
             const name = (row.dataset.name || '').toLowerCase();
             row.hidden = query !== '' && !name.includes(query);
+            if (!row.hidden) visible++;
         });
+        const noResults = document.getElementById('pickerNoResults');
+        if (noResults) noResults.hidden = visible > 0;
     }
 
     productPickerList.addEventListener('click', event => {

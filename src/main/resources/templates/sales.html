@@ -74,7 +74,7 @@
             position: fixed;
             inset: 64px 0 0 0;
             z-index: 4;
-            background: rgba(0, 0, 0, .4);
+            background: color-mix(in srgb, var(--md-sys-color-scrim) 40%, transparent);
             opacity: 0;
             pointer-events: none;
             transition: opacity 200ms ease
@@ -455,13 +455,13 @@
                                                     name="minTotal" placeholder="0,00" step="0.01"
                                                     th:value="${param.minTotal != null ? param.minTotal[0] : ''}"
                                                     type="number">
-                                <md-icon slot="leading-icon">attach_money</md-icon>
+                                <md-icon aria-hidden="true" slot="leading-icon">attach_money</md-icon>
                             </md-outlined-text-field>
                             <md-outlined-text-field id="maxTotalFilter" label="Total máximo" min="0"
                                                     name="maxTotal" placeholder="0,00" step="0.01"
                                                     th:value="${param.maxTotal != null ? param.maxTotal[0] : ''}"
                                                     type="number">
-                                <md-icon slot="leading-icon">attach_money</md-icon>
+                                <md-icon aria-hidden="true" slot="leading-icon">attach_money</md-icon>
                             </md-outlined-text-field>
                             <md-outlined-select label="Medio de pago" name="paymentName">
                                 <md-select-option th:each="p, iter : ${paymentNames}"
@@ -478,8 +478,9 @@
                                 </md-select-option>
                             </md-outlined-select>
                             <md-outlined-select label="Composición de venta" name="compositionFilter">
-                                <md-select-option th:selected="${param.compositionFilter == null or param.compositionFilter[0] == ''}"
-                                                  value="">
+                                <md-select-option
+                                        th:selected="${param.compositionFilter == null or param.compositionFilter[0] == ''}"
+                                        value="">
                                     <div slot="headline">Todas las ventas</div>
                                 </md-select-option>
                                 <md-select-option th:each="c : ${compositionFilters}"
@@ -492,15 +493,15 @@
                         </div>
                         <div class="btn-row">
                             <md-filled-button type="submit">
-                                <md-icon slot="icon">search</md-icon>
+                                <md-icon aria-hidden="true" slot="icon">search</md-icon>
                                 Buscar
                             </md-filled-button>
                             <md-outlined-button onclick="clearFilters()" type="button">
-                                <md-icon slot="icon">filter_alt_off</md-icon>
+                                <md-icon aria-hidden="true" slot="icon">filter_alt_off</md-icon>
                                 Limpiar
                             </md-outlined-button>
                             <md-filled-tonal-button href="/sales/new" th:href="@{/sales/new}">
-                                <md-icon slot="icon">add</md-icon>
+                                <md-icon aria-hidden="true" slot="icon">add</md-icon>
                                 Nueva Venta
                             </md-filled-tonal-button>
                         </div>
@@ -547,24 +548,25 @@
                                             th:aria-controls="'sale-actions-' + ${s.saleID}"
                                             th:data-target="'sale-actions-' + ${s.saleID}"
                                             th:id="'sale-toggle-' + ${s.saleID}">
-                                <md-icon>expand_more</md-icon>
+                                <md-icon aria-hidden="true">expand_more</md-icon>
                             </md-icon-button>
                         </div>
 
                         <div class="sale-actions" th:id="'sale-actions-' + ${s.saleID}">
                             <md-text-button th:href="@{/sales/{id}/details(id=${s.saleID})}">
-                                <md-icon slot="icon">receipt_long</md-icon>
+                                <md-icon aria-hidden="true" slot="icon">receipt_long</md-icon>
                                 Ver detalle
                             </md-text-button>
                             <form method="post" th:action="@{/sales/{id}/cancel(id=${s.saleID})}"
                                   th:id="'deleteForm-' + ${s.saleID}">
-                                <md-text-button data-confirm-accept="Cancelar venta" data-confirm-message="¿Cancelar esta venta? El stock de los productos involucrados será restituido."
+                                <md-text-button data-confirm-accept="Cancelar venta"
+                                                data-confirm-message="¿Cancelar esta venta? El stock de los productos involucrados será restituido."
                                                 data-confirm-title="Cancelar venta"
                                                 onclick="askConfirm(this)"
                                                 style="--md-sys-color-primary:var(--md-sys-color-error)"
                                                 th:data-confirm-form="'deleteForm-' + ${s.saleID}"
                                                 type="button">
-                                    <md-icon slot="icon">block</md-icon>
+                                    <md-icon aria-hidden="true" slot="icon">block</md-icon>
                                     Cancelar venta
                                 </md-text-button>
                             </form>

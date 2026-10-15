@@ -74,7 +74,7 @@
             position: fixed;
             inset: 64px 0 0 0;
             z-index: 4;
-            background: rgba(0, 0, 0, .4);
+            background: color-mix(in srgb, var(--md-sys-color-scrim) 40%, transparent);
             opacity: 0;
             pointer-events: none;
             transition: opacity 200ms ease
@@ -290,7 +290,7 @@
 
                 <div class="stock-product-head">
                     <div aria-hidden="true" class="product-thumb">
-                        <md-icon>inventory_2</md-icon>
+                        <md-icon aria-hidden="true">inventory_2</md-icon>
                     </div>
                     <div class="stock-product-copy">
                         <span class="md-typescale-title-medium name" th:text="${product.name}">Producto</span>
@@ -314,9 +314,10 @@
                             <div slot="headline">Quitar stock</div>
                         </md-select-option>
                     </md-outlined-select>
-                    <md-outlined-text-field id="quantityField" label="Cantidad" min="0" name="quantity" placeholder="Cantidad a gestionar"
+                    <md-outlined-text-field id="quantityField" label="Cantidad" min="0" name="quantity"
+                                            placeholder="Cantidad a gestionar"
                                             required step="1" type="number">
-                        <md-icon slot="leading-icon">add</md-icon>
+                        <md-icon aria-hidden="true" slot="leading-icon">add</md-icon>
                     </md-outlined-text-field>
                     <p class="hint md-typescale-body-small">
                         <md-icon aria-hidden="true">info</md-icon>
@@ -324,11 +325,11 @@
                     </p>
                     <div class="btn-row">
                         <md-filled-button type="submit">
-                            <md-icon slot="icon">save</md-icon>
+                            <md-icon aria-hidden="true" slot="icon">save</md-icon>
                             Guardar Cambios
                         </md-filled-button>
                         <md-outlined-button href="/products" th:href="@{/products}">
-                            <md-icon slot="icon">close</md-icon>
+                            <md-icon aria-hidden="true" slot="icon">close</md-icon>
                             Cancelar
                         </md-outlined-button>
                     </div>

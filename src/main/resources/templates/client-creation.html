@@ -74,7 +74,7 @@
             position: fixed;
             inset: 64px 0 0 0;
             z-index: 4;
-            background: rgba(0, 0, 0, .4);
+            background: color-mix(in srgb, var(--md-sys-color-scrim) 40%, transparent);
             opacity: 0;
             pointer-events: none;
             transition: opacity 200ms ease
@@ -259,37 +259,37 @@
 
             <section aria-label="Formulario de registro de cliente">
                 <form method="post" th:action="@{/clients/new}">
-                    <input th:name="${_csrf.parameterName}" th:value="${_csrf.token}" type="hidden">
                     <div class="surface outlined">
                         <div class="form-grid">
                             <md-outlined-text-field id="clientDNI" inputmode="numeric" label="DNI"
                                                     maxlength="8" name="nationalIdentityCardNumber"
                                                     placeholder="Ej: 12345678"
                                                     th:value="${dto.nationalIdentityCardNumber}">
-                                <md-icon slot="leading-icon">badge</md-icon>
+                                <md-icon aria-hidden="true" slot="leading-icon">badge</md-icon>
                             </md-outlined-text-field>
 
                             <md-outlined-text-field id="clientFirstName" label="Nombre" maxlength="100"
                                                     name="firstName" placeholder="Ej: Juan" th:value="${dto.firstName}">
-                                <md-icon slot="leading-icon">person</md-icon>
+                                <md-icon aria-hidden="true" slot="leading-icon">person</md-icon>
                             </md-outlined-text-field>
 
                             <md-outlined-text-field id="clientLastName" label="Apellido" maxlength="100"
                                                     name="lastName" placeholder="Ej: Pérez" th:value="${dto.lastName}">
-                                <md-icon slot="leading-icon">person_outline</md-icon>
+                                <md-icon aria-hidden="true" slot="leading-icon">person_outline</md-icon>
                             </md-outlined-text-field>
 
                             <md-outlined-text-field id="clientEmail" label="Correo electrónico" maxlength="100"
-                                                    name="email" placeholder="Ej: juan@gmail.com" th:value="${dto.email}"
+                                                    name="email" placeholder="Ej: juan@gmail.com"
+                                                    th:value="${dto.email}"
                                                     type="email">
-                                <md-icon slot="leading-icon">mail</md-icon>
+                                <md-icon aria-hidden="true" slot="leading-icon">mail</md-icon>
                             </md-outlined-text-field>
 
                             <div class="span-full">
                                 <div class="phones-header">
                                     <span class="md-typescale-title-small">Teléfonos</span>
                                     <md-outlined-button id="addPhoneBtn" type="button">
-                                        <md-icon slot="icon">add</md-icon>
+                                        <md-icon aria-hidden="true" slot="icon">add</md-icon>
                                         Agregar teléfono
                                     </md-outlined-button>
                                 </div>
@@ -297,37 +297,40 @@
                                      style="display:flex;flex-direction:column;gap:8px;margin-top:12px">
                                     <div class="phone-row" th:each="phone, iter : ${dto.phoneNumbersList}">
                                         <md-outlined-text-field label="Teléfono"
-                                                                maxlength="15" placeholder="+54 9 1234 5678" th:name="${'phoneNumbersList[' + iter.index + ']'}"
+                                                                maxlength="15" placeholder="+54 9 1234 5678"
+                                                                th:name="${'phoneNumbersList[' + iter.index + ']'}"
                                                                 th:value="${phone}" type="tel">
-                                            <md-icon slot="leading-icon">phone</md-icon>
+                                            <md-icon aria-hidden="true" slot="leading-icon">phone</md-icon>
                                         </md-outlined-text-field>
                                         <md-icon-button aria-label="Eliminar teléfono" class="removePhone"
                                                         type="button">
-                                            <md-icon>delete</md-icon>
+                                            <md-icon aria-hidden="true">delete</md-icon>
                                         </md-icon-button>
                                     </div>
                                 </div>
                             </div>
 
                             <md-outlined-text-field class="span-full" id="clientNotes" label="Notas opcionales"
-                                                    maxlength="256" name="optionalNotes" placeholder="Agrega notas sobre el cliente (alergias, preferencias, etc.)" rows="3"
+                                                    maxlength="256" name="optionalNotes"
+                                                    placeholder="Agrega notas sobre el cliente (alergias, preferencias, etc.)"
+                                                    rows="3"
                                                     th:value="${dto.optionalNotes}"
                                                     type="textarea">
-                                <md-icon slot="leading-icon">notes</md-icon>
+                                <md-icon aria-hidden="true" slot="leading-icon">notes</md-icon>
                             </md-outlined-text-field>
                         </div>
 
                         <div class="btn-row">
                             <md-filled-button type="submit">
-                                <md-icon slot="icon">check</md-icon>
+                                <md-icon aria-hidden="true" slot="icon">check</md-icon>
                                 Guardar Cliente
                             </md-filled-button>
-                            <md-outlined-button onclick="resetForm()" type="button">
-                                <md-icon slot="icon">autorenew</md-icon>
+                            <md-outlined-button onclick="resetForm(this)" type="button">
+                                <md-icon aria-hidden="true" slot="icon">autorenew</md-icon>
                                 Limpiar
                             </md-outlined-button>
                             <md-outlined-button href="/clients">
-                                <md-icon slot="icon">arrow_back</md-icon>
+                                <md-icon aria-hidden="true" slot="icon">arrow_back</md-icon>
                                 Cancelar
                             </md-outlined-button>
                         </div>
@@ -356,8 +359,8 @@
 
 <div th:replace="~{fragments/layout :: dialogs}"></div>
 <script>
-    function resetForm() {
-        window.location.href = '/clients/new';
+    function resetForm(source) {
+        resetFormInPlace(source.closest('form'));
     }
 
     const validationDialog = document.getElementById('validationDialog');

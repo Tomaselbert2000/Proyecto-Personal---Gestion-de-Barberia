@@ -74,7 +74,7 @@
             position: fixed;
             inset: 64px 0 0 0;
             z-index: 4;
-            background: rgba(0, 0, 0, .4);
+            background: color-mix(in srgb, var(--md-sys-color-scrim) 40%, transparent);
             opacity: 0;
             pointer-events: none;
             transition: opacity 200ms ease
@@ -315,7 +315,7 @@
 
             <div class="detail-toolbar">
                 <md-outlined-button href="/sales" th:href="@{/sales}">
-                    <md-icon slot="icon">arrow_back</md-icon>
+                    <md-icon aria-hidden="true" slot="icon">arrow_back</md-icon>
                     Volver
                 </md-outlined-button>
             </div>
@@ -359,7 +359,7 @@
                                   th:text="'ARS $ ' + ${#numbers.formatDecimal(dto.total,1,2)}">ARS $ 0,00</span>
                         </div>
                         <md-filled-button title="Disponible próximamente" type="button">
-                            <md-icon slot="icon">picture_as_pdf</md-icon>
+                            <md-icon aria-hidden="true" slot="icon">picture_as_pdf</md-icon>
                             Descargar PDF
                         </md-filled-button>
                     </div>

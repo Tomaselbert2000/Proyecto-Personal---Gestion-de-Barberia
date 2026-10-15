@@ -74,7 +74,7 @@
             position: fixed;
             inset: 64px 0 0 0;
             z-index: 4;
-            background: rgba(0, 0, 0, .4);
+            background: color-mix(in srgb, var(--md-sys-color-scrim) 40%, transparent);
             opacity: 0;
             pointer-events: none;
             transition: opacity 200ms ease
@@ -452,11 +452,12 @@
                                                     placeholder="Nombre o apellido del cliente"
                                                     th:value="${param.name != null ? param.name[0] : ''}"
                                                     type="text">
-                                <md-icon slot="leading-icon">search</md-icon>
+                                <md-icon aria-hidden="true" slot="leading-icon">search</md-icon>
                             </md-outlined-text-field>
                             <md-outlined-select label="Rango de registro" name="registrationDateRange">
-                                <md-select-option th:selected="${param.registrationDateRange == null or param.registrationDateRange[0] == ''}"
-                                                  value="">
+                                <md-select-option
+                                        th:selected="${param.registrationDateRange == null or param.registrationDateRange[0] == ''}"
+                                        value="">
                                     <div slot="headline">Todos los rangos</div>
                                 </md-select-option>
                                 <md-select-option th:each="range : ${registrationTrendFilterValues}"
@@ -467,8 +468,9 @@
                                 </md-select-option>
                             </md-outlined-select>
                             <md-outlined-select label="Teléfono" name="phoneFilter">
-                                <md-select-option th:selected="${param.phoneFilter == null or param.phoneFilter[0] == ''}"
-                                                  value="">
+                                <md-select-option
+                                        th:selected="${param.phoneFilter == null or param.phoneFilter[0] == ''}"
+                                        value="">
                                     <div slot="headline">Todos</div>
                                 </md-select-option>
                                 <md-select-option th:each="filter : ${phoneFilterValues}"
@@ -479,8 +481,9 @@
                                 </md-select-option>
                             </md-outlined-select>
                             <md-outlined-select label="Observaciones" name="notesFilter">
-                                <md-select-option th:selected="${param.notesFilter == null or param.notesFilter[0] == ''}"
-                                                  value="">
+                                <md-select-option
+                                        th:selected="${param.notesFilter == null or param.notesFilter[0] == ''}"
+                                        value="">
                                     <div slot="headline">Todos los registros</div>
                                 </md-select-option>
                                 <md-select-option th:each="filter : ${notesFilterValues}"
@@ -493,15 +496,15 @@
                         </div>
                         <div class="btn-row">
                             <md-filled-button type="submit">
-                                <md-icon slot="icon">search</md-icon>
+                                <md-icon aria-hidden="true" slot="icon">search</md-icon>
                                 Buscar
                             </md-filled-button>
                             <md-outlined-button onclick="clearFilters()" type="button">
-                                <md-icon slot="icon">filter_alt_off</md-icon>
+                                <md-icon aria-hidden="true" slot="icon">filter_alt_off</md-icon>
                                 Limpiar
                             </md-outlined-button>
                             <md-filled-tonal-button href="/clients/new" th:href="@{/clients/new}">
-                                <md-icon slot="icon">add</md-icon>
+                                <md-icon aria-hidden="true" slot="icon">add</md-icon>
                                 Nuevo Cliente
                             </md-filled-tonal-button>
                         </div>
@@ -520,7 +523,7 @@
                     <article class="surface outlined client-card" th:each="client : ${liveSearch}">
                         <div class="client-row">
                             <div aria-hidden="true" class="client-avatar">
-                                <md-icon>person</md-icon>
+                                <md-icon aria-hidden="true">person</md-icon>
                             </div>
                             <div class="client-body">
                                 <div class="client-title">
@@ -558,7 +561,7 @@
                                             th:aria-controls="'client-actions-' + ${client.id}"
                                             th:data-target="'client-actions-' + ${client.id}"
                                             th:id="'client-toggle-' + ${client.id}">
-                                <md-icon>expand_more</md-icon>
+                                <md-icon aria-hidden="true">expand_more</md-icon>
                             </md-icon-button>
                         </div>
 
@@ -567,22 +570,24 @@
                                                     th:data-phone="${client.phoneNumbersList[0]}"
                                                     th:if="${!#lists.isEmpty(client.phoneNumbersList)}"
                                                     type="button">
-                                <md-icon slot="icon">chat</md-icon>
+                                <md-icon aria-hidden="true" slot="icon">chat</md-icon>
                                 WhatsApp
                             </md-filled-tonal-button>
                             <md-text-button th:href="@{/clients/{id}/update(id=${client.id})}">
-                                <md-icon slot="icon">edit</md-icon>
+                                <md-icon aria-hidden="true" slot="icon">edit</md-icon>
                                 Editar
                             </md-text-button>
                             <form method="post"
-                                  th:action="@{/clients/{id}/delete(id=${client.id})}" th:id="'deleteForm-' + ${client.id}">
-                                <md-text-button data-confirm-accept="Eliminar" data-confirm-message="¿Eliminar este cliente?"
+                                  th:action="@{/clients/{id}/delete(id=${client.id})}"
+                                  th:id="'deleteForm-' + ${client.id}">
+                                <md-text-button data-confirm-accept="Eliminar"
+                                                data-confirm-message="¿Eliminar este cliente?"
                                                 data-confirm-title="Eliminar cliente"
                                                 onclick="askConfirm(this)"
                                                 style="--md-sys-color-primary:var(--md-sys-color-error)"
                                                 th:data-confirm-form="'deleteForm-' + ${client.id}"
                                                 type="button">
-                                    <md-icon slot="icon">delete</md-icon>
+                                    <md-icon aria-hidden="true" slot="icon">delete</md-icon>
                                     Eliminar
                                 </md-text-button>
                             </form>

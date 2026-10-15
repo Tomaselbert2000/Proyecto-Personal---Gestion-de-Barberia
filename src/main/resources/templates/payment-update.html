@@ -74,7 +74,7 @@
             position: fixed;
             inset: 64px 0 0 0;
             z-index: 4;
-            background: rgba(0, 0, 0, .4);
+            background: color-mix(in srgb, var(--md-sys-color-scrim) 40%, transparent);
             opacity: 0;
             pointer-events: none;
             transition: opacity 200ms ease
@@ -259,7 +259,6 @@
 
             <section aria-label="Formulario de edición de medio de pago">
                 <form method="post" th:action="@{/payments/{paymentID}/update(paymentID=${payment.id})}">
-                    <input th:name="${_csrf.parameterName}" th:value="${_csrf.token}" type="hidden">
                     <div class="surface outlined">
                         <div class="ficha">
                             <div class="ficha-item">
@@ -275,7 +274,7 @@
                             <md-outlined-text-field class="span-full" id="paymentName" label="Nombre" maxlength="100"
                                                     name="newName" placeholder="Ej: Tarjeta de crédito"
                                                     th:value="${dto.newName}">
-                                <md-icon slot="leading-icon">credit_card</md-icon>
+                                <md-icon aria-hidden="true" slot="leading-icon">credit_card</md-icon>
                             </md-outlined-text-field>
 
                             <md-outlined-select id="paymentModifierType" label="Tipo de modificador"
@@ -301,32 +300,35 @@
 
                             <md-outlined-text-field id="paymentPriceModifier" inputmode="decimal"
                                                     label="Valor de modificador"
-                                                    name="priceModifier" placeholder="Ej: 0.05" th:value="${dto.priceModifier}"
+                                                    name="priceModifier" placeholder="Ej: 0.05"
+                                                    th:value="${dto.priceModifier}"
                                                     type="text">
-                                <md-icon slot="leading-icon">percent</md-icon>
+                                <md-icon aria-hidden="true" slot="leading-icon">percent</md-icon>
                             </md-outlined-text-field>
 
                             <md-outlined-text-field class="span-full" id="paymentDescription" label="Descripción"
                                                     maxlength="256"
-                                                    name="newDescription" placeholder="Descripción del método de pago" rows="3"
+                                                    name="newDescription" placeholder="Descripción del método de pago"
+                                                    rows="3"
                                                     th:value="${dto.newDescription}"
                                                     type="textarea">
-                                <md-icon slot="leading-icon">description</md-icon>
+                                <md-icon aria-hidden="true" slot="leading-icon">description</md-icon>
                             </md-outlined-text-field>
                         </div>
 
                         <div class="btn-row">
                             <md-filled-button type="submit">
-                                <md-icon slot="icon">check</md-icon>
+                                <md-icon aria-hidden="true" slot="icon">check</md-icon>
                                 Guardar Cambios
                             </md-filled-button>
-                            <md-outlined-button id="resetButton" th:attr="data-reset-url=@{/payments/{id}/update(id=${payment.id})}"
+                            <md-outlined-button id="resetButton"
+                                                th:attr="data-reset-url=@{/payments/{id}/update(id=${payment.id})}"
                                                 type="button">
-                                <md-icon slot="icon">autorenew</md-icon>
+                                <md-icon aria-hidden="true" slot="icon">autorenew</md-icon>
                                 Restaurar valores
                             </md-outlined-button>
                             <md-outlined-button href="/payments">
-                                <md-icon slot="icon">arrow_back</md-icon>
+                                <md-icon aria-hidden="true" slot="icon">arrow_back</md-icon>
                                 Cancelar
                             </md-outlined-button>
                         </div>
@@ -357,7 +359,7 @@
 <script>
     const resetButton = document.getElementById('resetButton');
     resetButton.addEventListener('click', () => {
-        window.location.href = resetButton.dataset.resetUrl;
+        resetFormInPlace(resetButton.closest('form'));
     });
 
     const validationDialog = document.getElementById('validationDialog');

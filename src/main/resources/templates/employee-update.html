@@ -74,7 +74,7 @@
             position: fixed;
             inset: 64px 0 0 0;
             z-index: 4;
-            background: rgba(0, 0, 0, .4);
+            background: color-mix(in srgb, var(--md-sys-color-scrim) 40%, transparent);
             opacity: 0;
             pointer-events: none;
             transition: opacity 200ms ease
@@ -270,7 +270,6 @@
 
             <section aria-label="Formulario de edición de empleado">
                 <form method="post" th:action="@{/employees/{employeeID}/update(employeeID=${employee.id})}">
-                    <input th:name="${_csrf.parameterName}" th:value="${_csrf.token}" type="hidden">
                     <div class="surface outlined">
                         <div class="ficha">
                             <div class="ficha-item">
@@ -299,21 +298,23 @@
                         <div class="form-grid">
                             <md-outlined-text-field id="employeeFirstName" label="Nombre" maxlength="100"
                                                     name="firstName" placeholder="Ej: Juan" th:value="${dto.firstName}">
-                                <md-icon slot="leading-icon">person</md-icon>
+                                <md-icon aria-hidden="true" slot="leading-icon">person</md-icon>
                             </md-outlined-text-field>
 
                             <md-outlined-text-field id="employeeLastName" label="Apellido" maxlength="100"
                                                     name="lastName" placeholder="Ej: Perez" th:value="${dto.lastName}">
-                                <md-icon slot="leading-icon">person_outline</md-icon>
+                                <md-icon aria-hidden="true" slot="leading-icon">person_outline</md-icon>
                             </md-outlined-text-field>
 
                             <md-outlined-text-field id="commissionVisible" inputmode="decimal" label="Comisión"
-                                                    maxlength="6" name="commissionVisible" placeholder="Ej: 60" suffix-text="%"
+                                                    maxlength="6" name="commissionVisible" placeholder="Ej: 60"
+                                                    suffix-text="%"
                                                     th:value="${dto.commissionPercentage != null ? #numbers.formatDecimal(dto.commissionPercentage * 100, 1, 1) : ''}"
                                                     type="text">
-                                <md-icon slot="leading-icon">percent</md-icon>
+                                <md-icon aria-hidden="true" slot="leading-icon">percent</md-icon>
                             </md-outlined-text-field>
-                            <input id="commissionPercentage" name="commissionPercentage" th:value="${dto.commissionPercentage}"
+                            <input id="commissionPercentage" name="commissionPercentage"
+                                   th:value="${dto.commissionPercentage}"
                                    type="hidden">
 
                             <label class="check-row span-full" th:if="${dto.terminationDate == null}">
@@ -327,7 +328,7 @@
                             <md-outlined-text-field id="employeeTerminationDate" label="Fecha de cese"
                                                     name="terminationDate"
                                                     th:value="${dto.terminationDate}" type="date">
-                                <md-icon slot="leading-icon">event_busy</md-icon>
+                                <md-icon aria-hidden="true" slot="leading-icon">event_busy</md-icon>
                             </md-outlined-text-field>
                         </div>
 
@@ -338,16 +339,17 @@
 
                         <div class="btn-row">
                             <md-filled-button type="submit">
-                                <md-icon slot="icon">check</md-icon>
+                                <md-icon aria-hidden="true" slot="icon">check</md-icon>
                                 Guardar Cambios
                             </md-filled-button>
-                            <md-outlined-button id="resetButton" th:attr="data-reset-url=@{/employees/{id}/update(id=${employee.id})}"
+                            <md-outlined-button id="resetButton"
+                                                th:attr="data-reset-url=@{/employees/{id}/update(id=${employee.id})}"
                                                 type="button">
-                                <md-icon slot="icon">autorenew</md-icon>
+                                <md-icon aria-hidden="true" slot="icon">autorenew</md-icon>
                                 Restaurar valores
                             </md-outlined-button>
                             <md-outlined-button href="/employees">
-                                <md-icon slot="icon">arrow_back</md-icon>
+                                <md-icon aria-hidden="true" slot="icon">arrow_back</md-icon>
                                 Cancelar
                             </md-outlined-button>
                         </div>
@@ -378,7 +380,7 @@
 <script>
     const resetButton = document.getElementById('resetButton');
     resetButton.addEventListener('click', () => {
-        window.location.href = resetButton.dataset.resetUrl;
+        resetFormInPlace(resetButton.closest('form'));
     });
 
     const validationDialog = document.getElementById('validationDialog');

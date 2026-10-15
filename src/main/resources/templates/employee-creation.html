@@ -74,7 +74,7 @@
             position: fixed;
             inset: 64px 0 0 0;
             z-index: 4;
-            background: rgba(0, 0, 0, .4);
+            background: color-mix(in srgb, var(--md-sys-color-scrim) 40%, transparent);
             opacity: 0;
             pointer-events: none;
             transition: opacity 200ms ease
@@ -235,45 +235,46 @@
 
             <section aria-label="Formulario de registro de empleado">
                 <form method="post" th:action="@{/employees/new}">
-                    <input th:name="${_csrf.parameterName}" th:value="${_csrf.token}" type="hidden">
                     <div class="surface outlined">
                         <div class="form-grid">
                             <md-outlined-text-field id="employeeFirstName" label="Nombre" maxlength="100"
                                                     name="firstName" placeholder="Ej: Juan" th:value="${dto.firstName}">
-                                <md-icon slot="leading-icon">person</md-icon>
+                                <md-icon aria-hidden="true" slot="leading-icon">person</md-icon>
                             </md-outlined-text-field>
 
                             <md-outlined-text-field id="employeeLastName" label="Apellido" maxlength="100"
                                                     name="lastName" placeholder="Ej: Perez" th:value="${dto.lastName}">
-                                <md-icon slot="leading-icon">person_outline</md-icon>
+                                <md-icon aria-hidden="true" slot="leading-icon">person_outline</md-icon>
                             </md-outlined-text-field>
 
                             <md-outlined-text-field id="employeeHireDate" label="Fecha de contratación" name="hireDate"
                                                     th:value="${dto.hireDate}" type="date">
-                                <md-icon slot="leading-icon">event</md-icon>
+                                <md-icon aria-hidden="true" slot="leading-icon">event</md-icon>
                             </md-outlined-text-field>
 
                             <md-outlined-text-field id="commissionVisible" inputmode="decimal" label="Comisión"
-                                                    maxlength="6" name="commissionVisible" placeholder="Ej: 60" suffix-text="%"
+                                                    maxlength="6" name="commissionVisible" placeholder="Ej: 60"
+                                                    suffix-text="%"
                                                     th:value="${dto.commissionPercentage != null ? #numbers.formatDecimal(dto.commissionPercentage * 100, 1, 1) : ''}"
                                                     type="text">
-                                <md-icon slot="leading-icon">percent</md-icon>
+                                <md-icon aria-hidden="true" slot="leading-icon">percent</md-icon>
                             </md-outlined-text-field>
-                            <input id="commissionPercentage" name="commissionPercentage" th:value="${dto.commissionPercentage}"
+                            <input id="commissionPercentage" name="commissionPercentage"
+                                   th:value="${dto.commissionPercentage}"
                                    type="hidden">
                         </div>
 
                         <div class="btn-row">
                             <md-filled-button type="submit">
-                                <md-icon slot="icon">check</md-icon>
+                                <md-icon aria-hidden="true" slot="icon">check</md-icon>
                                 Guardar Empleado
                             </md-filled-button>
-                            <md-outlined-button onclick="resetForm()" type="button">
-                                <md-icon slot="icon">autorenew</md-icon>
+                            <md-outlined-button onclick="resetForm(this)" type="button">
+                                <md-icon aria-hidden="true" slot="icon">autorenew</md-icon>
                                 Limpiar
                             </md-outlined-button>
                             <md-outlined-button href="/employees">
-                                <md-icon slot="icon">arrow_back</md-icon>
+                                <md-icon aria-hidden="true" slot="icon">arrow_back</md-icon>
                                 Cancelar
                             </md-outlined-button>
                         </div>
@@ -302,8 +303,8 @@
 
 <div th:replace="~{fragments/layout :: dialogs}"></div>
 <script>
-    function resetForm() {
-        window.location.href = '/employees/new';
+    function resetForm(source) {
+        resetFormInPlace(source.closest('form'));
     }
 
     const validationDialog = document.getElementById('validationDialog');

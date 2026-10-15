@@ -74,7 +74,7 @@
             position: fixed;
             inset: 64px 0 0 0;
             z-index: 4;
-            background: rgba(0, 0, 0, .4);
+            background: color-mix(in srgb, var(--md-sys-color-scrim) 40%, transparent);
             opacity: 0;
             pointer-events: none;
             transition: opacity 200ms ease
@@ -156,14 +156,12 @@
             gap: 12px;
             padding: 20px;
             border-radius: 16px;
-            background: var(--md-sys-color-surface-container-low);
-            --md-elevation-level: 1
+            background: var(--md-sys-color-surface-container-low)
         }
 
         .surface.outlined {
             background: var(--md-sys-color-surface);
-            border: 1px solid var(--md-sys-color-outline-variant);
-            --md-elevation-level: 0
+            border: 1px solid var(--md-sys-color-outline-variant)
         }
 
         .settings-card {
@@ -371,7 +369,7 @@
         }
     </style>
 </head>
-<body th:attr="data-saved=${saved}, data-error=${error}, data-error-msg=${errorMessage != null ? errorMessage : ''}">
+<body th:attr="data-saved=${saved}, data-error=${error}, data-credentials-updated=${credentialsUpdated}, data-error-msg=${errorMessage != null ? errorMessage : ''}">
 <header th:replace="~{fragments/layout :: header(title='Configuración', backHref='', backLabel='')}"></header>
 
 <div class="nav-scrim" id="navScrim"></div>
@@ -389,7 +387,6 @@
             </div>
 
             <form id="settingsForm" method="post" th:action="@{/settings}">
-                <input th:name="${_csrf.parameterName}" th:value="${_csrf.token}" type="hidden">
                 <!-- Estados de notificaciones: sincronizados por JS antes de cada envío -->
                 <input name="newAppointmentNotificationEnabled" type="hidden" value="false">
                 <input name="clientReminderNotificationEnabled" type="hidden" value="false">
@@ -418,7 +415,7 @@
                                         <span th:case="'MD3_LIGHT'">light_mode</span>
                                         <span th:case="'MD3_DARK'">dark_mode</span>
                                         <span th:case="'LA_TERCERA_LIGHT'">content_cut</span>
-                                        <span th:case="'LA_TERCERA_DARK'">content_cut</span>
+                                        <span th:case="'LA_TERCERA_DARK'">bedtime</span>
                                     </md-icon>
                                     <span class="md-typescale-label-large"
                                           th:text="${theme.displayName}">MD3 Claro</span>
@@ -437,22 +434,24 @@
                     <div class="surface outlined settings-card">
                         <div class="form-grid">
                             <div class="form-field">
-                                <md-outlined-text-field data-autosave label="Nombre de la Barbería" name="name"
+                                <md-outlined-text-field autocomplete="organization" data-autosave
+                                                        label="Nombre de la Barbería" name="name"
                                                         placeholder="Ej: La Tercera Barbershop"
                                                         th:attr="value=${name}"></md-outlined-text-field>
                             </div>
                             <div class="form-field">
-                                <md-outlined-text-field data-autosave label="Teléfono" name="phone"
+                                <md-outlined-text-field autocomplete="tel" data-autosave label="Teléfono" name="phone"
                                                         placeholder="Ej: +54 9 1122334455"
-                                                        th:attr="value=${phone}"></md-outlined-text-field>
+                                                        th:attr="value=${phone}" type="tel"></md-outlined-text-field>
                             </div>
                             <div class="form-field">
-                                <md-outlined-text-field data-autosave label="Email" name="email"
+                                <md-outlined-text-field autocomplete="email" data-autosave label="Email" name="email"
                                                         placeholder="Ej: latercera@barbershop.com"
-                                                        th:attr="value=${email}"></md-outlined-text-field>
+                                                        th:attr="value=${email}" type="email"></md-outlined-text-field>
                             </div>
                             <div class="form-field">
-                                <md-outlined-text-field data-autosave label="Dirección" name="address"
+                                <md-outlined-text-field autocomplete="street-address" data-autosave label="Dirección"
+                                                        name="address"
                                                         placeholder="Ej: Calle 123"
                                                         th:attr="value=${address}"></md-outlined-text-field>
                             </div>
@@ -490,7 +489,8 @@
                                     <span class="md-typescale-body-small"
                                           style="color:var(--md-sys-color-on-surface-variant)">Recibir alertas cuando se agende un nuevo turno</span>
                                 </div>
-                                <md-switch data-autosave name="newAppointmentNotificationEnabled" th:attr="checked=${newAppointmentNotifications} ? 'checked' : null"
+                                <md-switch data-autosave name="newAppointmentNotificationEnabled"
+                                           th:attr="checked=${newAppointmentNotifications} ? 'checked' : null"
                                            value="true"></md-switch>
                             </div>
                             <md-divider></md-divider>
@@ -500,7 +500,8 @@
                                     <span class="md-typescale-body-small"
                                           style="color:var(--md-sys-color-on-surface-variant)">Enviar recordatorios a los clientes antes de su turno</span>
                                 </div>
-                                <md-switch data-autosave name="clientReminderNotificationEnabled" th:attr="checked=${clientReminderNotifications} ? 'checked' : null"
+                                <md-switch data-autosave name="clientReminderNotificationEnabled"
+                                           th:attr="checked=${clientReminderNotifications} ? 'checked' : null"
                                            value="true"></md-switch>
                             </div>
                             <md-divider></md-divider>
@@ -510,7 +511,8 @@
                                     <span class="md-typescale-body-small"
                                           style="color:var(--md-sys-color-on-surface-variant)">Notificar cuando el stock esté bajo o crítico</span>
                                 </div>
-                                <md-switch data-autosave name="lowStockNotificationEnabled" th:attr="checked=${lowStockNotifications} ? 'checked' : null"
+                                <md-switch data-autosave name="lowStockNotificationEnabled"
+                                           th:attr="checked=${lowStockNotifications} ? 'checked' : null"
                                            value="true"></md-switch>
                             </div>
                             <md-divider></md-divider>
@@ -520,17 +522,16 @@
                                     <span class="md-typescale-body-small"
                                           style="color:var(--md-sys-color-on-surface-variant)">Alertas sobre cambios en el equipo de trabajo</span>
                                 </div>
-                                <md-switch data-autosave name="workplaceChangesNotificationEnabled" th:attr="checked=${workplaceChangesNotifications} ? 'checked' : null"
+                                <md-switch data-autosave name="workplaceChangesNotificationEnabled"
+                                           th:attr="checked=${workplaceChangesNotifications} ? 'checked' : null"
                                            value="true"></md-switch>
                             </div>
                         </div>
                     </div>
                 </section>
 
-                <!-- Configuración de Seguridad ocultada temporalmente: el cambio de credenciales no
-                     persiste aún (requiere endpoint dedicado). Ver hallazgo SET-01 de la auditoría. -->
-                <!--/*
-                <section class="settings-section" aria-label="Seguridad">
+                <!-- Configuración de Seguridad -->
+                <section aria-label="Seguridad" class="settings-section">
                     <div class="section-title">
                         <md-icon aria-hidden="true">security</md-icon>
                         <h2 class="md-typescale-title-medium">Seguridad</h2>
@@ -538,23 +539,27 @@
                     <div class="surface outlined settings-card">
                         <div class="form-grid">
                             <div class="form-field full">
-                                <md-outlined-text-field label="Usuario Administrador" name="adminUsername"
-                                                        id="adminUsernameField"
-                                                        placeholder="Ej: admin"></md-outlined-text-field>
+                                <md-outlined-text-field id="adminUsernameField" label="Usuario Administrador"
+                                                        name="adminUsername" placeholder="Ej: admin"
+                                                        readonly
+                                                        supporting-text="El nombre de usuario no se modifica desde esta pantalla."
+                                                        th:value="${currentUser}"></md-outlined-text-field>
                             </div>
                             <div class="form-field">
-                                <md-outlined-text-field label="Nueva Contraseña" name="adminPassword"
-                                                        id="adminPasswordField" type="password"
-                                                        placeholder="Mínimo 10 caracteres, al menos una mayúscula y un número."></md-outlined-text-field>
+                                <md-outlined-text-field id="adminPasswordField" label="Nueva Contraseña"
+                                                        name="adminPassword" placeholder="Mínimo 10 caracteres, al menos una mayúscula y un número."
+                                                        type="password"></md-outlined-text-field>
                             </div>
                             <div class="form-field">
-                                <md-outlined-text-field label="Confirmar Contraseña" name="adminConfirmPassword"
-                                                        id="adminConfirmPasswordField" type="password"
-                                                        placeholder="Repetir contraseña"></md-outlined-text-field>
+                                <md-outlined-text-field id="adminConfirmPasswordField" label="Confirmar Contraseña"
+                                                        name="adminConfirmPassword" placeholder="Repetir contraseña"
+                                                        type="password"></md-outlined-text-field>
                             </div>
                         </div>
                         <div class="section-buttons">
-                            <md-filled-button id="updatePasswordButton" type="button">
+                            <md-filled-button id="updatePasswordButton"
+                                              th:attr="data-credentials-url=@{/settings/credentials}"
+                                              type="button">
                                 Actualizar datos
                             </md-filled-button>
                         </div>
@@ -569,13 +574,12 @@
                         </div>
                         <div class="section-buttons">
                             <md-outlined-button id="suggestPasswordButton" type="button">
-                                <md-icon slot="icon">password</md-icon>
+                                <md-icon aria-hidden="true" slot="icon">password</md-icon>
                                 Generar contraseña
                             </md-outlined-button>
                         </div>
                     </div>
                 </section>
-                */-->
 
                 <!-- Información de la Aplicación -->
                 <section aria-label="Acerca de la aplicación" class="settings-section">
@@ -613,7 +617,9 @@
                 <!-- Botones de Acción -->
                 <div class="settings-actions">
                     <p class="md-typescale-body-small mobile-hint">Los cambios se guardan automáticamente</p>
-                    <md-outlined-button class="desktop-action" type="reset">Restaurar datos</md-outlined-button>
+                    <md-outlined-button class="desktop-action" onclick="restoreDefaults()" type="button">Restaurar
+                        datos
+                    </md-outlined-button>
                     <md-filled-button class="desktop-action" type="submit">Guardar Cambios</md-filled-button>
                 </div>
             </form>
@@ -655,6 +661,7 @@
     // Versión mobile: aplica los cambios automáticamente al interactuar con las opciones,
     // persistiendo vía fetch sin recargar la vista (conserva el estado de los toggles)
     let autoSaveTimer = null;
+    let autoSaveInFlight = false;
 
     function autosave() {
         if (!isMobile.matches) return;
@@ -664,6 +671,8 @@
 
     async function doSave() {
         autoSaveTimer = null;
+        if (autoSaveInFlight) return;
+        autoSaveInFlight = true;
         syncSwitches();
         try {
             const response = await fetch(form.action, {
@@ -680,6 +689,8 @@
             }
         } catch (error) {
             showSnack('No se pudieron guardar los cambios.', true);
+        } finally {
+            autoSaveInFlight = false;
         }
     }
 
@@ -707,6 +718,22 @@
         }
     }
 
+    // T-09/SET-03: "Restaurar datos" in-place (el reset nativo vaciaba los md-select y no re-aplicaba el tema).
+    function restoreDefaults() {
+        resetFormInPlace(form);
+        const opening = form.querySelector('md-outlined-select[name="openingHour"]');
+        const closing = form.querySelector('md-outlined-select[name="closingHour"]');
+        if (opening) opening.value = '00:00';
+        if (closing) closing.value = '23:00';
+        form.querySelectorAll('md-switch[name]').forEach(sw => {
+            sw.selected = false;
+            sw.checked = false;
+        });
+        syncSwitches();
+        const themeRadio = form.querySelector('input[name="themeSelected"]:checked');
+        if (themeRadio) applyWebTheme(themeRadio.value);
+    }
+
     document.querySelectorAll('#settingsForm input[name="themeSelected"]').forEach(radio => {
         radio.addEventListener('change', () => {
             if (radio.checked) applyWebTheme(radio.value);
@@ -719,9 +746,12 @@
         el.addEventListener('input', autosave);
     });
 
-    // --- Sección de credenciales ocultada temporalmente (ver SET-01). Descomentar junto con el HTML. ---
-    /*
-    // Generador de contraseñas (equivalente a PasswordGenerator)
+    // --- Sección de credenciales (SET-01) ---
+    const passwordSlider = document.getElementById('passwordLengthSlider');
+    const passwordLengthLabel = document.getElementById('passwordLengthLabel');
+    const adminPasswordField = document.getElementById('adminPasswordField');
+
+    // Generador de contraseñas (equivalente a PasswordGenerator de JavaFX)
     const UPPERCASE = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     const LOWERCASE = 'abcdefghijklmnopqrstuvwxyz';
     const SPECIAL = '!@#$%^&*()-_=+[]{}|';
@@ -742,55 +772,37 @@
         return chars.join('');
     }
 
-    const slider = document.getElementById('passwordLengthSlider');
-    const lengthLabel = document.getElementById('passwordLengthLabel');
-    const passwordField = document.getElementById('adminPasswordField');
+    if (passwordSlider && passwordLengthLabel) {
+        passwordSlider.addEventListener('input', () => {
+            passwordLengthLabel.textContent = 'Longitud: ' + Math.round(passwordSlider.value) + ' caracteres';
+        });
+    }
 
-    slider.addEventListener('input', () => {
-        lengthLabel.textContent = 'Longitud: ' + Math.round(slider.value) + ' caracteres';
-    });
+    const suggestPasswordButton = document.getElementById('suggestPasswordButton');
+    if (suggestPasswordButton && passwordSlider) {
+        suggestPasswordButton.addEventListener('click', () => {
+            const password = generatePassword(Math.round(passwordSlider.value));
+            adminPasswordField.value = password;
+            if (navigator.clipboard) navigator.clipboard.writeText(password).catch(() => {});
+            showSnack('Contraseña generada exitosamente');
+        });
+    }
 
-    document.getElementById('suggestPasswordButton').addEventListener('click', () => {
-        const password = generatePassword(Math.round(slider.value));
-        passwordField.value = password;
-        if (navigator.clipboard) navigator.clipboard.writeText(password).catch(() => {});
-        showSnack('Contraseña generada exitosamente');
-    });
-
-    // Actualizar credenciales (validación equivalente a CredentialsUpdateValidator)
-    document.getElementById('updatePasswordButton').addEventListener('click', () => {
-        const username = document.getElementById('adminUsernameField').value.trim();
-        const password = passwordField.value;
-        const confirmPassword = document.getElementById('adminConfirmPasswordField').value;
-
-        if (!username) {
-            showSnack('El nombre de usuario no puede estar vacío.', true);
-            return;
-        }
-        if (password.length < 10) {
-            showSnack('La contraseña debe tener al menos 10 caracteres.', true);
-            return;
-        }
-        if (!/[A-Z]/.test(password) || !/[0-9]/.test(password)) {
-            showSnack('La contraseña debe contener al menos una mayúscula y un número.', true);
-            return;
-        }
-        if (password !== confirmPassword) {
-            showSnack('Las contraseñas no coinciden.', true);
-            return;
-        }
-
-        document.getElementById('adminUsernameField').value = '';
-        passwordField.value = '';
-        document.getElementById('adminConfirmPasswordField').value = '';
-        showSnack('Credenciales actualizadas exitosamente');
-    });
-    */
+    // Reutiliza el mismo formulario cambiando su action para enviarlo al endpoint de credenciales.
+    const updatePasswordButton = document.getElementById('updatePasswordButton');
+    if (updatePasswordButton) {
+        updatePasswordButton.addEventListener('click', () => {
+            form.action = updatePasswordButton.dataset.credentialsUrl;
+            form.submit();
+        });
+    }
 
     // Feedback posterior a guardar / errores de validación del servidor
     customElements.whenDefined('md-snackbar').then(() => {
         if (document.body.dataset.saved === 'true') {
             showSnack('Cambios guardados correctamente');
+        } else if (document.body.dataset.credentialsUpdated === 'true') {
+            showSnack('Credenciales actualizadas exitosamente');
         } else if (document.body.dataset.error === 'true') {
             showSnack(document.body.dataset.errorMsg || 'No se pudieron guardar los cambios.', true);
         }

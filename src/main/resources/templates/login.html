@@ -128,23 +128,28 @@
         <h1 class="md-typescale-headline-small auth-title">Sistema de Gestión</h1>
         <p class="md-typescale-body-large auth-subtitle">Bienvenido de nuevo</p>
         <div class="auth-alert" role="alert" th:if="${param.error}">
-            <md-icon>error</md-icon>
+            <md-icon aria-hidden="true">error</md-icon>
             <span class="md-typescale-body-medium">Usuario o contraseña incorrectos. Intentá de nuevo.</span>
         </div>
         <div class="auth-alert success" role="alert" th:if="${param.logout}">
-            <md-icon>check_circle</md-icon>
+            <md-icon aria-hidden="true">check_circle</md-icon>
             <span class="md-typescale-body-medium">Cerraste sesión correctamente.</span>
+        </div>
+        <div class="auth-alert success" role="alert" th:if="${param.registered}">
+            <md-icon aria-hidden="true">check_circle</md-icon>
+            <span class="md-typescale-body-medium">¡Cuenta creada con éxito! Ya podés iniciar sesión.</span>
         </div>
         <form class="auth-form" method="post" th:action="@{/login}">
             <md-outlined-text-field label="Nombre de usuario" name="username" required type="text">
-                <md-icon slot="leading-icon">person</md-icon>
+                <md-icon aria-hidden="true" slot="leading-icon">person</md-icon>
             </md-outlined-text-field>
             <md-outlined-text-field id="passwordInput" label="Contraseña" name="password" required type="password">
-                <md-icon slot="leading-icon">lock</md-icon>
-                <md-icon-button aria-label="Mostrar contraseña" onclick="togglePassword('passwordInput', this)" slot="trailing-icon"
+                <md-icon aria-hidden="true" slot="leading-icon">lock</md-icon>
+                <md-icon-button aria-label="Mostrar contraseña" onclick="togglePassword('passwordInput', this)"
+                                slot="trailing-icon"
                                 toggle>
-                    <md-icon>visibility</md-icon>
-                    <md-icon slot="selected">visibility_off</md-icon>
+                    <md-icon aria-hidden="true">visibility</md-icon>
+                    <md-icon aria-hidden="true" slot="selected">visibility_off</md-icon>
                 </md-icon-button>
             </md-outlined-text-field>
             <div class="remember-row">

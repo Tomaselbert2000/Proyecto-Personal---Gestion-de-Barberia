@@ -74,7 +74,7 @@
             position: fixed;
             inset: 64px 0 0 0;
             z-index: 4;
-            background: rgba(0, 0, 0, .4);
+            background: color-mix(in srgb, var(--md-sys-color-scrim) 40%, transparent);
             opacity: 0;
             pointer-events: none;
             transition: opacity 200ms ease
@@ -437,11 +437,10 @@
                         <md-icon aria-hidden="true" style="color:var(--md-sys-color-secondary)">thumb_up</md-icon>
                     </div>
                     <span class="md-typescale-display-small"
-                          th:text="${paymentUsageStats.amountOfSalesWhereIsUsed}">0</span>
+                          th:text="${paymentUsageStats.paymentMethodName}">Medio</span>
                     <div class="stat-foot">
                         <span class="md-typescale-body-medium"
-                              th:text="${paymentUsageStats.paymentMethodName}">Medio</span>
-                        <span class="md-typescale-body-small" style="color:var(--md-sys-color-on-surface-variant)">veces usado</span>
+                              th:text="${paymentUsageStats.amountOfSalesWhereIsUsed} + ' veces usado'">0 veces usado</span>
                     </div>
                 </div>
 
@@ -478,7 +477,7 @@
                         <md-icon aria-hidden="true" style="color:var(--md-sys-color-secondary)">percent</md-icon>
                     </div>
                     <span class="md-typescale-display-small"
-                          th:text="${modifierValueSumStats >= 0 ? '+' + ('ARS $ ' + #numbers.formatDecimal(modifierValueSumStats,1,2)) : '-' + ('ARS $ ' + #numbers.formatDecimal(modifierValueSumStats,1,2))}">+ARS $ 0,00</span>
+                          th:text="${modifierValueSumStats >= 0 ? '+ARS $ ' + #numbers.formatDecimal(modifierValueSumStats,1,2) : '-ARS $ ' + #numbers.formatDecimal(modifierValueSumStats * -1,1,2)}">+ARS $ 0,00</span>
                     <div class="stat-foot">
                         <span class="md-typescale-body-medium">sobre el total de ventas</span>
                     </div>
@@ -494,7 +493,7 @@
                                                     name="paymentName" placeholder="Nombre del medio de pago"
                                                     th:value="${param.paymentName != null ? param.paymentName[0] : ''}"
                                                     type="text">
-                                <md-icon slot="leading-icon">search</md-icon>
+                                <md-icon aria-hidden="true" slot="leading-icon">search</md-icon>
                             </md-outlined-text-field>
                             <md-outlined-select label="Estado" name="status">
                                 <md-select-option th:selected="${param.status == null or param.status[0] == ''}"
@@ -509,8 +508,9 @@
                                 </md-select-option>
                             </md-outlined-select>
                             <md-outlined-select label="Tipo de modificador" name="modifierType">
-                                <md-select-option th:selected="${param.modifierType == null or param.modifierType[0] == ''}"
-                                                  value="">
+                                <md-select-option
+                                        th:selected="${param.modifierType == null or param.modifierType[0] == ''}"
+                                        value="">
                                     <div slot="headline">Todos los modificadores</div>
                                 </md-select-option>
                                 <md-select-option th:each="m : ${modifiers}"
@@ -523,15 +523,15 @@
                         </div>
                         <div class="btn-row">
                             <md-filled-button type="submit">
-                                <md-icon slot="icon">search</md-icon>
+                                <md-icon aria-hidden="true" slot="icon">search</md-icon>
                                 Buscar
                             </md-filled-button>
                             <md-outlined-button onclick="clearFilters()" type="button">
-                                <md-icon slot="icon">filter_alt_off</md-icon>
+                                <md-icon aria-hidden="true" slot="icon">filter_alt_off</md-icon>
                                 Limpiar
                             </md-outlined-button>
                             <md-filled-tonal-button href="/payments/new" th:href="@{/payments/new}">
-                                <md-icon slot="icon">add</md-icon>
+                                <md-icon aria-hidden="true" slot="icon">add</md-icon>
                                 Nuevo Medio de Pago
                             </md-filled-tonal-button>
                         </div>
@@ -576,43 +576,45 @@
                                     <span th:unless="${pm.priceModifier != null}">Modificador: —</span>
                                 </div>
                             </div>
-                            <md-icon-button aria-expanded="false" aria-label="Acciones rápidas" class="payment-expand"
+                            <md-icon-button aria-expanded="false" class="payment-expand"
                                             onclick="togglePaymentActions(this)"
                                             th:aria-controls="'payment-actions-' + ${pm.id}"
+                                            th:aria-label="'Acciones rápidas de ' + ${pm.name}"
                                             th:data-target="'payment-actions-' + ${pm.id}"
                                             th:id="'payment-toggle-' + ${pm.id}">
-                                <md-icon>expand_more</md-icon>
+                                <md-icon aria-hidden="true">expand_more</md-icon>
                             </md-icon-button>
                         </div>
 
                         <div class="payment-actions" th:id="'payment-actions-' + ${pm.id}">
                             <md-text-button th:href="@{/payments/{id}/update(id=${pm.id})}">
-                                <md-icon slot="icon">edit</md-icon>
+                                <md-icon aria-hidden="true" slot="icon">edit</md-icon>
                                 Editar
                             </md-text-button>
                             <form method="post"
                                   th:action="@{/payments/{id}/toggleStatus(id=${pm.id})}" th:if="${pm.isActive}">
                                 <md-text-button style="--md-sys-color-primary:var(--md-sys-color-error)" type="submit">
-                                    <md-icon slot="icon">block</md-icon>
+                                    <md-icon aria-hidden="true" slot="icon">block</md-icon>
                                     Desactivar
                                 </md-text-button>
                             </form>
                             <form method="post"
                                   th:action="@{/payments/{id}/toggleStatus(id=${pm.id})}" th:unless="${pm.isActive}">
                                 <md-text-button type="submit">
-                                    <md-icon slot="icon">check_circle</md-icon>
+                                    <md-icon aria-hidden="true" slot="icon">check_circle</md-icon>
                                     Activar
                                 </md-text-button>
                             </form>
                             <form method="post" th:action="@{/payments/{id}/delete(id=${pm.id})}"
                                   th:id="'deleteForm-' + ${pm.id}">
-                                <md-text-button data-confirm-accept="Eliminar" data-confirm-message="¿Eliminar este medio de pago?"
+                                <md-text-button data-confirm-accept="Eliminar"
+                                                data-confirm-message="¿Eliminar este medio de pago?"
                                                 data-confirm-title="Eliminar medio de pago"
                                                 onclick="askConfirm(this)"
                                                 style="--md-sys-color-primary:var(--md-sys-color-error)"
                                                 th:data-confirm-form="'deleteForm-' + ${pm.id}"
                                                 type="button">
-                                    <md-icon slot="icon">delete</md-icon>
+                                    <md-icon aria-hidden="true" slot="icon">delete</md-icon>
                                     Eliminar
                                 </md-text-button>
                             </form>

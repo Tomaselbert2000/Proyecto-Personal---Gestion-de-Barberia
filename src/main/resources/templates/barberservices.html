@@ -74,7 +74,7 @@
             position: fixed;
             inset: 64px 0 0 0;
             z-index: 4;
-            background: rgba(0, 0, 0, .4);
+            background: color-mix(in srgb, var(--md-sys-color-scrim) 40%, transparent);
             opacity: 0;
             pointer-events: none;
             transition: opacity 200ms ease
@@ -501,7 +501,7 @@
                                                     placeholder="Nombre del servicio"
                                                     th:value="${param.serviceName != null ? param.serviceName[0] : ''}"
                                                     type="text">
-                                <md-icon slot="leading-icon">search</md-icon>
+                                <md-icon aria-hidden="true" slot="leading-icon">search</md-icon>
                             </md-outlined-text-field>
                             <md-outlined-select label="Categoría" name="category">
                                 <md-select-option th:selected="${param.category == null or param.category[0] == ''}"
@@ -530,15 +530,15 @@
                         </div>
                         <div class="btn-row">
                             <md-filled-button type="submit">
-                                <md-icon slot="icon">search</md-icon>
+                                <md-icon aria-hidden="true" slot="icon">search</md-icon>
                                 Buscar
                             </md-filled-button>
                             <md-outlined-button onclick="clearFilters()" type="button">
-                                <md-icon slot="icon">filter_alt_off</md-icon>
+                                <md-icon aria-hidden="true" slot="icon">filter_alt_off</md-icon>
                                 Limpiar
                             </md-outlined-button>
                             <md-filled-tonal-button href="/barberservices/new" th:href="@{/barberservices/new}">
-                                <md-icon slot="icon">add</md-icon>
+                                <md-icon aria-hidden="true" slot="icon">add</md-icon>
                                 Nuevo Servicio
                             </md-filled-tonal-button>
                         </div>
@@ -557,7 +557,7 @@
                     <article class="surface outlined svc-card" th:each="svc : ${liveSearch}">
                         <div class="svc-row">
                             <div aria-hidden="true" class="svc-avatar">
-                                <md-icon>cut</md-icon>
+                                <md-icon aria-hidden="true">cut</md-icon>
                             </div>
                             <div class="svc-body">
                                 <div class="svc-title">
@@ -574,8 +574,6 @@
                                     <span th:if="${svc.price != null}"
                                           th:text="${'$' + #numbers.formatDecimal(svc.price, 1, 2)}">$0.00</span>
                                     <span th:unless="${svc.price != null}">Sin precio</span>
-                                    <span aria-hidden="true" th:if="${svc.category != null}">·</span>
-                                    <span th:if="${svc.category != null}" th:text="${svc.category.displayName}">Categoría</span>
                                 </div>
                                 <p class="svc-notes md-typescale-body-medium"
                                    th:if="${!#strings.isEmpty(svc.internalNotes)}">
@@ -588,25 +586,26 @@
                                             th:aria-controls="'svc-actions-' + ${svc.barberServiceId}"
                                             th:data-target="'svc-actions-' + ${svc.barberServiceId}"
                                             th:id="'svc-toggle-' + ${svc.barberServiceId}">
-                                <md-icon>expand_more</md-icon>
+                                <md-icon aria-hidden="true">expand_more</md-icon>
                             </md-icon-button>
                         </div>
 
                         <div class="svc-actions" th:id="'svc-actions-' + ${svc.barberServiceId}">
                             <md-text-button th:href="@{/barberservices/{id}/update(id=${svc.barberServiceId})}">
-                                <md-icon slot="icon">edit</md-icon>
+                                <md-icon aria-hidden="true" slot="icon">edit</md-icon>
                                 Editar
                             </md-text-button>
                             <form method="post"
-                                  th:action="@{/barberservices/{id}/delete(id=${svc.barberServiceId})}" th:id="'deleteForm-' + ${svc.barberServiceId}">
-                                <input th:name="${_csrf.parameterName}" th:value="${_csrf.token}" type="hidden">
-                                <md-text-button data-confirm-accept="Eliminar" data-confirm-message="¿Eliminar este servicio?"
+                                  th:action="@{/barberservices/{id}/delete(id=${svc.barberServiceId})}"
+                                  th:id="'deleteForm-' + ${svc.barberServiceId}">
+                                <md-text-button data-confirm-accept="Eliminar"
+                                                data-confirm-message="¿Eliminar este servicio?"
                                                 data-confirm-title="Eliminar servicio"
                                                 onclick="askConfirm(this)"
                                                 style="--md-sys-color-primary:var(--md-sys-color-error)"
                                                 th:data-confirm-form="'deleteForm-' + ${svc.barberServiceId}"
                                                 type="button">
-                                    <md-icon slot="icon">delete</md-icon>
+                                    <md-icon aria-hidden="true" slot="icon">delete</md-icon>
                                     Eliminar
                                 </md-text-button>
                             </form>

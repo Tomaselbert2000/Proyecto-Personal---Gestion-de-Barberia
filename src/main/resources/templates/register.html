@@ -70,8 +70,8 @@
 </head>
 <body>
 <div class="register-page">
-    <md-text-button aria-label="Volver" class="back-btn" href="/">
-        <md-icon slot="icon">arrow_back</md-icon>
+    <md-text-button aria-label="Volver" class="back-btn" th:href="@{/login}">
+        <md-icon aria-hidden="true" slot="icon">arrow_back</md-icon>
         Volver
     </md-text-button>
     <header style="margin-top:24px">
@@ -80,30 +80,36 @@
             Registra un nuevo usuario en el
             sistema</p>
     </header>
-    <div class="md-typescale-body-large" style="color:var(--md-sys-color-error);margin-top:16px" th:if="${error}"
+    <div class="md-typescale-body-large" role="alert" style="color:var(--md-sys-color-error);margin-top:16px"
+         th:if="${error}"
          th:text="${error}"></div>
     <form class="auth-form" method="post" th:action="@{/register}" th:object="${dto}">
         <input name="hasAdminRights" type="hidden" value="false">
-        <md-outlined-text-field id="username" label="Nombre de usuario" name="username" placeholder="Ingresá tu nombre de usuario" required
+        <md-outlined-text-field id="username" label="Nombre de usuario" name="username"
+                                placeholder="Ingresá tu nombre de usuario" required
                                 th:value="${dto.username}" type="text">
-            <md-icon slot="leading-icon">person</md-icon>
+            <md-icon aria-hidden="true" slot="leading-icon">person</md-icon>
         </md-outlined-text-field>
-        <md-outlined-text-field id="password" label="Contraseña" name="password" placeholder="Ingresá tu contraseña" required
+        <md-outlined-text-field id="password" label="Contraseña" name="password" placeholder="Ingresá tu contraseña"
+                                required
                                 type="password">
-            <md-icon slot="leading-icon">lock</md-icon>
-            <md-icon-button aria-label="Mostrar contraseña" onclick="togglePassword('password', this)" slot="trailing-icon"
+            <md-icon aria-hidden="true" slot="leading-icon">lock</md-icon>
+            <md-icon-button aria-label="Mostrar contraseña" onclick="togglePassword('password', this)"
+                            slot="trailing-icon"
                             toggle>
-                <md-icon>visibility</md-icon>
-                <md-icon slot="selected">visibility_off</md-icon>
+                <md-icon aria-hidden="true">visibility</md-icon>
+                <md-icon aria-hidden="true" slot="selected">visibility_off</md-icon>
             </md-icon-button>
         </md-outlined-text-field>
-        <md-outlined-text-field id="confirmPassword" label="Confirmar contraseña" name="confirmPassword" placeholder="Repetí tu contraseña"
+        <md-outlined-text-field id="confirmPassword" label="Confirmar contraseña" name="confirmPassword"
+                                placeholder="Repetí tu contraseña"
                                 required type="password">
-            <md-icon slot="leading-icon">lock</md-icon>
-            <md-icon-button aria-label="Mostrar contraseña" onclick="togglePassword('confirmPassword', this)" slot="trailing-icon"
+            <md-icon aria-hidden="true" slot="leading-icon">lock</md-icon>
+            <md-icon-button aria-label="Mostrar contraseña" onclick="togglePassword('confirmPassword', this)"
+                            slot="trailing-icon"
                             toggle>
-                <md-icon>visibility</md-icon>
-                <md-icon slot="selected">visibility_off</md-icon>
+                <md-icon aria-hidden="true">visibility</md-icon>
+                <md-icon aria-hidden="true" slot="selected">visibility_off</md-icon>
             </md-icon-button>
         </md-outlined-text-field>
         <md-filled-button class="auth-submit" type="submit">Crear usuario</md-filled-button>

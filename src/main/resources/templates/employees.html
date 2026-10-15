@@ -74,7 +74,7 @@
             position: fixed;
             inset: 64px 0 0 0;
             z-index: 4;
-            background: rgba(0, 0, 0, .4);
+            background: color-mix(in srgb, var(--md-sys-color-scrim) 40%, transparent);
             opacity: 0;
             pointer-events: none;
             transition: opacity 200ms ease
@@ -482,7 +482,7 @@
                                                     name="employeeName" placeholder="Nombre del empleado"
                                                     th:value="${param.employeeName != null ? param.employeeName[0] : ''}"
                                                     type="text">
-                                <md-icon slot="leading-icon">search</md-icon>
+                                <md-icon aria-hidden="true" slot="leading-icon">search</md-icon>
                             </md-outlined-text-field>
                             <md-outlined-select label="Estado" name="status">
                                 <md-select-option th:selected="${param.status == null or param.status[0] == ''}"
@@ -497,8 +497,9 @@
                                 </md-select-option>
                             </md-outlined-select>
                             <md-outlined-select label="Antigüedad" name="hireDateRange">
-                                <md-select-option th:selected="${param.hireDateRange == null or param.hireDateRange[0] == ''}"
-                                                  value="">
+                                <md-select-option
+                                        th:selected="${param.hireDateRange == null or param.hireDateRange[0] == ''}"
+                                        value="">
                                     <div slot="headline">Todos los rangos</div>
                                 </md-select-option>
                                 <md-select-option th:each="r : ${hireDateRangeValues}"
@@ -511,15 +512,15 @@
                         </div>
                         <div class="btn-row">
                             <md-filled-button type="submit">
-                                <md-icon slot="icon">search</md-icon>
+                                <md-icon aria-hidden="true" slot="icon">search</md-icon>
                                 Buscar
                             </md-filled-button>
                             <md-outlined-button onclick="clearFilters()" type="button">
-                                <md-icon slot="icon">filter_alt_off</md-icon>
+                                <md-icon aria-hidden="true" slot="icon">filter_alt_off</md-icon>
                                 Limpiar
                             </md-outlined-button>
                             <md-filled-tonal-button href="/employees/new" th:href="@{/employees/new}">
-                                <md-icon slot="icon">add</md-icon>
+                                <md-icon aria-hidden="true" slot="icon">add</md-icon>
                                 Nuevo Empleado
                             </md-filled-tonal-button>
                         </div>
@@ -574,38 +575,42 @@
                                             th:aria-controls="'employee-actions-' + ${employee.id}"
                                             th:data-target="'employee-actions-' + ${employee.id}"
                                             th:id="'employee-toggle-' + ${employee.id}">
-                                <md-icon>expand_more</md-icon>
+                                <md-icon aria-hidden="true">expand_more</md-icon>
                             </md-icon-button>
                         </div>
 
                         <div class="employee-actions" th:id="'employee-actions-' + ${employee.id}">
                             <md-text-button th:href="@{/employees/{id}/update(id=${employee.id})}">
-                                <md-icon slot="icon">edit</md-icon>
+                                <md-icon aria-hidden="true" slot="icon">edit</md-icon>
                                 Editar
                             </md-text-button>
                             <form method="post"
-                                  th:action="@{/employees/{id}/toggleActivityStatus(id=${employee.id})}" th:if="${employee.isActive}">
+                                  th:action="@{/employees/{id}/toggleActivityStatus(id=${employee.id})}"
+                                  th:if="${employee.isActive}">
                                 <md-text-button style="--md-sys-color-primary:var(--md-sys-color-error)" type="submit">
-                                    <md-icon slot="icon">block</md-icon>
+                                    <md-icon aria-hidden="true" slot="icon">block</md-icon>
                                     Desactivar
                                 </md-text-button>
                             </form>
                             <form method="post"
-                                  th:action="@{/employees/{id}/toggleActivityStatus(id=${employee.id})}" th:unless="${employee.isActive}">
+                                  th:action="@{/employees/{id}/toggleActivityStatus(id=${employee.id})}"
+                                  th:unless="${employee.isActive}">
                                 <md-text-button type="submit">
-                                    <md-icon slot="icon">check_circle</md-icon>
+                                    <md-icon aria-hidden="true" slot="icon">check_circle</md-icon>
                                     Activar
                                 </md-text-button>
                             </form>
                             <form method="post"
-                                  th:action="@{/employees/{id}/delete(id=${employee.id})}" th:id="'deleteForm-' + ${employee.id}">
-                                <md-text-button data-confirm-accept="Eliminar" data-confirm-message="¿Eliminar este empleado?"
+                                  th:action="@{/employees/{id}/delete(id=${employee.id})}"
+                                  th:id="'deleteForm-' + ${employee.id}">
+                                <md-text-button data-confirm-accept="Eliminar"
+                                                data-confirm-message="¿Eliminar este empleado?"
                                                 data-confirm-title="Eliminar empleado"
                                                 onclick="askConfirm(this)"
                                                 style="--md-sys-color-primary:var(--md-sys-color-error)"
                                                 th:data-confirm-form="'deleteForm-' + ${employee.id}"
                                                 type="button">
-                                    <md-icon slot="icon">delete</md-icon>
+                                    <md-icon aria-hidden="true" slot="icon">delete</md-icon>
                                     Eliminar
                                 </md-text-button>
                             </form>
