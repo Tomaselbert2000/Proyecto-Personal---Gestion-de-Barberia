@@ -1,18 +1,18 @@
 package com.integration;
 
+import com.abstract_test_class.BaseIntegrationTest;
 import com.dto.appointment.AppointmentCreationDTO;
 import com.dto.appointment.AppointmentInfoDTO;
 import com.dto.appointment.AppointmentUpdateDTO;
+import com.dto.barberservice.BarberServiceInfoDTO;
+import com.dto.client.ClientInfoDTO;
+import com.dto.employee.EmployeeInfoDTO;
+import com.dto.stats.*;
 import com.enums.AppointmentStatus;
 import com.exceptions.appointment.AppointmentNotFoundException;
-import com.exceptions.appointment.InvalidAppointmentUpdateException;
 import com.exceptions.barberservice.BarberServiceNotFoundException;
 import com.exceptions.client.ClientNotFoundException;
-import com.exceptions.common.EmployeeNotAvailableException;
 import com.exceptions.employee.EmployeeNotFoundException;
-import com.factory.BarberServiceTestDataFactory;
-import com.factory.ClientTestDataFactory;
-import com.factory.EmployeeTestDataFactory;
 import com.model.Appointment;
 import com.model.BarberService;
 import com.model.Client;
@@ -22,33 +22,30 @@ import com.repository.BarberServiceRepository;
 import com.repository.ClientRepository;
 import com.repository.EmployeeRepository;
 import com.service.interfaces.AppointmentService;
-import javafx.application.HostServices;
-import org.jspecify.annotations.NonNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
-import static com.factory.AppointmentTestDataFactory.buildAppointmentCreationDTO;
-import static com.factory.AppointmentTestDataFactory.buildAppointmentUpdateDTO;
-import static com.integration.IntegrationTestConstants.AppointmentInfoAssertions.*;
-import static com.integration.IntegrationTestConstants.AppointmentIntegrationTestConstants.*;
+import static com.factory.BarberServiceTestDataFactory.buildAnotherValidBarberService;
+import static com.factory.BarberServiceTestDataFactory.buildValidBarberService;
+import static com.factory.ClientTestDataFactory.buildValidClient;
+import static com.factory.EmployeeTestDataFactory.buildAnotherValidEmployee;
+import static com.factory.EmployeeTestDataFactory.buildValidEmployee;
+import static com.utils.time.TimeCalculation.getCurrentDate;
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest
-@Transactional
-@ActiveProfiles("test")
-public class AppointmentIntegrationTest {
-
-    @Autowired
-    private AppointmentRepository appointmentRepository;
+public class AppointmentIntegrationTest extends BaseIntegrationTest<
+        AppointmentRepository,
+        AppointmentCreationDTO,
+        AppointmentUpdateDTO,
+        AppointmentInfoDTO,
+        AppointmentService,
+        Appointment> {
 
     @Autowired
     private ClientRepository clientRepository;
@@ -59,461 +56,403 @@ public class AppointmentIntegrationTest {
     @Autowired
     private EmployeeRepository employeeRepository;
 
-    @Autowired
-    private AppointmentService service;
+    private final Client client = buildValidClient();
+    private final Employee employee = buildValidEmployee();
+    private final Employee employee2 = buildAnotherValidEmployee();
+    private final BarberService barberService = buildValidBarberService();
+    private final BarberService barberService2 = buildAnotherValidBarberService();
 
-    @MockitoBean
-    private HostServices hostServices;
-
-    Client mockClient1;
-    Client mockClient2;
-
-    Client savedClient1;
-    Client savedClient2;
-
-    Employee mockEmployee1;
-    Employee mockEmployee2;
-
-    Employee savedEmployee1;
-    Employee savedEmployee2;
-
-    BarberService mockBarberService1;
-    BarberService mockBarberService2;
-
-    BarberService savedBarberService1;
-    BarberService savedBarberService2;
-
-    AppointmentCreationDTO creationDTO;
-    AppointmentCreationDTO creationDTO2;
-    AppointmentCreationDTO overlapedAppointment;
-
+    @Override
     @BeforeEach
-    public void init() {
+    protected void init() {
 
-        mockClient1 = ClientTestDataFactory.buildValidClient();
-        mockEmployee1 = EmployeeTestDataFactory.buildValidEmployee();
-        mockBarberService1 = BarberServiceTestDataFactory.buildValidBarberService();
+        preloadAll();
 
-        mockClient2 = ClientTestDataFactory.buildAnotherValidClient();
-        mockEmployee2 = EmployeeTestDataFactory.buildAnotherValidEmployee();
-        mockBarberService2 = BarberServiceTestDataFactory.buildAnotherValidBarberService();
+        LocalDateTime startTime = getCurrentDate().atTime(12, 30).plusDays(1);
+        LocalDateTime endTime = startTime.plusMinutes(30);
+        String notes = "Cliente frecuente";
 
-        setAllEntityIDsAsNull(mockClient1, mockEmployee1, mockBarberService1);
-        setAllEntityIDsAsNull(mockClient2, mockEmployee2, mockBarberService2);
+        creationDTO = AppointmentCreationDTO.builder()
+                .clientID(client.getClientID())
+                .employeeID(employee.getEmployeeID())
+                .barberserviceID(barberService.getBarbershopServiceID())
+                .startDateTime(startTime)
+                .endDateTime(endTime)
+                .optionalNotes(notes)
+                .build();
 
-        savedClient1 = clientRepository.save(mockClient1);
-        savedEmployee1 = employeeRepository.save(mockEmployee1);
-        savedBarberService1 = barberServiceRepository.save(mockBarberService1);
-
-        savedClient2 = clientRepository.save(mockClient2);
-        savedEmployee2 = employeeRepository.save(mockEmployee2);
-        savedBarberService2 = barberServiceRepository.save(mockBarberService2);
-
-        creationDTO = buildAppointmentCreationDTO(
-                savedClient1.getClientID(),
-                savedEmployee1.getEmployeeID(),
-                savedBarberService1.getBarbershopServiceID(),
-                startDateTime,
-                endDateTime,
-                "Importante");
-
-        creationDTO2 = buildAppointmentCreationDTO(
-                savedClient2.getClientID(),
-                savedEmployee2.getEmployeeID(),
-                savedBarberService2.getBarbershopServiceID(),
-                startDateTime2,
-                endDateTime2,
-                "Nota turno 2");
-
-        overlapedAppointment = buildAppointmentCreationDTO(
-                savedClient1.getClientID(),
-                savedEmployee1.getEmployeeID(),
-                savedBarberService1.getBarbershopServiceID(),
-                startDateTime,
-                endDateTime,
-                "Segundo turno solapado");
+        updateDTO = AppointmentUpdateDTO.builder()
+                .newEmployeeID(employee2.getEmployeeID())
+                .newBarberserviceID(barberService2.getBarbershopServiceID())
+                .newStartDateTime(startTime.plusDays(7))
+                .newEndDateTime(endTime.plusDays(7))
+                .optionalNotes("Sin notas adicionales")
+                .build();
     }
 
-    @Test
-    @DisplayName("Dado un turno con datos válidos, deberá persistirse correctamente en la base de datos")
-    void givenAppointmentWithValidDataThenIsPersisted() {
+    @Override
+    protected void createDefaultEntity() {
 
         service.registerNewAppointment(creationDTO);
-        assertEquals(1L, appointmentRepository.findAll().size());
+    }
+
+    @Override
+    protected void deleteDefaultEntity(Long id) {
+
+        service.deleteAppointment(id);
+    }
+
+    @Override
+    protected void updateEntity(Long id, AppointmentUpdateDTO dto) {
+
+        service.updateAppointment(id, dto);
+    }
+
+    @Override
+    protected Appointment getFirstEntityOnRepoList() {
+
+        return repository.findAll().getFirst();
+    }
+
+    @Override
+    protected Appointment reloadEntity(Long id) {
+
+        return repository.findById(id).orElseThrow();
+    }
+
+    @Override
+    protected AppointmentInfoDTO getInfoDTO(Long id) {
+
+        return service.getAppointmentInfo(id);
+    }
+
+    @Override
+    protected Integer countEntityOcurrencesOnRepo() {
+
+        return repository.findAll().size();
     }
 
     @Test
-    @DisplayName("No debería crear una cita si el empleado ya tiene una asignada en el mismo horario")
-    void shouldFailToCreateAppointment_WhenEmployeeIsNotAvailable() {
+    @DisplayName("Dado un turno con datos correctos, se persistirá correctamente en la DB")
+    void givenCreationDTOWithValidDataThenIsPersisted() {
 
-        service.registerNewAppointment(creationDTO);
-
-        assertThrows(EmployeeNotAvailableException.class, () -> service.registerNewAppointment(overlapedAppointment));
-        assertEquals(1L, appointmentRepository.findAll().size());
+        createDefaultEntity();
+        assertEquals(1, countEntityOcurrencesOnRepo());
     }
 
     @Test
-    @DisplayName("No debería crear una cita con un cliente inexistente")
-    void shouldFailToCreateAppointment_WhenClientDoesNotExist() {
+    @DisplayName("Dado un turno con un cliente no registrado, no se persistirá en la DB")
+    void givenNonExistingClientThenAppointmentIsNotPersisted() {
 
-        creationDTO.setClientID(-1L);
-        assertThrows(ClientNotFoundException.class, () -> service.registerNewAppointment(creationDTO));
+        clientRepository.deleteAll();
+
+        assertThrows(ClientNotFoundException.class, this::createDefaultEntity);
     }
 
     @Test
-    @DisplayName("No debería crear una cita agendando un servicio inexistente")
-    void shouldNotCreateAppointment_WhenBarberServiceDoesNotExist() {
+    @DisplayName("Dado un turno con un empleado no registrado, no se persistirá en la DB")
+    void givenNonExistingEmployeeThenAppointmentIsNotPersisted() {
 
-        creationDTO.setBarberserviceID(-1L);
-        assertThrows(BarberServiceNotFoundException.class, () -> service.registerNewAppointment(creationDTO));
+        employeeRepository.deleteAll();
+
+        assertThrows(EmployeeNotFoundException.class, this::createDefaultEntity);
     }
 
     @Test
-    @DisplayName("No debería crear una cita agendando un empleado inexistente")
-    void shouldNotCreateAppointment_WhenEmployeeDoesNotExist() {
+    @DisplayName("Dado un turno con un servicio no registrado, no se persistirá en la DB")
+    void givenNonExistingBarberServiceThenAppointmentIsNotPersisted() {
 
-        creationDTO.setEmployeeID(-1L);
-        assertThrows(EmployeeNotFoundException.class, () -> service.registerNewAppointment(creationDTO));
+        barberServiceRepository.deleteAll();
+
+        assertThrows(BarberServiceNotFoundException.class, this::createDefaultEntity);
     }
 
     @Test
-    @DisplayName("Dado un turno existente, deberá poder ser eliminado correctamente")
-    void shouldDeleteAnExistingAppointment() {
+    @DisplayName("Dado un turno existente, deberá poder eliminarse de la DB")
+    void givenExistingAppointmentThenItShouldBeDeletedSuccessfully() {
 
-        service.registerNewAppointment(creationDTO);
+        createDefaultEntity();
 
-        long appointmentCountBefore = appointmentRepository.findAll().size();
+        Appointment appointment = getFirstEntityOnRepoList();
 
-        service.deleteAppointment(getFirstAppointmentOnList().getAppointmentID());
+        deleteDefaultEntity(appointment.getAppointmentID());
 
-        Long appointmentCountAfter = (long) appointmentRepository.findAll().size();
-
-        assertEquals(appointmentCountBefore - 1L, appointmentCountAfter);
+        assertEntityTableIsEmpty();
     }
 
     @Test
-    @DisplayName("No debería eliminar un turno inexistente")
-    void shouldFailToDeleteNonExistentAppointment() {
+    @DisplayName("Dado un turno inexistente, no modificará la DB")
+    void givenNonExistingAppointmentWhenDeletingThenThrowsException() {
 
-        assertThrows(AppointmentNotFoundException.class, () -> service.deleteAppointment(-1L));
+        assertThrows(AppointmentNotFoundException.class, () -> deleteDefaultEntity(1L));
     }
 
     @Test
-    @DisplayName("Dado un turno registrado, deberá obtener su información completa a través del DTO")
-    void shouldRetrieveAppointmentInfo() {
+    @DisplayName("Dado un turno existente, se podrá obtener su información")
+    void givenExistingAppointmentThenShouldShowItsInformation() {
 
-        service.registerNewAppointment(creationDTO);
+        createDefaultEntity();
 
-        AppointmentInfoDTO infoDTO = service.getAppointmentInfo(getFirstAppointmentOnList().getAppointmentID());
-
-        assertDtoAttributes(infoDTO, getFirstAppointmentOnList(), savedClient1, savedEmployee1, savedBarberService1);
-    }
-
-    @Test
-    @DisplayName("Dado N turnos registrados, su información deberá poder ser obtenida de forma exitosa desde el Service a través de una lista de DTOs")
-    void givenAppointmentsRegisteredThenTheirInfoIsRetrievedAsList() {
-
-        service.registerNewAppointment(creationDTO);
-        service.registerNewAppointment(creationDTO2);
-
-        List<AppointmentInfoDTO> appointmentsList = service.getAppointmentsList();
-
-        assertEquals(2L, appointmentsList.size(), "Deben obtenerse exactamente 2 turnos");
-
-        AppointmentInfoDTO firstDTO = appointmentsList.getFirst();
-        Appointment firstEntity = getFirstAppointmentOnList();
-        assertDtoAttributes(firstDTO, firstEntity, savedClient1, savedEmployee1, savedBarberService1);
-
-        AppointmentInfoDTO secondDTO = appointmentsList.get(1);
-        Appointment secondEntity = appointmentRepository.findAll().get(1);
-        assertDtoAttributes(secondDTO, secondEntity, savedClient2, savedEmployee2, savedBarberService2);
-    }
-
-    @Test
-    @DisplayName("Debería poder acotar la búsqueda de turnos usando filtrado dinámico")
-    void shouldFilterAppointmentLiveSearch() {
-
-        service.registerNewAppointment(creationDTO);
-        service.registerNewAppointment(creationDTO2);
-
-        List<AppointmentInfoDTO> allAppointments = service.getAppointmentsList();
-        assertEquals(2L, allAppointments.size(), "Deben existir exactamente 2 turnos registrados");
-
-        // Test 1: Búsqueda con filtro por nombre de cliente
-        List<AppointmentInfoDTO> filteredByClient = service.liveSearch(savedClient1.getFirstName(), null, null, null);
-        assertEquals(1L, filteredByClient.size(), "Debería filtrarse por nombre de cliente");
-        assertEquals(savedClient1.getFirstName(), filteredByClient.getFirst().getClientFirstName());
-
-        // Test 2: Búsqueda con filtro por estado
-        List<AppointmentInfoDTO> filteredByStatus = service.liveSearch(null, null, AppointmentStatus.PROGRAMADO, null);
-        assertEquals(2L, filteredByStatus.size(), "Debería filtrarse por estado PROGRAMADO");
-
-        // Test 3: Búsqueda con filtro por nombre de empleado
-        List<AppointmentInfoDTO> filteredByEmployee = service.liveSearch(null, null, null,
-                savedEmployee1.getFirstName());
-        assertEquals(1L, filteredByEmployee.size(), "Debería filtrarse por nombre de empleado");
-        assertEquals(savedEmployee1.getFirstName(), filteredByEmployee.getFirst().getEmployeeFirstName());
-
-        // Test 4: Búsqueda con múltiples filtros (cliente + estado)
-        List<AppointmentInfoDTO> filteredByClientAndStatus = service.liveSearch(savedClient1.getFirstName(), null,
-                AppointmentStatus.PROGRAMADO, null);
-        assertEquals(1L, filteredByClientAndStatus.size(), "Debería filtrarse por cliente y estado");
-
-        // Test 5: Búsqueda con rango de tiempo (fecha de creación de los turnos)
-        LocalDate searchDate = now.toLocalDate().plusDays(1);
-        List<AppointmentInfoDTO> filteredByDate = service.liveSearch(null, searchDate, null, null);
-        assertEquals(2L, filteredByDate.size(), "Debería filtrarse por fecha");
-
-        // Test 6: Búsqueda sin filtros (debería devolver todos)
-        List<AppointmentInfoDTO> allAppointmentsViaLiveSearch = service.liveSearch(null, null, null, null);
-        assertEquals(2L, allAppointmentsViaLiveSearch.size(), "Sin filtros debe devolver todos los turnos");
-    }
-
-    @Test
-    @DisplayName("Dado un turno registrado, deberá poder marcarse como completado exitosamente")
-    void shouldMarkAnAppointmentAsCompleted() {
-
-        service.registerNewAppointment(creationDTO);
-
-        AppointmentInfoDTO appointmentInfoDTO = service
-                .getAppointmentInfo(getFirstAppointmentOnList().getAppointmentID());
-
-        assertEquals(AppointmentStatus.PROGRAMADO, appointmentInfoDTO.getCurrentStatus(),
-                "El turno debe estar en estado PROGRAMADO tras la creación");
-
-        service.markAppointmentAsComplete(appointmentInfoDTO);
-
-        AppointmentInfoDTO updatedAppointmentInfoDTO = service
-                .getAppointmentInfo(getFirstAppointmentOnList().getAppointmentID());
-
-        assertEquals(AppointmentStatus.FINALIZADO, updatedAppointmentInfoDTO.getCurrentStatus(),
-                "El turno debe estar en estado FINALIZADO después de marcarlo como completado");
-    }
-
-    @Test
-    @DisplayName("Dado un turno registrado, deberá poder marcarse como cancelado exitosamente")
-    void shouldMarkAnAppointmentAsCanceled() {
-
-        service.registerNewAppointment(creationDTO);
-
-        AppointmentInfoDTO appointmentInfoDTO = service
-                .getAppointmentInfo(getFirstAppointmentOnList().getAppointmentID());
-
-        assertEquals(AppointmentStatus.PROGRAMADO, appointmentInfoDTO.getCurrentStatus(),
-                "El turno debe estar en estado PROGRAMADO tras la creación");
-
-        service.markAppointmentAsCanceled(appointmentInfoDTO);
-
-        AppointmentInfoDTO updatedAppointmentInfoDTO = service
-                .getAppointmentInfo(getFirstAppointmentOnList().getAppointmentID());
-
-        assertEquals(AppointmentStatus.CANCELADO, updatedAppointmentInfoDTO.getCurrentStatus(),
-                "El turno debe estar en estado CANCELADO después de marcarlo como cancelado");
-    }
-
-    @Test
-    @DisplayName("Dado un turno con fecha de inicio modificada, su estado debe cambiarse a REPROGRAMADO")
-    void shouldMarkAnAppointmentAsREPROGRAMADO_WhenUpdatingStartDatetime() {
-
-        service.registerNewAppointment(creationDTO);
-
-        AppointmentInfoDTO appointmentInfoDTO = service
-                .getAppointmentInfo(getFirstAppointmentOnList().getAppointmentID());
-
-        assertEquals(AppointmentStatus.PROGRAMADO, appointmentInfoDTO.getCurrentStatus(),
-                "El turno debe estar en estado PROGRAMADO tras la creación");
-
-        AppointmentUpdateDTO updateDTO = buildAppointmentUpdateDTO(
-                startDateTime.plusMinutes(30),
-                endDateTime.plusMinutes(30),
-                null,
-                null,
-                null,
-                null);
-
-        service.updateAppointment(getFirstAppointmentOnList().getAppointmentID(), updateDTO);
-
-        AppointmentInfoDTO updatedAppointmentInfoDTO = service
-                .getAppointmentInfo(getFirstAppointmentOnList().getAppointmentID());
-
-        assertEquals(AppointmentStatus.REPROGRAMADO, updatedAppointmentInfoDTO.getCurrentStatus(),
-                "El turno debe estar en estado REPROGRAMADO después de modificar su fecha de inicio");
-    }
-
-    @Test
-    @DisplayName("Dado un turno en estado REPROGRAMADO, no debería poder cambiarse a PROGRAMADO")
-    void shouldNotMarkAnAppointmentAsPROGRAMADO_WhenCurrentStatusIsREPROGRAMADO() {
-
-        service.registerNewAppointment(creationDTO);
-
-        AppointmentInfoDTO initialInfoDTO = service.getAppointmentInfo(getFirstAppointmentOnList().getAppointmentID());
-
-        assertEquals(AppointmentStatus.PROGRAMADO, initialInfoDTO.getCurrentStatus(),
-                "El turno debe estar en estado PROGRAMADO inicialmente");
-
-        AppointmentUpdateDTO reprogramDTO = buildAppointmentUpdateDTO(
-                startDateTime.plusMinutes(30),
-                endDateTime.plusMinutes(30),
-                null,
-                null,
-                null,
-                null);
-
-        service.updateAppointment(getFirstAppointmentOnList().getAppointmentID(), reprogramDTO);
-
-        AppointmentInfoDTO reprogrammedInfoDTO = service
-                .getAppointmentInfo(getFirstAppointmentOnList().getAppointmentID());
-        assertEquals(AppointmentStatus.REPROGRAMADO, reprogrammedInfoDTO.getCurrentStatus(),
-                "El turno debe estar en estado REPROGRAMADO después de modificar su horario");
-
-        AppointmentUpdateDTO updateToProgramadoDTO = buildAppointmentUpdateDTO(
-                startDateTime,
-                endDateTime,
-                AppointmentStatus.PROGRAMADO,
-                null,
-                null,
-                null);
-
-        assertThrows(InvalidAppointmentUpdateException.class,
-                () -> service.updateAppointment(getFirstAppointmentOnList().getAppointmentID(), updateToProgramadoDTO),
-                "El sistema no debería permitir cambiar un turno de estado REPROGRAMADO a PROGRAMADO");
-    }
-
-    @Test
-    @DisplayName("Dado un turno existente, deberá poder actualizarse exitosamente todos sus campos permitidos")
-    void shouldUpdateSuccessfullyAnExistingAppointment() {
-
-        service.registerNewAppointment(creationDTO);
-        Long appointmentID = getFirstAppointmentOnList().getAppointmentID();
-
-        AppointmentUpdateDTO updateDTO = buildAppointmentUpdateDTO(
-                startDateTime.plusHours(1),
-                endDateTime.plusHours(1),
-                AppointmentStatus.REPROGRAMADO,
-                "Nota actualizada - Cambio de horario",
-                savedEmployee2.getEmployeeID(),
-                savedBarberService2.getBarbershopServiceID());
-
-        service.updateAppointment(appointmentID, updateDTO);
-
-        AppointmentInfoDTO updatedInfoDTO = service.getAppointmentInfo(appointmentID);
+        AppointmentInfoDTO infoDTO = getInfoDTO(getFirstEntityOnRepoList().getAppointmentID());
 
         assertAll(
-                () -> assertEquals(appointmentID, updatedInfoDTO.getId(), MESSAGE_ID_MATCH),
-                () -> assertEquals(savedEmployee2.getEmployeeID(), updatedInfoDTO.getEmployeeID(),
-                        MESSAGE_EMPLOYEE_ID_MATCH),
-                () -> assertEquals(savedBarberService2.getBarbershopServiceID(), updatedInfoDTO.getBarberServiceID(),
-                        MESSAGE_SERVICE_ID_MATCH),
-                () -> assertEquals(startDateTime.plusHours(1), updatedInfoDTO.getStartDateTime(),
-                        MESSAGE_START_DATETIME_MATCH),
-                () -> assertEquals(endDateTime.plusHours(1), updatedInfoDTO.getEndDateTime(),
-                        MESSAGE_END_DATETIME_MATCH),
-                () -> assertEquals(AppointmentStatus.REPROGRAMADO, updatedInfoDTO.getCurrentStatus(),
-                        MESSAGE_CURRENT_STATUS_MATCH),
-                () -> assertEquals("Nota actualizada - Cambio de horario", updatedInfoDTO.getOptionalNotes(),
-                        MESSAGE_OPTIONAL_NOTES_MATCH));
-
-        Appointment updatedEntity = appointmentRepository.findById(appointmentID).orElseThrow();
-        assertNotNull(updatedEntity.getModifiedDate(), "La fecha de modificación no debe ser null");
+                () -> assertEquals(infoDTO.getClientFirstName(), client.getFirstName()),
+                () -> assertEquals(infoDTO.getClientLastName(), client.getLastName()),
+                () -> assertEquals(infoDTO.getBarberServiceID(), barberService.getBarbershopServiceID()),
+                () -> assertEquals(infoDTO.getEmployeeID(), employee.getEmployeeID()),
+                () -> assertEquals(infoDTO.getStartDateTime(), getFirstEntityOnRepoList().getStartDateTime()),
+                () -> assertEquals(infoDTO.getEndDateTime(), getFirstEntityOnRepoList().getEndDateTime())
+        );
     }
 
     @Test
-    @DisplayName("Dado un turno existente y otro turno del mismo empleado, no debería poder actualizarse la fecha de inicio si esto solapara con el otro turno")
-    void shouldNotUpdateAnExistingAppointment_WhenNewTimeSlotsOverlapWithAnotherAppointment() {
+    @DisplayName("Dado un turno inexistente, no se obtiene información alguna")
+    void givenNonExistingAppointmentWhenShowingInformationThenThrowsException() {
 
-        service.registerNewAppointment(creationDTO);
-
-        AppointmentCreationDTO sameEmployeeSecondAppointment = buildAppointmentCreationDTO(
-                savedClient2.getClientID(),
-                savedEmployee1.getEmployeeID(),
-                savedBarberService1.getBarbershopServiceID(),
-                startDateTime.plusHours(2),
-                endDateTime.plusHours(2),
-                "Segundo turno mismo empleado");
-
-        service.registerNewAppointment(sameEmployeeSecondAppointment);
-
-        Long firstAppointmentID = getFirstAppointmentOnList().getAppointmentID();
-
-        AppointmentInfoDTO firstAppointmentInfoDTO = service.getAppointmentInfo(firstAppointmentID);
-
-        AppointmentUpdateDTO overlappingUpdateDTO = buildAppointmentUpdateDTO(
-                sameEmployeeSecondAppointment.getStartDateTime(),
-                sameEmployeeSecondAppointment.getEndDateTime(),
-                null,
-                null,
-                firstAppointmentInfoDTO.getEmployeeID(),
-                firstAppointmentInfoDTO.getBarberServiceID());
-
-        assertThrows(EmployeeNotAvailableException.class,
-                () -> service.updateAppointment(firstAppointmentID, overlappingUpdateDTO),
-                "El sistema no debería permitir actualizar el turno a un horario que solape con otro turno del mismo empleado");
+        assertThrows(AppointmentNotFoundException.class, () -> getInfoDTO(-1L));
     }
 
     @Test
-    @DisplayName("Dado un turno existente, no debería poder actualizarse con un servicio de barbería inexistente")
-    void shouldNotUpdateAnExistingAppointment_WithNonExistingBarberService() {
+    @DisplayName("Dado un turno existente, podrá ser actualizado")
+    void givenExistingAppointmentThenShouldUpdateSuccessfully() {
 
-        service.registerNewAppointment(creationDTO);
+        createDefaultEntity();
 
-        Long appointmentID = getFirstAppointmentOnList().getAppointmentID();
+        Appointment appointment = getFirstEntityOnRepoList();
 
-        AppointmentUpdateDTO updateDTO = buildAppointmentUpdateDTO(
-                startDateTime,
-                endDateTime,
-                null,
-                null,
-                savedEmployee1.getEmployeeID(),
-                -1L);
+        updateEntity(appointment.getAppointmentID(), updateDTO);
 
-        assertThrows(BarberServiceNotFoundException.class,
-                () -> service.updateAppointment(appointmentID, updateDTO),
-                "El sistema no debería permitir actualizar el turno con un servicio de barbería inexistente");
+        infoDTO = service.getAppointmentInfo(appointment.getAppointmentID());
+
+        assertEquals(barberService2.getBarbershopServiceID(), infoDTO.getBarberServiceID());
+        assertEquals(employee2.getEmployeeID(), infoDTO.getEmployeeID());
     }
 
-    private void setAllEntityIDsAsNull(Client mockClient, Employee mockEmployee, BarberService mockBarberService) {
+    @Test
+    @DisplayName("Dado N turnos registrados, al obtener todos se retorna una lista mediante mapeo por DTO informativo")
+    void given_N_ExistingAppointments_WhenGettingAll_ThenReturnsAListOfDTO() {
 
-        mockClient.setClientID(null);
-        mockEmployee.setEmployeeID(null);
-        mockBarberService.setBarbershopServiceID(null);
+        createDefaultEntity();
+
+        Integer expectedListSize = 1;
+
+        List<AppointmentInfoDTO> appointments = service.getAppointmentsList();
+
+        assertEquals(expectedListSize, appointments.size());
     }
 
-    private void assertDtoAttributes(
-            AppointmentInfoDTO infoDTO,
-            Appointment appointment,
-            Client savedClient,
-            Employee savedEmployee,
-            BarberService savedBarberService) {
+    @Test
+    @DisplayName("Dado una búsqueda en vivo con filtros, se devuelven resultados correctos")
+    void givenLiveSearchWithFilters_WhenSearching_ThenReturnsCorrectDTOs() {
+
+        createDefaultEntity();
+
+        List<AppointmentInfoDTO> results = service.liveSearch(null, null, null, null);
 
         assertAll(
-                () -> assertEquals(appointment.getAppointmentID(), infoDTO.getId(), MESSAGE_ID_MATCH),
-                () -> assertEquals(savedEmployee.getEmployeeID(), infoDTO.getEmployeeID(), MESSAGE_EMPLOYEE_ID_MATCH),
-                () -> assertEquals(savedBarberService.getBarbershopServiceID(), infoDTO.getBarberServiceID(),
-                        MESSAGE_SERVICE_ID_MATCH),
-                () -> assertEquals(savedClient.getFirstName(), infoDTO.getClientFirstName(),
-                        MESSAGE_CLIENT_FIRST_NAME_MATCH),
-                () -> assertEquals(savedClient.getLastName(), infoDTO.getClientLastName(),
-                        MESSAGE_CLIENT_LAST_NAME_MATCH),
-                () -> assertEquals(savedBarberService.getName(), infoDTO.getServiceName(), MESSAGE_SERVICE_NAME_MATCH),
-                () -> assertEquals(savedBarberService.getPrice(), infoDTO.getServicePrice(),
-                        MESSAGE_SERVICE_PRICE_MATCH),
-                () -> assertEquals(savedEmployee.getFirstName(), infoDTO.getEmployeeFirstName(),
-                        MESSAGE_EMPLOYEE_FIRST_NAME_MATCH),
-                () -> assertEquals(savedEmployee.getLastName(), infoDTO.getEmployeeLastName(),
-                        MESSAGE_EMPLOYEE_LAST_NAME_MATCH),
-                () -> assertEquals(appointment.getRegistrationTimestamp(), infoDTO.getRegistrationTimestamp(),
-                        MESSAGE_REGISTRATION_TIMESTAMP_MATCH),
-                () -> assertEquals(appointment.getStartDateTime(), infoDTO.getStartDateTime(),
-                        MESSAGE_START_DATETIME_MATCH),
-                () -> assertEquals(appointment.getEndDateTime(), infoDTO.getEndDateTime(), MESSAGE_END_DATETIME_MATCH),
-                () -> assertEquals(appointment.getCurrentStatus(), infoDTO.getCurrentStatus(),
-                        MESSAGE_CURRENT_STATUS_MATCH),
-                () -> assertEquals(appointment.getOptionalNotes(), infoDTO.getOptionalNotes(),
-                        MESSAGE_OPTIONAL_NOTES_MATCH));
+                () -> assertNotNull(results),
+                () -> assertEquals(1, results.size()),
+                () -> assertEquals(employee.getEmployeeID(), results.getFirst().getEmployeeID()),
+                () -> assertEquals(barberService.getBarbershopServiceID(), results.getFirst().getBarberServiceID())
+        );
     }
 
-    private @NonNull Appointment getFirstAppointmentOnList() {
+    @Test
+    @DisplayName("Dado un turno existente, se marca como completado correctamente")
+    void givenExistingAppointment_WhenMarkingAsComplete_ThenIsMarkedSuccessfully() {
 
-        return appointmentRepository.findAll().getFirst();
+        createDefaultEntity();
+
+        Appointment appointment = getFirstEntityOnRepoList();
+
+        infoDTO = service.getAppointmentInfo(appointment.getAppointmentID());
+
+        service.markAppointmentAsComplete(infoDTO);
+
+        assertEquals(AppointmentStatus.FINALIZADO, service.getAppointmentInfo(appointment.getAppointmentID()).getCurrentStatus());
+    }
+
+    @Test
+    @DisplayName("Dado un turno existente, se marca como cancelado correctamente")
+    void givenExistingAppointment_WhenMarkingAsCanceled_ThenIsMarkedSuccessfully() {
+
+        createDefaultEntity();
+
+        Appointment appointment = getFirstEntityOnRepoList();
+
+        infoDTO = service.getAppointmentInfo(appointment.getAppointmentID());
+
+        service.markAppointmentAsCanceled(infoDTO);
+
+        assertEquals(AppointmentStatus.CANCELADO, service.getAppointmentInfo(appointment.getAppointmentID()).getCurrentStatus());
+    }
+
+    @Test
+    @DisplayName("Dado un servicio de barbería, se obtiene la lista de empleados")
+    void givenService_WhenGettingEmployees_ThenReturnsEmployeeList() {
+
+        List<EmployeeInfoDTO> employees = service.getEmployeesFromServiceInstance();
+
+        assertAll(
+                () -> assertNotNull(employees),
+                () -> assertFalse(employees.isEmpty()),
+                () -> assertEquals(2, employees.size())
+        );
+    }
+
+    @Test
+    @DisplayName("Dado un servicio de barbería, se obtiene la lista de servicios")
+    void givenService_WhenGettingBarberServices_ThenReturnsBarberServiceList() {
+
+        List<BarberServiceInfoDTO> catalog = service.getBarberServicesFromServiceInstance();
+
+        assertAll(
+                () -> assertNotNull(catalog),
+                () -> assertFalse(catalog.isEmpty()),
+                () -> assertEquals(2, catalog.size())
+        );
+    }
+
+    @Test
+    @DisplayName("Dado que hay turnos hoy, se devuelven estadísticas correctas")
+    void givenTodayStats_WhenFetching_ThenReturnsCorrectDTO() {
+
+        AppointmentTodayStatsDTO stats = service.getAppointmentsTodayStats();
+
+        assertAll(
+                "Verificación de estructura DTO",
+                () -> assertNotNull(stats),
+                () -> assertTrue(stats.getAppointmentCount() >= 0),
+                () -> assertTrue(stats.getTotalAmountAsFinished() >= 0)
+        );
+    }
+
+    @Test
+    @DisplayName("Dado que hay turnos pendientes, se devuelven estadísticas correctas")
+    void givenPendingStats_WhenFetching_ThenReturnsCorrectDTO() {
+
+        AppointmentTomorrowStatsDTO stats = service.getPendingAppointmentsStats();
+
+        assertAll(
+                "Verificación de estructura DTO",
+                () -> assertNotNull(stats),
+                () -> assertTrue(stats.getTotalPendingAppointments() >= 0),
+                () -> assertTrue(stats.getScheduledAppointmentsTomorrow() >= 0)
+        );
+    }
+
+    @Test
+    @DisplayName("Dado que hay turnos en el mes, se devuelven estadísticas de comparación mensual correctas")
+    void givenMonthlyStats_WhenFetching_ThenReturnsCorrectDTO() {
+
+        AppointmentMonthlyComparisonDTO stats = service.getMonthlyComparisonStats();
+
+        assertAll(
+                "Verificación de estructura DTO",
+                () -> assertNotNull(stats),
+                () -> assertTrue(stats.getCurrentMonthAppointments() >= 0),
+                () -> assertTrue(stats.getPreviousMonthAppointments() >= 0)
+        );
+    }
+
+    @Test
+    @DisplayName("Dado que hay turnos cancelados, se devuelven estadísticas de cancelaciones correctas")
+    void givenCanceledStats_WhenFetching_ThenReturnsCorrectDTO() {
+
+        AppointmentCanceledStatsDTO stats = service.getCanceledStats();
+
+        assertAll(
+                "Verificación de estructura DTO",
+                () -> assertNotNull(stats),
+                () -> assertTrue(stats.getCanceledAppointmentThisMonth() >= 0),
+                () -> assertTrue(stats.getTotalAppointmentsThisMonth() >= 0),
+                () -> assertNotNull(stats.getCanceledAppointmentPercentage())
+        );
+    }
+
+    @Test
+    @DisplayName("Dado que hay turnos hoy, se devuelven estadísticas de ingreso esperado correctas")
+    void givenExpectedIncomeStats_WhenFetching_ThenReturnsCorrectDTO() {
+
+        ExpectedIncomeStatDTO stats = service.getExpectedIncomeToday();
+
+        assertAll(
+                "Verificación de estructura DTO",
+                () -> assertNotNull(stats),
+                () -> assertTrue(stats.getAppointmentsToday() >= 0),
+                () -> assertTrue(stats.getExpectedIncomeSumForToday() >= 0),
+                () -> assertTrue(stats.getAverageTicket() >= 0.0)
+        );
+    }
+
+    @Test
+    @DisplayName("Dado que hay turnos registrados, se retorna el conteo correcto")
+    void givenExistingAppointments_WhenCounting_ThenReturnsCorrectCount() {
+
+        createDefaultEntity();
+
+        Integer expectedCount = 1;
+        Integer currentCount = countEntityOcurrencesOnRepo();
+
+        assertEquals(expectedCount, currentCount);
+    }
+
+    @Test
+    @DisplayName("Dado una fecha futura y un empleado, se obtienen slots disponibles")
+    void givenFutureDate_WhenGettingAvailableSlots_ThenReturnsList() {
+
+        createDefaultEntity();
+
+        LocalDateTime futureDateAndTime = getCurrentDate().atTime(12, 30).plusDays(2);
+
+        List<LocalTime> availableSlots = service.getAvailableSlots(futureDateAndTime.toLocalDate(), employee.getEmployeeID());
+
+        assertNotNull(availableSlots);
+        assertFalse(availableSlots.isEmpty());
+    }
+
+    @Test
+    @DisplayName("Dado un nombre de cliente, se realiza búsqueda en vivo y retorna lista de clientes")
+    void givenClientSearchName_WhenSearching_ThenReturnsClientList() {
+
+        List<ClientInfoDTO> clients = service.clientLiveSearchByName(client.getFirstName());
+
+        assertAll(
+                "Verificación de búsqueda",
+                () -> assertNotNull(clients),
+                () -> assertFalse(clients.isEmpty()),
+                () -> assertEquals(1, clients.size())
+        );
+    }
+
+    private void preloadClient() {
+
+        client.setClientID(null);
+        clientRepository.save(client);
+    }
+
+    private void preloadEmployee() {
+
+        employee.setEmployeeID(null);
+        employeeRepository.save(employee);
+
+        employee2.setEmployeeID(null);
+        employeeRepository.save(employee2);
+    }
+
+    private void preloadBarberService() {
+
+        barberService.setBarbershopServiceID(null);
+        barberServiceRepository.save(barberService);
+
+        barberService2.setBarbershopServiceID(null);
+        barberServiceRepository.save(barberService2);
+    }
+
+    private void preloadAll() {
+
+        preloadClient();
+        preloadEmployee();
+        preloadBarberService();
     }
 }
