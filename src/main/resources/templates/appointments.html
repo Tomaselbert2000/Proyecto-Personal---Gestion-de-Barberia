@@ -74,7 +74,7 @@
             position: fixed;
             inset: 64px 0 0 0;
             z-index: 4;
-            background: rgba(0, 0, 0, .4);
+            background: color-mix(in srgb, var(--md-sys-color-scrim) 40%, transparent);
             opacity: 0;
             pointer-events: none;
             transition: opacity 200ms ease
@@ -403,7 +403,7 @@
 <div class="nav-scrim" id="navScrim"></div>
 
 <div class="app-shell">
-    <aside th:replace="~{fragments/layout :: drawer(active='')}"></aside>
+    <aside th:replace="~{fragments/layout :: drawer(active='/appointments')}"></aside>
 
     <main class="app-main">
         <div class="main-inner">
@@ -482,13 +482,14 @@
                     <div class="surface outlined">
                         <div class="filter-grid">
                             <md-outlined-text-field id="clientNameFilter" label="Buscar por cliente" name="clientName"
-                                                    placeholder="Nombre o apellido del cliente" th:value="${selectedClientName}"
+                                                    placeholder="Nombre o apellido del cliente"
+                                                    th:value="${selectedClientName}"
                                                     type="text">
-                                <md-icon slot="leading-icon">search</md-icon>
+                                <md-icon aria-hidden="true" slot="leading-icon">search</md-icon>
                             </md-outlined-text-field>
                             <md-outlined-text-field label="Fecha" name="date" th:value="${selectedDate}"
                                                     type="date">
-                                <md-icon slot="leading-icon">event</md-icon>
+                                <md-icon aria-hidden="true" slot="leading-icon">event</md-icon>
                             </md-outlined-text-field>
                             <md-outlined-select label="Estado" name="status">
                                 <md-select-option th:selected="${selectedStatus == null}" value="">
@@ -502,8 +503,9 @@
                                 </md-select-option>
                             </md-outlined-select>
                             <md-outlined-select label="Empleado" name="employeeName">
-                                <md-select-option th:selected="${selectedEmployeeName == null or selectedEmployeeName == 'Todos los empleados'}"
-                                                  value="Todos los empleados">
+                                <md-select-option
+                                        th:selected="${selectedEmployeeName == null or selectedEmployeeName == 'Todos los empleados'}"
+                                        value="Todos los empleados">
                                     <div slot="headline">Todos los empleados</div>
                                 </md-select-option>
                                 <md-select-option th:each="employee : ${employees}"
@@ -516,15 +518,15 @@
                         </div>
                         <div class="btn-row">
                             <md-filled-button type="submit">
-                                <md-icon slot="icon">search</md-icon>
+                                <md-icon aria-hidden="true" slot="icon">search</md-icon>
                                 Buscar
                             </md-filled-button>
-                            <md-outlined-button onclick="clearFilters()" type="button">
-                                <md-icon slot="icon">filter_alt_off</md-icon>
+                            <md-outlined-button onclick="clearFilters(this)" type="button">
+                                <md-icon aria-hidden="true" slot="icon">filter_alt_off</md-icon>
                                 Limpiar
                             </md-outlined-button>
-                            <md-filled-tonal-button href="/appointments/new" th:href="@{/appointments/new}">
-                                <md-icon slot="icon">add</md-icon>
+                            <md-filled-tonal-button th:href="@{/appointments/new}" type="button">
+                                <md-icon aria-hidden="true" slot="icon">add</md-icon>
                                 Nuevo Turno
                             </md-filled-tonal-button>
                         </div>
@@ -543,12 +545,12 @@
                     <article class="surface outlined appt-card" th:each="appt : ${appointmentsLiveSearch}">
                         <div class="appt-row">
                             <div aria-hidden="true" class="appt-avatar">
-                                <md-icon>person</md-icon>
+                                <md-icon aria-hidden="true">person</md-icon>
                             </div>
                             <div class="appt-body">
                                 <div class="appt-title">
                                     <span class="md-typescale-title-medium name"
-                                          th:text="${appt.clientFirstName + ' ' + appt.clientLastName}">Cliente</span>
+                                          th:text="${appt.clientFirstName != null and appt.clientLastName != null ? appt.clientFirstName + ' ' + appt.clientLastName : '—'}">Cliente</span>
                                     <span class="status-chip"
                                           th:classappend="${'st-' + #strings.toLowerCase(appt.currentStatus.name())}">
                                         <span aria-hidden="true" class="dot"></span>
@@ -558,13 +560,13 @@
                                 <div class="appt-meta md-typescale-body-medium">
                                     <span th:text="${appt.serviceName}">Servicio</span>
                                     <span aria-hidden="true">·</span>
-                                    <span th:text="${appt.employeeFirstName + ' ' + appt.employeeLastName}">Empleado</span>
+                                    <span th:text="${appt.employeeFirstName != null and appt.employeeLastName != null ? appt.employeeFirstName + ' ' + appt.employeeLastName : '—'}">Empleado</span>
                                 </div>
                                 <div class="appt-meta md-typescale-body-small">
                                     <md-icon aria-hidden="true">event</md-icon>
                                     <span th:text="${#temporals.format(appt.startDateTime, 'dd/MM/yyyy')}">fecha</span>
                                     <md-icon aria-hidden="true">schedule</md-icon>
-                                    <span th:text="${#temporals.format(appt.startDateTime, 'HH:mm')}">hora</span>
+                                    <span th:text="${#temporals.format(appt.startDateTime, 'HH:mm') + (appt.endDateTime != null ? ' - ' + #temporals.format(appt.endDateTime, 'HH:mm') : '')}">hora</span>
                                     <md-icon aria-hidden="true">payments</md-icon>
                                     <span th:text="${'$' + #numbers.formatDecimal(appt.servicePrice, 1, 2)}">$0.00</span>
                                 </div>
@@ -579,7 +581,7 @@
                                             th:aria-controls="'appt-actions-' + ${appt.id}"
                                             th:data-target="'appt-actions-' + ${appt.id}"
                                             th:id="'appt-toggle-' + ${appt.id}">
-                                <md-icon>expand_more</md-icon>
+                                <md-icon aria-hidden="true">expand_more</md-icon>
                             </md-icon-button>
                         </div>
 
@@ -587,30 +589,32 @@
                             <form method="post" th:action="@{/appointments/{id}/complete(id=${appt.id})}"
                                   th:if="${appt.currentStatus.name() != 'FINALIZADO' and appt.currentStatus.name() != 'CANCELADO'}">
                                 <md-text-button type="submit">
-                                    <md-icon slot="icon">check_circle</md-icon>
+                                    <md-icon aria-hidden="true" slot="icon">check_circle</md-icon>
                                     Completar
                                 </md-text-button>
                             </form>
                             <form method="post" th:action="@{/appointments/{id}/cancel(id=${appt.id})}"
                                   th:if="${appt.currentStatus.name() != 'FINALIZADO' and appt.currentStatus.name() != 'CANCELADO'}">
                                 <md-text-button type="submit">
-                                    <md-icon slot="icon">block</md-icon>
+                                    <md-icon aria-hidden="true" slot="icon">block</md-icon>
                                     Cancelar
                                 </md-text-button>
                             </form>
                             <md-text-button th:href="@{/appointments/{id}/update(id=${appt.id})}">
-                                <md-icon slot="icon">edit</md-icon>
+                                <md-icon aria-hidden="true" slot="icon">edit</md-icon>
                                 Editar
                             </md-text-button>
                             <form method="post"
-                                  th:action="@{/appointments/{id}/delete(id=${appt.id})}" th:id="'deleteForm-' + ${appt.id}">
-                                <md-text-button data-confirm-accept="Eliminar" data-confirm-message="¿Eliminar este turno?"
+                                  th:action="@{/appointments/{id}/delete(id=${appt.id})}"
+                                  th:id="'deleteForm-' + ${appt.id}">
+                                <md-text-button data-confirm-accept="Eliminar"
+                                                data-confirm-message="¿Eliminar este turno?"
                                                 data-confirm-title="Eliminar turno"
                                                 onclick="askConfirm(this)"
                                                 style="--md-sys-color-primary:var(--md-sys-color-error)"
                                                 th:data-confirm-form="'deleteForm-' + ${appt.id}"
                                                 type="button">
-                                    <md-icon slot="icon">delete</md-icon>
+                                    <md-icon aria-hidden="true" slot="icon">delete</md-icon>
                                     Eliminar
                                 </md-text-button>
                             </form>

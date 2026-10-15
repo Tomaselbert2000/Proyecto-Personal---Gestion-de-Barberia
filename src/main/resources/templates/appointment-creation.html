@@ -74,7 +74,7 @@
             position: fixed;
             inset: 64px 0 0 0;
             z-index: 4;
-            background: rgba(0, 0, 0, .4);
+            background: color-mix(in srgb, var(--md-sys-color-scrim) 40%, transparent);
             opacity: 0;
             pointer-events: none;
             transition: opacity 200ms ease
@@ -256,7 +256,7 @@
 <div class="nav-scrim" id="navScrim"></div>
 
 <div class="app-shell">
-    <aside th:replace="~{fragments/layout :: drawer(active='')}"></aside>
+    <aside th:replace="~{fragments/layout :: drawer(active='/appointments')}"></aside>
 
     <main class="app-main">
         <div class="main-inner">
@@ -268,7 +268,6 @@
 
             <section aria-label="Formulario de registro de turno">
                 <form method="post" th:action="@{/appointments/new}">
-                    <input th:name="${_csrf.parameterName}" th:value="${_csrf.token}" type="hidden">
                     <div class="surface outlined">
                         <div class="form-grid">
                             <md-outlined-select id="clientSelect" label="Cliente" name="clientID">
@@ -309,19 +308,20 @@
 
                             <md-outlined-text-field id="startDateTime" label="Inicio del turno" name="startDateTime"
                                                     th:value="${dto.startDateTime}" type="datetime-local">
-                                <md-icon slot="leading-icon">event</md-icon>
+                                <md-icon aria-hidden="true" slot="leading-icon">event</md-icon>
                             </md-outlined-text-field>
 
                             <md-outlined-text-field id="endDateTime" label="Fin del turno" name="endDateTime"
                                                     th:value="${dto.endDateTime}" type="datetime-local">
-                                <md-icon slot="leading-icon">schedule</md-icon>
+                                <md-icon aria-hidden="true" slot="leading-icon">schedule</md-icon>
                             </md-outlined-text-field>
 
                             <md-outlined-text-field id="optionalNotes" label="Notas opcionales" maxlength="256"
-                                                    name="optionalNotes" placeholder="Agregar notas o comentarios sobre el turno" rows="3"
+                                                    name="optionalNotes"
+                                                    placeholder="Agregar notas o comentarios sobre el turno" rows="3"
                                                     th:value="${dto.optionalNotes}"
                                                     type="textarea">
-                                <md-icon slot="leading-icon">notes</md-icon>
+                                <md-icon aria-hidden="true" slot="leading-icon">notes</md-icon>
                             </md-outlined-text-field>
                         </div>
 
@@ -351,15 +351,15 @@
 
                         <div class="btn-row">
                             <md-filled-button type="submit">
-                                <md-icon slot="icon">check</md-icon>
+                                <md-icon aria-hidden="true" slot="icon">check</md-icon>
                                 Guardar Turno
                             </md-filled-button>
-                            <md-outlined-button onclick="resetForm()" type="button">
-                                <md-icon slot="icon">autorenew</md-icon>
+                            <md-outlined-button onclick="resetForm(this)" type="button">
+                                <md-icon aria-hidden="true" slot="icon">autorenew</md-icon>
                                 Limpiar
                             </md-outlined-button>
-                            <md-outlined-button href="/appointments">
-                                <md-icon slot="icon">arrow_back</md-icon>
+                            <md-outlined-button th:href="@{/appointments}" type="button">
+                                <md-icon aria-hidden="true" slot="icon">arrow_back</md-icon>
                                 Cancelar
                             </md-outlined-button>
                         </div>
@@ -456,8 +456,10 @@
         updateSummary();
     });
 
-    function resetForm() {
-        window.location.href = '/appointments/new';
+    function resetForm(source) {
+        resetFormInPlace(source.closest('form'));
+        endEdited = false;
+        updateSummary();
     }
 
     updateSummary();

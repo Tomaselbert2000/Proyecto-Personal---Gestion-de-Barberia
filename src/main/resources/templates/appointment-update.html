@@ -74,7 +74,7 @@
             position: fixed;
             inset: 64px 0 0 0;
             z-index: 4;
-            background: rgba(0, 0, 0, .4);
+            background: color-mix(in srgb, var(--md-sys-color-scrim) 40%, transparent);
             opacity: 0;
             pointer-events: none;
             transition: opacity 200ms ease
@@ -308,7 +308,6 @@
 
             <section aria-label="Formulario de edición de turno">
                 <form method="post" th:action="@{/appointments/{id}/update(id=${appointment.id})}">
-                    <input th:name="${_csrf.parameterName}" th:value="${_csrf.token}" type="hidden">
                     <div class="surface outlined">
                         <div class="form-grid">
                             <md-outlined-select id="serviceSelect" label="Servicio" name="newBarberserviceID">
@@ -338,12 +337,12 @@
 
                             <md-outlined-text-field id="startDateTime" label="Inicio del turno" name="newStartDateTime"
                                                     th:value="${dto.newStartDateTime}" type="datetime-local">
-                                <md-icon slot="leading-icon">event</md-icon>
+                                <md-icon aria-hidden="true" slot="leading-icon">event</md-icon>
                             </md-outlined-text-field>
 
                             <md-outlined-text-field id="endDateTime" label="Fin del turno" name="newEndDateTime"
                                                     th:value="${dto.newEndDateTime}" type="datetime-local">
-                                <md-icon slot="leading-icon">schedule</md-icon>
+                                <md-icon aria-hidden="true" slot="leading-icon">schedule</md-icon>
                             </md-outlined-text-field>
 
                             <md-outlined-select id="statusSelect" label="Estado del turno" name="newStatus"
@@ -364,10 +363,11 @@
                             </md-outlined-select>
 
                             <md-outlined-text-field id="optionalNotes" label="Notas opcionales" maxlength="256"
-                                                    name="optionalNotes" placeholder="Agregar notas o comentarios sobre el turno" rows="3"
+                                                    name="optionalNotes"
+                                                    placeholder="Agregar notas o comentarios sobre el turno" rows="3"
                                                     th:value="${dto.optionalNotes}"
                                                     type="textarea">
-                                <md-icon slot="leading-icon">notes</md-icon>
+                                <md-icon aria-hidden="true" slot="leading-icon">notes</md-icon>
                             </md-outlined-text-field>
                         </div>
 
@@ -398,16 +398,17 @@
 
                         <div class="btn-row">
                             <md-filled-button type="submit">
-                                <md-icon slot="icon">check</md-icon>
+                                <md-icon aria-hidden="true" slot="icon">check</md-icon>
                                 Guardar Cambios
                             </md-filled-button>
-                            <md-outlined-button id="resetButton" th:attr="data-reset-url=@{/appointments/{id}/update(id=${appointment.id})}"
+                            <md-outlined-button id="resetButton"
+                                                th:attr="data-reset-url=@{/appointments/{id}/update(id=${appointment.id})}"
                                                 type="button">
-                                <md-icon slot="icon">autorenew</md-icon>
+                                <md-icon aria-hidden="true" slot="icon">autorenew</md-icon>
                                 Restaurar valores
                             </md-outlined-button>
                             <md-outlined-button href="/appointments">
-                                <md-icon slot="icon">arrow_back</md-icon>
+                                <md-icon aria-hidden="true" slot="icon">arrow_back</md-icon>
                                 Cancelar
                             </md-outlined-button>
                         </div>
@@ -446,6 +447,8 @@
     const summaryDatetime = document.getElementById('summaryDatetime');
     const summaryPrice = document.getElementById('summaryPrice');
     const DEFAULT_DURATION_IN_MINUTES = 30;
+
+    let endEdited = false;
 
     function optionText(select) {
         const value = select.value;
@@ -487,19 +490,25 @@
 
     serviceSelect.addEventListener('change', updateSummary);
     employeeSelect.addEventListener('change', updateSummary);
-    endInput.addEventListener('input', updateSummary);
+    endInput.addEventListener('input', () => {
+        endEdited = true;
+        updateSummary();
+    });
     startInput.addEventListener('change', () => {
-        if (startInput.value) {
-            endInput.value = addMinutes(startInput.value, DEFAULT_DURATION_IN_MINUTES);
-        } else {
-            endInput.value = '';
+        if (!endEdited) {
+            if (startInput.value) {
+                endInput.value = addMinutes(startInput.value, DEFAULT_DURATION_IN_MINUTES);
+            } else {
+                endInput.value = '';
+            }
         }
         updateSummary();
     });
 
     const resetButton = document.getElementById('resetButton');
     resetButton.addEventListener('click', () => {
-        window.location.href = resetButton.dataset.resetUrl;
+        resetFormInPlace(resetButton.closest('form'));
+        endEdited = false;
     });
 
     const validationDialog = document.getElementById('validationDialog');
