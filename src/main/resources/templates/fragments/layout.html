@@ -25,15 +25,16 @@
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
           rel="stylesheet">
     <link href="/css/theme.css" rel="stylesheet">
+    <link href="/images/Logo.jpg" rel="icon" th:href="@{/images/Logo.jpg}" type="image/jpeg">
 </th:block>
 
 <!-- Header superior. @param title: título visible. @param backHref/backLabel: botón "volver" opcional. -->
 <header class="app-header" th:fragment="header(title, backHref, backLabel)">
     <md-icon-button aria-label="Abrir navegación" class="nav-toggle" id="navToggle">
-        <md-icon>menu</md-icon>
+        <md-icon aria-hidden="true">menu</md-icon>
     </md-icon-button>
     <md-icon-button th:aria-label="${backLabel}" th:href="@{${backHref}}" th:if="${!#strings.isEmpty(backHref)}">
-        <md-icon>arrow_back</md-icon>
+        <md-icon aria-hidden="true">arrow_back</md-icon>
     </md-icon-button>
     <div class="app-header-titles">
         <span class="md-typescale-title-large" th:text="${title}">Título</span>
@@ -41,15 +42,15 @@
     </div>
     <span style="flex:1"></span>
     <md-icon-button aria-expanded="false" aria-haspopup="menu" aria-label="Cuenta de usuario" id="accountMenuButton">
-        <md-icon>account_circle</md-icon>
+        <md-icon aria-hidden="true">account_circle</md-icon>
     </md-icon-button>
     <md-menu anchor="accountMenuButton" id="accountMenu" positioning="popover">
         <md-menu-item href="/settings">
-            <md-icon slot="start">settings</md-icon>
+            <md-icon aria-hidden="true" slot="start">settings</md-icon>
             <span slot="headline">Configuración</span>
         </md-menu-item>
         <md-menu-item id="accountMenuLogout">
-            <md-icon slot="start">logout</md-icon>
+            <md-icon aria-hidden="true" slot="start">logout</md-icon>
             <span slot="headline">Cerrar sesión</span>
         </md-menu-item>
     </md-menu>
@@ -67,48 +68,48 @@
     <md-divider></md-divider>
     <md-list>
         <md-list-item href="/dashboard" th:attr="aria-current=${active == '/dashboard' ? 'page' : null}" type="link">
-            <md-icon slot="start">dashboard</md-icon>
+            <md-icon aria-hidden="true" slot="start">dashboard</md-icon>
             <span slot="headline">Dashboard</span>
         </md-list-item>
         <md-list-item href="/clients" th:attr="aria-current=${active == '/clients' ? 'page' : null}" type="link">
-            <md-icon slot="start">person</md-icon>
+            <md-icon aria-hidden="true" slot="start">person</md-icon>
             <span slot="headline">Clientes</span>
         </md-list-item>
         <md-list-item href="/employees" th:attr="aria-current=${active == '/employees' ? 'page' : null}" type="link">
-            <md-icon slot="start">badge</md-icon>
+            <md-icon aria-hidden="true" slot="start">badge</md-icon>
             <span slot="headline">Empleados</span>
         </md-list-item>
         <md-list-item href="/appointments" th:attr="aria-current=${active == '/appointments' ? 'page' : null}"
                       type="link">
-            <md-icon slot="start">calendar_today</md-icon>
+            <md-icon aria-hidden="true" slot="start">calendar_today</md-icon>
             <span slot="headline">Turnos</span>
         </md-list-item>
         <md-list-item href="/barberservices" th:attr="aria-current=${active == '/barberservices' ? 'page' : null}"
                       type="link">
-            <md-icon slot="start">cut</md-icon>
+            <md-icon aria-hidden="true" slot="start">cut</md-icon>
             <span slot="headline">Servicios</span>
         </md-list-item>
         <md-list-item href="/products" th:attr="aria-current=${active == '/products' ? 'page' : null}" type="link">
-            <md-icon slot="start">inventory_2</md-icon>
+            <md-icon aria-hidden="true" slot="start">inventory_2</md-icon>
             <span slot="headline">Stock de productos</span>
         </md-list-item>
         <md-list-item href="/payments" th:attr="aria-current=${active == '/payments' ? 'page' : null}" type="link">
-            <md-icon slot="start">payments</md-icon>
+            <md-icon aria-hidden="true" slot="start">payments</md-icon>
             <span slot="headline">Medios de pago</span>
         </md-list-item>
         <md-list-item href="/sales" th:attr="aria-current=${active == '/sales' ? 'page' : null}" type="link">
-            <md-icon slot="start">point_of_sale</md-icon>
+            <md-icon aria-hidden="true" slot="start">point_of_sale</md-icon>
             <span slot="headline">Ventas</span>
         </md-list-item>
     </md-list>
     <md-divider></md-divider>
     <md-list>
         <md-list-item href="/settings" th:attr="aria-current=${active == '/settings' ? 'page' : null}" type="link">
-            <md-icon slot="start">settings</md-icon>
+            <md-icon aria-hidden="true" slot="start">settings</md-icon>
             <span slot="headline">Configuración</span>
         </md-list-item>
         <md-list-item id="logoutItem">
-            <md-icon slot="start">logout</md-icon>
+            <md-icon aria-hidden="true" slot="start">logout</md-icon>
             <span slot="headline">Cerrar Sesión</span>
         </md-list-item>
     </md-list>
@@ -121,7 +122,6 @@
         <div class="md-typescale-body-medium" slot="content">
             ¿Está seguro que desea cerrar la sesión actual?
             <form id="logoutForm" method="post" th:action="@{/logout}">
-                <input th:name="${_csrf.parameterName}" th:value="${_csrf.token}" type="hidden">
             </form>
         </div>
         <div slot="actions">
@@ -134,7 +134,8 @@
         <div class="md-typescale-body-medium" id="confirmDialogMessage" slot="content">¿Está seguro?</div>
         <div slot="actions">
             <md-text-button id="confirmDialogCancel" type="button">Cancelar</md-text-button>
-            <md-filled-button id="confirmDialogConfirm" style="--md-sys-color-primary:var(--md-sys-color-error);--md-sys-color-on-primary:var(--md-sys-color-on-error)"
+            <md-filled-button id="confirmDialogConfirm"
+                              style="--md-sys-color-primary:var(--md-sys-color-error);--md-sys-color-on-primary:var(--md-sys-color-on-error)"
                               type="button">
                 Confirmar
             </md-filled-button>
@@ -252,6 +253,53 @@
             ? `${entity} ${verbs[operation]} correctamente.`
             : 'La operación se completó correctamente.';
         successSnackbar.show();
+    });
+
+    // T-09: "Limpiar"/"Restaurar valores" reset in-place, sin recargar la página.
+    // Se toma una foto de los valores iniciales renderizados por el servidor y se restauran.
+    const resetTextFieldSelector = 'md-outlined-text-field, md-filled-text-field, md-outlined-select, md-filled-select, md-slider';
+
+    function snapshotFormInitial(form) {
+        form.querySelectorAll('input, textarea').forEach(el => {
+            if (el.type === 'checkbox' || el.type === 'radio') {
+                el.dataset.initChecked = el.checked ? 'true' : 'false';
+            } else {
+                el.dataset.initValue = el.value;
+            }
+        });
+        form.querySelectorAll('md-checkbox, md-switch').forEach(el => {
+            const on = el.localName === 'md-switch' ? el.selected : el.checked;
+            el.dataset.initChecked = on ? 'true' : 'false';
+        });
+        form.querySelectorAll(resetTextFieldSelector).forEach(el => {
+            el.dataset.initValue = el.value;
+        });
+    }
+
+    function resetFormInPlace(form) {
+        if (!form) return;
+        form.querySelectorAll('input, textarea').forEach(el => {
+            if (el.dataset.initChecked !== undefined) {
+                el.checked = el.dataset.initChecked === 'true';
+            } else if (el.dataset.initValue !== undefined) {
+                el.value = el.dataset.initValue;
+            }
+        });
+        form.querySelectorAll('md-checkbox, md-switch').forEach(el => {
+            if (el.dataset.initChecked === undefined) return;
+            const on = el.dataset.initChecked === 'true';
+            if (el.localName === 'md-switch') el.selected = on;
+            else el.checked = on;
+        });
+        form.querySelectorAll(resetTextFieldSelector).forEach(el => {
+            if (el.dataset.initValue !== undefined) el.value = el.dataset.initValue;
+        });
+        form.querySelectorAll('[aria-invalid="true"]').forEach(el => el.removeAttribute('aria-invalid'));
+        form.dispatchEvent(new CustomEvent('formresetinplace', { bubbles: true }));
+    }
+
+    window.addEventListener('load', () => {
+        document.querySelectorAll('form').forEach(snapshotFormInitial);
     });
 </script>
 
