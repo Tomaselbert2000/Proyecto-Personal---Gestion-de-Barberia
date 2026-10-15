@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @SpringBootTest
 @Transactional
 @ActiveProfiles("test")
-public abstract class BaseIntegrationTest<Repository, CreationDTO, UpdateDTO, Service, Entity> {
+public abstract class BaseIntegrationTest<Repository, CreationDTO, UpdateDTO, InfoDTO, Service, Entity> {
 
     @Autowired
     protected Service service;
@@ -26,17 +26,22 @@ public abstract class BaseIntegrationTest<Repository, CreationDTO, UpdateDTO, Se
 
     protected CreationDTO creationDTO;
     protected UpdateDTO updateDTO;
+    protected InfoDTO infoDTO;
 
     @BeforeEach
     protected abstract void init();
 
-    protected abstract Entity createDefaultEntity();
+    protected abstract void createDefaultEntity();
 
-    protected abstract void deleteDefaultEntity();
+    protected abstract void deleteDefaultEntity(Long id);
+
+    protected abstract void updateEntity(Long id, UpdateDTO dto);
 
     protected abstract Entity getFirstEntityOnRepoList();
 
     protected abstract Entity reloadEntity(Long id);
+
+    protected abstract InfoDTO getInfoDTO(Long id);
 
     protected abstract Integer countEntityOcurrencesOnRepo();
 
