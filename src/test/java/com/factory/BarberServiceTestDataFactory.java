@@ -45,6 +45,7 @@ public class BarberServiceTestDataFactory {
                 .registrationTimestamp(BARBER_SERVICE_REGISTRATION_TIMESTAMP)
                 .modifiedDate(BARBER_SERVICE_MODIFICATION_TIMESTAMP)
                 .internalNotes(INTERNAL_NOTES)
+                .isCurrentlyActive(true)
                 .build();
     }
 
@@ -58,6 +59,7 @@ public class BarberServiceTestDataFactory {
                 .registrationTimestamp(BARBER_SERVICE_REGISTRATION_TIMESTAMP.plusMinutes(30))
                 .modifiedDate(BARBER_SERVICE_MODIFICATION_TIMESTAMP)
                 .internalNotes(SECOND_INTERNAL_NOTES)
+                .isCurrentlyActive(true)
                 .build();
     }
 
@@ -71,6 +73,7 @@ public class BarberServiceTestDataFactory {
                 .registrationTimestamp(BARBER_SERVICE_REGISTRATION_TIMESTAMP)
                 .modifiedDate(BARBER_SERVICE_MODIFICATION_TIMESTAMP)
                 .internalNotes(INTERNAL_NOTES)
+                .isCurrentlyActive(true)
                 .build();
     }
 }
