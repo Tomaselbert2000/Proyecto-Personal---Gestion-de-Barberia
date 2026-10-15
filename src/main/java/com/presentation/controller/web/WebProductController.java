@@ -7,7 +7,9 @@ import com.enums.ProductCategory;
 import com.enums.ProductPresentationUnit;
 import com.enums.StockStatus;
 import com.exceptions.BusinessException;
+import com.exceptions.product.InvalidProductImageException;
 import com.presentation.controller.BaseWebController;
+import com.service.implementation.ProductImageStorage;
 import com.service.implementation.ProductServiceImpl;
 import com.service.interfaces.ProductService;
 import jakarta.validation.Valid;
@@ -17,8 +19,11 @@ import org.springframework.transaction.TransactionSystemException;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.security.Principal;
+import java.util.List;
+import java.util.function.Consumer;
 
 import static com.presentation.constants.HtmlConstants.Paths.*;
 import static com.presentation.constants.HtmlConstants.Redirects.REDIRECT_PRODUCTS;
@@ -30,6 +35,7 @@ import static com.presentation.constants.StringResource.OperationMessages.PRODUC
 public class WebProductController extends BaseWebController<ProductCreationDTO, ProductUpdateDTO> {
 
     private final ProductService service;
+    private final ProductImageStorage imageStorage;
 
     @GetMapping
     public String showProductCatalog(
@@ -76,8 +82,20 @@ public class WebProductController extends BaseWebController<ProductCreationDTO, 
             @Valid @ModelAttribute(name = "dto") ProductCreationDTO dto,
             BindingResult bindingResult,
             Model model,
-            Principal principal
+            Principal principal,
+            @RequestParam(name = "imageFile", required = false) MultipartFile imageFile
     ) {
+
+        try {
+
+            applyImageIfPresent(dto::setImageFilePath, imageFile);
+
+        } catch (InvalidProductImageException exception) {
+
+            model.addAttribute(VALIDATION_TAG, List.of(exception.getMessage()));
+
+            return renderCreationForm(model, principal, dto);
+        }
 
         return createEntity(dto, bindingResult, model, principal, REDIRECT_PRODUCTS);
     }
@@ -111,10 +129,30 @@ public class WebProductController extends BaseWebController<ProductCreationDTO, 
             @Valid @ModelAttribute(name = "dto") ProductUpdateDTO dto,
             BindingResult bindingResult,
             Model model,
-            Principal principal
+            Principal principal,
+            @RequestParam(name = "imageFile", required = false) MultipartFile imageFile
     ) {
 
+        try {
+
+            applyImageIfPresent(dto::setImageFilePath, imageFile);
+
+        } catch (InvalidProductImageException exception) {
+
+            model.addAttribute(VALIDATION_TAG, List.of(exception.getMessage()));
+
+            return renderUpdateForm(model, productID, principal, dto);
+        }
+
         return updateEntity(productID, dto, bindingResult, model, principal, REDIRECT_PRODUCTS);
+    }
+
+    private void applyImageIfPresent(Consumer<String> imagePathConsumer, MultipartFile imageFile) {
+
+        if (imageFile != null && !imageFile.isEmpty()) {
+
+            imagePathConsumer.accept(imageStorage.store(imageFile));
+        }
     }
 
     @GetMapping("/{productID}/update-stock")
