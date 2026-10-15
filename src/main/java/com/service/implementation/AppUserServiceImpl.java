@@ -3,6 +3,7 @@ package com.service.implementation;
 import com.dto.appuser.AppUserCreationDTO;
 import com.dto.appuser.AppUserInfoDTO;
 import com.dto.appuser.AppUserUpdateDTO;
+import com.dto.credentials.CredentialsUpdateDTO;
 import com.exceptions.appuser.AppUserNotFoundException;
 import com.exceptions.appuser.UsernameTakenException;
 import com.mapper.interfaces.AppUserMapper;
@@ -78,6 +79,18 @@ public class AppUserServiceImpl implements AppUserService, UserDetailsService {
         checkIfPasswordChangedAndEncryptIt(updateDTO, existingAppUser);
 
         appUserRepository.save(existingAppUser);
+    }
+
+    @Override
+    @Transactional
+    public void updateCredentials(String currentUsername, CredentialsUpdateDTO credentialsUpdateDTO) {
+
+        AppUser appUserOnDB = appUserRepository.findByUsername(currentUsername)
+                .orElseThrow(AppUserNotFoundException::new);
+
+        appUserOnDB.setPassword(encodePassword(credentialsUpdateDTO.getPassword()));
+
+        appUserRepository.save(appUserOnDB);
     }
 
     @Override
