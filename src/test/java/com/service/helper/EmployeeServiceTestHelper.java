@@ -2,6 +2,7 @@ package com.service.helper;
 
 import com.dto.employee.EmployeeCreationDTO;
 import com.dto.employee.EmployeeUpdateDTO;
+import com.dto.stats.MonthlyAppointmentCountDTO;
 import com.mapper.interfaces.EmployeeMapper;
 import com.model.Employee;
 import com.repository.EmployeeRepository;
@@ -77,5 +78,33 @@ public class EmployeeServiceTestHelper {
     public static <T> void mockValidatorToThrowException(EmployeeValidator validator, Exception exception, T dto) {
 
         doThrow(exception).when(validator).validateDTO(dto);
+    }
+
+    public static void mockCountMonthlyAppointmentsBatch(EmployeeRepository employeeRepository) {
+        when(employeeRepository.countMonthlyAppointmentsBatch(
+                anyList(),
+                any(),
+                any()
+        )).thenReturn(
+                List.of(
+                        new MonthlyAppointmentCountDTO(1L, 5L),
+                        new MonthlyAppointmentCountDTO(2L, 3L)
+                )
+        );
+    }
+
+    public static void mockLiveSearchByNameOnly(String name, List<Employee> filteredEmployees, EmployeeRepository employeeRepository) {
+
+        when(employeeRepository.liveSearchWithFilters(name, null, null, null)).thenReturn(filteredEmployees);
+    }
+
+    public static void mockRepositoryCount(EmployeeRepository employeeRepository, Long count) {
+
+        when(employeeRepository.count()).thenReturn(count);
+    }
+
+    public static void mockActiveEmployeesCount(EmployeeRepository employeeRepository, Long count) {
+
+        when(employeeRepository.getActiveEmployees()).thenReturn(count);
     }
 }

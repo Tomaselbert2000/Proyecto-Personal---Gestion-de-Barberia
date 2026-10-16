@@ -348,6 +348,94 @@ public class EmployeeServiceImplTest extends BaseServiceTest<Employee, EmployeeR
         );
     }
 
+    @Test
+    @DisplayName("Dado un nombre de empleado y filtros de estado y fecha, deberá retornar resultados filtrados en búsqueda en vivo")
+    void givenFilters_WhenLiveSearching_ThenReturnsFilteredResults() {
+
+        Employee employee1 = buildValidEmployee();
+        Employee employee2 = buildValidEmployee();
+
+        employee1.setFirstName("Juan");
+        employee2.setFirstName("Maria");
+
+        employee1.setEmployeeID(1L);
+        employee2.setEmployeeID(2L);
+
+        List<Employee> filteredEmployees = List.of(employee1, employee2);
+
+        String name = "Juan%";
+
+        mockLiveSearchByNameOnly(name, filteredEmployees, employeeRepository);
+
+        mockCountMonthlyAppointmentsBatch(employeeRepository);
+
+        List<EmployeeInfoDTO> results = employeeService.liveSearch(name, null, null);
+
+        assertNotNull(results);
+        assertEquals(2, results.size());
+        assertEquals("Juan", results.getFirst().getFirstName());
+        assertEquals(5L, results.getFirst().getMonthlyAppointmentsCount());
+        assertEquals("Maria", results.get(1).getFirstName());
+        assertEquals(3L, results.get(1).getMonthlyAppointmentsCount());
+
+        verify(employeeRepository).liveSearchWithFilters(name, null, null, null);
+        verify(employeeRepository).countMonthlyAppointmentsBatch(
+                anyList(),
+                any(),
+                any()
+        );
+    }
+
+    @Test
+    @DisplayName("Dado un nombre de empleado, deberá retornar lista de nombres para combobox")
+    void givenEmployeeName_WhenGettingNamesForCombobox_ThenReturnsNamesList() {
+
+        Employee employee1 = buildValidEmployee();
+        Employee employee2 = buildValidEmployee();
+
+        employee1.setFirstName("Juan");
+        employee1.setLastName("Perez");
+        employee2.setFirstName("Maria");
+        employee2.setLastName("Gomez");
+
+        employee1.setEmployeeID(1L);
+        employee2.setEmployeeID(2L);
+
+        mockEmployeeList(employeeRepository, List.of(employee1, employee2));
+
+        List<String> names = employeeService.getNames();
+
+        assertNotNull(names);
+        assertEquals(3, names.size());
+        assertEquals("Todos los empleados", names.getFirst());
+        assertEquals("Juan Perez", names.get(1));
+        assertEquals("Maria Gomez", names.get(2));
+
+        verify(employeeRepository).findAll();
+    }
+
+    @Test
+    @DisplayName("Dado un empleado registrado en el sistema, deberá retornar la cantidad de empleados activos")
+    void givenExistingEmployees_WhenGettingActiveEmployeesCount_ThenReturnsActiveCount() {
+
+        mockActiveEmployeesCount(employeeRepository, 5L);
+
+        Long activeCount = employeeService.getActiveEmployees();
+
+        assertEquals(5L, activeCount);
+    }
+
+    @Test
+    @DisplayName("Dado un empleado registrado en el sistema, deberá retornar la cantidad total de empleados")
+    void givenExistingEmployees_WhenGettingTotalEmployeesCount_ThenReturnsTotalCount() {
+
+        mockRepositoryCount(employeeRepository, 10L);
+
+        Long totalCount = employeeService.getEmployeeCount();
+
+        assertEquals(10L, totalCount);
+    }
+
     private void verifyCreationProcessSuccess() {
         verifyValidatorCreationInteraction(validator, creationDTO);
         verifyMapperCreationInteraction(mapper, creationDTO);
