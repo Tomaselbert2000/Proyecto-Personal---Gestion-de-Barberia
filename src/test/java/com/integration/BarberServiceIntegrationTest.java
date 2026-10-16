@@ -37,12 +37,6 @@ public class BarberServiceIntegrationTest extends BaseIntegrationTest<
         creationDTO = buildValidBarberServiceCreationDTO();
     }
 
-    private void preloadBarberServiceOnRepo() {
-
-        barberService.setBarbershopServiceID(null);
-        repository.save(barberService);
-    }
-
     @Override
     protected void createDefaultEntity() {
 
@@ -68,21 +62,9 @@ public class BarberServiceIntegrationTest extends BaseIntegrationTest<
     }
 
     @Override
-    protected BarberService reloadEntity(Long id) {
-
-        return repository.findById(id).orElseThrow();
-    }
-
-    @Override
     protected BarberServiceInfoDTO getInfoDTO(Long id) {
 
         return service.getBarberServiceInfo(id);
-    }
-
-    @Override
-    protected Integer countEntityOcurrencesOnRepo() {
-
-        return repository.findAll().size();
     }
 
     @Test
@@ -200,5 +182,11 @@ public class BarberServiceIntegrationTest extends BaseIntegrationTest<
         assertNotNull(stats);
         assertEquals(1, stats.getAmountOfActiveServices());
         assertEquals(1, stats.getAmountOfDifferentCategories());
+    }
+
+    private void preloadBarberServiceOnRepo() {
+
+        barberService.setBarbershopServiceID(null);
+        repository.save(barberService);
     }
 }

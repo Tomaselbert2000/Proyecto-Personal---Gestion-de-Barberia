@@ -65,27 +65,9 @@ public class AppUserIntegrationTest extends BaseIntegrationTest<AppUserRepositor
     }
 
     @Override
-    protected AppUser getFirstEntityOnRepoList() {
-
-        return repository.findAll().getFirst();
-    }
-
-    @Override
-    protected AppUser reloadEntity(Long id) {
-
-        return repository.findById(id).orElseThrow();
-    }
-
-    @Override
     protected AppUserInfoDTO getInfoDTO(Long id) {
 
         return service.getAppUserById(getFirstEntityOnRepoList().getUserId());
-    }
-
-    @Override
-    protected Integer countEntityOcurrencesOnRepo() {
-
-        return repository.findAll().size();
     }
 
     @Test

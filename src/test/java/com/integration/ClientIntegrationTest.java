@@ -57,27 +57,9 @@ public class ClientIntegrationTest extends BaseIntegrationTest<
     }
 
     @Override
-    protected Client getFirstEntityOnRepoList() {
-
-        return repository.findAll().getFirst();
-    }
-
-    @Override
-    protected Client reloadEntity(Long id) {
-
-        return repository.findById(id).orElseThrow();
-    }
-
-    @Override
     protected ClientInfoDTO getInfoDTO(Long id) {
 
         return service.getClientInfo(id);
-    }
-
-    @Override
-    protected Integer countEntityOcurrencesOnRepo() {
-
-        return repository.findAll().size();
     }
 
     @Test
