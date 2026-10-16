@@ -4,6 +4,7 @@ import javafx.application.HostServices;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @SpringBootTest
 @Transactional
 @ActiveProfiles("test")
-public abstract class BaseIntegrationTest<Repository, CreationDTO, UpdateDTO, InfoDTO, Service, Entity> {
+public abstract class BaseIntegrationTest<Repository extends JpaRepository<Entity, Long>, CreationDTO, UpdateDTO, InfoDTO, Service, Entity> {
 
     @Autowired
     protected Service service;
@@ -37,13 +38,22 @@ public abstract class BaseIntegrationTest<Repository, CreationDTO, UpdateDTO, In
 
     protected abstract void updateEntity(Long id, UpdateDTO dto);
 
-    protected abstract Entity getFirstEntityOnRepoList();
+    protected Entity getFirstEntityOnRepoList() {
 
-    protected abstract Entity reloadEntity(Long id);
+        return repository.findAll().getFirst();
+    }
+
+    protected Entity reloadEntity(Long id){
+
+        return repository.findById(id).orElseThrow();
+    }
 
     protected abstract InfoDTO getInfoDTO(Long id);
 
-    protected abstract Integer countEntityOcurrencesOnRepo();
+    protected Integer countEntityOcurrencesOnRepo() {
+
+        return repository.findAll().size();
+    }
 
     protected void assertEntityTableIsEmpty() {
 
